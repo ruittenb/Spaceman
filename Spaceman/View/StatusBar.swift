@@ -97,10 +97,12 @@ class StatusBar: NSObject, NSMenuDelegate {
                     print("Not switching: just one space visible")
                     return
                 }
-                let locationInButton = sbButton.convert(event.locationInWindow, from: sbButton)
+                let locationInButton = sbButton.convert(event.locationInWindow, from: nil)
+                // Convert to bottom-origin coordinates for hit testing
+                let adjPoint = NSPoint(x: locationInButton.x, y: sbButton.bounds.height - locationInButton.y)
                 self.spaceSwitcher.switchUsingLocation(
                     iconWidths: self.iconCreator.iconWidths,
-                    horizontal: locationInButton.x,
+                    point: adjPoint,
                     onError: self.flashStatusBar)
             } else {
                 print("Other event: \(event.type)")

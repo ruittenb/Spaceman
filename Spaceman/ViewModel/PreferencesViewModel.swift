@@ -11,10 +11,12 @@ import SwiftUI
 class PreferencesViewModel: ObservableObject {
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @Published var selectedSpace = 0
+    // Preserve selection across reordering by using the managed space ID as a stable key
+    @Published var selectedKey: String = ""
     @Published var spaceName = ""
     @Published var spaceByDesktopID = ""
     var spaceNamesDict: [String: SpaceNameInfo]!
-    var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element]!
+    @Published var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element]!
     var timer: Timer!
     
     init() {
@@ -40,20 +42,20 @@ class PreferencesViewModel: ObservableObject {
         let sorted = spaceNamesDict.sorted { (first, second) -> Bool in
             return first.value.spaceNum < second.value.spaceNum
         }
-        
         sortedSpaceNamesDict = sorted
-        if (selectedSpace < 0 || selectedSpace >= sortedSpaceNamesDict.count) {
-            selectedSpace = 0
-            if (sortedSpaceNamesDict.count < 1) {
-                sortedSpaceNamesDict.append(
-                    (key: "0",
-                     value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")
-                    )
-                )
-            }
-            spaceName = sortedSpaceNamesDict[selectedSpace].value.spaceName
-            spaceByDesktopID = sortedSpaceNamesDict[selectedSpace].value.spaceByDesktopID
+        if sortedSpaceNamesDict.isEmpty {
+            sortedSpaceNamesDict.append((key: "0", value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")))
         }
+        // Restore selection by key if available; otherwise clamp index
+        if !selectedKey.isEmpty, let idx = sortedSpaceNamesDict.firstIndex(where: { $0.key == selectedKey }) {
+            selectedSpace = idx
+        } else {
+            if selectedSpace < 0 || selectedSpace >= sortedSpaceNamesDict.count { selectedSpace = 0 }
+            selectedKey = sortedSpaceNamesDict[selectedSpace].key
+        }
+        // Sync fields to the current selected item
+        spaceName = sortedSpaceNamesDict[selectedSpace].value.spaceName
+        spaceByDesktopID = sortedSpaceNamesDict[selectedSpace].value.spaceByDesktopID
     }
     
     func updateSpace() {

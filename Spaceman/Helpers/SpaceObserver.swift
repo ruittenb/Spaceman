@@ -11,6 +11,10 @@ import SwiftUI
 
 class SpaceObserver {
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
+    // Display ordering preferences
+    @AppStorage("displaySortPriority") private var displaySortPriority = DisplaySortPriority.horizontal
+    @AppStorage("displayHorizontalOrder") private var displayHorizontalOrder = HorizontalSortOrder.leftToRight
+    @AppStorage("displayVerticalOrder") private var displayVerticalOrder = VerticalSortOrder.topToBottom
     
     private let workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
@@ -37,16 +41,49 @@ class SpaceObserver {
         let d2Center = getDisplayCenter(display: display2)
         return d1Center.x < d2Center.x
     }
+
+    // Compare two displays according to user preferences
+    func compareDisplays(d1: NSDictionary, d2: NSDictionary) -> Bool {
+        let c1 = getDisplayCenter(display: d1)
+        let c2 = getDisplayCenter(display: d2)
+        let tol: CGFloat = 2
+        let cmpX: (CGPoint, CGPoint) -> Bool = { a, b in
+            switch self.displayHorizontalOrder {
+            case .leftToRight: return a.x < b.x
+            case .rightToLeft: return a.x > b.x
+            }
+        }
+        let cmpY: (CGPoint, CGPoint) -> Bool = { a, b in
+            // macOS global coordinates origin at bottom-left; larger y is higher
+            switch self.displayVerticalOrder {
+            case .topToBottom: return a.y > b.y
+            case .bottomToTop: return a.y < b.y
+            }
+        }
+        switch displaySortPriority {
+        case .horizontal:
+            if abs(c1.x - c2.x) > tol { return cmpX(c1, c2) }
+            return cmpY(c1, c2)
+        case .vertical:
+            if abs(c1.y - c2.y) > tol { return cmpY(c1, c2) }
+            return cmpX(c1, c2)
+        }
+    }
     
     func getDisplayCenter(display: NSDictionary) -> CGPoint {
-        guard let uuidString = display["Display Identifier"] as? String
-        else {
-            return CGPoint(x: 0, y: 0)
-        }
+        guard let uuidString = display["Display Identifier"] as? String else { return .zero }
         let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, uuidString as CFString)
-        let dId = CGDisplayGetDisplayIDFromUUID(uuid)
-        let bounds = CGDisplayBounds(dId);
-        return CGPoint(x: bounds.origin.x + bounds.size.width/2, y: bounds.origin.y + bounds.size.height/2)
+        let did = CGDisplayGetDisplayIDFromUUID(uuid)
+        // Prefer NSScreen frame for consistent origin handling
+        for screen in NSScreen.screens {
+            if let num = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber,
+               CGDirectDisplayID(num.uint32Value) == did {
+                let f = screen.frame
+                return CGPoint(x: f.origin.x + f.size.width/2, y: f.origin.y + f.size.height/2)
+            }
+        }
+        let b = CGDisplayBounds(did)
+        return CGPoint(x: b.origin.x + b.size.width/2, y: b.origin.y + b.size.height/2)
     }
     
     @objc public func updateSpaceInformation() {
@@ -68,10 +105,14 @@ class SpaceObserver {
             }
         }
         
-        // sort displays based on location
-        displays.sort(by: {
-            display1IsLeft(display1: $0, display2: $1)
-        })
+        // Sort displays based on user preference
+        displays.sort { a, b in compareDisplays(d1: a, d2: b) }
+
+        // Map sorted display to index (1..D)
+        var currentDisplayIndexByID: [String: Int] = [:]
+        for (idx, d) in displays.enumerated() {
+            if let displayID = d["Display Identifier"] as? String { currentDisplayIndexByID[displayID] = idx + 1 }
+        }
         
         var activeSpaceID = -1
         var allSpaces = [Space]()
@@ -144,7 +185,8 @@ class SpaceObserver {
                 }
                 spaceNameCache.cache[spaceNumber] = space.spaceName
                 
-                let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName, spaceByDesktopID: spaceByDesktopID)
+                var nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName, spaceByDesktopID: spaceByDesktopID)
+                nameInfo.currentDisplayIndex = currentDisplayIndexByID[displayID]
                 updatedDict[managedSpaceID] = nameInfo
                 allSpaces.append(space)
             }

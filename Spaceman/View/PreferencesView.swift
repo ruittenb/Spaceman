@@ -19,11 +19,18 @@ struct PreferencesView: View {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
+    // Display arrangement preferences (UI only)
+    @AppStorage("displaySortPriority") private var displaySortPriority = DisplaySortPriority.horizontal
+    @AppStorage("displayHorizontalOrder") private var displayHorizontalOrder = HorizontalSortOrder.leftToRight
+    @AppStorage("displayVerticalOrder") private var displayVerticalOrder = VerticalSortOrder.topToBottom
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
     @AppStorage("withCommand") private var withCommand = false
+    // Dual row settings (UI only)
+    @AppStorage("dualRows") private var dualRows = false
+    @AppStorage("dualRowsGap") private var dualRowsGap: Int = 1
 
     @StateObject private var prefsVM = PreferencesViewModel()
     
@@ -115,6 +122,8 @@ struct PreferencesView: View {
             
             generalPane
             Divider()
+            displaysPane
+            Divider()
             spacesPane
             Divider()
             switchingPane
@@ -157,13 +166,75 @@ struct PreferencesView: View {
             
             Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
                 .disabled(displayStyle == .rects)
-            Toggle("Restart space numbering by desktop", isOn: $restartNumberingByDesktop)
+            Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
         }
         .padding()
         .onChange(of: hideInactiveSpaces) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
+        .onChange(of: restartNumberingByDesktop) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
     }
+
+    // MARK: - Displays pane (UI only; disabled when only one display)
+    private var displaysPane: some View {
+        let hasMultipleDisplays = NSScreen.screens.count > 1
+        return VStack(alignment: .leading, spacing: 12) {
+            Text("Displays")
+                .font(.title2)
+                .fontWeight(.semibold)
+
+            HStack(spacing: 12) {
+                Text("Multi-display ordering")
+                Spacer()
+                Picker("", selection: $displaySortPriority) {
+                    Text("Horizontal first").tag(DisplaySortPriority.horizontal)
+                    Text("Vertical first").tag(DisplaySortPriority.vertical)
+                }
+                .pickerStyle(.segmented)
+                .controlSize(.small)
+                .fixedSize()
+            }
+
+            HStack(spacing: 12) {
+                Text("Horizontal order")
+                Spacer()
+                Picker("", selection: $displayHorizontalOrder) {
+                    Text("Left to right").tag(HorizontalSortOrder.leftToRight)
+                    Text("Right to left").tag(HorizontalSortOrder.rightToLeft)
+                }
+                .pickerStyle(.segmented)
+                .controlSize(.small)
+                .fixedSize()
+            }
+
+            HStack(spacing: 12) {
+                Text("Vertical order")
+                Spacer()
+                Picker("", selection: $displayVerticalOrder) {
+                    Text("Top to bottom").tag(VerticalSortOrder.topToBottom)
+                    Text("Bottom to top").tag(VerticalSortOrder.bottomToTop)
+                }
+                .pickerStyle(.segmented)
+                .controlSize(.small)
+                .fixedSize()
+            }
+        }
+        .padding()
+        .disabled(!hasMultipleDisplays)
+        .onChange(of: displaySortPriority) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: displayHorizontalOrder) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: displayVerticalOrder) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+
+    // (Displays pane removed in this revert)
     
     // MARK: - Shortcut Recorder
     private var shortcutRecorder: some View {
@@ -176,16 +247,43 @@ struct PreferencesView: View {
     
     // MARK: - Layout Size Picker
     private var layoutSizePicker: some View {
-        Picker(selection: $layoutMode, label: Text("Layout size")) {
-            Text("Compact").tag(LayoutMode.compact)
-            Text("Medium").tag(LayoutMode.medium)
-            Text("Large").tag(LayoutMode.large)
+        VStack(alignment: .leading, spacing: 8) {
+            Picker(selection: $layoutMode, label: Text("Layout size")) {
+                Text("Compact").tag(LayoutMode.compact)
+                Text("Medium").tag(LayoutMode.medium)
+                Text("Large").tag(LayoutMode.large)
+            }
+            .pickerStyle(.segmented)
+
+            HStack(spacing: 8) {
+                // Dual row toggle (compact only)
+                Toggle("Dual row", isOn: $dualRows)
+                    .disabled(layoutMode != .compact)
+                Spacer()
+                // Line spacing picker (active only when Dual row is ON in compact)
+                HStack(spacing: 6) {
+                    Text("Line spacing")
+                        .foregroundColor((layoutMode != .compact || !dualRows) ? .secondary : .primary)
+                    Picker("", selection: $dualRowsGap) {
+                        Text("0").tag(0)
+                        Text("1").tag(1)
+                        Text("2").tag(2)
+                        Text("3").tag(3)
+                    }
+                    .pickerStyle(.segmented)
+                    .controlSize(.small)
+                    .frame(maxWidth: 120)
+                }
+                .disabled(layoutMode != .compact || !dualRows)
+            }
         }
-        .pickerStyle(.segmented)
         .onChange(of: layoutMode) { val in
             layoutMode = val
+            if val != .compact { dualRows = false }
+            // Do not trigger status bar refresh here for dual-row UI; only persist values.
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
+        // Intentionally not posting ButtonPressed on dual-row changes to keep it UI-only for now
     }
     
     // MARK: - Style Picker
@@ -208,31 +306,39 @@ struct PreferencesView: View {
     
     // MARK: - Space Name Editor
     private var spaceNameEditor: some View {
-        HStack {
+        HStack(alignment: .center, spacing: 12) {
             Picker(selection: $prefsVM.selectedSpace, label: Text("Space")) {
                 ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) { index in
-                    Text(String(prefsVM.sortedSpaceNamesDict[index].value.spaceByDesktopID))
+                    let info = prefsVM.sortedSpaceNamesDict[index].value
+                    let num = info.spaceNum
+                    let sbd = info.spaceByDesktopID
+                    let displayIndex = info.currentDisplayIndex ?? 1
+                    let spacePart: String = (sbd.hasPrefix("F") ? ("Full Screen "+String(Int(sbd.dropFirst()) ?? 0)) : "Space \(sbd)")
+                    Text("[\(num)] Display \(displayIndex): \(spacePart)")
                 }
             }
+            .layoutPriority(3)
             .onChange(of: prefsVM.selectedSpace) { val in
                 if (prefsVM.sortedSpaceNamesDict.count > val) {
+                    prefsVM.selectedKey = prefsVM.sortedSpaceNamesDict[val].key
                     prefsVM.spaceName = prefsVM.sortedSpaceNamesDict[val].value.spaceName
                 } else {
                     prefsVM.spaceName = "-"
+                    prefsVM.selectedKey = ""
                 }
             }
-            
+
             TextField(
                 "Name (max 4 char.)",
                 text: Binding(
-                    get: {prefsVM.spaceName},
+                    get: { prefsVM.spaceName },
                     set: {
                         prefsVM.spaceName = $0.prefix(4).trimmingCharacters(in: .whitespacesAndNewlines)
                         updateName()
                     }
-                    
                 )
             )
+            .frame(width: 90)
         }
     }
     

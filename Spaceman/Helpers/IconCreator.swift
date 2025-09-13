@@ -13,6 +13,8 @@ class IconCreator {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
+    @AppStorage("dualRows") private var dualRows = false
+    @AppStorage("dualRowsGap") private var dualRowsGap: Int = 1
     
     private let leftMargin = CGFloat(7)  /* FIXME determine actual left margin */
     private var displayCount = 1
@@ -68,7 +70,11 @@ class IconCreator {
         }
         
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: spaces)
-        return mergeIcons(iconsWithDisplayProperties)
+        if dualRows && layoutMode == .compact {
+            return mergeIconsTwoRows(iconsWithDisplayProperties)
+        } else {
+            return mergeIcons(iconsWithDisplayProperties)
+        }
     }
 
     private func createNumberedIcons(_ spaces: [Space]) -> [NSImage] {
@@ -245,6 +251,77 @@ class IconCreator {
         image.isTemplate = true
         image.unlockFocus()
         
+        return image
+    }
+
+    private func mergeIconsTwoRows(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool)]) -> NSImage {
+        struct Column { var top: (NSImage, Bool)?; var bottom: (NSImage, Bool)?; var width: CGFloat = 0; var gapAfter: CGFloat = 0 }
+        var columns: [Column] = []
+        var current = Column()
+        var placeTop = true
+
+        for (idx, icon) in iconsWithDisplayProperties.enumerated() {
+            if placeTop {
+                current.top = (icon.image, icon.isFullScreen)
+                current.width = max(current.width, icon.image.size.width)
+                placeTop = false
+            } else {
+                current.bottom = (icon.image, icon.isFullScreen)
+                current.width = max(current.width, icon.image.size.width)
+                placeTop = true
+            }
+            let isColumnEnd = placeTop || icon.nextSpaceOnDifferentDisplay
+            if isColumnEnd {
+                current.gapAfter = icon.nextSpaceOnDifferentDisplay ? displayGapWidth : gapWidth
+                columns.append(current)
+                current = Column()
+                placeTop = true
+            }
+            if idx == iconsWithDisplayProperties.count - 1 && (current.top != nil || current.bottom != nil) {
+                current.gapAfter = 0
+                columns.append(current)
+                current = Column()
+            }
+        }
+
+        let totalWidth = columns.reduce(CGFloat(0)) { $0 + $1.width + $1.gapAfter }
+        let gap = CGFloat(max(0, min(dualRowsGap, 3)))
+        let imageHeight = iconSize.height * 2 + gap
+        let image = NSImage(size: NSSize(width: totalWidth, height: imageHeight))
+
+        image.lockFocus()
+        var left = CGFloat.zero
+        var currentSpaceNumber = 1
+        var currentFullScreenSpaceNumber = 1
+        iconWidths = []
+
+        for col in columns {
+            if let top = col.top {
+                top.0.draw(at: NSPoint(x: left, y: iconSize.height + gap), from: .zero, operation: .sourceOver, fraction: 1.0)
+                let right = left + col.width + col.gapAfter
+                if top.1 { // isFullScreen
+                    iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: iconSize.height + gap, bottom: imageHeight, index: -currentFullScreenSpaceNumber))
+                    currentFullScreenSpaceNumber += 1
+                } else {
+                    iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: iconSize.height + gap, bottom: imageHeight, index: currentSpaceNumber))
+                    currentSpaceNumber += 1
+                }
+            }
+            if let bottom = col.bottom {
+                bottom.0.draw(at: NSPoint(x: left, y: 0), from: .zero, operation: .sourceOver, fraction: 1.0)
+                let right = left + col.width + col.gapAfter
+                if bottom.1 { // isFullScreen
+                    iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: 0, bottom: iconSize.height, index: -currentFullScreenSpaceNumber))
+                    currentFullScreenSpaceNumber += 1
+                } else {
+                    iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: 0, bottom: iconSize.height, index: currentSpaceNumber))
+                    currentSpaceNumber += 1
+                }
+            }
+            left += col.width + col.gapAfter
+        }
+        image.isTemplate = true
+        image.unlockFocus()
         return image
     }
 

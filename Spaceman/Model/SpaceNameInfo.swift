@@ -11,4 +11,6 @@ struct SpaceNameInfo: Hashable, Codable {
     let spaceNum: Int
     let spaceName: String
     let spaceByDesktopID: String
+    // Current display index after applying user display ordering (1..D). Optional for backward compatibility.
+    var currentDisplayIndex: Int? = nil
 }
