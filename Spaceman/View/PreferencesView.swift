@@ -23,6 +23,7 @@ struct PreferencesView: View {
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDesktop = false
     @AppStorage("reverseDisplayOrder") private var reverseDisplayOrder = false
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
+    @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.topGoesRight
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
@@ -202,7 +203,17 @@ struct PreferencesView: View {
             Toggle("Reverse display order", isOn: $reverseDisplayOrder)
                 .disabled(!hasMultipleDisplays)
 
-            HStack(spacing: 8) {
+            Text("When displays are vertically aligned")
+            Picker("", selection: $verticalDirection) {
+                Text("Use mac OS order").tag(VerticalDirection.macOSOrder)
+                Text("Show top display first").tag(VerticalDirection.topGoesLeft)
+                Text("Show bottom display first").tag(VerticalDirection.topGoesRight)
+            }
+            .pickerStyle(.radioGroup)
+            .controlSize(.small)
+            .fixedSize()
+
+            HStack(spacing: 12) {
                 Button {
                     openDisplaysSettings()
                 } label: {
@@ -228,6 +239,9 @@ struct PreferencesView: View {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
         .onChange(of: reverseDisplayOrder) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: verticalDirection) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
