@@ -284,10 +284,12 @@ struct PreferencesView: View {
             Picker(selection: $prefsVM.selectedSpace, label: Text("Space")) {
                 ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) { index in
                     let info = prefsVM.sortedSpaceNamesDict[index].value
-                                        let sbd = info.spaceByDesktopID
+                    let sbd = info.spaceByDesktopID
                     let displayIndex = info.currentDisplayIndex ?? 1
                     let spacePart: String = (sbd.hasPrefix("F") ? ("Full Screen "+String(Int(sbd.dropFirst()) ?? 0)) : "Space \(sbd)")
-                    Text("Display \(displayIndex): \(spacePart)")
+                    let hasMultipleDisplays = NSScreen.screens.count > 1
+                    let label = hasMultipleDisplays ? "Display \(displayIndex): \(spacePart)" : spacePart
+                    Text(label)
                 }
             }
             .layoutPriority(3)
