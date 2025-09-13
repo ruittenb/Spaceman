@@ -40,7 +40,9 @@ class PreferencesViewModel: ObservableObject {
         }
         
         let sorted = spaceNamesDict.sorted { (first, second) -> Bool in
-            return first.value.spaceNum < second.value.spaceNum
+            let a = first.value.currentOrder ?? first.value.spaceNum
+            let b = second.value.currentOrder ?? second.value.spaceNum
+            return a < b
         }
         sortedSpaceNamesDict = sorted
         if sortedSpaceNamesDict.isEmpty {

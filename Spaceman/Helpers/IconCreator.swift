@@ -13,8 +13,6 @@ class IconCreator {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
-    @AppStorage("dualRows") private var dualRows = false
-    @AppStorage("dualRowsGap") private var dualRowsGap: Int = 1
     
     private let leftMargin = CGFloat(7)  /* FIXME determine actual left margin */
     private var displayCount = 1
@@ -70,7 +68,7 @@ class IconCreator {
         }
         
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: spaces)
-        if dualRows && layoutMode == .compact {
+        if layoutMode == .dualRows {
             return mergeIconsTwoRows(iconsWithDisplayProperties)
         } else {
             return mergeIcons(iconsWithDisplayProperties)
@@ -285,7 +283,7 @@ class IconCreator {
         }
 
         let totalWidth = columns.reduce(CGFloat(0)) { $0 + $1.width + $1.gapAfter }
-        let gap = CGFloat(max(0, min(dualRowsGap, 3)))
+        let gap = CGFloat(sizes.GAP_HEIGHT_DUALROWS)
         let imageHeight = iconSize.height * 2 + gap
         let image = NSImage(size: NSSize(width: totalWidth, height: imageHeight))
 

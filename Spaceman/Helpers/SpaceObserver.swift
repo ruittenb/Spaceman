@@ -11,10 +11,10 @@ import SwiftUI
 
 class SpaceObserver {
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
-    // Display ordering preferences
-    @AppStorage("displaySortPriority") private var displaySortPriority = DisplaySortPriority.horizontal
-    @AppStorage("displayHorizontalOrder") private var displayHorizontalOrder = HorizontalSortOrder.leftToRight
-    @AppStorage("displayVerticalOrder") private var displayVerticalOrder = VerticalSortOrder.topToBottom
+    @AppStorage("displayOrderPriority") private var displayOrderPriority = DisplayOrderPriority.horizontal
+    @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.leftToRight
+    @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.topToBottom
+    @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     
     private let workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
@@ -48,19 +48,19 @@ class SpaceObserver {
         let c2 = getDisplayCenter(display: d2)
         let tol: CGFloat = 2
         let cmpX: (CGPoint, CGPoint) -> Bool = { a, b in
-            switch self.displayHorizontalOrder {
+            switch self.horizontalDirection {
             case .leftToRight: return a.x < b.x
             case .rightToLeft: return a.x > b.x
             }
         }
         let cmpY: (CGPoint, CGPoint) -> Bool = { a, b in
             // macOS global coordinates origin at bottom-left; larger y is higher
-            switch self.displayVerticalOrder {
+            switch self.verticalDirection {
             case .topToBottom: return a.y > b.y
             case .bottomToTop: return a.y < b.y
             }
         }
-        switch displaySortPriority {
+        switch displayOrderPriority {
         case .horizontal:
             if abs(c1.x - c2.x) > tol { return cmpX(c1, c2) }
             return cmpY(c1, c2)
@@ -118,6 +118,7 @@ class SpaceObserver {
         var allSpaces = [Space]()
         var updatedDict = [String: SpaceNameInfo]()
         var lastSpaceByDesktopNumber = 0
+        var currentOrder = 0
         
         for d in displays {
             guard let currentSpaces = d["Current Space"] as? [String: Any],
@@ -155,14 +156,10 @@ class SpaceObserver {
                     spaceByDesktopID = "F\(lastFullScreenSpaceNumber)"
                 }
                 
-                while spaceNumber >= spaceNameCache.cache.count {
-                    // Make sure that the name cache is large enough
-                    spaceNameCache.extend()
-                }
-                let spaceName = spaceNameCache.cache[spaceNumber]
+                // Default name for a new/unknown space is "-"; do not reuse other spaces' names
                 var space = Space(displayID: displayID,
                                   spaceID: managedSpaceID,
-                                  spaceName: spaceName,
+                                  spaceName: "-",
                                   spaceNumber: spaceNumber,
                                   spaceByDesktopID: spaceByDesktopID,
                                   isCurrentSpace: isCurrentSpace,
@@ -183,10 +180,14 @@ class SpaceObserver {
                         space.spaceName = "FULL"
                     }
                 }
+                // Optional compatibility: keep cache length in sync (not used for naming anymore)
+                while spaceNumber >= spaceNameCache.cache.count { spaceNameCache.extend() }
                 spaceNameCache.cache[spaceNumber] = space.spaceName
                 
+                currentOrder += 1
                 var nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName, spaceByDesktopID: spaceByDesktopID)
                 nameInfo.currentDisplayIndex = currentDisplayIndexByID[displayID]
+                nameInfo.currentOrder = currentOrder
                 updatedDict[managedSpaceID] = nameInfo
                 allSpaces.append(space)
             }

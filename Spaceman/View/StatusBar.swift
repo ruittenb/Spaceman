@@ -15,6 +15,9 @@ class StatusBar: NSObject, NSMenuDelegate {
     
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
+    private var updatesItem: NSMenuItem!
+    private var prefItem: NSMenuItem!
+    private var quitItem: NSMenuItem!
     private var prefsWindow: PreferencesWindow!
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
@@ -44,19 +47,19 @@ class StatusBar: NSObject, NSMenuDelegate {
         view.frame = NSRect(x: 0, y: 0, width: 220, height: 70)
         about.view = view
         
-        let updates = NSMenuItem(
+        updatesItem = NSMenuItem(
             title: "Check for updates...",
             action: #selector(updaterController.checkForUpdates(_:)),
             keyEquivalent: "")
-        updates.target = updaterController
+        updatesItem.target = updaterController
         
-        let pref = NSMenuItem(
+        prefItem = NSMenuItem(
             title: "Preferences...",
             action: #selector(showPreferencesWindow(_:)),
             keyEquivalent: "")
-        pref.target = self
+        prefItem.target = self
         
-        let quit = NSMenuItem(
+        quitItem = NSMenuItem(
             title: "Quit Spaceman",
             action: #selector(NSApplication.terminate(_:)),
             keyEquivalent: "")
@@ -64,9 +67,9 @@ class StatusBar: NSObject, NSMenuDelegate {
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(NSMenuItem.separator())
-        statusBarMenu.addItem(updates)
-        statusBarMenu.addItem(pref)
-        statusBarMenu.addItem(quit)
+        statusBarMenu.addItem(updatesItem)
+        statusBarMenu.addItem(prefItem)
+        statusBarMenu.addItem(quitItem)
         //statusBarItem.menu = statusBarMenu
         
         statusBarItem.button?.action = #selector(handleClick)
@@ -135,15 +138,33 @@ class StatusBar: NSObject, NSMenuDelegate {
         guard spaces.count > 0 else {
             return
         }
-        var removeCandidateItem = statusBarMenu.items[2]
-        while (!removeCandidateItem.isSeparatorItem) {
-            statusBarMenu.removeItem(removeCandidateItem)
-            removeCandidateItem = statusBarMenu.items[2]
+        // Remove previously inserted dynamic items between the fixed header and the updates item
+        let updatesIdx = statusBarMenu.index(of: updatesItem)
+        if updatesIdx > 2 {
+            for _ in 2..<updatesIdx { statusBarMenu.removeItem(at: 2) }
+        } else {
+            // Fallback to old behavior if updatesItem not found
+            while statusBarMenu.items.count > 2 && !statusBarMenu.items[2].isSeparatorItem {
+                statusBarMenu.removeItem(at: 2)
+            }
         }
-        for space in spaces.reversed() {
-            let switchItem = makeSwitchToSpaceItem(space: space)
-            statusBarMenu.insertItem(switchItem, at: 2)
+        // Build items grouped by display with a separator between displays
+        var itemsToInsert: [NSMenuItem] = []
+        var lastDisplayID: String? = nil
+        for space in spaces {
+            if let last = lastDisplayID, last != space.displayID {
+                itemsToInsert.append(NSMenuItem.separator())
+            }
+            itemsToInsert.append(makeSwitchToSpaceItem(space: space))
+            lastDisplayID = space.displayID
         }
+        // Ensure there is a separator between the last space item and the updates item
+        if !itemsToInsert.isEmpty {
+            itemsToInsert.append(NSMenuItem.separator())
+        }
+        // Insert in order at index 2
+        var insertIndex = 2
+        for item in itemsToInsert { statusBarMenu.insertItem(item, at: insertIndex); insertIndex += 1 }
     }
 
     @objc func showPreferencesWindow(_ sender: AnyObject) {

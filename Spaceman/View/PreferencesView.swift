@@ -19,18 +19,15 @@ struct PreferencesView: View {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
-    // Display arrangement preferences (UI only)
-    @AppStorage("displaySortPriority") private var displaySortPriority = DisplaySortPriority.horizontal
-    @AppStorage("displayHorizontalOrder") private var displayHorizontalOrder = HorizontalSortOrder.leftToRight
-    @AppStorage("displayVerticalOrder") private var displayVerticalOrder = VerticalSortOrder.topToBottom
+    @AppStorage("displayOrderPriority") private var displayOrderPriority = DisplayOrderPriority.horizontal
+    @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.leftToRight
+    @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.topToBottom
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
     @AppStorage("withCommand") private var withCommand = false
-    // Dual row settings (UI only)
-    @AppStorage("dualRows") private var dualRows = false
-    @AppStorage("dualRowsGap") private var dualRowsGap: Int = 1
+    // Removed dual row UI; configuration via LayoutMode.dualRows constants
 
     @StateObject private var prefsVM = PreferencesViewModel()
     
@@ -186,11 +183,11 @@ struct PreferencesView: View {
                 .fontWeight(.semibold)
 
             HStack(spacing: 12) {
-                Text("Multi-display ordering")
+                Text("Display order priority")
                 Spacer()
-                Picker("", selection: $displaySortPriority) {
-                    Text("Horizontal first").tag(DisplaySortPriority.horizontal)
-                    Text("Vertical first").tag(DisplaySortPriority.vertical)
+                Picker("", selection: $displayOrderPriority) {
+                    Text("Horizontal first").tag(DisplayOrderPriority.horizontal)
+                    Text("Vertical first").tag(DisplayOrderPriority.vertical)
                 }
                 .pickerStyle(.segmented)
                 .controlSize(.small)
@@ -198,11 +195,11 @@ struct PreferencesView: View {
             }
 
             HStack(spacing: 12) {
-                Text("Horizontal order")
+                Text("Horizontal direction")
                 Spacer()
-                Picker("", selection: $displayHorizontalOrder) {
-                    Text("Left to right").tag(HorizontalSortOrder.leftToRight)
-                    Text("Right to left").tag(HorizontalSortOrder.rightToLeft)
+                Picker("", selection: $horizontalDirection) {
+                    Text("Left to right").tag(HorizontalDirection.leftToRight)
+                    Text("Right to left").tag(HorizontalDirection.rightToLeft)
                 }
                 .pickerStyle(.segmented)
                 .controlSize(.small)
@@ -210,11 +207,11 @@ struct PreferencesView: View {
             }
 
             HStack(spacing: 12) {
-                Text("Vertical order")
+                Text("Vertical direction")
                 Spacer()
-                Picker("", selection: $displayVerticalOrder) {
-                    Text("Top to bottom").tag(VerticalSortOrder.topToBottom)
-                    Text("Bottom to top").tag(VerticalSortOrder.bottomToTop)
+                Picker("", selection: $verticalDirection) {
+                    Text("Top to bottom").tag(VerticalDirection.topToBottom)
+                    Text("Bottom to top").tag(VerticalDirection.bottomToTop)
                 }
                 .pickerStyle(.segmented)
                 .controlSize(.small)
@@ -223,13 +220,13 @@ struct PreferencesView: View {
         }
         .padding()
         .disabled(!hasMultipleDisplays)
-        .onChange(of: displaySortPriority) { _ in
+        .onChange(of: displayOrderPriority) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
-        .onChange(of: displayHorizontalOrder) { _ in
+        .onChange(of: horizontalDirection) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
-        .onChange(of: displayVerticalOrder) { _ in
+        .onChange(of: verticalDirection) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -249,41 +246,18 @@ struct PreferencesView: View {
     private var layoutSizePicker: some View {
         VStack(alignment: .leading, spacing: 8) {
             Picker(selection: $layoutMode, label: Text("Layout size")) {
+                Text("Dual Row").tag(LayoutMode.dualRows)
                 Text("Compact").tag(LayoutMode.compact)
                 Text("Medium").tag(LayoutMode.medium)
                 Text("Large").tag(LayoutMode.large)
             }
             .pickerStyle(.segmented)
-
-            HStack(spacing: 8) {
-                // Dual row toggle (compact only)
-                Toggle("Dual row", isOn: $dualRows)
-                    .disabled(layoutMode != .compact)
-                Spacer()
-                // Line spacing picker (active only when Dual row is ON in compact)
-                HStack(spacing: 6) {
-                    Text("Line spacing")
-                        .foregroundColor((layoutMode != .compact || !dualRows) ? .secondary : .primary)
-                    Picker("", selection: $dualRowsGap) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                    }
-                    .pickerStyle(.segmented)
-                    .controlSize(.small)
-                    .frame(maxWidth: 120)
-                }
-                .disabled(layoutMode != .compact || !dualRows)
-            }
+            // Dual row and spacing options have been removed; use LayoutMode.dualRows
         }
         .onChange(of: layoutMode) { val in
             layoutMode = val
-            if val != .compact { dualRows = false }
-            // Do not trigger status bar refresh here for dual-row UI; only persist values.
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
-        // Intentionally not posting ButtonPressed on dual-row changes to keep it UI-only for now
     }
     
     // MARK: - Style Picker
@@ -310,11 +284,10 @@ struct PreferencesView: View {
             Picker(selection: $prefsVM.selectedSpace, label: Text("Space")) {
                 ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) { index in
                     let info = prefsVM.sortedSpaceNamesDict[index].value
-                    let num = info.spaceNum
-                    let sbd = info.spaceByDesktopID
+                                        let sbd = info.spaceByDesktopID
                     let displayIndex = info.currentDisplayIndex ?? 1
                     let spacePart: String = (sbd.hasPrefix("F") ? ("Full Screen "+String(Int(sbd.dropFirst()) ?? 0)) : "Space \(sbd)")
-                    Text("[\(num)] Display \(displayIndex): \(spacePart)")
+                    Text("Display \(displayIndex): \(spacePart)")
                 }
             }
             .layoutPriority(3)
