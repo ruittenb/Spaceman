@@ -155,33 +155,39 @@ class SpaceObserver {
                     lastFullScreenSpaceNumber += 1
                     spaceByDesktopID = "F\(lastFullScreenSpaceNumber)"
                 }
-                
-                // Default name for a new/unknown space is "-"; do not reuse other spaces' names
-                var space = Space(displayID: displayID,
-                                  spaceID: managedSpaceID,
-                                  spaceName: "-",
-                                  spaceNumber: spaceNumber,
-                                  spaceByDesktopID: spaceByDesktopID,
-                                  isCurrentSpace: isCurrentSpace,
-                                  isFullScreen: isFullScreen)
+                // 2aa1db4 logic: seed name from SpaceNameCache, then override with saved mapping/fullscreen
+                while spaceNumber >= spaceNameCache.cache.count { spaceNameCache.extend() }
+                var seededName = spaceNameCache.cache[spaceNumber]
                 
                 if let data = defaults.data(forKey: "spaceNames"),
                    let dict = try? PropertyListDecoder().decode([String: SpaceNameInfo].self, from: data),
                    let saved = dict[managedSpaceID]
                 {
-                    space.spaceName = saved.spaceName
+                    seededName = saved.spaceName
+                    
                 } else if isFullScreen {
                     if let pid = s["pid"] as? pid_t,
                        let app = NSRunningApplication(processIdentifier: pid),
                        let name = app.localizedName
                     {
-                        space.spaceName = name.prefix(4).uppercased()
+                        seededName = name.prefix(4).uppercased()
+                        
                     } else {
-                        space.spaceName = "FULL"
+                        seededName = "FULL"
+                        
                     }
+                } else {
+                    // Fall back to cache seed (could be '-') when no saved mapping and not fullscreen
+                    
                 }
-                // Optional compatibility: keep cache length in sync (not used for naming anymore)
-                while spaceNumber >= spaceNameCache.cache.count { spaceNameCache.extend() }
+                var space = Space(displayID: displayID,
+                                  spaceID: managedSpaceID,
+                                  spaceName: seededName,
+                                  spaceNumber: spaceNumber,
+                                  spaceByDesktopID: spaceByDesktopID,
+                                  isCurrentSpace: isCurrentSpace,
+                                  isFullScreen: isFullScreen)
+                // Write back to cache
                 spaceNameCache.cache[spaceNumber] = space.spaceName
                 
                 currentOrder += 1
