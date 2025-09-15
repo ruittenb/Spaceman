@@ -33,8 +33,6 @@ make all
 **Clear application defaults (for troubleshooting):**
 ```bash
 make defaults-clear
-# or directly:
-defaults delete dev.ruittenb.Spaceman
 ```
 
 **View stored defaults:**
@@ -75,7 +73,7 @@ The app uses private Core Graphics APIs to monitor spaces:
 - `Spaceman/` - Main source code
   - `Helpers/` - Utility classes (SpaceObserver, IconCreator, etc.)
   - `Model/` - Data models and enums
-  - `View/` - SwiftUI views and UI components  
+  - `View/` - SwiftUI views and UI components
   - `ViewModel/` - View models and business logic
   - `Utilities/` - Constants and utilities
 - `Spaceman.xcodeproj/` - Xcode project configuration
