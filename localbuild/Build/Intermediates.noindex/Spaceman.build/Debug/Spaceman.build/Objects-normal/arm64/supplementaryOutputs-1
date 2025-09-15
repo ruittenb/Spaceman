@@ -1,0 +1,18 @@
+"/Users/abhishek/Desktop/Spaceman/Spaceman/Helpers/RefreshCommand.swift":
+  swift-dependencies: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.swiftdeps"
+  dependencies: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.d"
+  diagnostics: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.dia"
+  const-values: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.swiftconstvalues"
+  object: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.o"
+"/Users/abhishek/Desktop/Spaceman/Spaceman/Model/IconWidth.swift":
+  swift-dependencies: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.swiftdeps"
+  diagnostics: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.dia"
+  dependencies: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.d"
+  object: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.o"
+  const-values: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.swiftconstvalues"
+"/Users/abhishek/Desktop/Spaceman/Spaceman/Model/Space.swift":
+  swift-dependencies: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.swiftdeps"
+  object: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.o"
+  const-values: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.swiftconstvalues"
+  diagnostics: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.dia"
+  dependencies: "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.d"

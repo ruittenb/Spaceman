@@ -50,7 +50,10 @@ class SpaceObserver {
     }
     
     @objc public func updateSpaceInformation() {
-        var displays = CGSCopyManagedDisplaySpaces(conn)!.takeRetainedValue() as! [NSDictionary]
+        guard let displaysCF = CGSCopyManagedDisplaySpaces(conn)?.takeRetainedValue() as? [NSDictionary] else {
+            return
+        }
+        var displays = displaysCF
 
         // create dict with correct sorting before changing it
         var spaceNumberDict: [String: Int] = [:]
@@ -86,7 +89,10 @@ class SpaceObserver {
                 continue
             }
             
-            activeSpaceID = currentSpaces["ManagedSpaceID"] as! Int
+            guard let activeID = currentSpaces["ManagedSpaceID"] as? Int else {
+                continue
+            }
+            activeSpaceID = activeID
             
             if activeSpaceID == -1 {
                 DispatchQueue.main.async {
@@ -101,9 +107,10 @@ class SpaceObserver {
             }
 
             for s in spaces {
-                let managedSpaceID = String(s["ManagedSpaceID"] as! Int)
-                let spaceNumber = spaceNumberDict[managedSpaceID]!
-                let isCurrentSpace = activeSpaceID == s["ManagedSpaceID"] as! Int
+                guard let managedInt = s["ManagedSpaceID"] as? Int else { continue }
+                let managedSpaceID = String(managedInt)
+                guard let spaceNumber = spaceNumberDict[managedSpaceID] else { continue }
+                let isCurrentSpace = activeSpaceID == managedInt
                 let isFullScreen = s["TileLayoutManager"] as? [String: Any] != nil
                 let spaceByDesktopID: String
                 if !isFullScreen {

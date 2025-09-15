@@ -36,7 +36,7 @@ class IconCreator {
         iconSize = NSSize(
             width: sizes.ICON_WIDTH_SMALL,
             height: sizes.ICON_HEIGHT)
-        
+
         var icons = [NSImage]()
 
         // Precompute switch indices for all spaces (global mapping)
@@ -60,6 +60,14 @@ class IconCreator {
 
         // Determine which spaces to include based on mode
         let filteredSpaces = filterSpaces(spaces)
+
+        // Gracefully handle transient empty state (e.g., during Mission Control updates)
+        if filteredSpaces.isEmpty {
+            iconWidths = []
+            let empty = NSImage(size: NSSize(width: 1, height: iconSize.height))
+            empty.isTemplate = true
+            return empty
+        }
 
         for s in filteredSpaces {
             let iconResourceName: String
@@ -133,6 +141,10 @@ class IconCreator {
                 group.append(s)
             }
             flushGroup()
+            if filtered.isEmpty {
+                // Fallback to current-only to avoid empty UI during transitions
+                return spaces.filter { $0.isCurrentSpace }
+            }
             return filtered
         }
     }
@@ -283,9 +295,9 @@ class IconCreator {
         let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
             result + icon.image.size.width
         })
-        let accomodatingGapWidth = CGFloat(numIcons - 1) * gapWidth
-        let accomodatingDisplayGapWidth = CGFloat(displayCount - 1) * displayGapWidth
-        let totalWidth = combinedIconWidth + accomodatingGapWidth + accomodatingDisplayGapWidth
+        let accomodatingGapWidth = CGFloat(max(0, numIcons - 1)) * gapWidth
+        let accomodatingDisplayGapWidth = CGFloat(max(0, displayCount - 1)) * displayGapWidth
+        let totalWidth = max(1, combinedIconWidth + accomodatingGapWidth + accomodatingDisplayGapWidth)
         let image = NSImage(size: NSSize(width: totalWidth, height: iconSize.height))
         
         image.lockFocus()

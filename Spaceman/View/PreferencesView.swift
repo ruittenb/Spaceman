@@ -238,9 +238,8 @@ struct PreferencesView: View {
                 Text("No spaces detected yet.")
                     .foregroundColor(.secondary)
             } else {
-                // Show a text field per space entry
-                ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) { index in
-                    let entry = prefsVM.sortedSpaceNamesDict[index]
+                // Show a text field per space entry (keyed to avoid index issues during updates)
+                ForEach(prefsVM.sortedSpaceNamesDict, id: \.key) { entry in
                     HStack(spacing: 8) {
                         Text("Desktop \(entry.value.spaceByDesktopID):")
                             .frame(width: 120, alignment: .trailing)
@@ -248,10 +247,10 @@ struct PreferencesView: View {
                         TextField(
                             visibleSpacesMode == .all ? "Name (4 shown in All)" : (visibleSpacesMode == .neighbors ? "Name (6 shown in Neighbors)" : "Name"),
                             text: Binding(
-                                get: { prefsVM.sortedSpaceNamesDict[index].value.spaceName },
+                                get: { prefsVM.spaceNamesDict[entry.key]?.spaceName ?? entry.value.spaceName },
                                 set: { newVal in
                                     let trimmed = newVal.trimmingCharacters(in: .whitespacesAndNewlines)
-                                    prefsVM.updateSpace(at: index, to: trimmed)
+                                    prefsVM.updateSpace(for: entry.key, to: trimmed)
                                     // Persist and notify
                                     self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
                                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
