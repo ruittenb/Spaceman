@@ -18,7 +18,7 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		0/g8rDhBuHIjTNRu5eOFhHnCWQw=
+		plbv6EqTUJ2zj9NrSGgyxTUJCko=
 		</data>
 		<key>Resources/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Info.plist</key>
 		<data>
@@ -82,10 +82,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			UsqO1JXEjqehmRkXz9JC5sjxCEo=
+			peG9rcKLXgcsaIqzDuBwxfsW2DA=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"52ca8ed495c48ea7a1991917cfd242e6c8f1084a"</string>
+			<string>cdhash H"a5e1bdadc28b5e072c688ab30ee070c5fb16d830"</string>
 		</dict>
 		<key>MacOS/__preview.dylib</key>
 		<dict>
@@ -121,7 +121,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			4f9eAZe/WuMySqPAa3qV2uhbZHKyBDnMPfpl/uokkts=
+			c4RYF1wi6X2FaJZzjSSvIkPUXwbnzvE80F60y0PwjTw=
 			</data>
 		</dict>
 		<key>Resources/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Info.plist</key>

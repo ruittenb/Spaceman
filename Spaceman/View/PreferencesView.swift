@@ -30,6 +30,7 @@ struct PreferencesView: View {
     @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
     @AppStorage("withCommand") private var withCommand = false
+    @AppStorage("enableSwitchingSpaces") private var enableSwitchingSpaces = true
 
     @StateObject private var prefsVM = PreferencesViewModel()
     
@@ -278,12 +279,16 @@ struct PreferencesView: View {
             Text("Switching Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
+            Toggle("Enable switching from status bar", isOn: $enableSwitchingSpaces)
+                .onChange(of: enableSwitchingSpaces) { _ in
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                }
             Picker("Shortcut keys", selection: $keySet) {
                 Text("number keys on top row").tag(KeySet.toprow)
                 Text("numeric keypad").tag(KeySet.numpad)
             }
             .pickerStyle(.radioGroup)
-            .disabled(false)
+            .disabled(!enableSwitchingSpaces)
             HStack(alignment: .top) {
                 Text("With modifiers")
                 Spacer()
@@ -298,6 +303,7 @@ struct PreferencesView: View {
                 }
                 Spacer()
             }
+            .disabled(!enableSwitchingSpaces)
         }
         .padding()
         .onChange(of: keySet) { _ in

@@ -6,7 +6,7 @@
 	<integer>11</integer>
 	<key>logs</key>
 	<dict>
-		<key>FB679B57-D1AF-492D-8644-59C6D9FB082B</key>
+		<key>2F4C6536-3082-4467-8628-A847051DA3AC</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>FB679B57-D1AF-492D-8644-59C6D9FB082B.xcactivitylog</string>
+			<string>2F4C6536-3082-4467-8628-A847051DA3AC.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -40,13 +40,13 @@
 			<key>signature</key>
 			<string>Cleaning project Spaceman with scheme Spaceman and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>779668552.806795</real>
+			<real>779668835.01954496</real>
 			<key>timeStoppedRecording</key>
-			<real>779668553.06245399</real>
+			<real>779668835.28404999</real>
 			<key>title</key>
 			<string>Cleaning project Spaceman with scheme Spaceman and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>FB679B57-D1AF-492D-8644-59C6D9FB082B</string>
+			<string>2F4C6536-3082-4467-8628-A847051DA3AC</string>
 		</dict>
 	</dict>
 </dict>

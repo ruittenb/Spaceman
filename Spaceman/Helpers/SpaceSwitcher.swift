@@ -9,15 +9,20 @@ import Foundation
 import SwiftUI
 
 class SpaceSwitcher {
+    @AppStorage("enableSwitchingSpaces") private var enableSwitchingSpaces = true
     private var shortcutHelper: ShortcutHelper!
 
     init() {
         shortcutHelper = ShortcutHelper()
-        // Check if the process has Accessibility permission, and make sure it has been added to the list
-        AXIsProcessTrusted()
+        // Only check AX trust if switching is enabled
+        if enableSwitchingSpaces {
+            // Check if the process has Accessibility permission, and make sure it has been added to the list
+            AXIsProcessTrusted()
+        }
     }
 
     public func switchToSpace(spaceNumber: Int, onError: () -> Void) {
+        guard enableSwitchingSpaces else { return }
         let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
         if keyCode < 0 {
             return onError()

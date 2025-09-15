@@ -69,6 +69,8 @@ The menu shows a list of space names. Selecting one will cause Spaceman to switc
 
 Spaceman switches spaces by sending a keyboard shortcut to System Events using Applescript.
 
+Enable switching from the status bar in Preferences → Switching Spaces. When disabled, switching controls are greyed out and Spaceman will not request Accessibility/Automation permissions.
+
 The first ten non-fullscreen spaces will have shortcut keys 0-9 assigned.
 
 The first two fullscreen spaces will have keyboard shortcuts, but these are not recognized
