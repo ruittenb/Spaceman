@@ -34,12 +34,25 @@ class SpaceSwitcher {
             if let scriptObject = NSAppleScript(source: appleScript) {
                 scriptObject.executeAndReturnError(&error)
                 if error != nil {
-                    let errorNumber: Int = error?[NSAppleScript.errorNumber] as! Int
-                    let errorBriefMessage: String = error?[NSAppleScript.errorBriefMessage] as! String
+                    guard
+                        let errorNumber = error?[NSAppleScript.errorNumber] as? Int,
+                        let errorBriefMessage = error?[NSAppleScript.errorBriefMessage] as? String
+                    else {
+                        return
+                    }
                     let settingsName = self.systemSettingsName()
                     // -1002: Error: Spaceman is not allowed to send keystrokes. (needs Accessibility permission)
                     // -1743: Error: Not authorized to send Apple events to System Events. (needs Automation permission)
-                    let permissionType = errorNumber == 1002 ? "Accessibility" : "Automation"
+                    let normalizedCode = abs(errorNumber)
+                    let permissionType: String
+                    switch normalizedCode {
+                    case 1002:
+                        permissionType = "Accessibility"
+                    case 1743:
+                        permissionType = "Automation"
+                    default:
+                        permissionType = "Automation"
+                    }
                     self.alert(
                         msg: "Error: \(errorBriefMessage)\n\nPlease grant \(permissionType) permissions to Spaceman in \(settingsName) → Privacy and Security.",
                         permissionTypeName: permissionType)

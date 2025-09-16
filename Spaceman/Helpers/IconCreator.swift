@@ -76,9 +76,13 @@ class IconCreator {
                 iconResourceName = "SpaceIconNamedFullActive"
             case (false, true, .names):
                 iconResourceName = "SpaceIconNamedFullInactive"
-            case (true, true, .rects):
+            case (true, true, .rects),
+                 (true, true, .numbersAndRects),
+                 (true, true, .numbersAndNames):
                 iconResourceName = "SpaceIconNumFullActive"
-            case (false, true, .rects):
+            case (false, true, .rects),
+                 (false, true, .numbersAndRects),
+                 (false, true, .numbersAndNames):
                 iconResourceName = "SpaceIconNumFullInactive"
             case (true, false, _):
                 iconResourceName = "SpaceIconNumNormalActive"
