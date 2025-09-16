@@ -252,8 +252,7 @@ struct PreferencesView: View {
                                 set: { newVal in
                                     let trimmed = newVal.trimmingCharacters(in: .whitespacesAndNewlines)
                                     prefsVM.updateSpace(for: entry.key, to: trimmed)
-                                    // Persist and notify
-                                    self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
+                                    prefsVM.persistChanges()
                                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
                                 }
                             )
@@ -268,7 +267,7 @@ struct PreferencesView: View {
     // MARK: - Update Name Method
     private func updateName() {
         prefsVM.updateSpace()
-        self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
+        prefsVM.persistChanges()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
     }
     

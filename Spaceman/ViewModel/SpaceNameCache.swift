@@ -10,7 +10,7 @@ import SwiftUI
 
 class SpaceNameCache {
     @AppStorage("spaceNameCache")  private var spaceNameCacheString: String = ""
-    private let empty = Array.init(repeating: "-", count: 5)
+    private let emptyChunk = Array(repeating: "-", count: 5)
     
     var cache: [String] {
         get {
@@ -20,7 +20,7 @@ class SpaceNameCache {
                     return decoded!
                 }
             }
-            return empty
+            return emptyChunk
         }
         set {
             if let encoded = try? JSONEncoder().encode(newValue) {
@@ -29,7 +29,9 @@ class SpaceNameCache {
         }
     }
     
-    func extend() {
-        cache.append(contentsOf: empty)
+    func ensureCapacity(_ storage: inout [String], upTo index: Int) {
+        while index >= storage.count {
+            storage.append(contentsOf: emptyChunk)
+        }
     }
 }

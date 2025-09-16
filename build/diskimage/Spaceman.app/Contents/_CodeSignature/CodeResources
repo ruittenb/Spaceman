@@ -10,7 +10,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		ufr8sZbym6Nm7lg1MVXroEUr+tQ=
+		FXwzSSuPqpyMT7drHv0NL0HFOCM=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		RC2Pdt+Q8Ytwm4jpw2fMpIvuoNo=
+		2yINqTv+yXWFBdOb845BOWmF7YY=
 		</data>
 		<key>Resources/Scriptable.sdef</key>
 		<data>
@@ -35,19 +35,19 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			5axGWTzx/EDL682Y3jykUp6hCRE=
+			1fjZBd4BkrM1eyPRiyJ9inDG94A=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"e5ac46593cf1fc40cbebcd98de3ca4529ea10911" or cdhash H"210ed96e1c17cff135200ca07136405e904cbde5"</string>
+			<string>cdhash H"d5f8d905de0192b3357b23d18b227d8a70c6f780" or cdhash H"210ed96e1c17cff135200ca07136405e904cbde5"</string>
 		</dict>
 		<key>Frameworks/libswift_Concurrency.dylib</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			lMyxZwOuFohh+Fcknez4IbkEo/A=
+			Pr3e+QFHQ3D2oyoywLeBrPU4s88=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"94ccb16703ae168861f857249decf821b904a3f0" or cdhash H"2df8f77ca131cd10508992f453212709099ea525"</string>
+			<string>cdhash H"3ebddef901474370f6a32a32c0b781acf538b3cf" or cdhash H"2df8f77ca131cd10508992f453212709099ea525"</string>
 		</dict>
 		<key>Library/LoginItems/LaunchAtLoginHelper.app</key>
 		<dict>
@@ -69,7 +69,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			qARhgyA56sUO56xuK+Z4W1RAHPB9yP+U2Zb2Ccsozds=
+			Hg/wbdgddqcyLpZikGad/Ep8o9wyE8LRZQ8TuAmGqv8=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
@@ -83,7 +83,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			288Z6MJPP9EAvkiKEHlw8BRR04Oh5CRD9Tk1K9+4gnc=
+			A1LBdiCpa3+uavWDTmbJBt53+CevADLsWT/6vjCvtNQ=
 			</data>
 		</dict>
 		<key>Resources/Scriptable.sdef</key>

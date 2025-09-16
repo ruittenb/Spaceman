@@ -10,6 +10,7 @@ import SwiftUI
 
 class PreferencesViewModel: ObservableObject {
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
+    private let nameStore = SpaceNameStore.shared
     @Published var selectedSpace = 0
     @Published var spaceName = ""
     @Published var spaceByDesktopID = ""
@@ -25,20 +26,12 @@ class PreferencesViewModel: ObservableObject {
     }
     
     func loadData() {
-        guard let data = UserDefaults.standard.value(forKey: "spaceNames") as? Data else {
-            return
-        }
-        
-        do {
-            self.spaceNamesDict = try PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data)
-        } catch {
-            self.spaceNamesDict = [:]
-        }
-        
+        self.spaceNamesDict = nameStore.loadAll()
+
         let sorted = spaceNamesDict.sorted { (first, second) -> Bool in
             return first.value.spaceNum < second.value.spaceNum
         }
-        
+
         sortedSpaceNamesDict = sorted
         if (selectedSpace < 0 || selectedSpace >= sortedSpaceNamesDict.count) {
             selectedSpace = 0
@@ -53,7 +46,7 @@ class PreferencesViewModel: ObservableObject {
             spaceByDesktopID = sortedSpaceNamesDict[selectedSpace].value.spaceByDesktopID
         }
     }
-    
+
     func updateSpace() {
         let key = sortedSpaceNamesDict[selectedSpace].key
         let spaceNum = sortedSpaceNamesDict[selectedSpace].value.spaceNum
@@ -80,6 +73,11 @@ class PreferencesViewModel: ObservableObject {
             spaceNum: info.spaceNum,
             spaceName: newName.isEmpty ? "-" : newName,
             spaceByDesktopID: info.spaceByDesktopID)
+    }
+
+    func persistChanges() {
+        nameStore.save(spaceNamesDict)
+        loadData()
     }
     
     func startTimer() {

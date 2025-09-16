@@ -2,14 +2,18 @@
   "object" : {
     "artifacts" : [
       {
-        "kind" : "xcframework",
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
         "packageRef" : {
           "identity" : "sparkle",
           "kind" : "remoteSourceControl",
           "location" : "https://github.com/sparkle-project/Sparkle",
           "name" : "Sparkle"
         },
-        "path" : "/Users/abhishek/Desktop/Spaceman/localbuild/SourcePackages/artifacts/sparkle/Sparkle/Sparkle.xcframework",
+        "path" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/SourcePackages/artifacts/sparkle/Sparkle/Sparkle.xcframework",
         "source" : {
           "checksum" : "2e0bf15ae74c13e7b16b76e34ba56fe3a44683e35473298225f4a2a2c274329a",
           "type" : "remote",

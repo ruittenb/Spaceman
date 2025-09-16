@@ -1,258 +1,259 @@
 {
   "" : {
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Spaceman-master.dia",
-    "emit-module-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Spaceman-master-emit-module.d",
-    "emit-module-diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Spaceman-master-emit-module.dia",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Spaceman-master.swiftdeps"
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Spaceman-primary.dia",
+    "emit-module-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Spaceman-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Spaceman-primary-emit-module.dia",
+    "pch" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Spaceman-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Spaceman-primary.swiftdeps"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/AppDelegate.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/AppDelegate.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AppDelegate~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Extensions.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Extensions.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Extensions~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Helpers/IconCreator.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Helpers/IconCreator.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconCreator~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Helpers/OSVersion.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Helpers/OSVersion.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/OSVersion~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Helpers/RefreshCommand.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Helpers/RefreshCommand.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/RefreshCommand~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Helpers/ShortcutHelper.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Helpers/ShortcutHelper.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/ShortcutHelper~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Helpers/SpaceObserver.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Helpers/SpaceObserver.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceObserver~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Helpers/SpaceSwitcher.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Helpers/SpaceSwitcher.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceSwitcher~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Model/DisplayStyle.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Model/DisplayStyle.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/DisplayStyle~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Model/GuiSize.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Model/GuiSize.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GuiSize~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Model/IconWidth.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Model/IconWidth.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/IconWidth~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Model/KeySet.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Model/KeySet.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/KeySet~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Model/LayoutMode.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Model/LayoutMode.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/LayoutMode~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Model/Space.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Model/Space.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Space~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Model/SpaceNameInfo.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Model/SpaceNameInfo.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameInfo~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Model/VisibleSpacesMode.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Model/VisibleSpacesMode.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisibleSpacesMode~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/Utilities/Constants.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/Utilities/Constants.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/Constants~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/View/AboutView.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/View/AboutView.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/AboutView~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/View/PreferencesView.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/View/PreferencesView.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesView~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/View/PreferencesWindow.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/View/PreferencesWindow.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesWindow~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/View/StatusBar.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/View/StatusBar.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/StatusBar~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/View/VisualEffectView.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/View/VisualEffectView.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/VisualEffectView~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/ViewModel/PreferencesViewModel.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/ViewModel/PreferencesViewModel.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/PreferencesViewModel~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/Spaceman/ViewModel/SpaceNameCache.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/Spaceman/ViewModel/SpaceNameCache.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/SpaceNameCache~partial.swiftmodule"
   },
-  "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/DerivedSources/GeneratedAssetSymbols.swift" : {
-    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
-    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
-    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+  "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
     "index-unit-output-path" : "/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
-    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
-    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
-    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
-    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+    "llvm-bc" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Projects/Spaceman/localbuild/Build/Intermediates.noindex/Spaceman.build/Debug/Spaceman.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
   }
 }
