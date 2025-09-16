@@ -13,15 +13,13 @@ class PreferencesViewModel: ObservableObject {
     @Published var selectedSpace = 0
     @Published var spaceName = ""
     @Published var spaceByDesktopID = ""
-    var spaceNamesDict: [String: SpaceNameInfo]!
-    var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element]!
+    @Published var spaceNamesDict: [String: SpaceNameInfo] = [:]
+    @Published var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element] = []
     var timer: Timer!
     
     init() {
         selectedSpace = -1
         spaceName = ""
-        spaceNamesDict = [String: SpaceNameInfo]()
-        sortedSpaceNamesDict = [Dictionary<String, SpaceNameInfo>.Element]()
         timer = Timer()
         if autoRefreshSpaces { startTimer() }
     }
@@ -64,6 +62,24 @@ class PreferencesViewModel: ObservableObject {
             spaceNum: spaceNum,
             spaceName: spaceName.isEmpty ? "-" : spaceName,
             spaceByDesktopID: spaceByDesktopID)
+    }
+
+    func updateSpace(at index: Int, to newName: String) {
+        guard index >= 0 && index < sortedSpaceNamesDict.count else { return }
+        let key = sortedSpaceNamesDict[index].key
+        let info = sortedSpaceNamesDict[index].value
+        spaceNamesDict[key] = SpaceNameInfo(
+            spaceNum: info.spaceNum,
+            spaceName: newName.isEmpty ? "-" : newName,
+            spaceByDesktopID: info.spaceByDesktopID)
+    }
+
+    func updateSpace(for key: String, to newName: String) {
+        guard let info = spaceNamesDict[key] else { return }
+        spaceNamesDict[key] = SpaceNameInfo(
+            spaceNum: info.spaceNum,
+            spaceName: newName.isEmpty ? "-" : newName,
+            spaceByDesktopID: info.spaceByDesktopID)
     }
     
     func startTimer() {

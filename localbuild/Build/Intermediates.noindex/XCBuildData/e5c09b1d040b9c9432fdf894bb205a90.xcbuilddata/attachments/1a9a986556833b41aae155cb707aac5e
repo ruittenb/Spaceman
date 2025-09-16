@@ -1,0 +1,38 @@
+{
+  "" : {
+    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin-master.dia",
+    "emit-module-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin-master-emit-module.dia",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin-master.swiftdeps"
+  },
+  "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/DerivedSources/resource_bundle_accessor.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/resource_bundle_accessor.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/resource_bundle_accessor.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/resource_bundle_accessor.dia",
+    "index-unit-output-path" : "/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/resource_bundle_accessor.o",
+    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/resource_bundle_accessor.bc",
+    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/resource_bundle_accessor.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/resource_bundle_accessor.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/resource_bundle_accessor~partial.swiftmodule"
+  },
+  "/Users/abhishek/Desktop/Spaceman/localbuild/SourcePackages/checkouts/LaunchAtLogin/Sources/LaunchAtLogin/LaunchAtLogin.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin.dia",
+    "index-unit-output-path" : "/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin.o",
+    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin.bc",
+    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/LaunchAtLogin~partial.swiftmodule"
+  },
+  "/Users/abhishek/Desktop/Spaceman/localbuild/SourcePackages/checkouts/LaunchAtLogin/Sources/LaunchAtLogin/Toggle.swift" : {
+    "const-values" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/Toggle.swiftconstvalues",
+    "dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/Toggle.d",
+    "diagnostics" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/Toggle.dia",
+    "index-unit-output-path" : "/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/Toggle.o",
+    "llvm-bc" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/Toggle.bc",
+    "object" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/Toggle.o",
+    "swift-dependencies" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/Toggle.swiftdeps",
+    "swiftmodule" : "/Users/abhishek/Desktop/Spaceman/localbuild/Build/Intermediates.noindex/LaunchAtLogin.build/Debug/LaunchAtLogin.build/Objects-normal/arm64/Toggle~partial.swiftmodule"
+  }
+}

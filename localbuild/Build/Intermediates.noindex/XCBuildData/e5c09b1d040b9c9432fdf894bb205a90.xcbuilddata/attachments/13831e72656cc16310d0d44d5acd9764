@@ -1,0 +1,4 @@
+module LaunchAtLogin {
+header "LaunchAtLogin-Swift.h"
+export *
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>11</integer>
+	<key>logs</key>
+	<dict>
+		<key>2F4C6536-3082-4467-8628-A847051DA3AC</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>2F4C6536-3082-4467-8628-A847051DA3AC.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Spaceman project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>Spaceman</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Cleaning project Spaceman with scheme Spaceman and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>779668835.01954496</real>
+			<key>timeStoppedRecording</key>
+			<real>779668835.28404999</real>
+			<key>title</key>
+			<string>Cleaning project Spaceman with scheme Spaceman and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>2F4C6536-3082-4467-8628-A847051DA3AC</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -17,13 +17,20 @@ struct PreferencesView: View {
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
+    // Legacy: hideInactiveSpaces used to be a boolean toggle
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
+    @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
+    private var visibleSpacesMode: VisibleSpacesMode {
+        get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
+        set { visibleSpacesModeRaw = newValue.rawValue }
+    }
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
     @AppStorage("withCommand") private var withCommand = false
+    @AppStorage("enableSwitchingSpaces") private var enableSwitchingSpaces = true
 
     @StateObject private var prefsVM = PreferencesViewModel()
     
@@ -45,6 +52,14 @@ struct PreferencesView: View {
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear(perform: prefsVM.loadData)
+        .onAppear {
+            // Migrate legacy 'hideInactiveSpaces' to new 'visibleSpacesMode' if needed
+            if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil {
+                if hideInactiveSpaces {
+                    visibleSpacesModeRaw = VisibleSpacesMode.currentOnly.rawValue
+                }
+            }
+        }
         .onChange(of: data) { _ in
             prefsVM.loadData()
         }
@@ -153,14 +168,24 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
             spacesStylePicker
-            spaceNameEditor
+            if displayStyle == .names || displayStyle == .numbersAndNames {
+                spaceNameListEditor
+            }
             
-            Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
-                .disabled(displayStyle == .rects)
+            Picker(selection: Binding(
+                get: { visibleSpacesMode },
+                set: { visibleSpacesModeRaw = $0.rawValue }
+            ), label: Text("Spaces shown")) {
+                Text("All spaces").tag(VisibleSpacesMode.all)
+                Text("Current only").tag(VisibleSpacesMode.currentOnly)
+                Text("Current + neighbors").tag(VisibleSpacesMode.neighbors)
+            }
+            .pickerStyle(.segmented)
+            .disabled(displayStyle == .rects)
             Toggle("Restart space numbering by desktop", isOn: $restartNumberingByDesktop)
         }
         .padding()
-        .onChange(of: hideInactiveSpaces) { _ in
+        .onChange(of: visibleSpacesModeRaw) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -180,6 +205,7 @@ struct PreferencesView: View {
             Text("Compact").tag(LayoutMode.compact)
             Text("Medium").tag(LayoutMode.medium)
             Text("Large").tag(LayoutMode.large)
+            Text("Extra Large").tag(LayoutMode.extraLarge)
         }
         .pickerStyle(.segmented)
         .onChange(of: layoutMode) { val in
@@ -199,40 +225,43 @@ struct PreferencesView: View {
         }
         .onChange(of: displayStyle) { val in
             if val == .rects {
-                hideInactiveSpaces = false
+                visibleSpacesModeRaw = VisibleSpacesMode.all.rawValue
             }
             displayStyle = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
     
-    // MARK: - Space Name Editor
-    private var spaceNameEditor: some View {
-        HStack {
-            Picker(selection: $prefsVM.selectedSpace, label: Text("Space")) {
-                ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) { index in
-                    Text(String(prefsVM.sortedSpaceNamesDict[index].value.spaceByDesktopID))
-                }
-            }
-            .onChange(of: prefsVM.selectedSpace) { val in
-                if (prefsVM.sortedSpaceNamesDict.count > val) {
-                    prefsVM.spaceName = prefsVM.sortedSpaceNamesDict[val].value.spaceName
-                } else {
-                    prefsVM.spaceName = "-"
-                }
-            }
-            
-            TextField(
-                "Name (max 4 char.)",
-                text: Binding(
-                    get: {prefsVM.spaceName},
-                    set: {
-                        prefsVM.spaceName = $0.prefix(4).trimmingCharacters(in: .whitespacesAndNewlines)
-                        updateName()
+    // MARK: - Space Name List Editor
+    private var spaceNameListEditor: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            if prefsVM.sortedSpaceNamesDict.count == 0 {
+                Text("No spaces detected yet.")
+                    .foregroundColor(.secondary)
+            } else {
+                // Show a text field per space entry (keyed to avoid index issues during updates)
+                ForEach(prefsVM.sortedSpaceNamesDict, id: \.key) { entry in
+                    HStack(spacing: 8) {
+                        Text("Desktop \(entry.value.spaceByDesktopID):")
+                            .frame(width: 120, alignment: .trailing)
+                            .foregroundColor(.secondary)
+                        TextField(
+                            visibleSpacesMode == .all ? "Name (4 shown in All)" : (visibleSpacesMode == .neighbors ? "Name (6 shown in Neighbors)" : "Name"),
+                            text: Binding(
+                                get: { prefsVM.spaceNamesDict[entry.key]?.spaceName ?? entry.value.spaceName },
+                                set: { newVal in
+                                    let trimmed = newVal.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    prefsVM.updateSpace(for: entry.key, to: trimmed)
+                                    // Persist and notify
+                                    self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
+                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                                }
+                            )
+                        )
+                        .textFieldStyle(.roundedBorder)
                     }
-                    
-                )
-            )
+                }
+            }
         }
     }
     
@@ -250,12 +279,16 @@ struct PreferencesView: View {
             Text("Switching Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
+            Toggle("Enable switching from status bar", isOn: $enableSwitchingSpaces)
+                .onChange(of: enableSwitchingSpaces) { _ in
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                }
             Picker("Shortcut keys", selection: $keySet) {
                 Text("number keys on top row").tag(KeySet.toprow)
                 Text("numeric keypad").tag(KeySet.numpad)
             }
             .pickerStyle(.radioGroup)
-            .disabled(false)
+            .disabled(!enableSwitchingSpaces)
             HStack(alignment: .top) {
                 Text("With modifiers")
                 Spacer()
@@ -270,6 +303,7 @@ struct PreferencesView: View {
                 }
                 Spacer()
             }
+            .disabled(!enableSwitchingSpaces)
         }
         .padding()
         .onChange(of: keySet) { _ in
