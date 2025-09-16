@@ -43,10 +43,13 @@ class SpaceSwitcher {
         }
     }
     
-    public func switchUsingLocation(iconWidths: [IconWidth], horizontal: CGFloat, onError: () -> Void) {
+    public func switchUsingLocation(iconWidths: [IconWidth], point: CGPoint, onError: () -> Void) {
         var index: Int = 0
         for i in 0 ..< iconWidths.count {
-            if horizontal >= iconWidths[i].left && horizontal < iconWidths[i].right {
+            let hitX = point.x >= iconWidths[i].left && point.x < iconWidths[i].right
+            let hasY = iconWidths[i].top != 0 || iconWidths[i].bottom != 0
+            let hitY = hasY ? (point.y >= iconWidths[i].top && point.y < iconWidths[i].bottom) : true
+            if hitX && hitY {
                 index = iconWidths[i].index
                 break
             }
