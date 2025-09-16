@@ -111,6 +111,7 @@ $ defaults delete dev.ruittenb.Spaceman
   - [Sasindu Jayasinghe](https://github.com/Jaysce/Spaceman)
   - [René Uittenbogaard](https://github.com/ruittenb/Spaceman)
 - Contributions by:
+  - [Waylon Wang](https://github.com/waylonwang/Spaceman)
   - [Dmitry Poznyak](https://github.com/triangular-sneaky/Spaceman)
   - [Grzegorz Milka](https://github.com/gregorias/Spaceman)
   - [Michael Lehenauer](https://github.com/mike-jl/Spaceman)
