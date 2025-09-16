@@ -3,23 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.8.3: Fix for unwanted opening of blank window</title>
+            <title>v1.8.4: Added menu separator between spaces on different displays</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>On some versions of MacOS, a blank Preferences window automatically opens when starting up the app. This release fixes that.</li>
+                    <li>Added menu separator between spaces on different displays (contribution Waylon Wang)</li>
+                    <li>More precise calculation of mouse coordinates (contribution Waylon Wang)</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Tue, 05 Aug 2025 09:37:53 +0200</pubDate>
+            <pubDate>Tue, 16 Sep 2025 13:02:24 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.8.3/Spaceman-1.8.3.dmg"
-                sparkle:version="1.8.3"
-                sparkle:shortVersionString="1.8.3"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.8.4/Spaceman-1.8.4.dmg"
+                sparkle:version="1.8.4"
+                sparkle:shortVersionString="1.8.4"
                 type="application/octet-stream"
-                length="2141053"
-sparkle:edSignature="Fffsu5HAt3muAqnYEgMoKMzr62/hDL2N5m54ooZSklQgcEKFOX6JOTehZ7YYvw5zSDTvn1+a8X5N2wknzhquBg=="
+                length="2506391"
+sparkle:edSignature="DnQW6ryBgOoTztmNXDr9GrOmlDIjMU3/KYI6nc+ZGIRupNpRhl6+HvwammHku4HilYSb7STsza3uFw8t7F30Bw=="
             />
         </item>
     </channel>
