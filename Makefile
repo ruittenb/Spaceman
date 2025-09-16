@@ -19,14 +19,14 @@ help: ## Print help for each target
 
 .PHONY: build
 build: ## Make the archive file
-	make $(ARCHIVE)
+	$(MAKE) $(ARCHIVE)
 
 $(ARCHIVE): $(PBXPROJ)
 	xcodebuild -workspace $(PROJECT).xcodeproj/project.xcworkspace -scheme $(PROJECT) -configuration Release clean archive -archivePath $(ARCHIVE)
 
 .PHONY: export
 export: ## Make the app file
-	make $(APPFILE)
+	$(MAKE) $(APPFILE)
 
 $(APPFILE): $(ARCHIVE)
 	xcodebuild -exportArchive -archivePath $(ARCHIVE) -exportOptionsPlist $(PROJECT)/exportOptions.plist -exportPath $(IMAGEDIR)
@@ -34,7 +34,7 @@ $(APPFILE): $(ARCHIVE)
 
 .PHONY: image
 image: ## Make the dmg image file
-	make $(IMAGE)
+	$(MAKE) $(IMAGE)
 
 $(IMAGE): $(APPFILE)
 	create-dmg \
