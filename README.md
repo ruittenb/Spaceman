@@ -21,7 +21,7 @@ Go to the [releases](https://github.com/ruittenb/Spaceman/releases) tab and down
 
 The above image shows the possible icons that you will see depending on the style you choose.
 
-There are five styles to choose from, from top to bottom:
+There are five icon styles to choose from, from top to bottom:
 - Rectangles
 - Numbers
 - Rectangles with Numbers
