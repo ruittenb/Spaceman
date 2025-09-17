@@ -11,6 +11,11 @@ import SwiftUI
 
 class StatusBar: NSObject, NSMenuDelegate {
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
+    @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
+    private var visibleSpacesMode: VisibleSpacesMode {
+        get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
+        set { visibleSpacesModeRaw = newValue.rawValue }
+    }
     @AppStorage("schema") private var keySet = KeySet.toprow
     
     private var statusBarItem: NSStatusItem!
@@ -96,7 +101,13 @@ class StatusBar: NSObject, NSMenuDelegate {
                 }
             } else if (event.type == .leftMouseDown) {
                 // Switch desktops on left click, unless one single space shown
-                guard !self.hideInactiveSpaces else {
+                let mode: VisibleSpacesMode = {
+                    if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil && self.hideInactiveSpaces {
+                        return .currentOnly
+                    }
+                    return self.visibleSpacesMode
+                }()
+                guard mode != .currentOnly else {
                     print("Not switching: just one space visible")
                     return
                 }
@@ -181,6 +192,13 @@ class StatusBar: NSObject, NSMenuDelegate {
 
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let spaceNumber = space.spaceNumber
+
+        let mode: VisibleSpacesMode = {
+            if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil && self.hideInactiveSpaces {
+                return .currentOnly
+            }
+            return self.visibleSpacesMode
+        }()
         let spaceName = space.spaceName
         let spaceByDesktopID = Int(space.spaceByDesktopID) ?? 99
         

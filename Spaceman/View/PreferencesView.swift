@@ -17,7 +17,13 @@ struct PreferencesView: View {
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
+    // Legacy: hideInactiveSpaces used to be a boolean toggle
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
+    @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
+    private var visibleSpacesMode: VisibleSpacesMode {
+        get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
+        set { visibleSpacesModeRaw = newValue.rawValue }
+    }
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
@@ -45,6 +51,14 @@ struct PreferencesView: View {
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear(perform: prefsVM.loadData)
+        .onAppear {
+            // Migrate legacy 'hideInactiveSpaces' to new 'visibleSpacesMode' if needed
+            if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil {
+                if hideInactiveSpaces {
+                    visibleSpacesModeRaw = VisibleSpacesMode.currentOnly.rawValue
+                }
+            }
+        }
         .onChange(of: data) { _ in
             prefsVM.loadData()
         }
@@ -157,10 +171,20 @@ struct PreferencesView: View {
             
             Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
                 .disabled(displayStyle == .rects)
+            Picker(selection: Binding(
+                get: { visibleSpacesMode },
+                set: { visibleSpacesModeRaw = $0.rawValue }
+            ), label: Text("Spaces shown")) {
+                Text("All spaces").tag(VisibleSpacesMode.all)
+                Text("Current only").tag(VisibleSpacesMode.currentOnly)
+                Text("Current + neighbors").tag(VisibleSpacesMode.neighbors)
+            }
+            .pickerStyle(.segmented)
+            .disabled(displayStyle == .rects)
             Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
         }
         .padding()
-        .onChange(of: hideInactiveSpaces) { _ in
+        .onChange(of: visibleSpacesModeRaw) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -200,7 +224,7 @@ struct PreferencesView: View {
         }
         .onChange(of: displayStyle) { val in
             if val == .rects {
-                hideInactiveSpaces = false
+                visibleSpacesModeRaw = VisibleSpacesMode.all.rawValue
             }
             displayStyle = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
@@ -224,15 +248,14 @@ struct PreferencesView: View {
             }
             
             TextField(
-                "Name (max 4 char.)",
+                visibleSpacesMode == .all ? "Name (4 shown in All)" : "Name",
                 text: Binding(
-                    get: {prefsVM.spaceName},
+                    get: { prefsVM.spaceName },
                     set: {
                         // Store full name; may be truncated in some icon modes
                         prefsVM.spaceName = $0.trimmingCharacters(in: .whitespacesAndNewlines)
                         updateName()
                     }
-                    
                 )
             )
         }
