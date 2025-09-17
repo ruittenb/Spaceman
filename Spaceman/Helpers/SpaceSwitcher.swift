@@ -11,6 +11,9 @@ import SwiftUI
 class SpaceSwitcher {
     @AppStorage("enableSwitchingSpaces") private var enableSwitchingSpaces = true
     private var shortcutHelper: ShortcutHelper!
+    private var spacesSnapshot: [Space] = []
+    private let arrowLeftKeyCode = 123
+    private let arrowRightKeyCode = 124
 
     init() {
         shortcutHelper = ShortcutHelper()
@@ -21,14 +24,25 @@ class SpaceSwitcher {
         }
     }
 
-    public func switchToSpace(spaceNumber: Int, onError: () -> Void) {
+    public func updateSpacesSnapshot(_ spaces: [Space]) {
+        spacesSnapshot = spaces
+    }
+
+    public func switchToSpace(spaceNumber: Int, spaceID: String? = nil, onError: () -> Void) {
         guard enableSwitchingSpaces else { return }
+        if shortcutHelper.currentKeySet == .arrows {
+            guard performArrowSwitch(toSpaceID: spaceID, fallbackSpaceNumber: spaceNumber) else {
+                onError()
+                return
+            }
+            return
+        }
         let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
         if keyCode < 0 {
             return onError()
         }
         let modifiers = shortcutHelper.getModifiers()
-        let appleScript = "tell application \"System Events\" to key code \(keyCode) using {\(modifiers)}"
+        let appleScript = makeAppleScript(keyCode: keyCode, modifiers: modifiers)
         var error: NSDictionary?
         DispatchQueue.global(qos: .background).async {
             if let scriptObject = NSAppleScript(source: appleScript) {
@@ -62,14 +76,15 @@ class SpaceSwitcher {
     }
     
     public func switchUsingLocation(iconWidths: [IconWidth], horizontal: CGFloat, onError: () -> Void) {
-        var index: Int = 0
-        for i in 0 ..< iconWidths.count {
-            if horizontal >= iconWidths[i].left && horizontal < iconWidths[i].right {
-                index = iconWidths[i].index
-                break
-            }
+        guard let match = iconWidths.first(where: { horizontal >= $0.left && horizontal < $0.right }) else {
+            onError()
+            return
         }
-        switchToSpace(spaceNumber: index, onError: onError)
+        guard match.index != 0 else {
+            onError()
+            return
+        }
+        switchToSpace(spaceNumber: match.index, spaceID: match.spaceID, onError: onError)
     }
     
     private func systemSettingsName() -> String {
@@ -98,5 +113,48 @@ class SpaceSwitcher {
                 try? task.run()
             }
         }
+    }
+}
+
+extension SpaceSwitcher {
+    private func performArrowSwitch(toSpaceID spaceID: String?, fallbackSpaceNumber: Int) -> Bool {
+        let targetIndex = spacesSnapshot.firstIndex { candidate in
+            if let spaceID, !spaceID.isEmpty {
+                return candidate.spaceID == spaceID
+            }
+            return candidate.spaceNumber == fallbackSpaceNumber
+        }
+        guard let currentIndex = spacesSnapshot.firstIndex(where: { $0.isCurrentSpace }),
+              let resolvedTargetIndex = targetIndex
+        else {
+            return false
+        }
+        let delta = resolvedTargetIndex - currentIndex
+        guard delta != 0 else { return true }
+
+        let steps = abs(delta)
+        let keyCode = delta > 0 ? arrowRightKeyCode : arrowLeftKeyCode
+        let modifiers = shortcutHelper.getModifiers()
+
+        for _ in 0..<steps {
+            let appleScript = makeAppleScript(keyCode: keyCode, modifiers: modifiers)
+            var error: NSDictionary?
+            if let scriptObject = NSAppleScript(source: appleScript) {
+                scriptObject.executeAndReturnError(&error)
+                if error != nil {
+                    return false
+                }
+            } else {
+                return false
+            }
+        }
+        return true
+    }
+
+    private func makeAppleScript(keyCode: Int, modifiers: String) -> String {
+        if modifiers.isEmpty {
+            return "tell application \"System Events\" to key code \(keyCode)"
+        }
+        return "tell application \"System Events\" to key code \(keyCode) using {\(modifiers)}"
     }
 }

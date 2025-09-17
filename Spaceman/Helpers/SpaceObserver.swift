@@ -7,15 +7,14 @@
 
 import Cocoa
 import Foundation
-import SwiftUI
 
 class SpaceObserver {
-    @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
-    
     private let workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
+    private let defaults = UserDefaults.standard
     private let nameStore = SpaceNameStore.shared
     private let spaceNameCache = SpaceNameCache()
+    private let workerQueue = DispatchQueue(label: "dev.ruittenb.Spaceman.SpaceObserver")
 
     weak var delegate: SpaceObserverDelegate?
     
@@ -50,6 +49,13 @@ class SpaceObserver {
     }
     
     @objc public func updateSpaceInformation() {
+        let restartByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
+        workerQueue.async { [weak self] in
+            self?.performSpaceInformationUpdate(restartByDesktop: restartByDesktop)
+        }
+    }
+
+    private func performSpaceInformationUpdate(restartByDesktop: Bool) {
         guard var displays = fetchDisplaySpaces() else { return }
 
         let spaceNumberMap = buildSpaceNumberMap(from: displays)
@@ -57,8 +63,8 @@ class SpaceObserver {
 
         let storedNames = nameStore.loadAll()
         var updatedNames = storedNames
-        var cachedNames = spaceNameCache.cache
-        let originalCache = cachedNames
+        let originalCache = spaceNameCache.snapshot()
+        var cachedNames = originalCache
         var lastSpaceByDesktopNumber = 0
         var collectedSpaces: [Space] = []
 
@@ -72,7 +78,7 @@ class SpaceObserver {
                 continue
             }
 
-            if restartNumberingByDesktop {
+            if restartByDesktop {
                 lastSpaceByDesktopNumber = 0
             }
 
@@ -125,7 +131,7 @@ class SpaceObserver {
         }
 
         if cachedNames != originalCache {
-            spaceNameCache.cache = cachedNames
+            spaceNameCache.update(with: cachedNames)
         }
         if updatedNames != storedNames {
             nameStore.save(updatedNames)

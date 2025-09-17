@@ -26,25 +26,8 @@ class PreferencesViewModel: ObservableObject {
     }
     
     func loadData() {
-        self.spaceNamesDict = nameStore.loadAll()
-
-        let sorted = spaceNamesDict.sorted { (first, second) -> Bool in
-            return first.value.spaceNum < second.value.spaceNum
-        }
-
-        sortedSpaceNamesDict = sorted
-        if (selectedSpace < 0 || selectedSpace >= sortedSpaceNamesDict.count) {
-            selectedSpace = 0
-            if (sortedSpaceNamesDict.count < 1) {
-                sortedSpaceNamesDict.append(
-                    (key: "0",
-                     value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")
-                    )
-                )
-            }
-            spaceName = sortedSpaceNamesDict[selectedSpace].value.spaceName
-            spaceByDesktopID = sortedSpaceNamesDict[selectedSpace].value.spaceByDesktopID
-        }
+        spaceNamesDict = nameStore.loadAll()
+        rebuildSortedSpaceNames(maintainingSelectionFor: nil)
     }
 
     func updateSpace() {
@@ -75,9 +58,9 @@ class PreferencesViewModel: ObservableObject {
             spaceByDesktopID: info.spaceByDesktopID)
     }
 
-    func persistChanges() {
+    func persistChanges(for key: String?) {
         nameStore.save(spaceNamesDict)
-        loadData()
+        rebuildSortedSpaceNames(maintainingSelectionFor: key)
     }
     
     func startTimer() {
@@ -90,5 +73,24 @@ class PreferencesViewModel: ObservableObject {
     
     @objc func refreshSpaces() {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+    }
+
+    private func rebuildSortedSpaceNames(maintainingSelectionFor key: String?) {
+        let previousKey = key ?? (selectedSpace >= 0 && selectedSpace < sortedSpaceNamesDict.count ? sortedSpaceNamesDict[selectedSpace].key : nil)
+
+        sortedSpaceNamesDict = spaceNamesDict.sorted { $0.value.spaceNum < $1.value.spaceNum }
+
+        if sortedSpaceNamesDict.isEmpty {
+            sortedSpaceNamesDict.append((key: "0", value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")))
+        }
+
+        if let previousKey, let restoredIndex = sortedSpaceNamesDict.firstIndex(where: { $0.key == previousKey }) {
+            selectedSpace = restoredIndex
+        } else {
+            selectedSpace = 0
+        }
+
+        spaceName = sortedSpaceNamesDict[selectedSpace].value.spaceName
+        spaceByDesktopID = sortedSpaceNamesDict[selectedSpace].value.spaceByDesktopID
     }
 }

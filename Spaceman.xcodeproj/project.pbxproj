@@ -40,7 +40,18 @@
 		E8EBF091257739ED001BA74F /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EBF090257739ED001BA74F /* PreferencesWindow.swift */; };
 		E9A1B2C32D99999900AAA111 /* VisibleSpacesMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1B2C22D99999900AAA111 /* VisibleSpacesMode.swift */; };
 		E9C123A22DB0CDEF00A1B2C3 /* SpaceNameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C123A12DB0CDEF00A1B2C3 /* SpaceNameStore.swift */; };
+		E9C123C42DB0D23400A1B2C3 /* SpaceNameStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C123C12DB0D23400A1B2C3 /* SpaceNameStoreTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E9C123CD2DB0D23400A1B2C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E87334DD256B51CF0012586E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E87334E4256B51CF0012586E;
+			remoteInfo = Spaceman;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4C02BD6C2C0894DC00F07491 /* Scriptable.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Scriptable.sdef; sourceTree = "<group>"; };
@@ -77,6 +88,9 @@
 		E8EBF090257739ED001BA74F /* PreferencesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
 		E9A1B2C22D99999900AAA111 /* VisibleSpacesMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibleSpacesMode.swift; sourceTree = "<group>"; };
 		E9C123A12DB0CDEF00A1B2C3 /* SpaceNameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNameStore.swift; sourceTree = "<group>"; };
+		E9C123C12DB0D23400A1B2C3 /* SpaceNameStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNameStoreTests.swift; sourceTree = "<group>"; };
+		E9C123C22DB0D23400A1B2C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9C123C32DB0D23400A1B2C3 /* SpacemanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpacemanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +101,13 @@
 				E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */,
 				E8EBF08C2575F8E4001BA74F /* LaunchAtLogin in Frameworks */,
 				E8E8D41C2585A80B00671AE9 /* KeyboardShortcuts in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9C123C62DB0D23400A1B2C3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				E87334E7256B51CF0012586E /* Spaceman */,
+				E9C123C02DB0D23400A1B2C3 /* SpacemanTests */,
 				E87334E6256B51CF0012586E /* Products */,
 				E754B2C72D7F03E100F31468 /* Frameworks */,
 			);
@@ -122,8 +144,18 @@
 			isa = PBXGroup;
 			children = (
 				E87334E5256B51CF0012586E /* Spaceman.app */,
+				E9C123C32DB0D23400A1B2C3 /* SpacemanTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E9C123C02DB0D23400A1B2C3 /* SpacemanTests */ = {
+			isa = PBXGroup;
+			children = (
+				E9C123C12DB0D23400A1B2C3 /* SpaceNameStoreTests.swift */,
+				E9C123C22DB0D23400A1B2C3 /* Info.plist */,
+			);
+			path = SpacemanTests;
 			sourceTree = "<group>";
 		};
 		E87334E7256B51CF0012586E /* Spaceman */ = {
@@ -231,6 +263,24 @@
 			productReference = E87334E5256B51CF0012586E /* Spaceman.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E9C123C82DB0D23400A1B2C3 /* SpacemanTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9C123C92DB0D23400A1B2C3 /* Build configuration list for PBXNativeTarget "SpacemanTests" */;
+			buildPhases = (
+				E9C123C52DB0D23400A1B2C3 /* Sources */,
+				E9C123C62DB0D23400A1B2C3 /* Frameworks */,
+				E9C123C72DB0D23400A1B2C3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E9C123CC2DB0D23400A1B2C3 /* PBXTargetDependency */,
+			);
+			name = SpacemanTests;
+			productName = SpacemanTests;
+			productReference = E9C123C32DB0D23400A1B2C3 /* SpacemanTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -243,6 +293,9 @@
 				TargetAttributes = {
 					E87334E4256B51CF0012586E = {
 						CreatedOnToolsVersion = 12.2;
+					};
+					E9C123C82DB0D23400A1B2C3 = {
+						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
@@ -265,6 +318,7 @@
 			projectRoot = "";
 			targets = (
 				E87334E4256B51CF0012586E /* Spaceman */,
+				E9C123C82DB0D23400A1B2C3 /* SpacemanTests */,
 			);
 		};
 /* End PBXProject section */
@@ -279,6 +333,13 @@
 				E87334F0256B51CF0012586E /* Preview Assets.xcassets in Resources */,
 				E87334ED256B51CF0012586E /* Assets.xcassets in Resources */,
 				E70587F52C827E5600D9B729 /* exportOptions.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9C123C72DB0D23400A1B2C3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,7 +399,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E9C123C52DB0D23400A1B2C3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9C123C42DB0D23400A1B2C3 /* SpaceNameStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E9C123CC2DB0D23400A1B2C3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E87334E4256B51CF0012586E /* Spaceman */;
+			targetProxy = E9C123CD2DB0D23400A1B2C3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E87334F1256B51CF0012586E /* Main.storyboard */ = {
@@ -539,6 +616,43 @@
 			};
 			name = Release;
 		};
+		E9C123CA2DB0D23400A1B2C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Spaceman.app/Contents/MacOS/Spaceman";
+				INFOPLIST_FILE = SpacemanTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.SpacemanTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		E9C123CB2DB0D23400A1B2C3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Spaceman.app/Contents/MacOS/Spaceman";
+				INFOPLIST_FILE = SpacemanTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.SpacemanTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -556,6 +670,15 @@
 			buildConfigurations = (
 				E87334F9256B51CF0012586E /* Debug */,
 				E87334FA256B51CF0012586E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E9C123C92DB0D23400A1B2C3 /* Build configuration list for PBXNativeTarget "SpacemanTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9C123CA2DB0D23400A1B2C3 /* Debug */,
+				E9C123CB2DB0D23400A1B2C3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

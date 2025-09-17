@@ -6,32 +6,31 @@
 //
 
 import Foundation
-import SwiftUI
 
-class SpaceNameCache {
-    @AppStorage("spaceNameCache")  private var spaceNameCacheString: String = ""
+final class SpaceNameCache {
     private let emptyChunk = Array(repeating: "-", count: 5)
-    
-    var cache: [String] {
-        get {
-            if let data = spaceNameCacheString.data(using: .utf8) {
-                let decoded = try? JSONDecoder().decode([String].self, from: data)
-                if (decoded != nil) {
-                    return decoded!
-                }
-            }
-            return emptyChunk
-        }
-        set {
-            if let encoded = try? JSONEncoder().encode(newValue) {
-                spaceNameCacheString = String(data: encoded, encoding: .utf8) ?? ""
-            }
-        }
+    private var storage: [String] = []
+    private let lock = NSLock()
+
+    func snapshot() -> [String] {
+        lock.withLock { storage.isEmpty ? emptyChunk : storage }
     }
-    
+
+    func update(with newValue: [String]) {
+        lock.withLock { storage = newValue }
+    }
+
     func ensureCapacity(_ storage: inout [String], upTo index: Int) {
         while index >= storage.count {
             storage.append(contentsOf: emptyChunk)
         }
+    }
+}
+
+private extension NSLock {
+    func withLock<T>(_ body: () -> T) -> T {
+        lock()
+        defer { unlock() }
+        return body()
     }
 }

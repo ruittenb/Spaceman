@@ -114,9 +114,10 @@ class StatusBar: NSObject, NSMenuDelegate {
                     return
                 }
                 let locationInButton = sbButton.convert(event.locationInWindow, from: sbButton)
+                let margin = self.iconMargin(for: sbButton)
                 self.spaceSwitcher.switchUsingLocation(
                     iconWidths: self.iconCreator.iconWidths,
-                    horizontal: locationInButton.x,
+                    horizontal: max(0, locationInButton.x - margin),
                     onError: self.flashStatusBar)
             } else {
                 print("Other event: \(event.type)")
@@ -149,6 +150,7 @@ class StatusBar: NSObject, NSMenuDelegate {
         guard spaces.count > 0 else {
             return
         }
+        spaceSwitcher.updateSpacesSnapshot(spaces)
         var removeCandidateItem = statusBarMenu.items[2]
         while (!removeCandidateItem.isSeparatorItem) {
             statusBarMenu.removeItem(removeCandidateItem)
@@ -224,6 +226,7 @@ class StatusBar: NSObject, NSMenuDelegate {
         default:
             item.tag = spaceNumber
         }
+        item.representedObject = space
         item.image = menuIcon
         if !enableSwitchingSpaces || space.isCurrentSpace || shortcutKey == "" {
             item.isEnabled = false
@@ -243,6 +246,13 @@ class StatusBar: NSObject, NSMenuDelegate {
         guard (spaceNumber >= -2 && spaceNumber != 0 && spaceNumber <= 10) else {
             return
         }
-        spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, onError: flashStatusBar)
+        let space = sender.representedObject as? Space
+        spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, spaceID: space?.spaceID, onError: flashStatusBar)
+    }
+
+    private func iconMargin(for button: NSStatusBarButton) -> CGFloat {
+        guard let imageWidth = button.image?.size.width else { return 0 }
+        let width = button.bounds.width
+        return max(0, (width - imageWidth) / 2)
     }
 }

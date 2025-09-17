@@ -8,5 +8,7 @@
 import Foundation
 
 enum KeySet: Int {
-    case toprow, numpad
+    case toprow
+    case numpad
+    case arrows
 }

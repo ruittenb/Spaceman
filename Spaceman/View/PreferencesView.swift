@@ -24,6 +24,7 @@ struct PreferencesView: View {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
         set { visibleSpacesModeRaw = newValue.rawValue }
     }
+    @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
@@ -182,6 +183,16 @@ struct PreferencesView: View {
             }
             .pickerStyle(.segmented)
             .disabled(displayStyle == .rects)
+            if visibleSpacesMode == .neighbors {
+                Stepper(value: $neighborRadius, in: 1...3) {
+                    Text("Neighbor range: ±\(neighborRadius)")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                .onChange(of: neighborRadius) { _ in
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                }
+            }
             Toggle("Restart space numbering by desktop", isOn: $restartNumberingByDesktop)
         }
         .padding()
@@ -252,7 +263,7 @@ struct PreferencesView: View {
                                 set: { newVal in
                                     let trimmed = newVal.trimmingCharacters(in: .whitespacesAndNewlines)
                                     prefsVM.updateSpace(for: entry.key, to: trimmed)
-                                    prefsVM.persistChanges()
+                                    prefsVM.persistChanges(for: entry.key)
                                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
                                 }
                             )
@@ -267,7 +278,8 @@ struct PreferencesView: View {
     // MARK: - Update Name Method
     private func updateName() {
         prefsVM.updateSpace()
-        prefsVM.persistChanges()
+        let key = prefsVM.sortedSpaceNamesDict[prefsVM.selectedSpace].key
+        prefsVM.persistChanges(for: key)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
     }
     
@@ -285,6 +297,7 @@ struct PreferencesView: View {
             Picker("Shortcut keys", selection: $keySet) {
                 Text("number keys on top row").tag(KeySet.toprow)
                 Text("numeric keypad").tag(KeySet.numpad)
+                Text("arrow keys (sequential)").tag(KeySet.arrows)
             }
             .pickerStyle(.radioGroup)
             .disabled(!enableSwitchingSpaces)
@@ -303,6 +316,7 @@ struct PreferencesView: View {
                 Spacer()
             }
             .disabled(!enableSwitchingSpaces)
+            .padding(.top, 6)
         }
         .padding()
         .onChange(of: keySet) { _ in

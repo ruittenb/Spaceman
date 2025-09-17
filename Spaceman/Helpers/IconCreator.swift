@@ -19,8 +19,7 @@ class IconCreator {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
         set { visibleSpacesModeRaw = newValue.rawValue }
     }
-    
-    private let leftMargin = CGFloat(7)  /* FIXME determine actual left margin */
+    @AppStorage("neighborRadius") private var neighborRadius = 1
     private var displayCount = 1
     private var iconSize = NSSize(width: 0, height: 0)
     private var gapWidth = CGFloat.zero
@@ -131,8 +130,9 @@ class IconCreator {
             func flushGroup() {
                 guard group.count > 0 else { return }
                 if let activeIndex = group.firstIndex(where: { $0.isCurrentSpace }) {
-                    let start = max(0, activeIndex - 1)
-                    let end = min(group.count - 1, activeIndex + 1)
+                    let radius = max(0, neighborRadius)
+                    let start = max(0, activeIndex - radius)
+                    let end = min(group.count - 1, activeIndex + radius)
                     filtered.append(contentsOf: group[start...end])
                 }
                 group.removeAll(keepingCapacity: true)
@@ -321,7 +321,7 @@ class IconCreator {
             }
             // Use precomputed index mapping to preserve correct switching
             let targetIndex = indexMap[icon.spaceID] ?? -99 // invalid => onError
-            iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, index: targetIndex))
+            iconWidths.append(IconWidth(left: left, right: right, index: targetIndex, spaceID: icon.spaceID))
             left = right
         }
         image.isTemplate = true

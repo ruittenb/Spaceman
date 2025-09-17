@@ -95,8 +95,12 @@ class ShortcutHelper {
             return getKeyCodeTopRow(spaceNumber: spaceNumber)
         case .numpad:
             return getKeyCodeNumPad(spaceNumber: spaceNumber)
+        case .arrows:
+            return -1
         }
     }
+
+    var currentKeySet: KeySet { keySet }
     
     func getModifiers() -> String {
         var modifiers: [String] = []
