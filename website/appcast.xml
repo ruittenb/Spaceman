@@ -3,24 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.8.4: Added menu separator between spaces on different displays</title>
+            <title>Added Menu Separator between different displays</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Added menu separator between spaces on different displays (contribution Waylon Wang)</li>
-                    <li>More precise calculation of mouse coordinates (contribution Waylon Wang)</li>
+                    <li>- Added menu separator between spaces on different displays (contribution Waylon Wang)</li>
+<li>- More precise calculation of mouse coordinates (contribution Waylon Wang)</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Tue, 16 Sep 2025 13:02:24 +0200</pubDate>
+            <pubDate>Wed, 17 Sep 2025 20:47:13 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.8.4/Spaceman-1.8.4.dmg"
-                sparkle:version="1.8.4"
-                sparkle:shortVersionString="1.8.4"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.8.5/Spaceman-1.8.5.dmg"
+                sparkle:version="1.8.5"
+                sparkle:shortVersionString="1.8.5"
                 type="application/octet-stream"
-                length="2506391"
-sparkle:edSignature="DnQW6ryBgOoTztmNXDr9GrOmlDIjMU3/KYI6nc+ZGIRupNpRhl6+HvwammHku4HilYSb7STsza3uFw8t7F30Bw=="
+                length="2525529"
+sparkle:edSignature="bpQt/290OrFJHiSvAKIFJwZ+mWMhYn4sKXeKA4t237hooCNQdYcnaDgF0VYXdKhhHpwAE1/LmfXFvOAQXUH1Bg=="
             />
         </item>
     </channel>
