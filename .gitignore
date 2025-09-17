@@ -1,6 +1,7 @@
 .DS_Store
 # Build artifacts
 build/
+!build/.gitignore
 localbuild/
 DerivedData/
 *.xcarchive
