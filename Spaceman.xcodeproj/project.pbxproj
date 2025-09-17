@@ -574,7 +574,7 @@
 			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 5.0.2;
+				minimumVersion = 4.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
