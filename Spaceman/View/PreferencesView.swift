@@ -26,6 +26,7 @@ struct PreferencesView: View {
     @AppStorage("withCommand") private var withCommand = false
 
     @StateObject private var prefsVM = PreferencesViewModel()
+    @State private var selectedTab = 0
     
     // MARK: - Main Body
     var body: some View {
@@ -111,14 +112,30 @@ struct PreferencesView: View {
     
     // MARK: - Preference Panes
     private var preferencePanes: some View {
-        HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 0) {
-                generalPane
-                Divider()
-                switchingPane
+        VStack(spacing: 0) {
+            // Tab selector
+            Picker("", selection: $selectedTab) {
+                Text("General").tag(0)
+                Text("Spaces").tag(1)
             }
+            .labelsHidden()
+            .pickerStyle(.segmented)
+            .padding(10)
+
             Divider()
-            spacesPane
+
+            // Tab content
+            Group {
+                if selectedTab == 0 {
+                    VStack(alignment: .leading, spacing: 0) {
+                        generalPane
+                        Divider()
+                        switchingPane
+                    }
+                } else {
+                    spacesPane
+                }
+            }
         }
         .padding(.bottom, 20)
     }
