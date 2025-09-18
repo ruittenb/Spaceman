@@ -30,7 +30,7 @@ export: ## Make the app file
 
 $(APPFILE): $(ARCHIVE)
 	xcodebuild -exportArchive -archivePath $(ARCHIVE) -exportOptionsPlist $(PROJECT)/exportOptions.plist -exportPath $(IMAGEDIR)
-	touch $(APPFILE)
+	@test -d "$(APPFILE)" || { echo $$'\nExport failed: $(APPFILE) not found. Check code signing or exportOptions.plist.'; exit 1; }
 
 .PHONY: image
 image: ## Make the dmg image file
