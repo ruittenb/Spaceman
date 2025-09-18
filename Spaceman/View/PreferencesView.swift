@@ -176,10 +176,11 @@ struct PreferencesView: View {
     
     // MARK: - Layout Size Picker
     private var layoutSizePicker: some View {
-        Picker(selection: $layoutMode, label: Text("Layout size")) {
+        Picker(selection: $layoutMode, label: Text("Layout")) {
             Text("Compact").tag(LayoutMode.compact)
             Text("Medium").tag(LayoutMode.medium)
             Text("Large").tag(LayoutMode.large)
+            Text("X Large").tag(LayoutMode.extraLarge)
         }
         .pickerStyle(.segmented)
         .onChange(of: layoutMode) { val in
