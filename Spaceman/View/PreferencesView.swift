@@ -153,7 +153,8 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
             spacesStylePicker
-            spaceNameEditor
+            // The Space names are always shown in the menu, therefore: allow editing independent of icon style
+            spaceNameListEditor
             
             Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
                 .disabled(displayStyle == .rects)
@@ -207,7 +208,7 @@ struct PreferencesView: View {
         }
     }
     
-    // MARK: - Space Name Editor
+    // MARK: - Space Name Editor (select via drop-down)
     private var spaceNameEditor: some View {
         HStack {
             Picker(selection: $prefsVM.selectedSpace, label: Text("Space")) {
@@ -235,6 +236,53 @@ struct PreferencesView: View {
                     
                 )
             )
+        }
+    }
+    
+    // MARK: - Space Name List Editor
+    private var spaceNameListEditor: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            if prefsVM.sortedSpaceNamesDict.count == 0 {
+                Text("No spaces detected yet.")
+                    .foregroundColor(.secondary)
+            } else {
+                // Show a text field per space entry (keyed to avoid index issues during updates)
+                ForEach(prefsVM.sortedSpaceNamesDict, id: \.key) { entry in
+                    HStack(spacing: 8) {
+                        Text("Space \(entry.value.spaceByDesktopID):")
+                            .frame(width: 120, alignment: .trailing)
+                            .foregroundColor(.secondary)
+                        TextField(
+                            //visibleSpacesMode == .all ? "Name (4 shown in All)" : (visibleSpacesMode == .neighbors ? "Name (6 shown in Neighbors)" : "Name"),
+                            "Name",
+                            text: Binding(
+                                get: { entry.value.spaceName },
+                                set: { newVal in
+                                    let trimmed = newVal.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    // Future method calls for when other developer's code is merged:
+                                    // prefsVM.updateSpace(for: entry.key, to: trimmed)
+                                    // prefsVM.persistChanges(for: entry.key)
+
+                                    // Temporary implementation using current data structure:
+                                    let spaceNum = entry.value.spaceNum
+                                    let spaceByDesktopID = entry.value.spaceByDesktopID
+                                    prefsVM.spaceNamesDict[entry.key] = SpaceNameInfo(
+                                        spaceNum: spaceNum,
+                                        spaceName: trimmed.isEmpty ? "-" : trimmed,
+                                        spaceByDesktopID: spaceByDesktopID
+                                    )
+                                    // Manual persistence
+                                    UserDefaults.standard.set(try? PropertyListEncoder().encode(prefsVM.spaceNamesDict), forKey: "spaceNames")
+                                    // Refresh sorted list
+                                    prefsVM.loadData()
+                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                                }
+                            )
+                        )
+                        .textFieldStyle(.roundedBorder)
+                    }
+                }
+            }
         }
     }
     

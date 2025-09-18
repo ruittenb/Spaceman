@@ -22,6 +22,7 @@ Go to the [releases](https://github.com/ruittenb/Spaceman/releases) tab and down
 The above image shows the possible icons that you will see depending on the style you choose.
 
 There are five icon styles to choose from, from top to bottom:
+
 - Rectangles
 - Numbers
 - Rectangles with Numbers
@@ -41,7 +42,14 @@ The meaning of the icons from left to right are:
 
 <img src="images/Preferences-4a.png" width="66%" height="auto">
 
-The style and the name of a space can be changed in preferences (shown above). A space is named by selecting the space from the dropdown and editing its name (up to 4 characters).
+The style and the name of a space can be changed in preferences (shown above).
+
+- Space names: You can enter names of any length.
+  - The menu will display the full names.
+  - With "Only show active spaces", the icons will display the full names; otherwise
+    they will be truncated to 4 characters to keep the status item compact; in "Current +
+
+- Layout size: Choose Compact, Medium, Large, or Extra Large to change icon and font sizes.
 
 If the icon fails to update, you can choose to force a refresh of the icon using a custom keyboard shortcut or allow Spaceman to refresh them automatically every 5 seconds by enabling 'Refresh spaces in background'.
 
@@ -123,5 +131,4 @@ $ defaults delete dev.ruittenb.Spaceman
 ## Mentions
 
 - [Softpedia](https://mac.softpedia.com/get/System-Utilities/Spaceman.shtml)
-
 
