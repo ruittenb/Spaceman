@@ -35,7 +35,7 @@ struct PreferencesView: View {
                 closeButton
                 appInfo
             }
-            .frame(maxWidth: .infinity, minHeight: 60, maxHeight: 90, alignment: .center)
+            .frame(maxWidth: .infinity, minHeight: 60, maxHeight: 70, alignment: .center)
             .offset(y: 1) // Looked like it was off center
             
             Divider()
@@ -111,15 +111,16 @@ struct PreferencesView: View {
     
     // MARK: - Preference Panes
     private var preferencePanes: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            generalPane
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 0) {
+                generalPane
+                Divider()
+                switchingPane
+            }
             Divider()
             spacesPane
-            Divider()
-            switchingPane
-            .padding(.bottom, 40)
         }
+        .padding(.bottom, 20)
     }
 
     // MARK: - General pane
