@@ -228,7 +228,8 @@ struct PreferencesView: View {
                 text: Binding(
                     get: {prefsVM.spaceName},
                     set: {
-                        prefsVM.spaceName = $0.prefix(4).trimmingCharacters(in: .whitespacesAndNewlines)
+                        // Store full name; may be truncated in some icon modes
+                        prefsVM.spaceName = $0.trimmingCharacters(in: .whitespacesAndNewlines)
                         updateName()
                     }
                     
