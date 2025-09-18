@@ -1,5 +1,6 @@
-1.8.5 : Fixed signing problems
-1.8.4 : Added menu separator between spaces on different displays
+1.8.6 : Extra large mode (contribution ultravioletcatastrophe)
+1.8.5 : Fixed signing problem
+1.8.4 : Added menu separator between spaces on different displays (contribution Waylon Wang)
 1.8.3 : Fixed unwanted opening of blank window
 1.8.2 : Attempt at fixing unwanted opening of blank window
 1.8.1 : Fixed window size
