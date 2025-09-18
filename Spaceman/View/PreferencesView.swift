@@ -19,11 +19,15 @@ struct PreferencesView: View {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
+    @AppStorage("displayOrderPriority") private var displayOrderPriority = DisplayOrderPriority.horizontal
+    @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.leftToRight
+    @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.topToBottom
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
     @AppStorage("withCommand") private var withCommand = false
+    // Removed dual row UI; configuration via LayoutMode.dualRows constants
 
     @StateObject private var prefsVM = PreferencesViewModel()
     
@@ -115,6 +119,8 @@ struct PreferencesView: View {
             
             generalPane
             Divider()
+            displaysPane
+            Divider()
             spacesPane
             Divider()
             switchingPane
@@ -157,13 +163,75 @@ struct PreferencesView: View {
             
             Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
                 .disabled(displayStyle == .rects)
-            Toggle("Restart space numbering by desktop", isOn: $restartNumberingByDesktop)
+            Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
         }
         .padding()
         .onChange(of: hideInactiveSpaces) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
+        .onChange(of: restartNumberingByDesktop) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
     }
+
+    // MARK: - Displays pane (UI only; disabled when only one display)
+    private var displaysPane: some View {
+        let hasMultipleDisplays = NSScreen.screens.count > 1
+        return VStack(alignment: .leading, spacing: 12) {
+            Text("Displays")
+                .font(.title2)
+                .fontWeight(.semibold)
+
+            HStack(spacing: 12) {
+                Text("Display order priority")
+                Spacer()
+                Picker("", selection: $displayOrderPriority) {
+                    Text("Horizontal first").tag(DisplayOrderPriority.horizontal)
+                    Text("Vertical first").tag(DisplayOrderPriority.vertical)
+                }
+                .pickerStyle(.segmented)
+                .controlSize(.small)
+                .fixedSize()
+            }
+
+            HStack(spacing: 12) {
+                Text("Horizontal direction")
+                Spacer()
+                Picker("", selection: $horizontalDirection) {
+                    Text("Left to right").tag(HorizontalDirection.leftToRight)
+                    Text("Right to left").tag(HorizontalDirection.rightToLeft)
+                }
+                .pickerStyle(.segmented)
+                .controlSize(.small)
+                .fixedSize()
+            }
+
+            HStack(spacing: 12) {
+                Text("Vertical direction")
+                Spacer()
+                Picker("", selection: $verticalDirection) {
+                    Text("Top to bottom").tag(VerticalDirection.topToBottom)
+                    Text("Bottom to top").tag(VerticalDirection.bottomToTop)
+                }
+                .pickerStyle(.segmented)
+                .controlSize(.small)
+                .fixedSize()
+            }
+        }
+        .padding()
+        .disabled(!hasMultipleDisplays)
+        .onChange(of: displayOrderPriority) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: horizontalDirection) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: verticalDirection) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+
+    // (Displays pane removed in this revert)
     
     // MARK: - Shortcut Recorder
     private var shortcutRecorder: some View {
@@ -176,12 +244,16 @@ struct PreferencesView: View {
     
     // MARK: - Layout Size Picker
     private var layoutSizePicker: some View {
-        Picker(selection: $layoutMode, label: Text("Layout size")) {
-            Text("Compact").tag(LayoutMode.compact)
-            Text("Medium").tag(LayoutMode.medium)
-            Text("Large").tag(LayoutMode.large)
+        VStack(alignment: .leading, spacing: 8) {
+            Picker(selection: $layoutMode, label: Text("Layout size")) {
+                Text("Dual Row").tag(LayoutMode.dualRows)
+                Text("Compact").tag(LayoutMode.compact)
+                Text("Medium").tag(LayoutMode.medium)
+                Text("Large").tag(LayoutMode.large)
+            }
+            .pickerStyle(.segmented)
+            // Dual row and spacing options have been removed; use LayoutMode.dualRows
         }
-        .pickerStyle(.segmented)
         .onChange(of: layoutMode) { val in
             layoutMode = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
@@ -208,31 +280,40 @@ struct PreferencesView: View {
     
     // MARK: - Space Name Editor
     private var spaceNameEditor: some View {
-        HStack {
+        HStack(alignment: .center, spacing: 12) {
             Picker(selection: $prefsVM.selectedSpace, label: Text("Space")) {
                 ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) { index in
-                    Text(String(prefsVM.sortedSpaceNamesDict[index].value.spaceByDesktopID))
+                    let info = prefsVM.sortedSpaceNamesDict[index].value
+                    let sbd = info.spaceByDesktopID
+                    let displayIndex = info.currentDisplayIndex ?? 1
+                    let spacePart: String = (sbd.hasPrefix("F") ? ("Full Screen "+String(Int(sbd.dropFirst()) ?? 0)) : "Space \(sbd)")
+                    let hasMultipleDisplays = NSScreen.screens.count > 1
+                    let label = hasMultipleDisplays ? "Display \(displayIndex): \(spacePart)" : spacePart
+                    Text(label)
                 }
             }
+            .layoutPriority(3)
             .onChange(of: prefsVM.selectedSpace) { val in
                 if (prefsVM.sortedSpaceNamesDict.count > val) {
+                    prefsVM.selectedKey = prefsVM.sortedSpaceNamesDict[val].key
                     prefsVM.spaceName = prefsVM.sortedSpaceNamesDict[val].value.spaceName
                 } else {
                     prefsVM.spaceName = "-"
+                    prefsVM.selectedKey = ""
                 }
             }
-            
+
             TextField(
                 "Name (max 4 char.)",
                 text: Binding(
-                    get: {prefsVM.spaceName},
+                    get: { prefsVM.spaceName },
                     set: {
                         prefsVM.spaceName = $0.prefix(4).trimmingCharacters(in: .whitespacesAndNewlines)
                         updateName()
                     }
-                    
                 )
             )
+            .frame(width: 90)
         }
     }
     

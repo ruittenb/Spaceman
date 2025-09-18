@@ -11,6 +11,10 @@ import SwiftUI
 
 class SpaceObserver {
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
+    @AppStorage("displayOrderPriority") private var displayOrderPriority = DisplayOrderPriority.horizontal
+    @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.leftToRight
+    @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.topToBottom
+    @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     
     private let workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
@@ -37,16 +41,49 @@ class SpaceObserver {
         let d2Center = getDisplayCenter(display: display2)
         return d1Center.x < d2Center.x
     }
+
+    // Compare two displays according to user preferences
+    func compareDisplays(d1: NSDictionary, d2: NSDictionary) -> Bool {
+        let c1 = getDisplayCenter(display: d1)
+        let c2 = getDisplayCenter(display: d2)
+        let tol: CGFloat = 2
+        let cmpX: (CGPoint, CGPoint) -> Bool = { a, b in
+            switch self.horizontalDirection {
+            case .leftToRight: return a.x < b.x
+            case .rightToLeft: return a.x > b.x
+            }
+        }
+        let cmpY: (CGPoint, CGPoint) -> Bool = { a, b in
+            // macOS global coordinates origin at bottom-left; larger y is higher
+            switch self.verticalDirection {
+            case .topToBottom: return a.y > b.y
+            case .bottomToTop: return a.y < b.y
+            }
+        }
+        switch displayOrderPriority {
+        case .horizontal:
+            if abs(c1.x - c2.x) > tol { return cmpX(c1, c2) }
+            return cmpY(c1, c2)
+        case .vertical:
+            if abs(c1.y - c2.y) > tol { return cmpY(c1, c2) }
+            return cmpX(c1, c2)
+        }
+    }
     
     func getDisplayCenter(display: NSDictionary) -> CGPoint {
-        guard let uuidString = display["Display Identifier"] as? String
-        else {
-            return CGPoint(x: 0, y: 0)
-        }
+        guard let uuidString = display["Display Identifier"] as? String else { return .zero }
         let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, uuidString as CFString)
-        let dId = CGDisplayGetDisplayIDFromUUID(uuid)
-        let bounds = CGDisplayBounds(dId);
-        return CGPoint(x: bounds.origin.x + bounds.size.width/2, y: bounds.origin.y + bounds.size.height/2)
+        let did = CGDisplayGetDisplayIDFromUUID(uuid)
+        // Prefer NSScreen frame for consistent origin handling
+        for screen in NSScreen.screens {
+            if let num = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber,
+               CGDirectDisplayID(num.uint32Value) == did {
+                let f = screen.frame
+                return CGPoint(x: f.origin.x + f.size.width/2, y: f.origin.y + f.size.height/2)
+            }
+        }
+        let b = CGDisplayBounds(did)
+        return CGPoint(x: b.origin.x + b.size.width/2, y: b.origin.y + b.size.height/2)
     }
     
     @objc public func updateSpaceInformation() {
@@ -68,15 +105,20 @@ class SpaceObserver {
             }
         }
         
-        // sort displays based on location
-        displays.sort(by: {
-            display1IsLeft(display1: $0, display2: $1)
-        })
+        // Sort displays based on user preference
+        displays.sort { a, b in compareDisplays(d1: a, d2: b) }
+
+        // Map sorted display to index (1..D)
+        var currentDisplayIndexByID: [String: Int] = [:]
+        for (idx, d) in displays.enumerated() {
+            if let displayID = d["Display Identifier"] as? String { currentDisplayIndexByID[displayID] = idx + 1 }
+        }
         
         var activeSpaceID = -1
         var allSpaces = [Space]()
         var updatedDict = [String: SpaceNameInfo]()
         var lastSpaceByDesktopNumber = 0
+        var currentOrder = 0
         
         for d in displays {
             guard let currentSpaces = d["Current Space"] as? [String: Any],
@@ -113,38 +155,45 @@ class SpaceObserver {
                     lastFullScreenSpaceNumber += 1
                     spaceByDesktopID = "F\(lastFullScreenSpaceNumber)"
                 }
-                
-                while spaceNumber >= spaceNameCache.cache.count {
-                    // Make sure that the name cache is large enough
-                    spaceNameCache.extend()
-                }
-                let spaceName = spaceNameCache.cache[spaceNumber]
-                var space = Space(displayID: displayID,
-                                  spaceID: managedSpaceID,
-                                  spaceName: spaceName,
-                                  spaceNumber: spaceNumber,
-                                  spaceByDesktopID: spaceByDesktopID,
-                                  isCurrentSpace: isCurrentSpace,
-                                  isFullScreen: isFullScreen)
+                // 2aa1db4 logic: seed name from SpaceNameCache, then override with saved mapping/fullscreen
+                while spaceNumber >= spaceNameCache.cache.count { spaceNameCache.extend() }
+                var seededName = spaceNameCache.cache[spaceNumber]
                 
                 if let data = defaults.data(forKey: "spaceNames"),
                    let dict = try? PropertyListDecoder().decode([String: SpaceNameInfo].self, from: data),
                    let saved = dict[managedSpaceID]
                 {
-                    space.spaceName = saved.spaceName
+                    seededName = saved.spaceName
+                    
                 } else if isFullScreen {
                     if let pid = s["pid"] as? pid_t,
                        let app = NSRunningApplication(processIdentifier: pid),
                        let name = app.localizedName
                     {
-                        space.spaceName = name.prefix(4).uppercased()
+                        seededName = name.prefix(4).uppercased()
+                        
                     } else {
-                        space.spaceName = "FULL"
+                        seededName = "FULL"
+                        
                     }
+                } else {
+                    // Fall back to cache seed (could be '-') when no saved mapping and not fullscreen
+                    
                 }
+                var space = Space(displayID: displayID,
+                                  spaceID: managedSpaceID,
+                                  spaceName: seededName,
+                                  spaceNumber: spaceNumber,
+                                  spaceByDesktopID: spaceByDesktopID,
+                                  isCurrentSpace: isCurrentSpace,
+                                  isFullScreen: isFullScreen)
+                // Write back to cache
                 spaceNameCache.cache[spaceNumber] = space.spaceName
                 
-                let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName, spaceByDesktopID: spaceByDesktopID)
+                currentOrder += 1
+                var nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName, spaceByDesktopID: spaceByDesktopID)
+                nameInfo.currentDisplayIndex = currentDisplayIndexByID[displayID]
+                nameInfo.currentOrder = currentOrder
                 updatedDict[managedSpaceID] = nameInfo
                 allSpaces.append(space)
             }
