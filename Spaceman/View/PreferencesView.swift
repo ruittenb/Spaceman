@@ -157,7 +157,7 @@ struct PreferencesView: View {
             
             Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
                 .disabled(displayStyle == .rects)
-            Toggle("Restart space numbering by desktop", isOn: $restartNumberingByDesktop)
+            Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
         }
         .padding()
         .onChange(of: hideInactiveSpaces) { _ in
