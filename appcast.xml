@@ -3,24 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.9.0: full space name list editor</title>
+            <title>v1.10.0: Dual Rows layout</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Added full space name list editor (contribution ultravioletcatastrophe)</li>
-<li>Updated layout of Preferences dialog</li>
+                    <li>Added Dual Row icon layout mode (contribution Waylon Wang)</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 19 Sep 2025 07:58:29 +0200</pubDate>
+            <pubDate>Fri, 19 Sep 2025 16:39:13 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.9.0/Spaceman-1.9.0.dmg"
-                sparkle:version="1.9.0"
-                sparkle:shortVersionString="1.9.0"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.10.0/Spaceman-1.10.0.dmg"
+                sparkle:version="1.10.0"
+                sparkle:shortVersionString="1.10.0"
                 type="application/octet-stream"
-                length="2610180"
-sparkle:edSignature="4MxPTpoiZYsNqGLLRCVpDH/N7jKdgErmH2ZIjkY9Hnb9ktFDJ+gHrxqfdGn2y5bOw3vKYndZRBZnMnplLSmGCw=="
+                length="2608592"
+sparkle:edSignature="TSaVmEpU1NFspC3GQXIzwcl73qDMNpWHhhUIGtXwMC8EQQ9odIcxpaoFz+Pa3I+R6uojrDuYRzxj9Wz7jwIlCQ=="
             />
         </item>
     </channel>
