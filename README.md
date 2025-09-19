@@ -40,18 +40,22 @@ The meaning of the icons from left to right are:
 
 ## Preferences
 
-<img src="images/Preferences-4a.png" width="66%" height="auto">
+<img src="images/Preferences-5a.png" width="66%" height="auto">
 
 The style and the name of a space can be changed in preferences (shown above).
+
+- Layout size: Choose Compact, Medium, Large, or Extra Large to change icon and font sizes.
+
+If the icon fails to update, you can choose to force a refresh of the icon using a custom keyboard
+shortcut or allow Spaceman to refresh them automatically every 5 seconds by enabling 'Refresh spaces
+in background'.
+
+<img src="images/Preferences-6.png" width="66%" height="auto">
 
 - Space names: You can enter names of any length.
   - The menu will display the full names.
   - With "Only show active spaces", the icons will display the full names; otherwise
-    they will be truncated to 4 characters to keep the status item compact; in "Current +
-
-- Layout size: Choose Compact, Medium, Large, or Extra Large to change icon and font sizes.
-
-If the icon fails to update, you can choose to force a refresh of the icon using a custom keyboard shortcut or allow Spaceman to refresh them automatically every 5 seconds by enabling 'Refresh spaces in background'.
+    they will be truncated to 4 characters to keep the status item compact.
 
 ### Switching Spaces
 
@@ -88,7 +92,7 @@ selected, and the menu option will be disabled.
 
 - Spaceman needs to know which shortcuts to send:
 
-<img src="images/Preferences-4b.png" width="66%" height="auto">
+<img src="images/Preferences-5b.png" width="66%" height="auto">
 
 ## Remote Refresh
 
