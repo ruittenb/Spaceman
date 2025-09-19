@@ -3,27 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.8.7: store full space names</title>
+            <title>v1.9.0: full space name list editor</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>1.8.6:</li>
-<li> - Added Extra Large layout (contribution ultravioletcatastrophe)</li>
-<li>1.8.7:</li>
-<li> - Store full space names (contribution ultravioletcatastrophe)</li>
-<li> - Display full space names in menu</li>
+                    <li>Added full space name list editor (contribution ultravioletcatastrophe)</li>
+<li>Updated layout of Preferences dialog</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 18 Sep 2025 09:54:59 +0200</pubDate>
+            <pubDate>Fri, 19 Sep 2025 07:58:29 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.8.7/Spaceman-1.8.7.dmg"
-                sparkle:version="1.8.7"
-                sparkle:shortVersionString="1.8.7"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.9.0/Spaceman-1.9.0.dmg"
+                sparkle:version="1.9.0"
+                sparkle:shortVersionString="1.9.0"
                 type="application/octet-stream"
-                length="2604056"
-sparkle:edSignature="T8dSGql1+4BwkmPEknJ0r4DvgkdB0lbGfJCsC+qAJ0jRFJ5j84HbsBof47//VeRiVSxw2VYui7VGafYFgmzTBQ=="
+                length="2610180"
+sparkle:edSignature="4MxPTpoiZYsNqGLLRCVpDH/N7jKdgErmH2ZIjkY9Hnb9ktFDJ+gHrxqfdGn2y5bOw3vKYndZRBZnMnplLSmGCw=="
             />
         </item>
     </channel>
