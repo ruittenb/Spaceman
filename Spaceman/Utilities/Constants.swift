@@ -22,9 +22,20 @@ struct Constants {
     //   7.5 =  90 px ; void left
 
     static let sizes: [LayoutMode: GuiSize] = [
+        .dualRows: GuiSize(
+            GAP_WIDTH_SPACES: 3,
+            GAP_WIDTH_DISPLAYS: 8,
+            GAP_HEIGHT_DUALROWS: 3,
+            ICON_WIDTH_SMALL: 16,
+            ICON_WIDTH_LARGE: 24,
+            ICON_WIDTH_XLARGE: 36,
+            ICON_HEIGHT: 10,
+            FONT_SIZE: 9
+        ),
         .compact: GuiSize(
             GAP_WIDTH_SPACES: 3,
             GAP_WIDTH_DISPLAYS: 8,
+            GAP_HEIGHT_DUALROWS: 0,
             ICON_WIDTH_SMALL: 16,
             ICON_WIDTH_LARGE: 24,
             ICON_WIDTH_XLARGE: 36,
@@ -34,6 +45,7 @@ struct Constants {
         .medium: GuiSize(
             GAP_WIDTH_SPACES: 5,
             GAP_WIDTH_DISPLAYS: 12,
+            GAP_HEIGHT_DUALROWS: 0,
             ICON_WIDTH_SMALL: 18,
             ICON_WIDTH_LARGE: 32,
             ICON_WIDTH_XLARGE: 42,
@@ -43,6 +55,7 @@ struct Constants {
         .large: GuiSize(
             GAP_WIDTH_SPACES: 5,
             GAP_WIDTH_DISPLAYS: 14,
+            GAP_HEIGHT_DUALROWS: 0,
             ICON_WIDTH_SMALL: 20,
             ICON_WIDTH_LARGE: 34,
             ICON_WIDTH_XLARGE: 49,
@@ -52,6 +65,7 @@ struct Constants {
         .extraLarge: GuiSize(
             GAP_WIDTH_SPACES: 6,
             GAP_WIDTH_DISPLAYS: 16,
+            GAP_HEIGHT_DUALROWS: 0,
             ICON_WIDTH_SMALL: 24,
             ICON_WIDTH_LARGE: 44,
             ICON_WIDTH_XLARGE: 62,

@@ -36,7 +36,8 @@ struct PreferencesView: View {
                 closeButton
                 appInfo
             }
-            .frame(maxWidth: .infinity, minHeight: 60, maxHeight: 70, alignment: .center)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .frame(height: 60)
             .offset(y: 1) // Looked like it was off center
             
             Divider()
@@ -175,7 +176,6 @@ struct PreferencesView: View {
             spaceNameListEditor
             
             Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
-                .disabled(displayStyle == .rects)
             Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
         }
         .padding()
@@ -187,7 +187,7 @@ struct PreferencesView: View {
     // MARK: - Shortcut Recorder
     private var shortcutRecorder: some View {
         HStack {
-            Text("Force refresh shortcut")
+            Text("Manual refresh shortcut")
             Spacer()
             KeyboardShortcuts.Recorder(for: .refresh)
         }
@@ -196,6 +196,7 @@ struct PreferencesView: View {
     // MARK: - Layout Size Picker
     private var layoutSizePicker: some View {
         Picker(selection: $layoutMode, label: Text("Layout")) {
+            Text("Dual Row").tag(LayoutMode.dualRows)
             Text("Compact").tag(LayoutMode.compact)
             Text("Medium").tag(LayoutMode.medium)
             Text("Large").tag(LayoutMode.large)
@@ -223,37 +224,6 @@ struct PreferencesView: View {
             }
             displayStyle = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
-    }
-    
-    // MARK: - Space Name Editor (select via drop-down)
-    private var spaceNameEditor: some View {
-        HStack {
-            Picker(selection: $prefsVM.selectedSpace, label: Text("Space")) {
-                ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) { index in
-                    Text(String(prefsVM.sortedSpaceNamesDict[index].value.spaceByDesktopID))
-                }
-            }
-            .onChange(of: prefsVM.selectedSpace) { val in
-                if (prefsVM.sortedSpaceNamesDict.count > val) {
-                    prefsVM.spaceName = prefsVM.sortedSpaceNamesDict[val].value.spaceName
-                } else {
-                    prefsVM.spaceName = "-"
-                }
-            }
-            
-            TextField(
-                "Name (max 4 char.)",
-                text: Binding(
-                    get: {prefsVM.spaceName},
-                    set: {
-                        // Store full name; may be truncated in some icon modes
-                        prefsVM.spaceName = $0.trimmingCharacters(in: .whitespacesAndNewlines)
-                        updateName()
-                    }
-                    
-                )
-            )
         }
     }
     
