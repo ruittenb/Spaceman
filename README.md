@@ -1,7 +1,7 @@
 
 ![Spaceman Example](images/Header.png)
 
-## About
+## ⭐ About
 
 Spaceman is an application for macOS that allows you to view your Spaces / Virtual Desktops in the menu bar. Spaceman allows you to see which space you are currently on (or spaces if you are using multiple displays) relative to the other spaces you have. Naming these spaces is also an option in order to organise separate spaces for your workflow.
 
@@ -9,16 +9,25 @@ Also, the menu and menu bar icons enable switching between spaces.
 
 **Spaceman requires macOS 11 Big Sur or greater.**
 
-## Installing
+**For switching spaces, Spaceman requires Accessibility and Automation permissions**
+([see below](#setup-requirements)).
 
-### GitHub
+## ⭐ Installation
+
+### Through GitHub
 
 Go to the [releases](https://github.com/ruittenb/Spaceman/releases) tab and download **Spaceman.dmg** from the latest release.
 Double-click the dmg file and drag `Spaceman.app` to the `Applications` folder.
 
 <img src="images/Install.png" width="66%" height="auto">
 
-## Understanding the Icons
+### Through Homebrew
+
+```sh
+$ brew install --cask ruittenb/tap/spaceman
+```
+
+## ⭐ Understanding the Icons
 
 <img src="images/Spaceman_Example.png" width="66%" height="auto">
 
@@ -31,7 +40,7 @@ The meaning of the icons from left to right in the example:
 - **Active Space**: The space you're currently on (highlighted)
 - **Inactive Space**: Regular spaces you can switch to
 - **Inactive Fullscreen App**: A space with a fullscreen application
-- **Gap**: Indicates spaces on a different display
+- **Gap**: Indicates that the following spaces are on a different display
 - **Inactive Space**: Another regular space on the second display
 - **Active Fullscreen App**: Current space with a fullscreen application
 
@@ -39,13 +48,13 @@ The meaning of the icons from left to right in the example:
 
 From top to bottom, you can see examples of the five different icon styles:
 
-- **Rectangles**: Simple rectangular indicators
-- **Numbers**: Numbered space indicators
-- **Rectangles with Numbers**: Combined rectangle and number display
+- **Rectangles**: Plain rectangles
+- **Numbers**: Plain numbers
+- **Rectangles with Numbers**: Numbers in a rectangle
 - **Names**: Custom text labels for each space
 - **Names with Numbers**: Combined custom names and numbers
 
-## Preferences
+## ⭐ Preferences
 
 Spaceman's preferences are organized into two main tabs: **General** and **Spaces**.
 
@@ -62,6 +71,8 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 **Keyboard Shortcuts**
 - **Shortcut keys** and **Modifiers**: Tells Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
 
+<img src="images/Preferences-5.png" width="66%" height="auto">
+
 ### Spaces Tab
 
 **Icon Style**
@@ -77,7 +88,9 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 - The menu displays full names regardless of length
 - Menu bar icons show full names when "Only show active spaces" is enabled, otherwise names are truncated to 4 characters for compactness
 
-## Switching Spaces
+<img src="images/Preferences-6.png" width="66%" height="auto">
+
+## ⭐ Switching Spaces
 
 Spaceman provides multiple ways to switch between spaces quickly and efficiently.
 
@@ -85,8 +98,11 @@ Spaceman provides multiple ways to switch between spaces quickly and efficiently
 
 For space switching to work, you need to configure three things:
 
-**1. Accessibility Permissions**
+**1. Accessibility and Automation Permissions**
 - Go to **System Settings > Privacy & Security > Accessibility**
+- Add Spaceman to the list of allowed applications
+- Enable the checkbox next to Spaceman
+- Go to **System Settings > Privacy & Security > Automation**
 - Add Spaceman to the list of allowed applications
 - Enable the checkbox next to Spaceman
 
@@ -138,7 +154,7 @@ For space switching to work, you need to configure three things:
 - Mission Control doesn't have the capability to switch to fullscreen spaces
 - Space switching will fail without proper Accessibility permissions
 
-## Remote Refresh
+## ⭐ Remote Refresh
 
 The list of spaces can also be refreshed using Applescript:
 
@@ -148,7 +164,7 @@ $ osascript -e 'tell application "Spaceman" to refresh'
 
 For details on how to maximize usefulness of this, see [MikeJL's Comments](README-Yabai.md)
 
-## Troubleshooting
+## ⭐ Troubleshooting
 
 If Spaceman does not start, or does not run correctly, after an upgrade:
 you may need to delete the application defaults:
@@ -157,7 +173,7 @@ you may need to delete the application defaults:
 $ defaults delete dev.ruittenb.Spaceman
 ```
 
-## Attributions
+## ⭐ Attributions
 
 - This project is based on [WhichSpace](https://github.com/gechr/WhichSpace)
 - This project uses [Sparkle](https://sparkle-project.org) for update delivery
@@ -176,7 +192,7 @@ $ defaults delete dev.ruittenb.Spaceman
   - [Yakir Lugasy](https://github.com/yakirlog/Spaceman)
   - [aaplmath](https://github.com/aaplmath)
 
-## Mentions
+## ⭐ Mentions
 
 - [Softpedia](https://mac.softpedia.com/get/System-Utilities/Spaceman.shtml)
 
