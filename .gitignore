@@ -1,2 +1,7 @@
 .DS_Store
 .claude
+# Build artifacts
+localbuild/
+DerivedData/
+*.xcarchive
+*.dmg
