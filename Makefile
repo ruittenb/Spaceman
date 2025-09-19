@@ -10,6 +10,7 @@ VERSION  = $(shell awk -F'["; ]*' '/MARKETING_VERSION/ { print $$3; exit }' $(PB
 IMAGE    = $(BUILDDIR)/$(PROJECT)-$(VERSION).dmg
 AUTHOR   = ruittenb
 DOMAIN   = dev.$(AUTHOR).$(PROJECT)
+BREWDIR := $(shell brew --repo $(AUTHOR)/tap)
 
 .DEFAULT_GOAL := help
 
@@ -85,9 +86,9 @@ publish-force: ## Publish the main branch appcast on Github Pages (force push)
 
 .PHONY: brew-update
 brew-update: ## Update the spaceman.rb file with the correct version
-	cd $(shell brew --repo ruittenb/tap)/Casks &&                           \
+	@cd $(BREWDIR)/Casks &&                                                 \
 	awk -v version=$(VERSION) -v shaout="$(shell shasum -a 256 $(IMAGE))" ' \
-	/version "[0-9.]"/ {                                                    \
+	/version "[0-9.]*"/ {                                                   \
 		print "  version \"" version "\""; next                             \
 	}                                                                       \
 	/sha256/ {                                                              \
@@ -95,13 +96,13 @@ brew-update: ## Update the spaceman.rb file with the correct version
 		print "  sha256 \"" sha[1] "\""; next                               \
 	} {                                                                     \
 		print                                                               \
-	}' < spaceman.rb > spaceman.rb.new
+	}' < spaceman.rb | tee /dev/tty > spaceman.rb.new &&                    \
 	mv spaceman.rb.new spaceman.rb
 	@echo "Please verify the file spaceman.rb and run 'make brew-publish'"
 
 .PHONY: brew-publish
 brew-publish: ## Publish the new spaceman.rb so that homebrew can find it
-	cd $(shell brew --repo ruittenb/tap)     && \
+	cd $(BREWDIR)                            && \
 	git commit Casks -m "Version $(VERSION)" && \
 	git push
 
