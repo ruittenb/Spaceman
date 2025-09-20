@@ -22,6 +22,7 @@ struct PreferencesView: View {
     @AppStorage("displayOrderPriority") private var displayOrderPriority = DisplayOrderPriority.horizontal
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.leftToRight
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.topToBottom
+    @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.columnMajor
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
@@ -138,6 +139,19 @@ struct PreferencesView: View {
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
             shortcutRecorder.disabled(autoRefreshSpaces)
             layoutSizePicker
+            HStack(spacing: 12) {
+                Text("Fill order")
+                    .foregroundColor(layoutMode == .dualRows ? .primary : .secondary)
+                Spacer()
+                Picker("", selection: $dualRowFillOrder) {
+                    Text("Row first").tag(DualRowFillOrder.rowMajor)
+                    Text("Column first").tag(DualRowFillOrder.columnMajor)
+                }
+                .pickerStyle(.segmented)
+                .controlSize(.small)
+                .fixedSize()
+            }
+            .disabled(layoutMode != .dualRows)
         }
         .padding()
         .onChange(of: autoRefreshSpaces) { enabled in
@@ -149,6 +163,9 @@ struct PreferencesView: View {
                 prefsVM.pauseTimer()
                 KeyboardShortcuts.enable(.refresh)
             }
+        }
+        .onChange(of: dualRowFillOrder) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
 

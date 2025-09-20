@@ -13,6 +13,7 @@ class IconCreator {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
+    @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.columnMajor
     
     private let leftMargin = CGFloat(7)  /* FIXME determine actual left margin */
     private var displayCount = 1
@@ -253,35 +254,91 @@ class IconCreator {
     }
 
     private func mergeIconsTwoRows(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool)]) -> NSImage {
-        struct Column { var top: (NSImage, Bool)?; var bottom: (NSImage, Bool)?; var width: CGFloat = 0; var gapAfter: CGFloat = 0 }
-        var columns: [Column] = []
-        var current = Column()
-        var placeTop = true
+        // Column describes a stacked pair (top/bottom) and its rendered width and trailing gap
+        struct Column { var top: (NSImage, Bool, Int)?; var bottom: (NSImage, Bool, Int)?; var width: CGFloat = 0; var gapAfter: CGFloat = 0 }
 
-        for (idx, icon) in iconsWithDisplayProperties.enumerated() {
-            if placeTop {
-                current.top = (icon.image, icon.isFullScreen)
-                current.width = max(current.width, icon.image.size.width)
-                placeTop = false
-            } else {
-                current.bottom = (icon.image, icon.isFullScreen)
-                current.width = max(current.width, icon.image.size.width)
-                placeTop = true
+        // Pre-compute the target index for each icon: positive for numbered spaces; negative for fullscreen pseudo indices
+        var assignedIndices: [Int] = []
+        var numbered = 1
+        var fullscreen = 1
+        for i in iconsWithDisplayProperties {
+            if i.isFullScreen { assignedIndices.append(-fullscreen); fullscreen += 1 }
+            else { assignedIndices.append(numbered); numbered += 1 }
+        }
+
+        // Build columns depending on fill order preference
+        var columns: [Column] = []
+        switch dualRowFillOrder {
+        case .columnMajor:
+            // Original behavior: fill top then bottom per column
+            var current = Column()
+            var placeTop = true
+            for (idx, icon) in iconsWithDisplayProperties.enumerated() {
+                let tag = assignedIndices[idx]
+                if placeTop {
+                    current.top = (icon.image, icon.isFullScreen, tag)
+                    current.width = max(current.width, icon.image.size.width)
+                    placeTop = false
+                } else {
+                    current.bottom = (icon.image, icon.isFullScreen, tag)
+                    current.width = max(current.width, icon.image.size.width)
+                    placeTop = true
+                }
+                let isColumnEnd = placeTop || icon.nextSpaceOnDifferentDisplay
+                if isColumnEnd {
+                    current.gapAfter = icon.nextSpaceOnDifferentDisplay ? displayGapWidth : gapWidth
+                    columns.append(current)
+                    current = Column()
+                    placeTop = true
+                }
+                if idx == iconsWithDisplayProperties.count - 1 && (current.top != nil || current.bottom != nil) {
+                    current.gapAfter = 0
+                    columns.append(current)
+                }
             }
-            let isColumnEnd = placeTop || icon.nextSpaceOnDifferentDisplay
-            if isColumnEnd {
-                current.gapAfter = icon.nextSpaceOnDifferentDisplay ? displayGapWidth : gapWidth
-                columns.append(current)
-                current = Column()
-                placeTop = true
+        case .rowMajor:
+            // New behavior: fill entire top row left-to-right, then bottom row
+            // First, segment by display to place display gaps correctly
+            var segments: [[(image: NSImage, nextDisplay: Bool, isFull: Bool, tag: Int)]] = []
+            var cur: [(NSImage, Bool, Bool, Int)] = []
+            for (idx, icon) in iconsWithDisplayProperties.enumerated() {
+                cur.append((icon.image, icon.nextSpaceOnDifferentDisplay, icon.isFullScreen, assignedIndices[idx]))
+                if icon.nextSpaceOnDifferentDisplay { segments.append(cur); cur = [] }
             }
-            if idx == iconsWithDisplayProperties.count - 1 && (current.top != nil || current.bottom != nil) {
-                current.gapAfter = 0
-                columns.append(current)
-                current = Column()
+            if !cur.isEmpty { segments.append(cur) }
+
+            for (segIdx, seg) in segments.enumerated() {
+                let n = seg.count
+                let topCount = Int(ceil(Double(n) / 2.0))
+                let top = Array(seg.prefix(topCount))
+                let bottom = Array(seg.dropFirst(topCount))
+                let maxLen = max(top.count, bottom.count)
+                for i in 0..<maxLen {
+                    var col = Column()
+                    if i < top.count {
+                        let t = top[i]
+                        col.top = (t.image, t.isFull, t.tag)
+                        col.width = max(col.width, t.image.size.width)
+                    }
+                    if i < bottom.count {
+                        let b = bottom[i]
+                        col.bottom = (b.image, b.isFull, b.tag)
+                        col.width = max(col.width, b.image.size.width)
+                    }
+                    // Add inter-column gap. After the last column of a display, add display gap (except trailing overall)
+                    let isLastInSegment = (i == maxLen - 1)
+                    col.gapAfter = isLastInSegment ? displayGapWidth : gapWidth
+                    columns.append(col)
+                }
+                // Avoid display gap after final segment
+                if segIdx == segments.count - 1, var last = columns.popLast() {
+                    last.gapAfter = 0
+                    columns.append(last)
+                }
             }
         }
 
+        // Render
         let totalWidth = columns.reduce(CGFloat(0)) { $0 + $1.width + $1.gapAfter }
         let gap = CGFloat(sizes.GAP_HEIGHT_DUALROWS)
         let imageHeight = iconSize.height * 2 + gap
@@ -289,32 +346,18 @@ class IconCreator {
 
         image.lockFocus()
         var left = CGFloat.zero
-        var currentSpaceNumber = 1
-        var currentFullScreenSpaceNumber = 1
         iconWidths = []
 
         for col in columns {
             if let top = col.top {
                 top.0.draw(at: NSPoint(x: left, y: iconSize.height + gap), from: .zero, operation: .sourceOver, fraction: 1.0)
                 let right = left + col.width + col.gapAfter
-                if top.1 { // isFullScreen
-                    iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: iconSize.height + gap, bottom: imageHeight, index: -currentFullScreenSpaceNumber))
-                    currentFullScreenSpaceNumber += 1
-                } else {
-                    iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: iconSize.height + gap, bottom: imageHeight, index: currentSpaceNumber))
-                    currentSpaceNumber += 1
-                }
+                iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: iconSize.height + gap, bottom: imageHeight, index: top.2))
             }
             if let bottom = col.bottom {
                 bottom.0.draw(at: NSPoint(x: left, y: 0), from: .zero, operation: .sourceOver, fraction: 1.0)
                 let right = left + col.width + col.gapAfter
-                if bottom.1 { // isFullScreen
-                    iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: 0, bottom: iconSize.height, index: -currentFullScreenSpaceNumber))
-                    currentFullScreenSpaceNumber += 1
-                } else {
-                    iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: 0, bottom: iconSize.height, index: currentSpaceNumber))
-                    currentSpaceNumber += 1
-                }
+                iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: 0, bottom: iconSize.height, index: bottom.2))
             }
             left += col.width + col.gapAfter
         }

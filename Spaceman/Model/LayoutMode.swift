@@ -15,3 +15,6 @@ enum LayoutMode: Int {
 enum DisplayOrderPriority: Int { case horizontal, vertical }
 enum HorizontalDirection: Int { case leftToRight, rightToLeft }
 enum VerticalDirection: Int { case topToBottom, bottomToTop }
+
+// Dual-row fill order (visual ordering of spaces in dual-row layout)
+enum DualRowFillOrder: Int { case columnMajor, rowMajor }
