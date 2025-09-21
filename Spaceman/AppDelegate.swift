@@ -29,6 +29,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         KeyboardShortcuts.onKeyUp(for: .refresh) { [] in
             self.spaceObserver.updateSpaceInformation()
         }
+        KeyboardShortcuts.onKeyUp(for: .preferences) { [] in
+            self.statusBar.showPreferencesWindow(self)
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

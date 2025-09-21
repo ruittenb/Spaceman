@@ -64,6 +64,7 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 - **Launch at login**: Automatically start Spaceman when you log in to macOS
 - **Auto-refresh**: Enables refreshing space information in the background at regular intervals
 - **Manual refresh shortcut**: Defines a shortcut key to trigger an update of the space information
+- **Open preferences window**: Defines a shortcut key to open the preferences window
 
 **Display & Layout**
 - **Layout sizes**: Adjusts icon and font sizes for the menu bar

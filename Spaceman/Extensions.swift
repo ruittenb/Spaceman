@@ -18,4 +18,5 @@ extension NSString {
 
 extension KeyboardShortcuts.Name {
     static let refresh = Self("refresh")
+    static let preferences = Self("preferences")
 }
