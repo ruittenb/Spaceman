@@ -3,23 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.10.1: Dual Row Fill Order</title>
+            <title>v1.10.2: added shortcut key for opening preferences window</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>- Added Dual Row Fill Order (contribution Waylon Wang)</li>
+                    <li>- added shortcut key for opening preferences window</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Sun, 21 Sep 2025 13:30:15 +0200</pubDate>
+            <pubDate>Sun, 21 Sep 2025 23:40:06 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.10.1/Spaceman-1.10.1.dmg"
-                sparkle:version="1.10.1"
-                sparkle:shortVersionString="1.10.1"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.10.2/Spaceman-1.10.2.dmg"
+                sparkle:version="1.10.2"
+                sparkle:shortVersionString="1.10.2"
                 type="application/octet-stream"
-                length="2624011"
-sparkle:edSignature="xVO0xCyzzD6o0PdWl7mMq3rAx50CusGsV9BbwU9Q5e5Urr9I69q4JXryG1KIf4QxfXDnNG6RD7nMUfJId/R2Ag=="
+                length="2624470"
+sparkle:edSignature="gBdIkQmSyrnmtj5oVbu9oveDTb1KFbm0EmNIvSQhZw5VAjXJhrdNWJCg90Jq+I1J1QRQGgn3acNKPmkUMurcDg=="
             />
         </item>
     </channel>
