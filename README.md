@@ -75,7 +75,7 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 **Keyboard Shortcuts**
 - **Shortcut keys** and **Modifiers**: Tells Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
 
-<img src="images/Preferences-5.png" width="66%" height="auto">
+<img src="images/Preferences-8.png" width="66%" height="auto">
 
 ### Spaces Tab
 
@@ -187,6 +187,7 @@ $ defaults delete dev.ruittenb.Spaceman
 
 ## 🔹 Attributions
 
+- This project was forked from [Sasindu Jayasinghe](https://github.com/Jaysce/Spaceman)
 - This project is based on [WhichSpace](https://github.com/gechr/WhichSpace)
 - This project uses [Sparkle](https://sparkle-project.org) for update delivery
 - This project makes use of [LaunchAtLogin](https://github.com/sindresorhus/LaunchAtLogin)
