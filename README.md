@@ -64,6 +64,7 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 - **Launch at login**: Automatically start Spaceman when you log in to macOS
 - **Auto-refresh**: Enables refreshing space information in the background at regular intervals
 - **Manual refresh shortcut**: Defines a shortcut key to trigger an update of the space information
+- **Open preferences window**: Defines a shortcut key to open the preferences window
 
 **Display & Layout**
 - **Layout sizes**: Adjusts icon and font sizes for the menu bar
@@ -74,7 +75,7 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 **Keyboard Shortcuts**
 - **Shortcut keys** and **Modifiers**: Tells Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
 
-<img src="images/Preferences-5.png" width="66%" height="auto">
+<img src="images/Preferences-8.png" width="66%" height="auto">
 
 ### Spaces Tab
 
@@ -157,15 +158,23 @@ For space switching to work, you need to configure three things:
 - Mission Control doesn't have the capability to switch to fullscreen spaces
 - Space switching will fail without proper Accessibility permissions
 
-## 🔹 Remote Refresh
+## 🔹 Remote Control
 
-The list of spaces can also be refreshed using Applescript:
+Spaceman supports AppleScript commands for remote control:
 
+**Refresh spaces:**
 ```sh
 $ osascript -e 'tell application "Spaceman" to refresh'
 ```
 
 For details on how to maximize usefulness of this, see [MikeJL's Comments](README-Yabai.md)
+
+**Open preferences window:**
+```sh
+$ osascript -e 'tell application "Spaceman" to open preferences'
+```
+
+These commands can be used in automation tools like Alfred, Keyboard Maestro, or custom scripts.
 
 ## 🔹 Troubleshooting
 
@@ -178,6 +187,7 @@ $ defaults delete dev.ruittenb.Spaceman
 
 ## 🔹 Attributions
 
+- This project was forked from [Sasindu Jayasinghe](https://github.com/Jaysce/Spaceman)
 - This project is based on [WhichSpace](https://github.com/gechr/WhichSpace)
 - This project uses [Sparkle](https://sparkle-project.org) for update delivery
 - This project makes use of [LaunchAtLogin](https://github.com/sindresorhus/LaunchAtLogin)

@@ -4,11 +4,15 @@
 <dictionary title="App Scripting Terminology">
     
     <suite name="Spaceman Suite" code="smsu" description="Spaceman Scripts">
-        
+
         <command name="refresh" code="smsurcmd" description="Refresh Spaceman">
             <cocoa class="Spaceman.RefreshCommand" />
         </command>
-        
+
+        <command name="open preferences" code="smsupcmd" description="Open Preferences Window">
+            <cocoa class="Spaceman.PreferencesCommand" />
+        </command>
+
     </suite>
     
 </dictionary>

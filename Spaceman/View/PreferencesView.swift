@@ -144,16 +144,17 @@ struct PreferencesView: View {
 
     // MARK: - General pane
     private var generalPane: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
             Text("General")
                 .font(.title2)
                 .fontWeight(.semibold)
             LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
-            shortcutRecorder.disabled(autoRefreshSpaces)
+            refreshShortcutRecorder.disabled(autoRefreshSpaces)
+            preferencesShortcutRecorder
             layoutSizePicker
             HStack(spacing: 12) {
-                Text("Dual Row Fill Order")
+                Text("Dual Row fill order")
                     .foregroundColor(layoutMode == .dualRows ? .primary : .secondary)
                 Spacer()
                 Picker("", selection: $dualRowFillOrder) {
@@ -161,7 +162,6 @@ struct PreferencesView: View {
                     Text("Columns first").tag(DualRowFillOrder.byColumn)
                 }
                 .pickerStyle(.segmented)
-                //.controlSize(.small)
                 .fixedSize()
             }
             .disabled(layoutMode != .dualRows)
@@ -201,12 +201,21 @@ struct PreferencesView: View {
         }
     }
     
-    // MARK: - Shortcut Recorder
-    private var shortcutRecorder: some View {
+    // MARK: - Refresh Shortcut Recorder
+    private var refreshShortcutRecorder: some View {
         HStack {
             Text("Manual refresh shortcut")
             Spacer()
             KeyboardShortcuts.Recorder(for: .refresh)
+        }
+    }
+
+    // MARK: - Preferences Shortcut Recorder
+    private var preferencesShortcutRecorder: some View {
+        HStack {
+            Text("Open preferences window")
+            Spacer()
+            KeyboardShortcuts.Recorder(for: .preferences)
         }
     }
     
