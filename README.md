@@ -1,7 +1,7 @@
 
 ![Spaceman Example](images/Header.png)
 
-## ⭐ About
+## 🔹 About
 
 Spaceman is an application for macOS that allows you to view your Spaces / Virtual Desktops in the menu bar. Spaceman allows you to see which space you are currently on (or spaces if you are using multiple displays) relative to the other spaces you have. Naming these spaces is also an option in order to organise separate spaces for your workflow.
 
@@ -12,7 +12,7 @@ Also, the menu and menu bar icons enable switching between spaces.
 **For switching spaces, Spaceman requires Accessibility and Automation permissions**
 ([see below](#setup-requirements)).
 
-## ⭐ Installation
+## 🔹 Installation
 
 ### Through GitHub
 
@@ -27,9 +27,9 @@ Double-click the dmg file and drag `Spaceman.app` to the `Applications` folder.
 $ brew install --cask ruittenb/tap/spaceman
 ```
 
-## ⭐ Understanding the Icons
+## 🔹 Understanding the Icons
 
-<img src="images/Spaceman_Example.png" width="66%" height="auto">
+<img src="images/Spaceman-Example.png" width="66%" height="auto">
 
 Spaceman displays your spaces as icons in the menu bar. The image above shows examples of the five different icon styles available.
 
@@ -54,7 +54,7 @@ From top to bottom, you can see examples of the five different icon styles:
 - **Names**: Custom text labels for each space
 - **Names with Numbers**: Combined custom names and numbers
 
-## ⭐ Preferences
+## 🔹 Preferences
 
 Spaceman's preferences are organized into two main tabs: **General** and **Spaces**.
 
@@ -66,7 +66,10 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 - **Manual refresh shortcut**: Defines a shortcut key to trigger an update of the space information
 
 **Display & Layout**
-- **Layout sizes**: Selects icon and font sizes for the menu bar.
+- **Layout sizes**: Adjusts icon and font sizes for the menu bar
+- **Dual Row Fill Order**: When using Dual Row layout, choose whether to fill rows first or columns first:
+
+<img src="images/Dual-Row-Directions.png" width="66%" height="auto">
 
 **Keyboard Shortcuts**
 - **Shortcut keys** and **Modifiers**: Tells Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
@@ -90,7 +93,7 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 
 <img src="images/Preferences-6.png" width="66%" height="auto">
 
-## ⭐ Switching Spaces
+## 🔹 Switching Spaces
 
 Spaceman provides multiple ways to switch between spaces quickly and efficiently.
 
@@ -154,7 +157,7 @@ For space switching to work, you need to configure three things:
 - Mission Control doesn't have the capability to switch to fullscreen spaces
 - Space switching will fail without proper Accessibility permissions
 
-## ⭐ Remote Refresh
+## 🔹 Remote Refresh
 
 The list of spaces can also be refreshed using Applescript:
 
@@ -164,7 +167,7 @@ $ osascript -e 'tell application "Spaceman" to refresh'
 
 For details on how to maximize usefulness of this, see [MikeJL's Comments](README-Yabai.md)
 
-## ⭐ Troubleshooting
+## 🔹 Troubleshooting
 
 If Spaceman does not start, or does not run correctly, after an upgrade:
 you may need to delete the application defaults:
@@ -173,7 +176,7 @@ you may need to delete the application defaults:
 $ defaults delete dev.ruittenb.Spaceman
 ```
 
-## ⭐ Attributions
+## 🔹 Attributions
 
 - This project is based on [WhichSpace](https://github.com/gechr/WhichSpace)
 - This project uses [Sparkle](https://sparkle-project.org) for update delivery
@@ -192,7 +195,7 @@ $ defaults delete dev.ruittenb.Spaceman
   - [Yakir Lugasy](https://github.com/yakirlog/Spaceman)
   - [aaplmath](https://github.com/aaplmath)
 
-## ⭐ Mentions
+## 🔹 Mentions
 
 - [Softpedia](https://mac.softpedia.com/get/System-Utilities/Spaceman.shtml)
 
