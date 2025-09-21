@@ -158,15 +158,23 @@ For space switching to work, you need to configure three things:
 - Mission Control doesn't have the capability to switch to fullscreen spaces
 - Space switching will fail without proper Accessibility permissions
 
-## 🔹 Remote Refresh
+## 🔹 Remote Control
 
-The list of spaces can also be refreshed using Applescript:
+Spaceman supports AppleScript commands for remote control:
 
+**Refresh spaces:**
 ```sh
 $ osascript -e 'tell application "Spaceman" to refresh'
 ```
 
 For details on how to maximize usefulness of this, see [MikeJL's Comments](README-Yabai.md)
+
+**Open preferences window:**
+```sh
+$ osascript -e 'tell application "Spaceman" to open preferences'
+```
+
+These commands can be used in automation tools like Alfred, Keyboard Maestro, or custom scripts.
 
 ## 🔹 Troubleshooting
 

@@ -32,10 +32,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         KeyboardShortcuts.onKeyUp(for: .preferences) { [] in
             self.statusBar.showPreferencesWindow(self)
         }
+
+        // Listen for AppleScript "open preferences" notification
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(openPreferencesFromScript),
+            name: NSNotification.Name("OpenPreferences"),
+            object: nil)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+    }
+
+    // MARK: - Public Methods for Scripts/Shortcuts
+    public func showPreferencesWindow() {
+        statusBar.showPreferencesWindow(self)
+    }
+
+    @objc private func openPreferencesFromScript() {
+        statusBar.showPreferencesWindow(self)
     }
 }
 
