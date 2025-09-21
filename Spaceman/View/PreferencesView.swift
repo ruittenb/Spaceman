@@ -153,7 +153,7 @@ struct PreferencesView: View {
             shortcutRecorder.disabled(autoRefreshSpaces)
             layoutSizePicker
             HStack(spacing: 12) {
-                Text("Dual Row Fill order")
+                Text("Dual Row Fill Order")
                     .foregroundColor(layoutMode == .dualRows ? .primary : .secondary)
                 Spacer()
                 Picker("", selection: $dualRowFillOrder) {

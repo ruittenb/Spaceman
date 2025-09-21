@@ -29,7 +29,7 @@ $ brew install --cask ruittenb/tap/spaceman
 
 ## 🔹 Understanding the Icons
 
-<img src="images/Spaceman_Example.png" width="66%" height="auto">
+<img src="images/Spaceman-Example.png" width="66%" height="auto">
 
 Spaceman displays your spaces as icons in the menu bar. The image above shows examples of the five different icon styles available.
 
@@ -66,7 +66,10 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 - **Manual refresh shortcut**: Defines a shortcut key to trigger an update of the space information
 
 **Display & Layout**
-- **Layout sizes**: Selects icon and font sizes for the menu bar.
+- **Layout sizes**: Adjusts icon and font sizes for the menu bar
+- **Dual Row Fill Order**: When using Dual Row layout, choose whether to fill rows first or columns first:
+
+<img src="images/Dual-Row-Directions.png" width="66%" height="auto">
 
 **Keyboard Shortcuts**
 - **Shortcut keys** and **Modifiers**: Tells Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
