@@ -1,3 +1,4 @@
+1.10.4: Fixed refreshing list of space names in preferences window
 1.10.3: Added thread-safe async space processing (contribution ultravioletcatastrophe)
 1.10.2: Added shortcut key for opening Preferences Window
 1.10.1: Added Dual Row Fill Order (contribution Waylon Wang)
