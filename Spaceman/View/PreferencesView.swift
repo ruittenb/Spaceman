@@ -51,6 +51,9 @@ struct PreferencesView: View {
         .onChange(of: data) { _ in
             prefsVM.loadData()
         }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ActiveSpacesChanged"))) { _ in
+            prefsVM.loadData()
+        }
     }
     
     // MARK: - Close Button
