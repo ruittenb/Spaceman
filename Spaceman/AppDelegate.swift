@@ -14,6 +14,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusBar: StatusBar!
     private var spaceObserver: SpaceObserver!
 
+    static var activeSpaceIDs: Set<String> = []
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
         iconCreator = IconCreator()
@@ -59,6 +61,9 @@ extension AppDelegate: SpaceObserverDelegate {
     func didUpdateSpaces(spaces: [Space]) {
         let icon = iconCreator.getIcon(for: spaces)
         statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
+
+        AppDelegate.activeSpaceIDs = Set(spaces.map { $0.spaceID })
+        NotificationCenter.default.post(name: NSNotification.Name("ActiveSpacesChanged"), object: nil)
     }
 }
 

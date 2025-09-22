@@ -26,7 +26,8 @@ class PreferencesViewModel: ObservableObject {
     }
     
     func loadData() {
-        spaceNamesDict = nameStore.loadAll()
+        let allSpaceNames = nameStore.loadAll()
+        spaceNamesDict = allSpaceNames.filter { AppDelegate.activeSpaceIDs.contains($0.key) }
         rebuildSortedSpaceNames(maintainingSelectionFor: nil)
     }
     
