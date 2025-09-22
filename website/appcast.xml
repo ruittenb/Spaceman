@@ -3,25 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.10.3 Added thread-safe async space processing (contribution ultravioletcatastrophe)</title>
+            <title>v1.11.0: spaces shown: current + neighbors (contribution ultravioletcatastrophe)</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>fix: integrated centralized SpaceNameStore with thread-safe async space processing (contribution ultravioletcatastrophe)</li>
-                    <li>fix: prevent ViewBridge error messages</li>
-                    <li>feat: added cmd-W as shortcut for closing preferences window</li>
+                    <li>Added mode: show current + neighbors (contribution ultravioletcatastrophe)</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Mon, 22 Sep 2025 09:40:56 +0200</pubDate>
+            <pubDate>Mon, 22 Sep 2025 21:21:31 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.10.3/Spaceman-1.10.3.dmg"
-                sparkle:version="1.10.3"
-                sparkle:shortVersionString="1.10.3"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.11.0/Spaceman-1.11.0.dmg"
+                sparkle:version="1.11.0"
+                sparkle:shortVersionString="1.11.0"
                 type="application/octet-stream"
-                length="2630904"
-sparkle:edSignature="75iTPbfxSWwwXfsEGZsVK4JyBnL4gZD26fRM5xQVZfkw22C/NXwDsShwr2a46428wPLhrS9I3DaRoPOMiOfKCg=="
+                length="2652572"
+sparkle:edSignature="0sDCsTzDV8EahT95lkFjRxccLZFigeJxbpRe4nbjN1f3ucm2vqyInt52WHnje6IKrCAGiO6E9a/0eBm/mJRuDw=="
             />
         </item>
     </channel>
