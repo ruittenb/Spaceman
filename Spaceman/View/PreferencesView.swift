@@ -51,7 +51,6 @@ struct PreferencesView: View {
         .onChange(of: data) { _ in
             prefsVM.loadData()
         }
-        
     }
     
     // MARK: - Close Button
@@ -66,6 +65,7 @@ struct PreferencesView: View {
                         Image(systemName: "xmark.circle.fill")
                     }
                     .buttonStyle(BorderlessButtonStyle())
+                    .keyboardShortcut("w", modifiers: .command)
                     .padding(.leading, 12)
                 }
                 Spacer()
