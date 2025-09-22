@@ -3,23 +3,25 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.10.2: added shortcut key for opening preferences window</title>
+            <title>v1.10.3 Added thread-safe async space processing (contribution ultravioletcatastrophe)</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>- added shortcut key for opening preferences window</li>
+                    <li>fix: integrated centralized SpaceNameStore with thread-safe async space processing (contribution ultravioletcatastrophe)</li>
+                    <li>fix: prevent ViewBridge error messages</li>
+                    <li>feat: added cmd-W as shortcut for closing preferences window</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Sun, 21 Sep 2025 23:40:06 +0200</pubDate>
+            <pubDate>Mon, 22 Sep 2025 09:40:56 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.10.2/Spaceman-1.10.2.dmg"
-                sparkle:version="1.10.2"
-                sparkle:shortVersionString="1.10.2"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.10.3/Spaceman-1.10.3.dmg"
+                sparkle:version="1.10.3"
+                sparkle:shortVersionString="1.10.3"
                 type="application/octet-stream"
-                length="2624470"
-sparkle:edSignature="gBdIkQmSyrnmtj5oVbu9oveDTb1KFbm0EmNIvSQhZw5VAjXJhrdNWJCg90Jq+I1J1QRQGgn3acNKPmkUMurcDg=="
+                length="2630904"
+sparkle:edSignature="75iTPbfxSWwwXfsEGZsVK4JyBnL4gZD26fRM5xQVZfkw22C/NXwDsShwr2a46428wPLhrS9I3DaRoPOMiOfKCg=="
             />
         </item>
     </channel>
