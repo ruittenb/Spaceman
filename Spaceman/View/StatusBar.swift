@@ -51,12 +51,15 @@ class StatusBar: NSObject, NSMenuDelegate {
             action: #selector(updaterController.checkForUpdates(_:)),
             keyEquivalent: "")
         updatesItem.target = updaterController
-        
+
         prefItem = NSMenuItem(
             title: "Preferences...",
             action: #selector(showPreferencesWindow(_:)),
             keyEquivalent: "")
         prefItem.target = self
+        Task { @MainActor in
+            prefItem.setShortcut(for: .preferences)
+        }
         
         quitItem = NSMenuItem(
             title: "Quit Spaceman",
