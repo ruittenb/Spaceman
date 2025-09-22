@@ -22,6 +22,7 @@ class StatusBar: NSObject, NSMenuDelegate {
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
     private var updaterController: SPUStandardUpdaterController!
+    private var aboutView: NSHostingView<AboutView>!
     
     public var iconCreator: IconCreator!
 
@@ -38,14 +39,12 @@ class StatusBar: NSObject, NSMenuDelegate {
         statusBarMenu.delegate = self
         
         prefsWindow = PreferencesWindow()
-        let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
-        prefsWindow.contentView = hostedPrefsView
         
         let about = NSMenuItem()
-        let aboutView = AboutView()
-        let view = NSHostingView(rootView: aboutView)
-        view.frame = NSRect(x: 0, y: 0, width: 220, height: 70)
-        about.view = view
+        let aboutViewContent = AboutView()
+        aboutView = NSHostingView(rootView: aboutViewContent)
+        aboutView.frame = NSRect(x: 0, y: 0, width: 220, height: 70)
+        about.view = aboutView
         
         updatesItem = NSMenuItem(
             title: "Check for updates...",
@@ -168,12 +167,9 @@ class StatusBar: NSObject, NSMenuDelegate {
     }
 
     @objc func showPreferencesWindow(_ sender: AnyObject) {
-        if prefsWindow == nil {
-            prefsWindow = PreferencesWindow()
-            let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
-            prefsWindow.contentView = hostedPrefsView
-        }
-        
+        let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
+        prefsWindow.contentView = hostedPrefsView
+
         prefsWindow.center()
         prefsWindow.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
