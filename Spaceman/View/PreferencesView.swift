@@ -216,11 +216,11 @@ struct PreferencesView: View {
                 set: { visibleSpacesModeRaw = $0.rawValue }
             ), label: Text("Spaces shown")) {
                 Text("All spaces").tag(VisibleSpacesMode.all)
+                Text("Nearby").tag(VisibleSpacesMode.neighbors)
                 Text("Current only").tag(VisibleSpacesMode.currentOnly)
-                Text("Current + neighbors").tag(VisibleSpacesMode.neighbors)
             }
             .pickerStyle(.segmented)
-            .disabled(displayStyle == .rects)
+            //.disabled(displayStyle == .rects)
             if visibleSpacesMode == .neighbors {
                 Stepper(value: $neighborRadius, in: 1...3) {
                     Text("Neighbor range: ±\(neighborRadius)")
@@ -283,9 +283,9 @@ struct PreferencesView: View {
             Text("Names with numbers").tag(DisplayStyle.numbersAndNames)
         }
         .onChange(of: displayStyle) { val in
-            if val == .rects {
-                visibleSpacesModeRaw = VisibleSpacesMode.all.rawValue
-            }
+            //if val == .rects {
+            //    visibleSpacesModeRaw = VisibleSpacesMode.all.rawValue
+            //}
             displayStyle = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }

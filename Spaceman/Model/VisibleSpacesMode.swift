@@ -10,6 +10,6 @@ import Foundation
 
 enum VisibleSpacesMode: Int, CaseIterable {
     case all = 0
-    case currentOnly = 1
-    case neighbors = 2
+    case neighbors = 1
+    case currentOnly = 2
 }
