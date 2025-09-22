@@ -66,6 +66,7 @@ struct PreferencesView: View {
                     }
                     .buttonStyle(BorderlessButtonStyle())
                     .keyboardShortcut("w", modifiers: .command)
+                    .help("Close window (⌘W)")
                     .padding(.leading, 12)
                 }
                 Spacer()
