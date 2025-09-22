@@ -68,7 +68,7 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 
 **Display & Layout**
 - **Layout sizes**: Adjusts icon and font sizes for the menu bar
-- **Dual Row Fill Order**: When using Dual Row layout, choose whether to fill rows first or columns first:
+- **Dual Row fill order**: When using Dual Row layout, choose whether to fill rows first or columns first:
 
 <img src="images/Dual-Row-Directions.png" width="66%" height="auto">
 
@@ -83,8 +83,8 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 - Selects one of the five visual icon styles described in [Understanding the Icons](#understanding-the-icons)
 
 **Space Management**
-- **Space naming**: Assigns custom names to individual spaces for better organization
-- **Only show active spaces**: Hides inactive spaces from the menu bar
+- **Space names**: Assigns custom names to individual spaces for better organization
+- **Spaces shown**: Selects which spaces are shown in the menu bar
 - **Restart numbering by display**: Reset space numbering for each display instead of continuous numbering
 
 **Space Names**
