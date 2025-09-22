@@ -7,15 +7,14 @@
 
 import Cocoa
 import Foundation
-import SwiftUI
 
 class SpaceObserver {
-    @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
-    
     private let workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
     private let defaults = UserDefaults.standard
+    private let nameStore = SpaceNameStore.shared
     private let spaceNameCache = SpaceNameCache()
+    private let workerQueue = DispatchQueue(label: "dev.ruittenb.Spaceman.SpaceObserver")
 
     weak var delegate: SpaceObserverDelegate?
     
@@ -50,110 +49,143 @@ class SpaceObserver {
     }
     
     @objc public func updateSpaceInformation() {
-        var displays = CGSCopyManagedDisplaySpaces(conn)!.takeRetainedValue() as! [NSDictionary]
-
-        // create dict with correct sorting before changing it
-        var spaceNumberDict: [String: Int] = [:]
-        var spacesIndex = 1
-        for d in displays {
-            guard let spaces = d["Spaces"] as? [[String: Any]]
-            else {
-                continue
-            }
-            
-            for s in spaces {
-                let managedSpaceID = String(s["ManagedSpaceID"] as! Int)
-                spaceNumberDict[managedSpaceID] = spacesIndex
-                spacesIndex += 1
-            }
+        let restartByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
+        workerQueue.async { [weak self] in
+            self?.performSpaceInformationUpdate(restartByDesktop: restartByDesktop)
         }
-        
-        // sort displays based on location
-        displays.sort(by: {
-            display1IsLeft(display1: $0, display2: $1)
-        })
-        
-        var activeSpaceID = -1
-        var allSpaces = [Space]()
-        var updatedDict = [String: SpaceNameInfo]()
+    }
+
+    private func performSpaceInformationUpdate(restartByDesktop: Bool) {
+        guard var displays = fetchDisplaySpaces() else { return }
+
+        let spaceNumberMap = buildSpaceNumberMap(from: displays)
+        displays.sort { display1IsLeft(display1: $0, display2: $1) }
+
+        let storedNames = nameStore.loadAll()
+        var updatedNames = storedNames
+        let originalCache = spaceNameCache.snapshot()
+        var cachedNames = originalCache
         var lastSpaceByDesktopNumber = 0
-        
-        for d in displays {
-            guard let currentSpaces = d["Current Space"] as? [String: Any],
-                  let spaces = d["Spaces"] as? [[String: Any]],
-                  let displayID = d["Display Identifier"] as? String
+        var collectedSpaces: [Space] = []
+
+        for display in displays {
+            guard
+                let currentSpace = display["Current Space"] as? [String: Any],
+                let spaces = display["Spaces"] as? [[String: Any]],
+                let displayID = display["Display Identifier"] as? String,
+                let activeID = currentSpace["ManagedSpaceID"] as? Int
             else {
                 continue
             }
-            
-            activeSpaceID = currentSpaces["ManagedSpaceID"] as! Int
-            
-            if activeSpaceID == -1 {
-                DispatchQueue.main.async {
-                    print("Can't find current space")
-                }
-                return
-            }
 
-            var lastFullScreenSpaceNumber = 0
-            if (restartNumberingByDesktop) {
+            if restartByDesktop {
                 lastSpaceByDesktopNumber = 0
             }
 
-            for s in spaces {
-                let managedSpaceID = String(s["ManagedSpaceID"] as! Int)
-                let spaceNumber = spaceNumberDict[managedSpaceID]!
-                let isCurrentSpace = activeSpaceID == s["ManagedSpaceID"] as! Int
-                let isFullScreen = s["TileLayoutManager"] as? [String: Any] != nil
+            var lastFullScreenSpaceNumber = 0
+
+            for spaceDict in spaces {
+                guard let managedInt = spaceDict["ManagedSpaceID"] as? Int else { continue }
+                let managedSpaceID = String(managedInt)
+                guard let spaceNumber = spaceNumberMap[managedSpaceID] else { continue }
+
+                let isCurrentSpace = activeID == managedInt
+                let isFullScreen = spaceDict["TileLayoutManager"] as? [String: Any] != nil
+
                 let spaceByDesktopID: String
-                if !isFullScreen {
-                    lastSpaceByDesktopNumber += 1
-                    spaceByDesktopID = String(lastSpaceByDesktopNumber)
-                } else {
+                if isFullScreen {
                     lastFullScreenSpaceNumber += 1
                     spaceByDesktopID = "F\(lastFullScreenSpaceNumber)"
+                } else {
+                    lastSpaceByDesktopNumber += 1
+                    spaceByDesktopID = String(lastSpaceByDesktopNumber)
                 }
-                
-                while spaceNumber >= spaceNameCache.cache.count {
-                    // Make sure that the name cache is large enough
-                    spaceNameCache.extend()
-                }
-                let spaceName = spaceNameCache.cache[spaceNumber]
-                var space = Space(displayID: displayID,
-                                  spaceID: managedSpaceID,
-                                  spaceName: spaceName,
-                                  spaceNumber: spaceNumber,
-                                  spaceByDesktopID: spaceByDesktopID,
-                                  isCurrentSpace: isCurrentSpace,
-                                  isFullScreen: isFullScreen)
-                
-                if let data = defaults.data(forKey: "spaceNames"),
-                   let dict = try? PropertyListDecoder().decode([String: SpaceNameInfo].self, from: data),
-                   let saved = dict[managedSpaceID]
-                {
-                    // Keep full saved name; may be truncated in some icon modes
-                    space.spaceName = saved.spaceName
-                } else if isFullScreen {
-                    if let pid = s["pid"] as? pid_t,
-                       let app = NSRunningApplication(processIdentifier: pid),
-                       let name = app.localizedName
-                    {
-                        // Use full app name; may be truncated in some icon modes
-                        space.spaceName = name.uppercased()
-                    } else {
-                        space.spaceName = "FULL"
-                    }
-                }
-                spaceNameCache.cache[spaceNumber] = space.spaceName
-                
-                let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName, spaceByDesktopID: spaceByDesktopID)
-                updatedDict[managedSpaceID] = nameInfo
-                allSpaces.append(space)
+
+
+                spaceNameCache.ensureCapacity(&cachedNames, upTo: spaceNumber)
+                let savedName = updatedNames[managedSpaceID]?.spaceName
+                let resolvedName = resolveSpaceName(
+                    from: savedName,
+                    cache: cachedNames,
+                    spaceNumber: spaceNumber,
+                    isFullScreen: isFullScreen,
+                    spaceDict: spaceDict)
+
+                cachedNames[spaceNumber] = resolvedName
+
+                let space = Space(
+                    displayID: displayID,
+                    spaceID: managedSpaceID,
+                    spaceName: resolvedName,
+                    spaceNumber: spaceNumber,
+                    spaceByDesktopID: spaceByDesktopID,
+                    isCurrentSpace: isCurrentSpace,
+                    isFullScreen: isFullScreen)
+
+                let nameInfo = SpaceNameInfo(
+                    spaceNum: spaceNumber,
+                    spaceName: resolvedName,
+                    spaceByDesktopID: spaceByDesktopID)
+                updatedNames[managedSpaceID] = nameInfo
+                collectedSpaces.append(space)
             }
         }
-        
-        defaults.set(try? PropertyListEncoder().encode(updatedDict), forKey: "spaceNames")
-        delegate?.didUpdateSpaces(spaces: allSpaces)
+
+        if cachedNames != originalCache {
+            spaceNameCache.update(with: cachedNames)
+        }
+        if updatedNames != storedNames {
+            nameStore.save(updatedNames)
+        }
+
+        DispatchQueue.main.async {
+            self.delegate?.didUpdateSpaces(spaces: collectedSpaces)
+        }
+    }
+
+    private func fetchDisplaySpaces() -> [NSDictionary]? {
+        guard let rawDisplays = CGSCopyManagedDisplaySpaces(conn)?.takeRetainedValue() as? [NSDictionary] else {
+            return nil
+        }
+        return rawDisplays
+    }
+
+    private func buildSpaceNumberMap(from displays: [NSDictionary]) -> [String: Int] {
+        var mapping: [String: Int] = [:]
+        var index = 1
+        for display in displays {
+            guard let spaces = display["Spaces"] as? [[String: Any]] else { continue }
+            for space in spaces {
+                guard let managedID = space["ManagedSpaceID"] as? Int else { continue }
+                mapping[String(managedID)] = index
+                index += 1
+            }
+        }
+        return mapping
+    }
+
+    private func resolveSpaceName(
+        from savedName: String?,
+        cache: [String],
+        spaceNumber: Int,
+        isFullScreen: Bool,
+        spaceDict: [String: Any]
+    ) -> String {
+        if let savedName, !savedName.isEmpty {
+            return savedName
+        }
+        if isFullScreen {
+            if let pid = spaceDict["pid"] as? pid_t,
+               let app = NSRunningApplication(processIdentifier: pid),
+               let name = app.localizedName {
+                return name.uppercased()
+            }
+            return "FULL"
+        }
+        if spaceNumber < cache.count {
+            return cache[spaceNumber]
+        }
+        return "-"
     }
 }
 
