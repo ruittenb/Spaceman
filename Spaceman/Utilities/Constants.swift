@@ -11,7 +11,7 @@ struct Constants {
     enum AppInfo {
         static let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         static let repo = URL(string: "https://github.com/ruittenb/Spaceman")!
-        static let website = URL(string: "https://ruittenb.github.io/Spaceman/")!
+        static let website = URL(string: "https://ruittenb.github.io/Spaceman/?")!
     }
 
     //  23   = 277 px ; button distance

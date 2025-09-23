@@ -216,7 +216,7 @@ struct PreferencesView: View {
                 set: { visibleSpacesModeRaw = $0.rawValue }
             ), label: Text("Spaces shown")) {
                 Text("All spaces").tag(VisibleSpacesMode.all)
-                Text("Nearby").tag(VisibleSpacesMode.neighbors)
+                Text("Nearby spaces").tag(VisibleSpacesMode.neighbors)
                 Text("Current only").tag(VisibleSpacesMode.currentOnly)
             }
             .pickerStyle(.segmented)
