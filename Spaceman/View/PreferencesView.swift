@@ -309,21 +309,9 @@ struct PreferencesView: View {
                             text: Binding(
                                 get: { entry.value.spaceName },
                                 set: { newVal in
-                                    let trimmed = newVal.trimmingCharacters(in: .whitespacesAndNewlines)
-                                    // Future method calls for when other developer's code is merged:
-                                    // prefsVM.updateSpace(for: entry.key, to: trimmed)
-                                    // prefsVM.persistChanges(for: entry.key)
-                                    // Temporary implementation using current data structure:
-                                    let spaceNum = entry.value.spaceNum
-                                    let spaceByDesktopID = entry.value.spaceByDesktopID
-                                    prefsVM.spaceNamesDict[entry.key] = SpaceNameInfo(
-                                        spaceNum: spaceNum,
-                                        spaceName: trimmed.isEmpty ? "-" : trimmed,
-                                        spaceByDesktopID: spaceByDesktopID
-                                    )
-                                    // Manual persistence
-                                    UserDefaults.standard.set(try? PropertyListEncoder().encode(prefsVM.spaceNamesDict), forKey: "spaceNames")
-                                    // Refresh sorted list
+                                    let trimmed = String(newVal.drop(while: { $0.isWhitespace }))
+                                    prefsVM.updateSpace(for: entry.key, to: trimmed)
+                                    prefsVM.persistChanges(for: entry.key)
                                     prefsVM.loadData()
                                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
                                 }
