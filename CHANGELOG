@@ -1,3 +1,4 @@
+1.11.2: Show display numbers in Preferences; also refactoring and cleanup
 1.11.1: Updates to website, README, screenshots
 1.11.0: Added current+neighbors mode (contribution ultravioletcatastrophe)
 1.10.4: Fixed refreshing list of space names in preferences window
