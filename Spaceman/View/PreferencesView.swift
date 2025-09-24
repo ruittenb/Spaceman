@@ -5,6 +5,7 @@
 //  Created by Sasindu Jayasinghe on 23/11/20.
 //
 
+import Cocoa
 import KeyboardShortcuts
 import LaunchAtLogin
 import SwiftUI
@@ -292,7 +293,7 @@ struct PreferencesView: View {
                 ForEach(prefsVM.sortedSpaceNamesDict, id: \.key) { entry in
                     let info = entry.value
                     let sbd = info.spaceByDesktopID
-                    let displayIndex = 1 // info.currentDisplayIndex ?? 1
+                    let displayIndex = getDisplayIndex(for: entry.key)
                     let spacePart: String = (sbd.hasPrefix("F") ? ("Full Screen "+String(Int(sbd.dropFirst()) ?? 0)) : "Space \(sbd)")
                     let hasMultipleDisplays = NSScreen.screens.count > 1
                     let label = hasMultipleDisplays ? "Display \(displayIndex)  \(spacePart)" : spacePart
@@ -367,6 +368,39 @@ struct PreferencesView: View {
         .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
+    }
+
+    // MARK: - Temporary Display Index Helper (can be easily removed)
+    private func getDisplayIndex(for spaceID: String) -> Int {
+        // Get display information from macOS Core Graphics
+        guard let displays = CGSCopyManagedDisplaySpaces(_CGSDefaultConnection())?.takeUnretainedValue() as? [[String: Any]] else {
+            return 1
+        }
+
+        // Create a mapping of display UUID to index (1-based)
+        var displayIndexMap: [String: Int] = [:]
+        for (index, display) in displays.enumerated() {
+            if let displayID = display["Display Identifier"] as? String {
+                displayIndexMap[displayID] = index + 1
+            }
+        }
+
+        // Find the display for this space
+        for display in displays {
+            guard let spaces = display["Spaces"] as? [[String: Any]],
+                  let displayID = display["Display Identifier"] as? String else {
+                continue
+            }
+
+            for space in spaces {
+                if let managedSpaceID = space["ManagedSpaceID"] as? Int,
+                   String(managedSpaceID) == spaceID {
+                    return displayIndexMap[displayID] ?? 1
+                }
+            }
+        }
+
+        return 1 // Fallback
     }
 }
 
