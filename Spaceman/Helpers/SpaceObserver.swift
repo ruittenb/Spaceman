@@ -13,7 +13,6 @@ class SpaceObserver {
     private let conn = _CGSDefaultConnection()
     private let defaults = UserDefaults.standard
     private let nameStore = SpaceNameStore.shared
-    private let spaceNameCache = SpaceNameCache()
     private let workerQueue = DispatchQueue(label: "dev.ruittenb.Spaceman.SpaceObserver")
 
     weak var delegate: SpaceObserverDelegate?
@@ -63,8 +62,6 @@ class SpaceObserver {
 
         let storedNames = nameStore.loadAll()
         var updatedNames = storedNames
-        let originalCache = spaceNameCache.snapshot()
-        var cachedNames = originalCache
         var lastSpaceByDesktopNumber = 0
         var collectedSpaces: [Space] = []
 
@@ -102,16 +99,12 @@ class SpaceObserver {
                 }
 
 
-                spaceNameCache.ensureCapacity(&cachedNames, upTo: spaceNumber)
                 let savedName = updatedNames[managedSpaceID]?.spaceName
                 let resolvedName = resolveSpaceName(
                     from: savedName,
-                    cache: cachedNames,
                     spaceNumber: spaceNumber,
                     isFullScreen: isFullScreen,
                     spaceDict: spaceDict)
-
-                cachedNames[spaceNumber] = resolvedName
 
                 let space = Space(
                     displayID: displayID,
@@ -131,9 +124,6 @@ class SpaceObserver {
             }
         }
 
-        if cachedNames != originalCache {
-            spaceNameCache.update(with: cachedNames)
-        }
         if updatedNames != storedNames {
             nameStore.save(updatedNames)
         }
@@ -166,7 +156,6 @@ class SpaceObserver {
 
     private func resolveSpaceName(
         from savedName: String?,
-        cache: [String],
         spaceNumber: Int,
         isFullScreen: Bool,
         spaceDict: [String: Any]
@@ -181,9 +170,6 @@ class SpaceObserver {
                 return name.uppercased()
             }
             return "FULL"
-        }
-        if spaceNumber < cache.count {
-            return cache[spaceNumber]
         }
         return "-"
     }

@@ -17,12 +17,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     static var activeSpaceIDs: Set<String> = []
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        // Clean up legacy UserDefaults
+        UserDefaults.standard.removeObject(forKey: "spaceNameCache")
 
         iconCreator = IconCreator()
 
         statusBar = StatusBar()
         statusBar.iconCreator = iconCreator
-        
+
         spaceObserver = SpaceObserver()
         spaceObserver.delegate = self
         spaceObserver.updateSpaceInformation()
