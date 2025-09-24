@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  PreferencesView.swift
 //  Spaceman
 //
 //  Created by Sasindu Jayasinghe on 23/11/20.
@@ -17,8 +17,6 @@ struct PreferencesView: View {
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
-    // Legacy: hideInactiveSpaces used to be a boolean toggle
-    @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -55,14 +53,6 @@ struct PreferencesView: View {
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear(perform: prefsVM.loadData)
-        .onAppear {
-            // Migrate legacy 'hideInactiveSpaces' to new 'visibleSpacesMode' if needed
-            if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil {
-                if hideInactiveSpaces {
-                    visibleSpacesModeRaw = VisibleSpacesMode.currentOnly.rawValue
-                }
-            }
-        }
         .onChange(of: data) { _ in
             prefsVM.loadData()
         }

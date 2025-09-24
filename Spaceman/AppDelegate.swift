@@ -17,8 +17,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     static var activeSpaceIDs: Set<String> = []
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Clean up legacy UserDefaults
-        UserDefaults.standard.removeObject(forKey: "spaceNameCache")
+        // Legacy settings migration - can be removed in future versions
+        performLegacyMigrations()
 
         iconCreator = IconCreator()
 
@@ -56,6 +56,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func openPreferencesFromScript() {
         statusBar.showPreferencesWindow(self)
+    }
+
+    // MARK: - Legacy Settings Migration
+    private func performLegacyMigrations() {
+        // Remove obsolete UserDefaults keys
+        UserDefaults.standard.removeObject(forKey: "spaceNameCache")
+
+        // Migrate legacy hideInactiveSpaces to visibleSpacesMode
+        if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil {
+            let hideInactiveSpaces = UserDefaults.standard.bool(forKey: "hideInactiveSpaces")
+            if hideInactiveSpaces {
+                UserDefaults.standard.set(VisibleSpacesMode.currentOnly.rawValue, forKey: "visibleSpacesMode")
+            }
+        }
     }
 }
 
