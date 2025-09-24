@@ -3,23 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.11.0: spaces shown: current + neighbors (contribution ultravioletcatastrophe)</title>
+            <title>v1.11.1: Updates to website, README, screenshots</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Added mode: show current + neighbors (contribution ultravioletcatastrophe)</li>
+                    <li>- Updates to website, README, screenshots</li>
+<li>- Minor code refactoring</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Mon, 22 Sep 2025 21:21:31 +0200</pubDate>
+            <pubDate>Wed, 24 Sep 2025 12:09:45 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.11.0/Spaceman-1.11.0.dmg"
-                sparkle:version="1.11.0"
-                sparkle:shortVersionString="1.11.0"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.11.1/Spaceman-1.11.1.dmg"
+                sparkle:version="1.11.1"
+                sparkle:shortVersionString="1.11.1"
                 type="application/octet-stream"
-                length="2652572"
-sparkle:edSignature="0sDCsTzDV8EahT95lkFjRxccLZFigeJxbpRe4nbjN1f3ucm2vqyInt52WHnje6IKrCAGiO6E9a/0eBm/mJRuDw=="
+                length="2652890"
+sparkle:edSignature="Cc9Ou6r7zBPcpY180/m9eChRKnfw1HeQg6+GSCl2VGxoSrBrd2F3NWmq6f6cQ+zDfWTtBK6hhL8XNwKCfCUPCA=="
             />
         </item>
     </channel>
