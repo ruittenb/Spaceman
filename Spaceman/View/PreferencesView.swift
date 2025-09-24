@@ -5,6 +5,7 @@
 //  Created by Sasindu Jayasinghe on 23/11/20.
 //
 
+import Cocoa
 import KeyboardShortcuts
 import LaunchAtLogin
 import SwiftUI
@@ -213,7 +214,7 @@ struct PreferencesView: View {
             //.disabled(displayStyle == .rects)
             if visibleSpacesMode == .neighbors {
                 Stepper(value: $neighborRadius, in: 1...3) {
-                    Text("Neighbor range: ±\(neighborRadius)")
+                    Text("Nearby range: ±\(neighborRadius)")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -290,37 +291,34 @@ struct PreferencesView: View {
             } else {
                 // Show a text field per space entry (keyed to avoid index issues during updates)
                 ForEach(prefsVM.sortedSpaceNamesDict, id: \.key) { entry in
+                    let info = entry.value
+                    let sbd = info.spaceByDesktopID
+                    let displayIndex = getDisplayIndex(for: entry.key)
+                    let spacePart: String = (sbd.hasPrefix("F") ? ("Full Screen "+String(Int(sbd.dropFirst()) ?? 0)) : "Space \(sbd)")
+                    let hasMultipleDisplays = NSScreen.screens.count > 1
+                    let label = hasMultipleDisplays ? "Display \(displayIndex)  \(spacePart)" : spacePart
+                    let leftMargin = hasMultipleDisplays ? 40 : 70
+                    let frameWidth = hasMultipleDisplays ? 160 : 100
+                    
                     HStack(spacing: 8) {
-                        Text("Space \(entry.value.spaceByDesktopID):")
-                            .frame(width: 120, alignment: .trailing)
+                        Text(label)
+                            .frame(width: CGFloat(frameWidth), alignment: .leading)
+                            .padding(.leading, CGFloat(leftMargin))
                             .foregroundColor(.secondary)
                         TextField(
-                            //visibleSpacesMode == .all ? "Name (4 shown in All)" : (visibleSpacesMode == .neighbors ? "Name (6 shown in Neighbors)" : "Name"),
                             "Name",
                             text: Binding(
                                 get: { entry.value.spaceName },
                                 set: { newVal in
-                                    let trimmed = newVal.trimmingCharacters(in: .whitespacesAndNewlines)
-                                    // Future method calls for when other developer's code is merged:
-                                    // prefsVM.updateSpace(for: entry.key, to: trimmed)
-                                    // prefsVM.persistChanges(for: entry.key)
-
-                                    // Temporary implementation using current data structure:
-                                    let spaceNum = entry.value.spaceNum
-                                    let spaceByDesktopID = entry.value.spaceByDesktopID
-                                    prefsVM.spaceNamesDict[entry.key] = SpaceNameInfo(
-                                        spaceNum: spaceNum,
-                                        spaceName: trimmed.isEmpty ? "-" : trimmed,
-                                        spaceByDesktopID: spaceByDesktopID
-                                    )
-                                    // Manual persistence
-                                    UserDefaults.standard.set(try? PropertyListEncoder().encode(prefsVM.spaceNamesDict), forKey: "spaceNames")
-                                    // Refresh sorted list
+                                    let trimmed = String(newVal.drop(while: { $0.isWhitespace }))
+                                    prefsVM.updateSpace(for: entry.key, to: trimmed)
+                                    prefsVM.persistChanges(for: entry.key)
                                     prefsVM.loadData()
                                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
                                 }
                             )
                         )
+                        .frame(alignment: .trailing)
                         .textFieldStyle(.roundedBorder)
                     }
                 }
@@ -370,6 +368,39 @@ struct PreferencesView: View {
         .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
+    }
+
+    // MARK: - Temporary Display Index Helper (can be easily removed)
+    private func getDisplayIndex(for spaceID: String) -> Int {
+        // Get display information from macOS Core Graphics
+        guard let displays = CGSCopyManagedDisplaySpaces(_CGSDefaultConnection())?.takeUnretainedValue() as? [[String: Any]] else {
+            return 1
+        }
+
+        // Create a mapping of display UUID to index (1-based)
+        var displayIndexMap: [String: Int] = [:]
+        for (index, display) in displays.enumerated() {
+            if let displayID = display["Display Identifier"] as? String {
+                displayIndexMap[displayID] = index + 1
+            }
+        }
+
+        // Find the display for this space
+        for display in displays {
+            guard let spaces = display["Spaces"] as? [[String: Any]],
+                  let displayID = display["Display Identifier"] as? String else {
+                continue
+            }
+
+            for space in spaces {
+                if let managedSpaceID = space["ManagedSpaceID"] as? Int,
+                   String(managedSpaceID) == spaceID {
+                    return displayIndexMap[displayID] ?? 1
+                }
+            }
+        }
+
+        return 1 // Fallback
     }
 }
 
