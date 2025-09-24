@@ -7,6 +7,7 @@
 
 import Foundation
 
-enum KeySet: Int {
-    case toprow, numpad
+enum KeySet: Int, CaseIterable {
+    case toprow = 0
+    case numpad = 1
 }

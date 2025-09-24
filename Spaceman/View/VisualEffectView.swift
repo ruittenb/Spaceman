@@ -24,5 +24,4 @@ struct VisualEffectView: NSViewRepresentable {
         visualEffectView.material = material
         visualEffectView.blendingMode = blendingMode
     }
-    
 }

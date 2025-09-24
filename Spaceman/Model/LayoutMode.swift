@@ -7,6 +7,10 @@
 
 import Foundation
 
-enum LayoutMode: Int {
-    case dualRows, compact, medium, large, extraLarge
+enum LayoutMode: Int, CaseIterable {
+    case dualRows = 0
+    case compact = 1
+    case medium = 2
+    case large = 3
+    case extraLarge = 4
 }
