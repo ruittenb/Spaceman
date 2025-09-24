@@ -7,6 +7,10 @@
 
 import Foundation
 
-enum DisplayStyle: Int {
-    case rects, numbers, numbersAndRects, names, numbersAndNames
+enum DisplayStyle: Int, CaseIterable {
+    case rects = 0
+    case numbers = 1
+    case numbersAndRects = 2
+    case names = 3
+    case numbersAndNames = 4
 }
