@@ -85,15 +85,12 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 - Selects one of the five visual icon styles described in [Understanding the Icons](#understanding-the-icons)
 
 **Space Management**
-- **Space names**: Assigns custom names to individual spaces for better organization
+- **Space names**: Assigns custom names of any length to individual spaces
+  - The menu displays full names regardless of length
+  - Menu bar icons show full names when "Only show active spaces" is enabled, otherwise names are truncated to 4 or 6 characters for compactness
 - **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
 - **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
 - **Restart numbering by display**: Reset space numbering for each display instead of continuous numbering
-
-**Space Names**
-- Enter names of any length for each space
-- The menu displays full names regardless of length
-- Menu bar icons show full names when "Only show active spaces" is enabled, otherwise names are truncated to 4 characters for compactness
 
 ## 🔹 Switching Spaces
 
