@@ -60,6 +60,8 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 
 ### General Tab
 
+<img src="images/Preferences-General.png" width="66%" height="auto">
+
 **App Behavior**
 - **Launch at login**: Automatically start Spaceman when you log in to macOS
 - **Auto-refresh**: Enables refreshing space information in the background at regular intervals
@@ -75,24 +77,23 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 **Keyboard Shortcuts**
 - **Shortcut keys** and **Modifiers**: Tells Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
 
-<img src="images/Preferences-8.png" width="66%" height="auto">
-
 ### Spaces Tab
+
+<img src="images/Preferences-Spaces.png" width="66%" height="auto">
 
 **Icon Style**
 - Selects one of the five visual icon styles described in [Understanding the Icons](#understanding-the-icons)
 
 **Space Management**
 - **Space names**: Assigns custom names to individual spaces for better organization
-- **Spaces shown**: Selects which spaces are shown in the menu bar
+- **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
+- **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
 - **Restart numbering by display**: Reset space numbering for each display instead of continuous numbering
 
 **Space Names**
 - Enter names of any length for each space
 - The menu displays full names regardless of length
 - Menu bar icons show full names when "Only show active spaces" is enabled, otherwise names are truncated to 4 characters for compactness
-
-<img src="images/Preferences-6.png" width="66%" height="auto">
 
 ## 🔹 Switching Spaces
 
