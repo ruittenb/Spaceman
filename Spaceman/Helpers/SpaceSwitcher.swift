@@ -23,7 +23,7 @@ class SpaceSwitcher {
             return onError()
         }
         let modifiers = shortcutHelper.getModifiers()
-        let appleScript = "tell application \"System Events\" to key code \(keyCode) using {\(modifiers)}"
+        let appleScript = makeAppleScript(keyCode: keyCode, modifiers: modifiers)
         var error: NSDictionary?
         DispatchQueue.global(qos: .background).async {
             if let scriptObject = NSAppleScript(source: appleScript) {
@@ -32,9 +32,17 @@ class SpaceSwitcher {
                     let errorNumber: Int = error?[NSAppleScript.errorNumber] as! Int
                     let errorBriefMessage: String = error?[NSAppleScript.errorBriefMessage] as! String
                     let settingsName = self.systemSettingsName()
-                    // -1002: Error: Spaceman is not allowed to send keystrokes. (needs Accessibility permission)
-                    // -1743: Error: Not authorized to send Apple events to System Events. (needs Automation permission)
-                    let permissionType = errorNumber == 1002 ? "Accessibility" : "Automation"
+                    let permissionType: String
+                    switch abs(errorNumber) {
+                    case 1002:
+                        // -1002: Error: Spaceman is not allowed to send keystrokes. (needs Accessibility permission)
+                        permissionType = "Accessibility"
+                    case 1743:
+                        // -1743: Error: Not authorized to send Apple events to System Events. (needs Automation permission)
+                        permissionType = "Automation"
+                    default:
+                        permissionType = "Automation"
+                    }
                     self.alert(
                         msg: "Error: \(errorBriefMessage)\n\nPlease grant \(permissionType) permissions to Spaceman in \(settingsName) → Privacy and Security.",
                         permissionTypeName: permissionType)
@@ -83,5 +91,12 @@ class SpaceSwitcher {
                 try? task.run()
             }
         }
+    }
+    
+    private func makeAppleScript(keyCode: Int, modifiers: String) -> String {
+        if modifiers.isEmpty {
+            return "tell application \"System Events\" to key code \(keyCode)"
+        }
+        return "tell application \"System Events\" to key code \(keyCode) using {\(modifiers)}"
     }
 }
