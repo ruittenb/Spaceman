@@ -104,10 +104,10 @@ For space switching to work, you need to configure three things:
 
 **1. Accessibility and Automation Permissions**
 - Go to **System Settings > Privacy & Security > Accessibility**
-- Add Spaceman to the list of allowed applications
+- Add Spaceman to the list of allowed applications. (You may need to remove it first.)
 - Enable the checkbox next to Spaceman
 - Go to **System Settings > Privacy & Security > Automation**
-- Add Spaceman to the list of allowed applications
+- Add Spaceman to the list of allowed applications. (You may need to remove it first.)
 - Enable the checkbox next to Spaceman
 
 <img src="images/Accessibility-1.png" width="66%" height="auto">
