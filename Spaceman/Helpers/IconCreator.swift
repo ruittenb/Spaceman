@@ -41,9 +41,8 @@ class IconCreator {
 
         var icons = [NSImage]()
 
-        // Precompute switch indices for all spaces (global mapping)
+        // Precompute switch indices for all spaces (use actual macOS global space numbers)
         var switchIndexBySpaceID: [String: Int] = [:]
-        var nonFullIndex = 1
         var fullIndex = 1
         for s in spaces {
             if s.isFullScreen {
@@ -53,10 +52,10 @@ class IconCreator {
                 }
                 fullIndex += 1
             } else {
-                if nonFullIndex <= 10 {
-                    switchIndexBySpaceID[s.spaceID] = nonFullIndex
+                // Use actual macOS global space number, not sequential numbering
+                if s.spaceNumber <= 10 {
+                    switchIndexBySpaceID[s.spaceID] = s.spaceNumber
                 }
-                nonFullIndex += 1
             }
         }
 
