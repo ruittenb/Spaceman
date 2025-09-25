@@ -9,7 +9,7 @@ import Foundation
 import Sparkle
 import SwiftUI
 
-class StatusBar: NSObject, NSMenuDelegate {
+class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("schema") private var keySet = KeySet.toprow
@@ -36,7 +36,7 @@ class StatusBar: NSObject, NSMenuDelegate {
         
         shortcutHelper = ShortcutHelper()
         spaceSwitcher = SpaceSwitcher()
-        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
         
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
@@ -56,6 +56,11 @@ class StatusBar: NSObject, NSMenuDelegate {
             action: #selector(updaterController.checkForUpdates(_:)),
             keyEquivalent: "")
         updatesItem.target = updaterController
+
+        // Set up update badge - start with no badge, show only when update available
+        if #available(macOS 14.0, *) {
+            updatesItem.badge = nil
+        }
 
         prefItem = NSMenuItem(
             title: "Preferences...",
@@ -246,5 +251,43 @@ class StatusBar: NSObject, NSMenuDelegate {
             return
         }
         spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, onError: flashStatusBar)
+    }
+
+    // MARK: - SPUUpdaterDelegate
+    func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
+        // Update is available - show badge with version number
+        DispatchQueue.main.async {
+            if #available(macOS 14.0, *) {
+                let versionString = item.displayVersionString
+                self.updatesItem.badge = NSMenuItemBadge(string: "v\(versionString) available")
+            }
+        }
+    }
+
+    func updaterDidNotFindUpdate(_ updater: SPUUpdater) {
+        // No update available - hide badge
+        DispatchQueue.main.async {
+            if #available(macOS 14.0, *) {
+                self.updatesItem.badge = nil
+            }
+        }
+    }
+
+    func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
+        // Error occurred - hide badge
+        DispatchQueue.main.async {
+            if #available(macOS 14.0, *) {
+                self.updatesItem.badge = nil
+            }
+        }
+    }
+
+    func updater(_ updater: SPUUpdater, willInstallUpdate item: SUAppcastItem) {
+        // About to install - hide badge
+        DispatchQueue.main.async {
+            if #available(macOS 14.0, *) {
+                self.updatesItem.badge = nil
+            }
+        }
     }
 }
