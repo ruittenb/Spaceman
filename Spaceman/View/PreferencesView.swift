@@ -337,7 +337,6 @@ struct PreferencesView: View {
                                     let trimmed = String(newVal.drop(while: { $0.isWhitespace }))
                                     prefsVM.updateSpace(for: entry.key, to: trimmed)
                                     prefsVM.persistChanges(for: entry.key)
-                                    prefsVM.loadData()
                                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
                                 }
                             )
