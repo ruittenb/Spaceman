@@ -33,30 +33,31 @@ class PreferencesViewModel: ObservableObject {
     
     func updateSpace() {
         let key = sortedSpaceNamesDict[selectedSpace].key
-        let spaceNum = sortedSpaceNamesDict[selectedSpace].value.spaceNum
-        let spaceByDesktopID = sortedSpaceNamesDict[selectedSpace].value.spaceByDesktopID
-        spaceNamesDict[key] = SpaceNameInfo(
-            spaceNum: spaceNum,
-            spaceName: spaceName.isEmpty ? "-" : spaceName,
-            spaceByDesktopID: spaceByDesktopID)
+        updateSpaceName(for: key, to: spaceName.isEmpty ? "-" : spaceName)
     }
 
     func updateSpace(at index: Int, to newName: String) {
         guard index >= 0 && index < sortedSpaceNamesDict.count else { return }
         let key = sortedSpaceNamesDict[index].key
-        let info = sortedSpaceNamesDict[index].value
-        spaceNamesDict[key] = SpaceNameInfo(
-            spaceNum: info.spaceNum,
-            spaceName: newName.isEmpty ? "-" : newName,
-            spaceByDesktopID: info.spaceByDesktopID)
+        updateSpaceName(for: key, to: newName.isEmpty ? "-" : newName)
     }
 
     func updateSpace(for key: String, to newName: String) {
+        updateSpaceName(for: key, to: newName.isEmpty ? "-" : newName)
+    }
+
+    private func updateSpaceName(for key: String, to newName: String) {
         guard let info = spaceNamesDict[key] else { return }
-        spaceNamesDict[key] = SpaceNameInfo(
+        // Update only the name, preserve all other fields
+        var updatedInfo = SpaceNameInfo(
             spaceNum: info.spaceNum,
-            spaceName: newName.isEmpty ? "-" : newName,
+            spaceName: newName,
             spaceByDesktopID: info.spaceByDesktopID)
+        updatedInfo.displayUUID = info.displayUUID
+        updatedInfo.positionOnDisplay = info.positionOnDisplay
+        updatedInfo.currentDisplayIndex = info.currentDisplayIndex
+        updatedInfo.currentSpaceNumber = info.currentSpaceNumber
+        spaceNamesDict[key] = updatedInfo
     }
 
     func persistChanges(for key: String?) {
@@ -79,7 +80,19 @@ class PreferencesViewModel: ObservableObject {
     private func rebuildSortedSpaceNames(maintainingSelectionFor key: String?) {
         let previousKey = key ?? (selectedSpace >= 0 && selectedSpace < sortedSpaceNamesDict.count ? sortedSpaceNamesDict[selectedSpace].key : nil)
 
-        sortedSpaceNamesDict = spaceNamesDict.sorted { $0.value.spaceNum < $1.value.spaceNum }
+        // Sort by display index, then by position on display (respects display ordering)
+        sortedSpaceNamesDict = spaceNamesDict.sorted { (first, second) in
+            let displayA = first.value.currentDisplayIndex ?? 0
+            let displayB = second.value.currentDisplayIndex ?? 0
+
+            if displayA != displayB {
+                return displayA < displayB
+            }
+
+            let positionA = first.value.positionOnDisplay ?? 0
+            let positionB = second.value.positionOnDisplay ?? 0
+            return positionA < positionB
+        }
 
         if sortedSpaceNamesDict.isEmpty {
             sortedSpaceNamesDict.append((key: "0", value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")))
