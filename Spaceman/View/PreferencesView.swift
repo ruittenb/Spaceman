@@ -144,12 +144,14 @@ struct PreferencesView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         generalPane
                         Divider()
-                        displaysPane
-                        Divider()
                         switchingPane
                     }
                 } else {
-                    spacesPane
+                    VStack(alignment: .leading, spacing: 0) {
+                        spacesPane
+                        Divider()
+                        displaysPane
+                    }
                 }
             }
         }
@@ -236,16 +238,15 @@ struct PreferencesView: View {
                 Text("Current only").tag(VisibleSpacesMode.currentOnly)
             }
             .pickerStyle(.segmented)
-            //.disabled(displayStyle == .rects)
-            if visibleSpacesMode == .neighbors {
-                Stepper(value: $neighborRadius, in: 1...3) {
-                    Text("Nearby range: ±\(neighborRadius)")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                .onChange(of: neighborRadius) { _ in
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-                }
+            Stepper(value: $neighborRadius, in: 1...3) {
+                Text("Nearby range: ±\(neighborRadius)")
+                    //.font(.subheadline)
+                    .foregroundColor(visibleSpacesMode == .neighbors ? .primary : .secondary)
+                    .padding(.leading, 40)
+            }
+            .disabled(visibleSpacesMode != .neighbors)
+            .onChange(of: neighborRadius) { _ in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
             }
         }
         .padding()
@@ -321,12 +322,12 @@ struct PreferencesView: View {
                     let spacePart: String = (sbd.hasPrefix("F") ? ("Full Screen "+String(Int(sbd.dropFirst()) ?? 0)) : "Space \(sbd)")
                     let hasMultipleDisplays = NSScreen.screens.count > 1
                     let label = hasMultipleDisplays ? "Display \(displayIndex)  \(spacePart)" : spacePart
-                    let leftMargin = hasMultipleDisplays ? 40 : 70
-                    let frameWidth = hasMultipleDisplays ? 160 : 100
+                    let leftMargin = 40
+                    let labelWidth = hasMultipleDisplays ? 140 : 80
                     
                     HStack(spacing: 8) {
                         Text(label)
-                            .frame(width: CGFloat(frameWidth), alignment: .leading)
+                            .frame(width: CGFloat(labelWidth), alignment: .leading)
                             .padding(.leading, CGFloat(leftMargin))
                             .foregroundColor(.secondary)
                         TextField(
@@ -359,12 +360,12 @@ struct PreferencesView: View {
     // MARK: - Switching pane
     private var switchingPane: some View {
         // Switching Pane
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 10) {
             Text("Switching Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
             Picker("Shortcut keys", selection: $keySet) {
-                Text("number keys on top row").tag(KeySet.toprow)
+                Text("number keys on top row").tag(KeySet.toprow).padding(.bottom, 2)
                 Text("numeric keypad").tag(KeySet.numpad)
             }
             .pickerStyle(.radioGroup)
