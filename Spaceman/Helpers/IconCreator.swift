@@ -18,7 +18,6 @@ class IconCreator {
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     
-    private let leftMargin = CGFloat(7)  /* FIXME determine actual left margin */
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
         set { visibleSpacesModeRaw = newValue.rawValue }
@@ -31,7 +30,7 @@ class IconCreator {
     public var sizes: GuiSize!
     public var iconWidths: [IconWidth] = []
 
-    public func getIcon(for spaces: [Space]) -> NSImage {
+    public func getIcon(for spaces: [Space], buttonFrame: NSRect? = nil) -> NSImage {
         sizes = Constants.sizes[layoutMode]
         gapWidth = CGFloat(sizes.GAP_WIDTH_SPACES)
         displayGapWidth = CGFloat(sizes.GAP_WIDTH_DISPLAYS)
@@ -112,9 +111,9 @@ class IconCreator {
 
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
         if layoutMode == .dualRows {
-            return mergeIconsTwoRows(iconsWithDisplayProperties)
+            return mergeIconsTwoRows(iconsWithDisplayProperties, buttonFrame: buttonFrame)
         } else {
-            return mergeIcons(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID)
+            return mergeIcons(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID, buttonFrame: buttonFrame)
         }
     }
 
@@ -302,14 +301,16 @@ class IconCreator {
         return iconsWithDisplayProperties
     }
     
-    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String)], indexMap: [String: Int]) -> NSImage {
+    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String)], indexMap: [String: Int], buttonFrame: NSRect? = nil) -> NSImage {
         let numIcons = iconsWithDisplayProperties.count
         let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
             result + icon.image.size.width
         })
         let accomodatingGapWidth = CGFloat(max(0, numIcons - 1)) * gapWidth
         let accomodatingDisplayGapWidth = CGFloat(max(0, displayCount - 1)) * displayGapWidth
-        let totalWidth = max(1, combinedIconWidth + accomodatingGapWidth + accomodatingDisplayGapWidth)
+        let totalIconWidth = combinedIconWidth + accomodatingGapWidth + accomodatingDisplayGapWidth
+        let dynamicLeftMargin = calculateLeftMargin(buttonFrame: buttonFrame, totalIconWidth: totalIconWidth)
+        let totalWidth = max(1, totalIconWidth)
         let image = NSImage(size: NSSize(width: totalWidth, height: iconSize.height))
 
         image.lockFocus()
@@ -322,14 +323,17 @@ class IconCreator {
                 from: NSRect.zero,
                 operation: NSCompositingOperation.sourceOver,
                 fraction: 1.0)
-            if icon.nextSpaceOnDifferentDisplay {
-                right = left + icon.image.size.width + displayGapWidth
-            } else {
-                right = left + icon.image.size.width + gapWidth
-            }
+            // Simple gap splitting: each icon owns half the gap on each side
+            let gap = icon.nextSpaceOnDifferentDisplay ? displayGapWidth : gapWidth
+            let iconLeft = left - (gap / 2.0)
+            let iconRight = left + icon.image.size.width + (gap / 2.0)
+
+            // Calculate total width including full gap for positioning next icon
+            right = left + icon.image.size.width + gap
+
             // Use precomputed index mapping to preserve correct switching
             let targetIndex = indexMap[icon.spaceID] ?? -99 // invalid => onError
-            iconWidths.append(IconWidth(left: left, right: right, index: targetIndex))
+            iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, index: targetIndex))
             left = right
         }
         image.isTemplate = true
@@ -338,7 +342,7 @@ class IconCreator {
         return image
     }
 
-    private func mergeIconsTwoRows(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String)]) -> NSImage {
+    private func mergeIconsTwoRows(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String)], buttonFrame: NSRect? = nil) -> NSImage {
         // Column describes a stacked pair (top/bottom) and its rendered width and trailing gap
         struct Column { var top: (NSImage, Bool, Int, String)?; var bottom: (NSImage, Bool, Int, String)?; var width: CGFloat = 0; var gapAfter: CGFloat = 0 }
 
@@ -425,6 +429,7 @@ class IconCreator {
 
         // Render
         let totalWidth = columns.reduce(CGFloat(0)) { $0 + $1.width + $1.gapAfter }
+        let dynamicLeftMargin = calculateLeftMargin(buttonFrame: buttonFrame, totalIconWidth: totalWidth)
         let gap = CGFloat(sizes.GAP_HEIGHT_DUALROWS)
         let imageHeight = iconSize.height * 2 + gap
         let image = NSImage(size: NSSize(width: totalWidth, height: imageHeight))
@@ -434,15 +439,18 @@ class IconCreator {
         iconWidths = []
 
         for col in columns {
+            // Simple gap splitting: each icon owns half the gap on each side
+            // (col.gapAfter already accounts for display gaps vs regular gaps)
+            let iconLeft = left - (col.gapAfter / 2.0)
+            let iconRight = left + col.width + (col.gapAfter / 2.0)
+
             if let top = col.top {
                 top.0.draw(at: NSPoint(x: left, y: iconSize.height + gap), from: .zero, operation: .sourceOver, fraction: 1.0)
-                let right = left + col.width + col.gapAfter
-                iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: iconSize.height + gap, bottom: imageHeight, index: top.2))
+                iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, top: iconSize.height + gap, bottom: imageHeight, index: top.2))
             }
             if let bottom = col.bottom {
                 bottom.0.draw(at: NSPoint(x: left, y: 0), from: .zero, operation: .sourceOver, fraction: 1.0)
-                let right = left + col.width + col.gapAfter
-                iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, top: 0, bottom: iconSize.height, index: bottom.2))
+                iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, top: 0, bottom: iconSize.height, index: bottom.2))
             }
             left += col.width + col.gapAfter
         }
@@ -459,5 +467,17 @@ class IconCreator {
             .foregroundColor: NSColor.black.withAlphaComponent(alpha),
             .font: NSFont.monospacedSystemFont(ofSize: actualFontSize, weight: .bold),
             .paragraphStyle: paragraphStyle]
+    }
+    
+    private func calculateLeftMargin(buttonFrame: NSRect?, totalIconWidth: CGFloat) -> CGFloat {
+        guard let frame = buttonFrame, totalIconWidth > 0 else {
+            // Fallback to known good value if frame unavailable
+            return CGFloat(7)
+        }
+
+        // Calculate margin based on centering the icons within the button frame
+        let availableWidth = frame.width
+        let margin = (availableWidth - totalIconWidth) / 2.0
+        return max(margin, 0) // Ensure non-negative margin
     }
 }

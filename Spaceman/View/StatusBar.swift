@@ -147,6 +147,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         }
     }
 
+    func getButtonFrame() -> NSRect? {
+        return statusBarItem.button?.frame
+    }
+
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
         // update icon
         if let statusBarButton = statusBarItem.button {
