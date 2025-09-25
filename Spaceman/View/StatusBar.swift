@@ -195,21 +195,23 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
     }
 
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
-        let spaceNumber = space.spaceNumber
+        let globalSpaceNumber = space.spaceNumber
         let spaceName = space.spaceName
-        let spaceByDesktopID = Int(space.spaceByDesktopID) ?? 99
-        
+
         let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
         if space.spaceByDesktopID == "F1" {
+            // F1 fullscreen maps to space 11 -> shortcut "-"
             shortcutKey = "-"
         } else if space.spaceByDesktopID == "F2" {
+            // F2 fullscreen maps to space 12 -> shortcut "=" or "+"
             shortcutKey = (keySet == KeySet.numpad ? "+" : "=")
-        } else if spaceByDesktopID < 10 {
-            shortcutKey = space.spaceByDesktopID
-        } else if spaceByDesktopID == 10 {
+        } else if globalSpaceNumber >= 1 && globalSpaceNumber <= 9 {
+            shortcutKey = String(globalSpaceNumber)
+        } else if globalSpaceNumber == 10 {
             shortcutKey = "0"
         }
+        // For spaces > 12: no shortcut (macOS limitation)
         
         let icon = NSImage(imageLiteralResourceName: "SpaceIconNumNormalActive")
         let menuIcon = iconCreator.createRectWithNumberIcon(
@@ -229,7 +231,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         case "F2":
             item.tag = -2
         default:
-            item.tag = spaceNumber
+            item.tag = globalSpaceNumber
         }
         item.image = menuIcon
         if space.isCurrentSpace || shortcutKey == "" {
