@@ -82,11 +82,17 @@ class IconCreator {
                 iconResourceName = "SpaceIconNumFullActive"
             case (false, true, .rects):
                 iconResourceName = "SpaceIconNumFullInactive"
+            case (true, true, .numbersAndNames),
+                 (true, true, .numbersAndRects):
+                // avoid 「 」 marks overlapping with text
+                iconResourceName = "SpaceIconNumNormalActive"
+            case (false, true, .numbersAndNames),
+                 (false, true, .numbersAndRects):
+                // avoid 「 」 marks overlapping with text
+                iconResourceName = "SpaceIconNumNormalInactive"
             case (true, false, _):
                 iconResourceName = "SpaceIconNumNormalActive"
             default:
-                // (true, true, .numbersAndNames)
-                // (false, true, .numbersAndNames)
                 iconResourceName = "SpaceIconNumNormalInactive"
             }
             

@@ -228,6 +228,9 @@ struct PreferencesView: View {
         .onChange(of: visibleSpacesModeRaw) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
+        .onChange(of: restartNumberingByDesktop) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
     }
     
     // MARK: - Refresh Shortcut Recorder
