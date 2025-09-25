@@ -3,24 +3,28 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.11.1: Updates to website, README, screenshots</title>
+            <title>v1.11.3: show display numbers in preferences; update badge in menu</title>
             <description>
                 <![CDATA[
-                    <ul>
-                    <li>- Updates to website, README, screenshots</li>
-<li>- Minor code refactoring</li>
-                    </ul>
+                <dl>
+                    <dt>1.11.2</dt>
+                    <dd>- Show display numbers in Preferences</dd>
+                    <dd>- Some refactoring and cleanup</dd>
+                    <dt>1.11.3</dt>
+                    <dd>- Show badge on menu item when update is available</dd>
+                    <dd>- Minor bugfixes</dd>
+                </dl>
                 ]]>
             </description>
-            <pubDate>Wed, 24 Sep 2025 12:09:45 +0200</pubDate>
+            <pubDate>Thu, 25 Sep 2025 10:12:41 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.11.1/Spaceman-1.11.1.dmg"
-                sparkle:version="1.11.1"
-                sparkle:shortVersionString="1.11.1"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.11.3/Spaceman-1.11.3.dmg"
+                sparkle:version="1.11.3"
+                sparkle:shortVersionString="1.11.3"
                 type="application/octet-stream"
-                length="2652890"
-sparkle:edSignature="Cc9Ou6r7zBPcpY180/m9eChRKnfw1HeQg6+GSCl2VGxoSrBrd2F3NWmq6f6cQ+zDfWTtBK6hhL8XNwKCfCUPCA=="
+                length="2663179"
+sparkle:edSignature="Zr/7+ecQkyz7ia4a2bpXrx6KeUfRL4XZJ0bPkCw7pRgwsCfJ2MooLJWf3HAQrWuhftB4FJylNjYNuZPS4RgqAw=="
             />
         </item>
     </channel>
