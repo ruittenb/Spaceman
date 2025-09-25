@@ -3,28 +3,26 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.11.3: show display numbers in preferences; update badge in menu</title>
+            <title>v1.12.0 fix space and display numbering and ordering</title>
             <description>
                 <![CDATA[
-                <dl>
-                    <dt>1.11.2</dt>
-                    <dd>- Show display numbers in Preferences</dd>
-                    <dd>- Some refactoring and cleanup</dd>
-                    <dt>1.11.3</dt>
-                    <dd>- Show badge on menu item when update is available</dd>
-                    <dd>- Minor bugfixes</dd>
-                </dl>
+                    <dl>
+                        <dt>1.11.4</dt>
+                        <dd>Fix space and display numbering and ordering</dd>
+                        <dt>1.12.0</dt>
+                        <dd>Fix space switching when clicking icon</dd>
+                    </dl>
                 ]]>
             </description>
-            <pubDate>Thu, 25 Sep 2025 10:12:41 +0200</pubDate>
+            <pubDate>Fri, 26 Sep 2025 00:08:53 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.11.3/Spaceman-1.11.3.dmg"
-                sparkle:version="1.11.3"
-                sparkle:shortVersionString="1.11.3"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.12.0/Spaceman-1.12.0.dmg"
+                sparkle:version="1.12.0"
+                sparkle:shortVersionString="1.12.0"
                 type="application/octet-stream"
-                length="2663179"
-sparkle:edSignature="Zr/7+ecQkyz7ia4a2bpXrx6KeUfRL4XZJ0bPkCw7pRgwsCfJ2MooLJWf3HAQrWuhftB4FJylNjYNuZPS4RgqAw=="
+                length="2675926"
+sparkle:edSignature="T/ENB4oY/1SnnroAgK5Aq3BcfStrxsx4LZewdQcbaZeUW1SgiVFgxL3QvCYvi2kCwC8wX2YM71WFfaZrlHMMDQ=="
             />
         </item>
     </channel>
