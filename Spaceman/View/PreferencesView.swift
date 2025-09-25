@@ -19,18 +19,20 @@ struct PreferencesView: View {
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
-    private var visibleSpacesMode: VisibleSpacesMode {
-        get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
-        set { visibleSpacesModeRaw = newValue.rawValue }
-    }
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
+    @AppStorage("reverseDisplayOrder") private var reverseDisplayOrder = false
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
     @AppStorage("withCommand") private var withCommand = false
+
+    private var visibleSpacesMode: VisibleSpacesMode {
+        get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
+        set { visibleSpacesModeRaw = newValue.rawValue }
+    }
 
     @StateObject private var prefsVM = PreferencesViewModel()
     @State private var selectedTab = 0
@@ -142,6 +144,8 @@ struct PreferencesView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         generalPane
                         Divider()
+                        displaysPane
+                        Divider()
                         switchingPane
                     }
                 } else {
@@ -192,6 +196,26 @@ struct PreferencesView: View {
         }
     }
 
+    // MARK: - Displays pane
+    private var displaysPane: some View {
+        let hasMultipleDisplays = NSScreen.screens.count > 1
+        return VStack(alignment: .leading, spacing: 8) {
+            Text("Displays")
+                .font(.title2)
+                .fontWeight(.semibold)
+            Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
+            Toggle("Reverse display order", isOn: $reverseDisplayOrder)
+        }
+        .padding()
+        .disabled(!hasMultipleDisplays)
+        .onChange(of: restartNumberingByDesktop) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: reverseDisplayOrder) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+
     // MARK: - Spaces pane
     private var spacesPane: some View {
         VStack(alignment: .leading) {
@@ -199,9 +223,10 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
             spacesStylePicker
-            // The Space names are always shown in the menu, therefore: allow editing independent of icon style
+            // The Space names are always shown in the menu, therefore: allow editing even if icon style does not include names
             spaceNameListEditor
-
+                .padding(.bottom, 8)
+            
             Picker(selection: Binding(
                 get: { visibleSpacesMode },
                 set: { visibleSpacesModeRaw = $0.rawValue }
@@ -222,17 +247,13 @@ struct PreferencesView: View {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
                 }
             }
-            Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
         }
         .padding()
         .onChange(of: visibleSpacesModeRaw) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
-        .onChange(of: restartNumberingByDesktop) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
     }
-    
+
     // MARK: - Refresh Shortcut Recorder
     private var refreshShortcutRecorder: some View {
         HStack {
@@ -296,7 +317,7 @@ struct PreferencesView: View {
                 ForEach(prefsVM.sortedSpaceNamesDict, id: \.key) { entry in
                     let info = entry.value
                     let sbd = info.spaceByDesktopID
-                    let displayIndex = getDisplayIndex(for: entry.key)
+                    let displayIndex = info.currentDisplayIndex ?? 1
                     let spacePart: String = (sbd.hasPrefix("F") ? ("Full Screen "+String(Int(sbd.dropFirst()) ?? 0)) : "Space \(sbd)")
                     let hasMultipleDisplays = NSScreen.screens.count > 1
                     let label = hasMultipleDisplays ? "Display \(displayIndex)  \(spacePart)" : spacePart
@@ -373,38 +394,6 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Temporary Display Index Helper (can be easily removed)
-    private func getDisplayIndex(for spaceID: String) -> Int {
-        // Get display information from macOS Core Graphics
-        guard let displays = CGSCopyManagedDisplaySpaces(_CGSDefaultConnection())?.takeUnretainedValue() as? [[String: Any]] else {
-            return 1
-        }
-
-        // Create a mapping of display UUID to index (1-based)
-        var displayIndexMap: [String: Int] = [:]
-        for (index, display) in displays.enumerated() {
-            if let displayID = display["Display Identifier"] as? String {
-                displayIndexMap[displayID] = index + 1
-            }
-        }
-
-        // Find the display for this space
-        for display in displays {
-            guard let spaces = display["Spaces"] as? [[String: Any]],
-                  let displayID = display["Display Identifier"] as? String else {
-                continue
-            }
-
-            for space in spaces {
-                if let managedSpaceID = space["ManagedSpaceID"] as? Int,
-                   String(managedSpaceID) == spaceID {
-                    return displayIndexMap[displayID] ?? 1
-                }
-            }
-        }
-
-        return 1 // Fallback
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {

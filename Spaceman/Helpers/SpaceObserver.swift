@@ -30,42 +30,41 @@ class SpaceObserver {
             object: nil)
     }
     
-    func display1IsLeft(display1: NSDictionary, display2: NSDictionary) -> Bool {
-        let d1Center = getDisplayCenter(display: display1)
-        let d2Center = getDisplayCenter(display: display2)
-        return d1Center.x < d2Center.x
-    }
-    
-    func getDisplayCenter(display: NSDictionary) -> CGPoint {
-        guard let uuidString = display["Display Identifier"] as? String
-        else {
-            return CGPoint(x: 0, y: 0)
+    private func getDisplayX(display: NSDictionary) -> CGFloat {
+        guard let uuidString = display["Display Identifier"] as? String else {
+            return 0
         }
         let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, uuidString as CFString)
         let dId = CGDisplayGetDisplayIDFromUUID(uuid)
-        let bounds = CGDisplayBounds(dId);
-        return CGPoint(x: bounds.origin.x + bounds.size.width/2, y: bounds.origin.y + bounds.size.height/2)
+        let bounds = CGDisplayBounds(dId)
+        return bounds.origin.x
     }
     
     @objc public func updateSpaceInformation() {
         let restartByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
+        let reverseDisplayOrder = defaults.bool(forKey: "reverseDisplayOrder")
         workerQueue.async { [weak self] in
-            self?.performSpaceInformationUpdate(restartByDesktop: restartByDesktop)
+            self?.performSpaceInformationUpdate(restartByDesktop: restartByDesktop, reverseDisplayOrder: reverseDisplayOrder)
         }
     }
 
-    private func performSpaceInformationUpdate(restartByDesktop: Bool) {
+    private func performSpaceInformationUpdate(restartByDesktop: Bool, reverseDisplayOrder: Bool) {
         guard var displays = fetchDisplaySpaces() else { return }
 
         let spaceNumberMap = buildSpaceNumberMap(from: displays)
-        displays.sort { display1IsLeft(display1: $0, display2: $1) }
+
+        // Sort displays by X position (left to right), then invert if requested
+        displays.sort { getDisplayX(display: $0) < getDisplayX(display: $1) }
+        if reverseDisplayOrder {
+            displays.reverse()
+        }
 
         let storedNames = nameStore.loadAll()
         var updatedNames = storedNames
         var lastSpaceByDesktopNumber = 0
         var collectedSpaces: [Space] = []
 
-        for display in displays {
+        for (displayIndex, display) in displays.enumerated() {
             guard
                 let currentSpace = display["Current Space"] as? [String: Any],
                 let spaces = display["Spaces"] as? [[String: Any]],
@@ -80,6 +79,7 @@ class SpaceObserver {
             }
 
             var lastFullScreenSpaceNumber = 0
+            var positionOnThisDisplay = 0
 
             for spaceDict in spaces {
                 guard let managedInt = spaceDict["ManagedSpaceID"] as? Int else { continue }
@@ -88,6 +88,8 @@ class SpaceObserver {
 
                 let isCurrentSpace = activeID == managedInt
                 let isFullScreen = spaceDict["TileLayoutManager"] as? [String: Any] != nil
+
+                positionOnThisDisplay += 1
 
                 let spaceByDesktopID: String
                 if isFullScreen {
@@ -115,10 +117,25 @@ class SpaceObserver {
                     isCurrentSpace: isCurrentSpace,
                     isFullScreen: isFullScreen)
 
-                let nameInfo = SpaceNameInfo(
+                // Calculate currentSpaceNumber based on restart setting
+                let currentSpaceNumber: Int
+                if restartByDesktop {
+                    currentSpaceNumber = positionOnThisDisplay
+                } else {
+                    currentSpaceNumber = spaceNumber
+                }
+
+                var nameInfo = SpaceNameInfo(
                     spaceNum: spaceNumber,
                     spaceName: resolvedName,
                     spaceByDesktopID: spaceByDesktopID)
+
+                // Populate new fields
+                nameInfo.displayUUID = displayID
+                nameInfo.positionOnDisplay = positionOnThisDisplay
+                nameInfo.currentDisplayIndex = displayIndex + 1  // 1-based index
+                nameInfo.currentSpaceNumber = currentSpaceNumber
+
                 updatedNames[managedSpaceID] = nameInfo
                 collectedSpaces.append(space)
             }

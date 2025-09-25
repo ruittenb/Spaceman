@@ -79,7 +79,19 @@ class PreferencesViewModel: ObservableObject {
     private func rebuildSortedSpaceNames(maintainingSelectionFor key: String?) {
         let previousKey = key ?? (selectedSpace >= 0 && selectedSpace < sortedSpaceNamesDict.count ? sortedSpaceNamesDict[selectedSpace].key : nil)
 
-        sortedSpaceNamesDict = spaceNamesDict.sorted { $0.value.spaceNum < $1.value.spaceNum }
+        // Sort by display index, then by position on display (respects display ordering)
+        sortedSpaceNamesDict = spaceNamesDict.sorted { (first, second) in
+            let displayA = first.value.currentDisplayIndex ?? 0
+            let displayB = second.value.currentDisplayIndex ?? 0
+
+            if displayA != displayB {
+                return displayA < displayB
+            }
+
+            let positionA = first.value.positionOnDisplay ?? 0
+            let positionB = second.value.positionOnDisplay ?? 0
+            return positionA < positionB
+        }
 
         if sortedSpaceNamesDict.isEmpty {
             sortedSpaceNamesDict.append((key: "0", value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")))
