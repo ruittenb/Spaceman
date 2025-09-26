@@ -79,7 +79,7 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 
 ### Spaces Tab
 
-<img src="images/Preferences-Spaces.png" width="66%" height="auto">
+<img src="images/Preferences-Spaces-2.png" width="66%" height="auto">
 
 **Icon Style**
 - Selects one of the five visual icon styles described in [Understanding the Icons](#understanding-the-icons)
@@ -90,7 +90,10 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
   - Menu bar icons show full names when "Only show active spaces" is enabled, otherwise names are truncated to 4 or 6 characters for compactness
 - **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
 - **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
+
+**Displays**
 - **Restart numbering by display**: Reset space numbering for each display instead of continuous numbering
+- **Reverse display order**: Arranges the displays in the opposite order to macOS
 
 ## 🔹 Switching Spaces
 
@@ -141,7 +144,7 @@ For space switching to work, you need to configure three things:
 - Select any space from the list to switch to it
 - Menu shows full space names and indicates the current space with a checkmark
 
-<img src="images/Menu.png" width="auto" height="auto">
+<img src="images/Menu-2.png" width="auto" height="auto">
 
 **Keyboard Shortcuts**
 - Spaceman does not do the space switching itself, but sends shortcut keystrokes to Mission Control.
