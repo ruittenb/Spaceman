@@ -415,6 +415,12 @@ ul {
   }
 }
 
+@media only screen and (min-width: 550px) {
+    .Spaceman_stylesGrid img {
+        height: 19px;
+    }
+}
+
 /* Footer Classes */
 .Footer_container {
   max-width: 40rem;
