@@ -1,7 +1,6 @@
 /* Google Fonts */
 @import url(https://fonts.googleapis.com/css2?family=Syne:wght@700&display=swap);
 @import url(https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap);
 
 /* CSS Variables */
 :root {
@@ -40,6 +39,14 @@ html, body, div, span, h1, h2, h3, h6, p, a, img, ul, li, nav, header, main, foo
   vertical-align: baseline;
 }
 
+/* Body */
+body {
+  line-height: 1;
+  background: var(--bg-color);
+  color: var(--primary-color);
+  font-family: Sora;
+}
+
 header, hgroup, main, nav, footer {
   display: block;
 }
@@ -55,13 +62,6 @@ header, hgroup, main, nav, footer {
   background: var(--text-selection);
   color: var(--primary-color);
   opacity: 0.1;
-}
-
-/* Body */
-body {
-  line-height: 1;
-  background: var(--bg-color);
-  color: var(--primary-color);
 }
 
 /* Navigation */
@@ -97,13 +97,6 @@ main {
 }
 
 /* Typography */
-span {
-  font-family: Roboto Mono;
-}
-
-a, h2, h3, h6, p {
-  font-family: Sora;
-}
 
 h1 {
   font-family: Syne;
@@ -179,7 +172,7 @@ a:hover {
   color: var(--accent-color);
 }
 
-/* HR */
+/* Hor Rule */
 hr {
   border: 1px solid var(--secondary-color);
   opacity: 0.15;
@@ -205,55 +198,66 @@ ul {
   color: var(--primary-color);
   position: relative;
   transition: all 0.2s ease;
-}
 
-.Button_button span {
-  color: var(--primary-color);
-  position: relative;
-  transition: all 0.2s ease;
-  font-family: Sora;
-  font-size: 0.8rem;
-}
+  &:before {
+    content: "";
+    background: var(--accent-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.2rem;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
 
-.Button_icon {
-  margin-right: 0.5rem;
-}
-
-.Button_button:before {
-  content: "";
-  background: var(--accent-color);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 0.2rem;
-  transform: scale(0.9);
-  opacity: 0;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  & span {
+    color: var(--primary-color);
+    position: relative;
+    transition: all 0.2s ease;
+    font-size: 0.8rem;
+  }
 }
 
 .Button_button:hover {
   cursor: pointer;
+
+  &:before {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  & span {
+    color: #fff;
+  }
 }
 
-.Button_button:hover:before {
-  transform: scale(1);
-  opacity: 1;
-}
+.Button_button.primary {
+  background: var(--accent-color);
 
-.Button_button:hover span {
-  color: #fff;
+  &:before {
+    background: var(--primary-color);
+  }
+
+  & span {
+    color: #fff;
+  }
 }
 
 @media only screen and (min-width: 660px) {
   .Button_button {
     padding: 10px 20px;
-  }
 
-  .Button_button span {
-    font-size: 0.9rem;
+    & span {
+      font-size: 0.9rem;
+    }
   }
+}
+
+.Button_icon {
+  margin-right: 0.5rem;
 }
 
 /* AppDetails Classes */
@@ -269,17 +273,16 @@ ul {
   grid-template-columns: repeat(3, 1fr);
   grid-row-gap: 1rem;
   grid-column-gap: 1.5rem;
-}
 
-.AppDetails_grid li {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
+  & li {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .AppDetails_detail {
   color: var(--primary-color);
-  font-family: Sora;
   font-size: 0.75rem;
 }
 
@@ -293,35 +296,36 @@ ul {
 .Spaceman_container {
   max-width: 60rem;
   margin: 0 auto;
+
+  & hgroup {
+    text-align: center;
+    max-width: 80%;
+    margin: 0 auto;
+  }
 }
 
-.Spaceman_acknowledgment__section {
+.Spaceman_Fork {
   background: var(--link-color);
   border-radius: 0.5rem;
   padding: 1.5rem;
   margin: 2rem 0;
   border-left: 4px solid var(--accent-color);
-}
 
-.Spaceman_acknowledgment__section h3 {
-  color: var(--accent-color);
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  margin-top: 0;
-  letter-spacing: 0.05rem;
-}
-
-.Spaceman_container hgroup {
-  text-align: center;
-  max-width: 80%;
-  margin: 0 auto;
+  & h3 {
+    color: var(--accent-color);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    margin-top: 0;
+    letter-spacing: 0.05rem;
+  }
 }
 
 .Spaceman_headerImage {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 2rem;
 }
 
 .Spaceman_buttons {
@@ -330,10 +334,10 @@ ul {
   grid-row-gap: 0.5rem;
   max-width: 80%;
   margin: 0 auto;
-}
 
-.Spaceman_buttons a {
-  margin: 0 1rem;
+  & a {
+    margin: 0 1rem;
+  }
 }
 
 .Spaceman_appImage {
@@ -347,18 +351,19 @@ ul {
   display: grid;
   grid-template-columns: 1fr;
   grid-column-gap: 4rem;
-  grid-row-gap: 1rem;
-}
+  grid-row-gap: 1.5rem;
 
-.Spaceman_features span {
-  font-family: Sora;
-  font-size: 1rem;
-  font-weight: 700;
-  margin-left: 0.5rem;
-}
-
-.Spaceman_features li {
-  color: var(--primary-color);
+  & span {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-left: 0.5rem;
+  }
+  & li {
+    color: var(--primary-color);
+  }
+  & video {
+    filter: sepia(1) hue-rotate(190deg) saturate(200%) brightness(80%) contrast(120%);
+  }
 }
 
 @media only screen and (min-width: 550px) {
@@ -384,6 +389,32 @@ ul {
   }
 }
 
+.Spaceman_stylesGrid {
+  margin: 1rem auto 0;
+  font-style: italic;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-areas: "nw nw ne" "sw se se";
+
+  & div {
+    &:nth-child(1) { grid-area: nw; text-align: left; }
+    &:nth-child(2) { grid-area: ne; text-align: right; }
+    &:nth-child(3) { grid-area: sw; text-align: left; }
+    &:nth-child(4) { grid-area: se; text-align: right; }
+  }
+  & small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #666;
+  }
+  & img {
+    width: auto;
+    height: 24px;
+    border-radius: 4px;
+    filter: sepia(1) hue-rotate(190deg) saturate(200%) brightness(80%) contrast(120%);
+  }
+}
+
 /* Footer Classes */
 .Footer_container {
   max-width: 40rem;
@@ -402,6 +433,20 @@ ul {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  .Footer_icon {
+    margin-right: 0.5rem;
+  }
+
+  & a {
+    font-size: 0.9rem;
+    padding: 4px 4px 2px;
+    color: var(--primary-color);
+
+    &:hover {
+      color: var(--accent-color);
+    }
+  }
 }
 
 @media only screen and (min-width: 450px) {
@@ -411,20 +456,6 @@ ul {
   }
 }
 
-.Footer_icon {
-  margin-right: 0.5rem;
-}
-
-.Footer_socials a {
-  font-size: 0.9rem;
-  padding: 4px 4px 2px;
-  color: var(--primary-color);
-}
-
-.Footer_socials a:hover {
-  color: var(--accent-color);
-}
-
 /* FontAwesome SVG Icons */
 .svg-inline--fa {
   display: inline-block;
@@ -432,20 +463,17 @@ ul {
   height: 1em;
   vertical-align: -0.125em;
   overflow: visible;
-}
 
-.svg-inline--fa.fa-w-10 {
-  width: 0.625em;
-}
-
-.svg-inline--fa.fa-w-12 {
-  width: 0.75em;
-}
-
-.svg-inline--fa.fa-w-14 {
-  width: 0.875em;
-}
-
-.svg-inline--fa.fa-w-16 {
-  width: 1em;
+  &.fa-w-10 {
+    width: 0.625em;
+  }
+  &.fa-w-12 {
+    width: 0.75em;
+  }
+  &.fa-w-14 {
+    width: 0.875em;
+  }
+  &.fa-w-16 {
+    width: 1em;
+  }
 }
