@@ -13,11 +13,7 @@
 <body>
     <div class="Spaceman_container">
         <header>
-            <div class="Spaceman_headerImage">
-                <img src="spaceman-header.jpg" alt="Spaceman header image"
-                    style="width: 100%; height: auto; display: block;"
-                >
-            </div>
+            <img src="images/spaceman-header.jpg" alt="Spaceman header image" class="Spaceman_headerImage">
 
             <hgroup>
             <h1>Spaceman</h1>
@@ -40,7 +36,7 @@
                 <a href="https://github.com/ruittenb/Spaceman" class="Button_button">
                     <span>
                         <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github"
-                            class="svg-inline--fa fa-github fa-w-16 Footer_icon" role="img"
+                            class="svg-inline--fa fa-github fa-w-16 Button_icon" role="img"
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" width="16" height="16"
                         >
                             <path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6
@@ -62,10 +58,10 @@
                                 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"
                             />
                         </svg>
-                        View Repo
+                        View on Github
                     </span>
                 </a>
-                <a href="https://github.com/ruittenb/Spaceman/releases/latest" class="Button_button" id="download-button">
+                <a href="https://github.com/ruittenb/Spaceman/releases/latest" class="Button_button primary" id="download-button">
                     <span>
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-down"
                             class="svg-inline--fa fa-arrow-down fa-w-14 Button_icon" role="img"
@@ -86,31 +82,29 @@
         <main>
             <hr>
             <div class="Spaceman_appImage">
-                <img src="spaceman-icons.png" alt="Spaceman app screenshot"
+                <img src="images/spaceman-icons.png" alt="Spaceman app screenshot"
                     style="width: 66%; height: auto; display: block;"
                 >
             </div>
 
             <p>
-                Spaceman is an application for macOS that allows you to view your Spaces (Virtual Desktops)
-                in the menu bar. Spaceman allows you to see which space you are currently on (or spaces if
-                you are using multiple displays) relative to the other spaces you have. Naming these spaces
-                is also an option in order to organise separate spaces for your workflow.
+                Spaceman shows your macOS Spaces (Virtual Desktops) in the menu bar, so you can see which
+                space you're on relative to all your other spaces. It supports multiple displays and lets
+                you name spaces to organize your workflow.
             </p>
 
-            <div class="Spaceman_acknowledgment__section">
+            <div class="Spaceman_Fork">
                 <h3>About This Fork</h3>
                 <p>
-                    This is an actively maintained fork of the original Spaceman application created by
+                    This app is based on the original Spaceman application created by
                     <a href="https://github.com/Jaysce">Sasindu Jayasinghe</a>. We appreciate this useful
                     app and all the foundational work that went into it. You can visit the
                     <a href="https://www.jaysce.dev/projects/spaceman">original project page</a> and
                     <a href="https://github.com/Jaysce/Spaceman">original repository</a>.
                 </p>
                 <p>
-                    Unfortunately, the main repository is no longer actively maintained. This fork continues
-                    development with many new features, bug fixes, and improvements to keep Spaceman working
-                    with the latest macOS versions.
+                    Since the original repository is no longer actively maintained,
+                    this fork continues development with bug fixes and new features.
                 </p>
             </div>
 
@@ -138,31 +132,26 @@
                         Spaceman can be customized with 5 different icon styles in 5 different sizes.
                         Have a minimal view of your space or have them named.
                     </p>
+
+                    <div class="Spaceman_stylesGrid">
+                        <div>
+                            <img src="images/style-numbers.png" alt="Numbers style">
+                            <small>Numbers</small>
+                        </div>
+                        <div>
+                            <img src="images/style-names.png" alt="Names style">
+                            <small>Names</small>
+                        </div>
+                        <div>
+                            <img src="images/style-dual-rows.png" alt="Dual rows style">
+                            <small>Dual Rows</small>
+                        </div>
+                        <div>
+                            <img src="images/style-nums-names.png" alt="Numbers and names style">
+                            <small>Numbers and Names</small>
+                        </div>
+                    </div>
                 </li>
-                <!--
-                    <li>
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="compress-arrows-alt"
-                        class="svg-inline--fa fa-compress-arrows-alt fa-w-16" role="img"
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                    >
-                        <path fill="currentColor" d="M200 288H88c-21.4 0-32.1 25.8-17 41l32.9 31-99.2 99.3c-6.2
-                            6.2-6.2 16.4 0 22.6l25.4 25.4c6.2 6.2 16.4 6.2 22.6 0L152 408l31.1 33c15.1 15.1 40.9
-                            4.4 40.9-17V312c0-13.3-10.7-24-24-24zm112-64h112c21.4 0 32.1-25.9 17-41l-33-31 99.3
-                            -99.3c6.2-6.2 6.2-16.4 0-22.6L481.9 4.7c-6.2-6.2-16.4-6.2-22.6 0L360 104l-31.1-33C
-                            313.8 55.9 288 66.6 288 88v112c0 13.3 10.7 24 24 24zm96 136l33-31.1c15.1-15.1 4.4-40.9
-                            -17-40.9H312c-13.3 0-24 10.7-24 24v112c0 21.4 25.9 32.1 41 17l31-32.9 99.3 99.3c6.2
-                            6.2 16.4 6.2 22.6 0l25.4-25.4c6.2-6.2 6.2-16.4 0-22.6L408 360zM183 71.1L152 104 52.7
-                            4.7c-6.2-6.2-16.4-6.2-22.6 0L4.7 30.1c-6.2 6.2-6.2 16.4 0 22.6L104 152l-33 31.1C55.9
-                            198.2 66.6 224 88 224h112c13.3 0 24-10.7 24-24V88c0-21.3-25.9-32-41-16.9z"
-                        />
-                    </svg>
-                    <span>Compact</span>
-                    <p>
-                        The app is roughly 6MB in size on your system. Gets out of your way by living
-                        comfortably in the menu bar, available at a quick glance.
-                    </p>
-                    </li>
-                -->
                 <li>
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="mouse-pointer"
                         class="svg-inline--fa fa-mouse-pointer fa-w-10" role="img"
@@ -176,9 +165,16 @@
                     </svg>
                     <span>Interactive</span>
                     <p>
-                        Click directly on the menu bar icon to instantly switch between your spaces.
-                        Navigate between virtual desktops with a simple click.
+                        Switch between spaces with a simple click on the menu bar icon.
                     </p>
+
+                    <div class="Spaceman_appVideo" style="margin-top: 1rem;">
+                        <video
+                            id="spaceman-demo-video" src="images/animation.mov" autoplay muted loop
+                            style="width: 66%; height: auto; display: block; margin: 0 auto; border-radius: 4px;"
+                            onclick="toggleVideo(this)"
+                        />
+                    </div>
                 </li>
                 <li>
                     <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="apple"
@@ -195,8 +191,7 @@
                     </svg>
                     <span>Native</span>
                     <p>
-                        Written in Swift and Objective-C and compiled to a universal binary
-                        to support both Apple Silicon and Intel Macs.
+                        Compiled to a universal binary to support both Apple Silicon and Intel Macs.
                     </p>
                 </li>
                 <li>
@@ -217,8 +212,7 @@
                     </svg>
                     <span>Open-source</span>
                     <p>
-                        All code used to build this application is openly available on
-                        GitHub with the MIT license.  Pull requests are welcome.
+                        Fully open source under the MIT license. Contributions and pull requests are welcome.
                     </p>
                 </li>
             </ul>
@@ -373,6 +367,15 @@
                 }
             } catch (error) {
                 console.warn('Failed to fetch download data:', error);
+            }
+        }
+
+        // Toggle video play/pause
+        function toggleVideo(video) {
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
             }
         }
 
