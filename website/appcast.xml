@@ -3,26 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.12.0 fix space and display numbering and ordering</title>
+            <title>v1.12.1: fix preserving space names across reboots</title>
             <description>
                 <![CDATA[
-                    <dl>
-                        <dt>1.11.4</dt>
-                        <dd>Fix space and display numbering and ordering</dd>
-                        <dt>1.12.0</dt>
-                        <dd>Fix space switching when clicking icon</dd>
-                    </dl>
+                    <ul>
+                    <li> - Fix preserving space names across reboots</li>
+                    </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 26 Sep 2025 00:08:53 +0200</pubDate>
+            <pubDate>Thu, 02 Oct 2025 10:56:15 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.12.0/Spaceman-1.12.0.dmg"
-                sparkle:version="1.12.0"
-                sparkle:shortVersionString="1.12.0"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.12.1/Spaceman-1.12.1.dmg"
+                sparkle:version="1.12.1"
+                sparkle:shortVersionString="1.12.1"
                 type="application/octet-stream"
-                length="2675926"
-sparkle:edSignature="T/ENB4oY/1SnnroAgK5Aq3BcfStrxsx4LZewdQcbaZeUW1SgiVFgxL3QvCYvi2kCwC8wX2YM71WFfaZrlHMMDQ=="
+                length="2676954"
+sparkle:edSignature="Kty/REJFtVG2j2992KmeKptq+vULmICLE4k8bNUDMYQbz7X6QWBlk9hzA9os+bKNvQLvEC+OLV1KxhQlWeyYBA=="
             />
         </item>
     </channel>
