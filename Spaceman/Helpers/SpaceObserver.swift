@@ -51,13 +51,14 @@ class SpaceObserver {
     private func performSpaceInformationUpdate(restartByDesktop: Bool, reverseDisplayOrder: Bool) {
         guard var displays = fetchDisplaySpaces() else { return }
 
-        let spaceNumberMap = buildSpaceNumberMap(from: displays)
-
         // Sort displays by X position (left to right), then invert if requested
         displays.sort { getDisplayX(display: $0) < getDisplayX(display: $1) }
         if reverseDisplayOrder {
             displays.reverse()
         }
+
+        // Build space number map AFTER sorting to ensure numbering matches display order
+        let spaceNumberMap = buildSpaceNumberMap(from: displays)
 
         let storedNames = nameStore.loadAll()
         var updatedNames = storedNames
