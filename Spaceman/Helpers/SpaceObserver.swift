@@ -101,7 +101,20 @@ class SpaceObserver {
                 }
 
 
-                let savedName = updatedNames[managedSpaceID]?.spaceName
+                // Try to find saved name: first by managedSpaceID, then by position fallback
+                var savedInfo = updatedNames[managedSpaceID]
+                if savedInfo == nil {
+                    // ManagedSpaceID may have changed (e.g., after reboot)
+                    // Try to find by display + position
+                    if let matchedInfo = findSpaceByPosition(
+                        in: updatedNames,
+                        displayID: displayID,
+                        position: positionOnThisDisplay) {
+                        savedInfo = matchedInfo
+                        // Will update the key to the new managedSpaceID below
+                    }
+                }
+                let savedName = savedInfo?.spaceName
                 let resolvedName = resolveSpaceName(
                     from: savedName,
                     spaceNumber: spaceNumber,
@@ -169,6 +182,17 @@ class SpaceObserver {
             }
         }
         return mapping
+    }
+
+    private func findSpaceByPosition(
+        in storedNames: [String: SpaceNameInfo],
+        displayID: String,
+        position: Int
+    ) -> SpaceNameInfo? {
+        // Find a space that matches both displayUUID and positionOnDisplay
+        return storedNames.values.first { info in
+            info.displayUUID == displayID && info.positionOnDisplay == position
+        }
     }
 
     private func resolveSpaceName(
