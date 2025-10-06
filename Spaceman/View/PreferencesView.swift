@@ -56,9 +56,6 @@ struct PreferencesView: View {
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear(perform: prefsVM.loadData)
-        .onChange(of: data) { _ in
-            prefsVM.loadData()
-        }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ActiveSpacesChanged"))) { _ in
             prefsVM.loadData()
         }
@@ -346,6 +343,30 @@ struct PreferencesView: View {
                         )
                         .frame(alignment: .trailing)
                         .textFieldStyle(.roundedBorder)
+
+                        // Color picker
+                        ColorWellView(
+                            selectedColor: Binding(
+                                get: {
+                                    // Read from live spaceNamesDict, not the snapshot
+                                    if let currentInfo = prefsVM.spaceNamesDict[entry.key],
+                                       let hexString = currentInfo.colorHex {
+                                        return NSColor.fromHex(hexString)
+                                    }
+                                    return nil
+                                },
+                                set: { _ in }
+                            ),
+                            onColorChange: { newColor in
+                                // Save color immediately (isContinuous=false means this only fires once)
+                                prefsVM.updateSpaceColor(for: entry.key, to: newColor)
+                                // Trigger a delayed refresh to update menubar (gives time for save to complete)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                                }
+                            }
+                        )
+                        .frame(width: 35, height: 24)
                     }
                 }
             }
