@@ -249,8 +249,8 @@ class IconCreator {
         return newIcons
     }
 
-    private func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool, Bool, String)] {
-        var iconsWithDisplayProperties = [(NSImage, Bool, Bool, String)]()
+    private func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool, Bool, String, String?)] {
+        var iconsWithDisplayProperties = [(NSImage, Bool, Bool, String, String?)]()
         guard spaces.count > 0 else { return iconsWithDisplayProperties }
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
@@ -265,13 +265,13 @@ class IconCreator {
                     nextSpaceIsOnDifferentDisplay = true
                 }
             }
-            iconsWithDisplayProperties.append((icons[index], nextSpaceIsOnDifferentDisplay, spaces[index].isFullScreen, spaces[index].spaceID))
+            iconsWithDisplayProperties.append((icons[index], nextSpaceIsOnDifferentDisplay, spaces[index].isFullScreen, spaces[index].spaceID, spaces[index].colorHex))
         }
 
         return iconsWithDisplayProperties
     }
 
-    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String)], indexMap: [String: Int], buttonFrame: NSRect? = nil) -> NSImage {
+    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?)], indexMap: [String: Int], buttonFrame: NSRect? = nil) -> NSImage {
         let numIcons = iconsWithDisplayProperties.count
         let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
             result + icon.image.size.width
@@ -287,8 +287,18 @@ class IconCreator {
         var left = CGFloat.zero
         var right: CGFloat
         iconWidths = []
+        var hasAnyColoredIcon = false
         for icon in iconsWithDisplayProperties {
-            icon.image.draw(
+            // Apply color tinting if specified
+            let iconToUse: NSImage
+            if let colorHex = icon.colorHex, let color = NSColor.fromHex(colorHex) {
+                iconToUse = tintIcon(icon.image, with: color)
+                hasAnyColoredIcon = true
+            } else {
+                iconToUse = icon.image
+            }
+
+            iconToUse.draw(
                 at: NSPoint(x: left, y: 0),
                 from: NSRect.zero,
                 operation: NSCompositingOperation.sourceOver,
@@ -306,15 +316,16 @@ class IconCreator {
             iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, index: targetIndex))
             left = right
         }
-        image.isTemplate = true
+        // Only use template mode if no icons have custom colors
+        image.isTemplate = !hasAnyColoredIcon
         image.unlockFocus()
 
         return image
     }
 
-    private func mergeIconsTwoRows(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String)], buttonFrame: NSRect? = nil) -> NSImage {
+    private func mergeIconsTwoRows(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?)], buttonFrame: NSRect? = nil) -> NSImage {
         // Column describes a stacked pair (top/bottom) and its rendered width and trailing gap
-        struct Column { var top: (NSImage, Bool, Int, String)?; var bottom: (NSImage, Bool, Int, String)?; var width: CGFloat = 0; var gapAfter: CGFloat = 0 }
+        struct Column { var top: (NSImage, Bool, Int, String, String?)?; var bottom: (NSImage, Bool, Int, String, String?)?; var width: CGFloat = 0; var gapAfter: CGFloat = 0 }
 
         // Pre-compute the target index for each icon: positive for numbered spaces; negative for fullscreen pseudo indices
         var assignedIndices: [Int] = []
@@ -335,11 +346,11 @@ class IconCreator {
             for (idx, icon) in iconsWithDisplayProperties.enumerated() {
                 let tag = assignedIndices[idx]
                 if placeTop {
-                    current.top = (icon.image, icon.isFullScreen, tag, icon.spaceID)
+                    current.top = (icon.image, icon.isFullScreen, tag, icon.spaceID, icon.colorHex)
                     current.width = max(current.width, icon.image.size.width)
                     placeTop = false
                 } else {
-                    current.bottom = (icon.image, icon.isFullScreen, tag, icon.spaceID)
+                    current.bottom = (icon.image, icon.isFullScreen, tag, icon.spaceID, icon.colorHex)
                     current.width = max(current.width, icon.image.size.width)
                     placeTop = true
                 }
@@ -358,10 +369,10 @@ class IconCreator {
         case .byRow:
             // New behavior: fill entire top row left-to-right, then bottom row
             // First, segment by display to place display gaps correctly
-            var segments: [[(image: NSImage, nextDisplay: Bool, isFull: Bool, tag: Int, spaceID: String)]] = []
-            var cur: [(NSImage, Bool, Bool, Int, String)] = []
+            var segments: [[(image: NSImage, nextDisplay: Bool, isFull: Bool, tag: Int, spaceID: String, colorHex: String?)]] = []
+            var cur: [(NSImage, Bool, Bool, Int, String, String?)] = []
             for (idx, icon) in iconsWithDisplayProperties.enumerated() {
-                cur.append((icon.image, icon.nextSpaceOnDifferentDisplay, icon.isFullScreen, assignedIndices[idx], icon.spaceID))
+                cur.append((icon.image, icon.nextSpaceOnDifferentDisplay, icon.isFullScreen, assignedIndices[idx], icon.spaceID, icon.colorHex))
                 if icon.nextSpaceOnDifferentDisplay { segments.append(cur); cur = [] }
             }
             if !cur.isEmpty { segments.append(cur) }
@@ -376,12 +387,12 @@ class IconCreator {
                     var col = Column()
                     if i < top.count {
                         let t = top[i]
-                        col.top = (t.image, t.isFull, t.tag, t.spaceID)
+                        col.top = (t.image, t.isFull, t.tag, t.spaceID, t.colorHex)
                         col.width = max(col.width, t.image.size.width)
                     }
                     if i < bottom.count {
                         let b = bottom[i]
-                        col.bottom = (b.image, b.isFull, b.tag, b.spaceID)
+                        col.bottom = (b.image, b.isFull, b.tag, b.spaceID, b.colorHex)
                         col.width = max(col.width, b.image.size.width)
                     }
                     // Add inter-column gap. After the last column of a display, add display gap (except trailing overall)
@@ -407,6 +418,7 @@ class IconCreator {
         image.lockFocus()
         var left = CGFloat.zero
         iconWidths = []
+        var hasAnyColoredIcon = false
 
         for col in columns {
             // Simple gap splitting: each icon owns half the gap on each side
@@ -415,16 +427,30 @@ class IconCreator {
             let iconRight = left + col.width + (col.gapAfter / 2.0)
 
             if let top = col.top {
-                top.0.draw(at: NSPoint(x: left, y: iconSize.height + gap), from: .zero, operation: .sourceOver, fraction: 1.0)
+                let iconToUse: NSImage
+                if let colorHex = top.4, let color = NSColor.fromHex(colorHex) {
+                    iconToUse = tintIcon(top.0, with: color)
+                    hasAnyColoredIcon = true
+                } else {
+                    iconToUse = top.0
+                }
+                iconToUse.draw(at: NSPoint(x: left, y: iconSize.height + gap), from: .zero, operation: .sourceOver, fraction: 1.0)
                 iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, top: iconSize.height + gap, bottom: imageHeight, index: top.2))
             }
             if let bottom = col.bottom {
-                bottom.0.draw(at: NSPoint(x: left, y: 0), from: .zero, operation: .sourceOver, fraction: 1.0)
+                let iconToUse: NSImage
+                if let colorHex = bottom.4, let color = NSColor.fromHex(colorHex) {
+                    iconToUse = tintIcon(bottom.0, with: color)
+                    hasAnyColoredIcon = true
+                } else {
+                    iconToUse = bottom.0
+                }
+                iconToUse.draw(at: NSPoint(x: left, y: 0), from: .zero, operation: .sourceOver, fraction: 1.0)
                 iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, top: 0, bottom: iconSize.height, index: bottom.2))
             }
             left += col.width + col.gapAfter
         }
-        image.isTemplate = true
+        image.isTemplate = !hasAnyColoredIcon
         image.unlockFocus()
         return image
     }
@@ -449,5 +475,20 @@ class IconCreator {
         let availableWidth = frame.width
         let margin = (availableWidth - totalIconWidth) / 2.0
         return max(margin, 0) // Ensure non-negative margin
+    }
+
+    private func tintIcon(_ icon: NSImage, with color: NSColor) -> NSImage {
+        let tinted = NSImage(size: icon.size)
+        tinted.lockFocus()
+
+        // Draw the icon first
+        icon.draw(at: .zero, from: NSRect(origin: .zero, size: icon.size), operation: .sourceOver, fraction: 1.0)
+
+        // Apply color overlay using sourceAtop to only tint the non-transparent pixels
+        color.setFill()
+        NSRect(origin: .zero, size: icon.size).fill(using: .sourceAtop)
+
+        tinted.unlockFocus()
+        return tinted
     }
 }

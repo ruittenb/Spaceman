@@ -15,4 +15,5 @@ struct Space: Equatable {
     var spaceByDesktopID: String // space number as shown (possibly restarted)
     var isCurrentSpace: Bool
     var isFullScreen: Bool
+    var colorHex: String?        // Custom color tint (hex string)
 }
