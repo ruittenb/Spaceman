@@ -249,7 +249,6 @@ struct PreferencesView: View {
             .pickerStyle(.segmented)
             Stepper(value: $neighborRadius, in: 1...3) {
                 Text("Nearby range: ±\(neighborRadius)")
-                    //.font(.subheadline)
                     .foregroundColor(visibleSpacesMode == .neighbors ? .primary : .secondary)
                     .padding(.leading, 40)
             }
@@ -293,7 +292,6 @@ struct PreferencesView: View {
         }
         .pickerStyle(.segmented)
         .onChange(of: layoutMode) { val in
-            layoutMode = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -308,10 +306,6 @@ struct PreferencesView: View {
             Text("Names with numbers").tag(DisplayStyle.numbersAndNames)
         }
         .onChange(of: displayStyle) { val in
-            //if val == .rects {
-            //    visibleSpacesModeRaw = VisibleSpacesMode.all.rawValue
-            //}
-            displayStyle = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -357,13 +351,6 @@ struct PreferencesView: View {
                 }
             }
         }
-    }
-
-    // MARK: - Update Name Method
-    private func updateName() {
-        prefsVM.updateSpace()
-        self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
     }
 
     // MARK: - Switching pane

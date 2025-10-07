@@ -98,9 +98,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
                 // Show the menu on right-click
                 if let sbMenu = self.statusBarMenu {
                     let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
-                    // This calculation should be right, but it does not look good
-                    //let menuOrigin = CGPoint(x: buttonFrame.minX, y: buttonFrame.maxY + CGFloat(self.iconCreator.sizes.ICON_HEIGHT) - 2 * buttonFrame.height)
-                    // This calculation is not right, but looks good
+                    // This calculation is not right, but looks good. This is likely because of the
+                    // NSMenu popup having its own visual padding, borders and/or drop shadows.
                     let menuOrigin = CGPoint(x: buttonFrame.minX, y: buttonFrame.minY - CGFloat(self.iconCreator.sizes.ICON_HEIGHT) / 2)
                     sbMenu.minimumWidth = buttonFrame.width
                     sbMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
@@ -240,10 +239,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         item.image = menuIcon
         if space.isCurrentSpace || shortcutKey == "" {
             item.isEnabled = false
-            //if OSVersion().exceeds(14, 0) {
-            //if #available(macOS 14.0, *)  {
-            //    item.badge = NSMenuItemBadge(string: "Current")
-            //}
             if space.isCurrentSpace {
                 item.state = .on // tick mark
             }
