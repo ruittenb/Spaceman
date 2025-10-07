@@ -61,6 +61,18 @@ extension NSColor {
 
         return NSColor(red: red, green: green, blue: blue, alpha: 1.0)
     }
+
+    /// Calculate relative luminance (perceived brightness) using sRGB formula
+    func luminance() -> CGFloat {
+        guard let rgb = self.usingColorSpace(.deviceRGB) else { return 0.5 }
+        // Using relative luminance formula: 0.2126*R + 0.7152*G + 0.0722*B
+        return 0.2126 * rgb.redComponent + 0.7152 * rgb.greenComponent + 0.0722 * rgb.blueComponent
+    }
+
+    /// Returns white or black depending on which contrasts better with this color
+    func contrastingTextColor() -> NSColor {
+        return luminance() > 0.5 ? .black : .white
+    }
 }
 
 // MARK: - ColorWellView

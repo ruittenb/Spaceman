@@ -229,20 +229,7 @@ class IconCreator {
         iconSize.width = CGFloat(withNumbers ? sizes.ICON_WIDTH_XLARGE : sizes.ICON_WIDTH_LARGE)
 
         for s in spaces {
-            let spaceID = s.spaceByDesktopID
-            let spaceNumberPrefix = withNumbers ? "\(spaceID):" : ""
-            let ucName = s.spaceName.uppercased()
-            // Truncate name for space-constrained modes
-            let shownName: String
-            switch visibleSpacesMode {
-            case .all:
-                shownName = String(ucName.prefix(4))
-            case .neighbors:
-                shownName = String(ucName.prefix(6))
-            case .currentOnly:
-                shownName = ucName
-            }
-            let spaceText = NSString(string: "\(spaceNumberPrefix)\(shownName)")
+            let spaceText = NSString(string: getTextForSpace(s))
             let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
             let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(sizes.ICON_HEIGHT))
 
@@ -279,8 +266,8 @@ class IconCreator {
         return newIcons
     }
 
-    private func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool, Bool, String, String?)] {
-        var iconsWithDisplayProperties = [(NSImage, Bool, Bool, String, String?)]()
+    private func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool, Bool, String, String?, String)] {
+        var iconsWithDisplayProperties = [(NSImage, Bool, Bool, String, String?, String)]()
         guard spaces.count > 0 else { return iconsWithDisplayProperties }
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
@@ -295,13 +282,52 @@ class IconCreator {
                     nextSpaceIsOnDifferentDisplay = true
                 }
             }
-            iconsWithDisplayProperties.append((icons[index], nextSpaceIsOnDifferentDisplay, spaces[index].isFullScreen, spaces[index].spaceID, spaces[index].colorHex))
+
+            // Generate text based on display style
+            let text = getTextForSpace(spaces[index])
+
+            iconsWithDisplayProperties.append((icons[index], nextSpaceIsOnDifferentDisplay, spaces[index].isFullScreen, spaces[index].spaceID, spaces[index].colorHex, text))
         }
 
         return iconsWithDisplayProperties
     }
 
-    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?)], indexMap: [String: Int], buttonFrame: NSRect? = nil) -> NSImage {
+
+    private func getTextForSpace(_ space: Space) -> String {
+        switch displayStyle {
+        case .rects:
+            return "" // No text for rects-only mode
+        case .numbers:
+            return space.spaceByDesktopID
+        case .numbersAndRects:
+            return space.spaceByDesktopID
+        case .names:
+            let ucName = space.spaceName.uppercased()
+            // Truncate name based on visible spaces mode (same logic as createNamedIcons)
+            switch visibleSpacesMode {
+            case .all:
+                return String(ucName.prefix(4))
+            case .neighbors:
+                return String(ucName.prefix(6))
+            case .currentOnly:
+                return ucName
+            }
+        case .numbersAndNames:
+            let ucName = space.spaceName.uppercased()
+            let shownName: String
+            switch visibleSpacesMode {
+            case .all:
+                shownName = String(ucName.prefix(4))
+            case .neighbors:
+                shownName = String(ucName.prefix(6))
+            case .currentOnly:
+                shownName = ucName
+            }
+            return "\(space.spaceByDesktopID):\(shownName)"
+        }
+    }
+
+    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?, text: String)], indexMap: [String: Int], buttonFrame: NSRect? = nil) -> NSImage {
         let numIcons = iconsWithDisplayProperties.count
         let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
             result + icon.image.size.width
@@ -333,6 +359,15 @@ class IconCreator {
                 from: NSRect.zero,
                 operation: NSCompositingOperation.sourceOver,
                 fraction: 1.0)
+
+            // If colored, redraw text on top in contrasting color for better readability
+            if let colorHex = icon.colorHex, let color = NSColor.fromHex(colorHex) {
+                let textColor = color.contrastingTextColor()
+                let textRect = NSRect(x: left, y: 0, width: icon.image.size.width, height: icon.image.size.height)
+                (icon.text as NSString).drawVerticallyCentered(
+                    in: textRect,
+                    withAttributes: getStringAttributes(alpha: 1, textColor: textColor))
+            }
             // Simple gap splitting: each icon owns half the gap on each side
             let gap = icon.nextSpaceOnDifferentDisplay ? displayGapWidth : gapWidth
             let iconLeft = left - (gap / 2.0)
@@ -353,9 +388,9 @@ class IconCreator {
         return image
     }
 
-    private func mergeIconsTwoRows(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?)], buttonFrame: NSRect? = nil) -> NSImage {
+    private func mergeIconsTwoRows(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?, text: String)], buttonFrame: NSRect? = nil) -> NSImage {
         // Column describes a stacked pair (top/bottom) and its rendered width and trailing gap
-        struct Column { var top: (NSImage, Bool, Int, String, String?)?; var bottom: (NSImage, Bool, Int, String, String?)?; var width: CGFloat = 0; var gapAfter: CGFloat = 0 }
+        struct Column { var top: (NSImage, Bool, Int, String, String?, String)?; var bottom: (NSImage, Bool, Int, String, String?, String)?; var width: CGFloat = 0; var gapAfter: CGFloat = 0 }
 
         // Pre-compute the target index for each icon: positive for numbered spaces; negative for fullscreen pseudo indices
         var assignedIndices: [Int] = []
@@ -376,11 +411,11 @@ class IconCreator {
             for (idx, icon) in iconsWithDisplayProperties.enumerated() {
                 let tag = assignedIndices[idx]
                 if placeTop {
-                    current.top = (icon.image, icon.isFullScreen, tag, icon.spaceID, icon.colorHex)
+                    current.top = (icon.image, icon.isFullScreen, tag, icon.spaceID, icon.colorHex, icon.text)
                     current.width = max(current.width, icon.image.size.width)
                     placeTop = false
                 } else {
-                    current.bottom = (icon.image, icon.isFullScreen, tag, icon.spaceID, icon.colorHex)
+                    current.bottom = (icon.image, icon.isFullScreen, tag, icon.spaceID, icon.colorHex, icon.text)
                     current.width = max(current.width, icon.image.size.width)
                     placeTop = true
                 }
@@ -399,10 +434,10 @@ class IconCreator {
         case .byRow:
             // New behavior: fill entire top row left-to-right, then bottom row
             // First, segment by display to place display gaps correctly
-            var segments: [[(image: NSImage, nextDisplay: Bool, isFull: Bool, tag: Int, spaceID: String, colorHex: String?)]] = []
-            var cur: [(NSImage, Bool, Bool, Int, String, String?)] = []
+            var segments: [[(image: NSImage, nextDisplay: Bool, isFull: Bool, tag: Int, spaceID: String, colorHex: String?, text: String)]] = []
+            var cur: [(NSImage, Bool, Bool, Int, String, String?, String)] = []
             for (idx, icon) in iconsWithDisplayProperties.enumerated() {
-                cur.append((icon.image, icon.nextSpaceOnDifferentDisplay, icon.isFullScreen, assignedIndices[idx], icon.spaceID, icon.colorHex))
+                cur.append((icon.image, icon.nextSpaceOnDifferentDisplay, icon.isFullScreen, assignedIndices[idx], icon.spaceID, icon.colorHex, icon.text))
                 if icon.nextSpaceOnDifferentDisplay { segments.append(cur); cur = [] }
             }
             if !cur.isEmpty { segments.append(cur) }
@@ -417,12 +452,12 @@ class IconCreator {
                     var col = Column()
                     if i < top.count {
                         let t = top[i]
-                        col.top = (t.image, t.isFull, t.tag, t.spaceID, t.colorHex)
+                        col.top = (t.image, t.isFull, t.tag, t.spaceID, t.colorHex, t.text)
                         col.width = max(col.width, t.image.size.width)
                     }
                     if i < bottom.count {
                         let b = bottom[i]
-                        col.bottom = (b.image, b.isFull, b.tag, b.spaceID, b.colorHex)
+                        col.bottom = (b.image, b.isFull, b.tag, b.spaceID, b.colorHex, b.text)
                         col.width = max(col.width, b.image.size.width)
                     }
                     // Add inter-column gap. After the last column of a display, add display gap (except trailing overall)
@@ -465,6 +500,14 @@ class IconCreator {
                     iconToUse = top.0
                 }
                 iconToUse.draw(at: NSPoint(x: left, y: iconSize.height + gap), from: .zero, operation: .sourceOver, fraction: 1.0)
+                // If colored, redraw text on top in contrasting color
+                if let colorHex = top.4, let color = NSColor.fromHex(colorHex) {
+                    let textColor = color.contrastingTextColor()
+                    let textRect = NSRect(x: left, y: iconSize.height + gap, width: top.0.size.width, height: top.0.size.height)
+                    (top.5 as NSString).drawVerticallyCentered(
+                        in: textRect,
+                        withAttributes: getStringAttributes(alpha: 1, textColor: textColor))
+                }
                 iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, top: iconSize.height + gap, bottom: imageHeight, index: top.2))
             }
             if let bottom = col.bottom {
@@ -476,6 +519,14 @@ class IconCreator {
                     iconToUse = bottom.0
                 }
                 iconToUse.draw(at: NSPoint(x: left, y: 0), from: .zero, operation: .sourceOver, fraction: 1.0)
+                // If colored, redraw text on top in contrasting color
+                if let colorHex = bottom.4, let color = NSColor.fromHex(colorHex) {
+                    let textColor = color.contrastingTextColor()
+                    let textRect = NSRect(x: left, y: 0, width: bottom.0.size.width, height: bottom.0.size.height)
+                    (bottom.5 as NSString).drawVerticallyCentered(
+                        in: textRect,
+                        withAttributes: getStringAttributes(alpha: 1, textColor: textColor))
+                }
                 iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, top: 0, bottom: iconSize.height, index: bottom.2))
             }
             left += col.width + col.gapAfter
@@ -485,12 +536,12 @@ class IconCreator {
         return image
     }
 
-    private func getStringAttributes(alpha: CGFloat, fontSize: CGFloat = .zero) -> [NSAttributedString.Key : Any] {
+    private func getStringAttributes(alpha: CGFloat, fontSize: CGFloat = .zero, textColor: NSColor = .black) -> [NSAttributedString.Key : Any] {
         let actualFontSize = fontSize == .zero ? CGFloat(sizes.FONT_SIZE) : fontSize
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         return [
-            .foregroundColor: NSColor.black.withAlphaComponent(alpha),
+            .foregroundColor: textColor.withAlphaComponent(alpha),
             .font: NSFont.monospacedSystemFont(ofSize: actualFontSize, weight: .bold),
             .paragraphStyle: paragraphStyle]
     }
