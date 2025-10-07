@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 class ShortcutHelper {
-    
+
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
@@ -88,7 +88,7 @@ class ShortcutHelper {
         }
         return keyCode
     }
-    
+
     func getKeyCode(spaceNumber: Int) -> Int {
         switch (keySet) {
         case .toprow:
@@ -97,7 +97,7 @@ class ShortcutHelper {
             return getKeyCodeNumPad(spaceNumber: spaceNumber)
         }
     }
-    
+
     func getModifiers() -> String {
         var modifiers: [String] = []
         if withShift {

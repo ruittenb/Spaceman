@@ -16,7 +16,7 @@ class SpaceObserver {
     private let workerQueue = DispatchQueue(label: "dev.ruittenb.Spaceman.SpaceObserver")
 
     weak var delegate: SpaceObserverDelegate?
-    
+
     init() {
         workspace.notificationCenter.addObserver(
             self,
@@ -29,7 +29,7 @@ class SpaceObserver {
             name: NSNotification.Name("ButtonPressed"),
             object: nil)
     }
-    
+
     private func getDisplayX(display: NSDictionary) -> CGFloat {
         guard let uuidString = display["Display Identifier"] as? String else {
             return 0
@@ -39,7 +39,7 @@ class SpaceObserver {
         let bounds = CGDisplayBounds(dId)
         return bounds.origin.x
     }
-    
+
     @objc public func updateSpaceInformation() {
         let restartByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
         let reverseDisplayOrder = defaults.bool(forKey: "reverseDisplayOrder")

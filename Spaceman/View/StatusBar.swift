@@ -28,29 +28,29 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
     private var shortcutHelper: ShortcutHelper!
     private var updaterController: SPUStandardUpdaterController!
     private var aboutView: NSHostingView<AboutView>!
-    
+
     public var iconCreator: IconCreator!
 
     override init() {
         super.init()
-        
+
         shortcutHelper = ShortcutHelper()
         spaceSwitcher = SpaceSwitcher()
         updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
-        
+
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
         statusBarMenu.autoenablesItems = false
         statusBarMenu.delegate = self
-        
+
         prefsWindow = PreferencesWindow()
-        
+
         let about = NSMenuItem()
         let aboutViewContent = AboutView()
         aboutView = NSHostingView(rootView: aboutViewContent)
         aboutView.frame = NSRect(x: 0, y: 0, width: 220, height: 70)
         about.view = aboutView
-        
+
         updatesItem = NSMenuItem(
             title: "Check for updates...",
             action: #selector(updaterController.checkForUpdates(_:)),
@@ -70,12 +70,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         Task { @MainActor in
             prefItem.setShortcut(for: .preferences)
         }
-        
+
         quitItem = NSMenuItem(
             title: "Quit Spaceman",
             action: #selector(NSApplication.terminate(_:)),
             keyEquivalent: "")
-        
+
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(NSMenuItem.separator())
@@ -83,7 +83,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         statusBarMenu.addItem(prefItem)
         statusBarMenu.addItem(quitItem)
         //statusBarItem.menu = statusBarMenu
-        
+
         statusBarItem.button?.action = #selector(handleClick)
         statusBarItem.button?.target = self
         statusBarItem.button?.sendAction(on: [.rightMouseDown, .leftMouseDown])
@@ -216,7 +216,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
             shortcutKey = "0"
         }
         // For spaces > 12: no shortcut (macOS limitation)
-        
+
         let icon = NSImage(imageLiteralResourceName: "SpaceIconNumNormalActive")
         let menuIcon = iconCreator.createRectWithNumberIcon(
             icons: [icon],

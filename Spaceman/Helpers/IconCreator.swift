@@ -17,7 +17,7 @@ class IconCreator {
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
-    
+
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
         set { visibleSpacesModeRaw = newValue.rawValue }
@@ -93,10 +93,10 @@ class IconCreator {
             default:
                 iconResourceName = "SpaceIconNumNormalInactive"
             }
-            
+
             icons.append(NSImage(imageLiteralResourceName: iconResourceName))
         }
-        
+
         switch displayStyle {
         case .rects:
             //icons = resizeIcons(filteredSpaces, icons, layoutMode)
@@ -162,39 +162,39 @@ class IconCreator {
 
     private func createNumberedIcons(_ spaces: [Space]) -> [NSImage] {
         var newIcons = [NSImage]()
-        
+
         for s in spaces {
             let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
             let spaceID = s.spaceByDesktopID
-            
+
             let image = NSImage(size: iconSize)
-            
+
             image.lockFocus()
             spaceID.drawVerticallyCentered(
                 in: textRect,
                 withAttributes: getStringAttributes(alpha: !s.isCurrentSpace ? 0.4 : 1))
             image.unlockFocus()
-            
+
             newIcons.append(image)
         }
         return newIcons
     }
-    
+
     public func createRectWithNumberIcon(icons: [NSImage], index: Int, space: Space, fraction: Float = 1.0) -> NSImage {
         iconSize.width = CGFloat(sizes.ICON_WIDTH_SMALL)
-        
+
         let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
         let spaceID = space.spaceByDesktopID
-        
+
         let iconImage = NSImage(size: iconSize)
         let numberImage = NSImage(size: iconSize)
-        
+
         numberImage.lockFocus()
         spaceID.drawVerticallyCentered(
             in: textRect,
             withAttributes: getStringAttributes(alpha: 1))
         numberImage.unlockFocus()
-        
+
         iconImage.lockFocus()
         icons[index].draw(
             in: textRect,
@@ -221,13 +221,13 @@ class IconCreator {
         }
         return newIcons
     }
-    
+
     private func createNamedIcons(_ icons: [NSImage], _ spaces: [Space], withNumbers: Bool) -> [NSImage] {
         var index = 0
         var newIcons = [NSImage]()
 
         iconSize.width = CGFloat(withNumbers ? sizes.ICON_WIDTH_XLARGE : sizes.ICON_WIDTH_LARGE)
-        
+
         for s in spaces {
             let spaceID = s.spaceByDesktopID
             let spaceNumberPrefix = withNumbers ? "\(spaceID):" : ""
@@ -245,19 +245,19 @@ class IconCreator {
             let spaceText = NSString(string: "\(spaceNumberPrefix)\(shownName)")
             let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
             let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(sizes.ICON_HEIGHT))
-            
+
             // Check if the text width exceeds the icon's width
             let textImageSize = textSize.width > iconSize.width ? textWithMarginSize : iconSize
             let iconImage = NSImage(size: textImageSize)
             let textImage = NSImage(size: textImageSize)
             let textRect = NSRect(origin: CGPoint.zero, size: textImageSize)
-            
+
             textImage.lockFocus()
             spaceText.drawVerticallyCentered(
                 in: textRect,
                 withAttributes: getStringAttributes(alpha: 1))
             textImage.unlockFocus()
-            
+
             iconImage.lockFocus()
             icons[index].draw(
                 in: textRect,
@@ -275,10 +275,10 @@ class IconCreator {
             newIcons.append(iconImage)
             index += 1
         }
-        
+
         return newIcons
     }
-    
+
     private func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool, Bool, String)] {
         var iconsWithDisplayProperties = [(NSImage, Bool, Bool, String)]()
         guard spaces.count > 0 else { return iconsWithDisplayProperties }
@@ -300,7 +300,7 @@ class IconCreator {
 
         return iconsWithDisplayProperties
     }
-    
+
     private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String)], indexMap: [String: Int], buttonFrame: NSRect? = nil) -> NSImage {
         let numIcons = iconsWithDisplayProperties.count
         let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
@@ -468,7 +468,7 @@ class IconCreator {
             .font: NSFont.monospacedSystemFont(ofSize: actualFontSize, weight: .bold),
             .paragraphStyle: paragraphStyle]
     }
-    
+
     private func calculateLeftMargin(buttonFrame: NSRect?, totalIconWidth: CGFloat) -> CGFloat {
         guard let frame = buttonFrame, totalIconWidth > 0 else {
             // Fallback to known good value if frame unavailable

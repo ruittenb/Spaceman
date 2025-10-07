@@ -28,7 +28,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         spaceObserver = SpaceObserver()
         spaceObserver.delegate = self
         spaceObserver.updateSpaceInformation()
-        
+
         NSApp.activate(ignoringOtherApps: true)
         KeyboardShortcuts.onKeyUp(for: .refresh) { [] in
             self.spaceObserver.updateSpaceInformation()
@@ -86,9 +86,9 @@ extension AppDelegate: SpaceObserverDelegate {
 
 @main
 struct SpacemanApp: App {
-    
+
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
+
     // Note:
     // - This is SwiftUI's SceneBuilder (var body: some Scene).
     // - Some toolchain combinations do not support runtime control flow (e.g., if/#available)
@@ -99,7 +99,7 @@ struct SpacemanApp: App {
     var body: some Scene {
         makeSettingsScene()
     }
-    
+
     // Note:
     // - Perform the #available(macOS 15) check in a regular function rather than inside
     //   the SceneBuilder closure to avoid result‑builder control‑flow limitations.

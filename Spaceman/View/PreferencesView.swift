@@ -11,9 +11,9 @@ import LaunchAtLogin
 import SwiftUI
 
 struct PreferencesView: View {
-    
+
     weak var parentWindow: PreferencesWindow?
-    
+
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
@@ -36,7 +36,7 @@ struct PreferencesView: View {
 
     @StateObject private var prefsVM = PreferencesViewModel()
     @State private var selectedTab = 0
-    
+
     // MARK: - Main Body
     var body: some View {
         VStack(spacing: 0) {
@@ -48,9 +48,9 @@ struct PreferencesView: View {
             .frame(maxWidth: .infinity, alignment: .center)
             .frame(height: 60)
             .offset(y: 1) // Looked like it was off center
-            
+
             Divider()
-                        
+
             preferencePanes
         }
         .ignoresSafeArea()
@@ -63,7 +63,7 @@ struct PreferencesView: View {
             prefsVM.loadData()
         }
     }
-    
+
     // MARK: - Close Button
     private var closeButton: some View {
         VStack {
@@ -85,7 +85,7 @@ struct PreferencesView: View {
             Spacer()
         }
     }
-    
+
     // MARK: - App Info
     private var appInfo: some View {
         HStack(spacing: 8) {
@@ -102,9 +102,9 @@ struct PreferencesView: View {
                 }
             }
             .padding(.leading)
-            
+
             Spacer()
-            
+
             HStack {
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.repo)
@@ -112,7 +112,7 @@ struct PreferencesView: View {
                     Text("GitHub").font(.system(size: 12))
                 }
                 .buttonStyle(LinkButtonStyle())
-                
+
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.website)
                 } label: {
@@ -123,7 +123,7 @@ struct PreferencesView: View {
         }
         .padding(.horizontal, 18)
     }
-    
+
     // MARK: - Preference Panes
     private var preferencePanes: some View {
         VStack(spacing: 0) {
@@ -237,7 +237,7 @@ struct PreferencesView: View {
             // The Space names are always shown in the menu, therefore: allow editing even if icon style does not include names
             spaceNameListEditor
                 .padding(.bottom, 8)
-            
+
             Picker(selection: Binding(
                 get: { visibleSpacesMode },
                 set: { visibleSpacesModeRaw = $0.rawValue }
@@ -281,7 +281,7 @@ struct PreferencesView: View {
             KeyboardShortcuts.Recorder(for: .preferences)
         }
     }
-    
+
     // MARK: - Layout Size Picker
     private var layoutSizePicker: some View {
         Picker(selection: $layoutMode, label: Text("Layout")) {
@@ -297,7 +297,7 @@ struct PreferencesView: View {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
-    
+
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
         Picker(selection: $displayStyle, label: Text("Icon style")) {
@@ -315,7 +315,7 @@ struct PreferencesView: View {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
-    
+
     // MARK: - Space Name List Editor
     private var spaceNameListEditor: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -333,7 +333,7 @@ struct PreferencesView: View {
                     let label = hasMultipleDisplays ? "Display \(displayIndex)  \(spacePart)" : spacePart
                     let leftMargin = 40
                     let labelWidth = hasMultipleDisplays ? 140 : 80
-                    
+
                     HStack(spacing: 8) {
                         Text(label)
                             .frame(width: CGFloat(labelWidth), alignment: .leading)
@@ -358,14 +358,14 @@ struct PreferencesView: View {
             }
         }
     }
-    
+
     // MARK: - Update Name Method
     private func updateName() {
         prefsVM.updateSpace()
         self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
     }
-    
+
     // MARK: - Switching pane
     private var switchingPane: some View {
         // Switching Pane

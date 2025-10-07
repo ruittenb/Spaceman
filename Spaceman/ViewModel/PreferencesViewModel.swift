@@ -17,20 +17,20 @@ class PreferencesViewModel: ObservableObject {
     @Published var spaceNamesDict: [String: SpaceNameInfo] = [:]
     @Published var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element] = []
     var timer: Timer!
-    
+
     init() {
         selectedSpace = -1
         spaceName = ""
         timer = Timer()
         if autoRefreshSpaces { startTimer() }
     }
-    
+
     func loadData() {
         let allSpaceNames = nameStore.loadAll()
         spaceNamesDict = allSpaceNames.filter { AppDelegate.activeSpaceIDs.contains($0.key) }
         rebuildSortedSpaceNames(maintainingSelectionFor: nil)
     }
-    
+
     func updateSpace() {
         let key = sortedSpaceNamesDict[selectedSpace].key
         updateSpaceName(for: key, to: spaceName.isEmpty ? "-" : spaceName)
@@ -64,15 +64,15 @@ class PreferencesViewModel: ObservableObject {
         nameStore.save(spaceNamesDict)
         rebuildSortedSpaceNames(maintainingSelectionFor: key)
     }
-    
+
     func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshSpaces), userInfo: nil, repeats: true)
     }
-    
+
     func pauseTimer() {
         timer.invalidate()
     }
-    
+
     @objc func refreshSpaces() {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
     }

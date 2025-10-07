@@ -50,7 +50,7 @@ class SpaceSwitcher {
             }
         }
     }
-    
+
     public func switchUsingLocation(iconWidths: [IconWidth], point: CGPoint, onError: () -> Void) {
         var index: Int = 0
         for i in 0 ..< iconWidths.count {
@@ -64,7 +64,7 @@ class SpaceSwitcher {
         }
         switchToSpace(spaceNumber: index, onError: onError)
     }
-    
+
     private func systemSettingsName() -> String {
         if #available(macOS 13.0, *) {
             return "System Settings"
@@ -72,7 +72,7 @@ class SpaceSwitcher {
             return "System Preferences"
         }
     }
-    
+
     private func alert(msg: String, permissionTypeName: String) {
         DispatchQueue.main.async {
             let alert = NSAlert.init()
@@ -92,7 +92,7 @@ class SpaceSwitcher {
             }
         }
     }
-    
+
     private func makeAppleScript(keyCode: Int, modifiers: String) -> String {
         if modifiers.isEmpty {
             return "tell application \"System Events\" to key code \(keyCode)"
