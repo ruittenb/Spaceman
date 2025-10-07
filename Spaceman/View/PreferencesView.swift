@@ -358,15 +358,32 @@ struct PreferencesView: View {
                                 set: { _ in }
                             ),
                             onColorChange: { newColor in
-                                // Save color immediately (isContinuous=false means this only fires once)
                                 prefsVM.updateSpaceColor(for: entry.key, to: newColor)
-                                // Trigger a delayed refresh to update menubar (gives time for save to complete)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
                                 }
                             }
                         )
                         .frame(width: 35, height: 24)
+
+                        // Clear color button (or invisible placeholder for alignment)
+                        if prefsVM.spaceNamesDict[entry.key]?.colorHex != nil {
+                            Button {
+                                prefsVM.updateSpaceColor(for: entry.key, to: nil)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                                }
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.secondary)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .help("Clear color")
+                        } else {
+                            // Invisible placeholder for alignment
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.clear)
+                        }
                     }
                 }
             }
