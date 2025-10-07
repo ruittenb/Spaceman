@@ -13,6 +13,7 @@ struct SpaceNameInfo: Codable {
     var positionOnDisplay: Int?
     var currentDisplayIndex: Int?
     var currentSpaceNumber: Int?
+    var colorHex: String?
 }
 
 guard let data = defaults.data(forKey: "spaceNames") else {
@@ -41,5 +42,6 @@ for (id, info) in sorted {
     let spaceNum = info.currentSpaceNumber.map(String.init) ?? "?"
     let display = info.displayUUID ?? "?"
     let pos = info.positionOnDisplay.map(String.init) ?? "?"
-    print("Space \(spaceNum): \(info.spaceName) (ID: \(id), Display: \(display), Pos: \(pos))")
+    let color = info.colorHex.map { "#\($0)" } ?? "none"
+    print("Space \(spaceNum): \(info.spaceName) (ID: \(id), Display: \(display), Pos: \(pos), Color: \(color))")
 }
