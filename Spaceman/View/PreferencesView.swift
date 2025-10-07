@@ -202,14 +202,23 @@ struct PreferencesView: View {
     private var displaysPane: some View {
         let hasMultipleDisplays = NSScreen.screens.count > 1
         return VStack(alignment: .leading, spacing: 8) {
-            Text("Displays")
-                .font(.title2)
-                .fontWeight(.semibold)
+            HStack() {
+                Text("Displays")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                Spacer()
+                Button {
+                    openDisplaysSettings()
+                } label: {
+                    Text("Displays…")
+                }
+            }
             Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
+                .disabled(!hasMultipleDisplays)
             Toggle("Reverse display order", isOn: $reverseDisplayOrder)
+                .disabled(!hasMultipleDisplays)
         }
         .padding()
-        .disabled(!hasMultipleDisplays)
         .onChange(of: restartNumberingByDesktop) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
@@ -393,7 +402,31 @@ struct PreferencesView: View {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
+}
 
+// MARK: - Open Displays settings
+/// Opens the macOS Displays settings (macOS 11+).
+/// Tries modern URL, then legacy URL, then the prefPane path — all via /usr/bin/open.
+/// Intentionally ignores failures; best-effort launch only.
+func openDisplaysSettings() {
+    let candidates = [
+        "x-apple.systempreferences:com.apple.Displays-Settings.extension", // Ventura/Sequoia
+        "x-apple.systempreferences:com.apple.preference.displays",         // Big Sur/Monterey
+        "/System/Library/PreferencePanes/Displays.prefPane"                // Fallback
+    ]
+
+    for target in candidates {
+        let proc = Process()
+        proc.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+        proc.arguments = [target]
+        do {
+            try proc.run()
+            break
+        } catch {
+            // Try the next candidate
+            continue
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
