@@ -54,7 +54,7 @@ struct PreferencesView: View {
             preferencePanes
         }
         .ignoresSafeArea()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .frame(maxWidth: .infinity, alignment: .top)
         .onAppear(perform: prefsVM.loadData)
         .onChange(of: data) { _ in
             prefsVM.loadData()
