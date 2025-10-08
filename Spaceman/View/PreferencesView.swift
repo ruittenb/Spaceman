@@ -169,18 +169,7 @@ struct PreferencesView: View {
             refreshShortcutRecorder.disabled(autoRefreshSpaces)
             preferencesShortcutRecorder
             layoutSizePicker
-            HStack(spacing: 12) {
-                Text("Dual Row fill order")
-                    .foregroundColor(layoutMode == .dualRows ? .primary : .secondary)
-                Spacer()
-                Picker("", selection: $dualRowFillOrder) {
-                    Text("Rows first").tag(DualRowFillOrder.byRow)
-                    Text("Columns first").tag(DualRowFillOrder.byColumn)
-                }
-                .pickerStyle(.segmented)
-                .fixedSize()
-            }
-            .disabled(layoutMode != .dualRows)
+            dualRowFillOrderPicker
         }
         .padding()
         .onChange(of: autoRefreshSpaces) { enabled in
@@ -213,7 +202,7 @@ struct PreferencesView: View {
             Button {
                 openDisplaysSettings()
             } label: {
-                Text("Open Display \(systemSettingsName())…")
+                Text("Open \(systemSettingsName()) → Displays…")
             }
             .padding(.top)
         }
@@ -236,25 +225,7 @@ struct PreferencesView: View {
             // The Space names are always shown in the menu, therefore: allow editing even if icon style does not include names
             spaceNameListEditor
                 .padding(.bottom, 8)
-
-            Picker(selection: Binding(
-                get: { visibleSpacesMode },
-                set: { visibleSpacesModeRaw = $0.rawValue }
-            ), label: Text("Spaces shown")) {
-                Text("All spaces").tag(VisibleSpacesMode.all)
-                Text("Nearby spaces").tag(VisibleSpacesMode.neighbors)
-                Text("Current only").tag(VisibleSpacesMode.currentOnly)
-            }
-            .pickerStyle(.segmented)
-            Stepper(value: $neighborRadius, in: 1...3) {
-                Text("Nearby range: ±\(neighborRadius)")
-                    .foregroundColor(visibleSpacesMode == .neighbors ? .primary : .secondary)
-                    .padding(.leading, 40)
-            }
-            .disabled(visibleSpacesMode != .neighbors)
-            .onChange(of: neighborRadius) { _ in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-            }
+            spacesShownPicker
         }
         .padding()
         .onChange(of: visibleSpacesModeRaw) { _ in
@@ -290,11 +261,28 @@ struct PreferencesView: View {
             Text("X Large").tag(LayoutMode.extraLarge)
         }
         .pickerStyle(.segmented)
+        .fixedSize()
         .onChange(of: layoutMode) { val in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
 
+    // MARK: - Dual Row Fill Order Picker
+    private var dualRowFillOrderPicker: some View {
+        HStack(spacing: 12) {
+            Text("Dual Row fill order")
+                .foregroundColor(layoutMode == .dualRows ? .primary : .secondary)
+            Spacer()
+            Picker("", selection: $dualRowFillOrder) {
+                Text("Rows first").tag(DualRowFillOrder.byRow)
+                Text("Columns first").tag(DualRowFillOrder.byColumn)
+            }
+            .pickerStyle(.segmented)
+            .fixedSize()
+        }
+        .disabled(layoutMode != .dualRows)
+    }
+    
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
         Picker(selection: $displayStyle, label: Text("Icon style")) {
@@ -348,6 +336,30 @@ struct PreferencesView: View {
                         .textFieldStyle(.roundedBorder)
                     }
                 }
+            }
+        }
+    }
+
+    // MARK: - Spaces shown picker
+    private var spacesShownPicker: some View {
+        return VStack(alignment: .leading) {
+            Picker(selection: Binding(
+                get: { visibleSpacesMode },
+                set: { visibleSpacesModeRaw = $0.rawValue }
+            ), label: Text("Spaces shown")) {
+                Text("All spaces").tag(VisibleSpacesMode.all)
+                Text("Nearby spaces").tag(VisibleSpacesMode.neighbors)
+                Text("Current only").tag(VisibleSpacesMode.currentOnly)
+            }
+            .pickerStyle(.segmented)
+            Stepper(value: $neighborRadius, in: 1...3) {
+                Text("Nearby range: ±\(neighborRadius)")
+                    .foregroundColor(visibleSpacesMode == .neighbors ? .primary : .secondary)
+                    .padding(.leading, 40)
+            }
+            .disabled(visibleSpacesMode != .neighbors)
+            .onChange(of: neighborRadius) { _ in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
             }
         }
     }
