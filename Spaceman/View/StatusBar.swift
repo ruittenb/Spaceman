@@ -8,8 +8,9 @@
 import Foundation
 import Sparkle
 import SwiftUI
+import UserNotifications
 
-class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
+class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("schema") private var keySet = KeySet.toprow
@@ -36,7 +37,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
 
         shortcutHelper = ShortcutHelper()
         spaceSwitcher = SpaceSwitcher()
-        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: self)
+
+        // Request notification permissions for update alerts
+        requestNotificationPermissions()
 
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
@@ -292,4 +296,43 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         // About to install
         hideBadge()
     }
+
+    // MARK: - SPUStandardUserDriverDelegate
+
+    func requestNotificationPermissions() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) { granted, error in
+            if let error = error {
+                print("Notification permission error: \(error)")
+            }
+        }
+    }
+
+    func standardUserDriverWillHandleShowingUpdate(_ handleShowingUpdate: Bool, forUpdate updateItem: SUAppcastItem, state: SPUUserUpdateState) {
+        if handleShowingUpdate {
+            // Show desktop notification
+            let content = UNMutableNotificationContent()
+            content.title = "Spaceman Update Available"
+            content.body = "Version \(updateItem.displayVersionString) is available"
+            content.sound = .default
+
+            let request = UNNotificationRequest(identifier: "spaceman-update", content: content, trigger: nil)
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Failed to show update notification: \(error)")
+                }
+            }
+        }
+    }
+
+    func standardUserDriverDidReceiveUserAttention(forUpdate updateItem: SUAppcastItem) {
+        // User clicked the notification - remove it
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["spaceman-update"])
+    }
+
+    func standardUserDriverWillFinishUpdateSession() {
+        // Clean up any remaining notifications
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["spaceman-update"])
+    }
 }
+
