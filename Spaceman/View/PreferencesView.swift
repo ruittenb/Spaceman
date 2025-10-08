@@ -202,21 +202,20 @@ struct PreferencesView: View {
     private var displaysPane: some View {
         let hasMultipleDisplays = NSScreen.screens.count > 1
         return VStack(alignment: .leading, spacing: 8) {
-            HStack() {
-                Text("Displays")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                Spacer()
-                Button {
-                    openDisplaysSettings()
-                } label: {
-                    Text("Displays…")
-                }
-            }
+            Text("Displays")
+                .font(.title2)
+                .fontWeight(.semibold)
             Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
                 .disabled(!hasMultipleDisplays)
             Toggle("Reverse display order", isOn: $reverseDisplayOrder)
                 .disabled(!hasMultipleDisplays)
+
+            Button {
+                openDisplaysSettings()
+            } label: {
+                Text("Open Display \(systemSettingsName())…")
+            }
+            .padding(.top)
         }
         .padding()
         .onChange(of: restartNumberingByDesktop) { _ in

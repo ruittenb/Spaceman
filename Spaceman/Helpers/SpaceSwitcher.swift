@@ -31,7 +31,7 @@ class SpaceSwitcher {
                 if error != nil {
                     let errorNumber: Int = error?[NSAppleScript.errorNumber] as! Int
                     let errorBriefMessage: String = error?[NSAppleScript.errorBriefMessage] as! String
-                    let settingsName = self.systemSettingsName()
+                    let settingsName = systemSettingsName()
                     let permissionType: String
                     switch abs(errorNumber) {
                     case 1002:
@@ -65,14 +65,6 @@ class SpaceSwitcher {
         switchToSpace(spaceNumber: index, onError: onError)
     }
 
-    private func systemSettingsName() -> String {
-        if #available(macOS 13.0, *) {
-            return "System Settings"
-        } else {
-            return "System Preferences"
-        }
-    }
-
     private func alert(msg: String, permissionTypeName: String) {
         DispatchQueue.main.async {
             let alert = NSAlert.init()
@@ -80,7 +72,7 @@ class SpaceSwitcher {
             alert.informativeText = "\(msg)"
             alert.addButton(withTitle: "Dismiss")
             if permissionTypeName != "" {
-                let settingsName = self.systemSettingsName()
+                let settingsName = systemSettingsName()
                 alert.addButton(withTitle: "\(settingsName)...")
             }
             let response = alert.runModal()

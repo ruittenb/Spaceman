@@ -20,3 +20,11 @@ extension KeyboardShortcuts.Name {
     static let refresh = Self("refresh")
     static let preferences = Self("preferences")
 }
+
+func systemSettingsName() -> String {
+    if #available(macOS 13.0, *) {
+        return "System Settings"
+    } else {
+        return "System Preferences"
+    }
+}
