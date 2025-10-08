@@ -212,8 +212,9 @@ struct PreferencesView: View {
                 .disabled(!hasMultipleDisplays)
 
             Text("When displays are vertically arranged:")
+                .foregroundColor(hasMultipleDisplays ? .primary : .secondary)
             Picker("", selection: $verticalDirection) {
-                Text("Use default order").tag(VerticalDirection.defaultOrder)
+                Text("Show in left-to-right order").tag(VerticalDirection.defaultOrder)
                 Text("Show top display first").tag(VerticalDirection.topGoesFirst)
                 Text("Show bottom display first").tag(VerticalDirection.bottomGoesFirst)
             }
@@ -227,6 +228,7 @@ struct PreferencesView: View {
                 Text("Open Display \(systemSettingsName())…")
             }
             .padding(.top)
+            .disabled(!hasMultipleDisplays)
         }
         .padding()
         .onChange(of: restartNumberingByDesktop) { _ in
