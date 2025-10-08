@@ -144,13 +144,13 @@ struct PreferencesView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         generalPane
                         Divider()
-                        switchingPane
+                        displaysPane
                     }
                 } else {
                     VStack(alignment: .leading, spacing: 0) {
                         spacesPane
                         Divider()
-                        displaysPane
+                        switchingPane
                     }
                 }
             }
