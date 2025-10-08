@@ -36,6 +36,8 @@ struct PreferencesView: View {
 
     @StateObject private var prefsVM = PreferencesViewModel()
     @State private var selectedTab = 0
+    @State private var showDisplaysHelp = false
+    @State private var showSwitchingHelp = false
 
     // MARK: - Main Body
     var body: some View {
@@ -194,15 +196,30 @@ struct PreferencesView: View {
             Text("Displays")
                 .font(.title2)
                 .fontWeight(.semibold)
+
             Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
                 .disabled(!hasMultipleDisplays)
             Toggle("Reverse display order", isOn: $reverseDisplayOrder)
                 .disabled(!hasMultipleDisplays)
 
-            Button {
-                openDisplaysSettings()
-            } label: {
-                Text("Open \(systemSettingsName()) → Displays…")
+            HStack(spacing: 6) {
+                Button {
+                    openDisplaysSettings()
+                } label: {
+                    Text("Open \(systemSettingsName()) → Displays…")
+                }
+                Button {
+                    showDisplaysHelp.toggle()
+                } label: {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .popover(isPresented: $showDisplaysHelp, arrowEdge: .trailing) {
+                    Text("If the display order seems erratic, please pay close attention to the horizontal alignment in \(systemSettingsName()) → Displays → Arrange")
+                    .padding()
+                    .frame(width: 240)
+                }
             }
             .padding(.top)
         }
@@ -368,9 +385,24 @@ struct PreferencesView: View {
     private var switchingPane: some View {
         // Switching Pane
         VStack(alignment: .leading, spacing: 10) {
-            Text("Switching Spaces")
-                .font(.title2)
-                .fontWeight(.semibold)
+            HStack() {
+                Text("Switching Spaces")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                Spacer()
+                Button {
+                    showSwitchingHelp.toggle()
+                } label: {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
+                    Text("For switching between spaces to work, these settings must match the keyboard shortcuts assigned in Mission Control.")
+                    .padding()
+                    .frame(width: 240)
+                }
+            }
             Picker("Shortcut keys", selection: $keySet) {
                 Text("number keys on top row").tag(KeySet.toprow).padding(.bottom, 2)
                 Text("numeric keypad").tag(KeySet.numpad)
