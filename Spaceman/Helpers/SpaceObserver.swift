@@ -32,50 +32,38 @@ class SpaceObserver {
 
     // Compare two displays according to user preferences
     func compareDisplays(d1: NSDictionary, d2: NSDictionary, verticalDirection: VerticalDirection) -> Bool {
-        let c1 = getDisplayCenter(display: d1)
-        let c2 = getDisplayCenter(display: d2)
-        let tolerance: CGFloat = 2
+        let c1 = DisplayGeometryUtilities.getDisplayCenter(display: d1)
+        let c2 = DisplayGeometryUtilities.getDisplayCenter(display: d2)
+
         let cmpX: (CGPoint, CGPoint) -> Bool = { a, b in
             return a.x < b.x
         }
         let cmpY: (CGPoint, CGPoint) -> Bool = { a, b in
             // macOS global coordinates origin at bottom-left; larger y is higher
             switch verticalDirection {
-            case .macOSOrder: return a.x < b.x
-            case .topGoesRight: return a.y > b.y
-            case .topGoesLeft: return a.y < b.y
+            case .defaultOrder: return a.x < b.x
+            case .topGoesFirst: return a.y > b.y
+            case .bottomGoesFirst: return a.y < b.y
             }
         }
-        //switch displayOrderPriority {
-        //case .horizontal:
-        //    if abs(c1.x - c2.x) > tolerance { return cmpX(c1, c2) }
-            return cmpY(c1, c2)
-        //case .vertical:
-        //    if abs(c1.y - c2.y) > tolerance { return cmpY(c1, c2) }
-        //    return cmpX(c1, c2)
-        //}
-    }
 
-    func getDisplayCenter(display: NSDictionary) -> CGPoint {
-        guard let uuidString = display["Display Identifier"] as? String else { return .zero }
-        let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, uuidString as CFString)
-        let did = CGDisplayGetDisplayIDFromUUID(uuid)
-        // Prefer NSScreen frame for consistent origin handling
-        for screen in NSScreen.screens {
-            if let num = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber,
-               CGDirectDisplayID(num.uint32Value) == did {
-                let f = screen.frame
-                return CGPoint(x: f.origin.x + f.size.width/2, y: f.origin.y + f.size.height/2)
-            }
+        // If defaultOrder, always sort by X coordinate
+        if verticalDirection == .defaultOrder {
+            return cmpX(c1, c2)
         }
-        let b = CGDisplayBounds(did)
-        return CGPoint(x: b.origin.x + b.size.width/2, y: b.origin.y + b.size.height/2)
+
+        // Check if displays are vertically stacked
+        if DisplayGeometryUtilities.getIsVerticallyStacked(d1: d1, d2: d2) {
+            return cmpY(c1, c2)
+        } else {
+            return cmpX(c1, c2)
+        }
     }
 
     @objc public func updateSpaceInformation() {
         let restartNumberingByDisplay = defaults.bool(forKey: "restartNumberingByDisplay")
         let reverseDisplayOrder = defaults.bool(forKey: "reverseDisplayOrder")
-        let verticalDirection = VerticalDirection(rawValue: defaults.integer(forKey: "verticalDirection")) ?? .topGoesRight
+        let verticalDirection = VerticalDirection(rawValue: defaults.integer(forKey: "verticalDirection")) ?? .bottomGoesFirst
         workerQueue.async { [weak self] in
             self?.performSpaceInformationUpdate(restartNumberingByDisplay: restartNumberingByDisplay, reverseDisplayOrder: reverseDisplayOrder, verticalDirection: verticalDirection)
         }

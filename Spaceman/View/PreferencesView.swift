@@ -23,7 +23,7 @@ struct PreferencesView: View {
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDesktop = false
     @AppStorage("reverseDisplayOrder") private var reverseDisplayOrder = false
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
-    @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.topGoesRight
+    @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
@@ -203,14 +203,16 @@ struct PreferencesView: View {
             Toggle("Reverse display order", isOn: $reverseDisplayOrder)
                 .disabled(!hasMultipleDisplays)
 
-            Text("When displays are vertically aligned")
+            Text("When displays are vertically arranged")
+                .foregroundColor(hasMultipleDisplays ? .primary : .secondary)
             Picker("", selection: $verticalDirection) {
-                Text("Use mac OS order").tag(VerticalDirection.macOSOrder)
-                Text("Show top display first").tag(VerticalDirection.topGoesLeft)
-                Text("Show bottom display first").tag(VerticalDirection.topGoesRight)
+                Text("Use mac OS order").tag(VerticalDirection.defaultOrder)
+                Text("Show top display first").tag(VerticalDirection.topGoesFirst)
+                Text("Show bottom display first").tag(VerticalDirection.bottomGoesFirst)
             }
             .pickerStyle(.radioGroup)
             .controlSize(.small)
+            .padding(.leading, 12)
             .fixedSize()
 
             HStack(spacing: 12) {
@@ -233,6 +235,7 @@ struct PreferencesView: View {
                 }
             }
             .padding(.top)
+            .disabled(!hasMultipleDisplays)
         }
         .padding()
         .onChange(of: restartNumberingByDesktop) { _ in

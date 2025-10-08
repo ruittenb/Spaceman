@@ -48,6 +48,7 @@
 		E8EBF08C2575F8E4001BA74F /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = E8EBF08B2575F8E4001BA74F /* LaunchAtLogin */; };
 		E8EBF091257739ED001BA74F /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EBF090257739ED001BA74F /* PreferencesWindow.swift */; };
 		F67105E91D29DA62516E5958 /* SpaceNameInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */; };
+		51E05D46B347497D8CA2D991 /* DisplayGeometryUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshCommand.swift; sourceTree = "<group>"; };
 		719549613DB6F90CC9C0CA21 /* SpacemanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpacemanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DCE20A6B4C0E9E494935DB8 /* SpaceFilter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpaceFilter.swift; sourceTree = "<group>"; };
+		45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayGeometryUtilities.swift; sourceTree = "<group>"; };
 		8F4A6E10892D4C67AD5F9BE3 /* VisibleSpacesMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibleSpacesMode.swift; sourceTree = "<group>"; };
 		A4EB8773F2764BC7A1C695B7 /* SpaceNameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNameStore.swift; sourceTree = "<group>"; };
 		C0F9A49EF2025B97049F7053 /* SpaceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceTests.swift; path = SpacemanTests/SpaceTests.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 		E8733509256B575D0012586E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */,
 				E8733510256B779B0012586E /* IconCreator.swift */,
 				E7B0862E2C8980130016C851 /* OSVersion.swift */,
 				E70044AD2E80380B001C7295 /* PreferencesCommand.swift */,
@@ -412,6 +415,7 @@
 				4C02BD6F2C0894F500F07491 /* RefreshCommand.swift in Sources */,
 				E70044AC2E7F6584001C7295 /* DualRowFillOrder.swift in Sources */,
 				E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */,
+				51E05D46B347497D8CA2D991 /* DisplayGeometryUtilities.swift in Sources */,
 				E7B0862F2C8980130016C851 /* OSVersion.swift in Sources */,
 				E8E2AEF8257CB4D700319BBC /* PreferencesViewModel.swift in Sources */,
 				E7A066232C7F65F1002DFC52 /* SpaceSwitcher.swift in Sources */,
