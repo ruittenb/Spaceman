@@ -6,7 +6,7 @@
 //
 
 enum VerticalDirection: Int {
-    case macOSOrder = 0
-    case topGoesLeft = 1
-    case topGoesRight = 2
+    case defaultOrder = 0
+    case topGoesFirst = 1
+    case bottomGoesFirst = 2
 }

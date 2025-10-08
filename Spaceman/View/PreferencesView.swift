@@ -23,7 +23,7 @@ struct PreferencesView: View {
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
     @AppStorage("reverseDisplayOrder") private var reverseDisplayOrder = false
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
-    @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.topGoesRight
+    @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
@@ -211,18 +211,15 @@ struct PreferencesView: View {
             Toggle("Reverse display order", isOn: $reverseDisplayOrder)
                 .disabled(!hasMultipleDisplays)
 
-            HStack(spacing: 12) {
-                Text("Vertical alignment:")
-                Spacer()
-                Picker("", selection: $verticalDirection) {
-                    Text("Use OS order").tag(VerticalDirection.macOSOrder)
-                    Text("Top display left").tag(VerticalDirection.topGoesLeft)
-                    Text("Top display right").tag(VerticalDirection.topGoesRight)
-                }
-                .pickerStyle(.segmented)
-                .controlSize(.small)
-                .fixedSize()
+            Text("When displays are vertically arranged:")
+            Picker("", selection: $verticalDirection) {
+                Text("Use default order").tag(VerticalDirection.defaultOrder)
+                Text("Show top display first").tag(VerticalDirection.topGoesFirst)
+                Text("Show bottom display first").tag(VerticalDirection.bottomGoesFirst)
             }
+            .pickerStyle(.radioGroup)
+            .padding(.leading, 12)
+            .fixedSize()
 
             Button {
                 openDisplaysSettings()
