@@ -135,7 +135,7 @@ For space switching to work, you need to configure three things:
 **Menu Bar Clicking**
 - Click directly on any space icon in the menu bar to switch to that space
 - Current space is highlighted and cannot be clicked
-- Clicking on unavailable spaces will flash the menu bar
+- Clicking an unavailable space flashes the menu bar
 
 <img src="images/Switching-Spaces.gif" width="66%" height="auto">
 
