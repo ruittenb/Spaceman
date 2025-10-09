@@ -36,6 +36,8 @@ struct PreferencesView: View {
 
     @StateObject private var prefsVM = PreferencesViewModel()
     @State private var selectedTab = 0
+    @State private var showDisplaysHelp = false
+    @State private var showSwitchingHelp = false
 
     // MARK: - Main Body
     var body: some View {
@@ -54,7 +56,7 @@ struct PreferencesView: View {
             preferencePanes
         }
         .ignoresSafeArea()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .frame(maxWidth: .infinity, alignment: .top)
         .onAppear(perform: prefsVM.loadData)
         .onChange(of: data) { _ in
             prefsVM.loadData()
@@ -169,18 +171,7 @@ struct PreferencesView: View {
             refreshShortcutRecorder.disabled(autoRefreshSpaces)
             preferencesShortcutRecorder
             layoutSizePicker
-            HStack(spacing: 12) {
-                Text("Dual Row fill order")
-                    .foregroundColor(layoutMode == .dualRows ? .primary : .secondary)
-                Spacer()
-                Picker("", selection: $dualRowFillOrder) {
-                    Text("Rows first").tag(DualRowFillOrder.byRow)
-                    Text("Columns first").tag(DualRowFillOrder.byColumn)
-                }
-                .pickerStyle(.segmented)
-                .fixedSize()
-            }
-            .disabled(layoutMode != .dualRows)
+            dualRowFillOrderPicker
         }
         .padding()
         .onChange(of: autoRefreshSpaces) { enabled in
@@ -205,15 +196,30 @@ struct PreferencesView: View {
             Text("Displays")
                 .font(.title2)
                 .fontWeight(.semibold)
+
             Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
                 .disabled(!hasMultipleDisplays)
             Toggle("Reverse display order", isOn: $reverseDisplayOrder)
                 .disabled(!hasMultipleDisplays)
 
-            Button {
-                openDisplaysSettings()
-            } label: {
-                Text("Open Display \(systemSettingsName())…")
+            HStack(spacing: 8) {
+                Button {
+                    openDisplaysSettings()
+                } label: {
+                    Text("Open \(systemSettingsName()) → Displays…")
+                }
+                Button {
+                    showDisplaysHelp.toggle()
+                } label: {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .popover(isPresented: $showDisplaysHelp, arrowEdge: .trailing) {
+                    Text("If the display order seems erratic, please pay close attention to the horizontal alignment in \(systemSettingsName()) → Displays → Arrange.")
+                    .padding()
+                    .frame(width: 240)
+                }
             }
             .padding(.top)
         }
@@ -236,25 +242,7 @@ struct PreferencesView: View {
             // The Space names are always shown in the menu, therefore: allow editing even if icon style does not include names
             spaceNameListEditor
                 .padding(.bottom, 8)
-
-            Picker(selection: Binding(
-                get: { visibleSpacesMode },
-                set: { visibleSpacesModeRaw = $0.rawValue }
-            ), label: Text("Spaces shown")) {
-                Text("All spaces").tag(VisibleSpacesMode.all)
-                Text("Nearby spaces").tag(VisibleSpacesMode.neighbors)
-                Text("Current only").tag(VisibleSpacesMode.currentOnly)
-            }
-            .pickerStyle(.segmented)
-            Stepper(value: $neighborRadius, in: 1...3) {
-                Text("Nearby range: ±\(neighborRadius)")
-                    .foregroundColor(visibleSpacesMode == .neighbors ? .primary : .secondary)
-                    .padding(.leading, 40)
-            }
-            .disabled(visibleSpacesMode != .neighbors)
-            .onChange(of: neighborRadius) { _ in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-            }
+            spacesShownPicker
         }
         .padding()
         .onChange(of: visibleSpacesModeRaw) { _ in
@@ -290,11 +278,28 @@ struct PreferencesView: View {
             Text("X Large").tag(LayoutMode.extraLarge)
         }
         .pickerStyle(.segmented)
+        .fixedSize()
         .onChange(of: layoutMode) { val in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
 
+    // MARK: - Dual Row Fill Order Picker
+    private var dualRowFillOrderPicker: some View {
+        HStack(spacing: 12) {
+            Text("Dual Row fill order")
+                .foregroundColor(layoutMode == .dualRows ? .primary : .secondary)
+            Spacer()
+            Picker("", selection: $dualRowFillOrder) {
+                Text("Rows first").tag(DualRowFillOrder.byRow)
+                Text("Columns first").tag(DualRowFillOrder.byColumn)
+            }
+            .pickerStyle(.segmented)
+            .fixedSize()
+        }
+        .disabled(layoutMode != .dualRows)
+    }
+    
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
         Picker(selection: $displayStyle, label: Text("Icon style")) {
@@ -352,13 +357,41 @@ struct PreferencesView: View {
         }
     }
 
+    // MARK: - Spaces shown picker
+    private var spacesShownPicker: some View {
+        return VStack(alignment: .leading) {
+            Picker(selection: Binding(
+                get: { visibleSpacesMode },
+                set: { visibleSpacesModeRaw = $0.rawValue }
+            ), label: Text("Spaces shown")) {
+                Text("All spaces").tag(VisibleSpacesMode.all)
+                Text("Nearby spaces").tag(VisibleSpacesMode.neighbors)
+                Text("Current only").tag(VisibleSpacesMode.currentOnly)
+            }
+            .pickerStyle(.segmented)
+            Stepper(value: $neighborRadius, in: 1...3) {
+                Text("Nearby range: ±\(neighborRadius)")
+                    .foregroundColor(visibleSpacesMode == .neighbors ? .primary : .secondary)
+                    .padding(.leading, 40)
+            }
+            .disabled(visibleSpacesMode != .neighbors)
+            .onChange(of: neighborRadius) { _ in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            }
+        }
+    }
+
     // MARK: - Switching pane
     private var switchingPane: some View {
         // Switching Pane
         VStack(alignment: .leading, spacing: 10) {
-            Text("Switching Spaces")
-                .font(.title2)
-                .fontWeight(.semibold)
+            HStack() {
+                Text("Switching Spaces")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                Spacer()
+
+            }
             Picker("Shortcut keys", selection: $keySet) {
                 Text("number keys on top row").tag(KeySet.toprow).padding(.bottom, 2)
                 Text("numeric keypad").tag(KeySet.numpad)
@@ -379,6 +412,27 @@ struct PreferencesView: View {
                 }
                 Spacer()
             }
+            HStack(spacing: 8) {
+                Button {
+                    openMissionControlShortcuts()
+                } label: {
+                    Text("Open \(systemSettingsName()) → Mission Control Shortcuts…")
+                }
+                Button {
+                    showSwitchingHelp.toggle()
+                } label: {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
+                    Text("For switching between spaces to work, these settings must match the keyboard shortcuts assigned for Mission Control.")
+                    .padding()
+                    .frame(width: 240)
+                }
+            }
+            .padding(.top)
+
         }
         .padding()
         .onChange(of: keySet) { _ in
@@ -390,17 +444,38 @@ struct PreferencesView: View {
     }
 }
 
-// MARK: - Open Displays settings
+// MARK: - Open Displays Settings
 /// Opens the macOS Displays settings (macOS 11+).
-/// Tries modern URL, then legacy URL, then the prefPane path — all via /usr/bin/open.
-/// Intentionally ignores failures; best-effort launch only.
 func openDisplaysSettings() {
-    let candidates = [
+    openSettings(candidates: [
         "x-apple.systempreferences:com.apple.Displays-Settings.extension", // Ventura/Sequoia
         "x-apple.systempreferences:com.apple.preference.displays",         // Big Sur/Monterey
         "/System/Library/PreferencePanes/Displays.prefPane"                // Fallback
-    ]
+    ])
+}
 
+// MARK: - Open Keyboard Shortcuts Settings
+/// Opens the Mission Control Shortcuts settings (best-effort, macOS 11+).
+/// Tries Keyboard > Shortcuts first, then Ventura-style Keyboard settings,
+/// then the old Mission Control pane, then prefPane file fallbacks.
+func openMissionControlShortcuts() {
+    openSettings(candidates: [
+        // Works broadly (Monterey/Ventura/Sonoma/Sequoia): Keyboard > Shortcuts
+        "x-apple.systempreferences:com.apple.preference.keyboard?Shortcuts",
+        // Ventura+ new-style Keyboard settings with Shortcuts anchor (can be finicky on some builds)
+        "x-apple.systempreferences:com.apple.Keyboard-Settings.extension?Shortcuts",
+        // Older direct Mission Control pane (not the shortcuts list, but relevant)
+        "x-apple.systempreferences:com.apple.preference.expose",
+        // File-path fallbacks
+        "/System/Library/PreferencePanes/Keyboard.prefPane",
+        "/System/Library/PreferencePanes/Expose.prefPane"
+    ])
+}
+
+// MARK: - Open System Settings
+/// Tries modern URL, then legacy URL, then the prefPane path — all via /usr/bin/open.
+/// Intentionally ignores failures; best-effort launch only.
+func openSettings(candidates: [String]) {
     for target in candidates {
         let proc = Process()
         proc.executableURL = URL(fileURLWithPath: "/usr/bin/open")
