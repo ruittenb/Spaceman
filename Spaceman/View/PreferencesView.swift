@@ -385,22 +385,23 @@ struct PreferencesView: View {
     private var switchingPane: some View {
         // Switching Pane
         VStack(alignment: .leading, spacing: 10) {
-            HStack() {
-                Text("Switching Spaces")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                Spacer()
-
+            Text("Switching Spaces")
+                .font(.title2)
+                .fontWeight(.semibold)
+            HStack(alignment: .firstTextBaseline) {
+                Text("Shortcut keys")
+                    .frame(width: 130, alignment: .leading)
+                Picker("Shortcut keys", selection: $keySet) {
+                    Text("number keys on top row").tag(KeySet.toprow).padding(.bottom, 2)
+                    Text("numeric keypad").tag(KeySet.numpad)
+                }
+                .pickerStyle(.radioGroup)
+                .labelsHidden()
             }
-            Picker("Shortcut keys", selection: $keySet) {
-                Text("number keys on top row").tag(KeySet.toprow).padding(.bottom, 2)
-                Text("numeric keypad").tag(KeySet.numpad)
-            }
-            .pickerStyle(.radioGroup)
-            .disabled(false)
+            .padding(.bottom, 6)
             HStack(alignment: .top) {
                 Text("With modifiers")
-                Spacer()
+                    .frame(width: 130, alignment: .leading)
                 VStack(alignment: .leading) {
                     Toggle("Shift ⇧", isOn: $withShift)
                     Toggle("Control ⌃", isOn: $withControl)
@@ -412,6 +413,7 @@ struct PreferencesView: View {
                 }
                 Spacer()
             }
+            .padding(.bottom, 6)
             HStack(spacing: 8) {
                 Button {
                     openMissionControlShortcuts()
@@ -431,8 +433,6 @@ struct PreferencesView: View {
                     .frame(width: 240)
                 }
             }
-            .padding(.top)
-
         }
         .padding()
         .onChange(of: keySet) { _ in
