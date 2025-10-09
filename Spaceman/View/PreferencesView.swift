@@ -202,7 +202,7 @@ struct PreferencesView: View {
             Toggle("Reverse display order", isOn: $reverseDisplayOrder)
                 .disabled(!hasMultipleDisplays)
 
-            HStack(spacing: 6) {
+            HStack(spacing: 8) {
                 Button {
                     openDisplaysSettings()
                 } label: {
@@ -216,7 +216,7 @@ struct PreferencesView: View {
                 }
                 .buttonStyle(.plain)
                 .popover(isPresented: $showDisplaysHelp, arrowEdge: .trailing) {
-                    Text("If the display order seems erratic, please pay close attention to the horizontal alignment in \(systemSettingsName()) → Displays → Arrange")
+                    Text("If the display order seems erratic, please pay close attention to the horizontal alignment in \(systemSettingsName()) → Displays → Arrange.")
                     .padding()
                     .frame(width: 240)
                 }
@@ -390,18 +390,7 @@ struct PreferencesView: View {
                     .font(.title2)
                     .fontWeight(.semibold)
                 Spacer()
-                Button {
-                    showSwitchingHelp.toggle()
-                } label: {
-                    Image(systemName: "info.circle")
-                        .foregroundColor(.secondary)
-                }
-                .buttonStyle(.plain)
-                .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
-                    Text("For switching between spaces to work, these settings must match the keyboard shortcuts assigned in Mission Control.")
-                    .padding()
-                    .frame(width: 240)
-                }
+
             }
             Picker("Shortcut keys", selection: $keySet) {
                 Text("number keys on top row").tag(KeySet.toprow).padding(.bottom, 2)
@@ -423,6 +412,27 @@ struct PreferencesView: View {
                 }
                 Spacer()
             }
+            HStack(spacing: 8) {
+                Button {
+                    openMissionControlShortcuts()
+                } label: {
+                    Text("Open \(systemSettingsName()) → Mission Control Shortcuts…")
+                }
+                Button {
+                    showSwitchingHelp.toggle()
+                } label: {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
+                    Text("For switching between spaces to work, these settings must match the keyboard shortcuts assigned for Mission Control.")
+                    .padding()
+                    .frame(width: 240)
+                }
+            }
+            .padding(.top)
+
         }
         .padding()
         .onChange(of: keySet) { _ in
@@ -434,17 +444,38 @@ struct PreferencesView: View {
     }
 }
 
-// MARK: - Open Displays settings
+// MARK: - Open Displays Settings
 /// Opens the macOS Displays settings (macOS 11+).
-/// Tries modern URL, then legacy URL, then the prefPane path — all via /usr/bin/open.
-/// Intentionally ignores failures; best-effort launch only.
 func openDisplaysSettings() {
-    let candidates = [
+    openSettings(candidates: [
         "x-apple.systempreferences:com.apple.Displays-Settings.extension", // Ventura/Sequoia
         "x-apple.systempreferences:com.apple.preference.displays",         // Big Sur/Monterey
         "/System/Library/PreferencePanes/Displays.prefPane"                // Fallback
-    ]
+    ])
+}
 
+// MARK: - Open Keyboard Shortcuts Settings
+/// Opens the Mission Control Shortcuts settings (best-effort, macOS 11+).
+/// Tries Keyboard > Shortcuts first, then Ventura-style Keyboard settings,
+/// then the old Mission Control pane, then prefPane file fallbacks.
+func openMissionControlShortcuts() {
+    openSettings(candidates: [
+        // Works broadly (Monterey/Ventura/Sonoma/Sequoia): Keyboard > Shortcuts
+        "x-apple.systempreferences:com.apple.preference.keyboard?Shortcuts",
+        // Ventura+ new-style Keyboard settings with Shortcuts anchor (can be finicky on some builds)
+        "x-apple.systempreferences:com.apple.Keyboard-Settings.extension?Shortcuts",
+        // Older direct Mission Control pane (not the shortcuts list, but relevant)
+        "x-apple.systempreferences:com.apple.preference.expose",
+        // File-path fallbacks
+        "/System/Library/PreferencePanes/Keyboard.prefPane",
+        "/System/Library/PreferencePanes/Expose.prefPane"
+    ])
+}
+
+// MARK: - Open System Settings
+/// Tries modern URL, then legacy URL, then the prefPane path — all via /usr/bin/open.
+/// Intentionally ignores failures; best-effort launch only.
+func openSettings(candidates: [String]) {
     for target in candidates {
         let proc = Process()
         proc.executableURL = URL(fileURLWithPath: "/usr/bin/open")
