@@ -39,18 +39,18 @@ image: ## Make the dmg image file
 
 $(IMAGE): $(APPFILE)
 	create-dmg \
-		--volname "Spaceman Installer"                           \
-		--volicon $(IMAGEDIR)/.VolumeIcon.icns                   \
-		--background $(IMAGEDIR)/.background/dmg-background.tiff \
-		--window-pos 200 120                                     \
-		--window-size 640 440                                    \
-		--icon-size 128                                          \
-		--icon Spaceman.app 170 170                              \
-		--icon Applications 470 170                              \
-		--hide-extension Spaceman.app                            \
-		--app-drop-link 470 170                                  \
-		--no-internet-enable                                     \
-		$(IMAGE)                                                 \
+		--volname "Spaceman Installer"                              \
+		--volicon $(IMAGEDIR)/.VolumeIcon.icns                      \
+		--background $(IMAGEDIR)/.background/folder-background.png  \
+		--window-pos 200 120                                        \
+		--window-size 640 440                                       \
+		--icon-size 128                                             \
+		--icon Spaceman.app 150 170                                 \
+		--icon Applications 490 170                                 \
+		--hide-extension Spaceman.app                               \
+		--app-drop-link 490 170                                     \
+		--no-internet-enable                                        \
+		$(IMAGE)                                                    \
 		$(IMAGEDIR) # source folder
 
 all: image ## Make all of the above
