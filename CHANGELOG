@@ -1,3 +1,5 @@
+1.12.5: Added info bubbles to preferences window; new background for dmg file
+1.12.4: Rearranged preferences window; code cleanup
 1.12.3: Added Displays button to preferences
 1.12.2: Fix: sort space names before building the space number map
 1.12.1: Fix preserving space names across reboot
