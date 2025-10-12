@@ -3,23 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.12.1: fix preserving space names across reboots</title>
+            <title>v1.12.3: Show Displays button in preferences dialog</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li> - Fix preserving space names across reboots</li>
+                    <li>Show Displays button in Preferences dialog, to open the Displays System Settings Panel</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 02 Oct 2025 10:56:15 +0200</pubDate>
+            <pubDate>Tue, 07 Oct 2025 10:31:21 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.12.1/Spaceman-1.12.1.dmg"
-                sparkle:version="1.12.1"
-                sparkle:shortVersionString="1.12.1"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.12.3/Spaceman-1.12.3.dmg"
+                sparkle:version="1.12.3"
+                sparkle:shortVersionString="1.12.3"
                 type="application/octet-stream"
-                length="2676954"
-sparkle:edSignature="Kty/REJFtVG2j2992KmeKptq+vULmICLE4k8bNUDMYQbz7X6QWBlk9hzA9os+bKNvQLvEC+OLV1KxhQlWeyYBA=="
+                length="2679574"
+sparkle:edSignature="yR7i8JjWDDA2ik+r3eqwBmlIlPJySMOy/FbPoqk2LscZr5Uc5E2aCKSmFvraWWCDwQIVNzfMpYh74fOlx//2BA=="
             />
         </item>
     </channel>
