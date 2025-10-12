@@ -129,6 +129,20 @@
                     grid-template-columns: repeat(6, 1fr);
                 }
             }
+
+            .rotate {
+                display: inline-block;
+                animation: rotate 1s linear infinite;
+            }
+
+            @keyframes rotate {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
         </style>
         <link rel="stylesheet" href="spaceman.css?20251011">
     </head>
@@ -146,7 +160,7 @@
                 <div><dt>Size</dt><dd id="app-size">~4.4 MB</dd></div>
                 <div><dt>Version</dt><dd id="version-number">v1.12+</dd></div>
                 <div><dt>Updated</dt><dd id="updated-date">2025</dd></div>
-                <div><dt>Downloads</dt><dd id="downloads">&gt; 1400</dd></div>
+                <div><dt>Downloads</dt><dd id="downloads"><span class="rotate">◒</span></dd></div>
                 <div><dt>Stars</dt><dd id="stars-count">57</dd></div>
             </dl>
 
@@ -431,11 +445,6 @@
                             const sizeInMB = (dmgAsset.size / (1024 * 1024)).toFixed(1);
                             sizeElement.textContent = `${sizeInMB} MB`;
                         }
-
-                        const downloadsElement = document.getElementById('downloads');
-                        if (downloadsElement) {
-                            downloadsElement.title = `latest version: ${dmgAsset.download_count}`;
-                        }
                     }
                 } catch (error) {
                     // If the API call fails, elements will keep their fallback values
@@ -500,23 +509,21 @@
                 }
             }
 
-            // Update repo, release and download info when the page loads
+            // Update stats when the page loads
             document.addEventListener('DOMContentLoaded', () => {
                 updateRepoInfo();
                 updateReleaseInfo();
-                let downloads = 0;
-                getSoftpediaDownloadsViaProxy()
+                Promise.allSettled([
+                    getSoftpediaDownloadsViaProxy(),
+                    getGithubDownloads()
+                ])
                     .then((result) => {
-                        downloads += result;
-                        updateDownloadsInfo(downloads);
+                        const downloads = result.reduce((acc, res) => {
+                            acc += res.status === 'fulfilled' ? res.value : 0;
+                            return acc;
+                        }, 0);
+                        updateDownloadsInfo(downloads || "> 1400");
                     })
-                    .catch(console.error);
-                getGithubDownloads()
-                    .then((result) => {
-                        downloads += result;
-                        updateDownloadsInfo(downloads);
-                    })
-                    .catch(console.error);
             });
         </script>
     </body>
