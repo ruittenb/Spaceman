@@ -253,7 +253,7 @@ struct PreferencesView: View {
     // MARK: - Refresh Shortcut Recorder
     private var refreshShortcutRecorder: some View {
         HStack {
-            Text("Manual refresh shortcut")
+            Text("Shortcut for manual refresh")
             Spacer()
             KeyboardShortcuts.Recorder(for: .refresh)
         }
@@ -262,7 +262,7 @@ struct PreferencesView: View {
     // MARK: - Preferences Shortcut Recorder
     private var preferencesShortcutRecorder: some View {
         HStack {
-            Text("Open preferences window")
+            Text("Shortcut to open preferences window")
             Spacer()
             KeyboardShortcuts.Recorder(for: .preferences)
         }
