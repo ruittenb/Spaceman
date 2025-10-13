@@ -31,7 +31,7 @@ class IconCreator {
     public var sizes: GuiSize!
     public var iconWidths: [IconWidth] = []
 
-    public func getIcon(for spaces: [Space], buttonFrame: NSRect? = nil) -> NSImage {
+    public func getIcon(for spaces: [Space], buttonFrame: NSRect? = nil, appearance: NSAppearance? = nil) -> NSImage {
         sizes = Constants.sizes[layoutMode]
         gapWidth = CGFloat(sizes.GAP_WIDTH_SPACES)
         displayGapWidth = CGFloat(sizes.GAP_WIDTH_DISPLAYS)
@@ -112,9 +112,9 @@ class IconCreator {
 
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
         if layoutMode == .dualRows {
-            return mergeIconsTwoRows(iconsWithDisplayProperties, buttonFrame: buttonFrame)
+            return mergeIconsTwoRows(iconsWithDisplayProperties, buttonFrame: buttonFrame, appearance: appearance)
         } else {
-            return mergeIcons(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID, buttonFrame: buttonFrame)
+            return mergeIcons(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID, buttonFrame: buttonFrame, appearance: appearance)
         }
     }
 
@@ -271,7 +271,7 @@ class IconCreator {
         return iconsWithDisplayProperties
     }
 
-    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?)], indexMap: [String: Int], buttonFrame: NSRect? = nil) -> NSImage {
+    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?)], indexMap: [String: Int], buttonFrame: NSRect? = nil, appearance: NSAppearance? = nil) -> NSImage {
         let numIcons = iconsWithDisplayProperties.count
         let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
             result + icon.image.size.width
@@ -287,13 +287,19 @@ class IconCreator {
         var left = CGFloat.zero
         var right: CGFloat
         iconWidths = []
-        var hasAnyColoredIcon = false
+
+        // First pass: check if any icons have custom colors
+        let hasAnyColoredIcon = iconsWithDisplayProperties.contains { $0.colorHex != nil }
+        let defaultColor = hasAnyColoredIcon ? getDefaultColorForAppearance(appearance) : nil
+
         for icon in iconsWithDisplayProperties {
-            // Apply color tinting if specified
+            // Apply color tinting if specified, or use default color if in colored context
             let iconToUse: NSImage
             if let colorHex = icon.colorHex, let color = NSColor.fromHex(colorHex) {
                 iconToUse = tintIcon(icon.image, with: color)
-                hasAnyColoredIcon = true
+            } else if let defaultColor = defaultColor {
+                // Apply default color to non-colored icons when in colored context
+                iconToUse = tintIcon(icon.image, with: defaultColor)
             } else {
                 iconToUse = icon.image
             }
@@ -323,7 +329,7 @@ class IconCreator {
         return image
     }
 
-    private func mergeIconsTwoRows(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?)], buttonFrame: NSRect? = nil) -> NSImage {
+    private func mergeIconsTwoRows(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?)], buttonFrame: NSRect? = nil, appearance: NSAppearance? = nil) -> NSImage {
         // Column describes a stacked pair (top/bottom) and its rendered width and trailing gap
         struct Column { var top: (NSImage, Bool, Int, String, String?)?; var bottom: (NSImage, Bool, Int, String, String?)?; var width: CGFloat = 0; var gapAfter: CGFloat = 0 }
 
@@ -418,7 +424,12 @@ class IconCreator {
         image.lockFocus()
         var left = CGFloat.zero
         iconWidths = []
-        var hasAnyColoredIcon = false
+
+        // First pass: check if any icons have custom colors
+        let hasAnyColoredIcon = columns.contains { col in
+            (col.top?.4 != nil) || (col.bottom?.4 != nil)
+        }
+        let defaultColor = hasAnyColoredIcon ? getDefaultColorForAppearance(appearance) : nil
 
         for col in columns {
             // Simple gap splitting: each icon owns half the gap on each side
@@ -430,7 +441,9 @@ class IconCreator {
                 let iconToUse: NSImage
                 if let colorHex = top.4, let color = NSColor.fromHex(colorHex) {
                     iconToUse = tintIcon(top.0, with: color)
-                    hasAnyColoredIcon = true
+                } else if let defaultColor = defaultColor {
+                    // Apply default color to non-colored icons when in colored context
+                    iconToUse = tintIcon(top.0, with: defaultColor)
                 } else {
                     iconToUse = top.0
                 }
@@ -441,7 +454,9 @@ class IconCreator {
                 let iconToUse: NSImage
                 if let colorHex = bottom.4, let color = NSColor.fromHex(colorHex) {
                     iconToUse = tintIcon(bottom.0, with: color)
-                    hasAnyColoredIcon = true
+                } else if let defaultColor = defaultColor {
+                    // Apply default color to non-colored icons when in colored context
+                    iconToUse = tintIcon(bottom.0, with: defaultColor)
                 } else {
                     iconToUse = bottom.0
                 }
@@ -490,5 +505,19 @@ class IconCreator {
 
         tinted.unlockFocus()
         return tinted
+    }
+
+    private func getDefaultColorForAppearance(_ appearance: NSAppearance? = nil) -> NSColor {
+        // Use the provided appearance, or fall back to NSApp's appearance
+        let effectiveAppearance = appearance ?? NSApp.effectiveAppearance
+        let appearanceName = effectiveAppearance.bestMatch(from: [.darkAqua, .aqua])
+
+        if appearanceName == .darkAqua {
+            // Dark mode: use white/light gray for contrast
+            return NSColor.white
+        } else {
+            // Light mode: use black/dark gray for contrast
+            return NSColor.black
+        }
     }
 }
