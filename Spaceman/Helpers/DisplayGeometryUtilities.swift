@@ -41,7 +41,7 @@ class DisplayGeometryUtilities {
         return CGDisplayBounds(did).size.height
     }
 
-    static func getIsVerticallyStacked(d1: NSDictionary, d2: NSDictionary) -> Bool {
+    static func getIsVerticallyArranged(d1: NSDictionary, d2: NSDictionary) -> Bool {
         // Displays are vertically stacked if deltaY is within margin from average height
         let c1 = DisplayGeometryUtilities.getDisplayCenter(display: d1)
         let c2 = DisplayGeometryUtilities.getDisplayCenter(display: d2)
@@ -50,5 +50,9 @@ class DisplayGeometryUtilities {
         let averageHeight = (height1 + height2) / 2
         let deltaY = abs(c1.y - c2.y)
         return abs(deltaY - averageHeight) < verticalStackMargin
+    }
+
+    static func getIsHorizontallyArranged(d1: NSDictionary, d2: NSDictionary) -> Bool {
+        return !getIsVerticallyArranged(d1: d1, d2: d2)
     }
 }

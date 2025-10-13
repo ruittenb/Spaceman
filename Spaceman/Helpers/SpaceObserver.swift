@@ -31,12 +31,16 @@ class SpaceObserver {
     }
 
     // Compare two displays according to user preferences
-    func compareDisplays(d1: NSDictionary, d2: NSDictionary, verticalDirection: VerticalDirection) -> Bool {
+    func compareDisplays(d1: NSDictionary, d2: NSDictionary, verticalDirection: VerticalDirection, reverseDisplayOrder: Bool) -> Bool {
         let c1 = DisplayGeometryUtilities.getDisplayCenter(display: d1)
         let c2 = DisplayGeometryUtilities.getDisplayCenter(display: d2)
 
         let cmpX: (CGPoint, CGPoint) -> Bool = { a, b in
-            return a.x < b.x
+            if reverseDisplayOrder {
+                return a.x > b.x
+            } else {
+                return a.x < b.x
+            }
         }
         let cmpY: (CGPoint, CGPoint) -> Bool = { a, b in
             // macOS global coordinates origin at bottom-left; larger y is higher
@@ -53,7 +57,7 @@ class SpaceObserver {
         }
 
         // Check if displays are vertically stacked
-        if DisplayGeometryUtilities.getIsVerticallyStacked(d1: d1, d2: d2) {
+        if DisplayGeometryUtilities.getIsVerticallyArranged(d1: d1, d2: d2) {
             return cmpY(c1, c2)
         } else {
             return cmpX(c1, c2)
@@ -73,12 +77,7 @@ class SpaceObserver {
         guard var displays = fetchDisplaySpaces() else { return }
 
         // Sort displays based on user preference (incorporating display ordering feature)
-        displays.sort { a, b in compareDisplays(d1: a, d2: b, verticalDirection: verticalDirection) }
-
-        // Reverse display order if requested
-        if reverseDisplayOrder {
-            displays.reverse()
-        }
+        displays.sort { a, b in compareDisplays(d1: a, d2: b, verticalDirection: verticalDirection, reverseDisplayOrder: reverseDisplayOrder) }
 
         // Map sorted display to index (1..D)
         var currentDisplayIndexByID: [String: Int] = [:]

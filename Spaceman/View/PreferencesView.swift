@@ -200,8 +200,18 @@ struct PreferencesView: View {
 
             Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
                 .disabled(!hasMultipleDisplays)
-            Toggle("Reverse display order", isOn: $reverseDisplayOrder)
-                .disabled(!hasMultipleDisplays)
+
+            Text("When displays are horizontally arranged")
+                .foregroundColor(hasMultipleDisplays ? .primary : .secondary)
+            Picker("", selection: $reverseDisplayOrder) {
+                Text("Use macOS order").tag(false)
+                Text("Reverse macOS order").tag(true)
+            }
+            .pickerStyle(.radioGroup)
+            .disabled(!hasMultipleDisplays)
+            .controlSize(.small)
+            .padding(.leading, 12)
+            .fixedSize()
 
             Text("When displays are vertically arranged")
                 .foregroundColor(hasMultipleDisplays ? .primary : .secondary)
@@ -211,6 +221,7 @@ struct PreferencesView: View {
                 Text("Show bottom display first").tag(VerticalDirection.bottomGoesFirst)
             }
             .pickerStyle(.radioGroup)
+            .disabled(!hasMultipleDisplays)
             .controlSize(.small)
             .padding(.leading, 12)
             .fixedSize()
@@ -234,8 +245,7 @@ struct PreferencesView: View {
                     .frame(width: 240)
                 }
             }
-            .padding(.top)
-            .disabled(!hasMultipleDisplays)
+            .padding(.vertical)
         }
         .padding()
         .onChange(of: restartNumberingByDesktop) { _ in
