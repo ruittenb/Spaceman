@@ -77,6 +77,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             UserDefaults.standard.set(oldValue, forKey: "restartNumberingByDisplay")
             UserDefaults.standard.removeObject(forKey: "restartNumberingByDesktop")
         }
+
+        // Migrate reverseDisplayOrder to horizontalDirection
+        if UserDefaults.standard.object(forKey: "horizontalDirection") == nil {
+            let oldReverseDisplayOrder = UserDefaults.standard.bool(forKey: "reverseDisplayOrder")
+            let newValue: Int = oldReverseDisplayOrder ? HorizontalDirection.reverseOrder.rawValue : HorizontalDirection.defaultOrder.rawValue
+            UserDefaults.standard.set(newValue, forKey: "horizontalDirection")
+            UserDefaults.standard.removeObject(forKey: "reverseDisplayOrder")
+        }
     }
 }
 

@@ -31,15 +31,14 @@ class SpaceObserver {
     }
 
     // Compare two displays according to user preferences
-    func compareDisplays(d1: NSDictionary, d2: NSDictionary, verticalDirection: VerticalDirection, reverseDisplayOrder: Bool) -> Bool {
+    func compareDisplays(d1: NSDictionary, d2: NSDictionary, verticalDirection: VerticalDirection, horizontalDirection: HorizontalDirection) -> Bool {
         let c1 = DisplayGeometryUtilities.getDisplayCenter(display: d1)
         let c2 = DisplayGeometryUtilities.getDisplayCenter(display: d2)
 
         let cmpX: (CGPoint, CGPoint) -> Bool = { a, b in
-            if reverseDisplayOrder {
-                return a.x > b.x
-            } else {
-                return a.x < b.x
+            switch horizontalDirection {
+            case .defaultOrder: return a.x < b.x
+            case .reverseOrder: return a.x > b.x
             }
         }
         let cmpY: (CGPoint, CGPoint) -> Bool = { a, b in
@@ -66,18 +65,18 @@ class SpaceObserver {
 
     @objc public func updateSpaceInformation() {
         let restartNumberingByDisplay = defaults.bool(forKey: "restartNumberingByDisplay")
-        let reverseDisplayOrder = defaults.bool(forKey: "reverseDisplayOrder")
+        let horizontalDirection = HorizontalDirection(rawValue: defaults.integer(forKey: "horizontalDirection")) ?? .defaultOrder
         let verticalDirection = VerticalDirection(rawValue: defaults.integer(forKey: "verticalDirection")) ?? .bottomGoesFirst
         workerQueue.async { [weak self] in
-            self?.performSpaceInformationUpdate(restartNumberingByDisplay: restartNumberingByDisplay, reverseDisplayOrder: reverseDisplayOrder, verticalDirection: verticalDirection)
+            self?.performSpaceInformationUpdate(restartNumberingByDisplay: restartNumberingByDisplay, horizontalDirection: horizontalDirection, verticalDirection: verticalDirection)
         }
     }
 
-    private func performSpaceInformationUpdate(restartNumberingByDisplay: Bool, reverseDisplayOrder: Bool, verticalDirection: VerticalDirection) {
+    private func performSpaceInformationUpdate(restartNumberingByDisplay: Bool, horizontalDirection: HorizontalDirection, verticalDirection: VerticalDirection) {
         guard var displays = fetchDisplaySpaces() else { return }
 
         // Sort displays based on user preference (incorporating display ordering feature)
-        displays.sort { a, b in compareDisplays(d1: a, d2: b, verticalDirection: verticalDirection, reverseDisplayOrder: reverseDisplayOrder) }
+        displays.sort { a, b in compareDisplays(d1: a, d2: b, verticalDirection: verticalDirection, horizontalDirection: horizontalDirection) }
 
         // Map sorted display to index (1..D)
         var currentDisplayIndexByID: [String: Int] = [:]

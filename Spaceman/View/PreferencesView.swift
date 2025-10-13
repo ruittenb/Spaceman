@@ -21,7 +21,7 @@ struct PreferencesView: View {
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDesktop = false
-    @AppStorage("reverseDisplayOrder") private var reverseDisplayOrder = false
+    @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
     @AppStorage("schema") private var keySet = KeySet.toprow
@@ -203,9 +203,9 @@ struct PreferencesView: View {
 
             Text("When displays are horizontally arranged")
                 .foregroundColor(hasMultipleDisplays ? .primary : .secondary)
-            Picker("", selection: $reverseDisplayOrder) {
-                Text("Use macOS order").tag(false)
-                Text("Reverse macOS order").tag(true)
+            Picker("", selection: $horizontalDirection) {
+                Text("Use macOS order").tag(HorizontalDirection.defaultOrder)
+                Text("Reverse macOS order").tag(HorizontalDirection.reverseOrder)
             }
             .pickerStyle(.radioGroup)
             .disabled(!hasMultipleDisplays)
@@ -251,7 +251,7 @@ struct PreferencesView: View {
         .onChange(of: restartNumberingByDesktop) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
-        .onChange(of: reverseDisplayOrder) { _ in
+        .onChange(of: horizontalDirection) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
         .onChange(of: verticalDirection) { _ in
