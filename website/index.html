@@ -129,20 +129,6 @@
                     grid-template-columns: repeat(6, 1fr);
                 }
             }
-
-            .rotate {
-                display: inline-block;
-                animation: rotate 1s linear infinite;
-            }
-
-            @keyframes rotate {
-                from {
-                    transform: rotate(0deg);
-                }
-                to {
-                    transform: rotate(360deg);
-                }
-            }
         </style>
         <link rel="stylesheet" href="spaceman.css?20251011">
     </head>
@@ -160,7 +146,7 @@
                 <div><dt>Size</dt><dd id="app-size">~4.4 MB</dd></div>
                 <div><dt>Version</dt><dd id="version-number">v1.12+</dd></div>
                 <div><dt>Updated</dt><dd id="updated-date">2025</dd></div>
-                <div><dt>Downloads</dt><dd id="downloads"><span class="rotate">◒</span></dd></div>
+                <div><dt>Downloads</dt><dd id="downloads">&gt; 1400</dd></div>
                 <div><dt>Stars</dt><dd id="stars-count">57</dd></div>
             </dl>
 
@@ -392,6 +378,40 @@
         <script lang="js">
             const REPO_API = 'https://api.github.com/repos/ruittenb/Spaceman';
 
+            // Toggle video play/pause
+            function toggleVideo(video) {
+                if (video.paused) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            }
+
+            // Start a counter
+            function startInterimCounter({ start = 0, step = 10, intervalMs = 300 } = {}) {
+              let displayedCount = start;
+              let isRunning = true;
+
+              const id = setInterval(() => {
+                if (!isRunning) return;
+                displayedCount += step;
+                updateDownloadsInfo(displayedCount, { isLoading: true });
+              }, intervalMs);
+
+              return {
+                stop() {
+                  isRunning = false;
+                  clearInterval(id);
+                },
+                get value() {
+                  return displayedCount;
+                },
+                set value(v) {
+                  displayedCount = v;
+                }
+              };
+            }
+
             // Fetch repository info and update stars count
             async function updateRepoInfo() {
                 try {
@@ -424,12 +444,11 @@
                     const dateElement = document.getElementById('updated-date');
                     if (dateElement && release.updated_at) {
                         const date = new Date(release.updated_at);
-                        const formattedDate = new Intl.DateTimeFormat('en-GB', {
-                            day: 'numeric',
-                            month: 'short',
-                            year: 'numeric'
+                      dateElement.textContent = new Intl.DateTimeFormat('en-GB', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric'
                         }).format(date);
-                        dateElement.textContent = formattedDate;
                     }
 
                     // Find the DMG asset and update download button and size
@@ -452,14 +471,16 @@
                 }
             }
 
-            function updateDownloadsInfo(downloads) {
+            // Display the number of downloads on the page
+            function updateDownloadsInfo(downloads, { showPrefix = true, isLoading = false }) {
                 const downloadsElement = document.getElementById('downloads');
                 if (downloadsElement) {
-                    downloadsElement.innerHTML = downloads;
+                    const prefix = showPrefix  || isLoading ? "&gt; " : "";
+                    downloadsElement.innerHTML = prefix + String(downloads);
                 }
             }
 
-            // Fetch the download info
+            // Fetch the download info from github
             async function getGithubDownloads() {
                 let allReleases = [];
                 let page = 1;
@@ -490,6 +511,7 @@
                 }
             }
 
+            // Fetch the download info from Softpedia
             async function getSoftpediaDownloadsViaProxy() {
                 const url = 'https://mac.softpedia.com/get/System-Utilities/Spaceman.shtml';
                 const proxy = 'https://r.jina.ai/http://'; // zet https->http of http->http passend om
@@ -500,32 +522,64 @@
                 return downloads;
             }
 
-            // Toggle video play/pause
-            function toggleVideo(video) {
-                if (video.paused) {
-                    video.play();
-                } else {
-                    video.pause();
+            function animateToTarget(currentValue, finalValue, onUpdate, onDone) {
+              if (currentValue >= finalValue) {
+                onUpdate(finalValue);
+                onDone?.();
+                return;
+              }
+
+              const timer = setInterval(() => {
+                const diff = finalValue - currentValue;
+
+                let step;
+                if (diff > 1000) step = 100;
+                else if (diff > 100) step = 10;
+                else step = 1;
+
+                currentValue += step;
+                onUpdate(currentValue);
+
+                if (currentValue >= finalValue) {
+                  clearInterval(timer);
+                  onDone?.();
                 }
+              }, 30);
             }
 
-            // Update stats when the page loads
-            document.addEventListener('DOMContentLoaded', () => {
-                updateRepoInfo();
-                updateReleaseInfo();
+            function initDownloadsCounter() {
+                // Start immediate optimistic counting
+                const interim = startInterimCounter({ start: 0, step: 10, intervalMs: 100 });
+
+                // Kick off your existing data fetches
                 Promise.allSettled([
                     getSoftpediaDownloadsViaProxy(),
                     getGithubDownloads()
                 ])
-                    .then((result) => {
-                        const downloads = result.reduce((acc, res) => {
-                            acc += res.status === 'fulfilled' ? res.value : 0;
-                            return acc;
-                        }, 0);
-                        updateDownloadsInfo(downloads || "> 1400");
-                    })
+                .then((results) => {
+                    const finalValue = results.reduce((acc, res) => {
+                        acc += res.status === 'fulfilled' ? Number(res.value || 0) : 0;
+                        return acc;
+                    }, 0);
+
+                    // Stop interim and animate to truth
+                    interim.stop();
+
+                    animateToTarget(
+                        interim.value,
+                        finalValue,
+                        v => updateDownloadsInfo(v, { showPrefix: true }),
+                        () => updateDownloadsInfo(finalValue, { showPrefix: false })
+                    );
+                })
+            }
+
+            // Update all stats when the page loads
+            document.addEventListener('DOMContentLoaded', () => {
+                updateRepoInfo();
+                updateReleaseInfo();
+                initDownloadsCounter();
             });
         </script>
     </body>
-    <!-- vim: set fdm=indent: -->
 </html>
