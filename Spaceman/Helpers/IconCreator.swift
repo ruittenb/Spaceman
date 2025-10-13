@@ -139,11 +139,23 @@ class IconCreator {
 
             let image = NSImage(size: iconSize)
 
-            image.lockFocus()
-            spaceID.drawVerticallyCentered(
-                in: textRect,
-                withAttributes: getStringAttributes(alpha: !s.isCurrentSpace ? 0.4 : 1))
-            image.unlockFocus()
+            // For numbers-only mode with custom color, use the color for the text itself
+            // (there's no background to contrast against)
+            if let colorHex = s.colorHex, let textColor = NSColor.fromHex(colorHex) {
+                image.lockFocus()
+                spaceID.drawVerticallyCentered(
+                    in: textRect,
+                    withAttributes: getStringAttributes(alpha: !s.isCurrentSpace ? 0.4 : 1, color: textColor))
+                image.isTemplate = false
+                image.unlockFocus()
+            } else {
+                image.lockFocus()
+                spaceID.drawVerticallyCentered(
+                    in: textRect,
+                    withAttributes: getStringAttributes(alpha: !s.isCurrentSpace ? 0.4 : 1, color: .black))
+                image.isTemplate = true
+                image.unlockFocus()
+            }
 
             newIcons.append(image)
         }
@@ -157,27 +169,52 @@ class IconCreator {
         let spaceID = space.spaceByDesktopID
 
         let iconImage = NSImage(size: iconSize)
-        let numberImage = NSImage(size: iconSize)
 
-        numberImage.lockFocus()
-        spaceID.drawVerticallyCentered(
-            in: textRect,
-            withAttributes: getStringAttributes(alpha: 1))
-        numberImage.unlockFocus()
+        // If space has a custom color, tint background first then draw text on top
+        if let colorHex = space.colorHex, let bgColor = NSColor.fromHex(colorHex) {
+            let textColor = getContrastingTextColor(for: bgColor)
 
-        iconImage.lockFocus()
-        icons[index].draw(
-            in: textRect,
-            from: NSRect.zero,
-            operation: NSCompositingOperation.sourceOver,
-            fraction: CGFloat(fraction))
-        numberImage.draw(
-            in: textRect,
-            from: NSRect.zero,
-            operation: NSCompositingOperation.destinationOut,
-            fraction: 1.0)
-        iconImage.isTemplate = true
-        iconImage.unlockFocus()
+            iconImage.lockFocus()
+            // Draw and tint the background shape
+            icons[index].draw(
+                in: textRect,
+                from: NSRect.zero,
+                operation: NSCompositingOperation.sourceOver,
+                fraction: CGFloat(fraction))
+            bgColor.setFill()
+            NSRect(origin: .zero, size: iconSize).fill(using: .sourceAtop)
+
+            // Draw text on top in contrasting color
+            spaceID.drawVerticallyCentered(
+                in: textRect,
+                withAttributes: getStringAttributes(alpha: 1, color: textColor))
+            iconImage.isTemplate = false
+            iconImage.unlockFocus()
+        } else {
+            // For non-colored icons, use the knockout technique
+            let numberImage = NSImage(size: iconSize)
+
+            numberImage.lockFocus()
+            spaceID.drawVerticallyCentered(
+                in: textRect,
+                withAttributes: getStringAttributes(alpha: 1, color: .black))
+            numberImage.unlockFocus()
+
+            iconImage.lockFocus()
+            icons[index].draw(
+                in: textRect,
+                from: NSRect.zero,
+                operation: NSCompositingOperation.sourceOver,
+                fraction: CGFloat(fraction))
+            numberImage.draw(
+                in: textRect,
+                from: NSRect.zero,
+                operation: NSCompositingOperation.destinationOut,
+                fraction: 1.0)
+            iconImage.isTemplate = true
+            iconImage.unlockFocus()
+        }
+
         return iconImage
     }
 
@@ -213,36 +250,70 @@ class IconCreator {
                 shownName = ucName
             }
             let spaceText = NSString(string: "\(spaceNumberPrefix)\(shownName)")
-            let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
-            let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(sizes.ICON_HEIGHT))
 
-            // Check if the text width exceeds the icon's width
-            let textImageSize = textSize.width > iconSize.width ? textWithMarginSize : iconSize
-            let iconImage = NSImage(size: textImageSize)
-            let textImage = NSImage(size: textImageSize)
-            let textRect = NSRect(origin: CGPoint.zero, size: textImageSize)
+            // If space has a custom color, tint background first then draw text on top
+            if let colorHex = s.colorHex, let bgColor = NSColor.fromHex(colorHex) {
+                let textColor = getContrastingTextColor(for: bgColor)
+                let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1, color: textColor))
+                let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(sizes.ICON_HEIGHT))
 
-            textImage.lockFocus()
-            spaceText.drawVerticallyCentered(
-                in: textRect,
-                withAttributes: getStringAttributes(alpha: 1))
-            textImage.unlockFocus()
+                // Check if the text width exceeds the icon's width
+                let textImageSize = textSize.width > iconSize.width ? textWithMarginSize : iconSize
+                let iconImage = NSImage(size: textImageSize)
+                let textRect = NSRect(origin: CGPoint.zero, size: textImageSize)
 
-            iconImage.lockFocus()
-            icons[index].draw(
-                in: textRect,
-                from: NSRect.zero,
-                operation: NSCompositingOperation.sourceOver,
-                fraction: 1.0)
-            textImage.draw(
-                in: textRect,
-                from: NSRect.zero,
-                operation: NSCompositingOperation.destinationOut,
-                fraction: 1.0)
-            iconImage.isTemplate = true
-            iconImage.unlockFocus()
+                iconImage.lockFocus()
+                // Draw and tint the background shape
+                icons[index].draw(
+                    in: textRect,
+                    from: NSRect.zero,
+                    operation: NSCompositingOperation.sourceOver,
+                    fraction: 1.0)
+                bgColor.setFill()
+                NSRect(origin: .zero, size: textImageSize).fill(using: .sourceAtop)
 
-            newIcons.append(iconImage)
+                // Draw text on top in contrasting color
+                spaceText.drawVerticallyCentered(
+                    in: textRect,
+                    withAttributes: getStringAttributes(alpha: 1, color: textColor))
+                iconImage.isTemplate = false
+                iconImage.unlockFocus()
+
+                newIcons.append(iconImage)
+            } else {
+                // For non-colored icons, use the knockout technique
+                let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1, color: .black))
+                let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(sizes.ICON_HEIGHT))
+
+                // Check if the text width exceeds the icon's width
+                let textImageSize = textSize.width > iconSize.width ? textWithMarginSize : iconSize
+                let iconImage = NSImage(size: textImageSize)
+                let textImage = NSImage(size: textImageSize)
+                let textRect = NSRect(origin: CGPoint.zero, size: textImageSize)
+
+                textImage.lockFocus()
+                spaceText.drawVerticallyCentered(
+                    in: textRect,
+                    withAttributes: getStringAttributes(alpha: 1, color: .black))
+                textImage.unlockFocus()
+
+                iconImage.lockFocus()
+                icons[index].draw(
+                    in: textRect,
+                    from: NSRect.zero,
+                    operation: NSCompositingOperation.sourceOver,
+                    fraction: 1.0)
+                textImage.draw(
+                    in: textRect,
+                    from: NSRect.zero,
+                    operation: NSCompositingOperation.destinationOut,
+                    fraction: 1.0)
+                iconImage.isTemplate = true
+                iconImage.unlockFocus()
+
+                newIcons.append(iconImage)
+            }
+
             index += 1
         }
 
@@ -293,10 +364,11 @@ class IconCreator {
         let defaultColor = hasAnyColoredIcon ? getDefaultColorForAppearance(appearance) : nil
 
         for icon in iconsWithDisplayProperties {
-            // Apply color tinting if specified, or use default color if in colored context
+            // Icons with custom colors are already colored in the create phase
             let iconToUse: NSImage
-            if let colorHex = icon.colorHex, let color = NSColor.fromHex(colorHex) {
-                iconToUse = tintIcon(icon.image, with: color)
+            if icon.colorHex != nil {
+                // Already colored - use as-is
+                iconToUse = icon.image
             } else if let defaultColor = defaultColor {
                 // Apply default color to non-colored icons when in colored context
                 iconToUse = tintIcon(icon.image, with: defaultColor)
@@ -438,9 +510,11 @@ class IconCreator {
             let iconRight = left + col.width + (col.gapAfter / 2.0)
 
             if let top = col.top {
+                // Icons with custom colors are already colored in the create phase
                 let iconToUse: NSImage
-                if let colorHex = top.4, let color = NSColor.fromHex(colorHex) {
-                    iconToUse = tintIcon(top.0, with: color)
+                if top.4 != nil {
+                    // Already colored - use as-is
+                    iconToUse = top.0
                 } else if let defaultColor = defaultColor {
                     // Apply default color to non-colored icons when in colored context
                     iconToUse = tintIcon(top.0, with: defaultColor)
@@ -451,9 +525,11 @@ class IconCreator {
                 iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, top: iconSize.height + gap, bottom: imageHeight, index: top.2))
             }
             if let bottom = col.bottom {
+                // Icons with custom colors are already colored in the create phase
                 let iconToUse: NSImage
-                if let colorHex = bottom.4, let color = NSColor.fromHex(colorHex) {
-                    iconToUse = tintIcon(bottom.0, with: color)
+                if bottom.4 != nil {
+                    // Already colored - use as-is
+                    iconToUse = bottom.0
                 } else if let defaultColor = defaultColor {
                     // Apply default color to non-colored icons when in colored context
                     iconToUse = tintIcon(bottom.0, with: defaultColor)
@@ -470,12 +546,12 @@ class IconCreator {
         return image
     }
 
-    private func getStringAttributes(alpha: CGFloat, fontSize: CGFloat = .zero) -> [NSAttributedString.Key : Any] {
+    private func getStringAttributes(alpha: CGFloat, fontSize: CGFloat = .zero, color: NSColor = .black) -> [NSAttributedString.Key : Any] {
         let actualFontSize = fontSize == .zero ? CGFloat(sizes.FONT_SIZE) : fontSize
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         return [
-            .foregroundColor: NSColor.black.withAlphaComponent(alpha),
+            .foregroundColor: color.withAlphaComponent(alpha),
             .font: NSFont.monospacedSystemFont(ofSize: actualFontSize, weight: .bold),
             .paragraphStyle: paragraphStyle]
     }
@@ -519,5 +595,31 @@ class IconCreator {
             // Light mode: use black/dark gray for contrast
             return NSColor.black
         }
+    }
+
+    private func calculateLuminance(_ color: NSColor) -> CGFloat {
+        // Convert to RGB color space if needed
+        guard let rgbColor = color.usingColorSpace(.sRGB) else {
+            return 0.5 // Default to medium luminance if conversion fails
+        }
+
+        // Get RGB components
+        var r = rgbColor.redComponent
+        var g = rgbColor.greenComponent
+        var b = rgbColor.blueComponent
+
+        // Apply gamma correction (sRGB)
+        r = (r <= 0.03928) ? r / 12.92 : pow((r + 0.055) / 1.055, 2.4)
+        g = (g <= 0.03928) ? g / 12.92 : pow((g + 0.055) / 1.055, 2.4)
+        b = (b <= 0.03928) ? b / 12.92 : pow((b + 0.055) / 1.055, 2.4)
+
+        // Calculate relative luminance
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b
+    }
+
+    private func getContrastingTextColor(for backgroundColor: NSColor) -> NSColor {
+        let luminance = calculateLuminance(backgroundColor)
+        // WCAG threshold is typically 0.5, but 0.4 works better for colored buttons
+        return luminance > 0.4 ? NSColor.black : NSColor.white
     }
 }
