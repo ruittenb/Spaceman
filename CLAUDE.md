@@ -78,10 +78,46 @@ The app uses private Core Graphics APIs to monitor spaces:
   - `Utilities/` - Constants and utilities
 - `Spaceman.xcodeproj/` - Xcode project configuration
 - `build/` - Build output directory
+- `website/` - Project website files
 
-## Remote Control
+## Website Deployment
 
-The app supports AppleScript commands for external control:
+**Publish website changes:**
 ```bash
-osascript -e 'tell application "Spaceman" to refresh'
+make publish
 ```
+
+## Code Signing
+
+This project does not have a developer certificate, so no code signing or notarization takes place.
+
+## Testing
+
+The project includes unit tests for data models and core business logic.
+
+**Run tests from command line:**
+```bash
+xcodebuild test -project Spaceman.xcodeproj -scheme Spaceman -destination platform=macOS
+```
+
+**Test structure:**
+- `SpacemanTests/SpaceTests.swift` - Tests for the Space model
+- `SpacemanTests/SpaceNameInfoTests.swift` - Tests for SpaceNameInfo (including Codable/Hashable)
+- `SpacemanTests/DisplayStyleTests.swift` - Tests for DisplayStyle enum
+- `SpacemanTests/SpaceFilterTests.swift` - Tests for space filtering logic
+
+**What's tested:**
+- Data model initialization and properties
+- Enum raw values and CaseIterable conformance
+- Codable/Hashable protocol conformance
+- Space filtering logic for different visibility modes:
+  - All spaces mode
+  - Current space only mode
+  - Neighbor spaces mode with different radius values
+  - Multi-display scenarios
+  - Edge cases (first/last space, empty states)
+
+**What's not tested:**
+- UI components (menu bar, preferences window)
+- System integration (private macOS APIs, AppleScript)
+- Icon generation (NSImage manipulation)

@@ -26,6 +26,7 @@ class IconCreator {
     private var iconSize = NSSize(width: 0, height: 0)
     private var gapWidth = CGFloat.zero
     private var displayGapWidth = CGFloat.zero
+    private let spaceFilter = SpaceFilter()
 
     public var sizes: GuiSize!
     public var iconWidths: [IconWidth] = []
@@ -125,39 +126,8 @@ class IconCreator {
             }
             return visibleSpacesMode
         }()
-        switch mode {
-        case .all:
-            return spaces
-        case .currentOnly:
-            return spaces.filter { $0.isCurrentSpace }
-        case .neighbors:
-            var filtered: [Space] = []
-            var group: [Space] = []
-            var currentDisplayID = spaces.first?.displayID ?? ""
-            func flushGroup() {
-                guard group.count > 0 else { return }
-                if let activeIndex = group.firstIndex(where: { $0.isCurrentSpace }) {
-                    let radius = max(0, neighborRadius)
-                    let start = max(0, activeIndex - radius)
-                    let end = min(group.count - 1, activeIndex + radius)
-                    filtered.append(contentsOf: group[start...end])
-                }
-                group.removeAll(keepingCapacity: true)
-            }
-            for s in spaces {
-                if s.displayID != currentDisplayID {
-                    flushGroup()
-                    currentDisplayID = s.displayID
-                }
-                group.append(s)
-            }
-            flushGroup()
-            if filtered.isEmpty {
-                // Fallback to current-only to avoid empty UI during transitions
-                return spaces.filter { $0.isCurrentSpace }
-            }
-            return filtered
-        }
+
+        return spaceFilter.filter(spaces, mode: mode, neighborRadius: neighborRadius)
     }
 
     private func createNumberedIcons(_ spaces: [Space]) -> [NSImage] {

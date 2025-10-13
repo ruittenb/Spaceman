@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Space {
+struct Space: Equatable {
     var displayID: String        // OS display UUID
     var spaceID: String          // OS space ID
     var spaceName: String        // space name, user assigned
