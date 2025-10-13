@@ -200,31 +200,32 @@ struct PreferencesView: View {
 
             Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
                 .disabled(!hasMultipleDisplays)
-
-            Text("When displays are horizontally arranged")
-                .foregroundColor(hasMultipleDisplays ? .primary : .secondary)
-            Picker("", selection: $horizontalDirection) {
-                Text("Use macOS order").tag(HorizontalDirection.defaultOrder)
-                Text("Reverse macOS order").tag(HorizontalDirection.reverseOrder)
+            HStack(alignment: .top) {
+                Text("When displays are side by side")
+                    .foregroundColor(hasMultipleDisplays ? .primary : .secondary)
+                    .frame(width: 200, alignment: .leading)
+                Picker("", selection: $horizontalDirection) {
+                    Text("Use macOS order").tag(HorizontalDirection.defaultOrder)
+                    Text("Reverse macOS order").tag(HorizontalDirection.reverseOrder)
+                }
+                .pickerStyle(.radioGroup)
+                .disabled(!hasMultipleDisplays)
+                .fixedSize()
             }
-            .pickerStyle(.radioGroup)
-            .disabled(!hasMultipleDisplays)
-            .controlSize(.small)
-            .padding(.leading, 12)
-            .fixedSize()
 
-            Text("When displays are vertically arranged")
-                .foregroundColor(hasMultipleDisplays ? .primary : .secondary)
-            Picker("", selection: $verticalDirection) {
-                Text("Use mac OS order").tag(VerticalDirection.defaultOrder)
-                Text("Show top display first").tag(VerticalDirection.topGoesFirst)
-                Text("Show bottom display first").tag(VerticalDirection.bottomGoesFirst)
+            HStack(alignment: .top) {
+                Text("When displays are stacked")
+                    .foregroundColor(hasMultipleDisplays ? .primary : .secondary)
+                    .frame(width: 200, alignment: .leading)
+                Picker("", selection: $verticalDirection) {
+                    Text("Use macOS order").tag(VerticalDirection.defaultOrder)
+                    Text("Show top display first").tag(VerticalDirection.topGoesFirst)
+                    Text("Show bottom display first").tag(VerticalDirection.bottomGoesFirst)
+                }
+                .pickerStyle(.radioGroup)
+                .disabled(!hasMultipleDisplays)
+                .fixedSize()
             }
-            .pickerStyle(.radioGroup)
-            .disabled(!hasMultipleDisplays)
-            .controlSize(.small)
-            .padding(.leading, 12)
-            .fixedSize()
 
             HStack(spacing: 12) {
                 Button {
