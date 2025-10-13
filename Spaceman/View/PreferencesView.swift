@@ -20,7 +20,7 @@ struct PreferencesView: View {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
-    @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
+    @AppStorage("restartNumberingByDisplay") private var restartNumberingByDesktop = false
     @AppStorage("reverseDisplayOrder") private var reverseDisplayOrder = false
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("schema") private var keySet = KeySet.toprow

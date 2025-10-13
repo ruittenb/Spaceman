@@ -41,14 +41,14 @@ class SpaceObserver {
     }
 
     @objc public func updateSpaceInformation() {
-        let restartByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
+        let restartNumberingByDisplay = defaults.bool(forKey: "restartNumberingByDisplay")
         let reverseDisplayOrder = defaults.bool(forKey: "reverseDisplayOrder")
         workerQueue.async { [weak self] in
-            self?.performSpaceInformationUpdate(restartByDesktop: restartByDesktop, reverseDisplayOrder: reverseDisplayOrder)
+            self?.performSpaceInformationUpdate(restartNumberingByDisplay: restartNumberingByDisplay, reverseDisplayOrder: reverseDisplayOrder)
         }
     }
 
-    private func performSpaceInformationUpdate(restartByDesktop: Bool, reverseDisplayOrder: Bool) {
+    private func performSpaceInformationUpdate(restartNumberingByDisplay: Bool, reverseDisplayOrder: Bool) {
         guard var displays = fetchDisplaySpaces() else { return }
 
         // Sort displays by X position (left to right), then invert if requested
@@ -75,7 +75,7 @@ class SpaceObserver {
                 continue
             }
 
-            if restartByDesktop {
+            if restartNumberingByDisplay {
                 lastSpaceByDesktopNumber = 0
             }
 
@@ -133,7 +133,7 @@ class SpaceObserver {
 
                 // Calculate currentSpaceNumber based on restart setting
                 let currentSpaceNumber: Int
-                if restartByDesktop {
+                if restartNumberingByDisplay {
                     currentSpaceNumber = positionOnThisDisplay
                 } else {
                     currentSpaceNumber = spaceNumber

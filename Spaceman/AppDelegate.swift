@@ -70,6 +70,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 UserDefaults.standard.set(VisibleSpacesMode.currentOnly.rawValue, forKey: "visibleSpacesMode")
             }
         }
+
+        // Migrate restartNumberingByDesktop to restartNumberingByDisplay
+        if UserDefaults.standard.object(forKey: "restartNumberingByDisplay") == nil {
+            let oldValue = UserDefaults.standard.bool(forKey: "restartNumberingByDesktop")
+            UserDefaults.standard.set(oldValue, forKey: "restartNumberingByDisplay")
+            UserDefaults.standard.removeObject(forKey: "restartNumberingByDesktop")
+        }
     }
 }
 
