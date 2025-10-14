@@ -100,8 +100,7 @@ class IconCreator {
 
         switch displayStyle {
         case .rects:
-            //icons = resizeIcons(filteredSpaces, icons, layoutMode)
-            break
+            icons = createColoredRects(icons, filteredSpaces)
         case .numbers:
             icons = createNumberedIcons(filteredSpaces)
         case .numbersAndRects:
@@ -223,6 +222,44 @@ class IconCreator {
         var newIcons = [NSImage]()
         for s in spaces {
             let iconImage = createRectWithNumberIcon(icons: icons, index: index, space: s)
+            newIcons.append(iconImage)
+            index += 1
+        }
+        return newIcons
+    }
+
+    private func createColoredRects(_ icons: [NSImage], _ spaces: [Space]) -> [NSImage] {
+        var index = 0
+        var newIcons = [NSImage]()
+
+        for s in spaces {
+            let iconImage = NSImage(size: icons[index].size)
+
+            // If space has a custom color, tint the rectangle
+            if let colorHex = s.colorHex, let bgColor = NSColor.fromHex(colorHex) {
+                iconImage.lockFocus()
+                // Draw and tint the rectangle
+                icons[index].draw(
+                    at: .zero,
+                    from: NSRect(origin: .zero, size: icons[index].size),
+                    operation: .sourceOver,
+                    fraction: 1.0)
+                bgColor.setFill()
+                NSRect(origin: .zero, size: icons[index].size).fill(using: .sourceAtop)
+                iconImage.isTemplate = false
+                iconImage.unlockFocus()
+            } else {
+                // For non-colored icons, just use the template
+                iconImage.lockFocus()
+                icons[index].draw(
+                    at: .zero,
+                    from: NSRect(origin: .zero, size: icons[index].size),
+                    operation: .sourceOver,
+                    fraction: 1.0)
+                iconImage.isTemplate = true
+                iconImage.unlockFocus()
+            }
+
             newIcons.append(iconImage)
             index += 1
         }
