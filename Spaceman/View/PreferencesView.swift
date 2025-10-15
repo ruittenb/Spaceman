@@ -21,8 +21,9 @@ struct PreferencesView: View {
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDesktop = false
-    @AppStorage("reverseDisplayOrder") private var reverseDisplayOrder = false
+    @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
+    @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
@@ -199,10 +200,34 @@ struct PreferencesView: View {
 
             Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
                 .disabled(!hasMultipleDisplays)
-            Toggle("Reverse display order", isOn: $reverseDisplayOrder)
+            HStack(alignment: .top) {
+                Text("When displays are side by side")
+                    .foregroundColor(hasMultipleDisplays ? .primary : .secondary)
+                    .frame(width: 200, alignment: .leading)
+                Picker("", selection: $horizontalDirection) {
+                    Text("Use macOS order").tag(HorizontalDirection.defaultOrder)
+                    Text("Reverse macOS order").tag(HorizontalDirection.reverseOrder)
+                }
+                .pickerStyle(.radioGroup)
                 .disabled(!hasMultipleDisplays)
+                .fixedSize()
+            }
 
-            HStack(spacing: 8) {
+            HStack(alignment: .top) {
+                Text("When displays are stacked")
+                    .foregroundColor(hasMultipleDisplays ? .primary : .secondary)
+                    .frame(width: 200, alignment: .leading)
+                Picker("", selection: $verticalDirection) {
+                    Text("Use macOS order").tag(VerticalDirection.defaultOrder)
+                    Text("Show top display first").tag(VerticalDirection.topGoesFirst)
+                    Text("Show bottom display first").tag(VerticalDirection.bottomGoesFirst)
+                }
+                .pickerStyle(.radioGroup)
+                .disabled(!hasMultipleDisplays)
+                .fixedSize()
+            }
+
+            HStack(spacing: 12) {
                 Button {
                     openDisplaysSettings()
                 } label: {
@@ -221,13 +246,16 @@ struct PreferencesView: View {
                     .frame(width: 240)
                 }
             }
-            .padding(.top)
+            .padding(.vertical)
         }
         .padding()
         .onChange(of: restartNumberingByDesktop) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
-        .onChange(of: reverseDisplayOrder) { _ in
+        .onChange(of: horizontalDirection) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: verticalDirection) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
