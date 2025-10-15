@@ -27,7 +27,7 @@ guard let names = try? decoder.decode([String: SpaceNameInfo].self, from: data) 
 }
 
 // Sort by display and position
-let sorted = names.sorted { (a, b) in
+let sortedSpaces = names.sorted { (a, b) in
     let displayA = a.value.currentDisplayIndex ?? 999
     let displayB = b.value.currentDisplayIndex ?? 999
     if displayA != displayB { return displayA < displayB }
@@ -37,9 +37,19 @@ let sorted = names.sorted { (a, b) in
     return posA < posB
 }
 
-for (id, info) in sorted {
+// Calculate maximum space name length
+let maxNameLength = sortedSpaces.map { $0.value.spaceName.count }.max() ?? 0
+
+for (id, info) in sortedSpaces {
     let spaceNum = info.currentSpaceNumber.map(String.init) ?? "?"
     let display = info.displayUUID ?? "?"
     let pos = info.positionOnDisplay.map(String.init) ?? "?"
-    print("Space \(spaceNum): \(info.spaceName) (ID: \(id), Display: \(display), Pos: \(pos))")
+
+    // Right-align numbers, left-align name
+    let paddedNum = String(repeating: " ", count: max(0, 2 - spaceNum.count)) + spaceNum
+    let paddedName = info.spaceName.padding(toLength: maxNameLength, withPad: " ", startingAt: 0)
+    let paddedID = String(repeating: " ", count: max(0, 2 - id.count)) + id
+    let paddedPos = String(repeating: " ", count: max(0, 2 - pos.count)) + pos
+
+    print("Space \(paddedNum): \(paddedName) (ID: \(paddedID), Display: \(display), Pos: \(paddedPos))")
 }
