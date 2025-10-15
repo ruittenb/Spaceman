@@ -265,30 +265,27 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         }
     }
 
-    func updaterDidNotFindUpdate(_ updater: SPUUpdater) {
-        // No update available - hide badge
+    func hideBadge() {
+        // Hide the 'available' badge in the menu
         DispatchQueue.main.async {
             if #available(macOS 14.0, *) {
                 self.updatesItem.badge = nil
             }
         }
+    }
+
+    func updaterDidNotFindUpdate(_ updater: SPUUpdater) {
+        // No update available
+        hideBadge()
     }
 
     func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
-        // Error occurred - hide badge
-        DispatchQueue.main.async {
-            if #available(macOS 14.0, *) {
-                self.updatesItem.badge = nil
-            }
-        }
+        // Error occurred
+        hideBadge()
     }
 
     func updater(_ updater: SPUUpdater, willInstallUpdate item: SUAppcastItem) {
-        // About to install - hide badge
-        DispatchQueue.main.async {
-            if #available(macOS 14.0, *) {
-                self.updatesItem.badge = nil
-            }
-        }
+        // About to install
+        hideBadge()
     }
 }
