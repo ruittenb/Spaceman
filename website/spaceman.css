@@ -169,13 +169,15 @@ ul {
     grid-template-columns: 1fr;
     gap: 1.5rem 4rem;
 
-    & span {
+    & h4 {
+        display: inline;
+        color: indigo;
         font-size: 1rem;
         font-weight: 700;
         margin-left: 0.5rem;
     }
     & li {
-        color: var(--primary-color);
+        color: var(--secondary-color);
     }
     & video {
         margin: 1rem auto 0;
@@ -183,8 +185,16 @@ ul {
         height: auto;
         display: block;
         border-radius: 4px;
-        filter: var(--feature-filter);
+        filter: var(--video-filter);
     }
+}
+
+.feature-icon {
+    width: 64px;
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 8px;
 }
 
 @media only screen and (min-width: 550px) {
@@ -230,49 +240,39 @@ ul {
     margin: 1rem auto 0;
     font-style: italic;
     display: grid;
+    width: 100%;
     gap: 0.5rem;
-    grid-template-areas: "nw nw ne" "sw se se";
+    grid-template-columns: 1fr 1fr;
 
-    & div {
-        &:nth-child(1) { grid-area: nw; text-align: left; }
-        &:nth-child(2) { grid-area: ne; text-align: right; }
-        &:nth-child(3) { grid-area: sw; text-align: left; }
-        &:nth-child(4) { grid-area: se; text-align: right; }
-    }
     & small {
-        display: block;
+        justify-self: end;
         margin-top: 0.25rem;
     }
     & img {
-        width: auto;
-        height: 24px;
+        justify-self: start;
+        width: 100%;
+        height: auto;
         border-radius: 4px;
-        filter: var(--feature-filter);
+        filter: saturate(125%);
     }
 }
 
 footer {
     max-width: 40rem;
     margin: 0 auto 10rem;
-    height: 8rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    text-align: center;
+}
 
-    & svg {
-        margin-right: 0.5rem;
-    }
-
-    & a {
-        font-size: 0.9rem;
-        padding: 4px 4px 2px;
-        color: var(--primary-color);
-
-        &:hover {
-            color: var(--accent-color);
-        }
-    }
+.footer-icon {
+    width: 64px;
+    height: auto;
+    display: block;
+    margin: 0 auto 0.5rem;
+    border-radius: 8px;
 }
 
 .svg-inline--fa {
@@ -286,11 +286,4 @@ footer {
     &.fa-w-12 { width: 0.75em; }
     &.fa-w-14 { width: 0.875em; }
     &.fa-w-16 { width: 1em; }
-}
-
-@media only screen and (min-width: 450px) {
-    footer {
-        height: 100%;
-        flex-direction: row;
-    }
 }
