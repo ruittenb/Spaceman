@@ -3,23 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.12.8: Improved settings for display order</title>
+            <title>v1.12.9: Improved settings for display order</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Improved settings for display order (based on contribution by Waylon Wang)</li>
+                    <li>1.12.9: Fix release signature problem</li>
+<li>1.12.8: Improved settings for display order (based on contribution by Waylon Wang)</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 17 Oct 2025 21:52:14 +0200</pubDate>
+            <pubDate>Fri, 17 Oct 2025 22:14:38 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.12.8/Spaceman-1.12.8.dmg"
-                sparkle:version="1.12.8"
-                sparkle:shortVersionString="1.12.8"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.12.9/Spaceman-1.12.9.dmg"
+                sparkle:version="1.12.9"
+                sparkle:shortVersionString="1.12.9"
                 type="application/octet-stream"
-                length="3296429"
-sparkle:edSignature="xgZao4brXl/3sjCk9SarAdVY64FE5K7ichUNVLx6rW34EOjXJIOvV3/Cv7xx5w9puuJObyme/B+ASZKrtJeVCA=="
+                length="3296394"
+sparkle:edSignature="6i1ygj8hqH/zLO9JAXhUMkMXCWQUEONqXaPyCpQCgyZosJRVNNSab6o0q7Go0asK7+DblOaS2fYRU/fZfXkrDg=="
             />
         </item>
     </channel>
