@@ -1,3 +1,5 @@
+1.12.8: Improved settings for display order (based on contribution by Waylon Wang)
+1.12.7: Minor refactoring, added unit tests
 1.12.6: Fixes to labels in preferences window
 1.12.5: Added info bubbles to preferences window; new background for dmg file
 1.12.4: Rearranged preferences window; code cleanup
