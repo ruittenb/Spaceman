@@ -3,27 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.12.6: clean up Preferences Window</title>
+            <title>v1.12.8: Improved settings for display order</title>
             <description>
                 <![CDATA[
                     <ul>
-                        <li>Fixes to labels in preferences window</li>
-                        <li>Rearranged panes in preferences window</li>
-                        <li>Added info bubbles to preferences window</li>
-                        <li>Nicer background for dmg file</li>
-                        <li>Some code cleanup</li>
+                    <li>Improved settings for display order (based on contribution by Waylon Wang)</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Sun, 12 Oct 2025 19:39:00 +0200</pubDate>
+            <pubDate>Fri, 17 Oct 2025 21:52:14 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.12.6/Spaceman-1.12.6.dmg"
-                sparkle:version="1.12.6"
-                sparkle:shortVersionString="1.12.6"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.12.8/Spaceman-1.12.8.dmg"
+                sparkle:version="1.12.8"
+                sparkle:shortVersionString="1.12.8"
                 type="application/octet-stream"
-                length="3285987"
-sparkle:edSignature="bpKO1Y+bsB2MPC2RT8Tuo4twKPBZswY/z1R4Mcwpgxah8T1cNl0nW+OEi5oTL32npFUjYCmTnSN5UcKNG21lCg=="
+                length="3296429"
+sparkle:edSignature="xgZao4brXl/3sjCk9SarAdVY64FE5K7ichUNVLx6rW34EOjXJIOvV3/Cv7xx5w9puuJObyme/B+ASZKrtJeVCA=="
             />
         </item>
     </channel>
