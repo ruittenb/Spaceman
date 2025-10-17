@@ -35,31 +35,31 @@ class SpaceObserver {
         let c1 = DisplayGeometryUtilities.getDisplayCenter(display: d1)
         let c2 = DisplayGeometryUtilities.getDisplayCenter(display: d2)
 
-        let cmpX: (CGPoint, CGPoint) -> Bool = { a, b in
-            switch horizontalDirection {
-            case .defaultOrder: return a.x < b.x
-            case .reverseOrder: return a.x > b.x
-            }
-        }
-        let cmpY: (CGPoint, CGPoint) -> Bool = { a, b in
-            // macOS global coordinates origin at bottom-left; larger y is higher
-            switch verticalDirection {
-            case .defaultOrder: return a.x < b.x
-            case .topGoesFirst: return a.y > b.y
-            case .bottomGoesFirst: return a.y < b.y
-            }
-        }
-
-        // If defaultOrder, always sort by X coordinate
-        if verticalDirection == .defaultOrder {
-            return cmpX(c1, c2)
-        }
-
         // Check if displays are vertically stacked
         if DisplayGeometryUtilities.getIsVerticallyArranged(d1: d1, d2: d2) {
-            return cmpY(c1, c2)
+            // Vertically stacked displays: use verticalDirection setting
+            // macOS global coordinates origin at bottom-left; larger y is higher
+            switch verticalDirection {
+            case .defaultOrder:
+                // macOS default: left-to-right by X coordinate
+                return c1.x < c2.x
+            case .topGoesFirst:
+                // Top to bottom: higher Y goes first
+                return c1.y > c2.y
+            case .bottomGoesFirst:
+                // Bottom to top: lower Y goes first
+                return c1.y < c2.y
+            }
         } else {
-            return cmpX(c1, c2)
+            // Side-by-side displays: use horizontalDirection setting
+            switch horizontalDirection {
+            case .defaultOrder:
+                // Left to right
+                return c1.x < c2.x
+            case .reverseOrder:
+                // Right to left
+                return c1.x > c2.x
+            }
         }
     }
 
