@@ -34,9 +34,27 @@ class SpaceObserver {
     func compareDisplays(d1: NSDictionary, d2: NSDictionary, verticalDirection: VerticalDirection, horizontalDirection: HorizontalDirection) -> Bool {
         let c1 = DisplayGeometryUtilities.getDisplayCenter(display: d1)
         let c2 = DisplayGeometryUtilities.getDisplayCenter(display: d2)
+        let isVerticallyArranged = DisplayGeometryUtilities.getIsVerticallyArranged(d1: d1, d2: d2)
 
+        return SpaceObserver.compareDisplayCenters(
+            c1: c1,
+            c2: c2,
+            isVerticallyArranged: isVerticallyArranged,
+            verticalDirection: verticalDirection,
+            horizontalDirection: horizontalDirection
+        )
+    }
+
+    // Compare two display centers according to user preferences (testable static method)
+    static func compareDisplayCenters(
+        c1: CGPoint,
+        c2: CGPoint,
+        isVerticallyArranged: Bool,
+        verticalDirection: VerticalDirection,
+        horizontalDirection: HorizontalDirection
+    ) -> Bool {
         // Check if displays are vertically stacked
-        if DisplayGeometryUtilities.getIsVerticallyArranged(d1: d1, d2: d2) {
+        if isVerticallyArranged {
             // Vertically stacked displays: use verticalDirection setting
             // macOS global coordinates origin at bottom-left; larger y is higher
             switch verticalDirection {

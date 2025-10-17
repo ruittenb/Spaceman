@@ -10,6 +10,9 @@ import XCTest
 
 final class DisplayStyleTests: XCTestCase {
 
+    // IMPORTANT: These raw values are stored in UserDefaults and must remain
+    // stable across app versions to preserve user preferences during upgrades.
+    // Changing these values would reset users' display style settings.
     func testDisplayStyleRawValues() {
         XCTAssertEqual(DisplayStyle.rects.rawValue, 0)
         XCTAssertEqual(DisplayStyle.numbers.rawValue, 1)
