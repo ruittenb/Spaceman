@@ -19,4 +19,7 @@ struct SpaceNameInfo: Hashable, Codable {
     // For current UI display:
     var currentDisplayIndex: Int? = nil // Logical display number (1,2,3)
     var currentSpaceNumber: Int? = nil  // Number shown in UI
+
+    // Custom color tinting (hex string, e.g., "FF5733")
+    var colorHex: String? = nil
 }

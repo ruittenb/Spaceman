@@ -119,9 +119,6 @@ defaults-clear: ## Clear app defaults
 
 .PHONY: defaults-get
 defaults-get: ## Show stored app defaults
-	defaults read $(DOMAIN) # spaceNameCache
-
-.PHONY: defaults-names
-defaults-names: ## Show space names in readable format
-	@swift scripts/show-space-names.swift
+	@defaults read $(DOMAIN) # spaceNameCache
+	@swift scripts/show-space-defaults.swift
 

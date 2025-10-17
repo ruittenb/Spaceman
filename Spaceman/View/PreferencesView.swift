@@ -59,9 +59,6 @@ struct PreferencesView: View {
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, alignment: .top)
         .onAppear(perform: prefsVM.loadData)
-        .onChange(of: data) { _ in
-            prefsVM.loadData()
-        }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ActiveSpacesChanged"))) { _ in
             prefsVM.loadData()
         }
@@ -379,6 +376,47 @@ struct PreferencesView: View {
                         )
                         .frame(alignment: .trailing)
                         .textFieldStyle(.roundedBorder)
+
+                        // Color picker
+                        ColorWellView(
+                            selectedColor: Binding(
+                                get: {
+                                    // Read from live spaceNamesDict, not the snapshot
+                                    if let currentInfo = prefsVM.spaceNamesDict[entry.key],
+                                       let hexString = currentInfo.colorHex {
+                                        return NSColor.fromHex(hexString)
+                                    }
+                                    return nil
+                                },
+                                set: { _ in }
+                            ),
+                            onColorChange: { newColor in
+                                prefsVM.updateSpaceColor(for: entry.key, to: newColor)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                                }
+                            }
+                        )
+                        .frame(width: 35, height: 24)
+
+                        // Clear color button (or invisible placeholder for alignment)
+                        if prefsVM.spaceNamesDict[entry.key]?.colorHex != nil {
+                            Button {
+                                prefsVM.updateSpaceColor(for: entry.key, to: nil)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                                }
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.secondary)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .help("Clear color")
+                        } else {
+                            // Invisible placeholder for alignment
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.clear)
+                        }
                     }
                 }
             }

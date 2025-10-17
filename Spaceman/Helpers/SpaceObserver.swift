@@ -178,7 +178,8 @@ class SpaceObserver {
                     spaceNumber: spaceNumber,
                     spaceByDesktopID: spaceByDesktopID,
                     isCurrentSpace: isCurrentSpace,
-                    isFullScreen: isFullScreen)
+                    isFullScreen: isFullScreen,
+                    colorHex: savedInfo?.colorHex)
 
                 // Calculate currentSpaceNumber based on restart setting
                 let currentSpaceNumber: Int
@@ -198,6 +199,7 @@ class SpaceObserver {
                 nameInfo.positionOnDisplay = positionOnThisDisplay
                 nameInfo.currentDisplayIndex = currentDisplayIndexByID[displayID]
                 nameInfo.currentSpaceNumber = currentSpaceNumber
+                nameInfo.colorHex = savedInfo?.colorHex
 
                 updatedNames[managedSpaceID] = nameInfo
                 collectedSpaces.append(space)
