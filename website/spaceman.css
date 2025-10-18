@@ -131,7 +131,7 @@ ul {
     background: var(--link-color);
     border-radius: 0.5rem;
     padding: 1.5rem;
-    margin: 2rem 0;
+    margin: 3rem 0;
     border-left: 4px solid var(--accent-color);
 
     & h3 {
@@ -178,6 +178,7 @@ ul {
     }
     & li {
         color: var(--secondary-color);
+        margin: 16px 0;
     }
     & video {
         margin: 1rem auto 0;
@@ -278,12 +279,8 @@ footer {
 .svg-inline--fa {
     display: inline-block;
     font-size: inherit;
-    height: 1em;
-    vertical-align: -0.125em;
+    height: 1.5em;
+    width: auto;
+    vertical-align: middle;
     overflow: visible;
-
-    &.fa-w-10 { width: 0.625em; }
-    &.fa-w-12 { width: 0.75em; }
-    &.fa-w-14 { width: 0.875em; }
-    &.fa-w-16 { width: 1em; }
 }
