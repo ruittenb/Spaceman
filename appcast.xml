@@ -3,24 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.12.9: Improved settings for display order</title>
+            <title>v1.13.0: Added option to color menu bar icons</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>1.12.9: Fix release signature problem</li>
-<li>1.12.8: Improved settings for display order (based on contribution by Waylon Wang)</li>
+                    <li>Added option to color menu bar icons</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 17 Oct 2025 22:14:38 +0200</pubDate>
+            <pubDate>Sun, 19 Oct 2025 22:27:17 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.12.9/Spaceman-1.12.9.dmg"
-                sparkle:version="1.12.9"
-                sparkle:shortVersionString="1.12.9"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.13.0/Spaceman-1.13.0.dmg"
+                sparkle:version="1.13.0"
+                sparkle:shortVersionString="1.13.0"
                 type="application/octet-stream"
-                length="3296394"
-sparkle:edSignature="6i1ygj8hqH/zLO9JAXhUMkMXCWQUEONqXaPyCpQCgyZosJRVNNSab6o0q7Go0asK7+DblOaS2fYRU/fZfXkrDg=="
+                length="3324430"
+sparkle:edSignature="HUr1M0yroThJ//ps7HfaZ3DZpiHZ610TclHfZGFiZex3GqLUQMQGfARHghPI8TRD17M42RsI3S4kv3ggbKL6Cg=="
             />
         </item>
     </channel>
