@@ -1,3 +1,4 @@
+1.13.0: Added option to color menu bar icons
 1.12.9: Fix release signature problem
 1.12.8: Improved settings for display order (based on contribution by Waylon Wang)
 1.12.7: Minor refactoring, added unit tests
