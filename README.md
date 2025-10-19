@@ -87,7 +87,7 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 
 ### Spaces Tab
 
-<img src="images/Preferences-Spaces.png" width="66%" height="auto">
+<img src="images/Preferences-Spaces-2.png" width="66%" height="auto">
 
 **Icon Style**
 - Selects one of the five visual icon styles described in [Understanding the Icons](#-understanding-the-icons)
@@ -96,6 +96,7 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 - **Space names**: Assigns custom names of any length to individual spaces
   - The menu displays full names regardless of length
   - Menu bar icons show full names when only the active space is shown, otherwise names are truncated to 4 or 6 characters for compactness
+  - Optionally, for each Space icon, a color can be selected.
 - **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
 - **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
 
