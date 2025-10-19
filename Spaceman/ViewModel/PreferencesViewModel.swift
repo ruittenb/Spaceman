@@ -22,7 +22,22 @@ class PreferencesViewModel: ObservableObject {
 
     func loadData() {
         let allSpaceNames = nameStore.loadAll()
-        spaceNamesDict = allSpaceNames.filter { AppDelegate.activeSpaceIDs.contains($0.key) }
+        let filtered = allSpaceNames.filter { AppDelegate.activeSpaceIDs.contains($0.key) }
+
+        // Preserve any local changes (like colors) that might not be in the loaded data yet
+        var merged = filtered
+        for (key, existingInfo) in spaceNamesDict {
+            if let loadedInfo = filtered[key] {
+                // Prefer loaded data but keep local color if it's newer
+                if existingInfo.colorHex != nil && loadedInfo.colorHex == nil {
+                    var updated = loadedInfo
+                    updated.colorHex = existingInfo.colorHex
+                    merged[key] = updated
+                }
+            }
+        }
+
+        spaceNamesDict = merged
         rebuildSortedSpaceNames()
     }
 
@@ -41,7 +56,27 @@ class PreferencesViewModel: ObservableObject {
         updatedInfo.positionOnDisplay = info.positionOnDisplay
         updatedInfo.currentDisplayIndex = info.currentDisplayIndex
         updatedInfo.currentSpaceNumber = info.currentSpaceNumber
+        updatedInfo.colorHex = info.colorHex
         spaceNamesDict[key] = updatedInfo
+    }
+
+    func updateSpaceColor(for key: String, to color: NSColor?) {
+        guard let info = spaceNamesDict[key] else { return }
+        let hexString = color?.toHexString()
+
+        var updatedInfo = SpaceNameInfo(
+            spaceNum: info.spaceNum,
+            spaceName: info.spaceName,
+            spaceByDesktopID: info.spaceByDesktopID)
+        updatedInfo.displayUUID = info.displayUUID
+        updatedInfo.positionOnDisplay = info.positionOnDisplay
+        updatedInfo.currentDisplayIndex = info.currentDisplayIndex
+        updatedInfo.currentSpaceNumber = info.currentSpaceNumber
+        updatedInfo.colorHex = hexString
+        spaceNamesDict[key] = updatedInfo
+
+        // Save immediately but don't rebuild sorted array (avoids ForEach recreation)
+        nameStore.save(spaceNamesDict)
     }
 
     func persistChanges(for key: String?) {
