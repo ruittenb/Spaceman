@@ -171,7 +171,7 @@ ul {
 
     & h4 {
         display: inline;
-        color: var(--heading4-color);
+        color: var(--accent-color);
         font-size: 1rem;
         font-weight: 700;
         margin-left: 0.5rem;
