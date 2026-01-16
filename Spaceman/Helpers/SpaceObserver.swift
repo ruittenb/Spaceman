@@ -108,7 +108,7 @@ class SpaceObserver {
         let spaceNumberMap = buildSpaceNumberMap(from: displays)
 
         let storedNames = nameStore.loadAll()
-        var updatedNames = storedNames
+        var updatedNames: [String: SpaceNameInfo] = [:]
         var activeSpaceID = -1
         var lastSpaceByDesktopNumber = 0
         var collectedSpaces: [Space] = []
@@ -151,19 +151,13 @@ class SpaceObserver {
                     spaceByDesktopID = String(lastSpaceByDesktopNumber)
                 }
 
-                // Try to find saved name: first by managedSpaceID, then by position fallback
-                var savedInfo = updatedNames[managedSpaceID]
-                if savedInfo == nil {
-                    // ManagedSpaceID may have changed (e.g., after reboot)
-                    // Try to find by display + position
-                    if let matchedInfo = findSpaceByPosition(
-                        in: updatedNames,
-                        displayID: displayID,
-                        position: positionOnThisDisplay) {
-                        savedInfo = matchedInfo
-                        // Will update the key to the new managedSpaceID below
-                    }
-                }
+                // Try to find saved name, verifying position to handle ManagedSpaceID swaps after reboot.
+                // Always search in storedNames (pre-update snapshot) to avoid issues with in-flight modifications.
+                let savedInfo = SpaceObserver.resolveSpaceNameInfo(
+                    managedSpaceID: managedSpaceID,
+                    displayID: displayID,
+                    position: positionOnThisDisplay,
+                    storedNames: storedNames)
                 let savedName = savedInfo?.spaceName
                 let resolvedName = resolveSpaceName(
                     from: savedName,
@@ -194,7 +188,6 @@ class SpaceObserver {
                     spaceName: resolvedName,
                     spaceByDesktopID: spaceByDesktopID)
 
-                // Populate additional fields from HEAD feature
                 nameInfo.displayUUID = displayID
                 nameInfo.positionOnDisplay = positionOnThisDisplay
                 nameInfo.currentDisplayIndex = currentDisplayIndexByID[displayID]
@@ -236,15 +229,31 @@ class SpaceObserver {
         return mapping
     }
 
-    private func findSpaceByPosition(
+    /// Finds a space by display UUID and position.
+    static func findSpaceByPosition(
         in storedNames: [String: SpaceNameInfo],
         displayID: String,
         position: Int
     ) -> SpaceNameInfo? {
-        // Find a space that matches both displayUUID and positionOnDisplay
-        return storedNames.values.first { info in
-            info.displayUUID == displayID && info.positionOnDisplay == position
+        storedNames.values.first { $0.displayUUID == displayID && $0.positionOnDisplay == position }
+    }
+
+    /// Resolves the saved SpaceNameInfo for a space, handling ManagedSpaceID swaps after reboot.
+    /// First tries to match by ManagedSpaceID with position verification, then falls back to position-only lookup.
+    static func resolveSpaceNameInfo(
+        managedSpaceID: String,
+        displayID: String,
+        position: Int,
+        storedNames: [String: SpaceNameInfo]
+    ) -> SpaceNameInfo? {
+        // Try by ManagedSpaceID first, but only accept if position matches
+        if let info = storedNames[managedSpaceID],
+           info.displayUUID == displayID,
+           info.positionOnDisplay == position {
+            return info
         }
+        // Fall back to position-based lookup
+        return findSpaceByPosition(in: storedNames, displayID: displayID, position: position)
     }
 
     private func resolveSpaceName(
