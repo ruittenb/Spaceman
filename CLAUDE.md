@@ -25,7 +25,7 @@ make export
 make image
 ```
 
-**Build everything:**
+**Build + Export + Installer:**
 ```bash
 make all
 ```
