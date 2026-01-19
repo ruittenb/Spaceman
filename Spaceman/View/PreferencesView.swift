@@ -15,7 +15,6 @@ struct PreferencesView: View {
     weak var parentWindow: PreferencesWindow?
 
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
-    @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
