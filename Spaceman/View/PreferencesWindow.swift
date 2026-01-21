@@ -19,5 +19,6 @@ class PreferencesWindow: NSWindow {
         self.titlebarAppearsTransparent = true
         self.isMovableByWindowBackground = true
         self.isReleasedWhenClosed = false
+        self.collectionBehavior = [.moveToActiveSpace]
     }
 }
