@@ -273,7 +273,7 @@ class SpaceObserver {
             }
             return "FULL"
         }
-        return "-"
+        return ""
     }
 }
 
