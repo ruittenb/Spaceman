@@ -42,7 +42,7 @@ class PreferencesViewModel: ObservableObject {
     }
 
     func updateSpace(for key: String, to newName: String) {
-        updateSpaceName(for: key, to: newName.isEmpty ? "-" : newName)
+        updateSpaceName(for: key, to: newName)
     }
 
     private func updateSpaceName(for key: String, to newName: String) {

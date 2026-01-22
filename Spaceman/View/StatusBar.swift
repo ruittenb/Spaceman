@@ -203,7 +203,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
 
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let globalSpaceNumber = space.spaceNumber
-        let spaceName = space.spaceName
+        let spaceName = space.spaceName.isEmpty ? "-" : space.spaceName
 
         let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""

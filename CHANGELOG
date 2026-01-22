@@ -1,3 +1,6 @@
+1.13.3: Enforce that the Spaceman Preferences window opens on the current space
+1.13.2: Allow empty space names in editor without inserting a dash
+1.13.1: Preserve space order across reboots
 1.13.0: Added option to color menu bar icons
 1.12.9: Fix release signature problem
 1.12.8: Improved settings for display order (based on contribution by Waylon Wang)
