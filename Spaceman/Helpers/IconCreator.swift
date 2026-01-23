@@ -9,6 +9,15 @@ import AppKit
 import Foundation
 import SwiftUI
 
+/// Holds the data needed to render and position a space icon in the merged image.
+private struct IconRenderInfo {
+    let image: NSImage
+    let nextSpaceOnDifferentDisplay: Bool
+    let isFullScreen: Bool
+    let spaceID: String
+    let colorHex: String?
+}
+
 class IconCreator {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
@@ -111,7 +120,7 @@ class IconCreator {
 
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
         if layoutMode == .dualRows {
-            return mergeIconsTwoRows(iconsWithDisplayProperties, buttonFrame: buttonFrame, appearance: appearance)
+            return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID, buttonFrame: buttonFrame, appearance: appearance)
         } else {
             return mergeIcons(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID, buttonFrame: buttonFrame, appearance: appearance)
         }
@@ -357,8 +366,8 @@ class IconCreator {
         return newIcons
     }
 
-    private func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool, Bool, String, String?)] {
-        var iconsWithDisplayProperties = [(NSImage, Bool, Bool, String, String?)]()
+    private func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [IconRenderInfo] {
+        var iconsWithDisplayProperties = [IconRenderInfo]()
         guard spaces.count > 0 else { return iconsWithDisplayProperties }
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
@@ -373,17 +382,21 @@ class IconCreator {
                     nextSpaceIsOnDifferentDisplay = true
                 }
             }
-            iconsWithDisplayProperties.append((icons[index], nextSpaceIsOnDifferentDisplay, spaces[index].isFullScreen, spaces[index].spaceID, spaces[index].colorHex))
+            iconsWithDisplayProperties.append(IconRenderInfo(
+                image: icons[index],
+                nextSpaceOnDifferentDisplay: nextSpaceIsOnDifferentDisplay,
+                isFullScreen: spaces[index].isFullScreen,
+                spaceID: spaces[index].spaceID,
+                colorHex: spaces[index].colorHex
+            ))
         }
 
         return iconsWithDisplayProperties
     }
 
-    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?)], indexMap: [String: Int], buttonFrame: NSRect? = nil, appearance: NSAppearance? = nil) -> NSImage {
-        let numIcons = iconsWithDisplayProperties.count
-        let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
-            result + icon.image.size.width
-        })
+    private func mergeIcons(_ icons: [IconRenderInfo], indexMap: [String: Int], buttonFrame: NSRect? = nil, appearance: NSAppearance? = nil) -> NSImage {
+        let numIcons = icons.count
+        let combinedIconWidth = CGFloat(icons.reduce(0) { $0 + $1.image.size.width })
         let accomodatingGapWidth = CGFloat(max(0, numIcons - 1)) * gapWidth
         let accomodatingDisplayGapWidth = CGFloat(max(0, displayCount - 1)) * displayGapWidth
         let totalIconWidth = combinedIconWidth + accomodatingGapWidth + accomodatingDisplayGapWidth
@@ -396,28 +409,19 @@ class IconCreator {
         var right: CGFloat
         iconWidths = []
 
-        // First pass: check if any icons have custom colors
-        let hasAnyColoredIcon = iconsWithDisplayProperties.contains { $0.colorHex != nil }
+        // Check if any icons have custom colors - if so, we need to apply default color to non-colored icons
+        let hasAnyColoredIcon = icons.contains { $0.colorHex != nil }
         let defaultColor = hasAnyColoredIcon ? getDefaultColorForAppearance(appearance) : nil
 
-        for icon in iconsWithDisplayProperties {
-            // Icons with custom colors are already colored in the create phase
-            let iconToUse: NSImage
-            if icon.colorHex != nil {
-                // Already colored - use as-is
-                iconToUse = icon.image
-            } else if let defaultColor = defaultColor {
-                // Apply default color to non-colored icons when in colored context
-                iconToUse = tintIcon(icon.image, with: defaultColor)
-            } else {
-                iconToUse = icon.image
-            }
+        for icon in icons {
+            let iconToUse = resolveIconForRendering(icon: icon.image, colorHex: icon.colorHex, defaultColor: defaultColor)
 
             iconToUse.draw(
                 at: NSPoint(x: left, y: 0),
                 from: NSRect.zero,
                 operation: NSCompositingOperation.sourceOver,
                 fraction: 1.0)
+
             // Simple gap splitting: each icon owns half the gap on each side
             let gap = icon.nextSpaceOnDifferentDisplay ? displayGapWidth : gapWidth
             let iconLeft = left - (gap / 2.0)
@@ -431,6 +435,7 @@ class IconCreator {
             iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, index: targetIndex))
             left = right
         }
+
         // Only use template mode if no icons have custom colors
         image.isTemplate = !hasAnyColoredIcon
         image.unlockFocus()
@@ -438,34 +443,29 @@ class IconCreator {
         return image
     }
 
-    private func mergeIconsTwoRows(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String, colorHex: String?)], buttonFrame: NSRect? = nil, appearance: NSAppearance? = nil) -> NSImage {
+    private func mergeIconsTwoRows(_ icons: [IconRenderInfo], indexMap: [String: Int], buttonFrame: NSRect? = nil, appearance: NSAppearance? = nil) -> NSImage {
         // Column describes a stacked pair (top/bottom) and its rendered width and trailing gap
-        struct Column { var top: (NSImage, Bool, Int, String, String?)?; var bottom: (NSImage, Bool, Int, String, String?)?; var width: CGFloat = 0; var gapAfter: CGFloat = 0 }
-
-        // Pre-compute the target index for each icon: positive for numbered spaces; negative for fullscreen pseudo indices
-        var assignedIndices: [Int] = []
-        var numbered = 1
-        var fullscreen = 1
-        for i in iconsWithDisplayProperties {
-            if i.isFullScreen { assignedIndices.append(-fullscreen); fullscreen += 1 }
-            else { assignedIndices.append(numbered); numbered += 1 }
+        struct Column {
+            var top: IconRenderInfo?
+            var bottom: IconRenderInfo?
+            var width: CGFloat = 0
+            var gapAfter: CGFloat = 0
         }
 
         // Build columns depending on fill order preference
         var columns: [Column] = []
         switch dualRowFillOrder {
         case .byColumn:
-            // Original behavior: fill top then bottom per column
+            // Fill top then bottom per column
             var current = Column()
             var placeTop = true
-            for (idx, icon) in iconsWithDisplayProperties.enumerated() {
-                let tag = assignedIndices[idx]
+            for icon in icons {
                 if placeTop {
-                    current.top = (icon.image, icon.isFullScreen, tag, icon.spaceID, icon.colorHex)
+                    current.top = icon
                     current.width = max(current.width, icon.image.size.width)
                     placeTop = false
                 } else {
-                    current.bottom = (icon.image, icon.isFullScreen, tag, icon.spaceID, icon.colorHex)
+                    current.bottom = icon
                     current.width = max(current.width, icon.image.size.width)
                     placeTop = true
                 }
@@ -476,18 +476,20 @@ class IconCreator {
                     current = Column()
                     placeTop = true
                 }
-                if idx == iconsWithDisplayProperties.count - 1 && (current.top != nil || current.bottom != nil) {
-                    current.gapAfter = 0
-                    columns.append(current)
-                }
             }
+            // Append any remaining partial column
+            if current.top != nil || current.bottom != nil {
+                current.gapAfter = 0
+                columns.append(current)
+            }
+
         case .byRow:
-            // New behavior: fill entire top row left-to-right, then bottom row
+            // Fill entire top row left-to-right, then bottom row
             // First, segment by display to place display gaps correctly
-            var segments: [[(image: NSImage, nextDisplay: Bool, isFull: Bool, tag: Int, spaceID: String, colorHex: String?)]] = []
-            var cur: [(NSImage, Bool, Bool, Int, String, String?)] = []
-            for (idx, icon) in iconsWithDisplayProperties.enumerated() {
-                cur.append((icon.image, icon.nextSpaceOnDifferentDisplay, icon.isFullScreen, assignedIndices[idx], icon.spaceID, icon.colorHex))
+            var segments: [[IconRenderInfo]] = []
+            var cur: [IconRenderInfo] = []
+            for icon in icons {
+                cur.append(icon)
                 if icon.nextSpaceOnDifferentDisplay { segments.append(cur); cur = [] }
             }
             if !cur.isEmpty { segments.append(cur) }
@@ -501,16 +503,14 @@ class IconCreator {
                 for i in 0..<maxLen {
                     var col = Column()
                     if i < top.count {
-                        let t = top[i]
-                        col.top = (t.image, t.isFull, t.tag, t.spaceID, t.colorHex)
-                        col.width = max(col.width, t.image.size.width)
+                        col.top = top[i]
+                        col.width = max(col.width, top[i].image.size.width)
                     }
                     if i < bottom.count {
-                        let b = bottom[i]
-                        col.bottom = (b.image, b.isFull, b.tag, b.spaceID, b.colorHex)
-                        col.width = max(col.width, b.image.size.width)
+                        col.bottom = bottom[i]
+                        col.width = max(col.width, bottom[i].image.size.width)
                     }
-                    // Add inter-column gap. After the last column of a display, add display gap (except trailing overall)
+                    // After the last column of a display, add display gap (except trailing overall)
                     let isLastInSegment = (i == maxLen - 1)
                     col.gapAfter = isLastInSegment ? displayGapWidth : gapWidth
                     columns.append(col)
@@ -534,50 +534,32 @@ class IconCreator {
         var left = CGFloat.zero
         iconWidths = []
 
-        // First pass: check if any icons have custom colors
+        // Check if any icons have custom colors - if so, we need to apply default color to non-colored icons
         let hasAnyColoredIcon = columns.contains { col in
-            (col.top?.4 != nil) || (col.bottom?.4 != nil)
+            col.top?.colorHex != nil || col.bottom?.colorHex != nil
         }
         let defaultColor = hasAnyColoredIcon ? getDefaultColorForAppearance(appearance) : nil
 
         for col in columns {
             // Simple gap splitting: each icon owns half the gap on each side
-            // (col.gapAfter already accounts for display gaps vs regular gaps)
             let iconLeft = left - (col.gapAfter / 2.0)
             let iconRight = left + col.width + (col.gapAfter / 2.0)
 
             if let top = col.top {
-                // Icons with custom colors are already colored in the create phase
-                let iconToUse: NSImage
-                if top.4 != nil {
-                    // Already colored - use as-is
-                    iconToUse = top.0
-                } else if let defaultColor = defaultColor {
-                    // Apply default color to non-colored icons when in colored context
-                    iconToUse = tintIcon(top.0, with: defaultColor)
-                } else {
-                    iconToUse = top.0
-                }
+                let iconToUse = resolveIconForRendering(icon: top.image, colorHex: top.colorHex, defaultColor: defaultColor)
                 iconToUse.draw(at: NSPoint(x: left, y: iconSize.height + gap), from: .zero, operation: .sourceOver, fraction: 1.0)
-                iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, top: iconSize.height + gap, bottom: imageHeight, index: top.2))
+                let targetIndex = indexMap[top.spaceID] ?? -99
+                iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, top: iconSize.height + gap, bottom: imageHeight, index: targetIndex))
             }
             if let bottom = col.bottom {
-                // Icons with custom colors are already colored in the create phase
-                let iconToUse: NSImage
-                if bottom.4 != nil {
-                    // Already colored - use as-is
-                    iconToUse = bottom.0
-                } else if let defaultColor = defaultColor {
-                    // Apply default color to non-colored icons when in colored context
-                    iconToUse = tintIcon(bottom.0, with: defaultColor)
-                } else {
-                    iconToUse = bottom.0
-                }
+                let iconToUse = resolveIconForRendering(icon: bottom.image, colorHex: bottom.colorHex, defaultColor: defaultColor)
                 iconToUse.draw(at: NSPoint(x: left, y: 0), from: .zero, operation: .sourceOver, fraction: 1.0)
-                iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, top: 0, bottom: iconSize.height, index: bottom.2))
+                let targetIndex = indexMap[bottom.spaceID] ?? -99
+                iconWidths.append(IconWidth(left: iconLeft + dynamicLeftMargin, right: iconRight + dynamicLeftMargin, top: 0, bottom: iconSize.height, index: targetIndex))
             }
             left += col.width + col.gapAfter
         }
+
         image.isTemplate = !hasAnyColoredIcon
         image.unlockFocus()
         return image
@@ -618,6 +600,16 @@ class IconCreator {
 
         tinted.unlockFocus()
         return tinted
+    }
+
+    /// Resolves which icon image to use for rendering, applying default color if needed.
+    private func resolveIconForRendering(icon: NSImage, colorHex: String?, defaultColor: NSColor?) -> NSImage {
+        if colorHex != nil {
+            return icon  // Already colored in the create phase
+        } else if let defaultColor = defaultColor {
+            return tintIcon(icon, with: defaultColor)
+        }
+        return icon
     }
 
     private func getDefaultColorForAppearance(_ appearance: NSAppearance? = nil) -> NSColor {
