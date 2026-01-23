@@ -113,6 +113,22 @@ class SpaceObserver {
         var lastSpaceByDesktopNumber = 0
         var collectedSpaces: [Space] = []
 
+        // Step 1: Collect current space IDs per display (see MARK: Space Name Resolution)
+        var currentIDsByDisplay: [String: Set<String>] = [:]
+        for d in displays {
+            guard let spaces = d["Spaces"] as? [[String: Any]],
+                  let displayID = d["Display Identifier"] as? String
+            else { continue }
+            var ids = Set<String>()
+            for spaceDict in spaces {
+                if let managedInt = spaceDict["ManagedSpaceID"] as? Int {
+                    ids.insert(String(managedInt))
+                }
+            }
+            currentIDsByDisplay[displayID] = ids
+        }
+
+        // Step 2: Process displays and resolve space names
         for d in displays {
             guard let currentSpaces = d["Current Space"] as? [String: Any],
                   let spaces = d["Spaces"] as? [[String: Any]],
@@ -120,6 +136,14 @@ class SpaceObserver {
             else {
                 continue
             }
+
+            // Step 3: Determine matching strategy for this display
+            let currentIDs = currentIDsByDisplay[displayID] ?? []
+            let usePositionMatching = !SpaceObserver.idsMatchStored(
+                currentIDs: currentIDs,
+                storedNames: storedNames,
+                displayID: displayID
+            )
 
             if restartNumberingByDisplay {
                 lastSpaceByDesktopNumber = 0
@@ -151,13 +175,13 @@ class SpaceObserver {
                     spaceByDesktopID = String(lastSpaceByDesktopNumber)
                 }
 
-                // Try to find saved name, verifying position to handle ManagedSpaceID swaps after reboot.
-                // Always search in storedNames (pre-update snapshot) to avoid issues with in-flight modifications.
+                // Resolve saved name using appropriate strategy for this display
                 let savedInfo = SpaceObserver.resolveSpaceNameInfo(
                     managedSpaceID: managedSpaceID,
                     displayID: displayID,
                     position: positionOnThisDisplay,
-                    storedNames: storedNames)
+                    storedNames: storedNames,
+                    usePositionMatching: usePositionMatching)
                 let savedName = savedInfo?.spaceName
                 let resolvedName = resolveSpaceName(
                     from: savedName,
@@ -229,7 +253,30 @@ class SpaceObserver {
         return mapping
     }
 
-    /// Finds a space by display UUID and position.
+    // MARK: - Space Name Resolution
+    //
+    // These methods handle matching spaces to their stored names/colors. Two scenarios
+    // look similar but require opposite handling:
+    //
+    // 1. REBOOT SCENARIO: After a system reboot, macOS may assign different ManagedSpaceIDs
+    //    to the same physical spaces. The user's custom names should stay at their original
+    //    positions. We detect this when the set of current IDs differs from stored IDs.
+    //    Solution: Match by position (usePositionMatching = true).
+    //
+    // 2. USER REORDER SCENARIO: When the user drags spaces in Mission Control to reorder them,
+    //    the ManagedSpaceIDs stay the same but positions change. The names/colors should
+    //    follow the space, not stay locked to positions. We detect this when IDs match.
+    //    Solution: Match by ID (usePositionMatching = false).
+    //
+    // The key insight: if IDs changed, it's a reboot; if IDs are the same, user reordered.
+    // Detection is done per-display since displays are independent.
+    //
+    // Algorithm in performSpaceInformationUpdate:
+    //   Step 1: Collect current space IDs per display
+    //   Step 2: For each display, compare IDs with stored IDs to choose matching strategy
+    //   Step 3: Resolve each space's name using the chosen strategy
+
+    /// Finds a stored space entry by display UUID and position.
     static func findSpaceByPosition(
         in storedNames: [String: SpaceNameInfo],
         displayID: String,
@@ -238,22 +285,34 @@ class SpaceObserver {
         storedNames.values.first { $0.displayUUID == displayID && $0.positionOnDisplay == position }
     }
 
-    /// Resolves the saved SpaceNameInfo for a space, handling ManagedSpaceID swaps after reboot.
-    /// First tries to match by ManagedSpaceID with position verification, then falls back to position-only lookup.
+    /// Checks if current space IDs for a display exactly match stored IDs.
+    /// Returns true if IDs match (use ID-based matching), false if they differ (use position-based).
+    static func idsMatchStored(
+        currentIDs: Set<String>,
+        storedNames: [String: SpaceNameInfo],
+        displayID: String
+    ) -> Bool {
+        let storedIDsForDisplay = Set(
+            storedNames
+                .filter { $0.value.displayUUID == displayID }
+                .keys
+        )
+        return currentIDs == storedIDsForDisplay
+    }
+
+    /// Resolves the saved SpaceNameInfo for a space using the appropriate matching strategy.
     static func resolveSpaceNameInfo(
         managedSpaceID: String,
         displayID: String,
         position: Int,
-        storedNames: [String: SpaceNameInfo]
+        storedNames: [String: SpaceNameInfo],
+        usePositionMatching: Bool
     ) -> SpaceNameInfo? {
-        // Try by ManagedSpaceID first, but only accept if position matches
-        if let info = storedNames[managedSpaceID],
-           info.displayUUID == displayID,
-           info.positionOnDisplay == position {
-            return info
+        if usePositionMatching {
+            return findSpaceByPosition(in: storedNames, displayID: displayID, position: position)
+        } else {
+            return storedNames[managedSpaceID]
         }
-        // Fall back to position-based lookup
-        return findSpaceByPosition(in: storedNames, displayID: displayID, position: position)
     }
 
     private func resolveSpaceName(
