@@ -1,3 +1,4 @@
+1.13.5: Added Refresh option to menu
 1.13.4: Fix user reordering spaces, in conjunction with reboot ID assignment
 1.13.3: Enforce that the Spaceman Preferences window opens on the current space
 1.13.2: Allow empty space names in editor without inserting a dash
