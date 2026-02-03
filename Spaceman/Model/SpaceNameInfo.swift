@@ -22,4 +22,9 @@ struct SpaceNameInfo: Hashable, Codable {
 
     // Custom color tinting (hex string, e.g., "FF5733")
     var colorHex: String? = nil
+
+    /// Whether this entry has user-assigned data worth preserving (custom name or color).
+    var hasUserData: Bool {
+        return !spaceName.isEmpty || colorHex != nil
+    }
 }
