@@ -75,12 +75,22 @@ class PreferencesViewModel: ObservableObject {
         updatedInfo.colorHex = hexString
         spaceNamesDict[key] = updatedInfo
 
-        // Save immediately but don't rebuild sorted array (avoids ForEach recreation)
-        nameStore.save(spaceNamesDict)
+        // Save immediately but don't rebuild sorted array (avoids ForEach recreation).
+        // Use update() to merge into existing store, preserving disconnected display entries.
+        nameStore.update { stored in
+            for (key, info) in spaceNamesDict {
+                stored[key] = info
+            }
+        }
     }
 
     func persistChanges(for key: String?) {
-        nameStore.save(spaceNamesDict)
+        // Merge into existing store, preserving disconnected display entries.
+        nameStore.update { stored in
+            for (key, info) in spaceNamesDict {
+                stored[key] = info
+            }
+        }
         rebuildSortedSpaceNames()
     }
 
