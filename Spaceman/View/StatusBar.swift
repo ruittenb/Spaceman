@@ -89,9 +89,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(NSMenuItem.separator())
-        statusBarMenu.addItem(updatesItem)
         statusBarMenu.addItem(refreshItem)
         statusBarMenu.addItem(prefItem)
+        statusBarMenu.addItem(NSMenuItem.separator())
+        statusBarMenu.addItem(updatesItem)
         statusBarMenu.addItem(quitItem)
         //statusBarItem.menu = statusBarMenu
 
@@ -175,7 +176,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
             return
         }
         // Remove previously inserted dynamic items between the fixed header and the updates item
-        let updatesIdx = statusBarMenu.index(of: updatesItem)
+        let updatesIdx = statusBarMenu.index(of: refreshItem)
         if updatesIdx > 2 {
             for _ in 2..<updatesIdx { statusBarMenu.removeItem(at: 2) }
         } else {
