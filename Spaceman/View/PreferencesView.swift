@@ -368,7 +368,7 @@ struct PreferencesView: View {
             Text("Numbers").tag(DisplayStyle.numbers)
             Text("Rectangles with numbers").tag(DisplayStyle.numbersAndRects)
             Text("Names").tag(DisplayStyle.names)
-            Text("Names with numbers").tag(DisplayStyle.numbersAndNames)
+            Text("Numbers and names").tag(DisplayStyle.numbersAndNames)
         }
         .onChange(of: displayStyle) { val in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
