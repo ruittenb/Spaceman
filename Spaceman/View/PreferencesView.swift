@@ -144,6 +144,8 @@ struct PreferencesView: View {
                         generalPane
                         Divider()
                         displaysPane
+                        Divider()
+                        backupRestorePane
                     }
                 } else {
                     VStack(alignment: .leading, spacing: 0) {
@@ -242,7 +244,7 @@ struct PreferencesView: View {
                     .frame(width: 240)
                 }
             }
-            .padding(.vertical)
+            .padding(.top)
         }
         .padding()
         .onChange(of: restartNumberingByDesktop) { _ in
@@ -254,6 +256,41 @@ struct PreferencesView: View {
         .onChange(of: verticalDirection) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
+    }
+
+    // MARK: - Backup / Restore pane
+    private var backupRestorePane: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Backup")
+                .font(.title2)
+                .fontWeight(.semibold)
+            HStack(spacing: 12) {
+                Button("Backup Preferences") {
+                    prefsVM.backupPreferences()
+                }
+                if let date = prefsVM.lastBackupDate {
+                    Text("Last backup: \(date, style: .date) \(date, style: .time)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                } else {
+                    Text("No backup found")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            HStack(spacing: 12) {
+                Button("Restore Preferences") {
+                    prefsVM.restorePreferences()
+                }
+                .disabled(prefsVM.lastBackupDate == nil)
+                Text(prefsVM.backupStatusMessage ?? "    ")
+                    .font(.caption)
+                    .foregroundColor(prefsVM.backupStatusIsError ? .red : .green)
+                    .opacity(prefsVM.backupStatusMessage != nil ? 1 : 0)
+            }
+            .padding(.bottom)
+        }
+        .padding()
     }
 
     // MARK: - Spaces pane
@@ -513,7 +550,7 @@ struct PreferencesView: View {
 /// Opens the macOS Displays settings (macOS 11+).
 func openDisplaysSettings() {
     openSettings(candidates: [
-        "x-apple.systempreferences:com.apple.Displays-Settings.extension", // Ventura/Sequoia
+        "x-apple.systempreferences:com.apple.Displays-Settings.extension", // Ventura/Sequoia/Tahoe
         "x-apple.systempreferences:com.apple.preference.displays",         // Big Sur/Monterey
         "/System/Library/PreferencePanes/Displays.prefPane"                // Fallback
     ])
@@ -527,7 +564,7 @@ func openMissionControlShortcuts() {
     openSettings(candidates: [
         // Works broadly (Monterey/Ventura/Sonoma/Sequoia): Keyboard > Shortcuts
         "x-apple.systempreferences:com.apple.preference.keyboard?Shortcuts",
-        // Ventura+ new-style Keyboard settings with Shortcuts anchor (can be finicky on some builds)
+        // Ventura+/Tahoe new-style Keyboard settings with Shortcuts anchor (can be finicky on some builds)
         "x-apple.systempreferences:com.apple.Keyboard-Settings.extension?Shortcuts",
         // Older direct Mission Control pane (not the shortcuts list, but relevant)
         "x-apple.systempreferences:com.apple.preference.expose",
