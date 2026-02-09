@@ -1,3 +1,5 @@
+1.13.7: Added Backup/Restore preferences option
+1.13.6: Fix spaces assignment when switching displays
 1.13.5: Added Refresh option to menu
 1.13.4: Fix user reordering spaces, in conjunction with reboot ID assignment
 1.13.3: Enforce that the Spaceman Preferences window opens on the current space
