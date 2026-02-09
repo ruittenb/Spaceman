@@ -3,23 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.13.3: enforce opening Preferences window on current space</title>
+            <title>v1.13.7: backup/restore preferences</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Make sure that the Preferences window opens on the current space</li>
+                    <li>- Fixed space name assignments when external monitor configuration is changed</li>
+<li>- Added backup/restore preferences buttons</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 21 Jan 2026 23:34:28 +0100</pubDate>
+            <pubDate>Mon, 09 Feb 2026 23:22:58 +0100</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.13.3/Spaceman-1.13.3.dmg"
-                sparkle:version="1.13.3"
-                sparkle:shortVersionString="1.13.3"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.13.7/Spaceman-1.13.7.dmg"
+                sparkle:version="1.13.7"
+                sparkle:shortVersionString="1.13.7"
                 type="application/octet-stream"
-                length="3323847"
-sparkle:edSignature="hTwjp4w8b9SeHayQ4VRvQdH4ZIqxr1MiTO0u2fVO0JkQEGNfk1Ggom6a0X5QUS+nBpp++mnsH4v7rl0G52kUAQ=="
+                length="3351904"
+sparkle:edSignature="TT3xzJjR0N0UdG4bvQsh+B6eSJ4eZdZ2osYKjql4oGUAlQeS1M3vsG/LJFVXcApqxOFHf0cG8SK6aIPiFLbiCg=="
             />
         </item>
     </channel>
