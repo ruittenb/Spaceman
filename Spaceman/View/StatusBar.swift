@@ -21,6 +21,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
     private var updatesItem: NSMenuItem!
+    private var refreshItem: NSMenuItem!
     private var prefItem: NSMenuItem!
     private var quitItem: NSMenuItem!
     private var prefsWindow: PreferencesWindow!
@@ -62,6 +63,15 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
             updatesItem.badge = nil
         }
 
+        refreshItem = NSMenuItem(
+            title: "Refresh",
+            action: #selector(refreshSpaces(_:)),
+            keyEquivalent: "")
+        refreshItem.target = self
+        Task { @MainActor in
+            refreshItem.setShortcut(for: .refresh)
+        }
+
         prefItem = NSMenuItem(
             title: "Preferences...",
             action: #selector(showPreferencesWindow(_:)),
@@ -79,8 +89,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(NSMenuItem.separator())
-        statusBarMenu.addItem(updatesItem)
+        statusBarMenu.addItem(refreshItem)
         statusBarMenu.addItem(prefItem)
+        statusBarMenu.addItem(NSMenuItem.separator())
+        statusBarMenu.addItem(updatesItem)
         statusBarMenu.addItem(quitItem)
         //statusBarItem.menu = statusBarMenu
 
@@ -164,7 +176,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
             return
         }
         // Remove previously inserted dynamic items between the fixed header and the updates item
-        let updatesIdx = statusBarMenu.index(of: updatesItem)
+        let updatesIdx = statusBarMenu.index(of: refreshItem)
         if updatesIdx > 2 {
             for _ in 2..<updatesIdx { statusBarMenu.removeItem(at: 2) }
         } else {
@@ -190,6 +202,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         // Insert in order at index 2
         var insertIndex = 2
         for item in itemsToInsert { statusBarMenu.insertItem(item, at: insertIndex); insertIndex += 1 }
+    }
+
+    @objc func refreshSpaces(_ sender: AnyObject) {
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
     @objc func showPreferencesWindow(_ sender: AnyObject) {

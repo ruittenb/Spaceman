@@ -13,11 +13,20 @@ class PreferencesViewModel: ObservableObject {
     private let nameStore = SpaceNameStore.shared
     @Published var spaceNamesDict: [String: SpaceNameInfo] = [:]
     @Published var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element] = []
+    @Published var backupStatusMessage: String?
+    @Published var backupStatusIsError: Bool = false
+    @Published var lastBackupDate: Date?
     var timer: Timer!
+
+    private static let settingsDirectory = FileManager.default.homeDirectoryForCurrentUser
+        .appendingPathComponent(".spaceman")
+    private static let settingsFile = settingsDirectory.appendingPathComponent("app-defaults.xml")
+    private static let bundleIdentifier = Bundle.main.bundleIdentifier!
 
     init() {
         timer = Timer()
         if autoRefreshSpaces { startTimer() }
+        refreshBackupDate()
     }
 
     func loadData() {
@@ -75,12 +84,22 @@ class PreferencesViewModel: ObservableObject {
         updatedInfo.colorHex = hexString
         spaceNamesDict[key] = updatedInfo
 
-        // Save immediately but don't rebuild sorted array (avoids ForEach recreation)
-        nameStore.save(spaceNamesDict)
+        // Save immediately but don't rebuild sorted array (avoids ForEach recreation).
+        // Use update() to merge into existing store, preserving disconnected display entries.
+        nameStore.update { stored in
+            for (key, info) in spaceNamesDict {
+                stored[key] = info
+            }
+        }
     }
 
     func persistChanges(for key: String?) {
-        nameStore.save(spaceNamesDict)
+        // Merge into existing store, preserving disconnected display entries.
+        nameStore.update { stored in
+            for (key, info) in spaceNamesDict {
+                stored[key] = info
+            }
+        }
         rebuildSortedSpaceNames()
     }
 
@@ -113,6 +132,62 @@ class PreferencesViewModel: ObservableObject {
 
         if sortedSpaceNamesDict.isEmpty {
             sortedSpaceNamesDict.append((key: "0", value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")))
+        }
+    }
+
+    // MARK: - Backup / Restore
+
+    func backupPreferences() {
+        let fm = FileManager.default
+        do {
+            try fm.createDirectory(at: Self.settingsDirectory, withIntermediateDirectories: true)
+            guard let domain = UserDefaults.standard.persistentDomain(forName: Self.bundleIdentifier) else {
+                showStatus("No preferences to backup", isError: true)
+                return
+            }
+            let data = try PropertyListSerialization.data(fromPropertyList: domain, format: .xml, options: 0)
+            try data.write(to: Self.settingsFile)
+
+            // Timestamped backup, matching Makefile convention
+            let formatter = ISO8601DateFormatter()
+            formatter.formatOptions = [.withYear, .withMonth, .withDay, .withTime, .withColonSeparatorInTime, .withTimeZone]
+            let timestamp = formatter.string(from: Date())
+            let timestampedFile = Self.settingsDirectory.appendingPathComponent("app-defaults-\(timestamp).xml")
+            try data.write(to: timestampedFile)
+
+            refreshBackupDate()
+            showStatus("Preferences saved", isError: false)
+        } catch {
+            showStatus("Backup failed", isError: true)
+        }
+    }
+
+    func restorePreferences() {
+        do {
+            let data = try Data(contentsOf: Self.settingsFile)
+            guard let dict = try PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any] else {
+                showStatus("Invalid backup file", isError: true)
+                return
+            }
+            UserDefaults.standard.setPersistentDomain(dict, forName: Self.bundleIdentifier)
+            NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+            loadData()
+            showStatus("Preferences restored", isError: false)
+        } catch {
+            showStatus("Restore failed", isError: true)
+        }
+    }
+
+    func refreshBackupDate() {
+        let attrs = try? FileManager.default.attributesOfItem(atPath: Self.settingsFile.path)
+        lastBackupDate = attrs?[.modificationDate] as? Date
+    }
+
+    private func showStatus(_ message: String, isError: Bool) {
+        backupStatusMessage = message
+        backupStatusIsError = isError
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.backupStatusMessage = nil
         }
     }
 }
