@@ -9,7 +9,7 @@ import Foundation
 import Sparkle
 import SwiftUI
 
-class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
+class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
@@ -42,7 +42,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
 
         shortcutHelper = ShortcutHelper()
         spaceSwitcher = SpaceSwitcher()
-        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: self)
 
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
@@ -341,7 +341,14 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, onError: flashStatusBar)
     }
 
+    // MARK: - SPUStandardUserDriverDelegate
+
+    var supportsGentleScheduledUpdateReminders: Bool {
+        return true
+    }
+
     // MARK: - SPUUpdaterDelegate
+
     func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
         // Update is available - show badge with version number
         DispatchQueue.main.async {
