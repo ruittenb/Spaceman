@@ -12,6 +12,8 @@ import SwiftUI
 class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
+    @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
+    @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("schema") private var keySet = KeySet.toprow
 
     private var visibleSpacesMode: VisibleSpacesMode {
@@ -24,6 +26,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
     private var refreshItem: NSMenuItem!
     private var prefItem: NSMenuItem!
     private var quitItem: NSMenuItem!
+    private var layoutMenuItem: NSMenuItem!
+    private var iconStyleMenuItem: NSMenuItem!
+    private var spacesShownMenuItem: NSMenuItem!
     private var prefsWindow: PreferencesWindow!
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
@@ -86,8 +91,44 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
             action: #selector(NSApplication.terminate(_:)),
             keyEquivalent: "")
 
+        // Build settings submenus
+        let layoutSubmenu = NSMenu()
+        for mode in LayoutMode.allCases {
+            let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectLayout(_:)), keyEquivalent: "")
+            item.tag = mode.rawValue
+            item.target = self
+            layoutSubmenu.addItem(item)
+        }
+        layoutMenuItem = NSMenuItem(title: "Layout", action: nil, keyEquivalent: "")
+        layoutMenuItem.submenu = layoutSubmenu
+
+        let iconStyleSubmenu = NSMenu()
+        for style in DisplayStyle.allCases {
+            let item = NSMenuItem(title: style.menuLabel, action: #selector(selectIconStyle(_:)), keyEquivalent: "")
+            item.tag = style.rawValue
+            item.target = self
+            iconStyleSubmenu.addItem(item)
+        }
+        iconStyleMenuItem = NSMenuItem(title: "Icon Style", action: nil, keyEquivalent: "")
+        iconStyleMenuItem.submenu = iconStyleSubmenu
+
+        let spacesShownSubmenu = NSMenu()
+        for mode in VisibleSpacesMode.allCases {
+            let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectSpacesShown(_:)), keyEquivalent: "")
+            item.tag = mode.rawValue
+            item.target = self
+            spacesShownSubmenu.addItem(item)
+        }
+        spacesShownMenuItem = NSMenuItem(title: "Spaces Shown", action: nil, keyEquivalent: "")
+        spacesShownMenuItem.submenu = spacesShownSubmenu
+
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
+        // Dynamic space items will be inserted starting at index 2
+        statusBarMenu.addItem(NSMenuItem.separator())
+        statusBarMenu.addItem(layoutMenuItem)
+        statusBarMenu.addItem(iconStyleMenuItem)
+        statusBarMenu.addItem(spacesShownMenuItem)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(refreshItem)
         statusBarMenu.addItem(prefItem)
@@ -175,15 +216,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
         guard spaces.count > 0 else {
             return
         }
-        // Remove previously inserted dynamic items between the fixed header and the updates item
-        let updatesIdx = statusBarMenu.index(of: refreshItem)
-        if updatesIdx > 2 {
-            for _ in 2..<updatesIdx { statusBarMenu.removeItem(at: 2) }
-        } else {
-            // Fallback to old behavior if updatesItem not found
-            while statusBarMenu.items.count > 2 && !statusBarMenu.items[2].isSeparatorItem {
-                statusBarMenu.removeItem(at: 2)
-            }
+        // Remove previously inserted dynamic items between the fixed header and the settings submenus
+        let boundaryIdx = statusBarMenu.index(of: layoutMenuItem)
+        // There's a separator before layoutMenuItem; dynamic items sit between index 2 and that separator
+        let separatorIdx = boundaryIdx - 1
+        if separatorIdx > 2 {
+            for _ in 2..<separatorIdx { statusBarMenu.removeItem(at: 2) }
         }
         // Build items grouped by display with a separator between displays
         var itemsToInsert: [NSMenuItem] = []
@@ -195,16 +233,45 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate {
             itemsToInsert.append(makeSwitchToSpaceItem(space: space))
             lastDisplayID = space.displayID
         }
-        // Ensure there is a separator between the last space item and the updates item
-        if !itemsToInsert.isEmpty {
-            itemsToInsert.append(NSMenuItem.separator())
-        }
+        // No trailing separator needed — the fixed separator before the settings submenus handles it
         // Insert in order at index 2
         var insertIndex = 2
         for item in itemsToInsert { statusBarMenu.insertItem(item, at: insertIndex); insertIndex += 1 }
     }
 
     @objc func refreshSpaces(_ sender: AnyObject) {
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    // MARK: - Settings Submenus
+
+    func menuWillOpen(_ menu: NSMenu) {
+        // Update checkmarks on submenu items to reflect current settings
+        for item in layoutMenuItem.submenu?.items ?? [] {
+            item.state = item.tag == layoutMode.rawValue ? .on : .off
+        }
+        for item in iconStyleMenuItem.submenu?.items ?? [] {
+            item.state = item.tag == displayStyle.rawValue ? .on : .off
+        }
+        for item in spacesShownMenuItem.submenu?.items ?? [] {
+            item.state = item.tag == visibleSpacesModeRaw ? .on : .off
+        }
+    }
+
+    @objc func selectLayout(_ sender: NSMenuItem) {
+        guard let mode = LayoutMode(rawValue: sender.tag) else { return }
+        layoutMode = mode
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func selectIconStyle(_ sender: NSMenuItem) {
+        guard let style = DisplayStyle(rawValue: sender.tag) else { return }
+        displayStyle = style
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func selectSpacesShown(_ sender: NSMenuItem) {
+        visibleSpacesModeRaw = sender.tag
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
