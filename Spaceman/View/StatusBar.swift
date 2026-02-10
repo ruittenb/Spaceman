@@ -36,6 +36,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var aboutView: NSHostingView<AboutView>!
 
     public var iconCreator: IconCreator!
+    public var effectiveVisibleMode: VisibleSpacesMode?
 
     override init() {
         super.init()
@@ -165,12 +166,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 }
             } else if event.type == .leftMouseDown {
                 // Switch desktops on left click, unless one single space shown
-                let mode: VisibleSpacesMode = {
-                    if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil && self.hideInactiveSpaces {
-                        return .currentOnly
-                    }
-                    return self.visibleSpacesMode
-                }()
+                let mode = self.effectiveVisibleMode ?? self.visibleSpacesMode
                 guard mode != .currentOnly else {
                     print("Not switching: just one space visible")
                     return
@@ -202,6 +198,15 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 }
             }
         }
+    }
+
+    func isIconVisible() -> Bool {
+        guard let window = statusBarItem.button?.window else { return false }
+        return window.occlusionState.contains(.visible)
+    }
+
+    func statusBarWindow() -> NSWindow? {
+        return statusBarItem.button?.window
     }
 
     func getButtonFrame() -> NSRect? {

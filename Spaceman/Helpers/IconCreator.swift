@@ -31,7 +31,7 @@ class IconCreator {
     public var sizes: GuiSize!
     public var iconWidths: [IconWidth] = []
 
-    public func getIcon(for spaces: [Space], buttonFrame: NSRect? = nil, appearance: NSAppearance? = nil) -> NSImage {
+    public func getIcon(for spaces: [Space], buttonFrame: NSRect? = nil, appearance: NSAppearance? = nil, visibleModeOverride: VisibleSpacesMode? = nil, neighborRadiusOverride: Int? = nil) -> NSImage {
         sizes = Constants.sizes[layoutMode]
         gapWidth = CGFloat(sizes.GAP_WIDTH_SPACES)
         displayGapWidth = CGFloat(sizes.GAP_WIDTH_DISPLAYS)
@@ -60,7 +60,13 @@ class IconCreator {
         }
 
         // Determine which spaces to include based on mode
-        let filteredSpaces = filterSpaces(spaces)
+        let effectiveMode = visibleModeOverride ?? {
+            if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil && hideInactiveSpaces {
+                return .currentOnly
+            }
+            return visibleSpacesMode
+        }()
+        let filteredSpaces = filterSpaces(spaces, mode: effectiveMode, neighborRadiusOverride: neighborRadiusOverride)
 
         // Gracefully handle transient empty state (e.g., during Mission Control updates)
         if filteredSpaces.isEmpty {
@@ -106,7 +112,7 @@ class IconCreator {
         case .numbersAndRects:
             icons = createRectWithNumbersIcons(icons, filteredSpaces)
         case .names, .numbersAndNames:
-            icons = createNamedIcons(icons, filteredSpaces, withNumbers: displayStyle == .numbersAndNames)
+            icons = createNamedIcons(icons, filteredSpaces, withNumbers: displayStyle == .numbersAndNames, mode: effectiveMode)
         }
 
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
@@ -122,16 +128,8 @@ class IconCreator {
         }
     }
 
-    private func filterSpaces(_ spaces: [Space]) -> [Space] {
-        // Backwards compatibility: if legacy flag is true and visible mode wasn't set explicitly, treat as current only
-        let mode: VisibleSpacesMode = {
-            if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil && hideInactiveSpaces {
-                return .currentOnly
-            }
-            return visibleSpacesMode
-        }()
-
-        return spaceFilter.filter(spaces, mode: mode, neighborRadius: neighborRadius)
+    private func filterSpaces(_ spaces: [Space], mode: VisibleSpacesMode, neighborRadiusOverride: Int? = nil) -> [Space] {
+        return spaceFilter.filter(spaces, mode: mode, neighborRadius: neighborRadiusOverride ?? neighborRadius)
     }
 
     private func createNumberedIcons(_ spaces: [Space]) -> [NSImage] {
@@ -271,7 +269,7 @@ class IconCreator {
         return newIcons
     }
 
-    private func createNamedIcons(_ icons: [NSImage], _ spaces: [Space], withNumbers: Bool) -> [NSImage] {
+    private func createNamedIcons(_ icons: [NSImage], _ spaces: [Space], withNumbers: Bool, mode: VisibleSpacesMode) -> [NSImage] {
         var index = 0
         var newIcons = [NSImage]()
 
@@ -283,7 +281,7 @@ class IconCreator {
             let ucName = s.spaceName.uppercased()
             // Truncate name for space-constrained modes
             let shownName: String
-            switch visibleSpacesMode {
+            switch mode {
             case .all:
                 shownName = String(ucName.prefix(4))
             case .neighbors:
