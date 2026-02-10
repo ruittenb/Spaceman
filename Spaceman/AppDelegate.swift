@@ -23,6 +23,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var autoCompactEnabled = false
     private var occlusionObserver: NSObjectProtocol?
     private var safetyTimer: Timer?
+    private var compactDebounceWorkItem: DispatchWorkItem?
 
     static var activeSpaceIDs: Set<String> = []
 
@@ -110,7 +111,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// Compact one level if the icon has been evicted. Called after every render
     /// and periodically by the visibility timer to catch external evictions.
+    /// Debounced so transient occlusion changes (e.g., during a space swipe
+    /// animation) don't trigger unnecessary compaction.
     private func compactIfEvicted() {
+        guard autoCompactEnabled, !statusBar.isIconVisible() else { return }
+
+        compactDebounceWorkItem?.cancel()
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.performCompaction()
+        }
+        compactDebounceWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: workItem)
+    }
+
+    private func performCompaction() {
         guard autoCompactEnabled, !statusBar.isIconVisible() else { return }
 
         let currentMode = effectiveVisibleMode
