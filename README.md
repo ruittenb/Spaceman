@@ -84,6 +84,11 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 - **When displays are stacked**: macOS standard is to sort displays by the X coordinate of their center. This option enables sorting by Y coordinate
 - **Open System Settings → Displays**: Opens the System Settings panel for Displays. Click [Arrange] to adjust the arrangement of the displays
 
+**Backup**
+- **Backup Preferences**: Saves all your preferences to a file (in `~/.spaceman/`)
+- **Restore Preferences**: Loads preferences from that file
+
+
 ### Spaces Tab
 
 <img src="images/Preferences-Spaces-2.png" width="66%" height="auto">
