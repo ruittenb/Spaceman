@@ -20,4 +20,5 @@ enum VisibleSpacesMode: Int, CaseIterable {
         case .currentOnly: return "Current Only"
         }
     }
+
 }

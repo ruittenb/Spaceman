@@ -14,6 +14,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusBar: StatusBar!
     private var spaceObserver: SpaceObserver!
 
+    // Auto-compact: degrade visible spaces mode when the icon is evicted from the menu bar
+    private var effectiveVisibleMode: VisibleSpacesMode? {
+        didSet { statusBar?.effectiveVisibleMode = effectiveVisibleMode }
+    }
+    private var effectiveNeighborRadius: Int?
+    private var lastSpaces: [Space] = []
+    private var autoCompactEnabled = false
+    private var occlusionObserver: NSObjectProtocol?
+    private var safetyTimer: Timer?
+
     static var activeSpaceIDs: Set<String> = []
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -43,6 +53,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             selector: #selector(openPreferencesFromScript),
             name: NSNotification.Name("OpenPreferences"),
             object: nil)
+
+        // Auto-compact: observe the status bar window's occlusion state
+        // The window may not exist yet at launch; try after a short delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.autoCompactEnabled = true
+            self.setupOcclusionObserver()
+            self.compactIfEvicted()
+            // Safety-net timer in case the notification doesn't fire
+            self.safetyTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { [weak self] _ in
+                self?.compactIfEvicted()
+            }
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -56,6 +78,62 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func openPreferencesFromScript() {
         statusBar.showPreferencesWindow(self)
+    }
+
+    // MARK: - Auto-compact
+
+    private func renderIcon(for spaces: [Space]) {
+        let buttonAppearance = statusBar.getButtonAppearance()
+        let icon = iconCreator.getIcon(for: spaces, buttonFrame: nil,
+                                        appearance: buttonAppearance,
+                                        visibleModeOverride: effectiveVisibleMode,
+                                        neighborRadiusOverride: effectiveNeighborRadius)
+        statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
+
+        // Set up the occlusion observer once the window exists
+        if occlusionObserver == nil {
+            setupOcclusionObserver()
+        }
+    }
+
+    private func setupOcclusionObserver() {
+        guard occlusionObserver == nil,
+              let window = statusBar.statusBarWindow() else { return }
+        occlusionObserver = NotificationCenter.default.addObserver(
+            forName: NSWindow.didChangeOcclusionStateNotification,
+            object: window,
+            queue: .main
+        ) { [weak self] _ in
+            self?.compactIfEvicted()
+        }
+    }
+
+    /// Compact one level if the icon has been evicted. Called after every render
+    /// and periodically by the visibility timer to catch external evictions.
+    private func compactIfEvicted() {
+        guard autoCompactEnabled, !statusBar.isIconVisible() else { return }
+
+        let currentMode = effectiveVisibleMode
+            ?? VisibleSpacesMode(rawValue: UserDefaults.standard.integer(forKey: "visibleSpacesMode"))
+            ?? .all
+        let currentRadius = effectiveNeighborRadius
+            ?? (currentMode == .neighbors ? max(1, UserDefaults.standard.integer(forKey: "neighborRadius")) : 0)
+
+        switch currentMode {
+        case .all:
+            effectiveVisibleMode = .neighbors
+            effectiveNeighborRadius = 3
+        case .neighbors where currentRadius > 1:
+            effectiveVisibleMode = .neighbors
+            effectiveNeighborRadius = currentRadius - 1
+        case .neighbors:
+            effectiveVisibleMode = .currentOnly
+            effectiveNeighborRadius = nil
+        case .currentOnly:
+            return
+        }
+
+        renderIcon(for: lastSpaces)
     }
 
     // MARK: - Legacy Settings Migration
@@ -92,13 +170,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate: SpaceObserverDelegate {
     func didUpdateSpaces(spaces: [Space]) {
-        let buttonFrame = statusBar.getButtonFrame()
-        let buttonAppearance = statusBar.getButtonAppearance()
-        let icon = iconCreator.getIcon(for: spaces, buttonFrame: buttonFrame, appearance: buttonAppearance)
-        statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
-
+        lastSpaces = spaces
         AppDelegate.activeSpaceIDs = Set(spaces.map { $0.spaceID })
         NotificationCenter.default.post(name: NSNotification.Name("ActiveSpacesChanged"), object: nil)
+
+        effectiveVisibleMode = nil
+        effectiveNeighborRadius = nil
+        renderIcon(for: spaces)
     }
 }
 
