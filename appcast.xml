@@ -3,24 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.13.7: backup/restore preferences</title>
+            <title>v1.13.8 change layout and icon style from menu</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>- Fixed space name assignments when external monitor configuration is changed</li>
-<li>- Added backup/restore preferences buttons</li>
+                    <li>Added menu options to change the icon layout, icon style and number of neighbors shown</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Mon, 09 Feb 2026 23:22:58 +0100</pubDate>
+            <pubDate>Tue, 10 Feb 2026 10:23:06 +0100</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.13.7/Spaceman-1.13.7.dmg"
-                sparkle:version="1.13.7"
-                sparkle:shortVersionString="1.13.7"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.13.8/Spaceman-1.13.8.dmg"
+                sparkle:version="1.13.8"
+                sparkle:shortVersionString="1.13.8"
                 type="application/octet-stream"
-                length="3351904"
-sparkle:edSignature="TT3xzJjR0N0UdG4bvQsh+B6eSJ4eZdZ2osYKjql4oGUAlQeS1M3vsG/LJFVXcApqxOFHf0cG8SK6aIPiFLbiCg=="
+                length="3355577"
+sparkle:edSignature="EYv8V4tb5j+ZarWy3XISvdUfHU+ZSY+r+br6rfUTiPw3qn9BXT8Sdbh6phr5aRBeFAOnw7kuXRJVrddbDK2mCg=="
             />
         </item>
     </channel>
