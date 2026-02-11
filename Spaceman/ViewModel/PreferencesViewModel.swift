@@ -15,6 +15,8 @@ class PreferencesViewModel: ObservableObject {
     @Published var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element] = []
     @Published var backupStatusMessage: String?
     @Published var backupStatusIsError: Bool = false
+    @Published var restoreStatusMessage: String?
+    @Published var restoreStatusIsError: Bool = false
     @Published var lastBackupDate: Date?
     var timer: Timer!
 
@@ -142,7 +144,7 @@ class PreferencesViewModel: ObservableObject {
         do {
             try fm.createDirectory(at: Self.settingsDirectory, withIntermediateDirectories: true)
             guard let domain = UserDefaults.standard.persistentDomain(forName: Self.bundleIdentifier) else {
-                showStatus("No preferences to backup", isError: true)
+                showBackupStatus("No preferences to backup", isError: true)
                 return
             }
             let data = try PropertyListSerialization.data(fromPropertyList: domain, format: .xml, options: 0)
@@ -156,9 +158,9 @@ class PreferencesViewModel: ObservableObject {
             try data.write(to: timestampedFile)
 
             refreshBackupDate()
-            showStatus("Preferences saved", isError: false)
+            showBackupStatus("Preferences saved", isError: false)
         } catch {
-            showStatus("Backup failed", isError: true)
+            showBackupStatus("Backup failed", isError: true)
         }
     }
 
@@ -166,15 +168,15 @@ class PreferencesViewModel: ObservableObject {
         do {
             let data = try Data(contentsOf: Self.settingsFile)
             guard let dict = try PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any] else {
-                showStatus("Invalid backup file", isError: true)
+                showRestoreStatus("Invalid backup file", isError: true)
                 return
             }
             UserDefaults.standard.setPersistentDomain(dict, forName: Self.bundleIdentifier)
             NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
             loadData()
-            showStatus("Preferences restored", isError: false)
+            showRestoreStatus("Preferences restored", isError: false)
         } catch {
-            showStatus("Restore failed", isError: true)
+            showRestoreStatus("Restore failed", isError: true)
         }
     }
 
@@ -183,11 +185,19 @@ class PreferencesViewModel: ObservableObject {
         lastBackupDate = attrs?[.modificationDate] as? Date
     }
 
-    private func showStatus(_ message: String, isError: Bool) {
+    private func showBackupStatus(_ message: String, isError: Bool) {
         backupStatusMessage = message
         backupStatusIsError = isError
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             self?.backupStatusMessage = nil
+        }
+    }
+
+    private func showRestoreStatus(_ message: String, isError: Bool) {
+        restoreStatusMessage = message
+        restoreStatusIsError = isError
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.restoreStatusMessage = nil
         }
     }
 }

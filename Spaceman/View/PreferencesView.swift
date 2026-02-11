@@ -268,7 +268,22 @@ struct PreferencesView: View {
                 Button("Backup Preferences") {
                     prefsVM.backupPreferences()
                 }
-                if let date = prefsVM.lastBackupDate {
+                if let message = prefsVM.backupStatusMessage {
+                    Text(message)
+                        .font(.caption)
+                        .foregroundColor(prefsVM.backupStatusIsError ? .red : .green)
+                }
+            }
+            HStack(spacing: 12) {
+                Button("Restore Preferences") {
+                    prefsVM.restorePreferences()
+                }
+                .disabled(prefsVM.lastBackupDate == nil)
+                if let message = prefsVM.restoreStatusMessage {
+                    Text(message)
+                        .font(.caption)
+                        .foregroundColor(prefsVM.restoreStatusIsError ? .red : .green)
+                } else if let date = prefsVM.lastBackupDate {
                     Text("Last backup: \(date, style: .date) \(date, style: .time)")
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -277,16 +292,6 @@ struct PreferencesView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
-            }
-            HStack(spacing: 12) {
-                Button("Restore Preferences") {
-                    prefsVM.restorePreferences()
-                }
-                .disabled(prefsVM.lastBackupDate == nil)
-                Text(prefsVM.backupStatusMessage ?? "    ")
-                    .font(.caption)
-                    .foregroundColor(prefsVM.backupStatusIsError ? .red : .green)
-                    .opacity(prefsVM.backupStatusMessage != nil ? 1 : 0)
             }
             .padding(.bottom)
         }
