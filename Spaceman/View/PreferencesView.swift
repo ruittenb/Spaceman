@@ -23,6 +23,7 @@ struct PreferencesView: View {
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
+    @AppStorage("autoCompact") private var autoCompact = false
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
@@ -495,6 +496,11 @@ struct PreferencesView: View {
             .onChange(of: neighborRadius) { _ in
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
             }
+            Toggle("Show fewer spaces if insufficient room in menu bar", isOn: $autoCompact)
+                .padding(.top, 2)
+                .onChange(of: autoCompact) { _ in
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                }
         }
     }
 
