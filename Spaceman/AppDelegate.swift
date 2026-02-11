@@ -20,14 +20,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     private var effectiveNeighborRadius: Int?
     private var lastSpaces: [Space] = []
-    private var autoCompactEnabled = false
     private var occlusionObserver: NSObjectProtocol?
+    private var autoCompactObserver: NSObjectProtocol?
     private var safetyTimer: Timer?
     private var compactDebounceWorkItem: DispatchWorkItem?
 
     static var activeSpaceIDs: Set<String> = []
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        UserDefaults.standard.register(defaults: ["autoCompact": false])
+
         // Legacy settings migration - can be removed in future versions
         performLegacyMigrations()
 
@@ -58,12 +60,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Auto-compact: observe the status bar window's occlusion state
         // The window may not exist yet at launch; try after a short delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.autoCompactEnabled = true
             self.setupOcclusionObserver()
             self.compactIfEvicted()
             // Safety-net timer in case the notification doesn't fire
             self.safetyTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { [weak self] _ in
                 self?.compactIfEvicted()
+            }
+        }
+
+        // Reset compaction overrides when auto-compact is toggled off
+        autoCompactObserver = NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("ButtonPressed"),
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            if !UserDefaults.standard.bool(forKey: "autoCompact"),
+               self.effectiveVisibleMode != nil {
+                self.effectiveVisibleMode = nil
+                self.effectiveNeighborRadius = nil
+                self.renderIcon(for: self.lastSpaces)
             }
         }
     }
@@ -114,7 +130,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// Debounced so transient occlusion changes (e.g., during a space swipe
     /// animation) don't trigger unnecessary compaction.
     private func compactIfEvicted() {
-        guard autoCompactEnabled, !statusBar.isIconVisible() else { return }
+        guard UserDefaults.standard.bool(forKey: "autoCompact"), !statusBar.isIconVisible() else { return }
 
         compactDebounceWorkItem?.cancel()
         let workItem = DispatchWorkItem { [weak self] in
@@ -125,7 +141,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func performCompaction() {
-        guard autoCompactEnabled, !statusBar.isIconVisible() else { return }
+        guard UserDefaults.standard.bool(forKey: "autoCompact"), !statusBar.isIconVisible() else { return }
 
         let currentMode = effectiveVisibleMode
             ?? VisibleSpacesMode(rawValue: UserDefaults.standard.integer(forKey: "visibleSpacesMode"))
