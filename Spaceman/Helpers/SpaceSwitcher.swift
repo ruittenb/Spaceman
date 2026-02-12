@@ -9,10 +9,9 @@ import Foundation
 import SwiftUI
 
 class SpaceSwitcher {
-    private var shortcutHelper: ShortcutHelper!
+    private let shortcutHelper = ShortcutHelper()
 
     init() {
-        shortcutHelper = ShortcutHelper()
         // Check if the process has Accessibility permission, and make sure it has been added to the list
         AXIsProcessTrusted()
     }
@@ -29,8 +28,8 @@ class SpaceSwitcher {
             if let scriptObject = NSAppleScript(source: appleScript) {
                 scriptObject.executeAndReturnError(&error)
                 if error != nil {
-                    let errorNumber: Int = error?[NSAppleScript.errorNumber] as! Int
-                    let errorBriefMessage: String = error?[NSAppleScript.errorBriefMessage] as! String
+                    guard let errorNumber = error?[NSAppleScript.errorNumber] as? Int else { return }
+                    guard let errorBriefMessage = error?[NSAppleScript.errorBriefMessage] as? String else { return }
                     let settingsName = systemSettingsName()
                     let permissionType: String
                     switch abs(errorNumber) {

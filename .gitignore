@@ -1,8 +1,17 @@
 .DS_Store
 .claude
+TODO.txt
+
 # Build artifacts
 localbuild/
 DerivedData/
 *.xcarchive
 *.dmg
-TODO.txt
+
+# Xcode user data
+xcuserdata/
+*.xcuserstate
+
+# Swift Package Manager
+.build/
+.swiftpm/

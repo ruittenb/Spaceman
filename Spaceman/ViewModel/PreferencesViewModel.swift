@@ -23,7 +23,7 @@ class PreferencesViewModel: ObservableObject {
     private static let settingsDirectory = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent(".spaceman")
     private static let settingsFile = settingsDirectory.appendingPathComponent("app-defaults.xml")
-    private static let bundleIdentifier = Bundle.main.bundleIdentifier!
+    private static let bundleIdentifier = Bundle.main.bundleIdentifier ?? "dev.ruittenb.Spaceman"
 
     init() {
         timer = Timer()
