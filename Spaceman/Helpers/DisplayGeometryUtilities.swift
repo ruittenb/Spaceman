@@ -19,12 +19,12 @@ class DisplayGeometryUtilities {
         for screen in NSScreen.screens {
             if let num = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber,
                CGDirectDisplayID(num.uint32Value) == did {
-                let f = screen.frame
-                return CGPoint(x: f.origin.x + f.size.width/2, y: f.origin.y + f.size.height/2)
+                let frame = screen.frame
+                return CGPoint(x: frame.origin.x + frame.size.width/2, y: frame.origin.y + frame.size.height/2)
             }
         }
-        let b = CGDisplayBounds(did)
-        return CGPoint(x: b.origin.x + b.size.width/2, y: b.origin.y + b.size.height/2)
+        let bounds = CGDisplayBounds(did)
+        return CGPoint(x: bounds.origin.x + bounds.size.width/2, y: bounds.origin.y + bounds.size.height/2)
     }
 
     static func getDisplayHeight(display: NSDictionary) -> CGFloat {

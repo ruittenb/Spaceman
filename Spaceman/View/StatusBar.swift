@@ -42,7 +42,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
         shortcutHelper = ShortcutHelper()
         spaceSwitcher = SpaceSwitcher()
-        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: self)
+        updaterController = SPUStandardUpdaterController(
+            startingUpdater: true, updaterDelegate: self, userDriverDelegate: self)
 
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
@@ -137,7 +138,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(updatesItem)
         statusBarMenu.addItem(quitItem)
-        //statusBarItem.menu = statusBarMenu
+        // statusBarItem.menu = statusBarMenu
 
         statusBarItem.button?.action = #selector(handleClick)
         statusBarItem.button?.target = self
@@ -155,12 +156,14 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
                     // This calculation is not right, but looks good. This is likely because of the
                     // NSMenu popup having its own visual padding, borders and/or drop shadows.
-                    let menuOrigin = CGPoint(x: buttonFrame.minX, y: buttonFrame.minY - CGFloat(self.iconCreator.sizes.ICON_HEIGHT) / 2)
+                    let menuOrigin = CGPoint(
+                        x: buttonFrame.minX,
+                        y: buttonFrame.minY - CGFloat(self.iconCreator.sizes.ICON_HEIGHT) / 2)
                     sbMenu.minimumWidth = buttonFrame.width
                     sbMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
                     sbButton.isHighlighted = false
                 }
-            } else if (event.type == .leftMouseDown) {
+            } else if event.type == .leftMouseDown {
                 // Switch desktops on left click, unless one single space shown
                 let mode: VisibleSpacesMode = {
                     if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil && self.hideInactiveSpaces {
@@ -227,7 +230,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
         // Build items grouped by display with a separator between displays
         var itemsToInsert: [NSMenuItem] = []
-        var lastDisplayID: String? = nil
+        var lastDisplayID: String?
         for space in spaces {
             if let last = lastDisplayID, last != space.displayID {
                 itemsToInsert.append(NSMenuItem.separator())
@@ -337,7 +340,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func switchToSpace(_ sender: NSMenuItem) {
         let spaceNumber = sender.tag
-        guard (spaceNumber >= -2 && spaceNumber != 0 && spaceNumber <= 10) else {
+        guard spaceNumber >= -2 && spaceNumber != 0 && spaceNumber <= 10 else {
             return
         }
         spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, onError: flashStatusBar)
@@ -357,7 +360,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             self.updatesItem.title = "Update available..."
             if #available(macOS 14.0, *) {
                 let versionString = item.displayVersionString
-                self.updatesItem.badge = NSMenuItemBadge(string: "v\(versionString) available")
+                self.updatesItem.badge = NSMenuItemBadge(string: "v\(versionString)")
             }
         }
     }

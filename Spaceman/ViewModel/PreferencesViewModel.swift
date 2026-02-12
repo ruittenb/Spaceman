@@ -23,7 +23,7 @@ class PreferencesViewModel: ObservableObject {
     private static let settingsDirectory = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent(".spaceman")
     private static let settingsFile = settingsDirectory.appendingPathComponent("app-defaults.xml")
-    private static let bundleIdentifier = Bundle.main.bundleIdentifier!
+    private static let bundleIdentifier = Bundle.main.bundleIdentifier ?? "dev.ruittenb.Spaceman"
 
     init() {
         timer = Timer()
@@ -106,7 +106,9 @@ class PreferencesViewModel: ObservableObject {
     }
 
     func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshSpaces), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(
+            timeInterval: 5, target: self,
+            selector: #selector(refreshSpaces), userInfo: nil, repeats: true)
     }
 
     func pauseTimer() {
@@ -133,7 +135,9 @@ class PreferencesViewModel: ObservableObject {
         }
 
         if sortedSpaceNamesDict.isEmpty {
-            sortedSpaceNamesDict.append((key: "0", value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")))
+            sortedSpaceNamesDict.append((
+                key: "0",
+                value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")))
         }
     }
 
@@ -152,7 +156,9 @@ class PreferencesViewModel: ObservableObject {
 
             // Timestamped backup, matching Makefile convention
             let formatter = ISO8601DateFormatter()
-            formatter.formatOptions = [.withYear, .withMonth, .withDay, .withTime, .withColonSeparatorInTime, .withTimeZone]
+            formatter.formatOptions = [
+                .withYear, .withMonth, .withDay, .withTime,
+                .withColonSeparatorInTime, .withTimeZone]
             let timestamp = formatter.string(from: Date())
             let timestampedFile = Self.settingsDirectory.appendingPathComponent("app-defaults-\(timestamp).xml")
             try data.write(to: timestampedFile)
@@ -167,7 +173,8 @@ class PreferencesViewModel: ObservableObject {
     func restorePreferences() {
         do {
             let data = try Data(contentsOf: Self.settingsFile)
-            guard let dict = try PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any] else {
+            guard let dict = try PropertyListSerialization.propertyList(
+                from: data, format: nil) as? [String: Any] else {
                 showRestoreStatus("Invalid backup file", isError: true)
                 return
             }

@@ -78,7 +78,11 @@ class SpaceObserver {
     }
 
     // Compare two displays according to user preferences
-    func compareDisplays(d1: NSDictionary, d2: NSDictionary, verticalDirection: VerticalDirection, horizontalDirection: HorizontalDirection) -> Bool {
+    func compareDisplays(
+        d1: NSDictionary, d2: NSDictionary,
+        verticalDirection: VerticalDirection,
+        horizontalDirection: HorizontalDirection
+    ) -> Bool {
         let c1 = DisplayGeometryUtilities.getDisplayCenter(display: d1)
         let c2 = DisplayGeometryUtilities.getDisplayCenter(display: d2)
         let isVerticallyArranged = DisplayGeometryUtilities.getIsVerticallyArranged(d1: d1, d2: d2)
@@ -130,20 +134,36 @@ class SpaceObserver {
 
     @objc public func updateSpaceInformation() {
         let restartNumberingByDisplay = defaults.bool(forKey: "restartNumberingByDisplay")
-        let horizontalDirection = HorizontalDirection(rawValue: defaults.integer(forKey: "horizontalDirection")) ?? .defaultOrder
-        let verticalDirection = VerticalDirection(rawValue: defaults.integer(forKey: "verticalDirection")) ?? .bottomGoesFirst
+        let horizontalDirection = HorizontalDirection(
+            rawValue: defaults.integer(forKey: "horizontalDirection")) ?? .defaultOrder
+        let verticalDirection = VerticalDirection(
+            rawValue: defaults.integer(forKey: "verticalDirection")) ?? .bottomGoesFirst
         let needsRevalidation = _needsPositionRevalidation
         _needsPositionRevalidation = false
         workerQueue.async { [weak self] in
-            self?.performSpaceInformationUpdate(restartNumberingByDisplay: restartNumberingByDisplay, horizontalDirection: horizontalDirection, verticalDirection: verticalDirection, needsRevalidation: needsRevalidation)
+            self?.performSpaceInformationUpdate(
+                restartNumberingByDisplay: restartNumberingByDisplay,
+                horizontalDirection: horizontalDirection,
+                verticalDirection: verticalDirection,
+                needsRevalidation: needsRevalidation)
         }
     }
 
-    private func performSpaceInformationUpdate(restartNumberingByDisplay: Bool, horizontalDirection: HorizontalDirection, verticalDirection: VerticalDirection, needsRevalidation: Bool) {
+    private func performSpaceInformationUpdate(
+        restartNumberingByDisplay: Bool,
+        horizontalDirection: HorizontalDirection,
+        verticalDirection: VerticalDirection,
+        needsRevalidation: Bool
+    ) {
         guard var displays = fetchDisplaySpaces() else { return }
 
         // Sort displays based on user preference (incorporating display ordering feature)
-        displays.sort { a, b in compareDisplays(d1: a, d2: b, verticalDirection: verticalDirection, horizontalDirection: horizontalDirection) }
+        displays.sort { a, b in
+            compareDisplays(
+                d1: a, d2: b,
+                verticalDirection: verticalDirection,
+                horizontalDirection: horizontalDirection)
+        }
 
         // Map sorted display to index (1..D)
         var currentDisplayIndexByID: [String: Int] = [:]
@@ -224,7 +244,7 @@ class SpaceObserver {
                 guard let spaceNumber = spaceNumberMap[managedSpaceID] else { continue }
 
                 let isCurrentSpace = currentSpaceID == managedInt
-                let isFullScreen = spaceDict["TileLayoutManager"] as? [String: Any] != nil
+                let isFullScreen = spaceDict["TileLayoutManager"] is [String: Any]
 
                 positionOnThisDisplay += 1
 
@@ -341,7 +361,9 @@ class SpaceObserver {
         connectedDisplayIDs: Set<String>? = nil
     ) -> SpaceNameInfo? {
         // First try exact match by displayID + position
-        if let match = storedNames.values.first(where: { $0.displayUUID == displayID && $0.positionOnDisplay == position }) {
+        if let match = storedNames.values.first(where: {
+            $0.displayUUID == displayID && $0.positionOnDisplay == position
+        }) {
             return match
         }
         // If connectedDisplayIDs provided, search entries from disconnected displays by position
@@ -367,12 +389,18 @@ class SpaceObserver {
     ) -> SpaceNameInfo? {
         switch strategy {
         case .positionOnly:
-            return findSpaceByPosition(in: storedNames, displayID: displayID, position: position, connectedDisplayIDs: connectedDisplayIDs)
+            return findSpaceByPosition(
+                in: storedNames, displayID: displayID,
+                position: position,
+                connectedDisplayIDs: connectedDisplayIDs)
         case .idWithPositionFallback:
             if let idMatch = storedNames[managedSpaceID] {
                 return idMatch
             }
-            return findSpaceByPosition(in: storedNames, displayID: displayID, position: position, connectedDisplayIDs: connectedDisplayIDs)
+            return findSpaceByPosition(
+                in: storedNames, displayID: displayID,
+                position: position,
+                connectedDisplayIDs: connectedDisplayIDs)
         case .idOnly:
             return storedNames[managedSpaceID]
         }

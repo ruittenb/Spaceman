@@ -16,13 +16,13 @@ class OSVersion {
     }
 
     func exceeds(_ maj: Int, _ min: Int, _ patch: Int = 0) -> Bool {
-        if (version.majorVersion > maj) {
+        if version.majorVersion > maj {
             return true
-        } else if (version.majorVersion < maj) {
+        } else if version.majorVersion < maj {
             return false
-        } else if (version.minorVersion > min) {
+        } else if version.minorVersion > min {
             return true
-        } else if (version.minorVersion < min) {
+        } else if version.minorVersion < min {
             return false
         } else {
             return version.patchVersion >= patch

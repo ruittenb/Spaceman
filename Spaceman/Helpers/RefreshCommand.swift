@@ -14,4 +14,3 @@ class RefreshCommand: NSScriptCommand {
         return nil
     }
 }
-

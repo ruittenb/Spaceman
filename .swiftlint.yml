@@ -1,0 +1,19 @@
+included:
+  - Spaceman
+
+disabled_rules:
+  - identifier_name
+  - cyclomatic_complexity
+  - function_body_length
+  - type_body_length
+  - large_tuple
+  - file_length
+
+opt_in_rules:
+  - force_cast
+  - force_try
+  - force_unwrapping
+
+line_length:
+  warning: 120
+  error: 200

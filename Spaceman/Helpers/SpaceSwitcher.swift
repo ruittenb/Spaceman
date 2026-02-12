@@ -9,10 +9,9 @@ import Foundation
 import SwiftUI
 
 class SpaceSwitcher {
-    private var shortcutHelper: ShortcutHelper!
+    private let shortcutHelper = ShortcutHelper()
 
     init() {
-        shortcutHelper = ShortcutHelper()
         // Check if the process has Accessibility permission, and make sure it has been added to the list
         AXIsProcessTrusted()
     }
@@ -29,22 +28,27 @@ class SpaceSwitcher {
             if let scriptObject = NSAppleScript(source: appleScript) {
                 scriptObject.executeAndReturnError(&error)
                 if error != nil {
-                    let errorNumber: Int = error?[NSAppleScript.errorNumber] as! Int
-                    let errorBriefMessage: String = error?[NSAppleScript.errorBriefMessage] as! String
+                    guard let errorNumber = error?[NSAppleScript.errorNumber] as? Int else { return }
+                    guard let errorBriefMessage = error?[NSAppleScript.errorBriefMessage] as? String else { return }
                     let settingsName = systemSettingsName()
                     let permissionType: String
                     switch abs(errorNumber) {
                     case 1002:
-                        // -1002: Error: Spaceman is not allowed to send keystrokes. (needs Accessibility permission)
+                        // -1002: Error: Spaceman is not allowed to send keystrokes.
+                        // (needs Accessibility permission)
                         permissionType = "Accessibility"
                     case 1743:
-                        // -1743: Error: Not authorized to send Apple events to System Events. (needs Automation permission)
+                        // -1743: Error: Not authorized to send Apple events to System Events.
+                        // (needs Automation permission)
                         permissionType = "Automation"
                     default:
                         permissionType = "Automation"
                     }
+                    let msg = "Error: \(errorBriefMessage)\n\n"
+                        + "Please grant \(permissionType) permissions "
+                        + "to Spaceman in \(settingsName) → Privacy and Security."
                     self.alert(
-                        msg: "Error: \(errorBriefMessage)\n\nPlease grant \(permissionType) permissions to Spaceman in \(settingsName) → Privacy and Security.",
+                        msg: msg,
                         permissionTypeName: permissionType)
                 }
             }
@@ -76,10 +80,12 @@ class SpaceSwitcher {
                 alert.addButton(withTitle: "\(settingsName)...")
             }
             let response = alert.runModal()
-            if (response == .alertSecondButtonReturn) {
+            if response == .alertSecondButtonReturn {
                 let task = Process()
                 task.launchPath = "/usr/bin/open"
-                task.arguments = ["x-apple.systempreferences:com.apple.preference.security?Privacy_\(permissionTypeName)"]
+                let url = "x-apple.systempreferences:"
+                    + "com.apple.preference.security?Privacy_\(permissionTypeName)"
+                task.arguments = [url]
                 try? task.run()
             }
         }

@@ -22,7 +22,7 @@ class ShortcutHelper {
      */
     private func getKeyCodeTopRow(spaceNumber: Int) -> Int {
         let keyCode: Int
-        switch (spaceNumber) {
+        switch spaceNumber {
         case 1:
             keyCode = 18 // VK_ANSI_1
         case 2:
@@ -58,7 +58,7 @@ class ShortcutHelper {
      */
     private func getKeyCodeNumPad(spaceNumber: Int) -> Int {
         let keyCode: Int
-        switch (spaceNumber) {
+        switch spaceNumber {
         case 1:
             keyCode = 83 // VK_ANSI_Keypad1
         case 2:
@@ -90,7 +90,7 @@ class ShortcutHelper {
     }
 
     func getKeyCode(spaceNumber: Int) -> Int {
-        switch (keySet) {
+        switch keySet {
         case .toprow:
             return getKeyCodeTopRow(spaceNumber: spaceNumber)
         case .numpad:
