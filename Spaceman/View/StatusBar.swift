@@ -360,7 +360,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             self.updatesItem.title = "Update available..."
             if #available(macOS 14.0, *) {
                 let versionString = item.displayVersionString
-                self.updatesItem.badge = NSMenuItemBadge(string: "v\(versionString) available")
+                self.updatesItem.badge = NSMenuItemBadge(string: "v\(versionString)")
             }
         }
     }
