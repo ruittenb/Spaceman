@@ -34,16 +34,21 @@ class SpaceSwitcher {
                     let permissionType: String
                     switch abs(errorNumber) {
                     case 1002:
-                        // -1002: Error: Spaceman is not allowed to send keystrokes. (needs Accessibility permission)
+                        // -1002: Error: Spaceman is not allowed to send keystrokes.
+                        // (needs Accessibility permission)
                         permissionType = "Accessibility"
                     case 1743:
-                        // -1743: Error: Not authorized to send Apple events to System Events. (needs Automation permission)
+                        // -1743: Error: Not authorized to send Apple events to System Events.
+                        // (needs Automation permission)
                         permissionType = "Automation"
                     default:
                         permissionType = "Automation"
                     }
+                    let msg = "Error: \(errorBriefMessage)\n\n"
+                        + "Please grant \(permissionType) permissions "
+                        + "to Spaceman in \(settingsName) → Privacy and Security."
                     self.alert(
-                        msg: "Error: \(errorBriefMessage)\n\nPlease grant \(permissionType) permissions to Spaceman in \(settingsName) → Privacy and Security.",
+                        msg: msg,
                         permissionTypeName: permissionType)
                 }
             }
@@ -75,10 +80,12 @@ class SpaceSwitcher {
                 alert.addButton(withTitle: "\(settingsName)...")
             }
             let response = alert.runModal()
-            if (response == .alertSecondButtonReturn) {
+            if response == .alertSecondButtonReturn {
                 let task = Process()
                 task.launchPath = "/usr/bin/open"
-                task.arguments = ["x-apple.systempreferences:com.apple.preference.security?Privacy_\(permissionTypeName)"]
+                let url = "x-apple.systempreferences:"
+                    + "com.apple.preference.security?Privacy_\(permissionTypeName)"
+                task.arguments = [url]
                 try? task.run()
             }
         }

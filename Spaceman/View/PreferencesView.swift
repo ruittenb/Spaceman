@@ -165,7 +165,7 @@ struct PreferencesView: View {
             Text("General")
                 .font(.title2)
                 .fontWeight(.semibold)
-            LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
+            LaunchAtLogin.Toggle { Text("Launch Spaceman at login") }
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
             refreshShortcutRecorder.disabled(autoRefreshSpaces)
             preferencesShortcutRecorder
@@ -177,8 +177,7 @@ struct PreferencesView: View {
             if enabled {
                 prefsVM.startTimer()
                 KeyboardShortcuts.disable(.refresh)
-            }
-            else {
+            } else {
                 prefsVM.pauseTimer()
                 KeyboardShortcuts.enable(.refresh)
             }
@@ -239,7 +238,9 @@ struct PreferencesView: View {
                 }
                 .buttonStyle(.plain)
                 .popover(isPresented: $showDisplaysHelp, arrowEdge: .trailing) {
-                    Text("If the display order seems erratic, please pay close attention to the horizontal alignment in \(systemSettingsName()) → Displays → Arrange.")
+                    Text("If the display order seems erratic, please pay close "
+                        + "attention to the horizontal alignment in "
+                        + "\(systemSettingsName()) → Displays → Arrange.")
                     .padding()
                     .frame(width: 240)
                 }
@@ -305,7 +306,8 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
             spacesStylePicker
-            // The Space names are always shown in the menu, therefore: allow editing even if icon style does not include names
+            // The Space names are always shown in the menu, therefore:
+            // allow editing even if icon style does not include names
             spaceNameListEditor
                 .padding(.bottom, 8)
             spacesShownPicker
@@ -345,7 +347,7 @@ struct PreferencesView: View {
         }
         .pickerStyle(.segmented)
         .fixedSize()
-        .onChange(of: layoutMode) { val in
+        .onChange(of: layoutMode) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -365,7 +367,7 @@ struct PreferencesView: View {
         }
         .disabled(layoutMode != .dualRows)
     }
-    
+
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
         Picker(selection: $displayStyle, label: Text("Icon style")) {
@@ -375,7 +377,7 @@ struct PreferencesView: View {
             Text("Names").tag(DisplayStyle.names)
             Text("Numbers and names").tag(DisplayStyle.numbersAndNames)
         }
-        .onChange(of: displayStyle) { val in
+        .onChange(of: displayStyle) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -392,7 +394,9 @@ struct PreferencesView: View {
                     let info = entry.value
                     let sbd = info.spaceByDesktopID
                     let displayIndex = info.currentDisplayIndex ?? 1
-                    let spacePart: String = (sbd.hasPrefix("F") ? ("Full Screen "+String(Int(sbd.dropFirst()) ?? 0)) : "Space \(sbd)")
+                    let spacePart: String = sbd.hasPrefix("F")
+                        ? "Full Screen " + String(Int(sbd.dropFirst()) ?? 0)
+                        : "Space \(sbd)"
                     let hasMultipleDisplays = NSScreen.screens.count > 1
                     let label = hasMultipleDisplays ? "Display \(displayIndex)  \(spacePart)" : spacePart
                     let leftMargin = 40
@@ -411,7 +415,9 @@ struct PreferencesView: View {
                                     let trimmed = String(newVal.drop(while: { $0.isWhitespace }))
                                     prefsVM.updateSpace(for: entry.key, to: trimmed)
                                     prefsVM.persistChanges(for: entry.key)
-                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                                    NotificationCenter.default.post(
+                                        name: NSNotification.Name(rawValue: "ButtonPressed"),
+                                        object: nil)
                                 }
                             )
                         )
@@ -434,7 +440,9 @@ struct PreferencesView: View {
                             onColorChange: { newColor in
                                 prefsVM.updateSpaceColor(for: entry.key, to: newColor)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                                    NotificationCenter.default.post(
+                                        name: NSNotification.Name(rawValue: "ButtonPressed"),
+                                        object: nil)
                                 }
                             }
                         )
@@ -445,7 +453,9 @@ struct PreferencesView: View {
                             Button {
                                 prefsVM.updateSpaceColor(for: entry.key, to: nil)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                                    NotificationCenter.default.post(
+                                        name: NSNotification.Name(rawValue: "ButtonPressed"),
+                                        object: nil)
                                 }
                             } label: {
                                 Image(systemName: "xmark.circle.fill")
@@ -535,7 +545,9 @@ struct PreferencesView: View {
                 }
                 .buttonStyle(.plain)
                 .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
-                    Text("For switching between spaces to work, these settings must match the keyboard shortcuts assigned for Mission Control.")
+                    Text("For switching between spaces to work, these settings "
+                        + "must match the keyboard shortcuts assigned "
+                        + "for Mission Control.")
                     .padding()
                     .frame(width: 240)
                 }

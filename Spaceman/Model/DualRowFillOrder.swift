@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 enum DualRowFillOrder: Int, CaseIterable {
     case byColumn = 0
     case byRow = 1

@@ -7,7 +7,7 @@ Spaceman is an application for macOS that allows you to view your Spaces (Virtua
 
 Also, the menu and menu bar icons enable switching between spaces.
 
-**Spaceman requires macOS 11 Big Sur or greater.**
+**Spaceman requires macOS 13 Ventura or greater.**
 
 **For switching spaces, Spaceman requires Accessibility and Automation permissions**
 ([see below](#setup-requirements)).

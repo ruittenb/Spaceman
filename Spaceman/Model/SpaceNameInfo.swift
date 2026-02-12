@@ -13,15 +13,15 @@ struct SpaceNameInfo: Hashable, Codable {
     let spaceByDesktopID: String
 
     // For resilience against ManagedSpaceID changes:
-    var displayUUID: String? = nil      // Physical display identifier
-    var positionOnDisplay: Int? = nil   // Position on this display (1,2,3...)
+    var displayUUID: String?      // Physical display identifier
+    var positionOnDisplay: Int?   // Position on this display (1,2,3...)
 
     // For current UI display:
-    var currentDisplayIndex: Int? = nil // Logical display number (1,2,3)
-    var currentSpaceNumber: Int? = nil  // Number shown in UI
+    var currentDisplayIndex: Int? // Logical display number (1,2,3)
+    var currentSpaceNumber: Int?  // Number shown in UI
 
     // Custom color tinting (hex string, e.g., "FF5733")
-    var colorHex: String? = nil
+    var colorHex: String?
 
     /// Whether this entry has user-assigned data worth preserving (custom name or color).
     var hasUserData: Bool {
