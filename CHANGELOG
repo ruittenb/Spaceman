@@ -1,3 +1,4 @@
+1.14.0: Modernize dependencies. Added linter. Minimum version bumped to macOS 13 Ventura
 1.13.9: Minor fix to menu icons; backup/restore status lines in preferences dialog
 1.13.8: Added mode and layout switching to menu
 1.13.7: Added Backup/Restore preferences option
