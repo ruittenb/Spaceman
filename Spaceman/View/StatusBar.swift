@@ -62,6 +62,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             action: #selector(updaterController.checkForUpdates(_:)),
             keyEquivalent: "")
         updatesItem.target = updaterController
+        updatesItem.image = NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: nil)
 
         // Set up update badge - start with no badge, show only when update available
         if #available(macOS 14.0, *) {
@@ -90,6 +91,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             title: "Quit Spaceman",
             action: #selector(NSApplication.terminate(_:)),
             keyEquivalent: "")
+        quitItem.image = NSImage(systemSymbolName: "xmark.rectangle", accessibilityDescription: nil)
 
         // Build settings submenus
         let layoutSubmenu = NSMenu()
@@ -352,6 +354,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
         // Update is available - show badge with version number
         DispatchQueue.main.async {
+            self.updatesItem.title = "Update available..."
             if #available(macOS 14.0, *) {
                 let versionString = item.displayVersionString
                 self.updatesItem.badge = NSMenuItemBadge(string: "v\(versionString) available")
@@ -362,6 +365,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func hideBadge() {
         // Hide the 'available' badge in the menu
         DispatchQueue.main.async {
+            self.updatesItem.title = "Check for updates..."
             if #available(macOS 14.0, *) {
                 self.updatesItem.badge = nil
             }
