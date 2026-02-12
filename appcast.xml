@@ -3,23 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.13.8 change layout and icon style from menu</title>
+            <title>v1.13.9: minor polishings</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Added menu options to change the icon layout, icon style and number of neighbors shown</li>
+                    <li> - add menu icons for "Check for Updates" and "Quit" items.</li>
+<li> - swap the order of backup/restore status lines in the preferences UI.</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Tue, 10 Feb 2026 10:23:06 +0100</pubDate>
+            <pubDate>Thu, 12 Feb 2026 21:57:58 +0100</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.13.8/Spaceman-1.13.8.dmg"
-                sparkle:version="1.13.8"
-                sparkle:shortVersionString="1.13.8"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.13.9/Spaceman-1.13.9.dmg"
+                sparkle:version="1.13.9"
+                sparkle:shortVersionString="1.13.9"
                 type="application/octet-stream"
-                length="3355577"
-sparkle:edSignature="EYv8V4tb5j+ZarWy3XISvdUfHU+ZSY+r+br6rfUTiPw3qn9BXT8Sdbh6phr5aRBeFAOnw7kuXRJVrddbDK2mCg=="
+                length="3338009"
+sparkle:edSignature="NMRINnIB7PeaRasn0CPhnFsAB7hhpZm/4UvWn1K2JXE7ql7eNkkmPNlntmMFguhixGiT6lMpnqA1rdN1+w4iAg=="
             />
         </item>
     </channel>
