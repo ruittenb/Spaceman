@@ -295,18 +295,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
         let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
-        if space.spaceByDesktopID == "F1" {
-            // F1 fullscreen maps to space 11 -> shortcut "-"
-            shortcutKey = "-"
-        } else if space.spaceByDesktopID == "F2" {
-            // F2 fullscreen maps to space 12 -> shortcut "=" or "+"
-            shortcutKey = (keySet == KeySet.numpad ? "+" : "=")
-        } else if globalSpaceNumber >= 1 && globalSpaceNumber <= 9 {
+        if globalSpaceNumber >= 1 && globalSpaceNumber <= 9 {
             shortcutKey = String(globalSpaceNumber)
         } else if globalSpaceNumber == 10 {
             shortcutKey = "0"
         }
-        // For spaces > 12: no shortcut (macOS limitation)
 
         let icon = NSImage(imageLiteralResourceName: "SpaceIconNumNormalActive")
         let menuIcon = iconCreator.createRectWithNumberIcon(
@@ -320,12 +313,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             keyEquivalent: shortcutKey)
         item.keyEquivalentModifierMask = mask
         item.target = self
-        switch space.spaceByDesktopID {
-        case "F1":
-            item.tag = -1
-        case "F2":
-            item.tag = -2
-        default:
+        if space.spaceByDesktopID.hasPrefix("F"), let n = Int(space.spaceByDesktopID.dropFirst()) {
+            item.tag = -n
+        } else {
             item.tag = globalSpaceNumber
         }
         item.image = menuIcon
@@ -340,7 +330,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func switchToSpace(_ sender: NSMenuItem) {
         let spaceNumber = sender.tag
-        guard spaceNumber >= -2 && spaceNumber != 0 && spaceNumber <= 10 else {
+        guard spaceNumber >= 1 && spaceNumber <= 10 else {
             return
         }
         spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, onError: flashStatusBar)

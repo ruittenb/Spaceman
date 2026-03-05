@@ -43,10 +43,6 @@ class ShortcutHelper {
             keyCode = 25 // VK_ANSI_9
         case 10:
             keyCode = 29 // VK_ANSI_0
-        case -1:
-            keyCode = 27 // VK_ANSI_Minus (minus and underscore)
-        case -2:
-            keyCode = 24 // VK_ANSI_Equal (equals and plus)
         default:
             keyCode = -1
         }
@@ -79,10 +75,6 @@ class ShortcutHelper {
             keyCode = 92 // VK_ANSI_Keypad9
         case 10:
             keyCode = 82 // VK_ANSI_Keypad0
-        case -1:
-            keyCode = 78 // VK_ANSI_KeypadMinus
-        case -2:
-            keyCode = 69 // VK_ANSI_KeypadPlus
         default:
             keyCode = -1
         }

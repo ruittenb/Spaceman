@@ -46,10 +46,7 @@ class IconCreator {
         var fullIndex = 1
         for s in spaces {
             if s.isFullScreen {
-                // Map first two fullscreen spaces to -1 and -2
-                if fullIndex <= 2 {
-                    switchIndexBySpaceID[s.spaceID] = -fullIndex
-                }
+                switchIndexBySpaceID[s.spaceID] = -fullIndex
                 fullIndex += 1
             } else {
                 // Use actual macOS global space number, not sequential numbering
