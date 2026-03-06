@@ -3,23 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.14.1: fix bug: space numbering after fullscreen app</title>
+            <title>v1.14.3: fix click areas after layout change</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>- Fixed: corrected space numbering after a fullscreen desktop space</li>
+                    <li>- compute the iconWidths at click time to prevent using wrong values after a layout change.</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 06 Mar 2026 09:41:34 +0100</pubDate>
+            <pubDate>Fri, 06 Mar 2026 13:49:10 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.14.1/Spaceman-1.14.1.dmg"
-                sparkle:version="1.14.1"
-                sparkle:shortVersionString="1.14.1"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.14.3/Spaceman-1.14.3.dmg"
+                sparkle:version="1.14.3"
+                sparkle:shortVersionString="1.14.3"
                 type="application/octet-stream"
-                length="2990372"
-sparkle:edSignature="qHAboc+tcH628zut8ZCyBhB7T7ZEYVBdj7sgRMMpPlqeqNtAGWnakhD7ax/ewWxzXFGEXHFd+glHbM/koqbMDA=="
+                length="2989029"
+sparkle:edSignature="0w/lh5r21x5bQpt5z+eKMcQpKxPa3G4e8vfNrlqY35VTh0+23uJ428Qhq+OTz++Aqcr9jTby4wxIScgBsCkzDA=="
             />
         </item>
     </channel>
