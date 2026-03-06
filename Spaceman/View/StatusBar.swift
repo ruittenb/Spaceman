@@ -176,8 +176,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     return
                 }
                 let locationInButton = sbButton.convert(event.locationInWindow, from: nil)
-                // Convert to bottom-origin coordinates for hit testing
-                let adjPoint = NSPoint(x: locationInButton.x, y: sbButton.bounds.height - locationInButton.y)
+                // Convert to image-relative coordinates for hit testing
+                let imageWidth = sbButton.image?.size.width ?? sbButton.bounds.width
+                let margin = max((sbButton.bounds.width - imageWidth) / 2.0, 0)
+                let adjPoint = NSPoint(x: locationInButton.x - margin, y: sbButton.bounds.height - locationInButton.y)
                 self.spaceSwitcher.switchUsingLocation(
                     iconWidths: self.iconCreator.iconWidths,
                     point: adjPoint,

@@ -1,3 +1,4 @@
+1.14.3: Fix: compute the iconWidths at click time to prevent using wrong values after a layout change.
 1.14.2: Reinstated shortcut key for one (hopefully) fullscreen app
 1.14.1: Fix bug: corrected space numbering after a fullscreen desktop space
 1.14.0: Modernize dependencies. Added linter. Minimum version bumped to macOS 13 Ventura
