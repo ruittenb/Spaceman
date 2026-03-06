@@ -23,14 +23,22 @@ struct Space: Equatable {
 
     /// Build a mapping from spaceID to Mission Control switch index.
     /// Regular desktops get 1, 2, ... up to 10 (matching ⌃1–⌃0 shortcuts).
-    /// Fullscreen spaces get -1, -2, -3, .... Desktops beyond 10 are omitted.
+    /// Desktops beyond 10 are omitted.
+    ///
+    /// Switching to fullscreen spaces is not a Spaceman feature. As an
+    /// exception, the first fullscreen space (F1) is switchable via menu bar
+    /// icon click only. It is mapped to index -1 (the minus key). Additional
+    /// fullscreen spaces are intentionally omitted from the map so they get
+    /// `unswitchableIndex` and trigger an error flash instead.
     static func buildSwitchIndexMap(for spaces: [Space]) -> [String: Int] {
         var map: [String: Int] = [:]
         var desktopIndex = 1
         var fullscreenIndex = 1
         for s in spaces {
             if s.isFullScreen {
-                map[s.spaceID] = -fullscreenIndex
+                if fullscreenIndex <= 1 {
+                    map[s.spaceID] = -fullscreenIndex
+                }
                 fullscreenIndex += 1
             } else {
                 if desktopIndex <= 10 {

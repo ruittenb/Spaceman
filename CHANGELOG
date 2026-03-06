@@ -1,3 +1,4 @@
+1.14.2: Reinstated shortcut key for one (hopefully) fullscreen app
 1.14.1: Fix bug: corrected space numbering after a fullscreen desktop space
 1.14.0: Modernize dependencies. Added linter. Minimum version bumped to macOS 13 Ventura
 1.13.9: Minor fix to menu icons; backup/restore status lines in preferences dialog

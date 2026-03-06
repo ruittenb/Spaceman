@@ -43,6 +43,8 @@ class ShortcutHelper {
             keyCode = 25 // VK_ANSI_9
         case 10:
             keyCode = 29 // VK_ANSI_0
+        case -1: // As an exception, allow switching to the first fullscreen app (undocumented)
+            keyCode = 27 // VK_ANSI_Minus
         default:
             keyCode = -1
         }
@@ -75,6 +77,8 @@ class ShortcutHelper {
             keyCode = 92 // VK_ANSI_Keypad9
         case 10:
             keyCode = 82 // VK_ANSI_Keypad0
+        case -1: // As an exception, allow switching to the first fullscreen app (undocumented)
+            keyCode = 78 // VK_ANSI_KeypadMinus
         default:
             keyCode = -1
         }

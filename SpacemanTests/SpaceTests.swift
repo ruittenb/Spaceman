@@ -100,7 +100,7 @@ final class SpaceTests: XCTestCase {
             makeSpace(id: "f3", fullScreen: true),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
-        XCTAssertEqual(map, ["f1": -1, "f2": -2, "f3": -3])
+        XCTAssertEqual(map, ["f1": -1])
     }
 
     func testBuildSwitchIndexMap_MoreThan10Desktops() {
