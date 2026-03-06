@@ -41,21 +41,21 @@ class IconCreator {
 
         var icons = [NSImage]()
 
-        // Precompute switch indices for all spaces (use actual macOS global space numbers)
+        // Precompute switch indices for all spaces.
+        // Mission Control's "Switch to Desktop N" counts only regular desktops,
+        // so we use a sequential counter that skips fullscreen spaces.
         var switchIndexBySpaceID: [String: Int] = [:]
         var fullIndex = 1
+        var desktopIndex = 1
         for s in spaces {
             if s.isFullScreen {
-                // Map first two fullscreen spaces to -1 and -2
-                if fullIndex <= 2 {
-                    switchIndexBySpaceID[s.spaceID] = -fullIndex
-                }
+                switchIndexBySpaceID[s.spaceID] = -fullIndex
                 fullIndex += 1
             } else {
-                // Use actual macOS global space number, not sequential numbering
-                if s.spaceNumber <= 10 {
-                    switchIndexBySpaceID[s.spaceID] = s.spaceNumber
+                if desktopIndex <= 10 {
+                    switchIndexBySpaceID[s.spaceID] = desktopIndex
                 }
+                desktopIndex += 1
             }
         }
 

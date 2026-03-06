@@ -228,14 +228,22 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         if separatorIdx > 2 {
             for _ in 2..<separatorIdx { statusBarMenu.removeItem(at: 2) }
         }
-        // Build items grouped by display with a separator between displays
+        // Build items grouped by display with a separator between displays.
+        // Mission Control's "Switch to Desktop N" counts only regular desktops,
+        // so we track a sequential desktop number that skips fullscreen spaces.
         var itemsToInsert: [NSMenuItem] = []
         var lastDisplayID: String?
+        var desktopNumber = 1
         for space in spaces {
             if let last = lastDisplayID, last != space.displayID {
                 itemsToInsert.append(NSMenuItem.separator())
             }
-            itemsToInsert.append(makeSwitchToSpaceItem(space: space))
+            if space.isFullScreen {
+                itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: nil))
+            } else {
+                itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNumber))
+                desktopNumber += 1
+            }
             lastDisplayID = space.displayID
         }
         // No trailing separator needed — the fixed separator before the settings submenus handles it
@@ -289,24 +297,18 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
 
-    func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
-        let globalSpaceNumber = space.spaceNumber
+    func makeSwitchToSpaceItem(space: Space, desktopNumber: Int?) -> NSMenuItem {
         let spaceName = space.spaceName.isEmpty ? "-" : space.spaceName
 
         let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
-        if space.spaceByDesktopID == "F1" {
-            // F1 fullscreen maps to space 11 -> shortcut "-"
-            shortcutKey = "-"
-        } else if space.spaceByDesktopID == "F2" {
-            // F2 fullscreen maps to space 12 -> shortcut "=" or "+"
-            shortcutKey = (keySet == KeySet.numpad ? "+" : "=")
-        } else if globalSpaceNumber >= 1 && globalSpaceNumber <= 9 {
-            shortcutKey = String(globalSpaceNumber)
-        } else if globalSpaceNumber == 10 {
-            shortcutKey = "0"
+        if let n = desktopNumber {
+            if n >= 1 && n <= 9 {
+                shortcutKey = String(n)
+            } else if n == 10 {
+                shortcutKey = "0"
+            }
         }
-        // For spaces > 12: no shortcut (macOS limitation)
 
         let icon = NSImage(imageLiteralResourceName: "SpaceIconNumNormalActive")
         let menuIcon = iconCreator.createRectWithNumberIcon(
@@ -320,14 +322,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             keyEquivalent: shortcutKey)
         item.keyEquivalentModifierMask = mask
         item.target = self
-        switch space.spaceByDesktopID {
-        case "F1":
-            item.tag = -1
-        case "F2":
-            item.tag = -2
-        default:
-            item.tag = globalSpaceNumber
-        }
+        item.tag = desktopNumber ?? -(space.spaceNumber)
         item.image = menuIcon
         if space.isCurrentSpace || shortcutKey == "" {
             item.isEnabled = false
@@ -340,7 +335,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func switchToSpace(_ sender: NSMenuItem) {
         let spaceNumber = sender.tag
-        guard spaceNumber >= -2 && spaceNumber != 0 && spaceNumber <= 10 else {
+        guard spaceNumber >= 1 && spaceNumber <= 10 else {
             return
         }
         spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, onError: flashStatusBar)
