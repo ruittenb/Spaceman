@@ -3,24 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.13.9: minor polishings</title>
+            <title>v1.14.1: fix bug: space numbering after fullscreen app</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li> - add menu icons for "Check for Updates" and "Quit" items.</li>
-<li> - swap the order of backup/restore status lines in the preferences UI.</li>
+                    <li>- Fixed: corrected space numbering after a fullscreen desktop space</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 12 Feb 2026 21:57:58 +0100</pubDate>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <pubDate>Fri, 06 Mar 2026 09:41:34 +0100</pubDate>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.13.9/Spaceman-1.13.9.dmg"
-                sparkle:version="1.13.9"
-                sparkle:shortVersionString="1.13.9"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.14.1/Spaceman-1.14.1.dmg"
+                sparkle:version="1.14.1"
+                sparkle:shortVersionString="1.14.1"
                 type="application/octet-stream"
-                length="3338009"
-sparkle:edSignature="NMRINnIB7PeaRasn0CPhnFsAB7hhpZm/4UvWn1K2JXE7ql7eNkkmPNlntmMFguhixGiT6lMpnqA1rdN1+w4iAg=="
+                length="2990372"
+sparkle:edSignature="qHAboc+tcH628zut8ZCyBhB7T7ZEYVBdj7sgRMMpPlqeqNtAGWnakhD7ax/ewWxzXFGEXHFd+glHbM/koqbMDA=="
             />
         </item>
     </channel>
