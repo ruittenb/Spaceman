@@ -167,8 +167,6 @@ For space switching to work, you need to configure three things:
 - Spaceman does not do the space switching itself, but sends shortcut keystrokes to Mission Control.
   - Switching between spaces is then handled by Mission Control directly.
 - The first 10 regular spaces will send shortcuts with numbers (1-9, 0)
-- The first 2 fullscreen spaces will also send shortcuts, but Mission Control cannot switch to fullscreen spaces.
-  - If you want to make use of these, you require a third-party app like [Apptivate](http://www.apptivateapp.com/) to switch to a running (full-screen) application.
 
 ### Limitations
 

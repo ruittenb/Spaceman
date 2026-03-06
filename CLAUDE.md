@@ -4,51 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Spaceman is a macOS application that displays macOS Spaces/Virtual Desktops in the menu bar. It's built with Swift and SwiftUI, using Xcode as the primary development environment.
+Spaceman is a macOS menu bar application that displays Spaces/Virtual Desktops. Built with Swift and SwiftUI using Xcode (not SPM).
 
 ## Build Commands
 
 See the `Makefile` for all available targets. Key ones: `make build`, `make all`, `make defaults-clear`, `make defaults-get`.
 
-## Core Architecture
+## Build Artifacts
 
-The application follows a delegate pattern with these key components:
-
-### Main Components
-- **AppDelegate**: Entry point that initializes core components and handles keyboard shortcuts
-- **StatusBar**: Manages the menu bar item, handles clicks, and creates menus
-- **SpaceObserver**: Monitors macOS space changes using Core Graphics APIs
-- **IconCreator**: Generates status bar icons based on space configuration
-- **SpaceSwitcher**: Handles switching between spaces via AppleScript
-
-### Data Models
-- **Space**: Core data structure representing a macOS space with display info, names, and states
-- **SpaceNameInfo**: Cached space name information
-- **DisplayStyle**: Enumeration of icon display styles (rectangles, numbers, names, etc.)
-
-### Key Dependencies
-- **Sparkle**: Auto-updating framework
-- **KeyboardShortcuts**: Keyboard shortcut management
-- **LaunchAtLogin**: Launch at login functionality
+The `build/` directory contains `*.dmg` release artifacts for every version. These MUST NOT be deleted — they are the distribution archives.
 
 ## macOS Integration
 
-The app uses private Core Graphics APIs to monitor spaces:
-- `CGSCopyManagedDisplaySpaces()` - Gets space information
-- `_CGSDefaultConnection()` - Connection to window server
-- AppleScript for space switching via Mission Control shortcuts
-
-## File Structure
-
-- `Spaceman/` - Main source code
-  - `Helpers/` - Utility classes (SpaceObserver, IconCreator, etc.)
-  - `Model/` - Data models and enums
-  - `View/` - SwiftUI views and UI components
-  - `ViewModel/` - View models and business logic
-  - `Utilities/` - Constants and utilities
-- `Spaceman.xcodeproj/` - Xcode project configuration
-- `build/` - Build output directory
-- `website/` - Project website files
+The app uses **private** Core Graphics APIs (`CGSCopyManagedDisplaySpaces`, `_CGSDefaultConnection`). These have no public documentation. SourceKit diagnostics for these APIs and cross-module types are false positives — they compile fine via xcodebuild. Don't try to "fix" them.
 
 ## Code Signing
 
@@ -56,36 +24,9 @@ This project does not have a developer certificate, so no code signing or notari
 
 ## Testing
 
-The project includes unit tests for data models and core business logic.
-
-**Run tests from command line:**
 ```bash
 xcodebuild test -project Spaceman.xcodeproj -scheme Spaceman -destination platform=macOS
 ```
-
-**Test structure:**
-- `SpacemanTests/SpaceTests.swift` - Tests for the Space model
-- `SpacemanTests/SpaceNameInfoTests.swift` - Tests for SpaceNameInfo (including Codable/Hashable)
-- `SpacemanTests/DisplayStyleTests.swift` - Tests for DisplayStyle enum
-- `SpacemanTests/SpaceFilterTests.swift` - Tests for space filtering logic
-- `SpacemanTests/SpaceNameResolutionTests.swift` - Tests for space name resolution strategies (position vs ID matching, disconnected display fallback, merge logic)
-
-**What's tested:**
-- Data model initialization and properties
-- Enum raw values and CaseIterable conformance
-- Codable/Hashable protocol conformance
-- Space filtering logic for different visibility modes:
-  - All spaces mode
-  - Current space only mode
-  - Neighbor spaces mode with different radius values
-  - Multi-display scenarios
-  - Edge cases (first/last space, empty states)
-- Space name resolution across reboots, reorders, and display changes (see below)
-
-**What's not tested:**
-- UI components (menu bar, preferences window)
-- System integration (private macOS APIs, AppleScript)
-- Icon generation (NSImage manipulation)
 
 ## Space Name Persistence — The ManagedSpaceID Problem
 
@@ -240,4 +181,3 @@ The resolution logic lives in static methods so tests can call them without inst
 6. **The topology grace period (`_topologyChangeGracePeriod`) prevents position corruption from rapid updates.** After a topology change, macOS fires multiple notifications in quick succession. The first update correctly uses `.idWithPositionFallback` and preserves positions. Without the grace period, the second update would use `.idOnly` and overwrite the preserved position with the transient one (issue #22d). Do not remove the grace period without understanding this race condition.
 7. **The merge preserves entries with user data even on connected displays.** This is a safety net for when position matching fails to recover a name after an ID reassignment. The entry sticks around under the old key until its display+position slot is claimed by a new entry. Do not simplify the merge to only check `connectedDisplayIDs` without also considering `hasUserData`.
 8. **`findSpaceByPosition` with disconnected fallback is intentionally loose.** It matches any disconnected display at the same position. This is acceptable because it only triggers for display UUIDs with no stored entries, which means macOS gave the display a new identity.
-9. **SourceKit diagnostics for private CG APIs and cross-module types are false positives.** They compile fine via xcodebuild. Don't try to "fix" them.
