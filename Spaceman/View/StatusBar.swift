@@ -229,21 +229,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             for _ in 2..<separatorIdx { statusBarMenu.removeItem(at: 2) }
         }
         // Build items grouped by display with a separator between displays.
-        // Mission Control's "Switch to Desktop N" counts only regular desktops,
-        // so we track a sequential desktop number that skips fullscreen spaces.
         var itemsToInsert: [NSMenuItem] = []
         var lastDisplayID: String?
-        var desktopNumber = 1
+        let switchMap = Space.buildSwitchIndexMap(for: spaces)
         for space in spaces {
             if let last = lastDisplayID, last != space.displayID {
                 itemsToInsert.append(NSMenuItem.separator())
             }
-            if space.isFullScreen {
-                itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: nil))
-            } else {
-                itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNumber))
-                desktopNumber += 1
-            }
+            let idx = switchMap[space.spaceID]
+            let desktopNum: Int? = if let idx, idx > 0 { idx } else { nil }
+            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum))
             lastDisplayID = space.displayID
         }
         // No trailing separator needed — the fixed separator before the settings submenus handles it

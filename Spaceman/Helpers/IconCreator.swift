@@ -41,23 +41,7 @@ class IconCreator {
 
         var icons = [NSImage]()
 
-        // Precompute switch indices for all spaces.
-        // Mission Control's "Switch to Desktop N" counts only regular desktops,
-        // so we use a sequential counter that skips fullscreen spaces.
-        var switchIndexBySpaceID: [String: Int] = [:]
-        var fullIndex = 1
-        var desktopIndex = 1
-        for s in spaces {
-            if s.isFullScreen {
-                switchIndexBySpaceID[s.spaceID] = -fullIndex
-                fullIndex += 1
-            } else {
-                if desktopIndex <= 10 {
-                    switchIndexBySpaceID[s.spaceID] = desktopIndex
-                }
-                desktopIndex += 1
-            }
-        }
+        let switchIndexBySpaceID = Space.buildSwitchIndexMap(for: spaces)
 
         // Determine which spaces to include based on mode
         let filteredSpaces = filterSpaces(spaces)
@@ -111,7 +95,7 @@ class IconCreator {
 
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
         if layoutMode == .dualRows {
-            return mergeIconsTwoRows(iconsWithDisplayProperties, buttonFrame: buttonFrame, appearance: appearance)
+            return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID, buttonFrame: buttonFrame, appearance: appearance)
         } else {
             return mergeIcons(
                 iconsWithDisplayProperties,
@@ -455,8 +439,7 @@ class IconCreator {
             // Calculate total width including full gap for positioning next icon
             right = left + icon.image.size.width + gap
 
-            // Use precomputed index mapping to preserve correct switching
-            let targetIndex = indexMap[icon.spaceID] ?? -99 // invalid => onError
+            let targetIndex = indexMap[icon.spaceID] ?? Space.unswitchableIndex
             iconWidths.append(IconWidth(
                 left: iconLeft + dynamicLeftMargin,
                 right: iconRight + dynamicLeftMargin,
@@ -474,6 +457,7 @@ class IconCreator {
     private func mergeIconsTwoRows(
         _ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool,
                                         isFullScreen: Bool, spaceID: String, colorHex: String?)],
+        indexMap: [String: Int],
         buttonFrame: NSRect? = nil,
         appearance: NSAppearance? = nil
     ) -> NSImage {
@@ -486,17 +470,8 @@ class IconCreator {
             var gapAfter: CGFloat = 0
         }
 
-        // Pre-compute the target index for each icon:
-        // positive for numbered spaces; negative for fullscreen pseudo indices
-        var assignedIndices: [Int] = []
-        var numbered = 1
-        var fullscreen = 1
-        for i in iconsWithDisplayProperties {
-            if i.isFullScreen {
-                assignedIndices.append(-fullscreen); fullscreen += 1
-            } else {
-                assignedIndices.append(numbered); numbered += 1
-            }
+        let assignedIndices: [Int] = iconsWithDisplayProperties.map {
+            indexMap[$0.spaceID] ?? Space.unswitchableIndex
         }
 
         // Build columns depending on fill order preference
