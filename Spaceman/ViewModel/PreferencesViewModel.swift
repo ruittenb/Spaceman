@@ -170,16 +170,20 @@ class PreferencesViewModel: ObservableObject {
         }
     }
 
+    static func restoreFromBackup() throws {
+        let data = try Data(contentsOf: settingsFile)
+        guard let dict = try PropertyListSerialization.propertyList(
+            from: data, format: nil) as? [String: Any] else {
+            throw NSError(domain: "Spaceman", code: 1,
+                          userInfo: [NSLocalizedDescriptionKey: "Invalid backup file"])
+        }
+        UserDefaults.standard.setPersistentDomain(dict, forName: bundleIdentifier)
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
     func restorePreferences() {
         do {
-            let data = try Data(contentsOf: Self.settingsFile)
-            guard let dict = try PropertyListSerialization.propertyList(
-                from: data, format: nil) as? [String: Any] else {
-                showRestoreStatus("Invalid backup file", isError: true)
-                return
-            }
-            UserDefaults.standard.setPersistentDomain(dict, forName: Self.bundleIdentifier)
-            NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+            try Self.restoreFromBackup()
             loadData()
             showRestoreStatus("Preferences restored", isError: false)
         } catch {

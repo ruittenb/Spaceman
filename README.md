@@ -178,28 +178,29 @@ For space switching to work, you need to configure three things:
 
 Spaceman supports AppleScript commands for remote control:
 
-**Refresh spaces:**
 ```sh
-$ osascript -e 'tell application "Spaceman" to refresh'
-```
-
-For details on how to maximize usefulness of this, see [MikeJL's Comments](README-Yabai.md)
-
-**Open preferences window:**
-```sh
-$ osascript -e 'tell application "Spaceman" to open preferences'
+$ osascript -e 'tell application "Spaceman" to refresh' # Refresh the Spaces Icon
+$ osascript -e 'tell application "Spaceman" to open preferences' # Open Preferences Window
+$ osascript -e 'tell application "Spaceman" to restore preferences' # Restore Preferences from Backup
 ```
 
 These commands can be used in automation tools like Alfred, Keyboard Maestro, or custom scripts.
+For details on how to maximize usefulness of 'refresh', see [MikeJL's Comments](README-Yabai.md)
 
 ## 🔹 Troubleshooting
 
-If Spaceman does not start, or does not run correctly, after an upgrade:
+- If Spaceman does not start, or does not run correctly, after an upgrade:
 you may need to delete the application defaults:
 
 ```sh
 $ defaults delete dev.ruittenb.Spaceman
 ```
+
+- If Spaceman assigns the desktop names wrong:
+Spaceman is not compatible with the setting **System Settings → Desktop & Dock → Mission Control → Automatically rearrange Spaces based on most recent use**. You should turn this setting off.
+
+<img src="images/Automatic-Rearrange.png" width="66%" height="auto">
+
 
 ## 🔹 Attributions
 
