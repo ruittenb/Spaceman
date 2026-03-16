@@ -3,23 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.14.3: fix click areas after layout change</title>
+            <title>v1.14.4: added automation for restoring preferences</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>- compute the iconWidths at click time to prevent using wrong values after a layout change.</li>
+                    <li>- added osascript command: 'tell application "Spaceman" to restore preferences'</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 06 Mar 2026 13:49:10 +0100</pubDate>
+            <pubDate>Mon, 16 Mar 2026 12:36:15 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.14.3/Spaceman-1.14.3.dmg"
-                sparkle:version="1.14.3"
-                sparkle:shortVersionString="1.14.3"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.14.4/Spaceman-1.14.4.dmg"
+                sparkle:version="1.14.4"
+                sparkle:shortVersionString="1.14.4"
                 type="application/octet-stream"
-                length="2989029"
-sparkle:edSignature="0w/lh5r21x5bQpt5z+eKMcQpKxPa3G4e8vfNrlqY35VTh0+23uJ428Qhq+OTz++Aqcr9jTby4wxIScgBsCkzDA=="
+                length="2989797"
+sparkle:edSignature="qaCYTnTTtEhiIEWIzNucEgCUzCeVF2L+GK9wR2EQ0saSkyLheasILlNUXbYgtjPG1ztVFPlYlN29vbkcD8jYCA=="
             />
         </item>
     </channel>
