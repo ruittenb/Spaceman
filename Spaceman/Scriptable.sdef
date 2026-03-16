@@ -10,7 +10,11 @@
         </command>
 
         <command name="open preferences" code="smsupcmd" description="Open Preferences Window">
-            <cocoa class="Spaceman.PreferencesCommand" />
+            <cocoa class="Spaceman.OpenPreferencesCommand" />
+        </command>
+
+        <command name="restore preferences" code="smsurstr" description="Restore Preferences from Backup">
+            <cocoa class="Spaceman.RestorePreferencesCommand" />
         </command>
 
     </suite>
