@@ -8,6 +8,8 @@
 import Foundation
 
 struct Constants {
+    static let maxSpaceNameLength = 10
+
     enum AppInfo {
         static let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         // swiftlint:disable:next force_unwrapping

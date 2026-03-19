@@ -263,17 +263,7 @@ class IconCreator {
         for s in spaces {
             let spaceID = s.spaceByDesktopID
             let spaceNumberPrefix = withNumbers ? "\(spaceID):" : ""
-            let ucName = s.spaceName.uppercased()
-            // Truncate name for space-constrained modes
-            let shownName: String
-            switch visibleSpacesMode {
-            case .all:
-                shownName = String(ucName.prefix(4))
-            case .neighbors:
-                shownName = String(ucName.prefix(6))
-            case .currentOnly:
-                shownName = ucName
-            }
+            let shownName = String(s.spaceName.prefix(Constants.maxSpaceNameLength))
             let spaceText = NSString(string: "\(spaceNumberPrefix)\(shownName)")
 
             // If space has a custom color, tint background first then draw text on top
