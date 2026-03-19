@@ -17,6 +17,7 @@ class IconCreator {
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
+    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.semiTransparent
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -36,10 +37,8 @@ class IconCreator {
         gapWidth = CGFloat(sizes.GAP_WIDTH_SPACES)
         displayGapWidth = CGFloat(sizes.GAP_WIDTH_DISPLAYS)
         iconSize = NSSize(
-            width: sizes.ICON_WIDTH_SMALL,
-            height: sizes.ICON_HEIGHT)
-
-        var icons = [NSImage]()
+            width: CGFloat(sizes.ICON_WIDTH_SMALL),
+            height: CGFloat(sizes.ICON_HEIGHT) + Constants.boxVerticalPadding * 2)
 
         let switchIndexBySpaceID = Space.buildSwitchIndexMap(for: spaces)
 
@@ -54,54 +53,21 @@ class IconCreator {
             return empty
         }
 
-        for s in filteredSpaces {
-            let iconResourceName: String
-            switch (s.isCurrentSpace, s.isFullScreen, displayStyle) {
-            case (true, true, .names):
-                iconResourceName = "SpaceIconNamedFullActive"
-            case (false, true, .names):
-                iconResourceName = "SpaceIconNamedFullInactive"
-            case (true, true, .rects):
-                iconResourceName = "SpaceIconNumFullActive"
-            case (false, true, .rects):
-                iconResourceName = "SpaceIconNumFullInactive"
-            case (true, true, .numbersAndNames),
-                 (true, true, .numbersAndRects):
-                // avoid 「 」 marks overlapping with text
-                iconResourceName = "SpaceIconNumNormalActive"
-            case (false, true, .numbersAndNames),
-                 (false, true, .numbersAndRects):
-                // avoid 「 」 marks overlapping with text
-                iconResourceName = "SpaceIconNumNormalInactive"
-            case (true, false, _):
-                iconResourceName = "SpaceIconNumNormalActive"
-            default:
-                iconResourceName = "SpaceIconNumNormalInactive"
-            }
+        // Pre-scan for mixed color context: when some spaces have custom colors,
+        // non-colored spaces get a default color instead of template mode
+        let hasAnyColoredSpace = filteredSpaces.contains { $0.colorHex != nil }
+        let defaultColor: NSColor? = hasAnyColoredSpace ? getDefaultColorForAppearance(appearance) : nil
 
-            icons.append(NSImage(imageLiteralResourceName: iconResourceName))
-        }
-
-        switch displayStyle {
-        case .rects:
-            icons = createColoredRects(icons, filteredSpaces)
-        case .numbers:
-            icons = createNumberedIcons(filteredSpaces)
-        case .numbersAndRects:
-            icons = createRectWithNumbersIcons(icons, filteredSpaces)
-        case .names, .numbersAndNames:
-            icons = createNamedIcons(icons, filteredSpaces, withNumbers: displayStyle == .numbersAndNames)
+        // Create icons using unified box rendering
+        let icons = filteredSpaces.map { space in
+            createSpaceIcon(space: space, defaultColor: defaultColor)
         }
 
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
         if layoutMode == .dualRows {
-            return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID, appearance: appearance)
+            return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID)
         } else {
-            return mergeIcons(
-                iconsWithDisplayProperties,
-                indexMap: switchIndexBySpaceID,
-                appearance: appearance
-            )
+            return mergeIcons(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID)
         }
     }
 
@@ -117,231 +83,174 @@ class IconCreator {
         return spaceFilter.filter(spaces, mode: mode, neighborRadius: neighborRadius)
     }
 
-    private func createNumberedIcons(_ spaces: [Space]) -> [NSImage] {
-        var newIcons = [NSImage]()
+    // MARK: - Unified box rendering
 
-        for s in spaces {
-            let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
-            let spaceID = s.spaceByDesktopID
-
-            let image = NSImage(size: iconSize)
-
-            // For numbers-only mode with custom color, use the color for the text itself
-            // (there's no background to contrast against)
-            if let colorHex = s.colorHex, let textColor = NSColor.fromHex(colorHex) {
-                image.lockFocus()
-                spaceID.drawVerticallyCentered(
-                    in: textRect,
-                    withAttributes: getStringAttributes(alpha: !s.isCurrentSpace ? 0.4 : 1, color: textColor))
-                image.isTemplate = false
-                image.unlockFocus()
-            } else {
-                image.lockFocus()
-                spaceID.drawVerticallyCentered(
-                    in: textRect,
-                    withAttributes: getStringAttributes(alpha: !s.isCurrentSpace ? 0.4 : 1, color: .black))
-                image.isTemplate = true
-                image.unlockFocus()
-            }
-
-            newIcons.append(image)
+    private func createSpaceIcon(space: Space, defaultColor: NSColor?) -> NSImage {
+        // 1. Determine text content based on display style
+        let text: NSString
+        switch displayStyle {
+        case .rects:
+            text = ""
+        case .numbers, .numbersAndRects:
+            text = NSString(string: space.spaceByDesktopID)
+        case .names:
+            text = NSString(string: String(space.spaceName.prefix(Constants.maxSpaceNameLength)))
+        case .numbersAndNames:
+            let name = String(space.spaceName.prefix(Constants.maxSpaceNameLength))
+            text = NSString(string: "\(space.spaceByDesktopID):\(name)")
         }
-        return newIcons
-    }
 
-    public func createRectWithNumberIcon(icons: [NSImage], index: Int, space: Space, fraction: Float = 1.0) -> NSImage {
-        iconSize.width = CGFloat(sizes.ICON_WIDTH_SMALL)
-
-        let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
-        let spaceID = space.spaceByDesktopID
-
-        let iconImage = NSImage(size: iconSize)
-
-        // If space has a custom color, tint background first then draw text on top
-        if let colorHex = space.colorHex, let bgColor = NSColor.fromHex(colorHex) {
-            let textColor = getContrastingTextColor(for: bgColor)
-
-            iconImage.lockFocus()
-            // Draw and tint the background shape
-            icons[index].draw(
-                in: textRect,
-                from: NSRect.zero,
-                operation: NSCompositingOperation.sourceOver,
-                fraction: CGFloat(fraction))
-            bgColor.setFill()
-            NSRect(origin: .zero, size: iconSize).fill(using: .sourceAtop)
-
-            // Draw text on top in contrasting color
-            spaceID.drawVerticallyCentered(
-                in: textRect,
-                withAttributes: getStringAttributes(alpha: 1, color: textColor))
-            iconImage.isTemplate = false
-            iconImage.unlockFocus()
+        // 2. Determine box color and template mode
+        let boxColor: NSColor
+        let useTemplate: Bool
+        if let colorHex = space.colorHex, let customColor = NSColor.fromHex(colorHex) {
+            boxColor = customColor
+            useTemplate = false
+        } else if let defaultColor = defaultColor {
+            boxColor = defaultColor
+            useTemplate = false
         } else {
-            // For non-colored icons, use the knockout technique
-            let numberImage = NSImage(size: iconSize)
-
-            numberImage.lockFocus()
-            spaceID.drawVerticallyCentered(
-                in: textRect,
-                withAttributes: getStringAttributes(alpha: 1, color: .black))
-            numberImage.unlockFocus()
-
-            iconImage.lockFocus()
-            icons[index].draw(
-                in: textRect,
-                from: NSRect.zero,
-                operation: NSCompositingOperation.sourceOver,
-                fraction: CGFloat(fraction))
-            numberImage.draw(
-                in: textRect,
-                from: NSRect.zero,
-                operation: NSCompositingOperation.destinationOut,
-                fraction: 1.0)
-            iconImage.isTemplate = true
-            iconImage.unlockFocus()
+            boxColor = .black
+            useTemplate = true
         }
+
+        // 3. Calculate icon size (dynamic width based on text)
+        let measureAttrs = getStringAttributes(alpha: 1, color: .black)
+        let textSize = text.length > 0 ? text.size(withAttributes: measureAttrs) : .zero
+        let minWidth = CGFloat(sizes.ICON_WIDTH_SMALL)
+        let dynamicWidth = text.length > 0
+            ? max(textSize.width + Constants.boxPadding * 2, minWidth)
+            : minWidth
+        let size = NSSize(width: dynamicWidth, height: iconSize.height)
+
+        // 4. Draw the box icon
+        let iconImage = NSImage(size: size)
+        let boxRect = NSRect(origin: .zero, size: size)
+            .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxVerticalPadding + Constants.boxBorderWidth / 2)
+        let cornerRadius = space.isFullScreen ? 0.0 : Constants.boxCornerRadius
+        let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
+        let isActive = space.isCurrentSpace
+        let drawRect = NSRect(origin: .zero, size: size)
+
+        iconImage.lockFocus()
+
+        if isActive || inactiveStyle == .semiTransparent {
+            // Filled box (full opacity for active, reduced for semi-transparent inactive)
+            let fillAlpha: CGFloat = isActive ? 1.0 : Constants.inactiveAlpha
+
+            if useTemplate {
+                // Template mode: filled black box, knock out text with destinationOut
+                NSColor.black.withAlphaComponent(fillAlpha).setFill()
+                boxPath.fill()
+
+                if text.length > 0 {
+                    let textImage = NSImage(size: size)
+                    textImage.lockFocus()
+                    text.drawVerticallyCentered(
+                        in: drawRect,
+                        withAttributes: getStringAttributes(alpha: 1, color: .black))
+                    textImage.unlockFocus()
+
+                    textImage.draw(in: drawRect, from: .zero, operation: .destinationOut, fraction: 1.0)
+                }
+            } else {
+                // Colored mode: filled box + contrasting text
+                let effectiveAlpha = boxColor.alphaComponent * fillAlpha
+                boxColor.withAlphaComponent(effectiveAlpha).setFill()
+                boxPath.fill()
+
+                if text.length > 0 {
+                    let textColor = getContrastingTextColor(for: boxColor)
+                    text.drawVerticallyCentered(
+                        in: drawRect,
+                        withAttributes: getStringAttributes(alpha: isActive ? 1.0 : fillAlpha, color: textColor))
+                }
+            }
+        } else {
+            // Inverse inactive: bordered outline + text (no fill)
+            boxPath.lineWidth = Constants.boxBorderWidth
+
+            if useTemplate {
+                NSColor.black.setStroke()
+                boxPath.stroke()
+
+                if text.length > 0 {
+                    text.drawVerticallyCentered(
+                        in: drawRect,
+                        withAttributes: getStringAttributes(alpha: 1, color: .black))
+                }
+            } else {
+                boxColor.setStroke()
+                boxPath.stroke()
+
+                if text.length > 0 {
+                    text.drawVerticallyCentered(
+                        in: drawRect,
+                        withAttributes: getStringAttributes(alpha: 1, color: boxColor))
+                }
+            }
+        }
+
+        iconImage.isTemplate = useTemplate
+        iconImage.unlockFocus()
 
         return iconImage
     }
 
-    private func createRectWithNumbersIcons(_ icons: [NSImage], _ spaces: [Space]) -> [NSImage] {
-        var index = 0
-        var newIcons = [NSImage]()
-        for s in spaces {
-            let iconImage = createRectWithNumberIcon(icons: icons, index: index, space: s)
-            newIcons.append(iconImage)
-            index += 1
-        }
-        return newIcons
-    }
-
-    private func createColoredRects(_ icons: [NSImage], _ spaces: [Space]) -> [NSImage] {
-        var index = 0
-        var newIcons = [NSImage]()
-
-        for s in spaces {
-            let iconImage = NSImage(size: icons[index].size)
-
-            // If space has a custom color, tint the rectangle
-            if let colorHex = s.colorHex, let bgColor = NSColor.fromHex(colorHex) {
-                iconImage.lockFocus()
-                // Draw and tint the rectangle
-                icons[index].draw(
-                    at: .zero,
-                    from: NSRect(origin: .zero, size: icons[index].size),
-                    operation: .sourceOver,
-                    fraction: 1.0)
-                bgColor.setFill()
-                NSRect(origin: .zero, size: icons[index].size).fill(using: .sourceAtop)
-                iconImage.isTemplate = false
-                iconImage.unlockFocus()
-            } else {
-                // For non-colored icons, just use the template
-                iconImage.lockFocus()
-                icons[index].draw(
-                    at: .zero,
-                    from: NSRect(origin: .zero, size: icons[index].size),
-                    operation: .sourceOver,
-                    fraction: 1.0)
-                iconImage.isTemplate = true
-                iconImage.unlockFocus()
-            }
-
-            newIcons.append(iconImage)
-            index += 1
-        }
-        return newIcons
-    }
-
-    private func createNamedIcons(_ icons: [NSImage], _ spaces: [Space], withNumbers: Bool) -> [NSImage] {
-        var index = 0
-        var newIcons = [NSImage]()
-
-        iconSize.width = CGFloat(withNumbers ? sizes.ICON_WIDTH_XLARGE : sizes.ICON_WIDTH_LARGE)
-
-        for s in spaces {
-            let spaceID = s.spaceByDesktopID
-            let spaceNumberPrefix = withNumbers ? "\(spaceID):" : ""
-            let shownName = String(s.spaceName.prefix(Constants.maxSpaceNameLength))
-            let spaceText = NSString(string: "\(spaceNumberPrefix)\(shownName)")
-
-            // If space has a custom color, tint background first then draw text on top
-            if let colorHex = s.colorHex, let bgColor = NSColor.fromHex(colorHex) {
-                let textColor = getContrastingTextColor(for: bgColor)
-                let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1, color: textColor))
-                let textWithMarginSize = NSSize(
-                    width: textSize.width + 4,
-                    height: CGFloat(sizes.ICON_HEIGHT)
-                )
-
-                // Check if the text width exceeds the icon's width
-                let textImageSize = textSize.width > iconSize.width
-                    ? textWithMarginSize : iconSize
-                let iconImage = NSImage(size: textImageSize)
-                let textRect = NSRect(origin: CGPoint.zero, size: textImageSize)
-
-                iconImage.lockFocus()
-                // Draw and tint the background shape
-                icons[index].draw(
-                    in: textRect,
-                    from: NSRect.zero,
-                    operation: NSCompositingOperation.sourceOver,
-                    fraction: 1.0)
-                bgColor.setFill()
-                NSRect(origin: .zero, size: textImageSize).fill(using: .sourceAtop)
-
-                // Draw text on top in contrasting color
-                spaceText.drawVerticallyCentered(
-                    in: textRect,
-                    withAttributes: getStringAttributes(alpha: 1, color: textColor))
-                iconImage.isTemplate = false
-                iconImage.unlockFocus()
-
-                newIcons.append(iconImage)
-            } else {
-                // For non-colored icons, use the knockout technique
-                let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1, color: .black))
-                let textWithMarginSize = NSSize(
-                    width: textSize.width + 4,
-                    height: CGFloat(sizes.ICON_HEIGHT)
-                )
-
-                // Check if the text width exceeds the icon's width
-                let textImageSize = textSize.width > iconSize.width
-                    ? textWithMarginSize : iconSize
-                let iconImage = NSImage(size: textImageSize)
-                let textImage = NSImage(size: textImageSize)
-                let textRect = NSRect(origin: CGPoint.zero, size: textImageSize)
-
-                textImage.lockFocus()
-                spaceText.drawVerticallyCentered(
-                    in: textRect,
-                    withAttributes: getStringAttributes(alpha: 1, color: .black))
-                textImage.unlockFocus()
-
-                iconImage.lockFocus()
-                icons[index].draw(
-                    in: textRect,
-                    from: NSRect.zero,
-                    operation: NSCompositingOperation.sourceOver,
-                    fraction: 1.0)
-                textImage.draw(
-                    in: textRect,
-                    from: NSRect.zero,
-                    operation: NSCompositingOperation.destinationOut,
-                    fraction: 1.0)
-                iconImage.isTemplate = true
-                iconImage.unlockFocus()
-
-                newIcons.append(iconImage)
-            }
-
-            index += 1
+    /// Create an icon for use in the dropdown menu (StatusBar).
+    /// Draws a filled box with the space number at the given opacity.
+    public func createMenuItemIcon(space: Space, fraction: CGFloat = 0.6) -> NSImage {
+        if sizes == nil {
+            sizes = Constants.sizes[layoutMode]
+            iconSize = NSSize(
+                width: CGFloat(sizes.ICON_WIDTH_SMALL),
+                height: CGFloat(sizes.ICON_HEIGHT) + Constants.boxVerticalPadding * 2)
         }
 
-        return newIcons
+        let text = NSString(string: space.spaceByDesktopID)
+        let measureAttrs = getStringAttributes(alpha: 1, color: .black)
+        let textSize = text.size(withAttributes: measureAttrs)
+        let minWidth = CGFloat(sizes.ICON_WIDTH_SMALL)
+        let dynamicWidth = max(textSize.width + Constants.boxPadding * 2, minWidth)
+        let size = NSSize(width: dynamicWidth, height: iconSize.height)
+
+        let iconImage = NSImage(size: size)
+        let boxRect = NSRect(origin: .zero, size: size)
+            .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxVerticalPadding + Constants.boxBorderWidth / 2)
+        let cornerRadius = space.isFullScreen ? 0.0 : Constants.boxCornerRadius
+        let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
+        let drawRect = NSRect(origin: .zero, size: size)
+
+        iconImage.lockFocus()
+
+        if let colorHex = space.colorHex, let bgColor = NSColor.fromHex(colorHex) {
+            bgColor.withAlphaComponent(fraction).setFill()
+            boxPath.fill()
+            let textColor = getContrastingTextColor(for: bgColor)
+            text.drawVerticallyCentered(
+                in: drawRect,
+                withAttributes: getStringAttributes(alpha: 1, color: textColor))
+            iconImage.isTemplate = false
+        } else {
+            NSColor.black.withAlphaComponent(fraction).setFill()
+            boxPath.fill()
+
+            let textImage = NSImage(size: size)
+            textImage.lockFocus()
+            text.drawVerticallyCentered(
+                in: drawRect,
+                withAttributes: getStringAttributes(alpha: 1, color: .black))
+            textImage.unlockFocus()
+
+            textImage.draw(in: drawRect, from: .zero, operation: .destinationOut, fraction: 1.0)
+            iconImage.isTemplate = true
+        }
+
+        iconImage.unlockFocus()
+        return iconImage
     }
+
+    // MARK: - Display properties and merging
 
     private func getIconsWithDisplayProps(
         icons: [NSImage],
@@ -378,8 +287,7 @@ class IconCreator {
     private func mergeIcons(
         _ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool,
                                         isFullScreen: Bool, spaceID: String, colorHex: String?)],
-        indexMap: [String: Int],
-        appearance: NSAppearance? = nil
+        indexMap: [String: Int]
     ) -> NSImage {
         let numIcons = iconsWithDisplayProperties.count
         let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
@@ -396,24 +304,10 @@ class IconCreator {
         var right: CGFloat
         iconWidths = []
 
-        // First pass: check if any icons have custom colors
         let hasAnyColoredIcon = iconsWithDisplayProperties.contains { $0.colorHex != nil }
-        let defaultColor = hasAnyColoredIcon ? getDefaultColorForAppearance(appearance) : nil
 
         for icon in iconsWithDisplayProperties {
-            // Icons with custom colors are already colored in the create phase
-            let iconToUse: NSImage
-            if icon.colorHex != nil {
-                // Already colored - use as-is
-                iconToUse = icon.image
-            } else if let defaultColor = defaultColor {
-                // Apply default color to non-colored icons when in colored context
-                iconToUse = tintIcon(icon.image, with: defaultColor)
-            } else {
-                iconToUse = icon.image
-            }
-
-            iconToUse.draw(
+            icon.image.draw(
                 at: NSPoint(x: left, y: 0),
                 from: NSRect.zero,
                 operation: NSCompositingOperation.sourceOver,
@@ -444,8 +338,7 @@ class IconCreator {
     private func mergeIconsTwoRows(
         _ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool,
                                         isFullScreen: Bool, spaceID: String, colorHex: String?)],
-        indexMap: [String: Int],
-        appearance: NSAppearance? = nil
+        indexMap: [String: Int]
     ) -> NSImage {
         // Column describes a stacked pair (top/bottom)
         // and its rendered width and trailing gap
@@ -563,11 +456,9 @@ class IconCreator {
         var left = CGFloat.zero
         iconWidths = []
 
-        // First pass: check if any icons have custom colors
         let hasAnyColoredIcon = columns.contains { col in
             (col.top?.4 != nil) || (col.bottom?.4 != nil)
         }
-        let defaultColor = hasAnyColoredIcon ? getDefaultColorForAppearance(appearance) : nil
 
         for col in columns {
             // Simple gap splitting: each icon owns half the gap on each side
@@ -576,18 +467,7 @@ class IconCreator {
             let iconRight = left + col.width + (col.gapAfter / 2.0)
 
             if let top = col.top {
-                // Icons with custom colors are already colored in the create phase
-                let iconToUse: NSImage
-                if top.4 != nil {
-                    // Already colored - use as-is
-                    iconToUse = top.0
-                } else if let defaultColor = defaultColor {
-                    // Apply default color to non-colored icons when in colored context
-                    iconToUse = tintIcon(top.0, with: defaultColor)
-                } else {
-                    iconToUse = top.0
-                }
-                iconToUse.draw(
+                top.0.draw(
                     at: NSPoint(x: left, y: iconSize.height + gap),
                     from: .zero,
                     operation: .sourceOver,
@@ -600,18 +480,7 @@ class IconCreator {
                     index: top.2))
             }
             if let bottom = col.bottom {
-                // Icons with custom colors are already colored in the create phase
-                let iconToUse: NSImage
-                if bottom.4 != nil {
-                    // Already colored - use as-is
-                    iconToUse = bottom.0
-                } else if let defaultColor = defaultColor {
-                    // Apply default color to non-colored icons when in colored context
-                    iconToUse = tintIcon(bottom.0, with: defaultColor)
-                } else {
-                    iconToUse = bottom.0
-                }
-                iconToUse.draw(
+                bottom.0.draw(
                     at: NSPoint(x: left, y: 0),
                     from: .zero,
                     operation: .sourceOver,
@@ -630,6 +499,8 @@ class IconCreator {
         return image
     }
 
+    // MARK: - Text and color helpers
+
     private func getStringAttributes(
         alpha: CGFloat,
         fontSize: CGFloat = .zero,
@@ -642,21 +513,6 @@ class IconCreator {
             .foregroundColor: color.withAlphaComponent(alpha),
             .font: NSFont.monospacedSystemFont(ofSize: actualFontSize, weight: .bold),
             .paragraphStyle: paragraphStyle]
-    }
-
-    private func tintIcon(_ icon: NSImage, with color: NSColor) -> NSImage {
-        let tinted = NSImage(size: icon.size)
-        tinted.lockFocus()
-
-        // Draw the icon first
-        icon.draw(at: .zero, from: NSRect(origin: .zero, size: icon.size), operation: .sourceOver, fraction: 1.0)
-
-        // Apply color overlay using sourceAtop to only tint the non-transparent pixels
-        color.setFill()
-        NSRect(origin: .zero, size: icon.size).fill(using: .sourceAtop)
-
-        tinted.unlockFocus()
-        return tinted
     }
 
     private func getDefaultColorForAppearance(_ appearance: NSAppearance? = nil) -> NSColor {

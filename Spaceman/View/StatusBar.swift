@@ -307,12 +307,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             }
         }
 
-        let icon = NSImage(imageLiteralResourceName: "SpaceIconNumNormalActive")
-        let menuIcon = iconCreator.createRectWithNumberIcon(
-            icons: [icon],
-            index: 0,
-            space: space,
-            fraction: 0.6)
+        let menuIcon = iconCreator.createMenuItemIcon(space: space, fraction: 0.6)
         let item = NSMenuItem(
             title: spaceName,
             action: #selector(switchToSpace(_:)),
