@@ -38,32 +38,42 @@ func systemSettingsName() -> String {
 // MARK: - NSColor Extensions
 
 extension NSColor {
-    /// Convert NSColor to hex string (e.g., "FF5733")
+    /// Convert NSColor to hex string with alpha (e.g., "FF5733FF")
     func toHexString() -> String? {
         guard let rgbColor = self.usingColorSpace(.deviceRGB) else { return nil }
         let red = Int(rgbColor.redComponent * 255)
         let green = Int(rgbColor.greenComponent * 255)
         let blue = Int(rgbColor.blueComponent * 255)
-        return String(format: "%02X%02X%02X", red, green, blue)
+        let alpha = Int(rgbColor.alphaComponent * 255)
+        return String(format: "%02X%02X%02X%02X", red, green, blue, alpha)
     }
 
-    /// Create NSColor from hex string (e.g., "FF5733" or "#FF5733")
+    /// Create NSColor from hex string (e.g., "FF5733", "FF5733FF", or "#FF5733")
     static func fromHex(_ hexString: String) -> NSColor? {
         var hex = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
         if hex.hasPrefix("#") {
             hex.removeFirst()
         }
 
-        guard hex.count == 6 else { return nil }
+        guard hex.count == 6 || hex.count == 8 else { return nil }
 
-        var rgb: UInt64 = 0
-        guard Scanner(string: hex).scanHexInt64(&rgb) else { return nil }
+        var value: UInt64 = 0
+        guard Scanner(string: hex).scanHexInt64(&value) else { return nil }
 
-        let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-        let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-        let blue = CGFloat(rgb & 0x0000FF) / 255.0
+        let red, green, blue, alpha: CGFloat
+        if hex.count == 8 {
+            red   = CGFloat((value & 0xFF000000) >> 24) / 255.0
+            green = CGFloat((value & 0x00FF0000) >> 16) / 255.0
+            blue  = CGFloat((value & 0x0000FF00) >> 8)  / 255.0
+            alpha = CGFloat( value & 0x000000FF)         / 255.0
+        } else {
+            red   = CGFloat((value & 0xFF0000) >> 16) / 255.0
+            green = CGFloat((value & 0x00FF00) >> 8)  / 255.0
+            blue  = CGFloat( value & 0x0000FF)         / 255.0
+            alpha = 1.0
+        }
 
-        return NSColor(red: red, green: green, blue: blue, alpha: 1.0)
+        return NSColor(red: red, green: green, blue: blue, alpha: alpha)
     }
 }
 
