@@ -55,8 +55,8 @@ The meaning of the icons from left to right in the example:
 From top to bottom, you can see examples of the five different icon styles:
 
 - **Rectangles**: Plain rectangles
-- **Numbers**: Plain numbers
-- **Rectangles with Numbers**: Numbers in a rectangle
+- **Bare Numbers**: Plain numbers, not boxed
+- **Numbers**: Numbers in a rectangular box
 - **Names**: Custom text labels for each space
 - **Names with Numbers**: Combined custom names and numbers
 
@@ -73,7 +73,7 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 - **Refresh spaces in background**: Enables refreshing space information automatically, at regular intervals
 - **Shortcut for manual refresh**: Defines a shortcut key to trigger an update of the space information
 - **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
-- **Layout**: Adjusts icon and font sizes for the menu bar
+- **Size**: Adjusts icon and font sizes for the menu bar
 - **Dual Row fill order**: When using Dual Row layout, choose whether to fill rows first or columns first:
 
 <img src="images/Dual-Row-Directions.png" width="66%" height="auto">
@@ -96,10 +96,14 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 **Icon Style**
 - Selects one of the five visual icon styles described in [Understanding the Icons](#-understanding-the-icons)
 
+**Inactive Style**
+- **Semi-transparent**: Inactive spaces are shown at reduced opacity
+- **Bordered**: Inactive spaces are shown as bordered outlines (active spaces remain filled)
+
 **Space Management**
 - **Space names**: Assigns custom names of any length to individual spaces
   - The menu displays full names regardless of length
-  - Menu bar icons show full names when only the active space is shown, otherwise names are truncated to 4 or 6 characters for compactness
+  - Menu bar icons truncate names to 10 characters for compactness
   - Optionally, for each Space icon, a color can be selected.
 - **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
 - **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
