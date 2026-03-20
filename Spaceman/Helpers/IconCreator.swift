@@ -355,8 +355,8 @@ class IconCreator {
         // Column describes a stacked pair (top/bottom)
         // and its rendered width and trailing gap
         struct Column {
-            var top: (NSImage, Bool, Int, String, String?)?
-            var bottom: (NSImage, Bool, Int, String, String?)?
+            var top: (image: NSImage, isFull: Bool, tag: Int, spaceID: String, colorHex: String?)?
+            var bottom: (image: NSImage, isFull: Bool, tag: Int, spaceID: String, colorHex: String?)?
             var width: CGFloat = 0
             var gapAfter: CGFloat = 0
         }
@@ -411,7 +411,7 @@ class IconCreator {
                 tag: Int, spaceID: String, colorHex: String?
             )
             var segments: [[Segment]] = []
-            var cur: [(NSImage, Bool, Bool, Int, String, String?)] = []
+            var cur: [Segment] = []
             for (idx, icon) in iconsWithDisplayProperties.enumerated() {
                 cur.append((
                     icon.image, icon.nextSpaceOnDifferentDisplay,
@@ -469,7 +469,7 @@ class IconCreator {
         iconWidths = []
 
         let hasAnyColoredIcon = columns.contains { col in
-            (col.top?.4 != nil) || (col.bottom?.4 != nil)
+            (col.top?.colorHex != nil) || (col.bottom?.colorHex != nil)
         }
 
         for col in columns {
@@ -479,7 +479,7 @@ class IconCreator {
             let iconRight = left + col.width + (col.gapAfter / 2.0)
 
             if let top = col.top {
-                top.0.draw(
+                top.image.draw(
                     at: NSPoint(x: left, y: iconSize.height + gap),
                     from: .zero,
                     operation: .sourceOver,
@@ -489,10 +489,10 @@ class IconCreator {
                     right: iconRight,
                     top: iconSize.height + gap,
                     bottom: imageHeight,
-                    index: top.2))
+                    index: top.tag))
             }
             if let bottom = col.bottom {
-                bottom.0.draw(
+                bottom.image.draw(
                     at: NSPoint(x: left, y: 0),
                     from: .zero,
                     operation: .sourceOver,
@@ -502,7 +502,7 @@ class IconCreator {
                     right: iconRight,
                     top: 0,
                     bottom: iconSize.height,
-                    index: bottom.2))
+                    index: bottom.tag))
             }
             left += col.width + col.gapAfter
         }
