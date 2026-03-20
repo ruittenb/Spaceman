@@ -8,13 +8,13 @@
 import Foundation
 
 enum InactiveStyle: Int, CaseIterable {
-    case bordered = 0       // Active = filled box, Inactive = bordered outline
-    case semiTransparent = 1 // Active = filled, Inactive = filled at reduced opacity
+    case bordered = 0  // Active = filled box, Inactive = bordered outline
+    case dimmed = 1    // Active = filled box, Inactive = filled at reduced opacity
 
     var menuLabel: String {
         switch self {
-        case .bordered:        return "Bordered"
-        case .semiTransparent: return "Semi-transparent"
+        case .bordered: return "Bordered"
+        case .dimmed:   return "Dimmed"
         }
     }
 }

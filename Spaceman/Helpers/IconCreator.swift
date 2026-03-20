@@ -17,7 +17,7 @@ class IconCreator {
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
-    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.semiTransparent
+    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.dimmed
     @AppStorage("useMinIconWidth") private var useMinIconWidth = true
 
     private var visibleSpacesMode: VisibleSpacesMode {
@@ -167,8 +167,8 @@ class IconCreator {
             let cornerRadius = space.isFullScreen ? 0.0 : Constants.boxCornerRadius
             let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
 
-            if isActive || inactiveStyle == .semiTransparent {
-                // Filled box (full opacity for active, reduced for semi-transparent inactive)
+            if isActive || inactiveStyle == .dimmed {
+                // Filled box (full opacity for active, reduced for dimmed inactive)
                 let fillAlpha: CGFloat = isActive ? 1.0 : Constants.inactiveAlpha
 
                 if useTemplate {

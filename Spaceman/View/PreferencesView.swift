@@ -15,7 +15,7 @@ struct PreferencesView: View {
     weak var parentWindow: PreferencesWindow?
 
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
-    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.semiTransparent
+    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.dimmed
     @AppStorage("useMinIconWidth") private var useMinIconWidth = true
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
@@ -402,7 +402,7 @@ struct PreferencesView: View {
             Text("Inactive style")
             Spacer()
             Picker("", selection: $inactiveStyle) {
-                Text("Semi-transparent").tag(InactiveStyle.semiTransparent)
+                Text("Dimmed").tag(InactiveStyle.dimmed)
                 Text("Bordered").tag(InactiveStyle.bordered)
             }
             .pickerStyle(.segmented)

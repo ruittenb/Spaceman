@@ -1,4 +1,5 @@
-1.15.0: New boxed icon style. Rounded corners. Slightly taller icons. (based on contribution by Nicomalacho) 
+1.15.1: Added configuration setting to switch between variable/equal width
+1.15.0: New boxed icon style. Rounded corners. Slightly taller icons. Variable width. (based on contribution by Nicomalacho) 
 1.14.6: Added shortcut keys for Preferences tabs; support transparent colors
 1.14.5: Relaxed restrictions on space names
 1.14.4: Support automation to restore preferences backup
