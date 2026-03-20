@@ -163,7 +163,7 @@ class IconCreator {
                     let textColor = getContrastingTextColor(for: boxColor)
                     text.drawVerticallyCentered(
                         in: drawRect,
-                        withAttributes: getStringAttributes(alpha: isActive ? 1.0 : fillAlpha, color: textColor))
+                        withAttributes: getStringAttributes(alpha: 1.0, color: textColor))
                 }
             }
         } else {

@@ -321,6 +321,7 @@ struct PreferencesView: View {
             // allow editing even if icon style does not include names
             spaceNameListEditor
                 .padding(.bottom, 8)
+            inactiveStylePicker
             spacesShownPicker
         }
         .padding()
@@ -381,30 +382,32 @@ struct PreferencesView: View {
 
     // MARK: - Style Pickers
     private var spacesStylePicker: some View {
-        VStack(alignment: .leading) {
-            Picker(selection: $displayStyle, label: Text("Icon style")) {
-                Text("Rectangles").tag(DisplayStyle.rects)
-                Text("Numbers").tag(DisplayStyle.numbers)
-                Text("Rectangles with numbers").tag(DisplayStyle.numbersAndRects)
-                Text("Names").tag(DisplayStyle.names)
-                Text("Numbers and names").tag(DisplayStyle.numbersAndNames)
+        Picker(selection: $displayStyle, label: Text("Icon style")) {
+            Text("Rectangles").tag(DisplayStyle.rects)
+            Text("Numbers").tag(DisplayStyle.numbers)
+            Text("Rectangles with numbers").tag(DisplayStyle.numbersAndRects)
+            Text("Names").tag(DisplayStyle.names)
+            Text("Numbers and names").tag(DisplayStyle.numbersAndNames)
+        }
+        .onChange(of: displayStyle) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+
+    // MARK: - Inactive Style Picker
+    private var inactiveStylePicker: some View {
+        HStack(spacing: 12) {
+            Text("Inactive style")
+            Spacer()
+            Picker("", selection: $inactiveStyle) {
+                Text("Semi-transparent").tag(InactiveStyle.semiTransparent)
+                Text("Inverse").tag(InactiveStyle.inverse)
             }
-            .onChange(of: displayStyle) { _ in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-            }
-            HStack(spacing: 12) {
-                Text("Inactive style")
-                Spacer()
-                Picker("", selection: $inactiveStyle) {
-                    Text("Semi-transparent").tag(InactiveStyle.semiTransparent)
-                    Text("Inverse").tag(InactiveStyle.inverse)
-                }
-                .pickerStyle(.segmented)
-                .fixedSize()
-            }
-            .onChange(of: inactiveStyle) { _ in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-            }
+            .pickerStyle(.segmented)
+            .fixedSize()
+        }
+        .onChange(of: inactiveStyle) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
 

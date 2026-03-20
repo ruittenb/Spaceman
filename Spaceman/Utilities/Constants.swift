@@ -9,6 +9,7 @@ import Foundation
 
 struct Constants {
     static let maxSpaceNameLength = 10
+    static let minMenuWidth: CGFloat = 350
     static let boxCornerRadius: CGFloat = 3.0
     static let boxPadding: CGFloat = 6.0
     static let boxVerticalPadding: CGFloat = 1.0
