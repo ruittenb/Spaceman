@@ -350,7 +350,7 @@ struct PreferencesView: View {
 
     // MARK: - Layout Size Picker
     private var layoutSizePicker: some View {
-        Picker(selection: $layoutMode, label: Text("Layout")) {
+        Picker(selection: $layoutMode, label: Text("Size")) {
             Text("Dual Row").tag(LayoutMode.dualRows)
             Text("Compact").tag(LayoutMode.compact)
             Text("Medium").tag(LayoutMode.medium)

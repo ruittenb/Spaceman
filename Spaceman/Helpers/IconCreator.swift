@@ -119,9 +119,10 @@ class IconCreator {
         let measureAttrs = getStringAttributes(alpha: 1, color: .black)
         let textSize = text.length > 0 ? text.size(withAttributes: measureAttrs) : .zero
         let minWidth = CGFloat(sizes.ICON_WIDTH_SMALL)
+        let digitWidth = ("0" as NSString).size(withAttributes: measureAttrs).width
         let dynamicWidth = text.length > 0
             ? max(textSize.width + Constants.boxPadding * 2, minWidth)
-            : minWidth
+            : max(digitWidth + Constants.boxPadding * 2, minWidth)
         let size = NSSize(width: dynamicWidth, height: iconSize.height)
 
         // 4. Draw the icon

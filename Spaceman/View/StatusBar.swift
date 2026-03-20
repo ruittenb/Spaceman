@@ -102,7 +102,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             item.target = self
             layoutSubmenu.addItem(item)
         }
-        layoutMenuItem = NSMenuItem(title: "Layout", action: nil, keyEquivalent: "")
+        layoutMenuItem = NSMenuItem(title: "Size", action: nil, keyEquivalent: "")
         layoutMenuItem.submenu = layoutSubmenu
 
         let iconStyleSubmenu = NSMenu()
