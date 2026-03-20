@@ -323,11 +323,8 @@ struct PreferencesView: View {
             spaceNameListEditor
                 .padding(.bottom, 8)
             inactiveStylePicker
+            iconWidthPicker
             spacesShownPicker
-            Toggle("Roughly equal icon widths", isOn: $useMinIconWidth)
-                .onChange(of: useMinIconWidth) { _ in
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-                }
         }
         .padding()
         .onChange(of: visibleSpacesModeRaw) { _ in
@@ -412,6 +409,23 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: inactiveStyle) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+
+    // MARK: - Icon Width Picker
+    private var iconWidthPicker: some View {
+        HStack(spacing: 12) {
+            Text("Icon widths")
+            Spacer()
+            Picker("", selection: $useMinIconWidth) {
+                Text("Roughly equal").tag(true)
+                Text("Variable").tag(false)
+            }
+            .pickerStyle(.segmented)
+            .fixedSize()
+        }
+        .onChange(of: useMinIconWidth) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
