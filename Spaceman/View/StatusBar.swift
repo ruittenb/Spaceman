@@ -102,7 +102,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             item.target = self
             layoutSubmenu.addItem(item)
         }
-        layoutMenuItem = NSMenuItem(title: "Layout", action: nil, keyEquivalent: "")
+        layoutMenuItem = NSMenuItem(title: "Size", action: nil, keyEquivalent: "")
         layoutMenuItem.submenu = layoutSubmenu
 
         let iconStyleSubmenu = NSMenu()
@@ -159,7 +159,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     let menuOrigin = CGPoint(
                         x: buttonFrame.minX,
                         y: buttonFrame.minY - CGFloat(self.iconCreator.sizes.ICON_HEIGHT) / 2)
-                    sbMenu.minimumWidth = buttonFrame.width
+                    sbMenu.minimumWidth = Constants.minMenuWidth
                     sbMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
                     sbButton.isHighlighted = false
                 }
@@ -193,13 +193,14 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func flashStatusBar() {
         if let button = statusBarItem.button {
             let blinkInterval: TimeInterval = 0.1
-            button.isHighlighted = true
+            let dimAlpha: CGFloat = 0.3
+            button.alphaValue = dimAlpha
             DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
-                button.isHighlighted = false
+                button.alphaValue = 1.0
                 DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
-                    button.isHighlighted = true
+                    button.alphaValue = dimAlpha
                     DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
-                        button.isHighlighted = false
+                        button.alphaValue = 1.0
                     }
                 }
             }
@@ -307,12 +308,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             }
         }
 
-        let icon = NSImage(imageLiteralResourceName: "SpaceIconNumNormalActive")
-        let menuIcon = iconCreator.createRectWithNumberIcon(
-            icons: [icon],
-            index: 0,
-            space: space,
-            fraction: 0.6)
+        let menuIcon = iconCreator.createMenuItemIcon(space: space, fraction: 0.6)
         let item = NSMenuItem(
             title: spaceName,
             action: #selector(switchToSpace(_:)),

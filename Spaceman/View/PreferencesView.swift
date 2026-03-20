@@ -15,6 +15,7 @@ struct PreferencesView: View {
     weak var parentWindow: PreferencesWindow?
 
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
+    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.semiTransparent
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
@@ -320,6 +321,7 @@ struct PreferencesView: View {
             // allow editing even if icon style does not include names
             spaceNameListEditor
                 .padding(.bottom, 8)
+            inactiveStylePicker
             spacesShownPicker
         }
         .padding()
@@ -348,7 +350,7 @@ struct PreferencesView: View {
 
     // MARK: - Layout Size Picker
     private var layoutSizePicker: some View {
-        Picker(selection: $layoutMode, label: Text("Layout")) {
+        Picker(selection: $layoutMode, label: Text("Size")) {
             Text("Dual Row").tag(LayoutMode.dualRows)
             Text("Compact").tag(LayoutMode.compact)
             Text("Medium").tag(LayoutMode.medium)
@@ -378,16 +380,33 @@ struct PreferencesView: View {
         .disabled(layoutMode != .dualRows)
     }
 
-    // MARK: - Style Picker
+    // MARK: - Style Pickers
     private var spacesStylePicker: some View {
         Picker(selection: $displayStyle, label: Text("Icon style")) {
             Text("Rectangles").tag(DisplayStyle.rects)
-            Text("Numbers").tag(DisplayStyle.numbers)
-            Text("Rectangles with numbers").tag(DisplayStyle.numbersAndRects)
+            Text("Bare numbers").tag(DisplayStyle.numbers)
+            Text("Numbers").tag(DisplayStyle.numbersAndRects)
             Text("Names").tag(DisplayStyle.names)
             Text("Numbers and names").tag(DisplayStyle.numbersAndNames)
         }
         .onChange(of: displayStyle) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+
+    // MARK: - Inactive Style Picker
+    private var inactiveStylePicker: some View {
+        HStack(spacing: 12) {
+            Text("Inactive style")
+            Spacer()
+            Picker("", selection: $inactiveStyle) {
+                Text("Semi-transparent").tag(InactiveStyle.semiTransparent)
+                Text("Bordered").tag(InactiveStyle.bordered)
+            }
+            .pickerStyle(.segmented)
+            .fixedSize()
+        }
+        .onChange(of: inactiveStyle) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }

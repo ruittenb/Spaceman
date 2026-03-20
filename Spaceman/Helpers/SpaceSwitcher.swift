@@ -66,7 +66,13 @@ class SpaceSwitcher {
                 break
             }
         }
-        switchToSpace(spaceNumber: index, onError: onError)
+        if index < 0 {
+            // Fullscreen spaces: always flash, then attempt switch (F1 only)
+            onError()
+            switchToSpace(spaceNumber: index, onError: {})
+        } else {
+            switchToSpace(spaceNumber: index, onError: onError)
+        }
     }
 
     private func alert(msg: String, permissionTypeName: String) {
