@@ -115,6 +115,7 @@ class IconCreator {
         }
 
         // 3. Calculate icon size (dynamic width based on text)
+        let isBareNumbers = displayStyle == .numbers
         let measureAttrs = getStringAttributes(alpha: 1, color: .black)
         let textSize = text.length > 0 ? text.size(withAttributes: measureAttrs) : .zero
         let minWidth = CGFloat(sizes.ICON_WIDTH_SMALL)
@@ -123,70 +124,80 @@ class IconCreator {
             : minWidth
         let size = NSSize(width: dynamicWidth, height: iconSize.height)
 
-        // 4. Draw the box icon
+        // 4. Draw the icon
         let iconImage = NSImage(size: size)
-        let boxRect = NSRect(origin: .zero, size: size)
-            .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxBorderWidth / 2)
-        let cornerRadius = space.isFullScreen ? 0.0 : Constants.boxCornerRadius
-        let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
         let isActive = space.isCurrentSpace
         let drawRect = NSRect(origin: .zero, size: size)
 
         iconImage.lockFocus()
 
-        if isActive || inactiveStyle == .semiTransparent {
-            // Filled box (full opacity for active, reduced for semi-transparent inactive)
-            let fillAlpha: CGFloat = isActive ? 1.0 : Constants.inactiveAlpha
-
-            if useTemplate {
-                // Template mode: filled black box, knock out text with destinationOut
-                NSColor.black.withAlphaComponent(fillAlpha).setFill()
-                boxPath.fill()
-
-                if text.length > 0 {
-                    let textImage = NSImage(size: size)
-                    textImage.lockFocus()
-                    text.drawVerticallyCentered(
-                        in: drawRect,
-                        withAttributes: getStringAttributes(alpha: 1, color: .black))
-                    textImage.unlockFocus()
-
-                    textImage.draw(in: drawRect, from: .zero, operation: .destinationOut, fraction: 1.0)
-                }
-            } else {
-                // Colored mode: filled box + contrasting text
-                let effectiveAlpha = boxColor.alphaComponent * fillAlpha
-                boxColor.withAlphaComponent(effectiveAlpha).setFill()
-                boxPath.fill()
-
-                if text.length > 0 {
-                    let textColor = getContrastingTextColor(for: boxColor)
-                    text.drawVerticallyCentered(
-                        in: drawRect,
-                        withAttributes: getStringAttributes(alpha: 1.0, color: textColor))
-                }
-            }
+        if isBareNumbers {
+            // Bare numbers: just text, no box
+            let textAlpha: CGFloat = isActive ? 1.0 : Constants.inactiveAlpha
+            let textColor = useTemplate ? NSColor.black : boxColor
+            text.drawVerticallyCentered(
+                in: drawRect,
+                withAttributes: getStringAttributes(alpha: textAlpha, color: textColor))
         } else {
-            // Inverse inactive: bordered outline + text (no fill)
-            boxPath.lineWidth = Constants.boxBorderWidth
+            let boxRect = NSRect(origin: .zero, size: size)
+                .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxBorderWidth / 2)
+            let cornerRadius = space.isFullScreen ? 0.0 : Constants.boxCornerRadius
+            let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
 
-            if useTemplate {
-                NSColor.black.setStroke()
-                boxPath.stroke()
+            if isActive || inactiveStyle == .semiTransparent {
+                // Filled box (full opacity for active, reduced for semi-transparent inactive)
+                let fillAlpha: CGFloat = isActive ? 1.0 : Constants.inactiveAlpha
 
-                if text.length > 0 {
-                    text.drawVerticallyCentered(
-                        in: drawRect,
-                        withAttributes: getStringAttributes(alpha: 1, color: .black))
+                if useTemplate {
+                    // Template mode: filled black box, knock out text with destinationOut
+                    NSColor.black.withAlphaComponent(fillAlpha).setFill()
+                    boxPath.fill()
+
+                    if text.length > 0 {
+                        let textImage = NSImage(size: size)
+                        textImage.lockFocus()
+                        text.drawVerticallyCentered(
+                            in: drawRect,
+                            withAttributes: getStringAttributes(alpha: 1, color: .black))
+                        textImage.unlockFocus()
+
+                        textImage.draw(in: drawRect, from: .zero, operation: .destinationOut, fraction: 1.0)
+                    }
+                } else {
+                    // Colored mode: filled box + contrasting text
+                    let effectiveAlpha = boxColor.alphaComponent * fillAlpha
+                    boxColor.withAlphaComponent(effectiveAlpha).setFill()
+                    boxPath.fill()
+
+                    if text.length > 0 {
+                        let textColor = getContrastingTextColor(for: boxColor)
+                        text.drawVerticallyCentered(
+                            in: drawRect,
+                            withAttributes: getStringAttributes(alpha: 1.0, color: textColor))
+                    }
                 }
             } else {
-                boxColor.setStroke()
-                boxPath.stroke()
+                // Bordered inactive: bordered outline + text (no fill)
+                boxPath.lineWidth = Constants.boxBorderWidth
 
-                if text.length > 0 {
-                    text.drawVerticallyCentered(
-                        in: drawRect,
-                        withAttributes: getStringAttributes(alpha: 1, color: boxColor))
+                if useTemplate {
+                    NSColor.black.setStroke()
+                    boxPath.stroke()
+
+                    if text.length > 0 {
+                        text.drawVerticallyCentered(
+                            in: drawRect,
+                            withAttributes: getStringAttributes(alpha: 1, color: .black))
+                    }
+                } else {
+                    boxColor.setStroke()
+                    boxPath.stroke()
+
+                    if text.length > 0 {
+                        text.drawVerticallyCentered(
+                            in: drawRect,
+                            withAttributes: getStringAttributes(alpha: 1, color: boxColor))
+                    }
                 }
             }
         }

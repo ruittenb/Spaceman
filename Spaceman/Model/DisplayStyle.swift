@@ -17,8 +17,8 @@ enum DisplayStyle: Int, CaseIterable {
     var menuLabel: String {
         switch self {
         case .rects:           return "Rectangles"
-        case .numbers:         return "Numbers"
-        case .numbersAndRects: return "Rectangles with Numbers"
+        case .numbers:         return "Bare Numbers"
+        case .numbersAndRects: return "Numbers"
         case .names:           return "Names"
         case .numbersAndNames: return "Numbers and Names"
         }

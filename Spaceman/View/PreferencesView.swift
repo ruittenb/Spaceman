@@ -384,8 +384,8 @@ struct PreferencesView: View {
     private var spacesStylePicker: some View {
         Picker(selection: $displayStyle, label: Text("Icon style")) {
             Text("Rectangles").tag(DisplayStyle.rects)
-            Text("Numbers").tag(DisplayStyle.numbers)
-            Text("Rectangles with numbers").tag(DisplayStyle.numbersAndRects)
+            Text("Bare numbers").tag(DisplayStyle.numbers)
+            Text("Numbers").tag(DisplayStyle.numbersAndRects)
             Text("Names").tag(DisplayStyle.names)
             Text("Numbers and names").tag(DisplayStyle.numbersAndNames)
         }
