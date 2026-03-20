@@ -16,6 +16,7 @@ struct PreferencesView: View {
 
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.semiTransparent
+    @AppStorage("useMinIconWidth") private var useMinIconWidth = true
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
@@ -323,6 +324,10 @@ struct PreferencesView: View {
                 .padding(.bottom, 8)
             inactiveStylePicker
             spacesShownPicker
+            Toggle("Uniform icon widths", isOn: $useMinIconWidth)
+                .onChange(of: useMinIconWidth) { _ in
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                }
         }
         .padding()
         .onChange(of: visibleSpacesModeRaw) { _ in
