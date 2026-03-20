@@ -12,7 +12,7 @@ struct Constants {
     static let minMenuWidth: CGFloat = 350
     static let boxCornerRadius: CGFloat = 3.0
     static let boxPadding: CGFloat = 6.0
-    static let boxVerticalPadding: CGFloat = 1.0
+    static let boxVerticalPadding: CGFloat = 2.0
     static let boxBorderWidth: CGFloat = 1.0
     static let inactiveAlpha: CGFloat = 0.4
 

@@ -401,7 +401,7 @@ struct PreferencesView: View {
             Spacer()
             Picker("", selection: $inactiveStyle) {
                 Text("Semi-transparent").tag(InactiveStyle.semiTransparent)
-                Text("Inverse").tag(InactiveStyle.inverse)
+                Text("Bordered").tag(InactiveStyle.bordered)
             }
             .pickerStyle(.segmented)
             .fixedSize()

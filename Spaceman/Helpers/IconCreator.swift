@@ -126,7 +126,7 @@ class IconCreator {
         // 4. Draw the box icon
         let iconImage = NSImage(size: size)
         let boxRect = NSRect(origin: .zero, size: size)
-            .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxVerticalPadding + Constants.boxBorderWidth / 2)
+            .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxBorderWidth / 2)
         let cornerRadius = space.isFullScreen ? 0.0 : Constants.boxCornerRadius
         let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
         let isActive = space.isCurrentSpace
@@ -216,7 +216,7 @@ class IconCreator {
 
         let iconImage = NSImage(size: size)
         let boxRect = NSRect(origin: .zero, size: size)
-            .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxVerticalPadding + Constants.boxBorderWidth / 2)
+            .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxBorderWidth / 2)
         let cornerRadius = space.isFullScreen ? 0.0 : Constants.boxCornerRadius
         let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
         let drawRect = NSRect(origin: .zero, size: size)
