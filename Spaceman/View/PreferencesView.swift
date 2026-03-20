@@ -128,12 +128,22 @@ struct PreferencesView: View {
         VStack(spacing: 0) {
             // Tab selector
             Picker("", selection: $selectedTab) {
-                Text("General").tag(0)
-                Text("Spaces").tag(1)
+                Text("General").help("⌘1").tag(0)
+                Text("Spaces").help("⌘2").tag(1)
             }
             .labelsHidden()
             .pickerStyle(.segmented)
             .padding(10)
+            .background(
+                Group {
+                    Button("") { selectedTab = 0 }
+                        .keyboardShortcut("1", modifiers: .command)
+                        .hidden()
+                    Button("") { selectedTab = 1 }
+                        .keyboardShortcut("2", modifiers: .command)
+                        .hidden()
+                }
+            )
 
             Divider()
 
