@@ -97,7 +97,7 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
 - Selects one of the five visual icon styles described in [Understanding the Icons](#-understanding-the-icons)
 
 **Inactive Style**
-- **Semi-transparent**: Inactive spaces are shown at reduced opacity
+- **Dimmed**: Inactive spaces are shown at reduced opacity
 - **Bordered**: Inactive spaces are shown as bordered outlines (active spaces remain filled)
 
 **Space Management**
@@ -105,6 +105,9 @@ Spaceman's preferences are organized into two main tabs: **General** and **Space
   - The menu displays full names regardless of length
   - Menu bar icons truncate names to 10 characters for compactness
   - Optionally, for each Space icon, a color can be selected.
+- **Icon widths**: Switches between:
+  - roughly equal icon widths (short names are padded to match the longest, but fullscreen names are disregarded), or
+  - variable widths (each icon sized to its own content)
 - **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
 - **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
 
