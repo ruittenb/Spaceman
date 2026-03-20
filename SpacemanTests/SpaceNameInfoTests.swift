@@ -2,7 +2,7 @@
 //  SpaceNameInfoTests.swift
 //  SpacemanTests
 //
-//  Created by Claude Code
+//  Created by Claude Code on 13/10/2025.
 //
 
 import XCTest

@@ -2,6 +2,8 @@
 //  InactiveStyle.swift
 //  Spaceman
 //
+//  Created by Claude Code on 19/03/2026.
+//
 //  Controls how inactive spaces are visually distinguished from the active space.
 //
 

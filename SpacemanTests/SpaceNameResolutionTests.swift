@@ -2,6 +2,8 @@
 //  SpaceNameResolutionTests.swift
 //  SpacemanTests
 //
+//  Created by Claude Code on 16/01/2026.
+//
 //  Tests for space name resolution logic, particularly handling ManagedSpaceID
 //  changes after macOS reboots (GitHub issue #17), user reorders (#20),
 //  and display changes (#22).
