@@ -58,7 +58,7 @@ class IconCreator {
         // For uniform icon widths: match the longest name, capped at 4 characters
         let showsNames = displayStyle == .names || displayStyle == .numbersAndNames
         if useMinIconWidth && showsNames {
-            let longestName = filteredSpaces.map { $0.spaceName.count }.max() ?? 0
+            let longestName = filteredSpaces.filter { !$0.isFullScreen }.map { $0.spaceName.count }.max() ?? 0
             minIconCharWidth = min(longestName, 4)
         } else {
             minIconCharWidth = 0

@@ -324,7 +324,7 @@ struct PreferencesView: View {
                 .padding(.bottom, 8)
             inactiveStylePicker
             spacesShownPicker
-            Toggle("Uniform icon widths", isOn: $useMinIconWidth)
+            Toggle("Roughly equal icon widths", isOn: $useMinIconWidth)
                 .onChange(of: useMinIconWidth) { _ in
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
                 }
