@@ -193,13 +193,14 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func flashStatusBar() {
         if let button = statusBarItem.button {
             let blinkInterval: TimeInterval = 0.1
-            button.isHighlighted = true
+            let dimAlpha: CGFloat = 0.3
+            button.alphaValue = dimAlpha
             DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
-                button.isHighlighted = false
+                button.alphaValue = 1.0
                 DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
-                    button.isHighlighted = true
+                    button.alphaValue = dimAlpha
                     DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
-                        button.isHighlighted = false
+                        button.alphaValue = 1.0
                     }
                 }
             }
