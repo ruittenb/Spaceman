@@ -17,7 +17,8 @@ class IconCreator {
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
-    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.semiTransparent
+    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.dimmed
+    @AppStorage("useMinIconWidth") private var useMinIconWidth = true
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -27,6 +28,7 @@ class IconCreator {
     private var iconSize = NSSize(width: 0, height: 0)
     private var gapWidth = CGFloat.zero
     private var displayGapWidth = CGFloat.zero
+    private var minIconCharWidth = 0
     private let spaceFilter = SpaceFilter()
 
     public var sizes: GuiSize!
@@ -51,6 +53,15 @@ class IconCreator {
             let empty = NSImage(size: NSSize(width: 1, height: iconSize.height))
             empty.isTemplate = true
             return empty
+        }
+
+        // For uniform icon widths: match the longest name, capped at 4 characters
+        let showsNames = displayStyle == .names || displayStyle == .numbersAndNames
+        if useMinIconWidth && showsNames {
+            let longestName = filteredSpaces.filter { !$0.isFullScreen }.map { $0.spaceName.count }.max() ?? 0
+            minIconCharWidth = min(longestName, 4)
+        } else {
+            minIconCharWidth = 0
         }
 
         // Pre-scan for mixed color context: when some spaces have custom colors,
@@ -117,13 +128,24 @@ class IconCreator {
         // 3. Calculate icon size (dynamic width based on text)
         let isBareNumbers = displayStyle == .numbers
         let measureAttrs = getStringAttributes(alpha: 1, color: .black)
-        let textSize = text.length > 0 ? text.size(withAttributes: measureAttrs) : .zero
-        let minWidth = CGFloat(sizes.ICON_WIDTH_SMALL)
-        let digitWidth = ("0" as NSString).size(withAttributes: measureAttrs).width
-        let dynamicWidth = text.length > 0
-            ? max(textSize.width + Constants.boxPadding * 2, minWidth)
-            : max(digitWidth + Constants.boxPadding * 2, minWidth)
-        let size = NSSize(width: dynamicWidth, height: iconSize.height)
+        let monoCharWidth = ("0" as NSString).size(withAttributes: measureAttrs).width
+        let padding = Constants.boxPadding * 2
+        let baseMinWidth = CGFloat(sizes.ICON_WIDTH_SMALL)
+
+        // Content width: measured text, or one digit for empty rectangles
+        let contentWidth = text.length > 0
+            ? text.size(withAttributes: measureAttrs).width
+            : monoCharWidth
+
+        var iconWidth = max(contentWidth + padding, baseMinWidth)
+
+        // Enforce minimum width so name-based icons are uniform
+        if minIconCharWidth > 0 {
+            let prefixWidth = displayStyle == .numbersAndNames ? monoCharWidth * 2 : 0
+            iconWidth = max(iconWidth, prefixWidth + monoCharWidth * CGFloat(minIconCharWidth) + padding)
+        }
+
+        let size = NSSize(width: iconWidth, height: iconSize.height)
 
         // 4. Draw the icon
         let iconImage = NSImage(size: size)
@@ -145,8 +167,8 @@ class IconCreator {
             let cornerRadius = space.isFullScreen ? 0.0 : Constants.boxCornerRadius
             let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
 
-            if isActive || inactiveStyle == .semiTransparent {
-                // Filled box (full opacity for active, reduced for semi-transparent inactive)
+            if isActive || inactiveStyle == .dimmed {
+                // Filled box (full opacity for active, reduced for dimmed inactive)
                 let fillAlpha: CGFloat = isActive ? 1.0 : Constants.inactiveAlpha
 
                 if useTemplate {

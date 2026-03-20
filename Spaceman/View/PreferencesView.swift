@@ -15,7 +15,8 @@ struct PreferencesView: View {
     weak var parentWindow: PreferencesWindow?
 
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
-    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.semiTransparent
+    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.dimmed
+    @AppStorage("useMinIconWidth") private var useMinIconWidth = true
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
@@ -322,6 +323,7 @@ struct PreferencesView: View {
             spaceNameListEditor
                 .padding(.bottom, 8)
             inactiveStylePicker
+            iconWidthPicker
             spacesShownPicker
         }
         .padding()
@@ -400,13 +402,30 @@ struct PreferencesView: View {
             Text("Inactive style")
             Spacer()
             Picker("", selection: $inactiveStyle) {
-                Text("Semi-transparent").tag(InactiveStyle.semiTransparent)
+                Text("Dimmed").tag(InactiveStyle.dimmed)
                 Text("Bordered").tag(InactiveStyle.bordered)
             }
             .pickerStyle(.segmented)
             .fixedSize()
         }
         .onChange(of: inactiveStyle) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+
+    // MARK: - Icon Width Picker
+    private var iconWidthPicker: some View {
+        HStack(spacing: 12) {
+            Text("Icon widths")
+            Spacer()
+            Picker("", selection: $useMinIconWidth) {
+                Text("Roughly equal").tag(true)
+                Text("Variable").tag(false)
+            }
+            .pickerStyle(.segmented)
+            .fixedSize()
+        }
+        .onChange(of: useMinIconWidth) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
