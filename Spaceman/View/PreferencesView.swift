@@ -113,6 +113,9 @@ struct PreferencesView: View {
                     Text("GitHub").font(.system(size: 12))
                 }
                 .buttonStyle(LinkButtonStyle())
+                .onHover { hovering in
+                    if hovering { NSCursor.pointingHand.push() } else { NSCursor.pop() }
+                }
 
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.website)
@@ -120,6 +123,9 @@ struct PreferencesView: View {
                     Text("Website").font(.system(size: 12))
                 }
                 .buttonStyle(LinkButtonStyle())
+                .onHover { hovering in
+                    if hovering { NSCursor.pointingHand.push() } else { NSCursor.pop() }
+                }
             }
         }
         .padding(.horizontal, 18)
@@ -131,7 +137,9 @@ struct PreferencesView: View {
             // Tab selector
             Picker("", selection: $selectedTab) {
                 Text("General").help("⌘1").tag(0)
-                Text("Spaces").help("⌘2").tag(1)
+                Text("Appearance").help("⌘2").tag(1)
+                Text("Spaces").help("⌘3").tag(2)
+                Text("Shortcuts").help("⌘4").tag(3)
             }
             .labelsHidden()
             .pickerStyle(.segmented)
@@ -143,6 +151,12 @@ struct PreferencesView: View {
                         .hidden()
                     Button("") { selectedTab = 1 }
                         .keyboardShortcut("2", modifiers: .command)
+                        .hidden()
+                    Button("") { selectedTab = 2 }
+                        .keyboardShortcut("3", modifiers: .command)
+                        .hidden()
+                    Button("") { selectedTab = 3 }
+                        .keyboardShortcut("4", modifiers: .command)
                         .hidden()
                 }
             )
@@ -159,9 +173,13 @@ struct PreferencesView: View {
                         Divider()
                         backupRestorePane
                     }
+                } else if selectedTab == 1 {
+                    appearancePane
+                } else if selectedTab == 2 {
+                    spacesPane
                 } else {
                     VStack(alignment: .leading, spacing: 0) {
-                        spacesPane
+                        shortcutsPane
                         Divider()
                         switchingPane
                     }
@@ -179,23 +197,14 @@ struct PreferencesView: View {
                 .fontWeight(.semibold)
             LaunchAtLogin.Toggle { Text("Launch Spaceman at login") }
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
-            refreshShortcutRecorder.disabled(autoRefreshSpaces)
-            preferencesShortcutRecorder
-            layoutSizePicker
-            dualRowFillOrderPicker
         }
         .padding()
         .onChange(of: autoRefreshSpaces) { enabled in
             if enabled {
                 prefsVM.startTimer()
-                KeyboardShortcuts.disable(.refresh)
             } else {
                 prefsVM.pauseTimer()
-                KeyboardShortcuts.enable(.refresh)
             }
-        }
-        .onChange(of: dualRowFillOrder) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
 
@@ -317,17 +326,106 @@ struct PreferencesView: View {
             Text("Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
-            spacesStylePicker
             // The Space names are always shown in the menu, therefore:
             // allow editing even if icon style does not include names
             spaceNameListEditor
-                .padding(.bottom, 8)
+        }
+        .padding()
+    }
+
+    // MARK: - Appearance pane
+    private var appearancePane: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Appearance")
+                .font(.title2)
+                .fontWeight(.semibold)
+            layoutSizePicker
+            dualRowFillOrderPicker
+            spacesStylePicker
             inactiveStylePicker
             iconWidthPicker
             spacesShownPicker
         }
         .padding()
+        .onChange(of: dualRowFillOrder) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
         .onChange(of: visibleSpacesModeRaw) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+
+    // MARK: - Shortcuts pane
+    private var shortcutsPane: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("General")
+                .font(.title2)
+                .fontWeight(.semibold)
+            refreshShortcutRecorder
+            preferencesShortcutRecorder
+        }
+        .padding()
+    }
+
+    // MARK: - Switching pane
+    private var switchingPane: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Switching Spaces")
+                .font(.title2)
+                .fontWeight(.semibold)
+            HStack(alignment: .firstTextBaseline) {
+                Text("Shortcut keys")
+                    .frame(width: 130, alignment: .leading)
+                Picker("Shortcut keys", selection: $keySet) {
+                    Text("number keys on top row").tag(KeySet.toprow).padding(.bottom, 2)
+                    Text("numeric keypad").tag(KeySet.numpad)
+                }
+                .pickerStyle(.radioGroup)
+                .labelsHidden()
+            }
+            .padding(.bottom, 6)
+            HStack(alignment: .top) {
+                Text("With modifiers")
+                    .frame(width: 130, alignment: .leading)
+                VStack(alignment: .leading) {
+                    Toggle("Shift ⇧", isOn: $withShift)
+                    Toggle("Control ⌃", isOn: $withControl)
+                }
+                Spacer()
+                VStack(alignment: .leading) {
+                    Toggle("Option ⌥", isOn: $withOption)
+                    Toggle("Command ⌘", isOn: $withCommand)
+                }
+                Spacer()
+            }
+            .padding(.bottom, 6)
+            HStack(spacing: 8) {
+                Button {
+                    openMissionControlShortcuts()
+                } label: {
+                    Text("Open \(systemSettingsName()) → Mission Control Shortcuts…")
+                }
+                Button {
+                    showSwitchingHelp.toggle()
+                } label: {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
+                    Text("For switching between spaces to work, these settings "
+                        + "must match the keyboard shortcuts assigned "
+                        + "for Mission Control.")
+                    .padding()
+                    .frame(width: 240)
+                }
+            }
+        }
+        .padding()
+        .onChange(of: keySet) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -352,15 +450,18 @@ struct PreferencesView: View {
 
     // MARK: - Layout Size Picker
     private var layoutSizePicker: some View {
-        Picker(selection: $layoutMode, label: Text("Size")) {
-            Text("Dual Row").tag(LayoutMode.dualRows)
-            Text("Compact").tag(LayoutMode.compact)
-            Text("Medium").tag(LayoutMode.medium)
-            Text("Large").tag(LayoutMode.large)
-            Text("X Large").tag(LayoutMode.extraLarge)
+        HStack(spacing: 12) {
+            Text("Size")
+            Spacer()
+            Picker("", selection: $layoutMode) {
+                Text("Dual Row").tag(LayoutMode.dualRows)
+                Text("Compact").tag(LayoutMode.compact)
+                Text("Medium").tag(LayoutMode.medium)
+                Text("Large").tag(LayoutMode.large)
+                Text("Extra Large").tag(LayoutMode.extraLarge)
+            }
+            .fixedSize()
         }
-        .pickerStyle(.segmented)
-        .fixedSize()
         .onChange(of: layoutMode) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
@@ -370,8 +471,10 @@ struct PreferencesView: View {
     private var dualRowFillOrderPicker: some View {
         HStack(spacing: 12) {
             Text("Dual Row fill order")
+                .fixedSize()
                 .foregroundColor(layoutMode == .dualRows ? .primary : .secondary)
-            Spacer()
+                .padding(.leading, 40)
+            Spacer(minLength: 8)
             Picker("", selection: $dualRowFillOrder) {
                 Text("Rows first").tag(DualRowFillOrder.byRow)
                 Text("Columns first").tag(DualRowFillOrder.byColumn)
@@ -384,12 +487,17 @@ struct PreferencesView: View {
 
     // MARK: - Style Pickers
     private var spacesStylePicker: some View {
-        Picker(selection: $displayStyle, label: Text("Icon style")) {
-            Text("Rectangles").tag(DisplayStyle.rects)
-            Text("Bare numbers").tag(DisplayStyle.numbers)
-            Text("Numbers").tag(DisplayStyle.numbersAndRects)
-            Text("Names").tag(DisplayStyle.names)
-            Text("Numbers and names").tag(DisplayStyle.numbersAndNames)
+        HStack(spacing: 12) {
+            Text("Icon text")
+            Spacer()
+            Picker("", selection: $displayStyle) {
+                Text("No Text").tag(DisplayStyle.rects)
+                Text("Bare numbers").tag(DisplayStyle.numbers)
+                Text("Numbers").tag(DisplayStyle.numbersAndRects)
+                Text("Names").tag(DisplayStyle.names)
+                Text("Numbers and names").tag(DisplayStyle.numbersAndNames)
+            }
+            .fixedSize()
         }
         .onChange(of: displayStyle) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
@@ -546,69 +654,6 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Switching pane
-    private var switchingPane: some View {
-        // Switching Pane
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Switching Spaces")
-                .font(.title2)
-                .fontWeight(.semibold)
-            HStack(alignment: .firstTextBaseline) {
-                Text("Shortcut keys")
-                    .frame(width: 130, alignment: .leading)
-                Picker("Shortcut keys", selection: $keySet) {
-                    Text("number keys on top row").tag(KeySet.toprow).padding(.bottom, 2)
-                    Text("numeric keypad").tag(KeySet.numpad)
-                }
-                .pickerStyle(.radioGroup)
-                .labelsHidden()
-            }
-            .padding(.bottom, 6)
-            HStack(alignment: .top) {
-                Text("With modifiers")
-                    .frame(width: 130, alignment: .leading)
-                VStack(alignment: .leading) {
-                    Toggle("Shift ⇧", isOn: $withShift)
-                    Toggle("Control ⌃", isOn: $withControl)
-                }
-                Spacer()
-                VStack(alignment: .leading) {
-                    Toggle("Option ⌥", isOn: $withOption)
-                    Toggle("Command ⌘", isOn: $withCommand)
-                }
-                Spacer()
-            }
-            .padding(.bottom, 6)
-            HStack(spacing: 8) {
-                Button {
-                    openMissionControlShortcuts()
-                } label: {
-                    Text("Open \(systemSettingsName()) → Mission Control Shortcuts…")
-                }
-                Button {
-                    showSwitchingHelp.toggle()
-                } label: {
-                    Image(systemName: "info.circle")
-                        .foregroundColor(.secondary)
-                }
-                .buttonStyle(.plain)
-                .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
-                    Text("For switching between spaces to work, these settings "
-                        + "must match the keyboard shortcuts assigned "
-                        + "for Mission Control.")
-                    .padding()
-                    .frame(width: 240)
-                }
-            }
-        }
-        .padding()
-        .onChange(of: keySet) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
-        .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
-    }
 }
 
 // MARK: - Open Displays Settings

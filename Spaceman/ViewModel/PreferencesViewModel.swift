@@ -157,8 +157,8 @@ class PreferencesViewModel: ObservableObject {
             // Timestamped backup, matching Makefile convention
             let formatter = ISO8601DateFormatter()
             formatter.formatOptions = [
-                .withYear, .withMonth, .withDay, .withTime,
-                .withColonSeparatorInTime, .withTimeZone]
+                .withYear, .withMonth, .withDay, .withDashSeparatorInDate,
+                .withTime, .withColonSeparatorInTime, .withTimeZone]
             let timestamp = formatter.string(from: Date())
             let timestampedFile = Self.settingsDirectory.appendingPathComponent("app-defaults-\(timestamp).xml")
             try data.write(to: timestampedFile)

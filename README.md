@@ -62,57 +62,46 @@ From top to bottom, you can see examples of the five different icon styles:
 
 ## 🔹 Preferences
 
-Spaceman's preferences are organized into two main tabs: **General** and **Spaces**.
+Spaceman's preferences are organized into four tabs: **General**, **Appearance**, **Spaces**, and **Shortcuts**.
 
 ### General Tab
 
-<img src="images/Preferences-General-2.png" width="66%" height="auto">
-
-**General**
 - **Launch Spaceman at login**: Automatically start Spaceman when you log in to macOS
 - **Refresh spaces in background**: Enables refreshing space information automatically, at regular intervals
-- **Shortcut for manual refresh**: Defines a shortcut key to trigger an update of the space information
-- **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
+- **Restart space numbering by display**: For each display, Space numbering starts at 1, instead of using continuous numbering
+- **When displays are side by side**: Use macOS display order or reverse it
+- **When displays are stacked**: macOS standard is to sort displays by the X coordinate of their center. This option enables sorting by Y coordinate
+- **Open System Settings → Displays**: Opens the System Settings panel for Displays. Click [Arrange] to adjust the arrangement of the displays
+- **Backup Preferences**: Saves all your preferences to a file (in `~/.spaceman/`)
+- **Restore Preferences**: Loads preferences from that file
+
+### Appearance Tab
+
 - **Size**: Adjusts icon and font sizes for the menu bar
 - **Dual Row fill order**: When using Dual Row layout, choose whether to fill rows first or columns first:
 
 <img src="images/Dual-Row-Directions.png" width="66%" height="auto">
 
-**Displays**
-- **Restart space numbering by display**: For each display, Space numbering starts at 1, instead of using continuous numbering
-- **When displays are side by side**: Use macOS display order or reverse it
-- **When displays are stacked**: macOS standard is to sort displays by the X coordinate of their center. This option enables sorting by Y coordinate
-- **Open System Settings → Displays**: Opens the System Settings panel for Displays. Click [Arrange] to adjust the arrangement of the displays
-
-**Backup**
-- **Backup Preferences**: Saves all your preferences to a file (in `~/.spaceman/`)
-- **Restore Preferences**: Loads preferences from that file
-
-
-### Spaces Tab
-
-<img src="images/Preferences-Spaces-2.png" width="66%" height="auto">
-
-**Icon Style**
-- Selects one of the five visual icon styles described in [Understanding the Icons](#-understanding-the-icons)
-
-**Inactive Style**
-- **Dimmed**: Inactive spaces are shown at reduced opacity
-- **Bordered**: Inactive spaces are shown as bordered outlines (active spaces remain filled)
-
-**Space Management**
-- **Space names**: Assigns custom names of any length to individual spaces
-  - The menu displays full names regardless of length
-  - Menu bar icons truncate names to 10 characters for compactness
-  - Optionally, for each Space icon, a color can be selected.
+- **Icon style**: Selects one of the five visual icon styles described in [Understanding the Icons](#-understanding-the-icons)
+- **Inactive style**: Choose between dimmed (reduced opacity) or bordered (outlined) inactive spaces
 - **Icon widths**: Switches between:
   - roughly equal icon widths (short names are padded to match the longest, but fullscreen names are disregarded), or
   - variable widths (each icon sized to its own content)
 - **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
 - **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
 
-**Switching Spaces**
-- **Shortcut keys** and **Modifiers**: Tell Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
+### Spaces Tab
+
+- **Space names**: Assigns custom names of any length to individual spaces
+  - The menu displays full names regardless of length
+  - Menu bar icons truncate names to 10 characters for compactness
+  - Optionally, for each Space icon, a color can be selected.
+
+### Shortcuts Tab
+
+- **Shortcut for manual refresh**: Defines a shortcut key to trigger an update of the space information
+- **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
+- **Switching keys** and **Modifiers**: Tell Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
 - **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to define these.
 
 ## 🔹 Switching Spaces
