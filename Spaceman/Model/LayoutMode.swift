@@ -20,7 +20,7 @@ enum LayoutMode: Int, CaseIterable {
         case .compact:    return "Compact"
         case .medium:     return "Medium"
         case .large:      return "Large"
-        case .extraLarge: return "X Large"
+        case .extraLarge: return "Extra Large"
         }
     }
 }

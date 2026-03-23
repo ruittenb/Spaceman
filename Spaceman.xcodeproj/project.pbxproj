@@ -18,6 +18,7 @@
 		854639D9C559DF47F8A2A2C6 /* DisplayStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141909F55D23EE17579D9208 /* DisplayStyleTests.swift */; };
 		96356224D363C59D464B5D8D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED480E85F666F5E94CCE8DB1 /* Foundation.framework */; };
 		9A6DE94BB0D75559B9039ABA /* SpaceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCE20A6B4C0E9E494935DB8 /* SpaceFilter.swift */; };
+		A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */; };
 		E70044AC2E7F6584001C7295 /* DualRowFillOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70044AB2E7F6584001C7295 /* DualRowFillOrder.swift */; };
 		E70044AE2E80380B001C7295 /* OpenPreferencesCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70044AD2E80380B001C7295 /* OpenPreferencesCommand.swift */; };
 		E70044B02E80380B001C7296 /* RestorePreferencesCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70044AF2E80380B001C7296 /* RestorePreferencesCommand.swift */; };
@@ -54,7 +55,6 @@
 		F605F4B85B7ADD5424BDDFAE /* SpaceNameResolutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */; };
 		F67105E91D29DA62516E5958 /* SpaceNameInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */; };
 		cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */; };
-		A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +79,7 @@
 		8F4A6E10892D4C67AD5F9BE3 /* VisibleSpacesMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibleSpacesMode.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6A7B8C9D0E1F2 /* InactiveStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InactiveStyle.swift; sourceTree = "<group>"; };
 		A4EB8773F2764BC7A1C695B7 /* SpaceNameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNameStore.swift; sourceTree = "<group>"; };
+		B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumRawValueTests.swift; path = SpacemanTests/EnumRawValueTests.swift; sourceTree = "<group>"; };
 		C0F9A49EF2025B97049F7053 /* SpaceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceTests.swift; path = SpacemanTests/SpaceTests.swift; sourceTree = "<group>"; };
 		D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameResolutionTests.swift; path = SpacemanTests/SpaceNameResolutionTests.swift; sourceTree = "<group>"; };
 		D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameInfoTests.swift; path = SpacemanTests/SpaceNameInfoTests.swift; sourceTree = "<group>"; };
@@ -117,7 +118,6 @@
 		E8E2AF02257CB5CE00319BBC /* SpaceNameInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNameInfo.swift; sourceTree = "<group>"; };
 		E8EBF090257739ED001BA74F /* PreferencesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
 		ED480E85F666F5E94CCE8DB1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumRawValueTests.swift; path = SpacemanTests/EnumRawValueTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -650,7 +650,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.15.1;
+				CURRENT_PROJECT_VERSION = 1.15.2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = B83F4KWQ2G;
@@ -665,7 +665,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.15.1;
+				MARKETING_VERSION = 1.15.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -683,7 +683,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.15.1;
+				CURRENT_PROJECT_VERSION = 1.15.2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = B83F4KWQ2G;
@@ -698,7 +698,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.15.1;
+				MARKETING_VERSION = 1.15.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

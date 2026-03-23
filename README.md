@@ -33,86 +33,88 @@ When launching Spaceman, you may run into this message. Open the System Settings
 
 <img src="images/NoOpenAuth.png" width="66%" height="auto">
 
-## 🔹 Understanding the Icons
+## 🔹 What It Looks Like
 
-<img src="images/Spaceman-Example.png" width="66%" height="auto">
+You can choose between Dimmed or Boxed view:
 
-Spaceman displays your spaces as icons in the menu bar. The image above shows examples of the five different icon styles available.
+<img src="images/Button-1-Dimmed.png" width="auto" height="40px">
 
-### Icon States
+<img src="images/Button-1-Boxed.png" width="auto" height="40px">
 
-The meaning of the icons from left to right in the example:
+Fullscreen spaces have square corners, regular spaces rounded corners.
 
-- **Active Space**: The space you're currently on (highlighted)
-- **Inactive Space**: Regular spaces you can switch to
-- **Inactive Fullscreen App**: A space with a fullscreen application
-- **Gap**: Indicates that the following spaces are on a different display
-- **Inactive Space**: Another regular space on the second display
-- **Active Fullscreen App**: Current space with a fullscreen application
+You can assign colors to each space button:
 
-### Icon Styles
+<img src="images/Button-2-Colored-1.png" width="auto" height="40px">
 
-From top to bottom, you can see examples of the five different icon styles:
+You can choose variable width icons or mostly-equal width icons:
 
-- **Rectangles**: Plain rectangles
-- **Bare Numbers**: Plain numbers, not boxed
-- **Numbers**: Numbers in a rectangular box
-- **Names**: Custom text labels for each space
-- **Names with Numbers**: Combined custom names and numbers
+<img src="images/Button-3-Variable.png" width="auto" height="40px">
+
+<img src="images/Button-3-Equal.png" width="auto" height="40px">
+
+You can choose to display just numbers instead of the entire names, or even just rectangles:
+
+<img src="images/Button-4-Numbers.png" width="auto" height="40px">
+
+<img src="images/Button-4-Rectangles.png" width="auto" height="40px">
+
+For ultra-compact mode, choose the Two Rows layout:
+
+<img src="images/Button-5-TwoRows.png" width="auto" height="40px">
+
+You can choose to display all spaces or just a few neighboring ones; and to hide Fullscreen spaces entirely.
 
 ## 🔹 Preferences
 
-Spaceman's preferences are organized into two main tabs: **General** and **Spaces**.
+Spaceman's preferences are organized into four tabs: **General**, **Appearance**, **Spaces**, and **Shortcuts**.
 
 ### General Tab
 
-<img src="images/Preferences-General-2.png" width="66%" height="auto">
+<img src="images/Preferences-General.png" width="66%" height="auto">
 
-**General**
 - **Launch Spaceman at login**: Automatically start Spaceman when you log in to macOS
-- **Refresh spaces in background**: Enables refreshing space information automatically, at regular intervals
-- **Shortcut for manual refresh**: Defines a shortcut key to trigger an update of the space information
-- **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
+- **Refresh spaces in background**: If enabled, Spaceman will update the view when your space configuration changes
+- **Restart space numbering by display**: For each display, Space numbering starts at 1, instead of using continuous numbering
+- **When displays are side by side**: Use macOS display order or reverse it
+- **When displays are stacked**: macOS standard is to sort displays by the X coordinate of their center. This option enables sorting by Y coordinate
+- **Open System Settings → Displays**: Opens the System Settings panel for Displays. Click [Arrange] to adjust the arrangement of the displays
+- **Backup Preferences**: Saves all your preferences to `~/.spaceman/app-defaults.xml` (old copies are preserved)
+- **Restore Preferences**: Loads preferences from that file
+
+### Appearance Tab
+
+<img src="images/Preferences-Appearance.png" width="66%" height="auto">
+
 - **Size**: Adjusts icon and font sizes for the menu bar
 - **Dual Row fill order**: When using Dual Row layout, choose whether to fill rows first or columns first:
 
 <img src="images/Dual-Row-Directions.png" width="66%" height="auto">
 
-**Displays**
-- **Restart space numbering by display**: For each display, Space numbering starts at 1, instead of using continuous numbering
-- **When displays are side by side**: Use macOS display order or reverse it
-- **When displays are stacked**: macOS standard is to sort displays by the X coordinate of their center. This option enables sorting by Y coordinate
-- **Open System Settings → Displays**: Opens the System Settings panel for Displays. Click [Arrange] to adjust the arrangement of the displays
-
-**Backup**
-- **Backup Preferences**: Saves all your preferences to a file (in `~/.spaceman/`)
-- **Restore Preferences**: Loads preferences from that file
-
-
-### Spaces Tab
-
-<img src="images/Preferences-Spaces-2.png" width="66%" height="auto">
-
-**Icon Style**
-- Selects one of the five visual icon styles described in [Understanding the Icons](#-understanding-the-icons)
-
-**Inactive Style**
-- **Dimmed**: Inactive spaces are shown at reduced opacity
-- **Bordered**: Inactive spaces are shown as bordered outlines (active spaces remain filled)
-
-**Space Management**
-- **Space names**: Assigns custom names of any length to individual spaces
-  - The menu displays full names regardless of length
-  - Menu bar icons truncate names to 10 characters for compactness
-  - Optionally, for each Space icon, a color can be selected.
+- **Icon text**: Selects one of the five visual icon styles shown in [What It Looks Like](#-what-it-looks-like)
+- **Inactive style**: Choose between dimmed (reduced opacity) or bordered (outlined) inactive spaces
 - **Icon widths**: Switches between:
   - roughly equal icon widths (short names are padded to match the longest, but fullscreen names are disregarded), or
   - variable widths (each icon sized to its own content)
 - **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
 - **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
 
-**Switching Spaces**
-- **Shortcut keys** and **Modifiers**: Tell Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
+### Spaces Tab
+
+<img src="images/Preferences-Spaces-1.png" width="66%" height="auto">
+
+- **Space names**: Assigns custom names of any length to individual spaces
+  - The menu displays full names regardless of length
+  - Menu bar icons truncate names to 10 characters for compactness
+  - Optionally, for each Space icon, a color can be selected.
+
+### Shortcuts Tab
+
+<img src="images/Preferences-Shortcuts.png" width="66%" height="auto">
+
+- **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
+- **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
+- **Switching keys** and **Modifiers**: Tell Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
 - **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to define these.
 
 ## 🔹 Switching Spaces
@@ -168,7 +170,7 @@ For space switching to work, you need to configure three things:
 - Select any space from the list to switch to it
 - Menu shows full space names and indicates the current space with a checkmark
 
-<img src="images/Menu.png" width="auto" height="auto">
+<img src="images/Menu-1.png" width="auto" height="auto">
 
 **Keyboard Shortcuts**
 - Spaceman does not do the space switching itself, but sends shortcut keystrokes to Mission Control.
@@ -222,6 +224,7 @@ Spaceman is not compatible with the setting **System Settings → Desktop & Dock
 - Contributions by:
   - [Waylon Wang](https://github.com/waylonwang/Spaceman)
   - [ultravioletcatastrophe](https://github.com/ultravioletcatastrophe/Spaceman)
+  - [Nicomalacho](https://github.com/Nicomalacho/Spaceman)
   - [Dmitry Poznyak](https://github.com/triangular-sneaky/Spaceman)
   - [Grzegorz Milka](https://github.com/gregorias/Spaceman)
   - [Michael Lehenauer](https://github.com/mike-jl/Spaceman)
