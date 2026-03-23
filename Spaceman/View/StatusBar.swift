@@ -15,6 +15,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("schema") private var keySet = KeySet.toprow
+    @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -122,6 +123,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             item.target = self
             spacesShownSubmenu.addItem(item)
         }
+        spacesShownSubmenu.addItem(NSMenuItem.separator())
+        let hideFullscreenItem = NSMenuItem(title: "Fullscreen Spaces", action: #selector(toggleHideFullscreenSpaces), keyEquivalent: "")
+        hideFullscreenItem.target = self
+        spacesShownSubmenu.addItem(hideFullscreenItem)
+
         spacesShownMenuItem = NSMenuItem(title: "Spaces Shown", action: nil, keyEquivalent: "")
         spacesShownMenuItem.submenu = spacesShownSubmenu
 
@@ -265,7 +271,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             item.state = item.tag == displayStyle.rawValue ? .on : .off
         }
         for item in spacesShownMenuItem.submenu?.items ?? [] {
-            item.state = item.tag == visibleSpacesModeRaw ? .on : .off
+            if item.action == #selector(toggleHideFullscreenSpaces) {
+                item.state = hideFullscreenSpaces ? .off : .on
+            } else {
+                item.state = item.tag == visibleSpacesModeRaw ? .on : .off
+            }
         }
     }
 
@@ -283,6 +293,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func selectSpacesShown(_ sender: NSMenuItem) {
         visibleSpacesModeRaw = sender.tag
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func toggleHideFullscreenSpaces() {
+        hideFullscreenSpaces.toggle()
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 

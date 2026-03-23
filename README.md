@@ -84,7 +84,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Appearance Tab
 
-<img src="images/Preferences-Appearance.png" width="66%" height="auto">
+<img src="images/Preferences-Appearance-1.png" width="66%" height="auto">
 
 - **Size**: Adjusts icon and font sizes for the menu bar
 - **Dual Row fill order**: When using Dual Row layout, choose whether to fill rows first or columns first:
@@ -98,6 +98,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
   - variable widths (each icon sized to its own content)
 - **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
 - **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
+- **Hide fullscreen spaces**: Hides fullscreen app spaces from the menu bar
 
 ### Spaces Tab
 
@@ -193,7 +194,16 @@ $ osascript -e 'tell application "Spaceman" to open preferences' # Open Preferen
 $ osascript -e 'tell application "Spaceman" to restore preferences' # Restore Preferences from Backup
 ```
 
-These commands can be used in automation tools like Alfred, Keyboard Maestro, or custom scripts.
+It also exposes read-only properties for querying the current space:
+
+```sh
+$ osascript -e 'tell application "Spaceman" to get current space number' # e.g. 3
+$ osascript -e 'tell application "Spaceman" to get current space name'   # e.g. "Mail"
+```
+
+With multiple displays, these return the current space on the frontmost display.
+
+These commands and properties can be used in automation tools like Alfred, Keyboard Maestro, or custom scripts.
 For details on how to maximize usefulness of 'refresh', see [MikeJL's Comments](README-Yabai.md)
 
 ## 🔹 Troubleshooting
@@ -235,4 +245,10 @@ Spaceman is not compatible with the setting **System Settings → Desktop & Dock
 ## 🔹 Mentions
 
 - [Softpedia](https://mac.softpedia.com/get/System-Utilities/Spaceman.shtml)
+
+## 🔹 Similar projects
+
+- [SpaceId](https://github.com/dshnkao/SpaceId/)
+  - [SpaceId fork](https://github.com/davidpurnell/SpaceId)
+
 

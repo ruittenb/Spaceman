@@ -8,7 +8,7 @@ Spaceman is a macOS menu bar application that displays Spaces/Virtual Desktops. 
 
 ## Build Commands
 
-See the `Makefile` for all available targets. Key ones: `make build`, `make all`, `make defaults-clear`, `make defaults-get`.
+**NEVER build.** Do not run `make`, `xcodebuild`, or any other build commands. The user will build manually. Tell them to.
 
 ## Build Artifacts
 

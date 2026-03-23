@@ -13,6 +13,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var iconCreator: IconCreator!
     private var statusBar: StatusBar!
     private var spaceObserver: SpaceObserver!
+    private var currentSpaces: [Space] = []
 
     static var activeSpaceIDs: Set<String> = []
 
@@ -58,6 +59,40 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusBar.showPreferencesWindow(self)
     }
 
+    // MARK: - AppleScript Properties
+
+    func application(_ sender: NSApplication, delegateHandlesKey key: String) -> Bool {
+        return key == "currentSpaceNumber" || key == "currentSpaceName"
+    }
+
+    @objc var currentSpaceNumber: Int {
+        return currentSpaceOnFrontmostDisplay()?.spaceNumber ?? 0
+    }
+
+    @objc var currentSpaceName: String {
+        return currentSpaceOnFrontmostDisplay()?.spaceName ?? ""
+    }
+
+    private func currentSpaceOnFrontmostDisplay() -> Space? {
+        let activeSpaces = currentSpaces.filter { $0.isCurrentSpace }
+        guard !activeSpaces.isEmpty else { return nil }
+        if activeSpaces.count == 1 { return activeSpaces.first }
+
+        if let mainScreen = NSScreen.main,
+           let screenNumber = mainScreen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber {
+            let mainDisplayID = CGDirectDisplayID(screenNumber.uint32Value)
+            for space in activeSpaces {
+                let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, space.displayID as CFString)
+                let did = CGDisplayGetDisplayIDFromUUID(uuid)
+                if did == mainDisplayID {
+                    return space
+                }
+            }
+        }
+
+        return activeSpaces.first
+    }
+
     // MARK: - Legacy Settings Migration
     private func performLegacyMigrations() {
         // Remove obsolete UserDefaults keys
@@ -92,6 +127,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate: SpaceObserverDelegate {
     func didUpdateSpaces(spaces: [Space]) {
+        currentSpaces = spaces
         let buttonAppearance = statusBar.getButtonAppearance()
         let icon = iconCreator.getIcon(for: spaces, appearance: buttonAppearance)
         statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)

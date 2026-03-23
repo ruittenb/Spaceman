@@ -21,6 +21,7 @@ struct PreferencesView: View {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
+    @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDesktop = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
@@ -345,12 +346,17 @@ struct PreferencesView: View {
             inactiveStylePicker
             iconWidthPicker
             spacesShownPicker
+            Toggle("Hide fullscreen spaces", isOn: $hideFullscreenSpaces)
+                .padding(.top, 2)
         }
         .padding()
         .onChange(of: dualRowFillOrder) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
         .onChange(of: visibleSpacesModeRaw) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: hideFullscreenSpaces) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }

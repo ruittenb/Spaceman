@@ -19,6 +19,7 @@ class IconCreator {
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.dimmed
     @AppStorage("useMinIconWidth") private var useMinIconWidth = true
+    @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -91,7 +92,11 @@ class IconCreator {
             return visibleSpacesMode
         }()
 
-        return spaceFilter.filter(spaces, mode: mode, neighborRadius: neighborRadius)
+        var result = spaceFilter.filter(spaces, mode: mode, neighborRadius: neighborRadius)
+        if hideFullscreenSpaces {
+            result = result.filter { !$0.isFullScreen }
+        }
+        return result
     }
 
     // MARK: - Unified box rendering

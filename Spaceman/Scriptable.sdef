@@ -17,6 +17,18 @@
             <cocoa class="Spaceman.RestorePreferencesCommand" />
         </command>
 
+        <class name="application" code="capp" description="The Spaceman application">
+            <cocoa class="NSApplication"/>
+            <property name="current space number" code="SpNo" type="integer" access="r"
+                      description="The number of the current space on the frontmost display">
+                <cocoa key="currentSpaceNumber"/>
+            </property>
+            <property name="current space name" code="SpNa" type="text" access="r"
+                      description="The user-assigned name of the current space on the frontmost display">
+                <cocoa key="currentSpaceName"/>
+            </property>
+        </class>
+
     </suite>
-    
+
 </dictionary>
