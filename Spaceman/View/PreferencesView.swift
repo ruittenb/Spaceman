@@ -457,7 +457,7 @@ struct PreferencesView: View {
     // MARK: - Layout Size Picker
     private var layoutSizePicker: some View {
         HStack(spacing: 12) {
-            Text("Size")
+            Text("Layout")
             Spacer()
             Picker("", selection: $layoutMode) {
                 Text("Dual Row").tag(LayoutMode.dualRows)
@@ -497,7 +497,7 @@ struct PreferencesView: View {
             Text("Icon text")
             Spacer()
             Picker("", selection: $displayStyle) {
-                Text("No Text").tag(DisplayStyle.rects)
+                Text("No text").tag(DisplayStyle.rects)
                 Text("Bare numbers").tag(DisplayStyle.numbers)
                 Text("Numbers").tag(DisplayStyle.numbersAndRects)
                 Text("Names").tag(DisplayStyle.names)

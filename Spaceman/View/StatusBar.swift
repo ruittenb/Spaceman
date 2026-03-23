@@ -14,6 +14,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
+    @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
 
@@ -98,12 +99,21 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         // Build settings submenus
         let layoutSubmenu = NSMenu()
         for mode in LayoutMode.allCases {
-            let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectLayout(_:)), keyEquivalent: "")
-            item.tag = mode.rawValue
-            item.target = self
-            layoutSubmenu.addItem(item)
+            if mode == .dualRows {
+                let byCol = NSMenuItem(title: "Dual Row, columns first", action: #selector(selectDualRowByColumn), keyEquivalent: "")
+                byCol.target = self
+                layoutSubmenu.addItem(byCol)
+                let byRow = NSMenuItem(title: "Dual Row, rows first", action: #selector(selectDualRowByRow), keyEquivalent: "")
+                byRow.target = self
+                layoutSubmenu.addItem(byRow)
+            } else {
+                let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectLayout(_:)), keyEquivalent: "")
+                item.tag = mode.rawValue
+                item.target = self
+                layoutSubmenu.addItem(item)
+            }
         }
-        layoutMenuItem = NSMenuItem(title: "Size", action: nil, keyEquivalent: "")
+        layoutMenuItem = NSMenuItem(title: "Layout", action: nil, keyEquivalent: "")
         layoutMenuItem.submenu = layoutSubmenu
 
         let iconStyleSubmenu = NSMenu()
@@ -113,7 +123,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             item.target = self
             iconStyleSubmenu.addItem(item)
         }
-        iconStyleMenuItem = NSMenuItem(title: "Icon Style", action: nil, keyEquivalent: "")
+        iconStyleMenuItem = NSMenuItem(title: "Icon Text", action: nil, keyEquivalent: "")
         iconStyleMenuItem.submenu = iconStyleSubmenu
 
         let spacesShownSubmenu = NSMenu()
@@ -267,7 +277,13 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func menuWillOpen(_ menu: NSMenu) {
         // Update checkmarks on submenu items to reflect current settings
         for item in layoutMenuItem.submenu?.items ?? [] {
-            item.state = item.tag == layoutMode.rawValue ? .on : .off
+            if item.action == #selector(selectDualRowByColumn) {
+                item.state = (layoutMode == .dualRows && dualRowFillOrder == .byColumn) ? .on : .off
+            } else if item.action == #selector(selectDualRowByRow) {
+                item.state = (layoutMode == .dualRows && dualRowFillOrder == .byRow) ? .on : .off
+            } else {
+                item.state = item.tag == layoutMode.rawValue ? .on : .off
+            }
         }
         for item in iconStyleMenuItem.submenu?.items ?? [] {
             item.state = item.tag == displayStyle.rawValue ? .on : .off
@@ -284,6 +300,18 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @objc func selectLayout(_ sender: NSMenuItem) {
         guard let mode = LayoutMode(rawValue: sender.tag) else { return }
         layoutMode = mode
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func selectDualRowByColumn() {
+        layoutMode = .dualRows
+        dualRowFillOrder = .byColumn
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func selectDualRowByRow() {
+        layoutMode = .dualRows
+        dualRowFillOrder = .byRow
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
