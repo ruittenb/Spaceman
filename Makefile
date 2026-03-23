@@ -112,6 +112,11 @@ brew-publish: ## Publish the new spaceman.rb so that homebrew can find it
 	git commit Casks -m "Version $(VERSION)" && \
 	git push
 
+##@ Documentation:
+
+.PHONY: setup-pillow
+setup-pillow: ## Install Pillow, requirement for scripts/screenshot-background.py
+	pip3 install Pillow
 
 ##@ Defaults:
 
