@@ -1,3 +1,4 @@
+1.15.3: Option to hide fullscreen spaces; added automation: "get current space name|number"
 1.15.2: Updated layout of Preferences dialog
 1.15.1: Added configuration setting to switch between variable/equal width
 1.15.0: New boxed icon style. Rounded corners. Slightly taller icons. Variable width. (based on contribution by Nicomalacho)

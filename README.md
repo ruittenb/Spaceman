@@ -194,7 +194,16 @@ $ osascript -e 'tell application "Spaceman" to open preferences' # Open Preferen
 $ osascript -e 'tell application "Spaceman" to restore preferences' # Restore Preferences from Backup
 ```
 
-These commands can be used in automation tools like Alfred, Keyboard Maestro, or custom scripts.
+It also exposes read-only properties for querying the current space:
+
+```sh
+$ osascript -e 'tell application "Spaceman" to get current space number' # e.g. 3
+$ osascript -e 'tell application "Spaceman" to get current space name'   # e.g. "Mail"
+```
+
+With multiple displays, these return the current space on the frontmost display.
+
+These commands and properties can be used in automation tools like Alfred, Keyboard Maestro, or custom scripts.
 For details on how to maximize usefulness of 'refresh', see [MikeJL's Comments](README-Yabai.md)
 
 ## 🔹 Troubleshooting
