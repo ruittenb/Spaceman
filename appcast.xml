@@ -3,23 +3,36 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.14.4: added automation for restoring preferences</title>
+            <title>v1.15.2: New layout in preferences window</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>- added osascript command: 'tell application "Spaceman" to restore preferences'</li>
+                        <li>1.15.2:</li>
+                        <li> - More logical grouping of Preferences across four tabs</li>
+                    </ul>
+                    <ul>
+                        <li>1.15.1:</li>
+                        <li>Based on contributions by Nicomalacho:</li>
+                        <li> - Choose between variable/equal width icons</li>
+                    </ul>
+                    <ul>
+                        <li>1.15.0:</li>
+                        <li>Based on contributions by Nicomalacho:</li>
+                        <li> - New boxed icon style</li>
+                        <li> - Rounded corners, except for fullscreen spaces</li>
+                        <li> - Slightly taller icons</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Mon, 16 Mar 2026 12:36:15 +0100</pubDate>
+            <pubDate>Mon, 23 Mar 2026 17:09:05 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.14.4/Spaceman-1.14.4.dmg"
-                sparkle:version="1.14.4"
-                sparkle:shortVersionString="1.14.4"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.2/Spaceman-1.15.2.dmg"
+                sparkle:version="1.15.2"
+                sparkle:shortVersionString="1.15.2"
                 type="application/octet-stream"
-                length="2989797"
-sparkle:edSignature="qaCYTnTTtEhiIEWIzNucEgCUzCeVF2L+GK9wR2EQ0saSkyLheasILlNUXbYgtjPG1ztVFPlYlN29vbkcD8jYCA=="
+                length="3004668"
+sparkle:edSignature="U7xXDdfGBOa70OYylH8jxkfr15icQtTKkk/atLa32a7RiMr4HNEHg2GC2vfzRfNNlw0rIJogypmGuIZsQTMMAg=="
             />
         </item>
     </channel>
