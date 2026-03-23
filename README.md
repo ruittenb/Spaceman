@@ -98,6 +98,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
   - variable widths (each icon sized to its own content)
 - **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
 - **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
+- **Hide fullscreen spaces**: Hides fullscreen app spaces from the menu bar and the context menu
 
 ### Spaces Tab
 
@@ -235,4 +236,10 @@ Spaceman is not compatible with the setting **System Settings → Desktop & Dock
 ## 🔹 Mentions
 
 - [Softpedia](https://mac.softpedia.com/get/System-Utilities/Spaceman.shtml)
+
+## 🔹 Similar projects
+
+- [SpaceId](https://github.com/dshnkao/SpaceId/)
+  - [SpaceId fork](https://github.com/davidpurnell/SpaceId)
+
 
