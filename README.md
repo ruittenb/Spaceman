@@ -33,32 +33,37 @@ When launching Spaceman, you may run into this message. Open the System Settings
 
 <img src="images/NoOpenAuth.png" width="66%" height="auto">
 
-## 🔹 Understanding the Icons
+## 🔹 What It Looks Like
 
-<img src="images/Spaceman-Example.png" width="66%" height="auto">
+You can choose between Dimmed or Boxed view:
 
-Spaceman displays your spaces as icons in the menu bar. The image above shows examples of the five different icon styles available.
+<img src="images/Button-1-Dimmed.png" width="auto" height="40px">
 
-### Icon States
+<img src="images/Button-1-Boxed.png" width="auto" height="40px">
 
-The meaning of the icons from left to right in the example:
+Fullscreen spaces have square corners, regular spaces rounded corners.
 
-- **Active Space**: The space you're currently on (highlighted)
-- **Inactive Space**: Regular spaces you can switch to
-- **Inactive Fullscreen App**: A space with a fullscreen application
-- **Gap**: Indicates that the following spaces are on a different display
-- **Inactive Space**: Another regular space on the second display
-- **Active Fullscreen App**: Current space with a fullscreen application
+You can assign colors to each space button:
 
-### Icon Styles
+<img src="images/Button-2-Colored-1.png" width="auto" height="40px">
 
-From top to bottom, you can see examples of the five different icon styles:
+You can choose variable width icons or mostly-equal width icons:
 
-- **Rectangles**: Plain rectangles
-- **Bare Numbers**: Plain numbers, not boxed
-- **Numbers**: Numbers in a rectangular box
-- **Names**: Custom text labels for each space
-- **Names with Numbers**: Combined custom names and numbers
+<img src="images/Button-3-Variable.png" width="auto" height="40px">
+
+<img src="images/Button-3-Equal.png" width="auto" height="40px">
+
+You can choose to display just numbers instead of the entire names, or even just rectangles:
+
+<img src="images/Button-4-Numbers.png" width="auto" height="40px">
+
+<img src="images/Button-4-Rectangles.png" width="auto" height="40px">
+
+For ultra-compact mode, choose the Two Rows layout:
+
+<img src="images/Button-5-TwoRows.png" width="auto" height="40px">
+
+You can choose to display all spaces or just a few neighboring ones; and to hide Fullscreen spaces entirely.
 
 ## 🔹 Preferences
 
@@ -86,7 +91,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 <img src="images/Dual-Row-Directions.png" width="66%" height="auto">
 
-- **Icon text**: Selects one of the five visual icon styles described in [Understanding the Icons](#-understanding-the-icons)
+- **Icon text**: Selects one of the five visual icon styles shown in [What It Looks Like](#-what-it-looks-like)
 - **Inactive style**: Choose between dimmed (reduced opacity) or bordered (outlined) inactive spaces
 - **Icon widths**: Switches between:
   - roughly equal icon widths (short names are padded to match the longest, but fullscreen names are disregarded), or
@@ -96,7 +101,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Spaces Tab
 
-<img src="images/Preferences-Spaces.png" width="66%" height="auto">
+<img src="images/Preferences-Spaces-1.png" width="66%" height="auto">
 
 - **Space names**: Assigns custom names of any length to individual spaces
   - The menu displays full names regardless of length
@@ -165,7 +170,7 @@ For space switching to work, you need to configure three things:
 - Select any space from the list to switch to it
 - Menu shows full space names and indicates the current space with a checkmark
 
-<img src="images/Menu.png" width="auto" height="auto">
+<img src="images/Menu-1.png" width="auto" height="auto">
 
 **Keyboard Shortcuts**
 - Spaceman does not do the space switching itself, but sends shortcut keystrokes to Mission Control.
