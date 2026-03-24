@@ -71,6 +71,7 @@ tag: ## Tag the current HEAD with the version from the XCode project
 
 .PHONY: appcast
 appcast: ## Prepare appcast for publishing
+	echo 'Make sure to create a release on github first!'
 	git checkout main
 	$(BUILDDIR)/make-appcast.sh > website/appcast.xml
 	git add website/appcast.xml
@@ -115,7 +116,7 @@ brew-publish: ## Publish the new spaceman.rb so that homebrew can find it
 ##@ Documentation:
 
 .PHONY: setup-pillow
-setup-pillow: ## Install Pillow, requirement for scripts/screenshot-background.py
+setup-pillow: ## Install Pillow, requirement for scripts/add-background.py
 	pip3 install Pillow
 
 ##@ Defaults:

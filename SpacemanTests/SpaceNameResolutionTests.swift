@@ -958,4 +958,71 @@ final class SpaceNameResolutionTests: XCTestCase {
         XCTAssertEqual(result?.spaceName, "2ND",
             "positionOnly incorrectly assigns 2ND to pos 1 — this is the bug that idWithPositionFallback fixes")
     }
+
+    // MARK: - Wake + topology change (issue: sleep→mirror→wake)
+
+    func testWakePlusTopologyChange_ShouldUseIdMatching_NotPositionOnly() {
+        // Documents the wake+topology scenario: close lid, connect external
+        // (mirroring), open lid. Both needsRevalidation and topologyChanged are
+        // true. Using positionOnly would match against transient positions while
+        // macOS is still setting up the mirror, corrupting names.
+        // idWithPositionFallback is correct: IDs are more reliable than positions
+        // when the display topology is changing.
+        let storedNames: [String: SpaceNameInfo] = [
+            "100": SpaceNameInfo(
+                spaceNum: 1,
+                spaceName: "MAIN",
+                spaceByDesktopID: "1",
+                displayUUID: "LAPTOP",
+                positionOnDisplay: 1
+            ),
+            "101": SpaceNameInfo(
+                spaceNum: 2,
+                spaceName: "DEV",
+                spaceByDesktopID: "2",
+                displayUUID: "LAPTOP",
+                positionOnDisplay: 2
+            )
+        ]
+
+        // After wake+mirror: spaces on MIRROR display, IDs survived.
+        // idWithPositionFallback finds by ID → correct names, regardless of
+        // transient position order.
+        let result1 = SpaceObserver.resolveSpaceNameInfo(
+            managedSpaceID: "100",
+            displayID: "MIRROR",
+            position: 2,   // transient position — different from stored!
+            storedNames: storedNames,
+            strategy: .idWithPositionFallback,
+            connectedDisplayIDs: ["MIRROR"]
+        )
+        XCTAssertEqual(result1?.spaceName, "MAIN",
+            "ID matching finds correct name even when position is transient")
+
+        let result2 = SpaceObserver.resolveSpaceNameInfo(
+            managedSpaceID: "101",
+            displayID: "MIRROR",
+            position: 1,   // transient position — swapped
+            storedNames: storedNames,
+            strategy: .idWithPositionFallback,
+            connectedDisplayIDs: ["MIRROR"]
+        )
+        XCTAssertEqual(result2?.spaceName, "DEV",
+            "ID matching finds correct name even when position is transient")
+
+        // Contrast: positionOnly would get these WRONG because it matches
+        // MIRROR/pos 2 → nothing (LAPTOP stored), then falls back to
+        // disconnected display → LAPTOP/pos 2 → "DEV". But the space at
+        // transient pos 2 is actually "MAIN" (ID 100).
+        let wrong = SpaceObserver.resolveSpaceNameInfo(
+            managedSpaceID: "100",
+            displayID: "MIRROR",
+            position: 2,
+            storedNames: storedNames,
+            strategy: .positionOnly,
+            connectedDisplayIDs: ["MIRROR"]
+        )
+        XCTAssertEqual(wrong?.spaceName, "DEV",
+            "positionOnly gives wrong result when positions are transient — this is why topology must win over wake")
+    }
 }

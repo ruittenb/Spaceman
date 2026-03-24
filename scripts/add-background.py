@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Composite a window screenshot over a randomly transformed background.
-
-Usage:
-    python3 scripts/screenshot-background.py images/Preferences-General.png
-
-Produces <name>-bg.png next to the input file.
-Requires Pillow: pip3 install Pillow
+"""
+Description : Composite a window screenshot (containing transparent borders) over a
+              mirrored/rotated version of a background image (images/_background.png).
+              Produces <name>-bg.png next to the input file.
+Usage       : python3 scripts/add-background.py images/Preferences-General.png
+Requires    : Pillow (pip3 install Pillow)
 """
 
 import random

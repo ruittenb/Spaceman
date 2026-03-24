@@ -50,7 +50,7 @@ for (id, info) in sortedSpaces {
     // Right-align numbers, left-align name
     let paddedNum = String(repeating: " ", count: max(0, 2 - spaceNum.count)) + spaceNum
     let paddedName = info.spaceName.padding(toLength: maxNameLength, withPad: " ", startingAt: 0)
-    let paddedID = String(repeating: " ", count: max(0, 2 - id.count)) + id
+    let paddedID = String(repeating: " ", count: max(0, 4 - id.count)) + id
     let paddedPos = String(repeating: " ", count: max(0, 2 - pos.count)) + pos
 
     print("Space \(paddedNum): \(paddedName) (ID: \(paddedID), Display: \(display), Pos: \(paddedPos), Color: \(color))")
