@@ -3,36 +3,29 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.15.2: New layout in preferences window</title>
+            <title>v1.15.4: fix corrupting space names</title>
             <description>
                 <![CDATA[
+                    1.15.4:
                     <ul>
-                        <li>1.15.2:</li>
-                        <li> - More logical grouping of Preferences across four tabs</li>
+                        <li> - Fix: prevent corruption of space names when simultaneously waking up and changing monitors</li>
                     </ul>
+                    1.15.3:
                     <ul>
-                        <li>1.15.1:</li>
-                        <li>Based on contributions by Nicomalacho:</li>
-                        <li> - Choose between variable/equal width icons</li>
-                    </ul>
-                    <ul>
-                        <li>1.15.0:</li>
-                        <li>Based on contributions by Nicomalacho:</li>
-                        <li> - New boxed icon style</li>
-                        <li> - Rounded corners, except for fullscreen spaces</li>
-                        <li> - Slightly taller icons</li>
+                        <li> - Option to hide fullscreen spaces</li>
+                        <li> - Added automation: "get current space name" and "get current space number"</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Mon, 23 Mar 2026 17:09:05 +0100</pubDate>
+            <pubDate>Tue, 24 Mar 2026 23:59:14 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.2/Spaceman-1.15.2.dmg"
-                sparkle:version="1.15.2"
-                sparkle:shortVersionString="1.15.2"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.4/Spaceman-1.15.4.dmg"
+                sparkle:version="1.15.4"
+                sparkle:shortVersionString="1.15.4"
                 type="application/octet-stream"
-                length="3004668"
-sparkle:edSignature="U7xXDdfGBOa70OYylH8jxkfr15icQtTKkk/atLa32a7RiMr4HNEHg2GC2vfzRfNNlw0rIJogypmGuIZsQTMMAg=="
+                length="3010302"
+sparkle:edSignature="ZNbDRm21Pq/60I0WUvAHiHMHCTCAX9saUm78S3r+dd/IK7ebzjy7J5zD0LcnNFkuLphf1JaUZVyZBgQRnpmYCA=="
             />
         </item>
     </channel>
