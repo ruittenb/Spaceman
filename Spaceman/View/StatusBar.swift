@@ -178,6 +178,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         guard let event = NSApp.currentEvent else {
             return
         }
+        // Capture mouse position now; event.locationInWindow may be invalid
+        // for clicks in the 1-2px gap above/below the button
+        let mouseLocation = NSEvent.mouseLocation
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
             if event.type == .rightMouseDown {
                 // Show the menu on right-click
@@ -198,11 +201,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     print("Not switching: just one space visible")
                     return
                 }
-                let locationInButton = sbButton.convert(event.locationInWindow, from: nil)
+                // Use screen coordinates for hit testing; sbButton.convert() returns
+                // garbage when the click lands in the 1-2px gap above/below the button
+                let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
+                let locationInButton = NSPoint(
+                    x: mouseLocation.x - buttonFrame.minX,
+                    y: mouseLocation.y - buttonFrame.minY)
                 // Convert to image-relative coordinates for hit testing
                 let imageWidth = sbButton.image?.size.width ?? sbButton.bounds.width
                 let margin = max((sbButton.bounds.width - imageWidth) / 2.0, 0)
-                let adjPoint = NSPoint(x: locationInButton.x - margin, y: sbButton.bounds.height - locationInButton.y)
+                let adjPoint = NSPoint(x: locationInButton.x - margin, y: locationInButton.y)
                 self.spaceSwitcher.switchUsingLocation(
                     iconWidths: self.iconCreator.iconWidths,
                     point: adjPoint,
