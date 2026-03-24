@@ -11,8 +11,6 @@ struct Constants {
     static let maxSpaceNameLength = 10
     static let minMenuWidth: CGFloat = 350
     static let boxCornerRadius: CGFloat = 3.0
-    static let boxPadding: CGFloat = 6.0
-    static let boxVerticalPadding: CGFloat = 2.0
     static let boxBorderWidth: CGFloat = 1.0
     static let inactiveAlpha: CGFloat = 0.4
 
@@ -21,7 +19,7 @@ struct Constants {
         // swiftlint:disable:next force_unwrapping
         static let repo = URL(string: "https://github.com/ruittenb/Spaceman")!
         // swiftlint:disable:next force_unwrapping
-        static let website = URL(string: "https://ruittenb.github.io/Spaceman/?20251017")!
+        static let website = URL(string: "https://ruittenb.github.io/Spaceman/?20260324")!
     }
 
     //  23   = 277 px ; button distance
@@ -36,50 +34,48 @@ struct Constants {
             GAP_WIDTH_SPACES: 3,
             GAP_WIDTH_DISPLAYS: 8,
             GAP_HEIGHT_DUALROWS: 3,
-            ICON_WIDTH_SMALL: 16,
-            ICON_WIDTH_LARGE: 24,
-            ICON_WIDTH_XLARGE: 36,
-            ICON_HEIGHT: 10,
+            HORIZONTAL_PADDING: 6,
+            VERTICAL_PADDING: 1.5,
             FONT_SIZE: 9
+        ),
+        .narrow: GuiSize(
+            GAP_WIDTH_SPACES: 2,
+            GAP_WIDTH_DISPLAYS: 8,
+            GAP_HEIGHT_DUALROWS: 0,
+            HORIZONTAL_PADDING: 3,
+            VERTICAL_PADDING: 3,
+            FONT_SIZE: 10
         ),
         .compact: GuiSize(
             GAP_WIDTH_SPACES: 3,
-            GAP_WIDTH_DISPLAYS: 8,
+            GAP_WIDTH_DISPLAYS: 10,
             GAP_HEIGHT_DUALROWS: 0,
-            ICON_WIDTH_SMALL: 16,
-            ICON_WIDTH_LARGE: 24,
-            ICON_WIDTH_XLARGE: 36,
-            ICON_HEIGHT: 12,
+            HORIZONTAL_PADDING: 4,
+            VERTICAL_PADDING: 3,
             FONT_SIZE: 10
         ),
         .medium: GuiSize(
-            GAP_WIDTH_SPACES: 5,
+            GAP_WIDTH_SPACES: 4,
             GAP_WIDTH_DISPLAYS: 12,
             GAP_HEIGHT_DUALROWS: 0,
-            ICON_WIDTH_SMALL: 18,
-            ICON_WIDTH_LARGE: 32,
-            ICON_WIDTH_XLARGE: 42,
-            ICON_HEIGHT: 12,
+            HORIZONTAL_PADDING: 5,
+            VERTICAL_PADDING: 3,
             FONT_SIZE: 10
         ),
         .large: GuiSize(
             GAP_WIDTH_SPACES: 5,
             GAP_WIDTH_DISPLAYS: 14,
             GAP_HEIGHT_DUALROWS: 0,
-            ICON_WIDTH_SMALL: 20,
-            ICON_WIDTH_LARGE: 34,
-            ICON_WIDTH_XLARGE: 49,
-            ICON_HEIGHT: 14,
+            HORIZONTAL_PADDING: 6,
+            VERTICAL_PADDING: 3,
             FONT_SIZE: 12
         ),
         .extraLarge: GuiSize(
             GAP_WIDTH_SPACES: 6,
             GAP_WIDTH_DISPLAYS: 16,
             GAP_HEIGHT_DUALROWS: 0,
-            ICON_WIDTH_SMALL: 24,
-            ICON_WIDTH_LARGE: 44,
-            ICON_WIDTH_XLARGE: 62,
-            ICON_HEIGHT: 16,
+            HORIZONTAL_PADDING: 7,
+            VERTICAL_PADDING: 3,
             FONT_SIZE: 14
         )
     ]

@@ -40,8 +40,8 @@ class IconCreator {
         gapWidth = CGFloat(sizes.GAP_WIDTH_SPACES)
         displayGapWidth = CGFloat(sizes.GAP_WIDTH_DISPLAYS)
         iconSize = NSSize(
-            width: CGFloat(sizes.ICON_WIDTH_SMALL),
-            height: CGFloat(sizes.ICON_HEIGHT) + Constants.boxVerticalPadding * 2)
+            width: 0,
+            height: CGFloat(sizes.FONT_SIZE) + sizes.VERTICAL_PADDING * 2)
 
         let switchIndexBySpaceID = Space.buildSwitchIndexMap(for: spaces)
 
@@ -134,15 +134,14 @@ class IconCreator {
         let isBareNumbers = displayStyle == .numbers
         let measureAttrs = getStringAttributes(alpha: 1, color: .black)
         let monoCharWidth = ("0" as NSString).size(withAttributes: measureAttrs).width
-        let padding = Constants.boxPadding * 2
-        let baseMinWidth = CGFloat(sizes.ICON_WIDTH_SMALL)
+        let padding = sizes.HORIZONTAL_PADDING * 2
 
         // Content width: measured text, or one digit for empty rectangles
         let contentWidth = text.length > 0
             ? text.size(withAttributes: measureAttrs).width
             : monoCharWidth
 
-        var iconWidth = max(contentWidth + padding, baseMinWidth)
+        var iconWidth = contentWidth + padding
 
         // Enforce minimum width so name-based icons are uniform
         if minIconCharWidth > 0 {
@@ -242,15 +241,14 @@ class IconCreator {
         if sizes == nil {
             sizes = Constants.sizes[layoutMode]
             iconSize = NSSize(
-                width: CGFloat(sizes.ICON_WIDTH_SMALL),
-                height: CGFloat(sizes.ICON_HEIGHT) + Constants.boxVerticalPadding * 2)
+                width: 0,
+                height: CGFloat(sizes.FONT_SIZE) + sizes.VERTICAL_PADDING * 2)
         }
 
         let text = NSString(string: space.spaceByDesktopID)
         let measureAttrs = getStringAttributes(alpha: 1, color: .black)
         let textSize = text.size(withAttributes: measureAttrs)
-        let minWidth = CGFloat(sizes.ICON_WIDTH_SMALL)
-        let dynamicWidth = max(textSize.width + Constants.boxPadding * 2, minWidth)
+        let dynamicWidth = textSize.width + sizes.HORIZONTAL_PADDING * 2
         let size = NSSize(width: dynamicWidth, height: iconSize.height)
 
         let iconImage = NSImage(size: size)

@@ -461,6 +461,7 @@ struct PreferencesView: View {
             Spacer()
             Picker("", selection: $layoutMode) {
                 Text("Dual Row").tag(LayoutMode.dualRows)
+                Text("Narrow").tag(LayoutMode.narrow)
                 Text("Compact").tag(LayoutMode.compact)
                 Text("Medium").tag(LayoutMode.medium)
                 Text("Large").tag(LayoutMode.large)

@@ -176,7 +176,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     // NSMenu popup having its own visual padding, borders and/or drop shadows.
                     let menuOrigin = CGPoint(
                         x: buttonFrame.minX,
-                        y: buttonFrame.minY - CGFloat(self.iconCreator.sizes.ICON_HEIGHT) / 2)
+                        y: buttonFrame.minY - CGFloat(self.iconCreator.sizes.FONT_SIZE) / 2)
                     sbMenu.minimumWidth = Constants.minMenuWidth
                     sbMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
                     sbButton.isHighlighted = false

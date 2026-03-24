@@ -47,7 +47,7 @@ final class EnumRawValueTests: XCTestCase {
     }
 
     func testLayoutModeAllCases() {
-        XCTAssertEqual(LayoutMode.allCases.count, 5)
+        XCTAssertEqual(LayoutMode.allCases.count, 6)
     }
 
     func testLayoutModeInitFromRawValue() {
