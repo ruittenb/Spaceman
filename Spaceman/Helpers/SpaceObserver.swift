@@ -214,14 +214,17 @@ class SpaceObserver {
             }
 
             // Per-display matching strategy:
-            // - Wake/reboot: position matching to handle ID swaps
+            // - Wake/reboot (same topology): position matching to handle ID swaps
+            // - Wake + topology change (e.g., sleep→mirror→wake): ID-first with
+            //   position fallback — positions are transient while displays reconfigure,
+            //   so IDs are more reliable than positions in this scenario
             // - Topology change or new display UUID: ID-first with position fallback
             //   (IDs usually stable through display changes, fallback handles new IDs)
             // - Normal operation: ID matching to track user reorders
             let strategy: SpaceNameMatchingStrategy
-            if needsRevalidation {
+            if needsRevalidation && !inTopologyTransition {
                 strategy = .positionOnly
-            } else if inTopologyTransition || !storedDisplayIDs.contains(displayID) {
+            } else if inTopologyTransition || needsRevalidation || !storedDisplayIDs.contains(displayID) {
                 strategy = .idWithPositionFallback
             } else {
                 strategy = .idOnly
