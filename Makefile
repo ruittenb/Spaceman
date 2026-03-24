@@ -22,14 +22,14 @@ help: ## Print help for each target
 
 .PHONY: test
 test: ## Run unit tests
-	xcodebuild test -project Spaceman.xcodeproj -scheme Spaceman -destination platform=macOS | xcpretty
+	xcodebuild test -project Spaceman.xcodeproj -scheme Spaceman -destination platform=macOS | xcbeautify
 
 .PHONY: build
 build: ## Make the archive file
 	$(MAKE) $(ARCHIVE)
 
 $(ARCHIVE): $(PBXPROJ)
-	xcodebuild -workspace $(PROJECT).xcodeproj/project.xcworkspace -scheme $(PROJECT) -configuration Release clean archive -archivePath $(ARCHIVE)
+	xcodebuild -workspace $(PROJECT).xcodeproj/project.xcworkspace -scheme $(PROJECT) -configuration Release clean archive -archivePath $(ARCHIVE) | xcbeautify
 
 .PHONY: export
 export: ## Make the app file

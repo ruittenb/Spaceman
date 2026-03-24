@@ -124,7 +124,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             spacesShownSubmenu.addItem(item)
         }
         spacesShownSubmenu.addItem(NSMenuItem.separator())
-        let hideFullscreenItem = NSMenuItem(title: "Fullscreen Spaces", action: #selector(toggleHideFullscreenSpaces), keyEquivalent: "")
+        let hideFullscreenItem = NSMenuItem(
+            title: "Fullscreen Spaces", action: #selector(toggleHideFullscreenSpaces), keyEquivalent: ""
+        )
         hideFullscreenItem.target = self
         spacesShownSubmenu.addItem(hideFullscreenItem)
 
