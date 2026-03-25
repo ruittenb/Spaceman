@@ -16,7 +16,7 @@ struct PreferencesView: View {
 
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.dimmed
-    @AppStorage("useMinIconWidth") private var useMinIconWidth = true
+    @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
@@ -533,14 +533,14 @@ struct PreferencesView: View {
         HStack(spacing: 12) {
             Text("Icon widths")
             Spacer()
-            Picker("", selection: $useMinIconWidth) {
-                Text("Roughly equal").tag(true)
-                Text("Variable").tag(false)
+            Picker("", selection: $useVariableWidth) {
+                Text("Roughly equal").tag(false)
+                Text("Variable").tag(true)
             }
             .pickerStyle(.segmented)
             .fixedSize()
         }
-        .onChange(of: useMinIconWidth) { _ in
+        .onChange(of: useVariableWidth) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }

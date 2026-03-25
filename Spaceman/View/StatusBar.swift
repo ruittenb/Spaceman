@@ -10,14 +10,13 @@ import Sparkle
 import SwiftUI
 
 class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
-    @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
-    @AppStorage("useMinIconWidth") private var useMinIconWidth = true
+    @AppStorage("useVariableWidth") private var useVariableWidth = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -195,13 +194,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 }
             } else if event.type == .leftMouseDown {
                 // Switch desktops on left click, unless one single space shown
-                let mode: VisibleSpacesMode = {
-                    if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil && self.hideInactiveSpaces {
-                        return .currentOnly
-                    }
-                    return self.visibleSpacesMode
-                }()
-                guard mode != .currentOnly else {
+                guard self.visibleSpacesMode != .currentOnly else {
                     print("Not switching: just one space visible")
                     return
                 }
@@ -294,7 +287,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             } else if item.action == #selector(selectDualRowByRow) {
                 item.state = (layoutMode == .dualRows && dualRowFillOrder == .byRow) ? .on : .off
             } else if item.action == #selector(toggleVariableWidth) {
-                item.state = useMinIconWidth ? .off : .on
+                item.state = useVariableWidth ? .on : .off
             } else {
                 item.state = item.tag == layoutMode.rawValue ? .on : .off
             }
@@ -330,7 +323,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func toggleVariableWidth() {
-        useMinIconWidth.toggle()
+        useVariableWidth.toggle()
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 

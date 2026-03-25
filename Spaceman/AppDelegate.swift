@@ -101,10 +101,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Migrate legacy hideInactiveSpaces to visibleSpacesMode
         if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil {
             let hideInactiveSpaces = UserDefaults.standard.bool(forKey: "hideInactiveSpaces")
-            if hideInactiveSpaces {
-                UserDefaults.standard.set(VisibleSpacesMode.currentOnly.rawValue, forKey: "visibleSpacesMode")
-            }
+            let newValue: Int = hideInactiveSpaces
+                ? VisibleSpacesMode.currentOnly.rawValue
+                : VisibleSpacesMode.all.rawValue
+            UserDefaults.standard.set(newValue, forKey: "visibleSpacesMode")
         }
+        UserDefaults.standard.removeObject(forKey: "hideInactiveSpaces")
 
         // Migrate restartNumberingByDesktop to restartNumberingByDisplay
         if UserDefaults.standard.object(forKey: "restartNumberingByDisplay") == nil {
@@ -121,6 +123,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 : HorizontalDirection.defaultOrder.rawValue
             UserDefaults.standard.set(newValue, forKey: "horizontalDirection")
             UserDefaults.standard.removeObject(forKey: "reverseDisplayOrder")
+        }
+
+        // Migrate useMinIconWidth (inverted bool) to useVariableWidth
+        if UserDefaults.standard.object(forKey: "useVariableWidth") == nil,
+           let oldValue = UserDefaults.standard.object(forKey: "useMinIconWidth") as? Bool {
+            UserDefaults.standard.set(!oldValue, forKey: "useVariableWidth")
+            UserDefaults.standard.removeObject(forKey: "useMinIconWidth")
         }
     }
 }
