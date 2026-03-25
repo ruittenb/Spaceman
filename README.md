@@ -86,7 +86,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 <img src="images/Preferences-Appearance-1.png" width="66%" height="auto">
 
-- **Size**: Adjusts icon and font sizes for the menu bar
+- **Layout**: Adjusts icon and font sizes for the menu bar
 - **Dual Row fill order**: When using Dual Row layout, choose whether to fill rows first or columns first:
 
 <img src="images/Dual-Row-Directions.png" width="66%" height="auto">
@@ -170,6 +170,8 @@ For space switching to work, you need to configure three things:
 - Right-click the Spaceman icon to open the context menu
 - Select any space from the list to switch to it
 - Menu shows full space names and indicates the current space with a checkmark
+
+Some appearance settings are also available directly from this menu.
 
 <img src="images/Menu-1.png" width="auto" height="auto">
 

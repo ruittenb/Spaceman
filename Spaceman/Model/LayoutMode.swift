@@ -9,6 +9,7 @@ import Foundation
 
 enum LayoutMode: Int, CaseIterable {
     case dualRows = 0
+    case narrow = 5
     case compact = 1
     case medium = 2
     case large = 3
@@ -17,6 +18,7 @@ enum LayoutMode: Int, CaseIterable {
     var menuLabel: String {
         switch self {
         case .dualRows:   return "Dual Row"
+        case .narrow:     return "Narrow"
         case .compact:    return "Compact"
         case .medium:     return "Medium"
         case .large:      return "Large"

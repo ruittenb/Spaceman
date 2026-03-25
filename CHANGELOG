@@ -1,3 +1,4 @@
+1.15.5: Added 'Narrow' layout; added Dual Row fill order and Variable Width to the right-click menu
 1.15.4: Fix: prevent corruption of space names when simultaneously waking up and changing monitors
 1.15.3: Option to hide fullscreen spaces; added automation: "get current space name|number"
 1.15.2: Updated layout of Preferences dialog
