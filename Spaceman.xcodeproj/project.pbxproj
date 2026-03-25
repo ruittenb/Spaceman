@@ -93,6 +93,7 @@
 		E71750BA2F74431C00E240FD /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		E71750BC2F746A0F00E240FD /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Main.strings"; sourceTree = "<group>"; };
 		E71750BD2F747B0400E240FD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		E71750BE2F74981F00E240FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		E722A6E02E95BF8D00D5FA4F /* VerticalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalDirection.swift; sourceTree = "<group>"; };
 		E73504B32CAD14BE007F62B5 /* IconWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWidth.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
@@ -361,6 +362,7 @@
 				nl,
 				"es-419",
 				fr,
+				de,
 			);
 			mainGroup = E87334DC256B51CF0012586E;
 			packageReferences = (
@@ -496,6 +498,7 @@
 				E71750B92F74406300E240FD /* nl */,
 				E71750BC2F746A0F00E240FD /* es-419 */,
 				E71750BD2F747B0400E240FD /* fr */,
+				E71750BE2F74981F00E240FD /* de */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
