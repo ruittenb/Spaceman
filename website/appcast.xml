@@ -3,29 +3,26 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.15.4: fix corrupting space names</title>
+            <title>v1.15.5: Added Narrow layout; added some layout options to menu</title>
             <description>
                 <![CDATA[
-                    1.15.4:
+                    1.15.5:
                     <ul>
-                        <li> - Fix: prevent corruption of space names when simultaneously waking up and changing monitors</li>
-                    </ul>
-                    1.15.3:
-                    <ul>
-                        <li> - Option to hide fullscreen spaces</li>
-                        <li> - Added automation: "get current space name" and "get current space number"</li>
+                        <li> - Added 'narrow' layout. Note that 'compact' layout was made slightly narrower to bridge the gap between medium and narrow. The old compact is more like current 'medium'.</li>
+                        <li> - Added Dual Row fill order to the right-click menu</li>
+                        <li> - Added Variable Width setting to the right-click menu</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Tue, 24 Mar 2026 23:59:14 +0100</pubDate>
+            <pubDate>Wed, 25 Mar 2026 13:34:33 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.4/Spaceman-1.15.4.dmg"
-                sparkle:version="1.15.4"
-                sparkle:shortVersionString="1.15.4"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.5/Spaceman-1.15.5.dmg"
+                sparkle:version="1.15.5"
+                sparkle:shortVersionString="1.15.5"
                 type="application/octet-stream"
-                length="3010302"
-sparkle:edSignature="ZNbDRm21Pq/60I0WUvAHiHMHCTCAX9saUm78S3r+dd/IK7ebzjy7J5zD0LcnNFkuLphf1JaUZVyZBgQRnpmYCA=="
+                length="3015081"
+                sparkle:edSignature="twrbP4+PBLWXlc2A0unTobNHCysWiaQ1ufBZSG8AQwSeSgpMg4ci838tsmVW7RKGvPINbo4+ZN5LQOy6HdeOBw=="
             />
         </item>
     </channel>
