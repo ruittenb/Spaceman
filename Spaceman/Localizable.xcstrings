@@ -18,6 +18,12 @@
     },
     "All spaces" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos los espacios"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28,6 +34,12 @@
     },
     "All Spaces" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos los espacios"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38,6 +50,12 @@
     },
     "Appearance" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aspecto"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -48,6 +66,12 @@
     },
     "Backup" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respaldo"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -58,6 +82,12 @@
     },
     "Backup failed" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al respaldar"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -68,6 +98,12 @@
     },
     "Backup Preferences" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respaldar configuración"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -78,6 +114,12 @@
     },
     "Bare numbers" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo números"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -88,6 +130,12 @@
     },
     "Bare Numbers" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo números"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -98,6 +146,12 @@
     },
     "Bordered" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con borde"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -108,6 +162,12 @@
     },
     "Check for updates..." : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones…"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -118,6 +178,12 @@
     },
     "Clear color" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar color"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -128,6 +194,12 @@
     },
     "Close window (⌘W)" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar ventana (⌘W)"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -138,6 +210,12 @@
     },
     "Columns first" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Columnas primero"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -151,6 +229,12 @@
     },
     "Compact" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compacto"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -164,6 +248,12 @@
     },
     "Current only" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo el actual"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -174,6 +264,12 @@
     },
     "Current Only" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo el actual"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -184,6 +280,12 @@
     },
     "Dimmed" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atenuado"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -194,6 +296,12 @@
     },
     "Dismiss" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -204,6 +312,12 @@
     },
     "Displays" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantallas"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -214,6 +328,12 @@
     },
     "Dual Row" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doble fila"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -224,6 +344,12 @@
     },
     "Dual Row fill order" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orden de llenado en doble fila"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -234,6 +360,12 @@
     },
     "Dual Row, columns first" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doble fila, columnas primero"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -244,6 +376,12 @@
     },
     "Dual Row, rows first" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doble fila, filas primero"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -254,6 +392,12 @@
     },
     "Extra Large" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra grande"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -264,6 +408,12 @@
     },
     "For switching between spaces to work, these settings must match the keyboard shortcuts assigned for Mission Control." : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para que el cambio entre espacios funcione, estas configuraciones deben coincidir con las funciones rápidas de teclado asignadas a Mission Control."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -274,6 +424,12 @@
     },
     "Fullscreen Spaces" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios en pantalla completa"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -284,6 +440,12 @@
     },
     "General" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -297,6 +459,12 @@
     },
     "Hide fullscreen spaces" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar espacios en pantalla completa"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -307,6 +475,12 @@
     },
     "Icon text" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texto del ícono"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -317,6 +491,12 @@
     },
     "Icon Text" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texto del ícono"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -327,6 +507,12 @@
     },
     "Icon widths" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ancho de íconos"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -337,6 +523,12 @@
     },
     "If the display order seems erratic, please pay close attention to the horizontal alignment in %@ → Displays → Arrange." : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si el orden de las pantallas parece incorrecto, presta atención a la alineación horizontal en %@ → Pantallas → Organizar."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -347,6 +539,12 @@
     },
     "Inactive style" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estilo inactivo"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -357,6 +555,12 @@
     },
     "Large" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grande"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -373,6 +577,12 @@
             "value" : "Last backup: %1$@ %2$@"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Último respaldo: %1$@ %2$@"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -383,6 +593,12 @@
     },
     "Launch Spaceman at login" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar Spaceman al iniciar sesión"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -393,6 +609,12 @@
     },
     "Layout" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposición"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -403,6 +625,12 @@
     },
     "Medium" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mediano"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -413,6 +641,12 @@
     },
     "Name" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -423,6 +657,12 @@
     },
     "Names" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombres"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -433,6 +673,12 @@
     },
     "Narrow" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angosto"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -443,6 +689,12 @@
     },
     "Nearby range: ±%lld" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rango cercano: ±%lld"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -453,6 +705,12 @@
     },
     "Nearby spaces" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios cercanos"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -463,6 +721,12 @@
     },
     "Nearby Spaces" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios cercanos"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -473,6 +737,12 @@
     },
     "No backup found" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontró respaldo"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -483,6 +753,12 @@
     },
     "No preferences to backup" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay configuración para respaldar"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -493,6 +769,12 @@
     },
     "No spaces detected yet." : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no se detectaron espacios."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -503,6 +785,12 @@
     },
     "No text" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin texto"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -513,6 +801,12 @@
     },
     "No Text" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin texto"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -523,6 +817,12 @@
     },
     "number keys on top row" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "teclas numéricas de la fila superior"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -533,6 +833,12 @@
     },
     "Numbers" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -543,6 +849,12 @@
     },
     "Numbers and names" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números y nombres"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -553,6 +865,12 @@
     },
     "Numbers and Names" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números y nombres"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -563,6 +881,12 @@
     },
     "numeric keypad" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "teclado numérico"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -573,6 +897,12 @@
     },
     "Open %@ → Displays…" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir %@ → Pantallas…"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -583,6 +913,12 @@
     },
     "Open %@ → Mission Control Shortcuts…" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir %@ → Funciones rápidas de Mission Control…"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -596,6 +932,12 @@
     },
     "Preferences restored" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración restaurada"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -606,6 +948,12 @@
     },
     "Preferences saved" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración guardada"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -616,6 +964,12 @@
     },
     "Preferences..." : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración…"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -626,6 +980,12 @@
     },
     "Quit Spaceman" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salir de Spaceman"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -636,6 +996,12 @@
     },
     "Refresh" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizar"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -646,6 +1012,12 @@
     },
     "Refresh spaces in background" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizar espacios en segundo plano"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -656,6 +1028,12 @@
     },
     "Restart space numbering by display" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reiniciar numeración de espacios por pantalla"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -666,6 +1044,12 @@
     },
     "Restore failed" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al restaurar"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -676,6 +1060,12 @@
     },
     "Restore Preferences" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar configuración"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -686,6 +1076,12 @@
     },
     "Reverse macOS order" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orden inverso de macOS"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -696,6 +1092,12 @@
     },
     "Roughly equal" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aproximadamente igual"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -706,6 +1108,12 @@
     },
     "Rows first" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filas primero"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -719,6 +1127,12 @@
     },
     "Shortcut for manual refresh" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo de teclado para actualizar manualmente"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -729,6 +1143,12 @@
     },
     "Shortcut keys" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajos de teclado"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -739,6 +1159,12 @@
     },
     "Shortcut to open preferences window" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo de teclado para abrir la ventana de configuración"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -749,6 +1175,12 @@
     },
     "Shortcuts" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajos de teclado"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -759,6 +1191,12 @@
     },
     "Show bottom display first" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar primero la pantalla inferior"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -769,6 +1207,12 @@
     },
     "Show top display first" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar primero la pantalla superior"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -782,6 +1226,12 @@
     },
     "Spaces" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -792,6 +1242,12 @@
     },
     "Spaces shown" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios mostrados"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -802,6 +1258,12 @@
     },
     "Spaces Shown" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios mostrados"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -812,6 +1274,12 @@
     },
     "Switching Spaces" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar entre espacios"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -822,6 +1290,12 @@
     },
     "Update available..." : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualización disponible…"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -832,6 +1306,12 @@
     },
     "Use macOS order" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar orden de macOS"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -842,6 +1322,12 @@
     },
     "Variable" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variable"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -852,6 +1338,12 @@
     },
     "Variable width" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ancho variable"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -862,6 +1354,12 @@
     },
     "Version %@" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -875,6 +1373,12 @@
     },
     "When displays are side by side" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantallas lado a lado"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -885,6 +1389,12 @@
     },
     "When displays are stacked" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantallas apiladas"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -895,6 +1405,12 @@
     },
     "With modifiers" : {
       "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con modificadores"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
