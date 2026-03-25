@@ -178,11 +178,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         guard let event = NSApp.currentEvent else {
             return
         }
+        // Capture the mouse position here, instead of using event.locationInWindow,
+        // which may be invalid for clicks in the 1-2px gap above/below the button.
+        // Also capture the button frame now, before the asyncAfter delay, so that
+        // it is from the same moment as the mouse location.
+        let mouseLocation = NSEvent.mouseLocation
+        let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
             if event.type == .rightMouseDown {
                 // Show the menu on right-click
                 if let sbMenu = self.statusBarMenu {
-                    let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
                     // This calculation is not right, but looks good. This is likely because of the
                     // NSMenu popup having its own visual padding, borders and/or drop shadows.
                     let menuOrigin = CGPoint(
@@ -198,11 +203,15 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     print("Not switching: just one space visible")
                     return
                 }
-                let locationInButton = sbButton.convert(event.locationInWindow, from: nil)
+                // Use screen coordinates for hit testing; sbButton.convert() returns
+                // garbage when the click lands in the 1-2px gap above/below the button
+                let locationInButton = NSPoint(
+                    x: mouseLocation.x - buttonFrame.minX,
+                    y: mouseLocation.y - buttonFrame.minY)
                 // Convert to image-relative coordinates for hit testing
                 let imageWidth = sbButton.image?.size.width ?? sbButton.bounds.width
                 let margin = max((sbButton.bounds.width - imageWidth) / 2.0, 0)
-                let adjPoint = NSPoint(x: locationInButton.x - margin, y: sbButton.bounds.height - locationInButton.y)
+                let adjPoint = NSPoint(x: locationInButton.x - margin, y: locationInButton.y)
                 self.spaceSwitcher.switchUsingLocation(
                     iconWidths: self.iconCreator.iconWidths,
                     point: adjPoint,
