@@ -80,7 +80,7 @@ class SpaceSwitcher {
             let alert = NSAlert.init()
             alert.messageText = "Spaceman"
             alert.informativeText = "\(msg)"
-            alert.addButton(withTitle: "Dismiss")
+            alert.addButton(withTitle: String(localized: "Dismiss"))
             if permissionTypeName != "" {
                 let settingsName = systemSettingsName()
                 alert.addButton(withTitle: "\(settingsName)...")

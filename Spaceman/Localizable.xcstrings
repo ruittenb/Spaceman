@@ -1,0 +1,301 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "⌘1" : {
+
+    },
+    "⌘2" : {
+
+    },
+    "⌘3" : {
+
+    },
+    "⌘4" : {
+
+    },
+    "All spaces" : {
+
+    },
+    "All Spaces" : {
+
+    },
+    "Appearance" : {
+
+    },
+    "Backup" : {
+
+    },
+    "Backup failed" : {
+
+    },
+    "Backup Preferences" : {
+
+    },
+    "Bare numbers" : {
+
+    },
+    "Bare Numbers" : {
+
+    },
+    "Bordered" : {
+
+    },
+    "Check for updates..." : {
+
+    },
+    "Clear color" : {
+
+    },
+    "Close window (⌘W)" : {
+
+    },
+    "Columns first" : {
+
+    },
+    "Command ⌘" : {
+
+    },
+    "Compact" : {
+
+    },
+    "Control ⌃" : {
+
+    },
+    "Current only" : {
+
+    },
+    "Current Only" : {
+
+    },
+    "Dimmed" : {
+
+    },
+    "Dismiss" : {
+
+    },
+    "Displays" : {
+
+    },
+    "Dual Row" : {
+
+    },
+    "Dual Row fill order" : {
+
+    },
+    "Dual Row, columns first" : {
+
+    },
+    "Dual Row, rows first" : {
+
+    },
+    "Extra Large" : {
+
+    },
+    "Fullscreen Spaces" : {
+
+    },
+    "General" : {
+
+    },
+    "GitHub" : {
+
+    },
+    "Hide fullscreen spaces" : {
+
+    },
+    "Icon text" : {
+
+    },
+    "Icon Text" : {
+
+    },
+    "Icon widths" : {
+
+    },
+    "Inactive style" : {
+
+    },
+    "Large" : {
+
+    },
+    "Last backup: %@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Last backup: %1$@ %2$@"
+          }
+        }
+      }
+    },
+    "Launch Spaceman at login" : {
+
+    },
+    "Layout" : {
+
+    },
+    "Medium" : {
+
+    },
+    "Name" : {
+
+    },
+    "Names" : {
+
+    },
+    "Narrow" : {
+
+    },
+    "Nearby range: ±%lld" : {
+
+    },
+    "Nearby spaces" : {
+
+    },
+    "Nearby Spaces" : {
+
+    },
+    "No backup found" : {
+
+    },
+    "No preferences to backup" : {
+
+    },
+    "No spaces detected yet." : {
+
+    },
+    "No text" : {
+
+    },
+    "No Text" : {
+
+    },
+    "number keys on top row" : {
+
+    },
+    "Numbers" : {
+
+    },
+    "Numbers and names" : {
+
+    },
+    "Numbers and Names" : {
+
+    },
+    "numeric keypad" : {
+
+    },
+    "Open %@ → Displays…" : {
+
+    },
+    "Open %@ → Mission Control Shortcuts…" : {
+
+    },
+    "Option ⌥" : {
+
+    },
+    "Preferences restored" : {
+
+    },
+    "Preferences saved" : {
+
+    },
+    "Preferences..." : {
+
+    },
+    "Quit Spaceman" : {
+
+    },
+    "Refresh" : {
+
+    },
+    "Refresh spaces in background" : {
+
+    },
+    "Restart space numbering by display" : {
+
+    },
+    "Restore failed" : {
+
+    },
+    "Restore Preferences" : {
+
+    },
+    "Reverse macOS order" : {
+
+    },
+    "Roughly equal" : {
+
+    },
+    "Rows first" : {
+
+    },
+    "Shift ⇧" : {
+
+    },
+    "Shortcut for manual refresh" : {
+
+    },
+    "Shortcut keys" : {
+
+    },
+    "Shortcut to open preferences window" : {
+
+    },
+    "Shortcuts" : {
+
+    },
+    "Show bottom display first" : {
+
+    },
+    "Show top display first" : {
+
+    },
+    "Spaceman" : {
+
+    },
+    "Spaces" : {
+
+    },
+    "Spaces shown" : {
+
+    },
+    "Spaces Shown" : {
+
+    },
+    "Switching Spaces" : {
+
+    },
+    "Update available..." : {
+
+    },
+    "Use macOS order" : {
+
+    },
+    "Variable" : {
+
+    },
+    "Variable width" : {
+
+    },
+    "Version %@" : {
+
+    },
+    "Website" : {
+
+    },
+    "When displays are side by side" : {
+
+    },
+    "When displays are stacked" : {
+
+    },
+    "With modifiers" : {
+
+    }
+  },
+  "version" : "1.1"
+}

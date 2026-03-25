@@ -1,0 +1,28 @@
+/* Class = "NSMenu"; title = "Spaceman"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "Spaceman";
+
+/* Class = "NSMenuItem"; title = "About Spaceman"; ObjectID = "5kV-Vb-QxS"; */
+"5kV-Vb-QxS.title" = "About Spaceman";
+
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
+"BOF-NM-1cW.title" = "Preferences…";
+
+/* Class = "NSMenuItem"; title = "Quit Spaceman"; ObjectID = "4sb-4s-VLi"; */
+"4sb-4s-VLi.title" = "Quit Spaceman";
+
+
+/* Class = "NSMenu"; title = "File"; ObjectID = "bib-Uj-vzu"; */
+"bib-Uj-vzu.title" = "File";
+
+/* Class = "NSMenuItem"; title = "Save…"; ObjectID = "pxx-59-PXV"; */
+"pxx-59-PXV.title" = "Save…";
+
+/* Class = "NSMenuItem"; title = "Revert to Saved"; ObjectID = "KaW-ft-85H"; */
+"KaW-ft-85H.title" = "Revert to Saved";
+
+
+/* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
+"F2S-fz-NVQ.title" = "Help";
+
+/* Class = "NSMenuItem"; title = "Spaceman Help"; ObjectID = "FKE-Sm-Kum"; */
+"FKE-Sm-Kum.title" = "Spaceman Help";

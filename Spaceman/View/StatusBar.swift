@@ -61,7 +61,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         about.view = aboutView
 
         updatesItem = NSMenuItem(
-            title: "Check for updates...",
+            title: String(localized: "Check for updates..."),
             action: #selector(updaterController.checkForUpdates(_:)),
             keyEquivalent: "")
         updatesItem.target = updaterController
@@ -73,7 +73,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
 
         refreshItem = NSMenuItem(
-            title: "Refresh",
+            title: String(localized: "Refresh"),
             action: #selector(refreshSpaces(_:)),
             keyEquivalent: "")
         refreshItem.target = self
@@ -82,7 +82,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
 
         prefItem = NSMenuItem(
-            title: "Preferences...",
+            title: String(localized: "Preferences..."),
             action: #selector(showPreferencesWindow(_:)),
             keyEquivalent: "")
         prefItem.target = self
@@ -91,7 +91,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
 
         quitItem = NSMenuItem(
-            title: "Quit Spaceman",
+            title: String(localized: "Quit Spaceman"),
             action: #selector(NSApplication.terminate(_:)),
             keyEquivalent: "")
         quitItem.image = NSImage(systemSymbolName: "xmark.rectangle", accessibilityDescription: nil)
@@ -101,12 +101,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         for mode in LayoutMode.allCases {
             if mode == .dualRows {
                 let byRow = NSMenuItem(
-                    title: "Dual Row, rows first",
+                    title: String(localized: "Dual Row, rows first"),
                     action: #selector(selectDualRowByRow), keyEquivalent: "")
                 byRow.target = self
                 layoutSubmenu.addItem(byRow)
                 let byCol = NSMenuItem(
-                    title: "Dual Row, columns first",
+                    title: String(localized: "Dual Row, columns first"),
                     action: #selector(selectDualRowByColumn), keyEquivalent: "")
                 byCol.target = self
                 layoutSubmenu.addItem(byCol)
@@ -119,12 +119,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
         layoutSubmenu.addItem(NSMenuItem.separator())
         let variableWidthItem = NSMenuItem(
-            title: "Variable width",
+            title: String(localized: "Variable width"),
             action: #selector(toggleVariableWidth), keyEquivalent: "")
         variableWidthItem.target = self
         layoutSubmenu.addItem(variableWidthItem)
 
-        layoutMenuItem = NSMenuItem(title: "Layout", action: nil, keyEquivalent: "")
+        layoutMenuItem = NSMenuItem(title: String(localized: "Layout"), action: nil, keyEquivalent: "")
         layoutMenuItem.submenu = layoutSubmenu
 
         let iconStyleSubmenu = NSMenu()
@@ -134,7 +134,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             item.target = self
             iconStyleSubmenu.addItem(item)
         }
-        iconStyleMenuItem = NSMenuItem(title: "Icon Text", action: nil, keyEquivalent: "")
+        iconStyleMenuItem = NSMenuItem(title: String(localized: "Icon Text"), action: nil, keyEquivalent: "")
         iconStyleMenuItem.submenu = iconStyleSubmenu
 
         let spacesShownSubmenu = NSMenu()
@@ -146,12 +146,13 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
         spacesShownSubmenu.addItem(NSMenuItem.separator())
         let hideFullscreenItem = NSMenuItem(
-            title: "Fullscreen Spaces", action: #selector(toggleHideFullscreenSpaces), keyEquivalent: ""
+            title: String(localized: "Fullscreen Spaces"),
+            action: #selector(toggleHideFullscreenSpaces), keyEquivalent: ""
         )
         hideFullscreenItem.target = self
         spacesShownSubmenu.addItem(hideFullscreenItem)
 
-        spacesShownMenuItem = NSMenuItem(title: "Spaces Shown", action: nil, keyEquivalent: "")
+        spacesShownMenuItem = NSMenuItem(title: String(localized: "Spaces Shown"), action: nil, keyEquivalent: "")
         spacesShownMenuItem.submenu = spacesShownSubmenu
 
         statusBarMenu.addItem(about)
@@ -411,7 +412,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
         // Update is available - show badge with version number
         DispatchQueue.main.async {
-            self.updatesItem.title = "Update available..."
+            self.updatesItem.title = String(localized: "Update available...")
             if #available(macOS 14.0, *) {
                 let versionString = item.displayVersionString
                 self.updatesItem.badge = NSMenuItemBadge(string: "v\(versionString)")
@@ -422,7 +423,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func hideBadge() {
         // Hide the 'available' badge in the menu
         DispatchQueue.main.async {
-            self.updatesItem.title = "Check for updates..."
+            self.updatesItem.title = String(localized: "Check for updates...")
             if #available(macOS 14.0, *) {
                 self.updatesItem.badge = nil
             }
