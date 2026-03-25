@@ -177,7 +177,9 @@ class PreferencesViewModel: ObservableObject {
             throw NSError(domain: "Spaceman", code: 1,
                           userInfo: [NSLocalizedDescriptionKey: "Invalid backup file"])
         }
+        AppDelegate.resetMigratedKeys()
         UserDefaults.standard.setPersistentDomain(dict, forName: bundleIdentifier)
+        AppDelegate.performLegacyMigrations()
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 

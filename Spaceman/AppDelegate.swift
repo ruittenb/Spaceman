@@ -19,7 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Legacy settings migration - can be removed in future versions
-        performLegacyMigrations()
+        Self.performLegacyMigrations()
 
         iconCreator = IconCreator()
 
@@ -94,7 +94,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     // MARK: - Legacy Settings Migration
-    private func performLegacyMigrations() {
+    /// Removes the keys that `performLegacyMigrations()` migrates *to*.
+    /// Call this before restoring a backup and re-running migrations, so the
+    /// migration guards (`if object(forKey:) == nil`) don't skip over old-format
+    /// keys present in the backup. Must be kept in sync with `performLegacyMigrations()`.
+    static func resetMigratedKeys() {
+        let keys = ["visibleSpacesMode", "restartNumberingByDisplay", "horizontalDirection", "useVariableWidth"]
+        for key in keys {
+            UserDefaults.standard.removeObject(forKey: key)
+        }
+    }
+
+    static func performLegacyMigrations() {
         // Remove obsolete UserDefaults keys
         UserDefaults.standard.removeObject(forKey: "spaceNameCache")
 
