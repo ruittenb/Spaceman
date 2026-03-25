@@ -17,109 +17,353 @@
 
     },
     "All spaces" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle spaces"
+          }
+        }
+      }
     },
     "All Spaces" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle spaces"
+          }
+        }
+      }
     },
     "Appearance" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weergave"
+          }
+        }
+      }
     },
     "Backup" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reservekopieën"
+          }
+        }
+      }
     },
     "Backup failed" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reservekopie mislukt"
+          }
+        }
+      }
     },
     "Backup Preferences" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen opslaan"
+          }
+        }
+      }
     },
     "Bare numbers" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kale nummers"
+          }
+        }
+      }
     },
     "Bare Numbers" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kale nummers"
+          }
+        }
+      }
     },
     "Bordered" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Omlijnd"
+          }
+        }
+      }
     },
     "Check for updates..." : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Op updates controleren…"
+          }
+        }
+      }
     },
     "Clear color" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kleur wissen"
+          }
+        }
+      }
     },
     "Close window (⌘W)" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Venster sluiten (⌘W)"
+          }
+        }
+      }
     },
     "Columns first" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kolommen eerst"
+          }
+        }
+      }
     },
     "Command ⌘" : {
 
     },
     "Compact" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compact"
+          }
+        }
+      }
     },
     "Control ⌃" : {
 
     },
     "Current only" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen huidige"
+          }
+        }
+      }
     },
     "Current Only" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen huidige"
+          }
+        }
+      }
     },
     "Dimmed" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gedimd"
+          }
+        }
+      }
     },
     "Dismiss" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sluiten"
+          }
+        }
+      }
     },
     "Displays" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beeldschermen"
+          }
+        }
+      }
     },
     "Dual Row" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twee rijen"
+          }
+        }
+      }
     },
     "Dual Row fill order" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twee rijen vullen"
+          }
+        }
+      }
     },
     "Dual Row, columns first" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twee rijen, kolommen eerst"
+          }
+        }
+      }
     },
     "Dual Row, rows first" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twee rijen, rijen eerst"
+          }
+        }
+      }
     },
     "Extra Large" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra groot"
+          }
+        }
+      }
+    },
+    "For switching between spaces to work, these settings must match the keyboard shortcuts assigned for Mission Control." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om succesvol te kunnen wisselen tussen spaces, moeten deze instellingen overeenkomen met de sneltoetsen die zijn toegewezen in Mission Control."
+          }
+        }
+      }
     },
     "Fullscreen Spaces" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volledig scherm-spaces"
+          }
+        }
+      }
     },
     "General" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algemeen"
+          }
+        }
+      }
     },
     "GitHub" : {
 
     },
     "Hide fullscreen spaces" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volledig scherm-spaces verbergen"
+          }
+        }
+      }
     },
     "Icon text" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekst in icoon"
+          }
+        }
+      }
     },
     "Icon Text" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekst in icoon"
+          }
+        }
+      }
     },
     "Icon widths" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icoonbreedtes"
+          }
+        }
+      }
+    },
+    "If the display order seems erratic, please pay close attention to the horizontal alignment in %@ → Displays → Arrange." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als de beeldschermvolgorde niet correct is, let dan goed op de horizontale rangschikking in %@ → Beeldschermen → Ordenen."
+          }
+        }
+      }
     },
     "Inactive style" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inactieve stijl"
+          }
+        }
+      }
     },
     "Large" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Groot"
+          }
+        }
+      }
     },
     "Last backup: %@ %@" : {
       "localizations" : {
@@ -128,173 +372,536 @@
             "state" : "new",
             "value" : "Last backup: %1$@ %2$@"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laatste reservekopie: %1$@ %2$@"
+          }
         }
       }
     },
     "Launch Spaceman at login" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman starten bij inloggen"
+          }
+        }
+      }
     },
     "Layout" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indeling"
+          }
+        }
+      }
     },
     "Medium" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Middelgroot"
+          }
+        }
+      }
     },
     "Name" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naam"
+          }
+        }
+      }
     },
     "Names" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Namen"
+          }
+        }
+      }
     },
     "Narrow" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smal"
+          }
+        }
+      }
     },
     "Nearby range: ±%lld" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabij bereik: ±%lld"
+          }
+        }
+      }
     },
     "Nearby spaces" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabije spaces"
+          }
+        }
+      }
     },
     "Nearby Spaces" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabije spaces"
+          }
+        }
+      }
     },
     "No backup found" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen reservekopie gevonden"
+          }
+        }
+      }
     },
     "No preferences to backup" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen instellingen om te bewaren"
+          }
+        }
+      }
     },
     "No spaces detected yet." : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nog geen spaces gevonden."
+          }
+        }
+      }
     },
     "No text" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen tekst"
+          }
+        }
+      }
     },
     "No Text" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen tekst"
+          }
+        }
+      }
     },
     "number keys on top row" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cijfertoetsen op bovenste rij"
+          }
+        }
+      }
     },
     "Numbers" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nummers"
+          }
+        }
+      }
     },
     "Numbers and names" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nummers en namen"
+          }
+        }
+      }
     },
     "Numbers and Names" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nummers en namen"
+          }
+        }
+      }
     },
     "numeric keypad" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "numeriek toetsenbord"
+          }
+        }
+      }
     },
     "Open %@ → Displays…" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open %@ → Beeldschermen…"
+          }
+        }
+      }
     },
     "Open %@ → Mission Control Shortcuts…" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open %@ → Mission Control-toetscombinaties…"
+          }
+        }
+      }
     },
     "Option ⌥" : {
 
     },
     "Preferences restored" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen hersteld"
+          }
+        }
+      }
     },
     "Preferences saved" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen opgeslagen"
+          }
+        }
+      }
     },
     "Preferences..." : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen…"
+          }
+        }
+      }
     },
     "Quit Spaceman" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman afsluiten"
+          }
+        }
+      }
     },
     "Refresh" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verversen"
+          }
+        }
+      }
     },
     "Refresh spaces in background" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces op de achtergrond verversen"
+          }
+        }
+      }
     },
     "Restart space numbering by display" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Space nummering per beeldscherm herstarten"
+          }
+        }
+      }
     },
     "Restore failed" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herstellen mislukt"
+          }
+        }
+      }
     },
     "Restore Preferences" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen herstellen"
+          }
+        }
+      }
     },
     "Reverse macOS order" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS-volgorde omkeren"
+          }
+        }
+      }
     },
     "Roughly equal" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ongeveer even breed"
+          }
+        }
+      }
     },
     "Rows first" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rijen eerst"
+          }
+        }
+      }
     },
     "Shift ⇧" : {
 
     },
     "Shortcut for manual refresh" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets voor handmatig verversen"
+          }
+        }
+      }
     },
     "Shortcut keys" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoetsen"
+          }
+        }
+      }
     },
     "Shortcut to open preferences window" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets om instellingenvenster te openen"
+          }
+        }
+      }
     },
     "Shortcuts" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoetsen"
+          }
+        }
+      }
     },
     "Show bottom display first" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onderste beeldscherm eerst tonen"
+          }
+        }
+      }
     },
     "Show top display first" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bovenste beeldscherm eerst tonen"
+          }
+        }
+      }
     },
     "Spaceman" : {
 
     },
     "Spaces" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces"
+          }
+        }
+      }
     },
     "Spaces shown" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zichtbare spaces"
+          }
+        }
+      }
     },
     "Spaces Shown" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zichtbare spaces"
+          }
+        }
+      }
     },
     "Switching Spaces" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tussen spaces wisselen"
+          }
+        }
+      }
     },
     "Update available..." : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update beschikbaar..."
+          }
+        }
+      }
     },
     "Use macOS order" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS-volgorde gebruiken"
+          }
+        }
+      }
     },
     "Variable" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variabel"
+          }
+        }
+      }
     },
     "Variable width" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variabele breedte"
+          }
+        }
+      }
     },
     "Version %@" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versie %@"
+          }
+        }
+      }
     },
     "Website" : {
 
     },
     "When displays are side by side" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beeldschermen naast elkaar"
+          }
+        }
+      }
     },
     "When displays are stacked" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beeldschermen boven elkaar"
+          }
+        }
+      }
     },
     "With modifiers" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Met modifiers"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

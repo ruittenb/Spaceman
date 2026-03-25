@@ -260,9 +260,11 @@ struct PreferencesView: View {
                 }
                 .buttonStyle(.plain)
                 .popover(isPresented: $showDisplaysHelp, arrowEdge: .trailing) {
-                    Text("If the display order seems erratic, please pay close "
-                        + "attention to the horizontal alignment in "
-                        + "\(systemSettingsName()) → Displays → Arrange.")
+                    Text("""
+                        If the display order seems erratic, please pay close \
+                        attention to the horizontal alignment in \
+                        \(systemSettingsName()) → Displays → Arrange.
+                        """)
                     .padding()
                     .frame(width: 240)
                 }
@@ -419,9 +421,11 @@ struct PreferencesView: View {
                 }
                 .buttonStyle(.plain)
                 .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
-                    Text("For switching between spaces to work, these settings "
-                        + "must match the keyboard shortcuts assigned "
-                        + "for Mission Control.")
+                    Text("""
+                        For switching between spaces to work, these settings \
+                        must match the keyboard shortcuts assigned \
+                        for Mission Control.
+                        """)
                     .padding()
                     .frame(width: 240)
                 }
