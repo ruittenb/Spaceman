@@ -24,6 +24,12 @@
             "value" : "Todos los espacios"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38,6 +44,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Todos los espacios"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous les espaces"
           }
         },
         "nl" : {
@@ -56,6 +68,12 @@
             "value" : "Aspecto"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apparence"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -70,6 +88,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Respaldo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarde"
           }
         },
         "nl" : {
@@ -88,6 +112,12 @@
             "value" : "Error al respaldar"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de la sauvegarde"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -102,6 +132,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Respaldar configuración"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarder les réglages"
           }
         },
         "nl" : {
@@ -120,6 +156,12 @@
             "value" : "Solo números"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéros seuls"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -134,6 +176,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Solo números"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéros seuls"
           }
         },
         "nl" : {
@@ -152,6 +200,12 @@
             "value" : "Con borde"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encadré"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -166,6 +220,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Buscar actualizaciones…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher les mises à jour…"
           }
         },
         "nl" : {
@@ -184,6 +244,12 @@
             "value" : "Quitar color"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer la couleur"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -200,6 +266,12 @@
             "value" : "Cerrar ventana (⌘W)"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer la fenêtre (⌘W)"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -214,6 +286,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Columnas primero"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colonnes d'abord"
           }
         },
         "nl" : {
@@ -235,6 +313,12 @@
             "value" : "Compacto"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compact"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -254,6 +338,12 @@
             "value" : "Solo el actual"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actuel"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -268,6 +358,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Solo el actual"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actuel uniquement"
           }
         },
         "nl" : {
@@ -286,6 +382,12 @@
             "value" : "Atenuado"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atténué"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -300,6 +402,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cerrar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
           }
         },
         "nl" : {
@@ -318,6 +426,12 @@
             "value" : "Pantallas"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écrans"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -332,6 +446,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Doble fila"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Double rangée"
           }
         },
         "nl" : {
@@ -350,6 +470,12 @@
             "value" : "Orden de llenado en doble fila"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplissage double rangée"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -364,6 +490,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Doble fila, columnas primero"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Double rangée, colonnes d'abord"
           }
         },
         "nl" : {
@@ -382,6 +514,12 @@
             "value" : "Doble fila, filas primero"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Double rangée, lignes d'abord"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -396,6 +534,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Extra grande"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Très grand"
           }
         },
         "nl" : {
@@ -414,6 +558,12 @@
             "value" : "Para que el cambio entre espacios funcione, estas configuraciones deben coincidir con las funciones rápidas de teclado asignadas a Mission Control."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour que le changement d'espace fonctionne, ces réglages doivent correspondre aux raccourcis clavier attribués à Mission Control."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -430,6 +580,12 @@
             "value" : "Espacios en pantalla completa"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces en plein écran"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -444,6 +600,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "General"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Général"
           }
         },
         "nl" : {
@@ -465,6 +627,12 @@
             "value" : "Ocultar espacios en pantalla completa"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masquer les espaces en plein écran"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -479,6 +647,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Texto del ícono"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texte de l'icône"
           }
         },
         "nl" : {
@@ -497,6 +671,12 @@
             "value" : "Texto del ícono"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texte de l'icône"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -511,6 +691,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ancho de íconos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Largeur des icônes"
           }
         },
         "nl" : {
@@ -529,6 +715,12 @@
             "value" : "Si el orden de las pantallas parece incorrecto, presta atención a la alineación horizontal en %@ → Pantallas → Organizar."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si l'ordre des écrans semble incorrect, vérifiez l'alignement horizontal dans %@ → Écrans → Disposition."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -545,6 +737,12 @@
             "value" : "Estilo inactivo"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Style inactif"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -559,6 +757,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grande"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grand"
           }
         },
         "nl" : {
@@ -583,6 +787,12 @@
             "value" : "Último respaldo: %1$@ %2$@"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernière sauvegarde : %1$@ %2$@"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -597,6 +807,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Iniciar Spaceman al iniciar sesión"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lancer Spaceman à l'ouverture de session"
           }
         },
         "nl" : {
@@ -615,6 +831,12 @@
             "value" : "Disposición"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposition"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -629,6 +851,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mediano"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moyen"
           }
         },
         "nl" : {
@@ -647,6 +875,12 @@
             "value" : "Nombre"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -661,6 +895,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nombres"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noms"
           }
         },
         "nl" : {
@@ -679,6 +919,12 @@
             "value" : "Angosto"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étroit"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -693,6 +939,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rango cercano: ±%lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portée voisine : ±%lld"
           }
         },
         "nl" : {
@@ -711,6 +963,12 @@
             "value" : "Espacios cercanos"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voisins"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -725,6 +983,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Espacios cercanos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces voisins"
           }
         },
         "nl" : {
@@ -743,6 +1007,12 @@
             "value" : "No se encontró respaldo"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune sauvegarde trouvée"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -757,6 +1027,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No hay configuración para respaldar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun réglage à sauvegarder"
           }
         },
         "nl" : {
@@ -775,6 +1051,12 @@
             "value" : "Aún no se detectaron espacios."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun espace détecté pour le moment."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -789,6 +1071,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sin texto"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans texte"
           }
         },
         "nl" : {
@@ -807,6 +1095,12 @@
             "value" : "Sin texto"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans texte"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -821,6 +1115,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "teclas numéricas de la fila superior"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "touches numériques de la rangée supérieure"
           }
         },
         "nl" : {
@@ -839,6 +1139,12 @@
             "value" : "Números"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéros"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -853,6 +1159,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Números y nombres"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéros et noms"
           }
         },
         "nl" : {
@@ -871,6 +1183,12 @@
             "value" : "Números y nombres"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéros et noms"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -885,6 +1203,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "teclado numérico"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pavé numérique"
           }
         },
         "nl" : {
@@ -903,6 +1227,12 @@
             "value" : "Abrir %@ → Pantallas…"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir %@ → Écrans…"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -917,6 +1247,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abrir %@ → Funciones rápidas de Mission Control…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir %@ → Raccourcis Mission Control…"
           }
         },
         "nl" : {
@@ -938,6 +1274,12 @@
             "value" : "Configuración restaurada"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages restaurés"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -952,6 +1294,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Configuración guardada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages enregistrés"
           }
         },
         "nl" : {
@@ -970,6 +1318,12 @@
             "value" : "Configuración…"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages…"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -984,6 +1338,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salir de Spaceman"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitter Spaceman"
           }
         },
         "nl" : {
@@ -1002,6 +1362,12 @@
             "value" : "Actualizar"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualiser"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1016,6 +1382,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Actualizar espacios en segundo plano"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualiser les espaces en arrière-plan"
           }
         },
         "nl" : {
@@ -1034,6 +1406,12 @@
             "value" : "Reiniciar numeración de espacios por pantalla"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recommencer la numérotation par écran"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1048,6 +1426,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error al restaurar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de la restauration"
           }
         },
         "nl" : {
@@ -1066,6 +1450,12 @@
             "value" : "Restaurar configuración"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurer les réglages"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1080,6 +1470,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Orden inverso de macOS"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ordre macOS inversé"
           }
         },
         "nl" : {
@@ -1098,6 +1494,12 @@
             "value" : "Aproximadamente igual"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À peu près égale"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1112,6 +1514,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Filas primero"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lignes d'abord"
           }
         },
         "nl" : {
@@ -1133,6 +1541,12 @@
             "value" : "Atajo de teclado para actualizar manualmente"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci pour actualiser manuellement"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1147,6 +1561,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atajos de teclado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourcis clavier"
           }
         },
         "nl" : {
@@ -1165,6 +1585,12 @@
             "value" : "Atajo de teclado para abrir la ventana de configuración"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci pour ouvrir la fenêtre des réglages"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1179,6 +1605,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atajos de teclado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourcis"
           }
         },
         "nl" : {
@@ -1197,6 +1629,12 @@
             "value" : "Mostrar primero la pantalla inferior"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher l'écran du bas en premier"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1211,6 +1649,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar primero la pantalla superior"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher l'écran du haut en premier"
           }
         },
         "nl" : {
@@ -1232,6 +1676,12 @@
             "value" : "Espacios"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1246,6 +1696,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Espacios mostrados"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces affichés"
           }
         },
         "nl" : {
@@ -1264,6 +1720,12 @@
             "value" : "Espacios mostrados"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces affichés"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1278,6 +1740,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cambiar entre espacios"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changement d'espace"
           }
         },
         "nl" : {
@@ -1296,6 +1764,12 @@
             "value" : "Actualización disponible…"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mise à jour disponible…"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1312,6 +1786,12 @@
             "value" : "Usar orden de macOS"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser l'ordre macOS"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1323,6 +1803,12 @@
     "Variable" : {
       "localizations" : {
         "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variable"
+          }
+        },
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Variable"
@@ -1344,6 +1830,12 @@
             "value" : "Ancho variable"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Largeur variable"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1358,6 +1850,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Versión %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
           }
         },
         "nl" : {
@@ -1379,6 +1877,12 @@
             "value" : "Pantallas lado a lado"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écrans côte à côte"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1395,6 +1899,12 @@
             "value" : "Pantallas apiladas"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écrans superposés"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1409,6 +1919,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Con modificadores"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec modificateurs"
           }
         },
         "nl" : {
