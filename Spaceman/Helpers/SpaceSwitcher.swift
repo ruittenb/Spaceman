@@ -44,9 +44,12 @@ class SpaceSwitcher {
                     default:
                         permissionType = "Automation"
                     }
-                    let msg = "Error: \(errorBriefMessage)\n\n"
-                        + "Please grant \(permissionType) permissions "
-                        + "to Spaceman in \(settingsName) → Privacy and Security."
+                    let msg = String(localized: """
+                        Error: \(errorBriefMessage)
+
+                        Please grant \(permissionType) permissions \
+                        to Spaceman in \(settingsName) → Privacy and Security.
+                        """)
                     self.alert(
                         msg: msg,
                         permissionTypeName: permissionType)

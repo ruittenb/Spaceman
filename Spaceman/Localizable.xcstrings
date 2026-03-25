@@ -21,7 +21,7 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todos los espacios"
+            "value" : "Todos"
           }
         },
         "fr" : {
@@ -33,7 +33,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle spaces"
+            "value" : "Alle"
           }
         }
       }
@@ -335,7 +335,7 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo el actual"
+            "value" : "Actuales"
           }
         },
         "fr" : {
@@ -347,7 +347,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alleen huidige"
+            "value" : "Huidige"
           }
         }
       }
@@ -467,13 +467,13 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Orden de llenado en doble fila"
+            "value" : "Orden de llenado"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remplissage double rangée"
+            "value" : "Remplissage"
           }
         },
         "nl" : {
@@ -524,6 +524,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twee rijen, rijen eerst"
+          }
+        }
+      }
+    },
+    "Error: %@\n\nPlease grant %@ permissions to Spaceman in %@ → Privacy and Security." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error: %1$@\n\nPlease grant %2$@ permissions to Spaceman in %3$@ → Privacy and Security."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error: %1$@\n\nPor favor, otorga permisos de %2$@ a Spaceman en %3$@ → Privacidad y seguridad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur : %1$@\n\nVeuillez accorder les autorisations %2$@ à Spaceman dans %3$@ → Confidentialité et sécurité."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fout: %1$@\n\nGeef Spaceman a.u.b. %2$@-machtigingen in %3$@ → Privacy en beveiliging."
           }
         }
       }
@@ -960,7 +988,7 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios cercanos"
+            "value" : "Cercanos"
           }
         },
         "fr" : {
@@ -972,7 +1000,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nabije spaces"
+            "value" : "Nabije"
           }
         }
       }
@@ -1258,7 +1286,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open %@ → Mission Control-toetscombinaties…"
+            "value" : "Open %@ → Mission Control sneltoetsen…"
           }
         }
       }
@@ -1491,7 +1519,7 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aproximadamente igual"
+            "value" : "Aprox. igual"
           }
         },
         "fr" : {
@@ -1692,21 +1720,27 @@
     },
     "Spaces shown" : {
       "localizations" : {
-        "es-419" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Show"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Espacios mostrados"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Espaces affichés"
           }
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Zichtbare spaces"
           }
         }

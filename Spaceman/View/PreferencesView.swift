@@ -644,15 +644,22 @@ struct PreferencesView: View {
     // MARK: - Spaces shown picker
     private var spacesShownPicker: some View {
         return VStack(alignment: .leading) {
-            Picker(selection: Binding(
-                get: { visibleSpacesMode },
-                set: { visibleSpacesModeRaw = $0.rawValue }
-            ), label: Text("Spaces shown")) {
-                Text("All spaces").tag(VisibleSpacesMode.all)
-                Text("Nearby spaces").tag(VisibleSpacesMode.neighbors)
-                Text("Current only").tag(VisibleSpacesMode.currentOnly)
+            HStack(spacing: 12) {
+                Text("Spaces shown")
+                    .lineLimit(1)
+                    .layoutPriority(1)
+                Spacer()
+                Picker("", selection: Binding(
+                    get: { visibleSpacesMode },
+                    set: { visibleSpacesModeRaw = $0.rawValue }
+                )) {
+                    Text("All spaces").tag(VisibleSpacesMode.all)
+                    Text("Nearby spaces").tag(VisibleSpacesMode.neighbors)
+                    Text("Current only").tag(VisibleSpacesMode.currentOnly)
+                }
+                .pickerStyle(.segmented)
+                .fixedSize()
             }
-            .pickerStyle(.segmented)
             Stepper(value: $neighborRadius, in: 1...3) {
                 Text("Nearby range: ±\(neighborRadius)")
                     .foregroundColor(visibleSpacesMode == .neighbors ? .primary : .secondary)
