@@ -24,6 +24,10 @@ help: ## Print help for each target
 test: ## Run unit tests
 	xcodebuild test -project Spaceman.xcodeproj -scheme Spaceman -destination platform=macOS | xcbeautify
 
+.PHONY: lint
+lint: ## Check source code style
+	swiftlint Spaceman
+
 .PHONY: build
 build: ## Make the archive file
 	$(MAKE) $(ARCHIVE)
