@@ -15,8 +15,8 @@ enum InactiveStyle: Int, CaseIterable {
 
     var menuLabel: String {
         switch self {
-        case .bordered: return "Bordered"
-        case .dimmed:   return "Dimmed"
+        case .bordered: return String(localized: "Bordered")
+        case .dimmed:   return String(localized: "Dimmed")
         }
     }
 }
