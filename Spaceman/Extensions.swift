@@ -29,9 +29,9 @@ extension KeyboardShortcuts.Name {
 
 func systemSettingsName() -> String {
     if #available(macOS 13.0, *) {
-        return "System Settings"
+        return String(localized: "System Settings")
     } else {
-        return "System Preferences"
+        return String(localized: "System Preferences")
     }
 }
 

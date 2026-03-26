@@ -83,7 +83,7 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aspecto"
+            "value" : "Apariencia"
           }
         },
         "fr" : {
@@ -229,7 +229,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Numéros seuls"
+            "value" : "Numéros uniquement"
           }
         },
         "nl" : {
@@ -369,7 +369,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Colonnes d'abord"
+            "value" : "Colonnes"
           }
         },
         "nl" : {
@@ -381,7 +381,20 @@
       }
     },
     "Command ⌘" : {
-
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comando ⌘"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commande ⌘"
+          }
+        }
+      }
     },
     "Compact" : {
       "localizations" : {
@@ -412,14 +425,27 @@
       }
     },
     "Control ⌃" : {
-
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control ⌃"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrôle ^"
+          }
+        }
+      }
     },
     "Current only" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktueller"
+            "value" : "Aktuelle"
           }
         },
         "es-419" : {
@@ -431,7 +457,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actuel"
+            "value" : "Actuels"
           }
         },
         "nl" : {
@@ -447,19 +473,19 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur aktueller"
+            "value" : "Nur aktuelle"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo el actual"
+            "value" : "Solo el espacio actual"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actuel uniquement"
+            "value" : "Espaces actuels uniquement"
           }
         },
         "nl" : {
@@ -571,7 +597,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Double rangée"
+            "value" : "Deux rangées"
           }
         },
         "nl" : {
@@ -599,7 +625,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remplissage"
+            "value" : "Ordre de remplissage"
           }
         },
         "nl" : {
@@ -621,13 +647,13 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doble fila, columnas primero"
+            "value" : "Dos filas, columnas primero"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Double rangée, colonnes d'abord"
+            "value" : "Deux rangées, colonnes en premier"
           }
         },
         "nl" : {
@@ -649,13 +675,13 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doble fila, filas primero"
+            "value" : "Dos filas, filas primero"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Double rangée, lignes d'abord"
+            "value" : "Deux rangées, lignes en premier"
           }
         },
         "nl" : {
@@ -944,7 +970,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si l'ordre des écrans semble incorrect, vérifiez l'alignement horizontal dans %@ → Écrans → Disposition."
+            "value" : "Si l'ordre des écrans ne semble pas correct, vérifiez l'alignement horizontal dans %@ → Écrans → Disposition."
           }
         },
         "nl" : {
@@ -1224,13 +1250,13 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rango cercano: ±%lld"
+            "value" : "Rango de espacios cercanos: ±%lld"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Portée voisine : ±%lld"
+            "value" : "Portée des voisins : ±%lld"
           }
         },
         "nl" : {
@@ -1448,13 +1474,13 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "teclas numéricas de la fila superior"
+            "value" : "Teclas numéricas (fila superior)"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "touches numériques de la rangée supérieure"
+            "value" : "Touches numériques (rangée supérieure)"
           }
         },
         "nl" : {
@@ -1560,13 +1586,13 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "teclado numérico"
+            "value" : "Teclado numérico"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "pavé numérique"
+            "value" : "Pavé numérique"
           }
         },
         "nl" : {
@@ -1582,7 +1608,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öffne %@ → Displays…"
+            "value" : "%@ → Displays öffnen…"
           }
         },
         "es-419" : {
@@ -1610,13 +1636,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öffne %@ → Mission Control-Kurzbefehle…"
+            "value" : "%@ → Mission Control: Kurzbefehle öffnen…"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir %@ → Funciones rápidas de Mission Control…"
+            "value" : "Abrir %@ → Atajos de Mission Control…"
           }
         },
         "fr" : {
@@ -1634,7 +1660,14 @@
       }
     },
     "Option ⌥" : {
-
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opción ⌥"
+          }
+        }
+      }
     },
     "Preferences restored" : {
       "localizations" : {
@@ -1809,19 +1842,19 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Space-Nummerierung pro Bildschirm neu starten"
+            "value" : "Space-Nummerierung pro Bildschirm zurücksetzen"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reiniciar numeración de espacios por pantalla"
+            "value" : "Reiniciar la numeración de los espacios por pantalla"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recommencer la numérotation par écran"
+            "value" : "Redémarrer la numérotation par écran"
           }
         },
         "nl" : {
@@ -1927,13 +1960,13 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aprox. igual"
+            "value" : "Casi igual"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "À peu près égale"
+            "value" : "Presque égale"
           }
         },
         "nl" : {
@@ -1961,7 +1994,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lignes d'abord"
+            "value" : "Lignes"
           }
         },
         "nl" : {
@@ -1973,7 +2006,20 @@
       }
     },
     "Shift ⇧" : {
-
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mayúsculas ⇧"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maj ⇧"
+          }
+        }
+      }
     },
     "Shortcut for manual refresh" : {
       "localizations" : {
@@ -1986,13 +2032,13 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo de teclado para actualizar manualmente"
+            "value" : "Atajo para actualizar manualmente"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Raccourci pour actualiser manuellement"
+            "value" : "Raccourci d’actualisation manuelle"
           }
         },
         "nl" : {
@@ -2036,19 +2082,19 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kurzbefehl zum Öffnen des Einstellungsfensters"
+            "value" : "Kurzbefehl zum Öffnen der Einstellungen"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo de teclado para abrir la ventana de configuración"
+            "value" : "Atajo para abrir la configuración"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Raccourci pour ouvrir la fenêtre des réglages"
+            "value" : "Raccourci d’ouverture des réglages"
           }
         },
         "nl" : {
@@ -2179,7 +2225,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anzeigen"
+            "value" : "Spaces anzeigen"
           }
         },
         "en" : {
@@ -2213,13 +2259,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Angezeigte Spaces"
+            "value" : "Spaces anzeigen"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios mostrados"
+            "value" : "Espacios visibles"
           }
         },
         "fr" : {
@@ -2253,13 +2299,69 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Changement d'espace"
+            "value" : "Changer d'espace"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tussen spaces wisselen"
+          }
+        }
+      }
+    },
+    "System Preferences" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systemeinstellungen"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferencias del Sistema"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Préférences système"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systeemvoorkeuren"
+          }
+        }
+      }
+    },
+    "System Settings" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systemeinstellungen"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración del Sistema"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages système"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systeeminstellingen"
           }
         }
       }
@@ -2405,7 +2507,20 @@
       }
     },
     "Website" : {
-
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sitio web"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Site web"
+          }
+        }
+      }
     },
     "When displays are side by side" : {
       "localizations" : {
@@ -2468,19 +2583,19 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mit Modifikatortasten"
+            "value" : "Mit Sondertasten"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con modificadores"
+            "value" : "Con teclas modificadores"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avec modificateurs"
+            "value" : "Avec touches de modification"
           }
         },
         "nl" : {

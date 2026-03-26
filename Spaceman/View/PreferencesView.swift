@@ -646,7 +646,7 @@ struct PreferencesView: View {
         return VStack(alignment: .leading) {
             HStack(spacing: 12) {
                 Text("Spaces shown")
-                    .lineLimit(1)
+                    .fixedSize()
                     .layoutPriority(1)
                 Spacer()
                 Picker("", selection: Binding(
