@@ -157,11 +157,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 UserDefaults.standard.set(IconStyle.bareText.rawValue, forKey: "decorationInactive")
                 UserDefaults.standard.set(IconText.numbers.rawValue, forKey: "displayStyle")
             } else {
-                UserDefaults.standard.set(IconStyle.roundedFilled.rawValue, forKey: "decorationActive")
+                UserDefaults.standard.set(IconStyle.filledRounded.rawValue, forKey: "decorationActive")
                 if oldInactiveStyle == 0 { // bordered
-                    UserDefaults.standard.set(IconStyle.roundedBordered.rawValue, forKey: "decorationInactive")
+                    UserDefaults.standard.set(IconStyle.borderedRounded.rawValue, forKey: "decorationInactive")
                 } else { // dimmed (1) or default
-                    UserDefaults.standard.set(IconStyle.roundedFilled.rawValue, forKey: "decorationInactive")
+                    UserDefaults.standard.set(IconStyle.filledRounded.rawValue, forKey: "decorationInactive")
                 }
             }
             UserDefaults.standard.removeObject(forKey: "inactiveStyle")

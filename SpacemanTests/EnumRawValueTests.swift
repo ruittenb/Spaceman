@@ -23,12 +23,12 @@ final class EnumRawValueTests: XCTestCase {
 
     func testIconStyleRawValues() {
         XCTAssertEqual(IconStyle.bareText.rawValue, 0)
-        XCTAssertEqual(IconStyle.rectangularBordered.rawValue, 1)
-        XCTAssertEqual(IconStyle.rectangularFilled.rawValue, 2)
-        XCTAssertEqual(IconStyle.roundedBordered.rawValue, 3)
-        XCTAssertEqual(IconStyle.roundedFilled.rawValue, 4)
-        XCTAssertEqual(IconStyle.pillBordered.rawValue, 5)
-        XCTAssertEqual(IconStyle.pillFilled.rawValue, 6)
+        XCTAssertEqual(IconStyle.borderedRectangular.rawValue, 1)
+        XCTAssertEqual(IconStyle.borderedRounded.rawValue, 2)
+        XCTAssertEqual(IconStyle.borderedPill.rawValue, 3)
+        XCTAssertEqual(IconStyle.filledRectangular.rawValue, 4)
+        XCTAssertEqual(IconStyle.filledRounded.rawValue, 5)
+        XCTAssertEqual(IconStyle.filledPill.rawValue, 6)
     }
 
     func testIconStyleAllCases() {
@@ -37,12 +37,12 @@ final class EnumRawValueTests: XCTestCase {
 
     func testIconStyleInitFromRawValue() {
         XCTAssertEqual(IconStyle(rawValue: 0), .bareText)
-        XCTAssertEqual(IconStyle(rawValue: 1), .rectangularBordered)
-        XCTAssertEqual(IconStyle(rawValue: 2), .rectangularFilled)
-        XCTAssertEqual(IconStyle(rawValue: 3), .roundedBordered)
-        XCTAssertEqual(IconStyle(rawValue: 4), .roundedFilled)
-        XCTAssertEqual(IconStyle(rawValue: 5), .pillBordered)
-        XCTAssertEqual(IconStyle(rawValue: 6), .pillFilled)
+        XCTAssertEqual(IconStyle(rawValue: 1), .borderedRectangular)
+        XCTAssertEqual(IconStyle(rawValue: 2), .borderedRounded)
+        XCTAssertEqual(IconStyle(rawValue: 3), .borderedPill)
+        XCTAssertEqual(IconStyle(rawValue: 4), .filledRectangular)
+        XCTAssertEqual(IconStyle(rawValue: 5), .filledRounded)
+        XCTAssertEqual(IconStyle(rawValue: 6), .filledPill)
         XCTAssertNil(IconStyle(rawValue: 99))
     }
 
@@ -50,13 +50,13 @@ final class EnumRawValueTests: XCTestCase {
         // Bare text stays bare text
         XCTAssertEqual(IconStyle.bareText.fullscreenVariant, .bareText)
         // Rectangular becomes pill (and vice versa), preserving fill style
-        XCTAssertEqual(IconStyle.rectangularBordered.fullscreenVariant, .pillBordered)
-        XCTAssertEqual(IconStyle.rectangularFilled.fullscreenVariant, .pillFilled)
-        XCTAssertEqual(IconStyle.pillBordered.fullscreenVariant, .rectangularBordered)
-        XCTAssertEqual(IconStyle.pillFilled.fullscreenVariant, .rectangularFilled)
+        XCTAssertEqual(IconStyle.borderedRectangular.fullscreenVariant, .borderedPill)
+        XCTAssertEqual(IconStyle.filledRectangular.fullscreenVariant, .filledPill)
+        XCTAssertEqual(IconStyle.borderedPill.fullscreenVariant, .borderedRectangular)
+        XCTAssertEqual(IconStyle.filledPill.fullscreenVariant, .filledRectangular)
         // Rounded becomes rectangular
-        XCTAssertEqual(IconStyle.roundedBordered.fullscreenVariant, .rectangularBordered)
-        XCTAssertEqual(IconStyle.roundedFilled.fullscreenVariant, .rectangularFilled)
+        XCTAssertEqual(IconStyle.borderedRounded.fullscreenVariant, .borderedRectangular)
+        XCTAssertEqual(IconStyle.filledRounded.fullscreenVariant, .filledRectangular)
     }
 
     // MARK: - LayoutMode

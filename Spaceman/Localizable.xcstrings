@@ -377,6 +377,15 @@
         }
       }
     },
+    "Bordered, pill" : {
+
+    },
+    "Bordered, rectangular" : {
+
+    },
+    "Bordered, rounded" : {
+
+    },
     "Check for updates..." : {
       "localizations" : {
         "de" : {
@@ -887,6 +896,15 @@
           }
         }
       }
+    },
+    "Filled, pill" : {
+
+    },
+    "Filled, rectangular" : {
+
+    },
+    "Filled, rounded" : {
+
     },
     "For switching between spaces to work, these settings must match the keyboard shortcuts assigned for Mission Control." : {
       "localizations" : {
@@ -1846,12 +1864,6 @@
         }
       }
     },
-    "Pill, bordered" : {
-
-    },
-    "Pill, filled" : {
-
-    },
     "Preferences restored" : {
       "localizations" : {
         "de" : {
@@ -1963,12 +1975,6 @@
           }
         }
       }
-    },
-    "Rectangular, bordered" : {
-
-    },
-    "Rectangular, filled" : {
-
     },
     "Refresh" : {
       "localizations" : {
@@ -2165,12 +2171,6 @@
           }
         }
       }
-    },
-    "Rounded, bordered" : {
-
-    },
-    "Rounded, filled" : {
-
     },
     "Rows first" : {
       "localizations" : {

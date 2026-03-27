@@ -15,8 +15,8 @@ struct PreferencesView: View {
     weak var parentWindow: PreferencesWindow?
 
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
-    @AppStorage("decorationActive") private var decorationActive = IconStyle.roundedFilled
-    @AppStorage("decorationInactive") private var decorationInactive = IconStyle.roundedBordered
+    @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
+    @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium

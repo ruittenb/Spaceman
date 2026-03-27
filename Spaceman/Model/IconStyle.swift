@@ -9,25 +9,25 @@ import AppKit
 
 enum IconStyle: Int, CaseIterable {
     case bareText = 0
-    case rectangularBordered = 1
-    case rectangularFilled = 2
-    case roundedBordered = 3
-    case roundedFilled = 4
-    case pillBordered = 5
-    case pillFilled = 6
+    case borderedRectangular = 1
+    case borderedRounded = 2
+    case borderedPill = 3
+    case filledRectangular = 4
+    case filledRounded = 5
+    case filledPill = 6
 
     var isBareText: Bool { self == .bareText }
 
     var isFilled: Bool {
         switch self {
-        case .rectangularFilled, .roundedFilled, .pillFilled: return true
+        case .filledRectangular, .filledRounded, .filledPill: return true
         default: return false
         }
     }
 
     var isBordered: Bool {
         switch self {
-        case .rectangularBordered, .roundedBordered, .pillBordered: return true
+        case .borderedRectangular, .borderedRounded, .borderedPill: return true
         default: return false
         }
     }
@@ -37,11 +37,11 @@ enum IconStyle: Int, CaseIterable {
         switch self {
         case .bareText:
             return 0
-        case .rectangularBordered, .rectangularFilled:
+        case .borderedRectangular, .filledRectangular:
             return 0
-        case .roundedBordered, .roundedFilled:
+        case .borderedRounded, .filledRounded:
             return rect.height * 0.2
-        case .pillBordered, .pillFilled:
+        case .borderedPill, .filledPill:
             return rect.height / 2
         }
     }
@@ -50,25 +50,25 @@ enum IconStyle: Int, CaseIterable {
     /// preserving the fill style. Bare text stays bare text.
     var fullscreenVariant: IconStyle {
         switch self {
-        case .bareText:            return .bareText
-        case .rectangularBordered: return .pillBordered
-        case .rectangularFilled:   return .pillFilled
-        case .roundedBordered:     return .rectangularBordered
-        case .roundedFilled:       return .rectangularFilled
-        case .pillBordered:        return .rectangularBordered
-        case .pillFilled:          return .rectangularFilled
+        case .bareText:             return .bareText
+        case .borderedRectangular:  return .borderedPill
+        case .borderedRounded:      return .borderedRectangular
+        case .borderedPill:         return .borderedRectangular
+        case .filledRectangular:    return .filledPill
+        case .filledRounded:        return .filledRectangular
+        case .filledPill:           return .filledRectangular
         }
     }
 
     var menuLabel: String {
         switch self {
-        case .bareText:            return String(localized: "Bare text")
-        case .rectangularBordered: return String(localized: "Rectangular, bordered")
-        case .rectangularFilled:   return String(localized: "Rectangular, filled")
-        case .roundedBordered:     return String(localized: "Rounded, bordered")
-        case .roundedFilled:       return String(localized: "Rounded, filled")
-        case .pillBordered:        return String(localized: "Pill, bordered")
-        case .pillFilled:          return String(localized: "Pill, filled")
+        case .bareText:             return String(localized: "Bare text")
+        case .borderedRectangular:  return String(localized: "Bordered, rectangular")
+        case .borderedRounded:      return String(localized: "Bordered, rounded")
+        case .borderedPill:         return String(localized: "Bordered, pill")
+        case .filledRectangular:    return String(localized: "Filled, rectangular")
+        case .filledRounded:        return String(localized: "Filled, rounded")
+        case .filledPill:           return String(localized: "Filled, pill")
         }
     }
 }

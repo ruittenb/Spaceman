@@ -15,8 +15,8 @@ class IconCreator {
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
-    @AppStorage("decorationActive") private var decorationActive = IconStyle.roundedFilled
-    @AppStorage("decorationInactive") private var decorationInactive = IconStyle.roundedBordered
+    @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
+    @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
 
