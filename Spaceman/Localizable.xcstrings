@@ -5,16 +5,116 @@
 
     },
     "⌘1" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘1"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘1"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘1"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘1"
+          }
+        }
+      }
     },
     "⌘2" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘2"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘2"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘2"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘2"
+          }
+        }
+      }
     },
     "⌘3" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘3"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘3"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘3"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘3"
+          }
+        }
+      }
     },
     "⌘4" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘4"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘4"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘4"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘4"
+          }
+        }
+      }
     },
     "All spaces" : {
       "localizations" : {
@@ -382,6 +482,12 @@
     },
     "Command ⌘" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Command ⌘"
+          }
+        },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
@@ -392,6 +498,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Commande ⌘"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Command ⌘"
           }
         }
       }
@@ -426,6 +538,12 @@
     },
     "Control ⌃" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control ⌃"
+          }
+        },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
@@ -436,6 +554,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contrôle ^"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control ⌃"
           }
         }
       }
@@ -839,7 +963,32 @@
       }
     },
     "GitHub" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
+          }
+        }
+      }
     },
     "Hide fullscreen spaces" : {
       "localizations" : {
@@ -1661,10 +1810,28 @@
     },
     "Option ⌥" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option ⌥"
+          }
+        },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Opción ⌥"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option ⌥"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option ⌥"
           }
         }
       }
@@ -2007,6 +2174,12 @@
     },
     "Shift ⇧" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shift ⇧"
+          }
+        },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2017,6 +2190,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Maj ⇧"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shift ⇧"
           }
         }
       }
@@ -2190,7 +2369,32 @@
       }
     },
     "Spaceman" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman"
+          }
+        }
+      }
     },
     "Spaces" : {
       "localizations" : {
@@ -2236,19 +2440,19 @@
         },
         "es-419" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Espacios mostrados"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Espaces affichés"
           }
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Zichtbare spaces"
           }
         }
@@ -2508,6 +2712,12 @@
     },
     "Website" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Website"
+          }
+        },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2518,6 +2728,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Site web"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Website"
           }
         }
       }
