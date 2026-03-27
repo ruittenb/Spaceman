@@ -165,7 +165,7 @@ class IconCreator {
                 withAttributes: getStringAttributes(alpha: textAlpha, color: textColor))
         } else if decoration.isFilled {
             let boxRect = NSRect(origin: .zero, size: size)
-                .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxBorderWidth / 2)
+                .insetBy(dx: sizes.BORDER_WIDTH / 2, dy: sizes.BORDER_WIDTH / 2)
             let cornerRadius = decoration.cornerRadius(for: boxRect)
             let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
             let fillAlpha: CGFloat = shouldDim ? Constants.inactiveAlpha : 1.0
@@ -199,11 +199,11 @@ class IconCreator {
         } else {
             // Border: outline + text (no fill)
             let boxRect = NSRect(origin: .zero, size: size)
-                .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxBorderWidth / 2)
+                .insetBy(dx: sizes.BORDER_WIDTH / 2, dy: sizes.BORDER_WIDTH / 2)
             let cornerRadius = decoration.cornerRadius(for: boxRect)
             let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
             let strokeAlpha: CGFloat = shouldDim ? Constants.inactiveAlpha : 1.0
-            boxPath.lineWidth = Constants.boxBorderWidth
+            boxPath.lineWidth = sizes.BORDER_WIDTH
 
             if useTemplate {
                 NSColor.black.withAlphaComponent(strokeAlpha).setStroke()
@@ -250,8 +250,8 @@ class IconCreator {
 
         let iconImage = NSImage(size: size)
         let boxRect = NSRect(origin: .zero, size: size)
-            .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxBorderWidth / 2)
-        let cornerRadius = space.isFullScreen ? 0.0 : Constants.boxCornerRadius
+            .insetBy(dx: sizes.BORDER_WIDTH / 2, dy: sizes.BORDER_WIDTH / 2)
+        let cornerRadius: CGFloat = space.isFullScreen ? 0.0 : 3.0
         let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
         let drawRect = NSRect(origin: .zero, size: size)
 

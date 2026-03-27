@@ -40,7 +40,7 @@ enum IconStyle: Int, CaseIterable {
         case .rectangularBordered, .rectangularFilled:
             return 0
         case .roundedBordered, .roundedFilled:
-            return 3.0
+            return rect.height * 0.2
         case .pillBordered, .pillFilled:
             return rect.height / 2
         }

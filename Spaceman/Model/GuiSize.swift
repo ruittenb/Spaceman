@@ -13,5 +13,6 @@ struct GuiSize {
     var GAP_HEIGHT_DUALROWS: Int
     var HORIZONTAL_PADDING: CGFloat
     var VERTICAL_PADDING: CGFloat
+    var BORDER_WIDTH: CGFloat
     var FONT_SIZE: Int
 }
