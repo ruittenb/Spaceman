@@ -11,7 +11,7 @@ import SwiftUI
 
 class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
-    @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbers
+    @AppStorage("displayStyle") private var displayStyle = IconText.numbers
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("schema") private var keySet = KeySet.toprow
@@ -128,7 +128,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         layoutMenuItem.submenu = layoutSubmenu
 
         let iconStyleSubmenu = NSMenu()
-        for style in DisplayStyle.allCases {
+        for style in IconText.allCases {
             let item = NSMenuItem(title: style.menuLabel, action: #selector(selectIconStyle(_:)), keyEquivalent: "")
             item.tag = style.rawValue
             item.target = self
@@ -338,7 +338,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func selectIconStyle(_ sender: NSMenuItem) {
-        guard let style = DisplayStyle(rawValue: sender.tag) else { return }
+        guard let style = IconText(rawValue: sender.tag) else { return }
         displayStyle = style
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }

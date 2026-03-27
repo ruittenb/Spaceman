@@ -1,14 +1,13 @@
 //
-//  Decoration.swift
+//  IconStyle.swift
 //  Spaceman
 //
-//  Controls the visual shape and fill of space icons in the menu bar.
-//  Each icon class (active, inactive) has its own decoration setting.
+//  Created by Claude Code on 27/03/2026.
 //
 
 import AppKit
 
-enum Decoration: Int, CaseIterable {
+enum IconStyle: Int, CaseIterable {
     case bareText = 0
     case rectangularBordered = 1
     case rectangularFilled = 2
@@ -49,14 +48,14 @@ enum Decoration: Int, CaseIterable {
 
     /// Fullscreen variant: rectangular becomes pill (and vice versa),
     /// preserving the fill style. Bare text stays bare text.
-    var fullscreenVariant: Decoration {
+    var fullscreenVariant: IconStyle {
         switch self {
         case .bareText:            return .bareText
-        case .rectangularBordered:   return .pillBordered
+        case .rectangularBordered: return .pillBordered
         case .rectangularFilled:   return .pillFilled
-        case .roundedBordered:       return .rectangularBordered
+        case .roundedBordered:     return .rectangularBordered
         case .roundedFilled:       return .rectangularFilled
-        case .pillBordered:          return .rectangularBordered
+        case .pillBordered:        return .rectangularBordered
         case .pillFilled:          return .rectangularFilled
         }
     }
@@ -64,11 +63,11 @@ enum Decoration: Int, CaseIterable {
     var menuLabel: String {
         switch self {
         case .bareText:            return String(localized: "Bare text")
-        case .rectangularBordered:   return String(localized: "Rectangular, bordered")
+        case .rectangularBordered: return String(localized: "Rectangular, bordered")
         case .rectangularFilled:   return String(localized: "Rectangular, filled")
-        case .roundedBordered:       return String(localized: "Rounded, bordered")
+        case .roundedBordered:     return String(localized: "Rounded, bordered")
         case .roundedFilled:       return String(localized: "Rounded, filled")
-        case .pillBordered:          return String(localized: "Pill, bordered")
+        case .pillBordered:        return String(localized: "Pill, bordered")
         case .pillFilled:          return String(localized: "Pill, filled")
         }
     }

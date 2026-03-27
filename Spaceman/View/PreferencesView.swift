@@ -14,9 +14,9 @@ struct PreferencesView: View {
 
     weak var parentWindow: PreferencesWindow?
 
-    @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbers
-    @AppStorage("decorationActive") private var decorationActive = Decoration.roundedFilled
-    @AppStorage("decorationInactive") private var decorationInactive = Decoration.roundedBordered
+    @AppStorage("displayStyle") private var displayStyle = IconText.numbers
+    @AppStorage("decorationActive") private var decorationActive = IconStyle.roundedFilled
+    @AppStorage("decorationInactive") private var decorationInactive = IconStyle.roundedBordered
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
@@ -346,8 +346,8 @@ struct PreferencesView: View {
             layoutSizePicker
             dualRowFillOrderPicker
             spacesStylePicker
-            activeDecorationPicker
-            inactiveDecorationPicker
+            activeIconStylePicker
+            inactiveIconStylePicker
             iconWidthPicker
             spacesShownPicker
             Toggle("Hide fullscreen spaces", isOn: $hideFullscreenSpaces)
@@ -504,10 +504,10 @@ struct PreferencesView: View {
             Text("Icon text")
             Spacer()
             Picker("", selection: $displayStyle) {
-                Text("No text").tag(DisplayStyle.rects)
-                Text("Numbers").tag(DisplayStyle.numbers)
-                Text("Names").tag(DisplayStyle.names)
-                Text("Numbers and names").tag(DisplayStyle.numbersAndNames)
+                Text("No text").tag(IconText.noText)
+                Text("Numbers").tag(IconText.numbers)
+                Text("Names").tag(IconText.names)
+                Text("Numbers and names").tag(IconText.numbersAndNames)
             }
             .fixedSize()
         }
@@ -516,13 +516,13 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Decoration Pickers
-    private var activeDecorationPicker: some View {
+    // MARK: - IconStyle Pickers
+    private var activeIconStylePicker: some View {
         HStack(spacing: 12) {
             Text("Active style")
             Spacer()
             Picker("", selection: $decorationActive) {
-                ForEach(Decoration.allCases, id: \.self) { decoration in
+                ForEach(IconStyle.allCases, id: \.self) { decoration in
                     Text(decoration.menuLabel).tag(decoration)
                 }
             }
@@ -533,12 +533,12 @@ struct PreferencesView: View {
         }
     }
 
-    private var inactiveDecorationPicker: some View {
+    private var inactiveIconStylePicker: some View {
         HStack(spacing: 12) {
             Text("Inactive style")
             Spacer()
             Picker("", selection: $decorationInactive) {
-                ForEach(Decoration.allCases, id: \.self) { decoration in
+                ForEach(IconStyle.allCases, id: \.self) { decoration in
                     Text(decoration.menuLabel).tag(decoration)
                 }
             }

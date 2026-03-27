@@ -148,20 +148,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         // Migrate displayStyle + inactiveStyle → decoration
         if UserDefaults.standard.object(forKey: "decorationActive") == nil {
-            let oldDisplayStyle = UserDefaults.standard.integer(forKey: "displayStyle")
+            let oldIconText = UserDefaults.standard.integer(forKey: "displayStyle")
             let oldInactiveStyle = UserDefaults.standard.integer(forKey: "inactiveStyle")
 
-            if oldDisplayStyle == 1 {
+            if oldIconText == 1 {
                 // Old "bare numbers" (raw value 1) → bare text decoration + numbers display style
-                UserDefaults.standard.set(Decoration.bareText.rawValue, forKey: "decorationActive")
-                UserDefaults.standard.set(Decoration.bareText.rawValue, forKey: "decorationInactive")
-                UserDefaults.standard.set(DisplayStyle.numbers.rawValue, forKey: "displayStyle")
+                UserDefaults.standard.set(IconStyle.bareText.rawValue, forKey: "decorationActive")
+                UserDefaults.standard.set(IconStyle.bareText.rawValue, forKey: "decorationInactive")
+                UserDefaults.standard.set(IconText.numbers.rawValue, forKey: "displayStyle")
             } else {
-                UserDefaults.standard.set(Decoration.roundedFilled.rawValue, forKey: "decorationActive")
+                UserDefaults.standard.set(IconStyle.roundedFilled.rawValue, forKey: "decorationActive")
                 if oldInactiveStyle == 0 { // bordered
-                    UserDefaults.standard.set(Decoration.roundedBordered.rawValue, forKey: "decorationInactive")
+                    UserDefaults.standard.set(IconStyle.roundedBordered.rawValue, forKey: "decorationInactive")
                 } else { // dimmed (1) or default
-                    UserDefaults.standard.set(Decoration.roundedFilled.rawValue, forKey: "decorationInactive")
+                    UserDefaults.standard.set(IconStyle.roundedFilled.rawValue, forKey: "decorationInactive")
                 }
             }
             UserDefaults.standard.removeObject(forKey: "inactiveStyle")

@@ -116,6 +116,9 @@
         }
       }
     },
+    "Active style" : {
+
+    },
     "All spaces" : {
       "localizations" : {
         "de" : {
@@ -285,6 +288,7 @@
       }
     },
     "Bare numbers" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -313,6 +317,7 @@
       }
     },
     "Bare Numbers" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -340,7 +345,11 @@
         }
       }
     },
+    "Bare text" : {
+
+    },
     "Bordered" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -621,6 +630,7 @@
       }
     },
     "Dimmed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1836,6 +1846,12 @@
         }
       }
     },
+    "Pill, bordered" : {
+
+    },
+    "Pill, filled" : {
+
+    },
     "Preferences restored" : {
       "localizations" : {
         "de" : {
@@ -1947,6 +1963,12 @@
           }
         }
       }
+    },
+    "Rectangular, bordered" : {
+
+    },
+    "Rectangular, filled" : {
+
     },
     "Refresh" : {
       "localizations" : {
@@ -2143,6 +2165,12 @@
           }
         }
       }
+    },
+    "Rounded, bordered" : {
+
+    },
+    "Rounded, filled" : {
+
     },
     "Rows first" : {
       "localizations" : {

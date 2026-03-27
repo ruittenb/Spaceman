@@ -11,12 +11,12 @@ import SwiftUI
 
 class IconCreator {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
-    @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbers
+    @AppStorage("displayStyle") private var displayStyle = IconText.numbers
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
-    @AppStorage("decorationActive") private var decorationActive = Decoration.roundedFilled
-    @AppStorage("decorationInactive") private var decorationInactive = Decoration.roundedBordered
+    @AppStorage("decorationActive") private var decorationActive = IconStyle.roundedFilled
+    @AppStorage("decorationInactive") private var decorationInactive = IconStyle.roundedBordered
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
 
@@ -99,7 +99,7 @@ class IconCreator {
         // 1. Determine text content based on display style
         let text: NSString
         switch displayStyle {
-        case .rects:
+        case .noText:
             text = ""
         case .numbers:
             text = NSString(string: space.spaceByDesktopID)
@@ -126,8 +126,8 @@ class IconCreator {
 
         // 3. Determine decoration for this space
         let isActive = space.isCurrentSpace
-        let baseDecoration = isActive ? decorationActive : decorationInactive
-        let decoration = space.isFullScreen ? baseDecoration.fullscreenVariant : baseDecoration
+        let baseIconStyle = isActive ? decorationActive : decorationInactive
+        let decoration = space.isFullScreen ? baseIconStyle.fullscreenVariant : baseIconStyle
         let shouldDim = !isActive && decorationActive == decorationInactive
 
         // 4. Calculate icon size (dynamic width based on text)
