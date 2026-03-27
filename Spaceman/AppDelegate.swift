@@ -19,7 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Legacy settings migration - can be removed in future versions
-        performLegacyMigrations()
+        Self.performLegacyMigrations()
 
         iconCreator = IconCreator()
 
@@ -94,17 +94,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     // MARK: - Legacy Settings Migration
-    private func performLegacyMigrations() {
+    /// Removes the keys that `performLegacyMigrations()` migrates *to*.
+    /// Call this before restoring a backup and re-running migrations, so the
+    /// migration guards (`if object(forKey:) == nil`) don't skip over old-format
+    /// keys present in the backup. Must be kept in sync with `performLegacyMigrations()`.
+    static func resetMigratedKeys() {
+        let keys = ["visibleSpacesMode", "restartNumberingByDisplay", "horizontalDirection", "useVariableWidth"]
+        for key in keys {
+            UserDefaults.standard.removeObject(forKey: key)
+        }
+    }
+
+    static func performLegacyMigrations() {
         // Remove obsolete UserDefaults keys
         UserDefaults.standard.removeObject(forKey: "spaceNameCache")
 
         // Migrate legacy hideInactiveSpaces to visibleSpacesMode
         if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil {
             let hideInactiveSpaces = UserDefaults.standard.bool(forKey: "hideInactiveSpaces")
-            if hideInactiveSpaces {
-                UserDefaults.standard.set(VisibleSpacesMode.currentOnly.rawValue, forKey: "visibleSpacesMode")
-            }
+            let newValue: Int = hideInactiveSpaces
+                ? VisibleSpacesMode.currentOnly.rawValue
+                : VisibleSpacesMode.all.rawValue
+            UserDefaults.standard.set(newValue, forKey: "visibleSpacesMode")
         }
+        UserDefaults.standard.removeObject(forKey: "hideInactiveSpaces")
 
         // Migrate restartNumberingByDesktop to restartNumberingByDisplay
         if UserDefaults.standard.object(forKey: "restartNumberingByDisplay") == nil {
@@ -121,6 +134,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 : HorizontalDirection.defaultOrder.rawValue
             UserDefaults.standard.set(newValue, forKey: "horizontalDirection")
             UserDefaults.standard.removeObject(forKey: "reverseDisplayOrder")
+        }
+
+        // Migrate useMinIconWidth (inverted bool) to useVariableWidth
+        if UserDefaults.standard.object(forKey: "useVariableWidth") == nil,
+           let oldValue = UserDefaults.standard.object(forKey: "useMinIconWidth") as? Bool {
+            UserDefaults.standard.set(!oldValue, forKey: "useVariableWidth")
+            UserDefaults.standard.removeObject(forKey: "useMinIconWidth")
         }
     }
 }

@@ -13,12 +13,10 @@ class IconCreator {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
-    // Legacy flag kept for backward compatibility; use visibleSpacesMode instead
-    @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.dimmed
-    @AppStorage("useMinIconWidth") private var useMinIconWidth = true
+    @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
@@ -58,7 +56,7 @@ class IconCreator {
 
         // For uniform icon widths: match the longest name, capped at 4 characters
         let showsNames = displayStyle == .names || displayStyle == .numbersAndNames
-        if useMinIconWidth && showsNames {
+        if !useVariableWidth && showsNames {
             let longestName = filteredSpaces.filter { !$0.isFullScreen }.map { $0.spaceName.count }.max() ?? 0
             minIconCharWidth = min(longestName, 4)
         } else {
@@ -84,15 +82,7 @@ class IconCreator {
     }
 
     private func filterSpaces(_ spaces: [Space]) -> [Space] {
-        // Backwards compatibility: if legacy flag is true and visible mode wasn't set explicitly, treat as current only
-        let mode: VisibleSpacesMode = {
-            if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil && hideInactiveSpaces {
-                return .currentOnly
-            }
-            return visibleSpacesMode
-        }()
-
-        var result = spaceFilter.filter(spaces, mode: mode, neighborRadius: neighborRadius)
+        var result = spaceFilter.filter(spaces, mode: visibleSpacesMode, neighborRadius: neighborRadius)
         if hideFullscreenSpaces {
             result = result.filter { !$0.isFullScreen }
         }

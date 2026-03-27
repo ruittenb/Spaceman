@@ -148,7 +148,7 @@ class PreferencesViewModel: ObservableObject {
         do {
             try fm.createDirectory(at: Self.settingsDirectory, withIntermediateDirectories: true)
             guard let domain = UserDefaults.standard.persistentDomain(forName: Self.bundleIdentifier) else {
-                showBackupStatus("No preferences to backup", isError: true)
+                showBackupStatus(String(localized: "No preferences to backup"), isError: true)
                 return
             }
             let data = try PropertyListSerialization.data(fromPropertyList: domain, format: .xml, options: 0)
@@ -164,9 +164,9 @@ class PreferencesViewModel: ObservableObject {
             try data.write(to: timestampedFile)
 
             refreshBackupDate()
-            showBackupStatus("Preferences saved", isError: false)
+            showBackupStatus(String(localized: "Preferences saved"), isError: false)
         } catch {
-            showBackupStatus("Backup failed", isError: true)
+            showBackupStatus(String(localized: "Backup failed"), isError: true)
         }
     }
 
@@ -177,7 +177,9 @@ class PreferencesViewModel: ObservableObject {
             throw NSError(domain: "Spaceman", code: 1,
                           userInfo: [NSLocalizedDescriptionKey: "Invalid backup file"])
         }
+        AppDelegate.resetMigratedKeys()
         UserDefaults.standard.setPersistentDomain(dict, forName: bundleIdentifier)
+        AppDelegate.performLegacyMigrations()
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
@@ -185,9 +187,9 @@ class PreferencesViewModel: ObservableObject {
         do {
             try Self.restoreFromBackup()
             loadData()
-            showRestoreStatus("Preferences restored", isError: false)
+            showRestoreStatus(String(localized: "Preferences restored"), isError: false)
         } catch {
-            showRestoreStatus("Restore failed", isError: true)
+            showRestoreStatus(String(localized: "Restore failed"), isError: true)
         }
     }
 

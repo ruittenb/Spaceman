@@ -15,9 +15,9 @@ enum VisibleSpacesMode: Int, CaseIterable {
 
     var menuLabel: String {
         switch self {
-        case .all:         return "All Spaces"
-        case .neighbors:   return "Nearby Spaces"
-        case .currentOnly: return "Current Only"
+        case .all:         return String(localized: "All Spaces")
+        case .neighbors:   return String(localized: "Nearby Spaces")
+        case .currentOnly: return String(localized: "Current Only")
         }
     }
 }

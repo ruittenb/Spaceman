@@ -17,12 +17,12 @@ enum LayoutMode: Int, CaseIterable {
 
     var menuLabel: String {
         switch self {
-        case .dualRows:   return "Dual Row"
-        case .narrow:     return "Narrow"
-        case .compact:    return "Compact"
-        case .medium:     return "Medium"
-        case .large:      return "Large"
-        case .extraLarge: return "Extra Large"
+        case .dualRows:   return String(localized: "Dual Row")
+        case .narrow:     return String(localized: "Narrow")
+        case .compact:    return String(localized: "Compact")
+        case .medium:     return String(localized: "Medium")
+        case .large:      return String(localized: "Large")
+        case .extraLarge: return String(localized: "Extra Large")
         }
     }
 }

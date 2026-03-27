@@ -44,9 +44,12 @@ class SpaceSwitcher {
                     default:
                         permissionType = "Automation"
                     }
-                    let msg = "Error: \(errorBriefMessage)\n\n"
-                        + "Please grant \(permissionType) permissions "
-                        + "to Spaceman in \(settingsName) → Privacy and Security."
+                    let msg = String(localized: """
+                        Error: \(errorBriefMessage)
+
+                        Please grant \(permissionType) permissions \
+                        to Spaceman in \(settingsName) → Privacy and Security.
+                        """)
                     self.alert(
                         msg: msg,
                         permissionTypeName: permissionType)
@@ -80,7 +83,7 @@ class SpaceSwitcher {
             let alert = NSAlert.init()
             alert.messageText = "Spaceman"
             alert.informativeText = "\(msg)"
-            alert.addButton(withTitle: "Dismiss")
+            alert.addButton(withTitle: String(localized: "Dismiss"))
             if permissionTypeName != "" {
                 let settingsName = systemSettingsName()
                 alert.addButton(withTitle: "\(settingsName)...")

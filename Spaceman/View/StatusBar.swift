@@ -10,14 +10,13 @@ import Sparkle
 import SwiftUI
 
 class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
-    @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
-    @AppStorage("useMinIconWidth") private var useMinIconWidth = true
+    @AppStorage("useVariableWidth") private var useVariableWidth = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -62,7 +61,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         about.view = aboutView
 
         updatesItem = NSMenuItem(
-            title: "Check for updates...",
+            title: String(localized: "Check for updates..."),
             action: #selector(updaterController.checkForUpdates(_:)),
             keyEquivalent: "")
         updatesItem.target = updaterController
@@ -74,7 +73,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
 
         refreshItem = NSMenuItem(
-            title: "Refresh",
+            title: String(localized: "Refresh"),
             action: #selector(refreshSpaces(_:)),
             keyEquivalent: "")
         refreshItem.target = self
@@ -83,7 +82,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
 
         prefItem = NSMenuItem(
-            title: "Preferences...",
+            title: String(localized: "Preferences..."),
             action: #selector(showPreferencesWindow(_:)),
             keyEquivalent: "")
         prefItem.target = self
@@ -92,7 +91,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
 
         quitItem = NSMenuItem(
-            title: "Quit Spaceman",
+            title: String(localized: "Quit Spaceman"),
             action: #selector(NSApplication.terminate(_:)),
             keyEquivalent: "")
         quitItem.image = NSImage(systemSymbolName: "xmark.rectangle", accessibilityDescription: nil)
@@ -102,12 +101,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         for mode in LayoutMode.allCases {
             if mode == .dualRows {
                 let byRow = NSMenuItem(
-                    title: "Dual Row, rows first",
+                    title: String(localized: "Dual Row, rows first"),
                     action: #selector(selectDualRowByRow), keyEquivalent: "")
                 byRow.target = self
                 layoutSubmenu.addItem(byRow)
                 let byCol = NSMenuItem(
-                    title: "Dual Row, columns first",
+                    title: String(localized: "Dual Row, columns first"),
                     action: #selector(selectDualRowByColumn), keyEquivalent: "")
                 byCol.target = self
                 layoutSubmenu.addItem(byCol)
@@ -120,12 +119,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
         layoutSubmenu.addItem(NSMenuItem.separator())
         let variableWidthItem = NSMenuItem(
-            title: "Variable width",
+            title: String(localized: "Variable width"),
             action: #selector(toggleVariableWidth), keyEquivalent: "")
         variableWidthItem.target = self
         layoutSubmenu.addItem(variableWidthItem)
 
-        layoutMenuItem = NSMenuItem(title: "Layout", action: nil, keyEquivalent: "")
+        layoutMenuItem = NSMenuItem(title: String(localized: "Layout"), action: nil, keyEquivalent: "")
         layoutMenuItem.submenu = layoutSubmenu
 
         let iconStyleSubmenu = NSMenu()
@@ -135,7 +134,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             item.target = self
             iconStyleSubmenu.addItem(item)
         }
-        iconStyleMenuItem = NSMenuItem(title: "Icon Text", action: nil, keyEquivalent: "")
+        iconStyleMenuItem = NSMenuItem(title: String(localized: "Icon Text"), action: nil, keyEquivalent: "")
         iconStyleMenuItem.submenu = iconStyleSubmenu
 
         let spacesShownSubmenu = NSMenu()
@@ -147,12 +146,13 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
         spacesShownSubmenu.addItem(NSMenuItem.separator())
         let hideFullscreenItem = NSMenuItem(
-            title: "Fullscreen Spaces", action: #selector(toggleHideFullscreenSpaces), keyEquivalent: ""
+            title: String(localized: "Fullscreen Spaces"),
+            action: #selector(toggleHideFullscreenSpaces), keyEquivalent: ""
         )
         hideFullscreenItem.target = self
         spacesShownSubmenu.addItem(hideFullscreenItem)
 
-        spacesShownMenuItem = NSMenuItem(title: "Spaces Shown", action: nil, keyEquivalent: "")
+        spacesShownMenuItem = NSMenuItem(title: String(localized: "Spaces Shown"), action: nil, keyEquivalent: "")
         spacesShownMenuItem.submenu = spacesShownSubmenu
 
         statusBarMenu.addItem(about)
@@ -179,11 +179,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         guard let event = NSApp.currentEvent else {
             return
         }
+        // Capture the mouse position here, instead of using event.locationInWindow,
+        // which may be invalid for clicks in the 1-2px gap above/below the button.
+        // Also capture the button frame now, before the asyncAfter delay, so that
+        // it is from the same moment as the mouse location.
+        let mouseLocation = NSEvent.mouseLocation
+        let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
             if event.type == .rightMouseDown {
                 // Show the menu on right-click
                 if let sbMenu = self.statusBarMenu {
-                    let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
                     // This calculation is not right, but looks good. This is likely because of the
                     // NSMenu popup having its own visual padding, borders and/or drop shadows.
                     let menuOrigin = CGPoint(
@@ -195,21 +200,19 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 }
             } else if event.type == .leftMouseDown {
                 // Switch desktops on left click, unless one single space shown
-                let mode: VisibleSpacesMode = {
-                    if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil && self.hideInactiveSpaces {
-                        return .currentOnly
-                    }
-                    return self.visibleSpacesMode
-                }()
-                guard mode != .currentOnly else {
+                guard self.visibleSpacesMode != .currentOnly else {
                     print("Not switching: just one space visible")
                     return
                 }
-                let locationInButton = sbButton.convert(event.locationInWindow, from: nil)
+                // Use screen coordinates for hit testing; sbButton.convert() returns
+                // garbage when the click lands in the 1-2px gap above/below the button
+                let locationInButton = NSPoint(
+                    x: mouseLocation.x - buttonFrame.minX,
+                    y: mouseLocation.y - buttonFrame.minY)
                 // Convert to image-relative coordinates for hit testing
                 let imageWidth = sbButton.image?.size.width ?? sbButton.bounds.width
                 let margin = max((sbButton.bounds.width - imageWidth) / 2.0, 0)
-                let adjPoint = NSPoint(x: locationInButton.x - margin, y: sbButton.bounds.height - locationInButton.y)
+                let adjPoint = NSPoint(x: locationInButton.x - margin, y: locationInButton.y)
                 self.spaceSwitcher.switchUsingLocation(
                     iconWidths: self.iconCreator.iconWidths,
                     point: adjPoint,
@@ -294,7 +297,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             } else if item.action == #selector(selectDualRowByRow) {
                 item.state = (layoutMode == .dualRows && dualRowFillOrder == .byRow) ? .on : .off
             } else if item.action == #selector(toggleVariableWidth) {
-                item.state = useMinIconWidth ? .off : .on
+                item.state = useVariableWidth ? .on : .off
             } else {
                 item.state = item.tag == layoutMode.rawValue ? .on : .off
             }
@@ -330,7 +333,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func toggleVariableWidth() {
-        useMinIconWidth.toggle()
+        useVariableWidth.toggle()
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
@@ -409,7 +412,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
         // Update is available - show badge with version number
         DispatchQueue.main.async {
-            self.updatesItem.title = "Update available..."
+            self.updatesItem.title = String(localized: "Update available...")
             if #available(macOS 14.0, *) {
                 let versionString = item.displayVersionString
                 self.updatesItem.badge = NSMenuItemBadge(string: "v\(versionString)")
@@ -420,7 +423,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func hideBadge() {
         // Hide the 'available' badge in the menu
         DispatchQueue.main.async {
-            self.updatesItem.title = "Check for updates..."
+            self.updatesItem.title = String(localized: "Check for updates...")
             if #available(macOS 14.0, *) {
                 self.updatesItem.badge = nil
             }
