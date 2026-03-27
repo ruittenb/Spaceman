@@ -3,26 +3,26 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.15.5: Added Narrow layout; added some layout options to menu</title>
+            <title>v1.15.6: Added localizations</title>
             <description>
                 <![CDATA[
-                    1.15.5:
                     <ul>
-                        <li> - Added 'narrow' layout. Note that 'compact' layout was made slightly narrower to bridge the gap between medium and narrow. The old compact is more like current 'medium'.</li>
-                        <li> - Added Dual Row fill order to the right-click menu</li>
-                        <li> - Added Variable Width setting to the right-click menu</li>
+                    <li>1.15.6:</li>
+<li> - Added localizations: Dutch, French, German, Spanish</li>
+<li> - Fix 1-2 dead pixel area above and below space icons</li>
+<li> - Cleaned up migrating old settings to new ones</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 25 Mar 2026 13:34:33 +0100</pubDate>
+            <pubDate>Fri, 27 Mar 2026 13:06:13 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.5/Spaceman-1.15.5.dmg"
-                sparkle:version="1.15.5"
-                sparkle:shortVersionString="1.15.5"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.6/Spaceman-1.15.6.dmg"
+                sparkle:version="1.15.6"
+                sparkle:shortVersionString="1.15.6"
                 type="application/octet-stream"
-                length="3015081"
-                sparkle:edSignature="twrbP4+PBLWXlc2A0unTobNHCysWiaQ1ufBZSG8AQwSeSgpMg4ci838tsmVW7RKGvPINbo4+ZN5LQOy6HdeOBw=="
+                length="3019159"
+sparkle:edSignature="oUA77Ay5OIgE1RRMsEVoTgrysUjZ268alHvaclUpcwa1kCC008Eu1tBvoa1uGJDXDWbCDkJTY/vBeTR2N0leCw=="
             />
         </item>
     </channel>
