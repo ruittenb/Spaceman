@@ -11,7 +11,7 @@ import SwiftUI
 
 class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
-    @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
+    @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbers
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("schema") private var keySet = KeySet.toprow

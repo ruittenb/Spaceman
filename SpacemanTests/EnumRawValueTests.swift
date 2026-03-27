@@ -19,21 +19,44 @@ import XCTest
 
 final class EnumRawValueTests: XCTestCase {
 
-    // MARK: - InactiveStyle
+    // MARK: - Decoration
 
-    func testInactiveStyleRawValues() {
-        XCTAssertEqual(InactiveStyle.bordered.rawValue, 0)
-        XCTAssertEqual(InactiveStyle.dimmed.rawValue, 1)
+    func testDecorationRawValues() {
+        XCTAssertEqual(Decoration.bareText.rawValue, 0)
+        XCTAssertEqual(Decoration.rectangularBordered.rawValue, 1)
+        XCTAssertEqual(Decoration.rectangularFilled.rawValue, 2)
+        XCTAssertEqual(Decoration.roundedBordered.rawValue, 3)
+        XCTAssertEqual(Decoration.roundedFilled.rawValue, 4)
+        XCTAssertEqual(Decoration.pillBordered.rawValue, 5)
+        XCTAssertEqual(Decoration.pillFilled.rawValue, 6)
     }
 
-    func testInactiveStyleAllCases() {
-        XCTAssertEqual(InactiveStyle.allCases.count, 2)
+    func testDecorationAllCases() {
+        XCTAssertEqual(Decoration.allCases.count, 7)
     }
 
-    func testInactiveStyleInitFromRawValue() {
-        XCTAssertEqual(InactiveStyle(rawValue: 0), .bordered)
-        XCTAssertEqual(InactiveStyle(rawValue: 1), .dimmed)
-        XCTAssertNil(InactiveStyle(rawValue: 99))
+    func testDecorationInitFromRawValue() {
+        XCTAssertEqual(Decoration(rawValue: 0), .bareText)
+        XCTAssertEqual(Decoration(rawValue: 1), .rectangularBordered)
+        XCTAssertEqual(Decoration(rawValue: 2), .rectangularFilled)
+        XCTAssertEqual(Decoration(rawValue: 3), .roundedBordered)
+        XCTAssertEqual(Decoration(rawValue: 4), .roundedFilled)
+        XCTAssertEqual(Decoration(rawValue: 5), .pillBordered)
+        XCTAssertEqual(Decoration(rawValue: 6), .pillFilled)
+        XCTAssertNil(Decoration(rawValue: 99))
+    }
+
+    func testDecorationFullscreenVariant() {
+        // Bare text stays bare text
+        XCTAssertEqual(Decoration.bareText.fullscreenVariant, .bareText)
+        // Rectangular becomes pill (and vice versa), preserving fill style
+        XCTAssertEqual(Decoration.rectangularBordered.fullscreenVariant, .pillBordered)
+        XCTAssertEqual(Decoration.rectangularFilled.fullscreenVariant, .pillFilled)
+        XCTAssertEqual(Decoration.pillBordered.fullscreenVariant, .rectangularBordered)
+        XCTAssertEqual(Decoration.pillFilled.fullscreenVariant, .rectangularFilled)
+        // Rounded becomes rectangular
+        XCTAssertEqual(Decoration.roundedBordered.fullscreenVariant, .rectangularBordered)
+        XCTAssertEqual(Decoration.roundedFilled.fullscreenVariant, .rectangularFilled)
     }
 
     // MARK: - LayoutMode

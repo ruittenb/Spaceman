@@ -3,7 +3,7 @@
 DECORATIONS: allow classes of icons to have different styling
 ================================================================================
 
-Status:   PLANNING (2026-03-26)
+Status:   PLANNING (2026-03-27)
 Effort:   Medium — touches IconCreator, PreferencesView, new model type,
           settings migration
 Risk:     Low — rendering-only change, no persistence or observer impact.
@@ -14,34 +14,62 @@ Risk:     Low — rendering-only change, no persistence or observer impact.
 Each icon currently gets the same shape (rounded rect with cornerRadius 3).
 The only visual distinction is active-vs-inactive (filled/dimmed or outlined).
 This feature lets the user pick a decoration (shape + fill) independently for
-four classes of icons:
+active and inactive spaces:
 
-  - active space
-  - inactive space
-  - fullscreen active space
-  - fullscreen inactive space
+  - active space decoration
+  - inactive space decoration
 
-Example: active = filled pill, inactive = rounded outline, fullscreen = square.
+Fullscreen spaces automatically use a rectangular shape — unless the user's
+regular decoration is already rectangular, in which case fullscreen uses pill
+(so there's always a visual distinction).
 
---- The two axes ---
+Example: active = pill filled, inactive = rounded border.
 
-Shape (mutually exclusive per icon class):
-  - borderless  — no box at all, just the text (cf. bare-names branch)
-  - square      — sharp corners, cornerRadius = 0
-  - rounded     — small rounding, cornerRadius = Constants.boxCornerRadius (3.0)
-  - pill        — fully rounded, cornerRadius = boxRect.height / 2
-                   (cf. round-icons branch)
+--- The decoration options ---
 
-Fill (mutually exclusive per icon class):
-  - filled      — solid background; text knocked out (template) or contrasting
-  - outline     — border stroke only; text drawn inside
+A single axis combining shape and fill:
 
-"Borderless" ignores the fill axis — there's no shape to fill or outline.
+  bare text            — no box at all, just the text
+  rectangular, border  — sharp corners, outline only
+  rectangular, filled  — sharp corners, solid fill
+  rounded, border      — cornerRadius 3px, outline only
+  rounded, filled      — cornerRadius 3px, solid fill
+  pill, border         — cornerRadius = height/2, outline only
+  pill, filled         — cornerRadius = height/2, solid fill
 
-Fullscreen spaces currently force cornerRadius = 0 regardless of decoration.
-With this feature, the user explicitly picks the fullscreen decoration, so
-the fullscreen override in IconCreator would read from the new setting
-rather than hardcoding square.
+"Bare text" is a special case that has no shape and therefore no fill.
+The shape/fill distinction is only meaningful for the other six options.
+
+--- Dimming rule ---
+
+Inactive icons are rendered at full opacity, UNLESS they have the same
+decoration as active icons — in which case Constants.inactiveAlpha (0.4)
+kicks in as a fallback so they remain visually distinguishable.
+
+This means:
+  - Different decorations (the common case): the shape/fill difference
+    IS the distinction. No dimming. Everything renders crisp.
+  - Same decoration (e.g., both rounded filled): dimming kicks in
+    automatically, giving the same behavior as today's "dimmed" style.
+  - Both bare text: inactive dims to 40%.
+
+The rule is a simple equality check: activeDecoration == inactiveDecoration.
+
+--- Fullscreen shape rule ---
+
+No separate fullscreen decoration pickers. Instead, fullscreen spaces
+use an automatic shape:
+
+  - If the space's decoration shape is NOT rectangular → fullscreen
+    uses rectangular (current behavior, just derived automatically).
+  - If the space's decoration shape IS rectangular → fullscreen uses
+    pill (so fullscreen always looks different from regular spaces).
+
+The fill (border vs filled) is preserved from the space's decoration.
+Only the shape changes for fullscreen.
+
+This keeps the UI to two pickers (active + inactive) while still
+visually distinguishing fullscreen spaces.
 
 --- Prior art in the codebase ---
 
@@ -49,12 +77,13 @@ bare-names branch:
   - Added DisplayStyle.bareNumbers / .bareNames → text without a box
   - isBareStyle computed property on DisplayStyle
   - When bare: gapWidth = 0, fontSize += 2
-  - This is equivalent to "borderless" decoration. With decorations, the
-    bare display styles would no longer be needed — DisplayStyle goes back
-    to controlling text content only, and borderless is a decoration choice.
+  - This is equivalent to "bare text" decoration. With decorations,
+    the bare display styles are no longer needed — DisplayStyle goes
+    back to controlling text content only.
 
 round-icons branch:
-  - Changed cornerRadius from Constants.boxCornerRadius to boxRect.height / 2
+  - Changed cornerRadius from Constants.boxCornerRadius to
+    boxRect.height / 2
   - This is equivalent to the "pill" decoration.
 
 Both branches prove the rendering changes are small and isolated.
@@ -62,19 +91,17 @@ Both branches prove the rendering changes are small and isolated.
 --- What replaces what ---
 
 InactiveStyle (dimmed / bordered) gets absorbed:
-  - "Dimmed" = active and inactive both use the same shape, but inactive
-    is at reduced opacity. This is now: same decoration for both, plus
-    the existing Constants.inactiveAlpha.
-  - "Bordered" = active is filled, inactive is outline. This is now:
-    active decoration = filled, inactive decoration = outline.
-  InactiveStyle.swift can be removed once decorations are in place.
+  - "Bordered" = active is filled, inactive is border. Now expressed
+    directly by picking filled for active and border for inactive.
+  - "Dimmed" = active and inactive use the same decoration; the dimming
+    rule (see above) automatically applies Constants.inactiveAlpha.
+  InactiveStyle.swift can be removed.
 
 DisplayStyle.numbers ("Bare Numbers") gets absorbed:
-  - "Bare Numbers" = numbers text + borderless decoration.
-  - With decorations, DisplayStyle simply controls what text is shown
-    (none / numbers / names / numbers+names). The shape is a separate
-    concern. The numbersAndRects case also simplifies to just "numbers"
-    since the "rects" part is implied by the decoration being non-borderless.
+  - "Bare Numbers" = numbers text + bare text decoration.
+  - With decorations, DisplayStyle simply controls what text is shown.
+    The numbersAndRects case simplifies to just "numbers" since the
+    box is controlled by the decoration.
 
 Summary of DisplayStyle simplification:
   Current:                     After decorations:
@@ -89,110 +116,101 @@ Summary of DisplayStyle simplification:
 New enum Decoration, stored as an Int for AppStorage:
 
   enum Decoration: Int, CaseIterable {
-      case borderless = 0
-      case squareOutline = 1
-      case squareFilled = 2
-      case roundedOutline = 3
+      case bareText = 0
+      case rectangularBorder = 1
+      case rectangularFilled = 2
+      case roundedBorder = 3
       case roundedFilled = 4
-      case pillOutline = 5
+      case pillBorder = 5
       case pillFilled = 6
   }
 
-Collapsing shape + fill into a single enum keeps the number of AppStorage
-keys manageable (4 keys instead of 8) and makes the preferences UI simpler
-(one picker per icon class instead of two).
+Computed properties on Decoration:
+
+  var isBareText: Bool
+  var isFilled: Bool
+  var isBorder: Bool
+  var cornerRadius: (NSRect) -> CGFloat
+      // returns 0 / boxCornerRadius / rect.height÷2 based on shape
+
+  var fullscreenVariant: Decoration
+      // swaps rectangular ↔ pill (keeping border/filled),
+      // returns self for bareText
 
 AppStorage keys:
-  "decorationActive"            default: .roundedFilled
-  "decorationInactive"          default: .roundedOutline
-  "decorationFullscreenActive"  default: .squareFilled
-  "decorationFullscreenInactive" default: .squareOutline
+  "decorationActive"    default: .roundedFilled
+  "decorationInactive"  default: .roundedBorder
 
-These defaults match today's behavior (rounded filled/outline for normal
-spaces, square for fullscreen) so existing users see no change.
+These defaults match today's behavior (filled active, bordered inactive,
+both with rounded corners) so existing users see no change.
 
 --- Preferences UI ---
 
-Replace the current "Inactive style" segmented control with a decoration
-section. Two layout options:
+Replace the current "Inactive style" segmented control with two
+decoration pickers:
 
-  Option A — Four pickers (explicit, verbose):
+  Active style       [Rounded, filled ▼]
+  Inactive style     [Rounded, border ▼]
 
-    Active space         [Rounded, filled  ▼]
-    Inactive space       [Rounded, outline ▼]
-    Fullscreen active    [Square, filled   ▼]
-    Fullscreen inactive  [Square, outline  ▼]
+The picker labels:
 
-  Option B — Two pickers + a fullscreen toggle (compact):
+  Bare text
+  Rectangular, border
+  Rectangular, filled
+  Rounded, border
+  Rounded, filled
+  Pill, border
+  Pill, filled
 
-    Active space         [Rounded, filled  ▼]
-    Inactive space       [Rounded, outline ▼]
-    ☐ Same for fullscreen (but square)
-
-    When checked: fullscreen copies the fill choice but forces square.
-    When unchecked: shows two additional pickers for fullscreen.
-
-  Recommendation: start with Option A. Four pickers is straightforward,
-  and the UI can always be collapsed later if it feels cluttered.
-
-  The picker labels:
-
-    Borderless         (= just text, no box)
-    Square, outline
-    Square, filled
-    Rounded, outline
-    Rounded, filled
-    Pill, outline
-    Pill, filled
+Seven entries per dropdown — manageable, and the shape names cluster
+them into scannable groups.
 
 --- Rendering changes (IconCreator.swift) ---
 
 createSpaceIcon() currently branches on isBareNumbers (→ text only) vs
 everything else (→ box rendering). The refactored flow:
 
-  1. Determine icon class: active/inactive × normal/fullscreen
-  2. Look up Decoration for that class from AppStorage
-  3. If borderless:
+  1. Determine decoration for this space:
+       - Is it active or inactive? → pick decorationActive or
+         decorationInactive from AppStorage
+       - Is it fullscreen? → apply decoration.fullscreenVariant
+  2. Determine dimming:
+       - If inactive AND decorationActive == decorationInactive → dim
+       - Otherwise → full opacity
+  3. If bareText:
        - Draw text only (existing bare-numbers path)
-       - Apply bare-style adjustments: gapWidth = 0, fontSize += 2
+       - Apply bare-style adjustments: fontSize += 2
   4. If filled:
-       - Compute cornerRadius from shape (0 / boxCornerRadius / height÷2)
+       - Compute cornerRadius via decoration.cornerRadius(boxRect)
        - Draw filled box + text (existing active/dimmed path)
-  5. If outline:
-       - Compute cornerRadius from shape
+       - Apply dimming alpha if needed (step 2)
+  5. If border:
+       - Compute cornerRadius via decoration.cornerRadius(boxRect)
        - Draw stroked outline + text (existing bordered path)
+       - Apply dimming alpha if needed (step 2)
 
 createMenuItemIcon() is unaffected — it always draws filled boxes for
 the right-click menu.
 
 The fullscreen cornerRadius override
 (line 161: `let cornerRadius = space.isFullScreen ? 0.0 : ...`)
-is replaced by reading the fullscreen decoration's shape.
+is replaced by the fullscreenVariant logic on the Decoration enum.
 
 --- Borderless adjustments ---
 
-From the bare-names branch: when borderless, gapWidth and displayGapWidth
+From the bare-names branch: when bare text, gapWidth and displayGapWidth
 should be 0 (icons touch), and fontSize should be slightly larger (+2).
 
-But with per-class decorations, some icons in the row might be borderless
-and others not. Two approaches:
+With per-class decorations, active and inactive icons in the same row
+could have different decorations (e.g., active = pill filled, inactive =
+bare text). The gap/font adjustments must be per-icon:
 
-  a) Only apply the gap/font adjustment when ALL icons use borderless.
-     Simple, but mixed decorations look odd with normal gaps around
-     bare text.
-
-  b) Per-icon gap adjustment: each icon gets gapWidth = 0 on its side
-     if it is borderless. Font size bumps per-icon based on its
-     decoration. This is the right approach because the gap/font
-     is about the individual icon, not the whole row.
-
-     Implementation: pass the decoration into createSpaceIcon() and
-     let it adjust its own metrics. The merging functions
-     (mergeIcons / mergeIconsTwoRows) already handle variable-width
-     icons, so different per-icon widths are fine.
-
-  Recommendation: (b). It requires the gap to be determined per-icon
-  rather than once in getIcon(), but this is a small change.
+  - Pass the decoration into createSpaceIcon()
+  - Each icon adjusts its own font size based on its decoration
+  - The merging functions (mergeIcons / mergeIconsTwoRows) already
+    handle variable-width icons, so different per-icon widths are fine
+  - Gap between icons: use 0 when BOTH adjacent icons are bare text,
+    normal gap otherwise. (This avoids bare text crowding boxed icons.)
 
 --- Settings migration ---
 
@@ -202,41 +220,27 @@ Existing users have:
 
 Migration (one-time, on launch):
   1. If "displayStyle" == 1 (bare numbers):
-       Set decorationActive = .borderless
-       Set decorationInactive = .borderless
+       Set decorationActive = .bareText
+       Set decorationInactive = .bareText
        Set new displayStyle = .numbers (was numbersAndRects)
   2. If "inactiveStyle" == 0 (bordered):
-       Set decorationInactive = .roundedOutline (default, but explicit)
+       Set decorationInactive = .roundedBorder (default, but explicit)
      If "inactiveStyle" == 1 (dimmed):
        Set decorationInactive = .roundedFilled
-       (Dimmed = same shape as active, just lower opacity. The opacity
-       is already applied by Constants.inactiveAlpha when active and
-       inactive both use a filled decoration.)
+       (Same as active → dimming rule kicks in automatically.)
   3. Remove the "inactiveStyle" key.
   4. Guard with a "decorationsMigrated" bool key.
-
---- Dimmed rendering ---
-
-Today, "dimmed" means: same filled box as active, but at
-Constants.inactiveAlpha (0.4). With decorations, the dimmed behavior is
-implicit: if active = roundedFilled and inactive = roundedFilled, the
-inactive icon uses the same rendering path but applies inactiveAlpha.
-
-The alpha logic (isActive ? 1.0 : Constants.inactiveAlpha) already exists
-in createSpaceIcon(). It just needs to check if the decoration is any
-filled variant, rather than checking inactiveStyle == .dimmed.
 
 --- Files touched ---
 
   New:
-    Spaceman/Model/Decoration.swift         — the enum
+    Spaceman/Model/Decoration.swift         — the enum + computed properties
 
   Modified:
     Spaceman/Helpers/IconCreator.swift       — rendering per decoration
     Spaceman/View/PreferencesView.swift      — replace inactive style picker
                                                with decoration pickers
     Spaceman/View/StatusBar.swift            — update right-click menu
-                                               (replace icon style entries)
     Spaceman/Model/DisplayStyle.swift        — simplify (remove bare numbers,
                                                rename numbersAndRects → numbers)
     Spaceman/Utilities/Constants.swift       — possibly remove boxCornerRadius
@@ -264,10 +268,10 @@ filled variant, rather than checking inactiveStyle == .dimmed.
 
 --- Future-proofing ---
 
-The Decoration enum is easily extensible. If more shapes are wanted later
-(e.g., diamond, hexagon), add a case and a cornerRadius/path computation.
-The per-class AppStorage pattern scales to additional icon classes if
-needed (e.g., "current display active" vs "other display active").
+The Decoration enum is easily extensible. If more shapes are wanted
+later (e.g., diamond, hexagon), add a case and a cornerRadius/path
+computation. The two-picker UI (active + inactive) could expand to
+four pickers if independent fullscreen control is ever wanted.
 
 ================================================================================
 OPTION-HOVER: show extra info on the menu bar icon
