@@ -61,7 +61,7 @@ struct Constants {
             GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 5,
             VERTICAL_PADDING: 3,
-            BORDER_WIDTH: 1,
+            BORDER_WIDTH: 1.17,
             FONT_SIZE: 10
         ),
         .large: GuiSize(

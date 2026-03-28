@@ -62,7 +62,7 @@ enum IconStyle: Int, CaseIterable {
 
     var menuLabel: String {
         switch self {
-        case .bareText:             return String(localized: "Bare text")
+        case .bareText:             return String(localized: "No decoration")
         case .borderedRectangular:  return String(localized: "Bordered, rectangular")
         case .borderedRounded:      return String(localized: "Bordered, rounded")
         case .borderedPill:         return String(localized: "Bordered, pill")
