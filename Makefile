@@ -75,7 +75,7 @@ tag: ## Tag the current HEAD with the version from the XCode project
 
 .PHONY: appcast
 appcast: ## Prepare appcast for publishing
-	echo 'Make sure to create a release on github first!'
+	@echo 'Make sure to create a release on github first!'
 	git checkout main
 	$(BUILDDIR)/make-appcast.sh > website/appcast.xml
 	git add website/appcast.xml

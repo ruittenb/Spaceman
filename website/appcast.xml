@@ -3,26 +3,26 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.15.6: Added localizations</title>
+            <title>v1.15.7: round/pill icon shapes, bare names</title>
             <description>
                 <![CDATA[
+                    v1.15.7:
                     <ul>
-                    <li>1.15.6:</li>
-<li> - Added localizations: Dutch, French, German, Spanish</li>
-<li> - Fix 1-2 dead pixel area above and below space icons</li>
-<li> - Cleaned up migrating old settings to new ones</li>
+                        <li> - Added icon shape "Pill" </li>
+                        <li> - Added icon style for just names, no decorations</li>
+                        <li> - Added Spanish (Castillano)</li>
+                        <li> </li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 27 Mar 2026 13:06:13 +0100</pubDate>
+            <pubDate>Sat, 28 Mar 2026 15:13:16 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.6/Spaceman-1.15.6.dmg"
-                sparkle:version="1.15.6"
-                sparkle:shortVersionString="1.15.6"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.7/"
+                sparkle:version="1.15.7"
+                sparkle:shortVersionString="1.15.7"
                 type="application/octet-stream"
-                length="3019159"
-sparkle:edSignature="oUA77Ay5OIgE1RRMsEVoTgrysUjZ268alHvaclUpcwa1kCC008Eu1tBvoa1uGJDXDWbCDkJTY/vBeTR2N0leCw=="
+                
             />
         </item>
     </channel>
