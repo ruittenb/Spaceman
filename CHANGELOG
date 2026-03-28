@@ -1,3 +1,4 @@
+1.15.7: Added icon shape "Pill" and style "Bare names"; restructuring of style options
 1.15.6: Fix 1-2 dead pixel area around button; Added localizations
 1.15.5: Added 'Narrow' layout; added Dual Row fill order and Variable Width to the right-click menu
 1.15.4: Fix: prevent corruption of space names when simultaneously waking up and changing monitors
