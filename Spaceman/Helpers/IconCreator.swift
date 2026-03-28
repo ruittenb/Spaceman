@@ -233,51 +233,87 @@ class IconCreator {
     }
 
     /// Create an icon for use in the dropdown menu (StatusBar).
-    /// Draws a filled box with the space number at the given opacity.
+    /// Always uses medium layout sizing but mirrors the active icon style.
     public func createMenuItemIcon(space: Space, fraction: CGFloat = 0.6) -> NSImage {
-        if sizes == nil {
-            sizes = Constants.sizes[layoutMode]
-            iconSize = NSSize(
-                width: 0,
-                height: CGFloat(sizes.FONT_SIZE) + sizes.VERTICAL_PADDING * 2)
-        }
+        let menuSizes = Constants.sizes[.medium]!
+        let menuFontSize = CGFloat(menuSizes.FONT_SIZE)
+        let menuHeight = menuFontSize + menuSizes.VERTICAL_PADDING * 2
+
+        let decoration = space.isFullScreen ? decorationActive.fullscreenVariant : decorationActive
 
         let text = NSString(string: space.spaceByDesktopID)
-        let measureAttrs = getStringAttributes(alpha: 1, color: .black)
-        let textSize = text.size(withAttributes: measureAttrs)
-        let dynamicWidth = textSize.width + sizes.HORIZONTAL_PADDING * 2
-        let size = NSSize(width: dynamicWidth, height: iconSize.height)
+        let measureAttrs = getStringAttributes(alpha: 1, fontSize: menuFontSize, color: .black)
+        let dynamicWidth = text.size(withAttributes: measureAttrs).width + menuSizes.HORIZONTAL_PADDING * 2
+        let size = NSSize(width: dynamicWidth, height: menuHeight)
 
         let iconImage = NSImage(size: size)
-        let boxRect = NSRect(origin: .zero, size: size)
-            .insetBy(dx: sizes.BORDER_WIDTH / 2, dy: sizes.BORDER_WIDTH / 2)
-        let cornerRadius: CGFloat = space.isFullScreen ? 0.0 : 3.0
-        let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
         let drawRect = NSRect(origin: .zero, size: size)
 
         iconImage.lockFocus()
 
-        if let colorHex = space.colorHex, let bgColor = NSColor.fromHex(colorHex) {
-            bgColor.withAlphaComponent(fraction).setFill()
-            boxPath.fill()
-            let textColor = getContrastingTextColor(for: bgColor)
+        if decoration.isBareText {
+            let textColor: NSColor
+            if let colorHex = space.colorHex, let custom = NSColor.fromHex(colorHex) {
+                textColor = custom
+                iconImage.isTemplate = false
+            } else {
+                textColor = .black
+                iconImage.isTemplate = true
+            }
             text.drawVerticallyCentered(
                 in: drawRect,
-                withAttributes: getStringAttributes(alpha: 1, color: textColor))
-            iconImage.isTemplate = false
+                withAttributes: getStringAttributes(alpha: fraction, fontSize: menuFontSize, color: textColor))
+        } else if decoration.isFilled {
+            let boxRect = drawRect.insetBy(
+                dx: menuSizes.BORDER_WIDTH / 2, dy: menuSizes.BORDER_WIDTH / 2)
+            let cornerRadius = decoration.cornerRadius(for: boxRect)
+            let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
+
+            if let colorHex = space.colorHex, let bgColor = NSColor.fromHex(colorHex) {
+                bgColor.withAlphaComponent(fraction).setFill()
+                boxPath.fill()
+                let textColor = getContrastingTextColor(for: bgColor)
+                text.drawVerticallyCentered(
+                    in: drawRect,
+                    withAttributes: getStringAttributes(alpha: 1, fontSize: menuFontSize, color: textColor))
+                iconImage.isTemplate = false
+            } else {
+                NSColor.black.withAlphaComponent(fraction).setFill()
+                boxPath.fill()
+
+                let textImage = NSImage(size: size)
+                textImage.lockFocus()
+                text.drawVerticallyCentered(
+                    in: drawRect,
+                    withAttributes: getStringAttributes(alpha: 1, fontSize: menuFontSize, color: .black))
+                textImage.unlockFocus()
+
+                textImage.draw(in: drawRect, from: .zero, operation: .destinationOut, fraction: 1.0)
+                iconImage.isTemplate = true
+            }
         } else {
-            NSColor.black.withAlphaComponent(fraction).setFill()
-            boxPath.fill()
+            // Bordered
+            let boxRect = drawRect.insetBy(
+                dx: menuSizes.BORDER_WIDTH / 2, dy: menuSizes.BORDER_WIDTH / 2)
+            let cornerRadius = decoration.cornerRadius(for: boxRect)
+            let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
+            boxPath.lineWidth = menuSizes.BORDER_WIDTH
 
-            let textImage = NSImage(size: size)
-            textImage.lockFocus()
-            text.drawVerticallyCentered(
-                in: drawRect,
-                withAttributes: getStringAttributes(alpha: 1, color: .black))
-            textImage.unlockFocus()
-
-            textImage.draw(in: drawRect, from: .zero, operation: .destinationOut, fraction: 1.0)
-            iconImage.isTemplate = true
+            if let colorHex = space.colorHex, let bgColor = NSColor.fromHex(colorHex) {
+                bgColor.withAlphaComponent(fraction).setStroke()
+                boxPath.stroke()
+                text.drawVerticallyCentered(
+                    in: drawRect,
+                    withAttributes: getStringAttributes(alpha: fraction, fontSize: menuFontSize, color: bgColor))
+                iconImage.isTemplate = false
+            } else {
+                NSColor.black.withAlphaComponent(fraction).setStroke()
+                boxPath.stroke()
+                text.drawVerticallyCentered(
+                    in: drawRect,
+                    withAttributes: getStringAttributes(alpha: fraction, fontSize: menuFontSize, color: .black))
+                iconImage.isTemplate = true
+            }
         }
 
         iconImage.unlockFocus()
