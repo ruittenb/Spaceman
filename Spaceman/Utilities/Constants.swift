@@ -10,8 +10,6 @@ import Foundation
 struct Constants {
     static let maxSpaceNameLength = 10
     static let minMenuWidth: CGFloat = 350
-    static let boxCornerRadius: CGFloat = 3.0
-    static let boxBorderWidth: CGFloat = 1.0
     static let inactiveAlpha: CGFloat = 0.4
 
     enum AppInfo {
@@ -36,6 +34,7 @@ struct Constants {
             GAP_HEIGHT_DUALROWS: 3,
             HORIZONTAL_PADDING: 6,
             VERTICAL_PADDING: 1.5,
+            BORDER_WIDTH: 1,
             FONT_SIZE: 9
         ),
         .narrow: GuiSize(
@@ -44,6 +43,7 @@ struct Constants {
             GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 3,
             VERTICAL_PADDING: 3,
+            BORDER_WIDTH: 1,
             FONT_SIZE: 10
         ),
         .compact: GuiSize(
@@ -52,6 +52,7 @@ struct Constants {
             GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 4,
             VERTICAL_PADDING: 3,
+            BORDER_WIDTH: 1,
             FONT_SIZE: 10
         ),
         .medium: GuiSize(
@@ -60,6 +61,7 @@ struct Constants {
             GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 5,
             VERTICAL_PADDING: 3,
+            BORDER_WIDTH: 1.17,
             FONT_SIZE: 10
         ),
         .large: GuiSize(
@@ -67,7 +69,8 @@ struct Constants {
             GAP_WIDTH_DISPLAYS: 14,
             GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 6,
-            VERTICAL_PADDING: 3,
+            VERTICAL_PADDING: 3.75,
+            BORDER_WIDTH: 1.33,
             FONT_SIZE: 12
         ),
         .extraLarge: GuiSize(
@@ -75,7 +78,8 @@ struct Constants {
             GAP_WIDTH_DISPLAYS: 16,
             GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 7,
-            VERTICAL_PADDING: 3,
+            VERTICAL_PADDING: 4.5,
+            BORDER_WIDTH: 1.67,
             FONT_SIZE: 14
         )
     ]

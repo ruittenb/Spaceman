@@ -14,8 +14,9 @@ struct PreferencesView: View {
 
     weak var parentWindow: PreferencesWindow?
 
-    @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
-    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.dimmed
+    @AppStorage("displayStyle") private var displayStyle = IconText.numbers
+    @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
+    @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
@@ -345,7 +346,8 @@ struct PreferencesView: View {
             layoutSizePicker
             dualRowFillOrderPicker
             spacesStylePicker
-            inactiveStylePicker
+            activeIconStylePicker
+            inactiveIconStylePicker
             iconWidthPicker
             spacesShownPicker
             Toggle("Hide fullscreen spaces", isOn: $hideFullscreenSpaces)
@@ -502,11 +504,10 @@ struct PreferencesView: View {
             Text("Icon text")
             Spacer()
             Picker("", selection: $displayStyle) {
-                Text("No text").tag(DisplayStyle.rects)
-                Text("Bare numbers").tag(DisplayStyle.numbers)
-                Text("Numbers").tag(DisplayStyle.numbersAndRects)
-                Text("Names").tag(DisplayStyle.names)
-                Text("Numbers and names").tag(DisplayStyle.numbersAndNames)
+                Text("No text").tag(IconText.noText)
+                Text("Numbers").tag(IconText.numbers)
+                Text("Names").tag(IconText.names)
+                Text("Numbers and names").tag(IconText.numbersAndNames)
             }
             .fixedSize()
         }
@@ -515,19 +516,35 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Inactive Style Picker
-    private var inactiveStylePicker: some View {
+    // MARK: - IconStyle Pickers
+    private var activeIconStylePicker: some View {
+        HStack(spacing: 12) {
+            Text("Active style")
+            Spacer()
+            Picker("", selection: $decorationActive) {
+                ForEach(IconStyle.allCases, id: \.self) { decoration in
+                    Text(decoration.menuLabel).tag(decoration)
+                }
+            }
+            .fixedSize()
+        }
+        .onChange(of: decorationActive) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+
+    private var inactiveIconStylePicker: some View {
         HStack(spacing: 12) {
             Text("Inactive style")
             Spacer()
-            Picker("", selection: $inactiveStyle) {
-                Text("Dimmed").tag(InactiveStyle.dimmed)
-                Text("Bordered").tag(InactiveStyle.bordered)
+            Picker("", selection: $decorationInactive) {
+                ForEach(IconStyle.allCases, id: \.self) { decoration in
+                    Text(decoration.menuLabel).tag(decoration)
+                }
             }
-            .pickerStyle(.segmented)
             .fixedSize()
         }
-        .onChange(of: inactiveStyle) { _ in
+        .onChange(of: decorationInactive) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }

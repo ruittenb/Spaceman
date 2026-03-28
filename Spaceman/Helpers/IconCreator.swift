@@ -11,11 +11,12 @@ import SwiftUI
 
 class IconCreator {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
-    @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
+    @AppStorage("displayStyle") private var displayStyle = IconText.numbers
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
-    @AppStorage("inactiveStyle") private var inactiveStyle = InactiveStyle.dimmed
+    @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
+    @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
 
@@ -35,11 +36,14 @@ class IconCreator {
 
     public func getIcon(for spaces: [Space], appearance: NSAppearance? = nil) -> NSImage {
         sizes = Constants.sizes[layoutMode]
-        gapWidth = CGFloat(sizes.GAP_WIDTH_SPACES)
-        displayGapWidth = CGFloat(sizes.GAP_WIDTH_DISPLAYS)
+
+        let allBareText = decorationActive.isBareText && decorationInactive.isBareText
+        let actualFontSize = CGFloat(sizes.FONT_SIZE) + (allBareText ? 2 : 0)
+        gapWidth = allBareText ? 0 : CGFloat(sizes.GAP_WIDTH_SPACES)
+        displayGapWidth = allBareText ? 0 : CGFloat(sizes.GAP_WIDTH_DISPLAYS)
         iconSize = NSSize(
             width: 0,
-            height: CGFloat(sizes.FONT_SIZE) + sizes.VERTICAL_PADDING * 2)
+            height: actualFontSize + sizes.VERTICAL_PADDING * 2)
 
         let switchIndexBySpaceID = Space.buildSwitchIndexMap(for: spaces)
 
@@ -95,9 +99,9 @@ class IconCreator {
         // 1. Determine text content based on display style
         let text: NSString
         switch displayStyle {
-        case .rects:
+        case .noText:
             text = ""
-        case .numbers, .numbersAndRects:
+        case .numbers:
             text = NSString(string: space.spaceByDesktopID)
         case .names:
             text = NSString(string: String(space.spaceName.prefix(Constants.maxSpaceNameLength)))
@@ -120,20 +124,24 @@ class IconCreator {
             useTemplate = true
         }
 
-        // 3. Calculate icon size (dynamic width based on text)
-        let isBareNumbers = displayStyle == .numbers
+        // 3. Determine decoration for this space
+        let isActive = space.isCurrentSpace
+        let baseIconStyle = isActive ? decorationActive : decorationInactive
+        let decoration = space.isFullScreen ? baseIconStyle.fullscreenVariant : baseIconStyle
+        let shouldDim = !isActive && decorationActive == decorationInactive
+        let alpha: CGFloat = shouldDim ? Constants.inactiveAlpha : 1.0
+
+        // 4. Calculate icon size (dynamic width based on text)
         let measureAttrs = getStringAttributes(alpha: 1, color: .black)
         let monoCharWidth = ("0" as NSString).size(withAttributes: measureAttrs).width
         let padding = sizes.HORIZONTAL_PADDING * 2
 
-        // Content width: measured text, or one digit for empty rectangles
         let contentWidth = text.length > 0
             ? text.size(withAttributes: measureAttrs).width
             : monoCharWidth
 
         var iconWidth = contentWidth + padding
 
-        // Enforce minimum width so name-based icons are uniform
         if minIconCharWidth > 0 {
             let prefixWidth = displayStyle == .numbersAndNames ? monoCharWidth * 2 : 0
             iconWidth = max(iconWidth, prefixWidth + monoCharWidth * CGFloat(minIconCharWidth) + padding)
@@ -141,80 +149,120 @@ class IconCreator {
 
         let size = NSSize(width: iconWidth, height: iconSize.height)
 
-        // 4. Draw the icon
+        return renderIcon(
+            text: text, size: size, decoration: decoration,
+            boxColor: boxColor, useTemplate: useTemplate,
+            alpha: alpha, borderWidth: sizes.BORDER_WIDTH)
+    }
+
+    /// Create an icon for use in the dropdown menu (StatusBar).
+    /// Always uses medium layout sizing but mirrors the active icon style.
+    public func createMenuItemIcon(space: Space, fraction: CGFloat = 0.6) -> NSImage {
+        let menuSizes = Constants.sizes[.medium]!
+        let menuFontSize = CGFloat(menuSizes.FONT_SIZE)
+        let menuHeight = menuFontSize + menuSizes.VERTICAL_PADDING * 2
+
+        let decoration = space.isFullScreen ? decorationActive.fullscreenVariant : decorationActive
+
+        let boxColor: NSColor
+        let useTemplate: Bool
+        if let colorHex = space.colorHex, let customColor = NSColor.fromHex(colorHex) {
+            boxColor = customColor
+            useTemplate = false
+        } else {
+            boxColor = .black
+            useTemplate = true
+        }
+
+        let text = NSString(string: space.spaceByDesktopID)
+        let measureAttrs = getStringAttributes(alpha: 1, fontSize: menuFontSize, color: .black)
+        let dynamicWidth = text.size(withAttributes: measureAttrs).width + menuSizes.HORIZONTAL_PADDING * 2
+        let size = NSSize(width: dynamicWidth, height: menuHeight)
+
+        return renderIcon(
+            text: text, size: size, decoration: decoration,
+            boxColor: boxColor, useTemplate: useTemplate,
+            alpha: fraction, borderWidth: menuSizes.BORDER_WIDTH,
+            fontSize: menuFontSize)
+    }
+
+    // MARK: - Icon rendering
+
+    private func renderIcon(
+        text: NSString,
+        size: NSSize,
+        decoration: IconStyle,
+        boxColor: NSColor,
+        useTemplate: Bool,
+        alpha: CGFloat,
+        borderWidth: CGFloat,
+        fontSize: CGFloat = .zero
+    ) -> NSImage {
         let iconImage = NSImage(size: size)
-        let isActive = space.isCurrentSpace
         let drawRect = NSRect(origin: .zero, size: size)
 
         iconImage.lockFocus()
 
-        if isBareNumbers {
-            // Bare numbers: just text, no box
-            let textAlpha: CGFloat = isActive ? 1.0 : Constants.inactiveAlpha
+        if decoration.isBareText {
             let textColor = useTemplate ? NSColor.black : boxColor
             text.drawVerticallyCentered(
                 in: drawRect,
-                withAttributes: getStringAttributes(alpha: textAlpha, color: textColor))
-        } else {
-            let boxRect = NSRect(origin: .zero, size: size)
-                .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxBorderWidth / 2)
-            let cornerRadius = space.isFullScreen ? 0.0 : Constants.boxCornerRadius
+                withAttributes: getStringAttributes(alpha: alpha, fontSize: fontSize, color: textColor))
+        } else if decoration.isFilled {
+            let boxRect = drawRect.insetBy(dx: borderWidth / 2, dy: borderWidth / 2)
+            let cornerRadius = decoration.cornerRadius(for: boxRect)
             let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
 
-            if isActive || inactiveStyle == .dimmed {
-                // Filled box (full opacity for active, reduced for dimmed inactive)
-                let fillAlpha: CGFloat = isActive ? 1.0 : Constants.inactiveAlpha
+            if useTemplate {
+                NSColor.black.withAlphaComponent(alpha).setFill()
+                boxPath.fill()
 
-                if useTemplate {
-                    // Template mode: filled black box, knock out text with destinationOut
-                    NSColor.black.withAlphaComponent(fillAlpha).setFill()
-                    boxPath.fill()
+                if text.length > 0 {
+                    let textImage = NSImage(size: size)
+                    textImage.lockFocus()
+                    text.drawVerticallyCentered(
+                        in: drawRect,
+                        withAttributes: getStringAttributes(alpha: 1, fontSize: fontSize, color: .black))
+                    textImage.unlockFocus()
 
-                    if text.length > 0 {
-                        let textImage = NSImage(size: size)
-                        textImage.lockFocus()
-                        text.drawVerticallyCentered(
-                            in: drawRect,
-                            withAttributes: getStringAttributes(alpha: 1, color: .black))
-                        textImage.unlockFocus()
-
-                        textImage.draw(in: drawRect, from: .zero, operation: .destinationOut, fraction: 1.0)
-                    }
-                } else {
-                    // Colored mode: filled box + contrasting text
-                    let effectiveAlpha = boxColor.alphaComponent * fillAlpha
-                    boxColor.withAlphaComponent(effectiveAlpha).setFill()
-                    boxPath.fill()
-
-                    if text.length > 0 {
-                        let textColor = getContrastingTextColor(for: boxColor)
-                        text.drawVerticallyCentered(
-                            in: drawRect,
-                            withAttributes: getStringAttributes(alpha: 1.0, color: textColor))
-                    }
+                    textImage.draw(in: drawRect, from: .zero, operation: .destinationOut, fraction: 1.0)
                 }
             } else {
-                // Bordered inactive: bordered outline + text (no fill)
-                boxPath.lineWidth = Constants.boxBorderWidth
+                let effectiveAlpha = boxColor.alphaComponent * alpha
+                boxColor.withAlphaComponent(effectiveAlpha).setFill()
+                boxPath.fill()
 
-                if useTemplate {
-                    NSColor.black.setStroke()
-                    boxPath.stroke()
+                if text.length > 0 {
+                    let textColor = getContrastingTextColor(for: boxColor)
+                    text.drawVerticallyCentered(
+                        in: drawRect,
+                        withAttributes: getStringAttributes(alpha: 1.0, fontSize: fontSize, color: textColor))
+                }
+            }
+        } else {
+            // Bordered: outline + text (no fill)
+            let boxRect = drawRect.insetBy(dx: borderWidth / 2, dy: borderWidth / 2)
+            let cornerRadius = decoration.cornerRadius(for: boxRect)
+            let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
+            boxPath.lineWidth = borderWidth
 
-                    if text.length > 0 {
-                        text.drawVerticallyCentered(
-                            in: drawRect,
-                            withAttributes: getStringAttributes(alpha: 1, color: .black))
-                    }
-                } else {
-                    boxColor.setStroke()
-                    boxPath.stroke()
+            if useTemplate {
+                NSColor.black.withAlphaComponent(alpha).setStroke()
+                boxPath.stroke()
 
-                    if text.length > 0 {
-                        text.drawVerticallyCentered(
-                            in: drawRect,
-                            withAttributes: getStringAttributes(alpha: 1, color: boxColor))
-                    }
+                if text.length > 0 {
+                    text.drawVerticallyCentered(
+                        in: drawRect,
+                        withAttributes: getStringAttributes(alpha: alpha, fontSize: fontSize, color: .black))
+                }
+            } else {
+                boxColor.withAlphaComponent(alpha).setStroke()
+                boxPath.stroke()
+
+                if text.length > 0 {
+                    text.drawVerticallyCentered(
+                        in: drawRect,
+                        withAttributes: getStringAttributes(alpha: alpha, fontSize: fontSize, color: boxColor))
                 }
             }
         }
@@ -222,58 +270,6 @@ class IconCreator {
         iconImage.isTemplate = useTemplate
         iconImage.unlockFocus()
 
-        return iconImage
-    }
-
-    /// Create an icon for use in the dropdown menu (StatusBar).
-    /// Draws a filled box with the space number at the given opacity.
-    public func createMenuItemIcon(space: Space, fraction: CGFloat = 0.6) -> NSImage {
-        if sizes == nil {
-            sizes = Constants.sizes[layoutMode]
-            iconSize = NSSize(
-                width: 0,
-                height: CGFloat(sizes.FONT_SIZE) + sizes.VERTICAL_PADDING * 2)
-        }
-
-        let text = NSString(string: space.spaceByDesktopID)
-        let measureAttrs = getStringAttributes(alpha: 1, color: .black)
-        let textSize = text.size(withAttributes: measureAttrs)
-        let dynamicWidth = textSize.width + sizes.HORIZONTAL_PADDING * 2
-        let size = NSSize(width: dynamicWidth, height: iconSize.height)
-
-        let iconImage = NSImage(size: size)
-        let boxRect = NSRect(origin: .zero, size: size)
-            .insetBy(dx: Constants.boxBorderWidth / 2, dy: Constants.boxBorderWidth / 2)
-        let cornerRadius = space.isFullScreen ? 0.0 : Constants.boxCornerRadius
-        let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
-        let drawRect = NSRect(origin: .zero, size: size)
-
-        iconImage.lockFocus()
-
-        if let colorHex = space.colorHex, let bgColor = NSColor.fromHex(colorHex) {
-            bgColor.withAlphaComponent(fraction).setFill()
-            boxPath.fill()
-            let textColor = getContrastingTextColor(for: bgColor)
-            text.drawVerticallyCentered(
-                in: drawRect,
-                withAttributes: getStringAttributes(alpha: 1, color: textColor))
-            iconImage.isTemplate = false
-        } else {
-            NSColor.black.withAlphaComponent(fraction).setFill()
-            boxPath.fill()
-
-            let textImage = NSImage(size: size)
-            textImage.lockFocus()
-            text.drawVerticallyCentered(
-                in: drawRect,
-                withAttributes: getStringAttributes(alpha: 1, color: .black))
-            textImage.unlockFocus()
-
-            textImage.draw(in: drawRect, from: .zero, operation: .destinationOut, fraction: 1.0)
-            iconImage.isTemplate = true
-        }
-
-        iconImage.unlockFocus()
         return iconImage
     }
 
@@ -533,7 +529,9 @@ class IconCreator {
         fontSize: CGFloat = .zero,
         color: NSColor = .black
     ) -> [NSAttributedString.Key: Any] {
-        let actualFontSize = fontSize == .zero ? CGFloat(sizes.FONT_SIZE) : fontSize
+        let allBareText = decorationActive.isBareText && decorationInactive.isBareText
+        let baseFontSize = CGFloat(sizes.FONT_SIZE) + (allBareText ? 2 : 0)
+        let actualFontSize = fontSize == .zero ? baseFontSize : fontSize
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         return [

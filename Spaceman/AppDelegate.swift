@@ -99,7 +99,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// migration guards (`if object(forKey:) == nil`) don't skip over old-format
     /// keys present in the backup. Must be kept in sync with `performLegacyMigrations()`.
     static func resetMigratedKeys() {
-        let keys = ["visibleSpacesMode", "restartNumberingByDisplay", "horizontalDirection", "useVariableWidth"]
+        let keys = [
+            "visibleSpacesMode", "restartNumberingByDisplay", "horizontalDirection",
+            "useVariableWidth", "decorationActive", "decorationInactive"
+        ]
         for key in keys {
             UserDefaults.standard.removeObject(forKey: key)
         }
@@ -141,6 +144,27 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
            let oldValue = UserDefaults.standard.object(forKey: "useMinIconWidth") as? Bool {
             UserDefaults.standard.set(!oldValue, forKey: "useVariableWidth")
             UserDefaults.standard.removeObject(forKey: "useMinIconWidth")
+        }
+
+        // Migrate displayStyle + inactiveStyle → decoration
+        if UserDefaults.standard.object(forKey: "decorationActive") == nil {
+            let oldIconText = UserDefaults.standard.integer(forKey: "displayStyle")
+            let oldInactiveStyle = UserDefaults.standard.integer(forKey: "inactiveStyle")
+
+            if oldIconText == 1 {
+                // Old "bare numbers" (raw value 1) → bare text decoration + numbers display style
+                UserDefaults.standard.set(IconStyle.bareText.rawValue, forKey: "decorationActive")
+                UserDefaults.standard.set(IconStyle.bareText.rawValue, forKey: "decorationInactive")
+                UserDefaults.standard.set(IconText.numbers.rawValue, forKey: "displayStyle")
+            } else {
+                UserDefaults.standard.set(IconStyle.filledRounded.rawValue, forKey: "decorationActive")
+                if oldInactiveStyle == 0 { // bordered
+                    UserDefaults.standard.set(IconStyle.borderedRounded.rawValue, forKey: "decorationInactive")
+                } else { // dimmed (1) or default
+                    UserDefaults.standard.set(IconStyle.filledRounded.rawValue, forKey: "decorationInactive")
+                }
+            }
+            UserDefaults.standard.removeObject(forKey: "inactiveStyle")
         }
     }
 }
