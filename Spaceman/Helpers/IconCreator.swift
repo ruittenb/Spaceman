@@ -158,7 +158,7 @@ class IconCreator {
     /// Create an icon for use in the dropdown menu (StatusBar).
     /// Always uses medium layout sizing but mirrors the active icon style.
     public func createMenuItemIcon(space: Space, fraction: CGFloat = 0.6) -> NSImage {
-        let menuSizes = Constants.sizes[.medium]!
+        guard let menuSizes = Constants.sizes[.medium] else { return NSImage() }
         let menuFontSize = CGFloat(menuSizes.FONT_SIZE)
         let menuHeight = menuFontSize + menuSizes.VERTICAL_PADDING * 2
 
@@ -188,6 +188,9 @@ class IconCreator {
 
     // MARK: - Icon rendering
 
+    // All 7 parameters are distinct, required values for one rendering operation.
+    // A wrapper struct would add boilerplate without improving readability.
+    // swiftlint:disable:next function_parameter_count
     private func renderIcon(
         text: NSString,
         size: NSSize,
