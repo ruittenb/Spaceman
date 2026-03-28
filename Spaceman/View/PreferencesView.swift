@@ -348,6 +348,15 @@ struct PreferencesView: View {
             spacesStylePicker
             activeIconStylePicker
             inactiveIconStylePicker
+            if displayStyle == .noText && decorationActive.isBareText && decorationInactive.isBareText {
+                HStack(spacing: 4) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                    Text("Icons will be invisible with these settings.")
+                }
+                .font(.caption)
+                .foregroundColor(.orange)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            }
             iconWidthPicker
             spacesShownPicker
             Toggle("Hide fullscreen spaces", isOn: $hideFullscreenSpaces)

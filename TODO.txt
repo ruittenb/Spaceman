@@ -1,18 +1,4 @@
 
-
-
-================================================================================
-CLICK AREA: 1-2 px dead zone for right-click
-================================================================================
-
-================================================================================
-DECORATIONS: add to right-click menu?
-================================================================================
-
-================================================================================
-DECORATIONS: warn the user if no text + no decorations are selected
-================================================================================
-
 ================================================================================
 OPTION-HOVER: show extra info on the menu bar icon
 ================================================================================
@@ -79,5 +65,52 @@ All in StatusBar.swift (~15-20 lines):
 No concerns. The tracking area + event monitor pattern is standard AppKit.
 If more modifier-based behaviors are added later (Cmd-hover, etc.), the
 flag-checking can be refactored trivially at that point.
+
+================================================================================
+RIGHT-CLICK DEAD ZONE: top 1-2px of menu bar icon
+================================================================================
+
+Status:   PARKED (2026-03-28)
+Effort:   Low-Medium — NSEvent monitor + coordinate check
+Risk:     Low — additive, but must avoid double-triggering with normal clicks
+
+--- What it is ---
+
+Commit c410b92 fixed left-clicks in the 1-2px gap above/below the menu bar
+button by using NSEvent.mouseLocation instead of event.locationInWindow.
+Right-clicks in that gap are NOT fixed: the button's sendAction(on:) never
+fires because the click lands outside the NSStatusBarButton's hit area, so
+handleClick() is never called.
+
+--- Why it matters ---
+
+Fitts's law: the topmost pixel of the screen is "infinitely tall" because the
+cursor stops at the screen edge. Right-clicking the menu bar icon by slamming
+the cursor to the top of the screen almost always lands in the 1-2px gap,
+not on the button. This is the most natural way to right-click a menu bar
+item, and it silently does nothing.
+
+--- Approach ---
+
+Add an NSEvent.addLocalMonitorForEvents(matching: .rightMouseDown) that:
+
+  1. Checks if the click is within the status bar item's screen frame
+     (statusBarItem.button.window.convertToScreen(button.frame))
+  2. If so, shows the popup menu manually (same code as the existing
+     right-click path in handleClick)
+  3. Returns nil to consume the event (prevents double-triggering)
+
+The monitor must coexist with the button's own sendAction — when the click
+lands on the button proper, the button handles it and the monitor should
+not interfere. A simple approach: always handle right-clicks via the monitor
+and remove .rightMouseDown from sendAction(on:). This avoids any
+double-trigger logic.
+
+--- Why parked ---
+
+The impact is real but narrow. Users who right-click precisely (cursor
+already near the menu bar) are unaffected. Only the "slam to top edge"
+gesture fails. Left-clicks (the primary interaction) already work in the
+gap.
 
 ================================================================================
