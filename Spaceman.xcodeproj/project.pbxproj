@@ -99,6 +99,7 @@
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
 		E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSwitcher.swift; sourceTree = "<group>"; };
 		E7B0862E2C8980130016C851 /* OSVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSVersion.swift; sourceTree = "<group>"; };
+		E7B7AC962F77E77B002B37E2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		E7DA73A52CA6E74D00212836 /* LayoutMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutMode.swift; sourceTree = "<group>"; };
 		E7DA73A72CA6E7A700212836 /* GuiSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiSize.swift; sourceTree = "<group>"; };
 		E7DA73A92CA8C09300212836 /* KeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySet.swift; sourceTree = "<group>"; };
@@ -363,6 +364,7 @@
 				"es-419",
 				fr,
 				de,
+				es,
 			);
 			mainGroup = E87334DC256B51CF0012586E;
 			packageReferences = (
@@ -499,6 +501,7 @@
 				E71750BC2F746A0F00E240FD /* es-419 */,
 				E71750BD2F747B0400E240FD /* fr */,
 				E71750BE2F74981F00E240FD /* de */,
+				E7B7AC962F77E77B002B37E2 /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
