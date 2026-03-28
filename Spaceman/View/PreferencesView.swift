@@ -481,6 +481,7 @@ struct PreferencesView: View {
                 Text("Medium").tag(LayoutMode.medium)
                 Text("Large").tag(LayoutMode.large)
                 Text("Extra Large").tag(LayoutMode.extraLarge)
+                Text("Enormous").tag(LayoutMode.enormous)
             }
             .fixedSize()
         }

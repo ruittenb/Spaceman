@@ -14,6 +14,7 @@ enum LayoutMode: Int, CaseIterable {
     case medium = 2
     case large = 3
     case extraLarge = 4
+    case enormous = 6
 
     var menuLabel: String {
         switch self {
@@ -23,6 +24,7 @@ enum LayoutMode: Int, CaseIterable {
         case .medium:     return String(localized: "Medium")
         case .large:      return String(localized: "Large")
         case .extraLarge: return String(localized: "Extra Large")
+        case .enormous:   return String(localized: "Enormous")
         }
     }
 }

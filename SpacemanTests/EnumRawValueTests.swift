@@ -22,7 +22,7 @@ final class EnumRawValueTests: XCTestCase {
     // MARK: - IconStyle
 
     func testIconStyleRawValues() {
-        XCTAssertEqual(IconStyle.bareText.rawValue, 0)
+        XCTAssertEqual(IconStyle.noDecoration.rawValue, 0)
         XCTAssertEqual(IconStyle.borderedRectangular.rawValue, 1)
         XCTAssertEqual(IconStyle.borderedRounded.rawValue, 2)
         XCTAssertEqual(IconStyle.borderedPill.rawValue, 3)
@@ -36,7 +36,7 @@ final class EnumRawValueTests: XCTestCase {
     }
 
     func testIconStyleInitFromRawValue() {
-        XCTAssertEqual(IconStyle(rawValue: 0), .bareText)
+        XCTAssertEqual(IconStyle(rawValue: 0), .noDecoration)
         XCTAssertEqual(IconStyle(rawValue: 1), .borderedRectangular)
         XCTAssertEqual(IconStyle(rawValue: 2), .borderedRounded)
         XCTAssertEqual(IconStyle(rawValue: 3), .borderedPill)
@@ -48,7 +48,7 @@ final class EnumRawValueTests: XCTestCase {
 
     func testIconStyleFullscreenVariant() {
         // Bare text stays bare text
-        XCTAssertEqual(IconStyle.bareText.fullscreenVariant, .bareText)
+        XCTAssertEqual(IconStyle.noDecoration.fullscreenVariant, .noDecoration)
         // Rectangular becomes pill (and vice versa), preserving fill style
         XCTAssertEqual(IconStyle.borderedRectangular.fullscreenVariant, .borderedPill)
         XCTAssertEqual(IconStyle.filledRectangular.fullscreenVariant, .filledPill)
@@ -70,7 +70,7 @@ final class EnumRawValueTests: XCTestCase {
     }
 
     func testLayoutModeAllCases() {
-        XCTAssertEqual(LayoutMode.allCases.count, 6)
+        XCTAssertEqual(LayoutMode.allCases.count, 7)
     }
 
     func testLayoutModeInitFromRawValue() {
