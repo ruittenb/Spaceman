@@ -348,7 +348,7 @@ struct PreferencesView: View {
             spacesStylePicker
             activeIconStylePicker
             inactiveIconStylePicker
-            if displayStyle == .noText && decorationActive.isBareText && decorationInactive.isBareText {
+            if displayStyle == .noText && decorationActive.isNoDecoration && decorationInactive.isNoDecoration {
                 HStack(spacing: 4) {
                     Image(systemName: "exclamationmark.triangle.fill")
                     Text("Icons will be invisible with these settings.")
