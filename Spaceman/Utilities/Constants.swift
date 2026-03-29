@@ -81,6 +81,15 @@ struct Constants {
             VERTICAL_PADDING: 4.5,
             BORDER_WIDTH: 1.67,
             FONT_SIZE: 14
+        ),
+        .enormous: GuiSize(
+            GAP_WIDTH_SPACES: 6,
+            GAP_WIDTH_DISPLAYS: 16,
+            GAP_HEIGHT_DUALROWS: 0,
+            HORIZONTAL_PADDING: 8,
+            VERTICAL_PADDING: 5.25,
+            BORDER_WIDTH: 2,
+            FONT_SIZE: 16
         )
     ]
 }

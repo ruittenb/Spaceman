@@ -153,8 +153,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
             if oldIconText == 1 {
                 // Old "bare numbers" (raw value 1) → bare text decoration + numbers display style
-                UserDefaults.standard.set(IconStyle.bareText.rawValue, forKey: "decorationActive")
-                UserDefaults.standard.set(IconStyle.bareText.rawValue, forKey: "decorationInactive")
+                UserDefaults.standard.set(IconStyle.noDecoration.rawValue, forKey: "decorationActive")
+                UserDefaults.standard.set(IconStyle.noDecoration.rawValue, forKey: "decorationInactive")
                 UserDefaults.standard.set(IconText.numbers.rawValue, forKey: "displayStyle")
             } else {
                 UserDefaults.standard.set(IconStyle.filledRounded.rawValue, forKey: "decorationActive")
