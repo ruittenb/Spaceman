@@ -23,7 +23,7 @@ struct PreferencesView: View {
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
-    @AppStorage("restartNumberingByDisplay") private var restartNumberingByDesktop = false
+    @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
@@ -218,7 +218,7 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
 
-            Toggle("Restart space numbering by display", isOn: $restartNumberingByDesktop)
+            Toggle("Restart space numbering by display", isOn: $restartNumberingByDisplay)
                 .disabled(!hasMultipleDisplays)
             HStack(alignment: .top) {
                 Text("When displays are side by side")
@@ -273,7 +273,7 @@ struct PreferencesView: View {
             .padding(.top)
         }
         .padding()
-        .onChange(of: restartNumberingByDesktop) { _ in
+        .onChange(of: restartNumberingByDisplay) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
         .onChange(of: horizontalDirection) { _ in

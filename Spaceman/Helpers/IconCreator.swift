@@ -188,7 +188,7 @@ class IconCreator {
 
     // MARK: - Icon rendering
 
-    // All 7 parameters are distinct, required values for one rendering operation.
+    // All parameters are distinct, required values for one rendering operation.
     // A wrapper struct would add boilerplate without improving readability.
     // swiftlint:disable:next function_parameter_count
     private func renderIcon(

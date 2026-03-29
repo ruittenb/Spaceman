@@ -47,10 +47,10 @@ enum IconStyle: Int, CaseIterable {
     }
 
     /// Fullscreen variant: rectangular becomes pill (and vice versa),
-    /// preserving the fill style. Bare text stays bare text.
+    /// preserving the fill style. No decoration stays no decoration.
     var fullscreenVariant: IconStyle {
         switch self {
-        case .noDecoration:             return .noDecoration
+        case .noDecoration:         return .noDecoration
         case .borderedRectangular:  return .borderedPill
         case .borderedRounded:      return .borderedRectangular
         case .borderedPill:         return .borderedRectangular
@@ -62,7 +62,7 @@ enum IconStyle: Int, CaseIterable {
 
     var menuLabel: String {
         switch self {
-        case .noDecoration:             return String(localized: "No decoration")
+        case .noDecoration:         return String(localized: "No decoration")
         case .borderedRectangular:  return String(localized: "Bordered, rectangular")
         case .borderedRounded:      return String(localized: "Bordered, rounded")
         case .borderedPill:         return String(localized: "Bordered, pill")

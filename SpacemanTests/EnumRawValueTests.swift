@@ -67,6 +67,8 @@ final class EnumRawValueTests: XCTestCase {
         XCTAssertEqual(LayoutMode.medium.rawValue, 2)
         XCTAssertEqual(LayoutMode.large.rawValue, 3)
         XCTAssertEqual(LayoutMode.extraLarge.rawValue, 4)
+        XCTAssertEqual(LayoutMode.narrow.rawValue, 5)
+        XCTAssertEqual(LayoutMode.enormous.rawValue, 6)
     }
 
     func testLayoutModeAllCases() {
@@ -79,6 +81,8 @@ final class EnumRawValueTests: XCTestCase {
         XCTAssertEqual(LayoutMode(rawValue: 2), .medium)
         XCTAssertEqual(LayoutMode(rawValue: 3), .large)
         XCTAssertEqual(LayoutMode(rawValue: 4), .extraLarge)
+        XCTAssertEqual(LayoutMode(rawValue: 5), .narrow)
+        XCTAssertEqual(LayoutMode(rawValue: 6), .enormous)
         XCTAssertNil(LayoutMode(rawValue: 99))
     }
 
