@@ -18,11 +18,12 @@
             <pubDate>Sat, 28 Mar 2026 15:13:16 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.7/"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.7/Spaceman-1.15.7.dmg"
                 sparkle:version="1.15.7"
                 sparkle:shortVersionString="1.15.7"
                 type="application/octet-stream"
-                
+                length="3023954"
+sparkle:edSignature="8Hjbh/UHDSdzkWOLy6T5N3LpNdClVlyMp8UXrguQJ5wDi96KY3/8HxPfqkOH9ybp1PI9il6hwfahK6lZhZDRBg=="
             />
         </item>
     </channel>
