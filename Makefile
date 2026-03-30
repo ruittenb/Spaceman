@@ -73,6 +73,10 @@ tag: ## Tag the current HEAD with the version from the XCode project
 	git tag v$(VERSION)
 	git push --tags
 
+.PHONY: release
+release: ## Open Github webpage for creating a release
+	open https://github.com/ruittenb/Spaceman/releases/new
+
 .PHONY: appcast
 appcast: ## Prepare appcast for publishing
 	@echo 'Make sure to create a release on github first!'
