@@ -112,7 +112,7 @@ struct PreferencesView: View {
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.repo)
                 } label: {
-                    Text("GitHub").font(.system(size: 12))
+                    Text("GitHub").font(.callout)
                 }
                 .buttonStyle(LinkButtonStyle())
                 .onHover { hovering in
@@ -122,7 +122,7 @@ struct PreferencesView: View {
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.website)
                 } label: {
-                    Text("Website").font(.system(size: 12))
+                    Text("Website").font(.callout)
                 }
                 .buttonStyle(LinkButtonStyle())
                 .onHover { hovering in
@@ -296,7 +296,7 @@ struct PreferencesView: View {
                 }
                 if let message = prefsVM.backupStatusMessage {
                     Text(message)
-                        .font(.caption)
+                        .font(.subheadline)
                         .foregroundColor(prefsVM.backupStatusIsError ? .red : .green)
                 }
             }
@@ -307,15 +307,15 @@ struct PreferencesView: View {
                 .disabled(prefsVM.lastBackupDate == nil)
                 if let message = prefsVM.restoreStatusMessage {
                     Text(message)
-                        .font(.caption)
+                        .font(.subheadline)
                         .foregroundColor(prefsVM.restoreStatusIsError ? .red : .green)
                 } else if let date = prefsVM.lastBackupDate {
                     Text("Last backup: \(date, style: .date) \(date, style: .time)")
-                        .font(.caption)
+                        .font(.subheadline)
                         .foregroundColor(.secondary)
                 } else {
                     Text("No backup found")
-                        .font(.caption)
+                        .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
             }
@@ -353,8 +353,12 @@ struct PreferencesView: View {
                     Image(systemName: "exclamationmark.triangle.fill")
                     Text("Icons will be invisible with these settings.")
                 }
-                .font(.caption)
+                .font(.subheadline)
                 .foregroundColor(.orange)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            } else if decorationActive == decorationInactive {
+                Text("Inactive icons will be dimmed for visual distinctness.")
+                .font(.subheadline)
                 .frame(maxWidth: .infinity, alignment: .trailing)
             }
             iconWidthPicker

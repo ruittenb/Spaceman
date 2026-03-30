@@ -1376,7 +1376,7 @@
         }
       }
     },
-    "Icon Shape" : {
+    "Icon Style" : {
 
     },
     "Icon text" : {
@@ -1548,6 +1548,9 @@
           }
         }
       }
+    },
+    "Inactive icons will be dimmed for visual distinctness." : {
+
     },
     "Inactive style" : {
       "localizations" : {
