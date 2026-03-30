@@ -1,6 +1,8 @@
 
 Examine: displaying grids when there is more than one display
 
+Dimmed bordered: "Will be dimmed for visual distinctness"
+
 ┌────────────────────┬─────────────────────────────────────────────┬──────────────────────────────────┐
 │      Scenario      │             Multiple steps OFF              │        Multiple steps ON         │
 ├────────────────────┼─────────────────────────────────────────────┼──────────────────────────────────┤
@@ -16,7 +18,6 @@ Examine: displaying grids when there is more than one display
 ├────────────────────┼─────────────────────────────────────────────┼──────────────────────────────────┤
 │ Statusbar icon F2+ │ blink (error)                               │ switches via chaining            │
 └────────────────────┴─────────────────────────────────────────────┴──────────────────────────────────┘
-
 
 ================================================================================
 REFACTORING

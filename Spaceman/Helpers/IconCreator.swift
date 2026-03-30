@@ -169,7 +169,12 @@ class IconCreator {
         let baseIconStyle = isActive ? decorationActive : decorationInactive
         let decoration = space.isFullScreen ? baseIconStyle.fullscreenVariant : baseIconStyle
         let shouldDim = !isActive && decorationActive == decorationInactive
-        let alpha: CGFloat = shouldDim ? Constants.inactiveAlpha : 1.0
+        let alpha: CGFloat
+        if shouldDim {
+            alpha = decoration.isFilledBordered ? Constants.filledBorderedInactiveAlpha : Constants.inactiveAlpha
+        } else {
+            alpha = 1.0
+        }
 
         // 4. Calculate icon size (dynamic width based on text)
         let measureAttrs = getStringAttributes(alpha: 1, color: .black)
@@ -287,6 +292,45 @@ class IconCreator {
                         in: drawRect,
                         withAttributes: getStringAttributes(alpha: 1.0, fontSize: fontSize, color: textColor,
                                                             weight: fontWeight))
+                }
+            }
+        } else if decoration.isFilledBordered {
+            let boxRect = drawRect.insetBy(dx: borderWidth / 2, dy: borderWidth / 2)
+            let cornerRadius = decoration.cornerRadius(for: boxRect)
+            let boxPath = NSBezierPath(roundedRect: boxRect, xRadius: cornerRadius, yRadius: cornerRadius)
+            boxPath.lineWidth = borderWidth
+            let fillAlpha = Constants.filledBorderedFillAlpha * alpha
+
+            if useTemplate {
+                NSColor.black.withAlphaComponent(fillAlpha).setFill()
+                boxPath.fill()
+                // Border at full alpha
+                NSColor.black.withAlphaComponent(alpha).setStroke()
+                boxPath.stroke()
+
+                if text.length > 0 {
+                    let textImage = NSImage(size: size)
+                    textImage.lockFocus()
+                    text.drawVerticallyCentered(
+                        in: drawRect,
+                        withAttributes: getStringAttributes(alpha: 1, fontSize: fontSize, color: .black))
+                    textImage.unlockFocus()
+
+                    textImage.draw(in: drawRect, from: .zero, operation: .destinationOut, fraction: 1.0)
+                }
+            } else {
+                let effectiveFillAlpha = boxColor.alphaComponent * fillAlpha
+                boxColor.withAlphaComponent(effectiveFillAlpha).setFill()
+                boxPath.fill()
+                // Border at full alpha
+                boxColor.withAlphaComponent(alpha).setStroke()
+                boxPath.stroke()
+
+                if text.length > 0 {
+                    let textColor = getContrastingTextColor(for: boxColor)
+                    text.drawVerticallyCentered(
+                        in: drawRect,
+                        withAttributes: getStringAttributes(alpha: 1.0, fontSize: fontSize, color: textColor))
                 }
             }
         } else {
