@@ -1234,6 +1234,18 @@
         }
       }
     },
+    "Filled Bordered" : {
+
+    },
+    "Filled bordered, pill" : {
+
+    },
+    "Filled bordered, rectangular" : {
+
+    },
+    "Filled bordered, rounded" : {
+
+    },
     "Filled, pill" : {
       "localizations" : {
         "de" : {

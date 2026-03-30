@@ -16,6 +16,9 @@ enum IconStyle: Int, CaseIterable {
     case filledRectangular = 4
     case filledRounded = 5
     case filledPill = 6
+    case filledBorderedRectangular = 7
+    case filledBorderedRounded = 8
+    case filledBorderedPill = 9
 
     var isNoDecoration: Bool { self == .noDecoration }
 
@@ -33,16 +36,23 @@ enum IconStyle: Int, CaseIterable {
         }
     }
 
+    var isFilledBordered: Bool {
+        switch self {
+        case .filledBorderedRectangular, .filledBorderedRounded, .filledBorderedPill: return true
+        default: return false
+        }
+    }
+
     /// Corner radius for the decoration shape, given the bounding rect.
     func cornerRadius(for rect: NSRect) -> CGFloat {
         switch self {
         case .noDecoration:
             return 0
-        case .borderedRectangular, .filledRectangular:
+        case .borderedRectangular, .filledRectangular, .filledBorderedRectangular:
             return 0
-        case .borderedRounded, .filledRounded:
+        case .borderedRounded, .filledRounded, .filledBorderedRounded:
             return rect.height * 0.2
-        case .borderedPill, .filledPill:
+        case .borderedPill, .filledPill, .filledBorderedPill:
             return rect.height / 2
         }
     }
@@ -51,27 +61,36 @@ enum IconStyle: Int, CaseIterable {
     /// preserving the fill style. No decoration stays no decoration.
     var fullscreenVariant: IconStyle {
         switch self {
-        case .noDecoration:         return .noDecoration
-        case .borderedRectangular:  return .borderedPill
-        case .borderedRounded:      return .borderedRectangular
-        case .borderedPill:         return .borderedRectangular
-        case .filledRectangular:    return .filledPill
-        case .filledRounded:        return .filledRectangular
-        case .filledPill:           return .filledRectangular
+        case .noDecoration:                 return .noDecoration
+        case .borderedRectangular:          return .borderedPill
+        case .borderedRounded:              return .borderedRectangular
+        case .borderedPill:                 return .borderedRectangular
+        case .filledRectangular:            return .filledPill
+        case .filledRounded:                return .filledRectangular
+        case .filledPill:                   return .filledRectangular
+        case .filledBorderedRectangular:    return .filledBorderedPill
+        case .filledBorderedRounded:        return .filledBorderedRectangular
+        case .filledBorderedPill:           return .filledBorderedRectangular
         }
     }
 
     var shape: IconShape {
         switch self {
-        case .noDecoration:                                     return .noDecoration
-        case .borderedRectangular, .filledRectangular:          return .rectangular
-        case .borderedRounded, .filledRounded:                  return .rounded
-        case .borderedPill, .filledPill:                        return .pill
+        case .noDecoration:
+            return .noDecoration
+        case .borderedRectangular, .filledRectangular, .filledBorderedRectangular:
+            return .rectangular
+        case .borderedRounded, .filledRounded, .filledBorderedRounded:
+            return .rounded
+        case .borderedPill, .filledPill, .filledBorderedPill:
+            return .pill
         }
     }
 
     var fill: IconFill {
-        return isFilled ? .filled : .bordered
+        if isFilledBordered { return .filledBordered }
+        if isFilled { return .filled }
+        return .bordered
     }
 
     /// Returns a new style with the given fill, preserving the shape.
@@ -79,13 +98,16 @@ enum IconStyle: Int, CaseIterable {
     func withFill(_ fill: IconFill) -> IconStyle {
         let s = isNoDecoration ? IconShape.rectangular : shape
         switch (fill, s) {
-        case (_, .noDecoration):        return .noDecoration
-        case (.bordered, .rectangular): return .borderedRectangular
-        case (.bordered, .rounded):     return .borderedRounded
-        case (.bordered, .pill):        return .borderedPill
-        case (.filled, .rectangular):   return .filledRectangular
-        case (.filled, .rounded):       return .filledRounded
-        case (.filled, .pill):          return .filledPill
+        case (_, .noDecoration):              return .noDecoration
+        case (.bordered, .rectangular):       return .borderedRectangular
+        case (.bordered, .rounded):           return .borderedRounded
+        case (.bordered, .pill):              return .borderedPill
+        case (.filled, .rectangular):         return .filledRectangular
+        case (.filled, .rounded):             return .filledRounded
+        case (.filled, .pill):                return .filledPill
+        case (.filledBordered, .rectangular): return .filledBorderedRectangular
+        case (.filledBordered, .rounded):     return .filledBorderedRounded
+        case (.filledBordered, .pill):        return .filledBorderedPill
         }
     }
 
@@ -96,23 +118,29 @@ enum IconStyle: Int, CaseIterable {
         case .noDecoration:
             return .noDecoration
         case .rectangular:
+            if isFilledBordered { return .filledBorderedRectangular }
             return isFilled ? .filledRectangular : .borderedRectangular
         case .rounded:
+            if isFilledBordered { return .filledBorderedRounded }
             return isFilled ? .filledRounded : .borderedRounded
         case .pill:
+            if isFilledBordered { return .filledBorderedPill }
             return isFilled ? .filledPill : .borderedPill
         }
     }
 
     var menuLabel: String {
         switch self {
-        case .noDecoration:         return String(localized: "No decoration")
-        case .borderedRectangular:  return String(localized: "Bordered, rectangular")
-        case .borderedRounded:      return String(localized: "Bordered, rounded")
-        case .borderedPill:         return String(localized: "Bordered, pill")
-        case .filledRectangular:    return String(localized: "Filled, rectangular")
-        case .filledRounded:        return String(localized: "Filled, rounded")
-        case .filledPill:           return String(localized: "Filled, pill")
+        case .noDecoration:                 return String(localized: "No decoration")
+        case .borderedRectangular:          return String(localized: "Bordered, rectangular")
+        case .borderedRounded:              return String(localized: "Bordered, rounded")
+        case .borderedPill:                 return String(localized: "Bordered, pill")
+        case .filledRectangular:            return String(localized: "Filled, rectangular")
+        case .filledRounded:                return String(localized: "Filled, rounded")
+        case .filledPill:                   return String(localized: "Filled, pill")
+        case .filledBorderedRectangular:    return String(localized: "Filled bordered, rectangular")
+        case .filledBorderedRounded:        return String(localized: "Filled bordered, rounded")
+        case .filledBorderedPill:           return String(localized: "Filled bordered, pill")
         }
     }
 }
