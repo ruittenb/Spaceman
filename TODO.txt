@@ -43,17 +43,17 @@ dynamic look.
 
 Numbers (triangles), without or with gaps:
 
-      _______                   . _____ .    
-     / \ 5 / \       or        / \\ 5 // \   
-    / 4 \ / 6 \               / 4 \\ // 6 \  
-    ‾‾‾‾‾‾‾‾‾‾‾               ‾‾‾‾‾ ' ‾‾‾‾‾  
+      _______                   . _____ .
+     / \ 5 / \       or        / \\ 5 // \
+    / 4 \ / 6 \               / 4 \\ // 6 \
+    ‾‾‾‾‾‾‾‾‾‾‾               ‾‾‾‾‾ ' ‾‾‾‾‾
 
 Names (trapezoids) without or with gaps:
 
-      ___________________                  ____ ________ _______   
-     /    \ Five /       \      or        /    \\ Five //       \  
-    / Four \    / Private \              / Four \\    // Private \ 
-    ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾              ‾‾‾‾‾‾‾‾ ‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾ 
+      ___________________                  ____ ________ _______
+     /    \ Five /       \      or        /    \\ Five //       \
+    / Four \    / Private \              / Four \\    // Private \
+    ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾              ‾‾‾‾‾‾‾‾ ‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾
 
 Icons can tessellate (share slanted edges) or have gaps between them, like
 the existing rectangular icons do.
