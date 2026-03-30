@@ -3,27 +3,25 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.15.7: round/pill icon shapes, bare names</title>
+            <title>v1.15.8: Added icon size "enormous"</title>
             <description>
                 <![CDATA[
-                    v1.15.7:
+                    <p>v1.15.8:</p>
                     <ul>
-                        <li> - Added icon shape "Pill" </li>
-                        <li> - Added icon style for just names, no decorations</li>
-                        <li> - Added Spanish (Castillano)</li>
-                        <li> </li>
+                        <li> - Added extra icon size "enormous"</li>
+                        <li> - Minor source code cleanup</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Sat, 28 Mar 2026 15:13:16 +0100</pubDate>
+            <pubDate>Mon, 30 Mar 2026 08:52:44 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.7/Spaceman-1.15.7.dmg"
-                sparkle:version="1.15.7"
-                sparkle:shortVersionString="1.15.7"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.8/Spaceman-1.15.8.dmg"
+                sparkle:version="1.15.8"
+                sparkle:shortVersionString="1.15.8"
                 type="application/octet-stream"
-                length="3023954"
-sparkle:edSignature="8Hjbh/UHDSdzkWOLy6T5N3LpNdClVlyMp8UXrguQJ5wDi96KY3/8HxPfqkOH9ybp1PI9il6hwfahK6lZhZDRBg=="
+                length="3026455"
+sparkle:edSignature="tnt8ADtMGluz8UCY8hMIwHuUBDDdKA4/xT6pG2cYZPxAZ3P9rV5GXCIVwBQHnT0klTo6FkZPXW2+007KaoN+CQ=="
             />
         </item>
     </channel>
