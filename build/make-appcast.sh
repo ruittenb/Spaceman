@@ -20,8 +20,9 @@ print_xml() {
             <title>${title}</title>
             <description>
                 <![CDATA[
+                    ${description_title:+<p>${description_title}</p>}
                     <ul>
-                    ${description}
+${description_items}
                     </ul>
                 ]]>
             </description>
@@ -44,6 +45,14 @@ get_github_release() {
     release_data=$(wget -qO- "$URL")
 }
 
+bulletpoint() {
+    awk '{
+        gsub("\r", "");
+        if (/^ *$/) next;
+        printf "%24s<li>%s</li>\n", "", $0;
+    }'
+}
+
 gather_data() {
     local sparkle_dir=$(
         ls -d1 ~/Library/Developer/Xcode/DerivedData/Spaceman-*/SourcePackages/artifacts/sparkle/Sparkle/bin | head -1
@@ -61,7 +70,15 @@ gather_data() {
         return 1
     fi
 
-    description=$(printf '%s' "$body" | awk '{ gsub("\r", ""); print "                    <li>" $0 "</li>" }')
+    local description_first_line=$(printf '%s' "$body" | head -1 | tr -d '\r')
+    if [[ "$description_first_line" =~ ^v[0-9]+\.[0-9]+ ]]; then
+        description_title="$description_first_line"
+        description_items=$(printf '%s' "$body" | tail -n +2 | bulletpoint)
+    else
+        description_title=""
+        description_items=$(printf '%s' "$body" | bulletpoint)
+    fi
+    
     pub_date=$(gdate -R -d "$published_at")
     version=${vversion#v}
     friendly_version=${version}
@@ -69,8 +86,7 @@ gather_data() {
     minimum_system_version=$(awk -F'[=; ]{1,}' '/MACOSX_DEPLOYMENT_TARGET/ { print $2; exit }' "$PBXPROJ")
 
     signature_and_length=$("$sparkle_dir"/sign_update "$BUILDDIR/$image_file" | awk '{ print $2 "\n" $1 }')
-    # returns the exit status of sign_update
-    return
+    return # returns the exit status of sign_update
 }
 
 main() {
@@ -79,6 +95,7 @@ main() {
         print_xml
     else
         echo "Aborted"
+        exit 1
     fi
 }
 
