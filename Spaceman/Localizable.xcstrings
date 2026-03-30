@@ -378,6 +378,9 @@
         }
       }
     },
+    "Bordered" : {
+
+    },
     "Bordered, pill" : {
       "localizations" : {
         "de" : {
@@ -1097,6 +1100,9 @@
           }
         }
       }
+    },
+    "Filled" : {
+
     },
     "Filled, pill" : {
       "localizations" : {

@@ -17,6 +17,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
+    @AppStorage("lastActiveShape") private var lastActiveShapeRaw: Int = IconShape.rounded.rawValue
+    @AppStorage("lastActiveFill") private var lastActiveFillRaw: Int = IconFill.filled.rawValue
+    @AppStorage("lastInactiveShape") private var lastInactiveShapeRaw: Int = IconShape.rounded.rawValue
+    @AppStorage("lastInactiveFill") private var lastInactiveFillRaw: Int = IconFill.bordered.rawValue
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
     @AppStorage("useVariableWidth") private var useVariableWidth = false
 
@@ -141,13 +145,27 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         iconStyleMenuItem.submenu = iconStyleSubmenu
 
         let iconShapeSubmenu = NSMenu()
-        for shape in IconShape.allCases {
+        let noDecoItem = NSMenuItem(
+            title: IconShape.noDecoration.menuLabel,
+            action: #selector(selectIconShape(_:)), keyEquivalent: "")
+        noDecoItem.tag = IconShape.noDecoration.rawValue
+        noDecoItem.target = self
+        iconShapeSubmenu.addItem(noDecoItem)
+        iconShapeSubmenu.addItem(NSMenuItem.separator())
+        for shape in IconShape.allCases where shape != .noDecoration {
             let item = NSMenuItem(title: shape.menuLabel, action: #selector(selectIconShape(_:)), keyEquivalent: "")
             item.tag = shape.rawValue
             item.target = self
             iconShapeSubmenu.addItem(item)
         }
-        iconShapeMenuItem = NSMenuItem(title: String(localized: "Icon Shape"), action: nil, keyEquivalent: "")
+        iconShapeSubmenu.addItem(NSMenuItem.separator())
+        for fill in IconFill.allCases {
+            let item = NSMenuItem(title: fill.menuLabel, action: #selector(selectIconFill(_:)), keyEquivalent: "")
+            item.tag = fill.rawValue
+            item.target = self
+            iconShapeSubmenu.addItem(item)
+        }
+        iconShapeMenuItem = NSMenuItem(title: String(localized: "Icon Style"), action: nil, keyEquivalent: "")
         iconShapeMenuItem.submenu = iconShapeSubmenu
 
         let spacesShownSubmenu = NSMenu()
@@ -319,10 +337,23 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         for item in iconStyleMenuItem.submenu?.items ?? [] {
             item.state = item.tag == displayStyle.rawValue ? .on : .off
         }
-        let currentShape = decorationActive.shape
-        let shapesMatch = decorationActive.shape == decorationInactive.shape
+        let bothNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
+        let shapesMatch = !bothNoDecoration
+            && !decorationActive.isNoDecoration && !decorationInactive.isNoDecoration
+            && decorationActive.shape == decorationInactive.shape
+        let fillsMatch = !bothNoDecoration
+            && !decorationActive.isNoDecoration && !decorationInactive.isNoDecoration
+            && decorationActive.fill == decorationInactive.fill
         for item in iconShapeMenuItem.submenu?.items ?? [] {
-            item.state = (shapesMatch && item.tag == currentShape.rawValue) ? .on : .off
+            if item.action == #selector(selectIconShape(_:)) {
+                if item.tag == IconShape.noDecoration.rawValue {
+                    item.state = bothNoDecoration ? .on : .off
+                } else {
+                    item.state = (shapesMatch && item.tag == decorationActive.shape.rawValue) ? .on : .off
+                }
+            } else if item.action == #selector(selectIconFill(_:)) {
+                item.state = (fillsMatch && item.tag == decorationActive.fill.rawValue) ? .on : .off
+            }
         }
         for item in spacesShownMenuItem.submenu?.items ?? [] {
             if item.action == #selector(toggleHideFullscreenSpaces) {
@@ -364,9 +395,47 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func selectIconShape(_ sender: NSMenuItem) {
         guard let shape = IconShape(rawValue: sender.tag) else { return }
-        decorationActive = decorationActive.withShape(shape)
-        decorationInactive = decorationInactive.withShape(shape)
+        if shape == .noDecoration {
+            saveLastDecoration()
+            decorationActive = .noDecoration
+            decorationInactive = .noDecoration
+        } else {
+            let activeFill = decorationActive.isNoDecoration
+                ? (IconFill(rawValue: lastActiveFillRaw) ?? .bordered)
+                : decorationActive.fill
+            let inactiveFill = decorationInactive.isNoDecoration
+                ? (IconFill(rawValue: lastInactiveFillRaw) ?? .bordered)
+                : decorationInactive.fill
+            decorationActive = decorationActive.withShape(shape).withFill(activeFill)
+            decorationInactive = decorationInactive.withShape(shape).withFill(inactiveFill)
+            saveLastDecoration()
+        }
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func selectIconFill(_ sender: NSMenuItem) {
+        guard let fill = IconFill(rawValue: sender.tag) else { return }
+        let activeShape = decorationActive.isNoDecoration
+            ? (IconShape(rawValue: lastActiveShapeRaw) ?? .rectangular)
+            : decorationActive.shape
+        let inactiveShape = decorationInactive.isNoDecoration
+            ? (IconShape(rawValue: lastInactiveShapeRaw) ?? .rectangular)
+            : decorationInactive.shape
+        decorationActive = decorationActive.withFill(fill).withShape(activeShape)
+        decorationInactive = decorationInactive.withFill(fill).withShape(inactiveShape)
+        saveLastDecoration()
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    private func saveLastDecoration() {
+        if !decorationActive.isNoDecoration {
+            lastActiveShapeRaw = decorationActive.shape.rawValue
+            lastActiveFillRaw = decorationActive.fill.rawValue
+        }
+        if !decorationInactive.isNoDecoration {
+            lastInactiveShapeRaw = decorationInactive.shape.rawValue
+            lastInactiveFillRaw = decorationInactive.fill.rawValue
+        }
     }
 
     @objc func selectSpacesShown(_ sender: NSMenuItem) {
