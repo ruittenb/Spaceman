@@ -31,6 +31,7 @@
 		E79FCED32E9D1EE60000DA6E /* HorizontalDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */; };
 		E7A066232C7F65F1002DFC52 /* SpaceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */; };
 		E7B0862F2C8980130016C851 /* OSVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B0862E2C8980130016C851 /* OSVersion.swift */; };
+		E7B7E2DF2F7A8CC000FEDEFE /* IconShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7E2DE2F7A8CC000FEDEFE /* IconShape.swift */; };
 		E7DA73A62CA6E74D00212836 /* LayoutMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DA73A52CA6E74D00212836 /* LayoutMode.swift */; };
 		E7DA73A82CA6E7A700212836 /* GuiSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DA73A72CA6E7A700212836 /* GuiSize.swift */; };
 		E7DA73AA2CA8C09300212836 /* KeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DA73A92CA8C09300212836 /* KeySet.swift */; };
@@ -100,6 +101,7 @@
 		E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSwitcher.swift; sourceTree = "<group>"; };
 		E7B0862E2C8980130016C851 /* OSVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSVersion.swift; sourceTree = "<group>"; };
 		E7B7AC962F77E77B002B37E2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		E7B7E2DE2F7A8CC000FEDEFE /* IconShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconShape.swift; sourceTree = "<group>"; };
 		E7DA73A52CA6E74D00212836 /* LayoutMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutMode.swift; sourceTree = "<group>"; };
 		E7DA73A72CA6E7A700212836 /* GuiSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiSize.swift; sourceTree = "<group>"; };
 		E7DA73A92CA8C09300212836 /* KeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySet.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				E70044AB2E7F6584001C7295 /* DualRowFillOrder.swift */,
 				E7DA73A72CA6E7A700212836 /* GuiSize.swift */,
 				E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */,
+				E7B7E2DE2F7A8CC000FEDEFE /* IconShape.swift */,
 				A1B2C3D4E5F6A7B8C9D0E1F2 /* IconStyle.swift */,
 				E8E2AEFE257CB5AF00319BBC /* IconText.swift */,
 				E73504B32CAD14BE007F62B5 /* IconWidth.swift */,
@@ -473,6 +476,7 @@
 				E8EBF091257739ED001BA74F /* PreferencesWindow.swift in Sources */,
 				E8E2AEFF257CB5AF00319BBC /* IconText.swift in Sources */,
 				E828E6582737D2E4007075E8 /* Constants.swift in Sources */,
+				E7B7E2DF2F7A8CC000FEDEFE /* IconShape.swift in Sources */,
 				53A56E17092ACF887E1B46F5 /* SpaceNameStore.swift in Sources */,
 				E7DA73A82CA6E7A700212836 /* GuiSize.swift in Sources */,
 				E828E6552737CBA0007075E8 /* VisualEffectView.swift in Sources */,

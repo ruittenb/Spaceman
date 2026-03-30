@@ -1,3629 +1,3646 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "": {},
-    "⌘1": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘1"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "⌘1" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘1"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘1"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘1"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘1"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘1"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘1"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘1"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘1"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘1"
           }
         }
       }
     },
-    "⌘2": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘2"
+    "⌘2" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘2"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘2"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘2"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘2"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘2"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘2"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘2"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘2"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘2"
           }
         }
       }
     },
-    "⌘3": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘3"
+    "⌘3" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘3"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘3"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘3"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘3"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘3"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘3"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘3"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘3"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘3"
           }
         }
       }
     },
-    "⌘4": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘4"
+    "⌘4" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘4"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘4"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘4"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘4"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘4"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘4"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘4"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌘4"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘4"
           }
         }
       }
     },
-    "Active style": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aktiver Stil"
+    "Active style" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktiver Stil"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estilo activo"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estilo activo"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estilo activo"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estilo activo"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Style actif"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Style actif"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actieve stijl"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actieve stijl"
           }
         }
       }
     },
-    "All spaces": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle"
+    "All spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todos"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tous"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle"
           }
         }
       }
     },
-    "All Spaces": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle Spaces"
+    "All Spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Spaces"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todos los espacios"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos los espacios"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todos los espacios"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos los espacios"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tous les espaces"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous les espaces"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle spaces"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle spaces"
           }
         }
       }
     },
-    "Appearance": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Erscheinungsbild"
+    "Appearance" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erscheinungsbild"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apariencia"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apariencia"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apariencia"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apariencia"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apparence"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apparence"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Weergave"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weergave"
           }
         }
       }
     },
-    "Backup": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Backup"
+    "Backup" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copia de seguridad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia de seguridad"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Respaldo"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respaldo"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sauvegarde"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarde"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reservekopieën"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reservekopieën"
           }
         }
       }
     },
-    "Backup failed": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Backup fehlgeschlagen"
+    "Backup failed" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup fehlgeschlagen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Error en la copia de seguridad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error en la copia de seguridad"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Error al respaldar"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al respaldar"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Échec de la sauvegarde"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de la sauvegarde"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reservekopie mislukt"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reservekopie mislukt"
           }
         }
       }
     },
-    "Backup Preferences": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Einstellungen speichern"
+    "Backup Preferences" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen speichern"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Respaldar ajustes"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respaldar ajustes"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Respaldar configuración"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respaldar configuración"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sauvegarder les réglages"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarder les réglages"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instellingen opslaan"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen opslaan"
           }
         }
       }
     },
-    "Bordered, pill": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Umrandet, kapselförmig"
+    "Bordered, pill" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umrandet, kapselförmig"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Con borde, cápsula"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con borde, cápsula"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Con borde, cápsula"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con borde, cápsula"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contour, capsule"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contour, capsule"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Omlijnd, pilvormig"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Omlijnd, pilvormig"
           }
         }
       }
     },
-    "Bordered, rectangular": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Umrandet, rechteckig"
+    "Bordered, rectangular" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umrandet, rechteckig"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Con borde, rectangular"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con borde, rectangular"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Con borde, rectangular"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con borde, rectangular"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contour, rectangulaire"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contour, rectangulaire"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Omlijnd, rechthoekig"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Omlijnd, rechthoekig"
           }
         }
       }
     },
-    "Bordered, rounded": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Umrandet, abgerundet"
+    "Bordered, rounded" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umrandet, abgerundet"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Con borde, redondeado"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con borde, redondeado"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Con borde, redondeado"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con borde, redondeado"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contour, arrondi"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contour, arrondi"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Omlijnd, afgerond"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Omlijnd, afgerond"
           }
         }
       }
     },
-    "Check for updates...": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nach Updates suchen…"
+    "Check for updates..." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nach Updates suchen…"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buscar actualizaciones…"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones…"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buscar actualizaciones…"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones…"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rechercher les mises à jour…"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher les mises à jour…"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Op updates controleren…"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Op updates controleren…"
           }
         }
       }
     },
-    "Clear color": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Farbe entfernen"
+    "Clear color" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farbe entfernen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quitar color"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar color"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quitar color"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar color"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Effacer la couleur"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer la couleur"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kleur wissen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kleur wissen"
           }
         }
       }
     },
-    "Close window (⌘W)": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fenster schließen (⌘W)"
+    "Close window (⌘W)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fenster schließen (⌘W)"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerrar ventana (⌘W)"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar ventana (⌘W)"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerrar ventana (⌘W)"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar ventana (⌘W)"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fermer la fenêtre (⌘W)"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer la fenêtre (⌘W)"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Venster sluiten (⌘W)"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Venster sluiten (⌘W)"
           }
         }
       }
     },
-    "Columns first": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spalten zuerst"
+    "Columns first" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spalten zuerst"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Columnas primero"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Columnas primero"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Columnas primero"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Columnas primero"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Colonnes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colonnes"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kolommen eerst"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kolommen eerst"
           }
         }
       }
     },
-    "Command ⌘": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Command ⌘"
+    "Command ⌘" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Command ⌘"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Comando ⌘"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comando ⌘"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Comando ⌘"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comando ⌘"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Commande ⌘"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commande ⌘"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Command ⌘"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Command ⌘"
           }
         }
       }
     },
-    "Compact": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kompakt"
+    "Compact" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kompakt"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compacto"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compacto"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compacto"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compacto"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compact"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compact"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compact"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compact"
           }
         }
       }
     },
-    "Control ⌃": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Control ⌃"
+    "Control ⌃" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control ⌃"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Control ⌃"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control ⌃"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Control ⌃"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control ⌃"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contrôle ^"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrôle ^"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Control ⌃"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control ⌃"
           }
         }
       }
     },
-    "Current only": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aktuelle"
+    "Current only" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktuelle"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actuales"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actuales"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actuales"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actuales"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actuels"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actuels"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Huidige"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Huidige"
           }
         }
       }
     },
-    "Current Only": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nur aktuelle"
+    "Current Only" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur aktuelle"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Solo el espacio actual"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo el espacio actual"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Solo el espacio actual"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo el espacio actual"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espaces actuels uniquement"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces actuels uniquement"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alleen huidige"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen huidige"
           }
         }
       }
     },
-    "Dismiss": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schließen"
+    "Dismiss" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerrar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerrar"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fermer"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sluiten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sluiten"
           }
         }
       }
     },
-    "Displays": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bildschirme"
+    "Displays" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirme"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pantallas"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantallas"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pantallas"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantallas"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Écrans"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écrans"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Beeldschermen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beeldschermen"
           }
         }
       }
     },
-    "Dual Row": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zwei Reihen"
+    "Dual Row" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwei Reihen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Doble fila"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doble fila"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Doble fila"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doble fila"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deux rangées"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deux rangées"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Twee rijen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twee rijen"
           }
         }
       }
     },
-    "Dual Row fill order": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Füllreihenfolge"
+    "Dual Row fill order" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füllreihenfolge"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Orden de llenado"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orden de llenado"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Orden de llenado"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orden de llenado"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ordre de remplissage"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ordre de remplissage"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Twee rijen vullen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twee rijen vullen"
           }
         }
       }
     },
-    "Dual Row, columns first": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zwei Reihen, Spalten zuerst"
+    "Dual Row, columns first" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwei Reihen, Spalten zuerst"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dos filas, columnas primero"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dos filas, columnas primero"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dos filas, columnas primero"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dos filas, columnas primero"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deux rangées, colonnes en premier"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deux rangées, colonnes en premier"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Twee rijen, kolommen eerst"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twee rijen, kolommen eerst"
           }
         }
       }
     },
-    "Dual Row, rows first": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zwei Reihen, Reihen zuerst"
+    "Dual Row, rows first" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwei Reihen, Reihen zuerst"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dos filas, filas primero"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dos filas, filas primero"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dos filas, filas primero"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dos filas, filas primero"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deux rangées, lignes en premier"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deux rangées, lignes en premier"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Twee rijen, rijen eerst"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twee rijen, rijen eerst"
           }
         }
       }
     },
-    "Error: %@\n\nPlease grant %@ permissions to Spaceman in %@ → Privacy and Security.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fehler: %1$@\n\nBitte gewähre Spaceman %2$@-Berechtigungen in %3$@ → Datenschutz & Sicherheit."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Error: %1$@\n\nPlease grant %2$@ permissions to Spaceman in %3$@ → Privacy and Security."
+    "Enormous" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riesig"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Error: %1$@\n\nPor favor, otorga permisos de %2$@ a Spaceman en %3$@ → Privacidad y seguridad."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enorme"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Error: %1$@\n\nPor favor, otorga permisos de %2$@ a Spaceman en %3$@ → Privacidad y seguridad."
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enorme"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Erreur : %1$@\n\nVeuillez accorder les autorisations %2$@ à Spaceman dans %3$@ → Confidentialité et sécurité."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Énorme"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fout: %1$@\n\nGeef Spaceman a.u.b. %2$@-machtigingen in %3$@ → Privacy en beveiliging."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enorm"
           }
         }
       }
     },
-    "Extra Large": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sehr groß"
+    "Error: %@\n\nPlease grant %@ permissions to Spaceman in %@ → Privacy and Security." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehler: %1$@\n\nBitte gewähre Spaceman %2$@-Berechtigungen in %3$@ → Datenschutz & Sicherheit."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error: %1$@\n\nPlease grant %2$@ permissions to Spaceman in %3$@ → Privacy and Security."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Extra grande"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error: %1$@\n\nPor favor, otorga permisos de %2$@ a Spaceman en %3$@ → Privacidad y seguridad."
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Extra grande"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error: %1$@\n\nPor favor, otorga permisos de %2$@ a Spaceman en %3$@ → Privacidad y seguridad."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Très grand"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur : %1$@\n\nVeuillez accorder les autorisations %2$@ à Spaceman dans %3$@ → Confidentialité et sécurité."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Extra groot"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fout: %1$@\n\nGeef Spaceman a.u.b. %2$@-machtigingen in %3$@ → Privacy en beveiliging."
           }
         }
       }
     },
-    "Filled, pill": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gefüllt, kapselförmig"
+    "Extra Large" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sehr groß"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Relleno, cápsula"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra grande"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sólido, cápsula"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra grande"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plein, capsule"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Très grand"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opgevuld, pilvormig"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra groot"
           }
         }
       }
     },
-    "Filled, rectangular": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gefüllt, rechteckig"
+    "Filled, pill" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gefüllt, kapselförmig"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Relleno, rectangular"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relleno, cápsula"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sólido, rectangular"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sólido, cápsula"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plein, rectangulaire"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plein, capsule"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opgevuld, rechthoekig"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opgevuld, pilvormig"
           }
         }
       }
     },
-    "Filled, rounded": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gefüllt, abgerundet"
+    "Filled, rectangular" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gefüllt, rechteckig"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Relleno, redondeado"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relleno, rectangular"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sólido, redondeado"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sólido, rectangular"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plein, arrondi"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plein, rectangulaire"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opgevuld, afgerond"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opgevuld, rechthoekig"
           }
         }
       }
     },
-    "For switching between spaces to work, these settings must match the keyboard shortcuts assigned for Mission Control.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Damit der Wechsel zwischen Spaces funktioniert, müssen diese Einstellungen mit den Tastaturkurzbefehlen für Mission Control übereinstimmen."
+    "Filled, rounded" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gefüllt, abgerundet"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Para que el cambio entre espacios funcione, estas configuraciones deben coincidir con las funciones rápidas de teclado asignadas a Mission Control."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relleno, redondeado"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Para que el cambio entre espacios funcione, estas configuraciones deben coincidir con las funciones rápidas de teclado asignadas a Mission Control."
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sólido, redondeado"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pour que le changement d'espace fonctionne, ces réglages doivent correspondre aux raccourcis clavier attribués à Mission Control."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plein, arrondi"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Om succesvol te kunnen wisselen tussen spaces, moeten deze instellingen overeenkomen met de sneltoetsen die zijn toegewezen in Mission Control."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opgevuld, afgerond"
           }
         }
       }
     },
-    "Fullscreen Spaces": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vollbild-Spaces"
+    "For switching between spaces to work, these settings must match the keyboard shortcuts assigned for Mission Control." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Damit der Wechsel zwischen Spaces funktioniert, müssen diese Einstellungen mit den Tastaturkurzbefehlen für Mission Control übereinstimmen."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espacios en pantalla completa"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para que el cambio entre espacios funcione, estas configuraciones deben coincidir con las funciones rápidas de teclado asignadas a Mission Control."
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espacios en pantalla completa"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para que el cambio entre espacios funcione, estas configuraciones deben coincidir con las funciones rápidas de teclado asignadas a Mission Control."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espaces en plein écran"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour que le changement d'espace fonctionne, ces réglages doivent correspondre aux raccourcis clavier attribués à Mission Control."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volledig scherm-spaces"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om succesvol te kunnen wisselen tussen spaces, moeten deze instellingen overeenkomen met de sneltoetsen die zijn toegewezen in Mission Control."
           }
         }
       }
     },
-    "General": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Allgemein"
+    "Fullscreen Spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vollbild-Spaces"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "General"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios en pantalla completa"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "General"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios en pantalla completa"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Général"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces en plein écran"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Algemeen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volledig scherm-spaces"
           }
         }
       }
     },
-    "GitHub": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "GitHub"
+    "General" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allgemein"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "GitHub"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "GitHub"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "GitHub"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Général"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "GitHub"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algemeen"
           }
         }
       }
     },
-    "Hide fullscreen spaces": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vollbild-Spaces ausblenden"
+    "GitHub" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocultar espacios en pantalla completa"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocultar espacios en pantalla completa"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Masquer les espaces en plein écran"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volledig scherm-spaces verbergen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
           }
         }
       }
     },
-    "Icon text": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Symboltext"
+    "Hide fullscreen spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vollbild-Spaces ausblenden"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Texto del icono"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar espacios en pantalla completa"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Texto del ícono"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar espacios en pantalla completa"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Texte de l'icône"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masquer les espaces en plein écran"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tekst in icoon"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volledig scherm-spaces verbergen"
           }
         }
       }
+    },
+    "Icon Shape" : {
+
     },
-    "Icon Text": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Symboltext"
+    "Icon text" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symboltext"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Texto del icono"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texto del icono"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Texto del ícono"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texto del ícono"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Texte de l'icône"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texte de l'icône"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tekst in icoon"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekst in icoon"
           }
         }
       }
     },
-    "Icon widths": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Symbolbreiten"
+    "Icon Text" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symboltext"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ancho de iconos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texto del icono"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ancho de íconos"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texto del ícono"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Largeur des icônes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texte de l'icône"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Icoonbreedtes"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekst in icoon"
           }
         }
       }
     },
-    "Icons will be invisible with these settings.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die Symbole werden mit diesen Einstellungen unsichtbar sein."
+    "Icon widths" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbolbreiten"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Los iconos serán invisibles con estos ajustes."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ancho de iconos"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Los iconos serán invisibles con estos ajustes."
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ancho de íconos"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Les icônes seront invisibles avec ces réglages."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Largeur des icônes"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "De Iconen worden onzichtbaar met deze instellingen."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icoonbreedtes"
           }
         }
       }
     },
-    "If the display order seems erratic, please pay close attention to the horizontal alignment in %@ → Displays → Arrange.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wenn die Bildschirmreihenfolge nicht stimmt, achten Sie bitte auf die horizontale Ausrichtung in %@ → Displays → Anordnen."
+    "Icons will be invisible with these settings." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Symbole werden mit diesen Einstellungen unsichtbar sein."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Si el orden de las pantallas parece incorrecto, presta atención a la alineación horizontal en %@ → Pantallas → Organizar."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los iconos serán invisibles con estos ajustes."
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Si el orden de las pantallas parece incorrecto, presta atención a la alineación horizontal en %@ → Pantallas → Organizar."
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los iconos serán invisibles con estos ajustes."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Si l'ordre des écrans ne semble pas correct, vérifiez l'alignement horizontal dans %@ → Écrans → Disposition."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les icônes seront invisibles avec ces réglages."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Als de beeldschermvolgorde niet correct is, let dan goed op de horizontale rangschikking in %@ → Beeldschermen → Ordenen."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De Iconen worden onzichtbaar met deze instellingen."
           }
         }
       }
     },
-    "Inactive style": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inaktiver Stil"
+    "If the display order seems erratic, please pay close attention to the horizontal alignment in %@ → Displays → Arrange." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn die Bildschirmreihenfolge nicht stimmt, achten Sie bitte auf die horizontale Ausrichtung in %@ → Displays → Anordnen."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estilo inactivo"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si el orden de las pantallas parece incorrecto, presta atención a la alineación horizontal en %@ → Pantallas → Organizar."
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estilo inactivo"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si el orden de las pantallas parece incorrecto, presta atención a la alineación horizontal en %@ → Pantallas → Organizar."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Style inactif"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si l'ordre des écrans ne semble pas correct, vérifiez l'alignement horizontal dans %@ → Écrans → Disposition."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inactieve stijl"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als de beeldschermvolgorde niet correct is, let dan goed op de horizontale rangschikking in %@ → Beeldschermen → Ordenen."
           }
         }
       }
     },
-    "Large": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Groß"
+    "Inactive style" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inaktiver Stil"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Grande"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estilo inactivo"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Grande"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estilo inactivo"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Grand"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Style inactif"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Groot"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inactieve stijl"
           }
         }
       }
     },
-    "Last backup: %@ %@": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Letztes Backup: %1$@ %2$@"
+    "Large" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Groß"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Last backup: %1$@ %2$@"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grande"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Última copia: %1$@ %2$@"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grande"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Último respaldo: %1$@ %2$@"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grand"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dernière sauvegarde : %1$@ %2$@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Groot"
           }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Laatste reservekopie: %1$@ %2$@"
-          }
         }
       }
     },
-    "Launch Spaceman at login": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaceman beim Anmelden starten"
+    "Last backup: %@ %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letztes Backup: %1$@ %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Last backup: %1$@ %2$@"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Iniciar Spaceman al iniciar sesión"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Última copia: %1$@ %2$@"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Iniciar Spaceman al iniciar sesión"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Último respaldo: %1$@ %2$@"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lancer Spaceman à l'ouverture de session"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernière sauvegarde : %1$@ %2$@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaceman starten bij inloggen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laatste reservekopie: %1$@ %2$@"
           }
         }
       }
     },
-    "Layout": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Layout"
+    "Launch Spaceman at login" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman beim Anmelden starten"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Disposición"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar Spaceman al iniciar sesión"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Disposición"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar Spaceman al iniciar sesión"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Disposition"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lancer Spaceman à l'ouverture de session"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Indeling"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman starten bij inloggen"
           }
         }
       }
     },
-    "Medium": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mittel"
+    "Layout" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layout"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mediano"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposición"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mediano"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposición"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Moyen"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposition"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Middelgroot"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indeling"
           }
         }
       }
     },
-    "Name": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Name"
+    "Medium" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mittel"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nombre"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mediano"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nombre"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mediano"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nom"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moyen"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Naam"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Middelgroot"
           }
         }
       }
     },
-    "Names": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Namen"
+    "Name" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nombres"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nombres"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Noms"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Namen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naam"
           }
         }
       }
     },
-    "Narrow": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schmal"
+    "Names" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Namen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estrecho"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombres"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Angosto"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombres"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Étroit"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noms"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Smal"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Namen"
           }
         }
       }
     },
-    "Nearby range: ±%lld": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nachbarbereich: ±%lld"
+    "Narrow" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schmal"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rango de espacios cercanos: ±%lld"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estrecho"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rango de espacios cercanos: ±%lld"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angosto"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Portée des voisins : ±%lld"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étroit"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nabij bereik: ±%lld"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smal"
           }
         }
       }
     },
-    "Nearby spaces": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Benachbarte"
+    "Nearby range: ±%lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nachbarbereich: ±%lld"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cercanos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rango de espacios cercanos: ±%lld"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cercanos"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rango de espacios cercanos: ±%lld"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Voisins"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portée des voisins : ±%lld"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nabije"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabij bereik: ±%lld"
           }
         }
       }
     },
-    "Nearby Spaces": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Benachbarte Spaces"
+    "Nearby spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benachbarte"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espacios cercanos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cercanos"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espacios cercanos"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cercanos"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espaces voisins"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voisins"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nabije spaces"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabije"
           }
         }
       }
     },
-    "No backup found": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kein Backup gefunden"
+    "Nearby Spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benachbarte Spaces"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se encontró copia de seguridad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios cercanos"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se encontró respaldo"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios cercanos"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aucune sauvegarde trouvée"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces voisins"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen reservekopie gevonden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabije spaces"
           }
         }
       }
     },
-    "No decoration": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ohne Verzierung"
+    "No backup found" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein Backup gefunden"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin adornos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontró copia de seguridad"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin adornos"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontró respaldo"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sans ornement"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune sauvegarde trouvée"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen versiering"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen reservekopie gevonden"
           }
         }
       }
     },
-    "No preferences to backup": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keine Einstellungen zum Speichern"
+    "No decoration" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ohne Verzierung"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay ajustes para copiar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin adornos"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay configuración para respaldar"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin adornos"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aucun réglage à sauvegarder"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans ornement"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen instellingen om te bewaren"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen versiering"
           }
         }
       }
+    },
+    "No Decoration" : {
+
     },
-    "No spaces detected yet.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Noch keine Spaces erkannt."
+    "No preferences to backup" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Einstellungen zum Speichern"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no se detectaron espacios."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay ajustes para copiar"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no se detectaron espacios."
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay configuración para respaldar"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aucun espace détecté pour le moment."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun réglage à sauvegarder"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nog geen spaces gevonden."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen instellingen om te bewaren"
           }
         }
       }
     },
-    "No text": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kein Text"
+    "No spaces detected yet." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine Spaces erkannt."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin texto"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no se detectaron espacios."
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin texto"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no se detectaron espacios."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sans texte"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun espace détecté pour le moment."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen tekst"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nog geen spaces gevonden."
           }
         }
       }
     },
-    "No Text": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kein Text"
+    "No text" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein Text"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin texto"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin texto"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin texto"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin texto"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sans texte"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans texte"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen tekst"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen tekst"
           }
         }
       }
     },
-    "number keys on top row": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zifferntasten in der oberen Reihe"
+    "No Text" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein Text"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Teclas numéricas (fila superior)"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin texto"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Teclas numéricas (fila superior)"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin texto"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Touches numériques (rangée supérieure)"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans texte"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "cijfertoetsen op bovenste rij"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen tekst"
           }
         }
       }
     },
-    "Numbers": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nummern"
+    "number keys on top row" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zifferntasten in der oberen Reihe"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Números"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teclas numéricas (fila superior)"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Números"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teclas numéricas (fila superior)"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Numéros"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touches numériques (rangée supérieure)"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nummers"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cijfertoetsen op bovenste rij"
           }
         }
       }
     },
-    "Numbers and names": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nummern und Namen"
+    "Numbers" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nummern"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Números y nombres"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Números y nombres"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Numéros et noms"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéros"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nummers en namen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nummers"
           }
         }
       }
     },
-    "Numbers and Names": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nummern und Namen"
+    "Numbers and names" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nummern und Namen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Números y nombres"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números y nombres"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Números y nombres"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números y nombres"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Numéros et noms"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéros et noms"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nummers en namen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nummers en namen"
           }
         }
       }
     },
-    "numeric keypad": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ziffernblock"
+    "Numbers and Names" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nummern und Namen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Teclado numérico"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números y nombres"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Teclado numérico"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números y nombres"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pavé numérique"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéros et noms"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "numeriek toetsenbord"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nummers en namen"
           }
         }
       }
     },
-    "Open %@ → Displays…": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ → Displays öffnen…"
+    "numeric keypad" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziffernblock"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abrir %@ → Pantallas…"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teclado numérico"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abrir %@ → Pantallas…"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teclado numérico"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ouvrir %@ → Écrans…"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pavé numérique"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Open %@ → Beeldschermen…"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "numeriek toetsenbord"
           }
         }
       }
     },
-    "Open %@ → Mission Control Shortcuts…": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ → Mission Control: Kurzbefehle öffnen…"
+    "Open %@ → Displays…" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ → Displays öffnen…"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abrir %@ → Atajos de Mission Control…"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir %@ → Pantallas…"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abrir %@ → Atajos de Mission Control…"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir %@ → Pantallas…"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ouvrir %@ → Raccourcis Mission Control…"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir %@ → Écrans…"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Open %@ → Mission Control sneltoetsen…"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open %@ → Beeldschermen…"
           }
         }
       }
     },
-    "Option ⌥": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Option ⌥"
+    "Open %@ → Mission Control Shortcuts…" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ → Mission Control: Kurzbefehle öffnen…"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opción ⌥"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir %@ → Atajos de Mission Control…"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opción ⌥"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir %@ → Atajos de Mission Control…"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Option ⌥"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir %@ → Raccourcis Mission Control…"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Option ⌥"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open %@ → Mission Control sneltoetsen…"
           }
         }
       }
     },
-    "Preferences restored": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Einstellungen wiederhergestellt"
+    "Option ⌥" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option ⌥"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes restaurados"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opción ⌥"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Configuración restaurada"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opción ⌥"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Réglages restaurés"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option ⌥"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instellingen hersteld"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option ⌥"
           }
         }
       }
     },
-    "Preferences saved": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Einstellungen gespeichert"
+    "Pill" : {
+
+    },
+    "Preferences restored" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen wiederhergestellt"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes guardados"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes restaurados"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Configuración guardada"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración restaurada"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Réglages enregistrés"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages restaurés"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instellingen opgeslagen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen hersteld"
           }
         }
       }
     },
-    "Preferences...": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Einstellungen…"
+    "Preferences saved" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen gespeichert"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes…"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes guardados"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Configuración…"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración guardada"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Réglages…"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages enregistrés"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instellingen…"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen opgeslagen"
           }
         }
       }
     },
-    "Quit Spaceman": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaceman beenden"
+    "Preferences..." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen…"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salir de Spaceman"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes…"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salir de Spaceman"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración…"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quitter Spaceman"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages…"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaceman afsluiten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen…"
           }
         }
       }
     },
-    "Refresh": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aktualisieren"
+    "Quit Spaceman" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman beenden"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actualizar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salir de Spaceman"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actualizar"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salir de Spaceman"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actualiser"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitter Spaceman"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verversen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman afsluiten"
           }
         }
       }
+    },
+    "Rectangular" : {
+
     },
-    "Refresh spaces in background": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaces im Hintergrund aktualisieren"
+    "Refresh" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualisieren"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actualizar espacios en segundo plano"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizar"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actualizar espacios en segundo plano"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizar"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actualiser les espaces en arrière-plan"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualiser"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaces op de achtergrond verversen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verversen"
           }
         }
       }
     },
-    "Restart space numbering by display": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Space-Nummerierung pro Bildschirm zurücksetzen"
+    "Refresh spaces in background" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces im Hintergrund aktualisieren"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reiniciar la numeración de los espacios por pantalla"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizar espacios en segundo plano"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reiniciar la numeración de los espacios por pantalla"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizar espacios en segundo plano"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Redémarrer la numérotation par écran"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualiser les espaces en arrière-plan"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Space nummering per beeldscherm herstarten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces op de achtergrond verversen"
           }
         }
       }
     },
-    "Restore failed": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wiederherstellung fehlgeschlagen"
+    "Restart space numbering by display" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Space-Nummerierung pro Bildschirm zurücksetzen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Error al restaurar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reiniciar la numeración de los espacios por pantalla"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Error al restaurar"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reiniciar la numeración de los espacios por pantalla"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Échec de la restauration"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redémarrer la numérotation par écran"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Herstellen mislukt"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Space nummering per beeldscherm herstarten"
           }
         }
       }
     },
-    "Restore Preferences": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Einstellungen wiederherstellen"
+    "Restore failed" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wiederherstellung fehlgeschlagen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurar ajustes"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al restaurar"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurar configuración"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al restaurar"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurer les réglages"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de la restauration"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instellingen herstellen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herstellen mislukt"
           }
         }
       }
     },
-    "Reverse macOS order": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "macOS-Reihenfolge umkehren"
+    "Restore Preferences" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen wiederherstellen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Orden inverso de macOS"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar ajustes"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Orden inverso de macOS"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar configuración"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ordre macOS inversé"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurer les réglages"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "macOS-volgorde omkeren"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen herstellen"
           }
         }
       }
     },
-    "Roughly equal": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ungefähr gleich"
+    "Reverse macOS order" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS-Reihenfolge umkehren"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Casi igual"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orden inverso de macOS"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Casi igual"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orden inverso de macOS"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Presque égale"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ordre macOS inversé"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ongeveer even breed"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS-volgorde omkeren"
           }
         }
       }
     },
-    "Rows first": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reihen zuerst"
+    "Roughly equal" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ungefähr gleich"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Filas primero"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Casi igual"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Filas primero"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Casi igual"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lignes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presque égale"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rijen eerst"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ongeveer even breed"
           }
         }
       }
     },
-    "Shift ⇧": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Shift ⇧"
+    "Rounded" : {
+
+    },
+    "Rows first" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reihen zuerst"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mayúsculas ⇧"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filas primero"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mayúsculas ⇧"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filas primero"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Maj ⇧"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lignes"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Shift ⇧"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rijen eerst"
           }
         }
       }
     },
-    "Shortcut for manual refresh": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kurzbefehl zum manuellen Aktualisieren"
+    "Shift ⇧" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shift ⇧"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atajo para actualizar manualmente"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mayúsculas ⇧"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atajo para actualizar manualmente"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mayúsculas ⇧"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Raccourci d’actualisation manuelle"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maj ⇧"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sneltoets voor handmatig verversen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shift ⇧"
           }
         }
       }
     },
-    "Shortcut keys": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tastaturkurzbefehle"
+    "Shortcut for manual refresh" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehl zum manuellen Aktualisieren"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atajos de teclado"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para actualizar manualmente"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atajos de teclado"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para actualizar manualmente"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Raccourcis clavier"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci d’actualisation manuelle"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sneltoetsen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets voor handmatig verversen"
           }
         }
       }
     },
-    "Shortcut to open preferences window": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kurzbefehl zum Öffnen der Einstellungen"
+    "Shortcut keys" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tastaturkurzbefehle"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atajo para abrir la configuración"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajos de teclado"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atajo para abrir la configuración"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajos de teclado"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Raccourci d’ouverture des réglages"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourcis clavier"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sneltoets om instellingenvenster te openen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoetsen"
           }
         }
       }
     },
-    "Shortcuts": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kurzbefehle"
+    "Shortcut to open preferences window" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehl zum Öffnen der Einstellungen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atajos de teclado"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para abrir la configuración"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atajos de teclado"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para abrir la configuración"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Raccourcis"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci d’ouverture des réglages"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sneltoetsen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets om instellingenvenster te openen"
           }
         }
       }
     },
-    "Show bottom display first": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unteren Bildschirm zuerst anzeigen"
+    "Shortcuts" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehle"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mostrar primero la pantalla inferior"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajos de teclado"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mostrar primero la pantalla inferior"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajos de teclado"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Afficher l'écran du bas en premier"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourcis"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Onderste beeldscherm eerst tonen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoetsen"
           }
         }
       }
     },
-    "Show top display first": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Oberen Bildschirm zuerst anzeigen"
+    "Show bottom display first" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unteren Bildschirm zuerst anzeigen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mostrar primero la pantalla superior"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar primero la pantalla inferior"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mostrar primero la pantalla superior"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar primero la pantalla inferior"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Afficher l'écran du haut en premier"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher l'écran du bas en premier"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bovenste beeldscherm eerst tonen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onderste beeldscherm eerst tonen"
           }
         }
       }
     },
-    "Spaceman": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaceman"
+    "Show top display first" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oberen Bildschirm zuerst anzeigen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaceman"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar primero la pantalla superior"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaceman"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar primero la pantalla superior"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaceman"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher l'écran du haut en premier"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaceman"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bovenste beeldscherm eerst tonen"
           }
         }
       }
     },
-    "Spaces": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaces"
+    "Spaceman" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espacios"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espacios"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espaces"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaces"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman"
           }
         }
       }
     },
-    "Spaces shown": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaces anzeigen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show"
+    "Spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espacios mostrados"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espacios mostrados"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espaces affichés"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zichtbare spaces"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces"
           }
         }
       }
     },
-    "Spaces Shown": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spaces anzeigen"
+    "Spaces shown" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espacios visibles"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios mostrados"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espacios visibles"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios mostrados"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espaces affichés"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces affichés"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zichtbare spaces"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zichtbare spaces"
           }
         }
       }
     },
-    "Switching Spaces": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zwischen Spaces wechseln"
+    "Spaces Shown" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces anzeigen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cambiar entre espacios"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios visibles"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cambiar entre espacios"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios visibles"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Changer d'espace"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces affichés"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tussen spaces wisselen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zichtbare spaces"
           }
         }
       }
     },
-    "System Preferences": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Systemeinstellungen"
+    "Switching Spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwischen Spaces wechseln"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preferencias del Sistema"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar entre espacios"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preferencias del Sistema"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar entre espacios"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Préférences système"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changer d'espace"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Systeemvoorkeuren"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tussen spaces wisselen"
           }
         }
       }
     },
-    "System Settings": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Systemeinstellungen"
+    "System Preferences" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systemeinstellungen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes del Sistema"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferencias del Sistema"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Configuración del Sistema"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferencias del Sistema"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Réglages système"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Préférences système"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Systeeminstellingen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systeemvoorkeuren"
           }
         }
       }
     },
-    "Update available...": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Update verfügbar…"
+    "System Settings" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systemeinstellungen"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actualización disponible…"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes del Sistema"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actualización disponible…"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración del Sistema"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mise à jour disponible…"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages système"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Update beschikbaar..."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systeeminstellingen"
           }
         }
       }
     },
-    "Use macOS order": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "macOS-Reihenfolge verwenden"
+    "Update available..." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update verfügbar…"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Usar orden de macOS"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualización disponible…"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Usar orden de macOS"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualización disponible…"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Utiliser l'ordre macOS"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mise à jour disponible…"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "macOS-volgorde gebruiken"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update beschikbaar..."
           }
         }
       }
     },
-    "Variable": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Variabel"
+    "Use macOS order" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS-Reihenfolge verwenden"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Variable"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar orden de macOS"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Variable"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar orden de macOS"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Variable"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser l'ordre macOS"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Variabel"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS-volgorde gebruiken"
           }
         }
       }
     },
-    "Variable width": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Variable Breite"
+    "Variable" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variabel"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ancho variable"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variable"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ancho variable"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variable"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Largeur variable"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variable"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Variabele breedte"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variabel"
           }
         }
       }
     },
-    "Version %@": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Version %@"
+    "Variable width" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variable Breite"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Versión %@"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ancho variable"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Versión %@"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ancho variable"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Version %@"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Largeur variable"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Versie %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variabele breedte"
           }
         }
       }
     },
-    "Website": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Website"
+    "Version %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sitio web"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sitio web"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Site web"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Website"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versie %@"
           }
         }
       }
     },
-    "When displays are side by side": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bildschirme nebeneinander"
+    "Website" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Website"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pantallas lado a lado"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sitio web"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pantallas lado a lado"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sitio web"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Écrans côte à côte"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Site web"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Beeldschermen naast elkaar"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Website"
           }
         }
       }
     },
-    "When displays are stacked": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bildschirme übereinander"
+    "When displays are side by side" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirme nebeneinander"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pantallas apiladas"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantallas lado a lado"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pantallas apiladas"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantallas lado a lado"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Écrans superposés"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écrans côte à côte"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Beeldschermen boven elkaar"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beeldschermen naast elkaar"
           }
         }
       }
     },
-    "With modifiers": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mit Sondertasten"
+    "When displays are stacked" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirme übereinander"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Con teclas modificadores"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantallas apiladas"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Con teclas modificadores"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantallas apiladas"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Avec touches de modification"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écrans superposés"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Met modifiers"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beeldschermen boven elkaar"
           }
         }
       }
     },
-    "Enormous": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Riesig"
+    "With modifiers" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Sondertasten"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enorme"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con teclas modificadores"
           }
         },
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enorme"
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con teclas modificadores"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Énorme"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec touches de modification"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enorm"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Met modifiers"
           }
         }
       }
     }
   },
-  "version": "1.1"
+  "version" : "1.1"
 }

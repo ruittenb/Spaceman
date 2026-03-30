@@ -60,6 +60,30 @@ enum IconStyle: Int, CaseIterable {
         }
     }
 
+    var shape: IconShape {
+        switch self {
+        case .noDecoration:                                     return .noDecoration
+        case .borderedRectangular, .filledRectangular:          return .rectangular
+        case .borderedRounded, .filledRounded:                  return .rounded
+        case .borderedPill, .filledPill:                        return .pill
+        }
+    }
+
+    /// Returns a new style with the given shape, preserving the fill/border style.
+    /// If the current style is `noDecoration`, defaults to bordered.
+    func withShape(_ shape: IconShape) -> IconStyle {
+        switch shape {
+        case .noDecoration:
+            return .noDecoration
+        case .rectangular:
+            return isFilled ? .filledRectangular : .borderedRectangular
+        case .rounded:
+            return isFilled ? .filledRounded : .borderedRounded
+        case .pill:
+            return isFilled ? .filledPill : .borderedPill
+        }
+    }
+
     var menuLabel: String {
         switch self {
         case .noDecoration:         return String(localized: "No decoration")

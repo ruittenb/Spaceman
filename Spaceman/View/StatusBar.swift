@@ -15,6 +15,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("schema") private var keySet = KeySet.toprow
+    @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
+    @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
     @AppStorage("useVariableWidth") private var useVariableWidth = false
 
@@ -30,6 +32,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var quitItem: NSMenuItem!
     private var layoutMenuItem: NSMenuItem!
     private var iconStyleMenuItem: NSMenuItem!
+    private var iconShapeMenuItem: NSMenuItem!
     private var spacesShownMenuItem: NSMenuItem!
     private var prefsWindow: PreferencesWindow!
     private var spaceSwitcher: SpaceSwitcher!
@@ -137,6 +140,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         iconStyleMenuItem = NSMenuItem(title: String(localized: "Icon Text"), action: nil, keyEquivalent: "")
         iconStyleMenuItem.submenu = iconStyleSubmenu
 
+        let iconShapeSubmenu = NSMenu()
+        for shape in IconShape.allCases {
+            let item = NSMenuItem(title: shape.menuLabel, action: #selector(selectIconShape(_:)), keyEquivalent: "")
+            item.tag = shape.rawValue
+            item.target = self
+            iconShapeSubmenu.addItem(item)
+        }
+        iconShapeMenuItem = NSMenuItem(title: String(localized: "Icon Shape"), action: nil, keyEquivalent: "")
+        iconShapeMenuItem.submenu = iconShapeSubmenu
+
         let spacesShownSubmenu = NSMenu()
         for mode in VisibleSpacesMode.allCases {
             let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectSpacesShown(_:)), keyEquivalent: "")
@@ -161,6 +174,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(layoutMenuItem)
         statusBarMenu.addItem(iconStyleMenuItem)
+        statusBarMenu.addItem(iconShapeMenuItem)
         statusBarMenu.addItem(spacesShownMenuItem)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(refreshItem)
@@ -305,6 +319,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         for item in iconStyleMenuItem.submenu?.items ?? [] {
             item.state = item.tag == displayStyle.rawValue ? .on : .off
         }
+        let currentShape = decorationActive.shape
+        let shapesMatch = decorationActive.shape == decorationInactive.shape
+        for item in iconShapeMenuItem.submenu?.items ?? [] {
+            item.state = (shapesMatch && item.tag == currentShape.rawValue) ? .on : .off
+        }
         for item in spacesShownMenuItem.submenu?.items ?? [] {
             if item.action == #selector(toggleHideFullscreenSpaces) {
                 item.state = hideFullscreenSpaces ? .off : .on
@@ -340,6 +359,13 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @objc func selectIconStyle(_ sender: NSMenuItem) {
         guard let style = IconText(rawValue: sender.tag) else { return }
         displayStyle = style
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func selectIconShape(_ sender: NSMenuItem) {
+        guard let shape = IconShape(rawValue: sender.tag) else { return }
+        decorationActive = decorationActive.withShape(shape)
+        decorationInactive = decorationInactive.withShape(shape)
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
