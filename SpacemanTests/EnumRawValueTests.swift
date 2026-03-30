@@ -22,7 +22,7 @@ final class EnumRawValueTests: XCTestCase {
     // MARK: - IconStyle
 
     func testIconStyleRawValues() {
-        XCTAssertEqual(IconStyle.bareText.rawValue, 0)
+        XCTAssertEqual(IconStyle.noDecoration.rawValue, 0)
         XCTAssertEqual(IconStyle.borderedRectangular.rawValue, 1)
         XCTAssertEqual(IconStyle.borderedRounded.rawValue, 2)
         XCTAssertEqual(IconStyle.borderedPill.rawValue, 3)
@@ -36,7 +36,7 @@ final class EnumRawValueTests: XCTestCase {
     }
 
     func testIconStyleInitFromRawValue() {
-        XCTAssertEqual(IconStyle(rawValue: 0), .bareText)
+        XCTAssertEqual(IconStyle(rawValue: 0), .noDecoration)
         XCTAssertEqual(IconStyle(rawValue: 1), .borderedRectangular)
         XCTAssertEqual(IconStyle(rawValue: 2), .borderedRounded)
         XCTAssertEqual(IconStyle(rawValue: 3), .borderedPill)
@@ -48,7 +48,7 @@ final class EnumRawValueTests: XCTestCase {
 
     func testIconStyleFullscreenVariant() {
         // Bare text stays bare text
-        XCTAssertEqual(IconStyle.bareText.fullscreenVariant, .bareText)
+        XCTAssertEqual(IconStyle.noDecoration.fullscreenVariant, .noDecoration)
         // Rectangular becomes pill (and vice versa), preserving fill style
         XCTAssertEqual(IconStyle.borderedRectangular.fullscreenVariant, .borderedPill)
         XCTAssertEqual(IconStyle.filledRectangular.fullscreenVariant, .filledPill)
@@ -67,10 +67,12 @@ final class EnumRawValueTests: XCTestCase {
         XCTAssertEqual(LayoutMode.medium.rawValue, 2)
         XCTAssertEqual(LayoutMode.large.rawValue, 3)
         XCTAssertEqual(LayoutMode.extraLarge.rawValue, 4)
+        XCTAssertEqual(LayoutMode.narrow.rawValue, 5)
+        XCTAssertEqual(LayoutMode.enormous.rawValue, 6)
     }
 
     func testLayoutModeAllCases() {
-        XCTAssertEqual(LayoutMode.allCases.count, 6)
+        XCTAssertEqual(LayoutMode.allCases.count, 7)
     }
 
     func testLayoutModeInitFromRawValue() {
@@ -79,6 +81,8 @@ final class EnumRawValueTests: XCTestCase {
         XCTAssertEqual(LayoutMode(rawValue: 2), .medium)
         XCTAssertEqual(LayoutMode(rawValue: 3), .large)
         XCTAssertEqual(LayoutMode(rawValue: 4), .extraLarge)
+        XCTAssertEqual(LayoutMode(rawValue: 5), .narrow)
+        XCTAssertEqual(LayoutMode(rawValue: 6), .enormous)
         XCTAssertNil(LayoutMode(rawValue: 99))
     }
 

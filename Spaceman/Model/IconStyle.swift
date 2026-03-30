@@ -8,7 +8,7 @@
 import AppKit
 
 enum IconStyle: Int, CaseIterable {
-    case bareText = 0
+    case noDecoration = 0
     case borderedRectangular = 1
     case borderedRounded = 2
     case borderedPill = 3
@@ -16,7 +16,7 @@ enum IconStyle: Int, CaseIterable {
     case filledRounded = 5
     case filledPill = 6
 
-    var isBareText: Bool { self == .bareText }
+    var isNoDecoration: Bool { self == .noDecoration }
 
     var isFilled: Bool {
         switch self {
@@ -35,7 +35,7 @@ enum IconStyle: Int, CaseIterable {
     /// Corner radius for the decoration shape, given the bounding rect.
     func cornerRadius(for rect: NSRect) -> CGFloat {
         switch self {
-        case .bareText:
+        case .noDecoration:
             return 0
         case .borderedRectangular, .filledRectangular:
             return 0
@@ -47,10 +47,10 @@ enum IconStyle: Int, CaseIterable {
     }
 
     /// Fullscreen variant: rectangular becomes pill (and vice versa),
-    /// preserving the fill style. Bare text stays bare text.
+    /// preserving the fill style. No decoration stays no decoration.
     var fullscreenVariant: IconStyle {
         switch self {
-        case .bareText:             return .bareText
+        case .noDecoration:         return .noDecoration
         case .borderedRectangular:  return .borderedPill
         case .borderedRounded:      return .borderedRectangular
         case .borderedPill:         return .borderedRectangular
@@ -62,7 +62,7 @@ enum IconStyle: Int, CaseIterable {
 
     var menuLabel: String {
         switch self {
-        case .bareText:             return String(localized: "No decoration")
+        case .noDecoration:         return String(localized: "No decoration")
         case .borderedRectangular:  return String(localized: "Bordered, rectangular")
         case .borderedRounded:      return String(localized: "Bordered, rounded")
         case .borderedPill:         return String(localized: "Bordered, pill")

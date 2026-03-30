@@ -1436,6 +1436,40 @@
         }
       }
     },
+    "Icons will be invisible with these settings.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Symbole werden mit diesen Einstellungen unsichtbar sein."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los iconos serán invisibles con estos ajustes."
+          }
+        },
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los iconos serán invisibles con estos ajustes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les icônes seront invisibles avec ces réglages."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De Iconen worden onzichtbaar met deze instellingen."
+          }
+        }
+      }
+    },
     "If the display order seems erratic, please pay close attention to the horizontal alignment in %@ → Displays → Arrange.": {
       "localizations": {
         "de": {
@@ -3552,6 +3586,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Met modifiers"
+          }
+        }
+      }
+    },
+    "Enormous": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riesig"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enorme"
+          }
+        },
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enorme"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Énorme"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enorm"
           }
         }
       }

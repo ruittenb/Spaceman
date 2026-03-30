@@ -37,10 +37,10 @@ class IconCreator {
     public func getIcon(for spaces: [Space], appearance: NSAppearance? = nil) -> NSImage {
         sizes = Constants.sizes[layoutMode]
 
-        let allBareText = decorationActive.isBareText && decorationInactive.isBareText
-        let actualFontSize = CGFloat(sizes.FONT_SIZE) + (allBareText ? 2 : 0)
-        gapWidth = allBareText ? 0 : CGFloat(sizes.GAP_WIDTH_SPACES)
-        displayGapWidth = allBareText ? 0 : CGFloat(sizes.GAP_WIDTH_DISPLAYS)
+        let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
+        let actualFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
+        gapWidth = allNoDecoration ? 0 : CGFloat(sizes.GAP_WIDTH_SPACES)
+        displayGapWidth = allNoDecoration ? 0 : CGFloat(sizes.GAP_WIDTH_DISPLAYS)
         iconSize = NSSize(
             width: 0,
             height: actualFontSize + sizes.VERTICAL_PADDING * 2)
@@ -188,7 +188,7 @@ class IconCreator {
 
     // MARK: - Icon rendering
 
-    // All 7 parameters are distinct, required values for one rendering operation.
+    // All parameters are distinct, required values for one rendering operation.
     // A wrapper struct would add boilerplate without improving readability.
     // swiftlint:disable:next function_parameter_count
     private func renderIcon(
@@ -206,7 +206,7 @@ class IconCreator {
 
         iconImage.lockFocus()
 
-        if decoration.isBareText {
+        if decoration.isNoDecoration {
             let textColor = useTemplate ? NSColor.black : boxColor
             text.drawVerticallyCentered(
                 in: drawRect,
@@ -532,8 +532,8 @@ class IconCreator {
         fontSize: CGFloat = .zero,
         color: NSColor = .black
     ) -> [NSAttributedString.Key: Any] {
-        let allBareText = decorationActive.isBareText && decorationInactive.isBareText
-        let baseFontSize = CGFloat(sizes.FONT_SIZE) + (allBareText ? 2 : 0)
+        let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
+        let baseFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
         let actualFontSize = fontSize == .zero ? baseFontSize : fontSize
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
