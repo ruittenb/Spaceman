@@ -44,18 +44,28 @@ class SpaceObserver {
     /// Only accessed from workerQueue.
     private var _topologyChangeGracePeriod: Int = 0
 
+    /// Tracks what triggered the current update, so the delegate can decide
+    /// whether to reset auto-shrink state. Set on the main thread before
+    /// dispatching to workerQueue; read on workerQueue.
+    private var _pendingTrigger: SpaceUpdateTrigger = .manualRefresh
+
     weak var delegate: SpaceObserverDelegate?
 
     init() {
         workspace.notificationCenter.addObserver(
             self,
-            selector: #selector(updateSpaceInformation),
+            selector: #selector(handleSpaceSwitch),
             name: NSWorkspace.activeSpaceDidChangeNotification,
             object: workspace)
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(updateSpaceInformation),
+            selector: #selector(handleManualRefresh),
             name: ButtonPressedName,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleAutoRefresh),
+            name: NSNotification.Name("RefreshSpaces"),
             object: nil)
         workspace.notificationCenter.addObserver(
             self,
@@ -69,11 +79,27 @@ class SpaceObserver {
             object: nil)
     }
 
+    @objc private func handleSpaceSwitch() {
+        _pendingTrigger = .spaceSwitch
+        updateSpaceInformation()
+    }
+
+    @objc private func handleManualRefresh() {
+        _pendingTrigger = .manualRefresh
+        updateSpaceInformation()
+    }
+
+    @objc private func handleAutoRefresh() {
+        _pendingTrigger = .autoRefresh
+        updateSpaceInformation()
+    }
+
     @objc private func handleWake() {
         _needsPositionRevalidation = true
     }
 
     @objc private func handleScreenChange() {
+        _pendingTrigger = .topologyChange
         updateSpaceInformation()
     }
 
@@ -140,12 +166,14 @@ class SpaceObserver {
             rawValue: defaults.integer(forKey: "verticalDirection")) ?? .bottomGoesFirst
         let needsRevalidation = _needsPositionRevalidation
         _needsPositionRevalidation = false
+        let trigger = _pendingTrigger
         workerQueue.async { [weak self] in
             self?.performSpaceInformationUpdate(
                 restartNumberingByDisplay: restartNumberingByDisplay,
                 horizontalDirection: horizontalDirection,
                 verticalDirection: verticalDirection,
-                needsRevalidation: needsRevalidation)
+                needsRevalidation: needsRevalidation,
+                trigger: trigger)
         }
     }
 
@@ -153,7 +181,8 @@ class SpaceObserver {
         restartNumberingByDisplay: Bool,
         horizontalDirection: HorizontalDirection,
         verticalDirection: VerticalDirection,
-        needsRevalidation: Bool
+        needsRevalidation: Bool,
+        trigger: SpaceUpdateTrigger = .manualRefresh
     ) {
         guard var displays = fetchDisplaySpaces() else { return }
 
@@ -331,7 +360,7 @@ class SpaceObserver {
         }
 
         DispatchQueue.main.async {
-            self.delegate?.didUpdateSpaces(spaces: collectedSpaces)
+            self.delegate?.didUpdateSpaces(spaces: collectedSpaces, trigger: trigger)
         }
     }
 
@@ -471,5 +500,5 @@ class SpaceObserver {
 }
 
 protocol SpaceObserverDelegate: AnyObject {
-    func didUpdateSpaces(spaces: [Space])
+    func didUpdateSpaces(spaces: [Space], trigger: SpaceUpdateTrigger)
 }

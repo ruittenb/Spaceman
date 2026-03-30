@@ -19,6 +19,7 @@ struct PreferencesView: View {
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
+    @AppStorage("autoShrink") private var autoShrink = true
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("showMissionControl") private var showMissionControl = false
@@ -370,8 +371,12 @@ struct PreferencesView: View {
             Toggle("Show fullscreen spaces", isOn: $showFullscreenSpaces)
             Toggle("Show Mission Control button", isOn: $showMissionControl)
             Toggle("Show navigation arrows", isOn: $showNavArrows)
+            Toggle("Auto-shrink when there is shortage of space", isOn: $autoShrink)
         }
         .padding()
+        .onChange(of: autoShrink) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
         .onChange(of: visibleSpacesModeRaw) { _ in
             postRefreshNotification()
         }

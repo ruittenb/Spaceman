@@ -378,6 +378,40 @@
         }
       }
     },
+    "Auto-shrink when there is shortage of space" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisch verkleinern bei Platzmangel"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reducir automáticamente cuando falta espacio"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reducir automáticamente cuando falta espacio"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réduire automatiquement en cas de manque d'espace"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisch verkleinen bij ruimtegebrek"
+          }
+        }
+      }
+    },
     "Backup" : {
       "localizations" : {
         "de" : {

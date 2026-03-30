@@ -10,10 +10,18 @@ import KeyboardShortcuts
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
+    @AppStorage("autoShrink") private var autoShrink = true
+
     private var iconCreator: IconCreator!
     private var statusBar: StatusBar!
     private var spaceObserver: SpaceObserver!
     private var currentSpaces: [Space] = []
+
+    // Auto-shrink state
+    private var shrinkLevel: ShrinkLevel = .none
+    private var lastSpaces: [Space] = []
+    private var occlusionObserver: NSObjectProtocol?
+    private var suppressOcclusionUntil: Date = .distantPast
 
     static var activeSpaceIDs: Set<String> = []
 
@@ -47,6 +55,27 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             selector: #selector(openPreferencesFromScript),
             name: NSNotification.Name("OpenPreferences"),
             object: nil)
+
+        // Auto-shrink: set up occlusion observer after a short delay
+        // (the status bar window may not exist yet at launch)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.setupOcclusionObserver()
+            self.shrinkIfEvicted()
+        }
+
+        // Reset auto-shrink when the user explicitly changes a setting.
+        // Note: PreferencesViewModel's periodic timer posts "RefreshSpaces" instead
+        // of "ButtonPressed", so it does NOT reset auto-shrink.
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("ButtonPressed"),
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            if self.shrinkLevel != .none {
+                self.shrinkLevel = .none
+            }
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -129,6 +158,79 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         return activeSpaces.first
+    }
+
+    // MARK: - Auto-shrink
+
+    private func renderIcon(for spaces: [Space]) {
+        // Suppress occlusion checks briefly: setting a new image on the status bar
+        // button can cause macOS to briefly report the item as occluded.
+        suppressOcclusionUntil = Date().addingTimeInterval(1.0)
+
+        let buttonAppearance = statusBar.getButtonAppearance()
+
+        switch shrinkLevel {
+        case .none:
+            let icon = iconCreator.getIcon(for: spaces, appearance: buttonAppearance)
+            statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
+        case .shrunken:
+            let overrides = ShrinkOverrides(
+                iconSize: .narrow, rowLayout: .singleRow, displayStyle: .numbers,
+                showFullscreenSpaces: false, showNavArrows: false, showMissionControl: false)
+            let icon = iconCreator.getIcon(for: spaces, appearance: buttonAppearance,
+                                            shrinkOverrides: overrides)
+            statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
+        case .icon:
+            if let appIcon = NSApp.applicationIconImage {
+                let menuBarHeight = NSStatusBar.system.thickness
+                let scaled = NSImage(size: NSSize(width: menuBarHeight, height: menuBarHeight))
+                scaled.lockFocus()
+                appIcon.draw(in: NSRect(x: 0, y: 0, width: menuBarHeight, height: menuBarHeight))
+                scaled.unlockFocus()
+                statusBar.updateStatusBar(withIcon: scaled, withSpaces: spaces)
+            }
+        }
+
+        if occlusionObserver == nil {
+            setupOcclusionObserver()
+        }
+
+        // Schedule a fallback occlusion check after the suppression window,
+        // in case the occlusion notification arrived during suppression.
+        if autoShrink && shrinkLevel != .icon {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) { [weak self] in
+                self?.shrinkIfEvicted()
+            }
+        }
+    }
+
+    private func setupOcclusionObserver() {
+        guard occlusionObserver == nil,
+              let window = statusBar.statusBarWindow() else { return }
+        occlusionObserver = NotificationCenter.default.addObserver(
+            forName: NSWindow.didChangeOcclusionStateNotification,
+            object: window,
+            queue: .main
+        ) { [weak self] _ in
+            self?.shrinkIfEvicted()
+        }
+    }
+
+    private func shrinkIfEvicted() {
+        guard autoShrink,
+              !statusBar.isIconVisible(),
+              Date() >= suppressOcclusionUntil else { return }
+
+        switch shrinkLevel {
+        case .none:
+            shrinkLevel = .shrunken
+            renderIcon(for: lastSpaces)
+        case .shrunken:
+            shrinkLevel = .icon
+            renderIcon(for: lastSpaces)
+        case .icon:
+            break // Already at minimum
+        }
     }
 
     // MARK: - Legacy Settings Migration
@@ -255,12 +357,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 extension AppDelegate: SpaceObserverDelegate {
-    func didUpdateSpaces(spaces: [Space]) {
+    func didUpdateSpaces(spaces: [Space], trigger: SpaceUpdateTrigger) {
         currentSpaces = spaces
         statusBar.reloadShortcuts()
-        let buttonAppearance = statusBar.getButtonAppearance()
-        let icon = iconCreator.getIcon(for: spaces, appearance: buttonAppearance)
-        statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
+        lastSpaces = spaces
+
+        // Reset auto-shrink on space switch, topology change, or manual refresh.
+        // Auto-refresh preserves the current shrink state.
+        switch trigger {
+        case .spaceSwitch, .topologyChange, .manualRefresh:
+            shrinkLevel = .none
+        case .autoRefresh:
+            break
+        }
+
+        renderIcon(for: spaces)
 
         AppDelegate.activeSpaceIDs = Set(spaces.map { $0.spaceID })
         NotificationCenter.default.post(name: NSNotification.Name("ActiveSpacesChanged"), object: nil)

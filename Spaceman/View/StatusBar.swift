@@ -442,6 +442,15 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         return max((button.bounds.height - imageHeight) / 2.0, 0)
     }
 
+    func isIconVisible() -> Bool {
+        guard let window = statusBarItem.button?.window else { return false }
+        return window.occlusionState.contains(.visible)
+    }
+
+    func statusBarWindow() -> NSWindow? {
+        return statusBarItem.button?.window
+    }
+
     func getButtonFrame() -> NSRect? {
         return statusBarItem.button?.frame
     }
@@ -649,7 +658,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let currentFontDesign = FontDesign(rawValue: ud.integer(forKey: "fontDesign")) ?? .monospaced
         let currentUseVariableWidth = ud.bool(forKey: "useVariableWidth")
         let currentDecorationActive = IconStyle(rawValue: ud.integer(forKey: "decorationActive")) ?? .filledRounded
-        let currentDecorationInactive = IconStyle(rawValue: ud.integer(forKey: "decorationInactive")) ?? .borderedRounded
+        let currentDecorationInactive =
+                IconStyle(rawValue: ud.integer(forKey: "decorationInactive")) ?? .borderedRounded
         let currentShowFullscreenSpaces = ud.object(forKey: "showFullscreenSpaces") as? Bool ?? true
         let currentShowMissionControl = ud.bool(forKey: "showMissionControl")
         let currentShowNavArrows = ud.bool(forKey: "showNavArrows")
