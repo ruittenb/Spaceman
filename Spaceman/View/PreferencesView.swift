@@ -327,9 +327,31 @@ struct PreferencesView: View {
     // MARK: - Spaces pane
     private var spacesPane: some View {
         VStack(alignment: .leading) {
-            Text("Spaces")
-                .font(.title2)
-                .fontWeight(.semibold)
+            HStack {
+                Text("Spaces")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                Spacer()
+                if prefsVM.spaceNamesDict.values.contains(where: { $0.colorHex != nil }) {
+                    HStack(spacing: 4) {
+                        Text("Clear all colors")
+                            .font(.callout)
+                            .foregroundColor(.secondary)
+                        Button {
+                            prefsVM.removeAllColors()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                NotificationCenter.default.post(
+                                    name: NSNotification.Name(rawValue: "ButtonPressed"),
+                                    object: nil)
+                            }
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.secondary)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
+            }
             // The Space names are always shown in the menu, therefore:
             // allow editing even if icon style does not include names
             spaceNameListEditor

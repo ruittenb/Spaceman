@@ -548,6 +548,40 @@
         }
       }
     },
+    "Clear all colors" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Farben entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar todos los colores"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar todos los colores"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer toutes les couleurs"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle kleuren wissen"
+          }
+        }
+      }
+    },
     "Clear color" : {
       "localizations" : {
         "de" : {
@@ -559,7 +593,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quitar color"
+            "value" : "Borrar color"
           }
         },
         "es-419" : {

@@ -95,6 +95,17 @@ class PreferencesViewModel: ObservableObject {
         }
     }
 
+    func removeAllColors() {
+        for key in spaceNamesDict.keys {
+            spaceNamesDict[key]?.colorHex = nil
+        }
+        nameStore.update { stored in
+            for key in stored.keys {
+                stored[key]?.colorHex = nil
+            }
+        }
+    }
+
     func persistChanges(for key: String?) {
         // Merge into existing store, preserving disconnected display entries.
         nameStore.update { stored in
