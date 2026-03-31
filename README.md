@@ -35,13 +35,13 @@ When launching Spaceman, you may run into this message. Open the System Settings
 
 ## 🔹 What It Looks Like
 
-You can choose between Dimmed or Boxed view:
+You can choose between Filled or Bordered view:
 
 <img src="images/Button-1-Dimmed.png" width="auto" height="40px">
 
 <img src="images/Button-1-Boxed.png" width="auto" height="40px">
 
-Fullscreen spaces have square corners, regular spaces rounded corners.
+Icons can be rectangular, rounded, or pill-shaped. Fullscreen spaces automatically use a contrasting shape so they are easy to tell apart.
 
 You can assign colors to each space button:
 
@@ -59,9 +59,25 @@ You can choose to display just numbers instead of the entire names, or even just
 
 <img src="images/Button-4-Rectangles.png" width="auto" height="40px">
 
+Icons can have Round and Pill shapes:
+
+<img src="images/Button-6-Circles.png" width="auto" height="40px">
+
+<img src="images/Button-6-Pills.png" width="auto" height="40px">
+
+The icon font can be changed:
+
+<img src="images/Button-7-Round.png" width="auto" height="40px">
+
+<img src="images/Button-7-Stylish.png" width="auto" height="40px">
+
+You can use emoji to identify spaces!
+
+<img src="images/Button-8-Emoji.png" width="auto" height="40px">
+
 For ultra-compact mode, choose the Two Rows layout:
 
-<img src="images/Button-5-TwoRows.png" width="auto" height="40px">
+<img src="images/Button-99-TwoRows.png" width="auto" height="40px">
 
 You can choose to display all spaces or just a few neighboring ones; and to hide Fullscreen spaces entirely.
 
@@ -174,6 +190,9 @@ For space switching to work, you need to configure three things:
 Some appearance settings are also available directly from this menu.
 
 <img src="images/Menu-1.png" width="auto" height="auto">
+
+**Resizing the Icon**
+- Hold **⌥ Option** and scroll on the menu bar icon to quickly change the layout size
 
 **Keyboard Shortcuts**
 - Spaceman does not do the space switching itself, but sends shortcut keystrokes to Mission Control.
