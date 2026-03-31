@@ -18,6 +18,7 @@ class IconCreator {
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("useVariableWidth") private var useVariableWidth = false
+    @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
@@ -530,16 +531,27 @@ class IconCreator {
     private func getStringAttributes(
         alpha: CGFloat,
         fontSize: CGFloat = .zero,
-        color: NSColor = .black
+        color: NSColor = .black,
+        design: NSFontDescriptor.SystemDesign? = nil
     ) -> [NSAttributedString.Key: Any] {
+        let design = design ?? fontDesign.systemDesign
         let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
         let baseFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
         let actualFontSize = fontSize == .zero ? baseFontSize : fontSize
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
+
+        let base = NSFont.systemFont(ofSize: actualFontSize, weight: .bold)
+        let font: NSFont
+        if let descriptor = base.fontDescriptor.withDesign(design),
+           let designFont = NSFont(descriptor: descriptor, size: actualFontSize) {
+            font = designFont
+        } else {
+            font = base
+        }
         return [
             .foregroundColor: color.withAlphaComponent(alpha),
-            .font: NSFont.monospacedSystemFont(ofSize: actualFontSize, weight: .bold),
+            .font: font,
             .paragraphStyle: paragraphStyle]
     }
 

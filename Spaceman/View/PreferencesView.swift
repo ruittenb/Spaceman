@@ -11,6 +11,7 @@ import LaunchAtLogin
 import SwiftUI
 
 struct PreferencesView: View {
+    private let subItemIndent: CGFloat = 40
 
     weak var parentWindow: PreferencesWindow?
 
@@ -18,6 +19,7 @@ struct PreferencesView: View {
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("useVariableWidth") private var useVariableWidth = false
+    @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
@@ -368,6 +370,7 @@ struct PreferencesView: View {
             layoutSizePicker
             dualRowFillOrderPicker
             spacesStylePicker
+            fontDesignPicker
             activeIconStylePicker
             inactiveIconStylePicker
             if displayStyle == .noText && decorationActive.isNoDecoration && decorationInactive.isNoDecoration {
@@ -522,7 +525,7 @@ struct PreferencesView: View {
             Text("Dual Row fill order")
                 .fixedSize()
                 .foregroundColor(layoutMode == .dualRows ? .primary : .secondary)
-                .padding(.leading, 40)
+                .padding(.leading, subItemIndent)
             Spacer(minLength: 8)
             Picker("", selection: $dualRowFillOrder) {
                 Text("Rows first").tag(DualRowFillOrder.byRow)
@@ -548,6 +551,26 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: displayStyle) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+
+    private var fontDesignPicker: some View {
+        HStack(spacing: 12) {
+            Text("Font")
+                .fixedSize()
+                .foregroundColor(displayStyle != .noText ? .primary : .secondary)
+                .padding(.leading, subItemIndent)
+            Spacer(minLength: 8)
+            Picker("", selection: $fontDesign) {
+                ForEach(FontDesign.allCases, id: \.self) { design in
+                    Text(design.menuLabel).tag(design)
+                }
+            }
+            .fixedSize()
+        }
+        .disabled(displayStyle == .noText)
+        .onChange(of: fontDesign) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -716,7 +739,7 @@ struct PreferencesView: View {
             Stepper(value: $neighborRadius, in: 1...3) {
                 Text("Nearby range: ±\(neighborRadius)")
                     .foregroundColor(visibleSpacesMode == .neighbors ? .primary : .secondary)
-                    .padding(.leading, 40)
+                    .padding(.leading, subItemIndent)
             }
             .disabled(visibleSpacesMode != .neighbors)
             .onChange(of: neighborRadius) { _ in
