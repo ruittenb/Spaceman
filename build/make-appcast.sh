@@ -20,7 +20,7 @@ print_xml() {
             <title>${title}</title>
             <description>
                 <![CDATA[
-                    ${description_title:+<p>${description_title}</p>}
+                    <p>${vversion}</p>
                     <ul>
 ${description_items}
                     </ul>
@@ -60,8 +60,8 @@ gather_data() {
 
     local body=$(echo "$release_data" | jq -r .body)
     local published_at=$(echo "$release_data" | jq -r .published_at)
-    local vversion=$(echo "$release_data" | jq -r .tag_name)
 
+    vversion=$(echo "$release_data" | jq -r .tag_name)
     title=$(echo "$release_data" | jq -r .name)
     image_file=$(echo "$release_data" | jq -r '.assets[].name' | head -1)
 
@@ -70,15 +70,7 @@ gather_data() {
         return 1
     fi
 
-    local description_first_line=$(printf '%s' "$body" | head -1 | tr -d '\r')
-    if [[ "$description_first_line" =~ ^v[0-9]+\.[0-9]+ ]]; then
-        description_title="$description_first_line"
-        description_items=$(printf '%s' "$body" | tail -n +2 | bulletpoint)
-    else
-        description_title=""
-        description_items=$(printf '%s' "$body" | bulletpoint)
-    fi
-    
+    description_items=$(printf '%s' "$body" | bulletpoint)
     pub_date=$(gdate -R -d "$published_at")
     version=${vversion#v}
     friendly_version=${version}
