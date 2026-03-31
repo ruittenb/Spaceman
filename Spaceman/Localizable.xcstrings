@@ -543,7 +543,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Omlijnd"
+            "value" : "Omrand"
           }
         }
       }
@@ -577,7 +577,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Omlijnd, pilvormig"
+            "value" : "Omrand, pilvormig"
           }
         }
       }
@@ -611,7 +611,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Omlijnd, rechthoekig"
+            "value" : "Omrand, rechthoekig"
           }
         }
       }
@@ -645,7 +645,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Omlijnd, afgerond"
+            "value" : "Omrand, afgerond"
           }
         }
       }
@@ -1269,16 +1269,140 @@
       }
     },
     "Filled Bordered" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gefüllt, umrandet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relleno, con borde"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sólido, con borde"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plein, contour"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opgevuld omrand"
+          }
+        }
+      }
     },
     "Filled bordered, pill" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gefüllt, umrandet, kapselförmig"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relleno, con borde, cápsula"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sólido, con borde, cápsula"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plein, contour, capsule"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opgevuld omrand, pilvorm"
+          }
+        }
+      }
     },
     "Filled bordered, rectangular" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gefüllt, umrandet, rechteckig"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relleno, con borde, rectangular"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sólido, con borde, rectangular"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plein, contour, rectangulaire"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opgevuld omrand, rechthoekig"
+          }
+        }
+      }
     },
     "Filled bordered, rounded" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gefüllt, umrandet, abgerundet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relleno, con borde, redondeado"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sólido, con borde, redondeado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plein, contour, arrondi"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opgevuld omrand, afgerond"
+          }
+        }
+      }
     },
     "Filled, pill" : {
       "localizations" : {
