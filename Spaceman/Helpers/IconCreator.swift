@@ -475,7 +475,7 @@ class IconCreator {
 
         // Render
         let totalWidth = columns.reduce(CGFloat(0)) { $0 + $1.width + $1.gapAfter }
-        let gap = CGFloat(sizes.GAP_HEIGHT_DUALROWS)
+        let gap = Constants.dualRowGapHeight
         let imageHeight = iconSize.height * 2 + gap
         let image = NSImage(size: NSSize(width: totalWidth, height: imageHeight))
 

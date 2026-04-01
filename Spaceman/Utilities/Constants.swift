@@ -11,6 +11,7 @@ struct Constants {
     static let maxSpaceNameLength = 10
     static let minMenuWidth: CGFloat = 350
     static let inactiveAlpha: CGFloat = 0.4
+    static let dualRowGapHeight: CGFloat = 3
 
     enum AppInfo {
         static let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
@@ -31,7 +32,6 @@ struct Constants {
         .dualRows: GuiSize(
             GAP_WIDTH_SPACES: 3,
             GAP_WIDTH_DISPLAYS: 8,
-            GAP_HEIGHT_DUALROWS: 3,
             HORIZONTAL_PADDING: 6,
             VERTICAL_PADDING: 1.5,
             BORDER_WIDTH: 1,
@@ -40,7 +40,6 @@ struct Constants {
         .narrow: GuiSize(
             GAP_WIDTH_SPACES: 2,
             GAP_WIDTH_DISPLAYS: 8,
-            GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 3,
             VERTICAL_PADDING: 3,
             BORDER_WIDTH: 1,
@@ -49,7 +48,6 @@ struct Constants {
         .compact: GuiSize(
             GAP_WIDTH_SPACES: 3,
             GAP_WIDTH_DISPLAYS: 10,
-            GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 4,
             VERTICAL_PADDING: 3,
             BORDER_WIDTH: 1,
@@ -58,7 +56,6 @@ struct Constants {
         .medium: GuiSize(
             GAP_WIDTH_SPACES: 4,
             GAP_WIDTH_DISPLAYS: 12,
-            GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 5,
             VERTICAL_PADDING: 3,
             BORDER_WIDTH: 1.17,
@@ -67,16 +64,14 @@ struct Constants {
         .large: GuiSize(
             GAP_WIDTH_SPACES: 5,
             GAP_WIDTH_DISPLAYS: 14,
-            GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 6,
-            VERTICAL_PADDING: 3.75,
+            VERTICAL_PADDING: 3.6,
             BORDER_WIDTH: 1.33,
             FONT_SIZE: 12
         ),
         .extraLarge: GuiSize(
             GAP_WIDTH_SPACES: 6,
             GAP_WIDTH_DISPLAYS: 16,
-            GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 7,
             VERTICAL_PADDING: 4.5,
             BORDER_WIDTH: 1.67,
@@ -85,7 +80,6 @@ struct Constants {
         .enormous: GuiSize(
             GAP_WIDTH_SPACES: 6,
             GAP_WIDTH_DISPLAYS: 16,
-            GAP_HEIGHT_DUALROWS: 0,
             HORIZONTAL_PADDING: 8,
             VERTICAL_PADDING: 5.25,
             BORDER_WIDTH: 2,
