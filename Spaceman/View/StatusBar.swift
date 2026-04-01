@@ -39,6 +39,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var iconShapeMenuItem: NSMenuItem!
     private var spacesShownMenuItem: NSMenuItem!
     private var prefsWindow: PreferencesWindow!
+    private var scrollAccumulator: CGFloat = 0
+    private var lastScrollTime: Date = .distantPast
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
     private var updaterController: SPUStandardUpdaterController!
@@ -205,6 +207,15 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         statusBarItem.button?.action = #selector(handleClick)
         statusBarItem.button?.target = self
         statusBarItem.button?.sendAction(on: [.rightMouseDown, .leftMouseDown])
+
+        // Scroll wheel on the status bar icon changes the layout size
+        NSEvent.addLocalMonitorForEvents(matching: .scrollWheel) { [weak self] event in
+            guard let self = self,
+                  let buttonWindow = self.statusBarItem.button?.window,
+                  event.window === buttonWindow else { return event }
+            self.handleScroll(event)
+            return nil // consume the event
+        }
     }
 
     @objc func handleClick(_ sbButton: NSStatusBarButton) {
@@ -252,6 +263,27 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             } else {
                 print("Other event: \(event.type)")
             }
+        }
+    }
+
+    private func handleScroll(_ event: NSEvent) {
+        guard event.modifierFlags.contains(.option) else { return }
+        let now = Date()
+        if now.timeIntervalSince(lastScrollTime) > 0.3 {
+            scrollAccumulator = 0
+        }
+        lastScrollTime = now
+        scrollAccumulator += event.scrollingDeltaY
+        let threshold: CGFloat = 8
+
+        if scrollAccumulator > threshold, let next = layoutMode.larger {
+            scrollAccumulator = 0
+            layoutMode = next
+            NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        } else if scrollAccumulator < -threshold, let next = layoutMode.smaller {
+            scrollAccumulator = 0
+            layoutMode = next
+            NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
         }
     }
 
