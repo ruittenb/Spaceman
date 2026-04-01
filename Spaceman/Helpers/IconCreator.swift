@@ -61,7 +61,7 @@ class IconCreator {
 
         // For uniform icon widths: measure the widest rendered name, capped for compactness
         let showsNames = displayStyle == .names || displayStyle == .numbersAndNames
-        let maxNameChars = 4
+        let maxNameChars = twoRows ? 8 : 4
         if !useVariableWidth && showsNames {
             let measureAttrs = getStringAttributes(alpha: 1, color: .black)
             let padding = sizes.HORIZONTAL_PADDING * 2
