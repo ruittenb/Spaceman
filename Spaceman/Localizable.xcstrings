@@ -923,6 +923,7 @@
       }
     },
     "Dual Row" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -957,6 +958,7 @@
       }
     },
     "Dual Row fill order" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -991,6 +993,7 @@
       }
     },
     "Dual Row, columns first" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1025,6 +1028,7 @@
       }
     },
     "Dual Row, rows first" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1165,6 +1169,9 @@
           }
         }
       }
+    },
+    "Fill order" : {
+
     },
     "Filled" : {
       "localizations" : {
@@ -1539,6 +1546,12 @@
           }
         }
       }
+    },
+    "Icon size" : {
+
+    },
+    "Icon Size" : {
+
     },
     "Icon Style" : {
       "localizations" : {
@@ -1921,6 +1934,7 @@
       }
     },
     "Layout" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3761,6 +3775,9 @@
           }
         }
       }
+    },
+    "Two Rows" : {
+
     },
     "Update available..." : {
       "localizations" : {

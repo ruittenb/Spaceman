@@ -12,8 +12,8 @@ import SwiftUI
 class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
-    @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
-    @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
+    @AppStorage("iconSize") private var iconSize = IconSize.medium
+    @AppStorage("dualRowFillOrder") private var twoRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
@@ -23,6 +23,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("lastInactiveFill") private var lastInactiveFillRaw: Int = IconFill.bordered.rawValue
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
     @AppStorage("useVariableWidth") private var useVariableWidth = false
+    @AppStorage("dualRows") private var twoRows = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -107,24 +108,27 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
         // Build settings submenus
         let layoutSubmenu = NSMenu()
-        for mode in LayoutMode.allCases {
-            if mode == .dualRows {
-                let byRow = NSMenuItem(
-                    title: String(localized: "Dual Row, rows first"),
-                    action: #selector(selectDualRowByRow), keyEquivalent: "")
-                byRow.target = self
-                layoutSubmenu.addItem(byRow)
-                let byCol = NSMenuItem(
-                    title: String(localized: "Dual Row, columns first"),
-                    action: #selector(selectDualRowByColumn), keyEquivalent: "")
-                byCol.target = self
-                layoutSubmenu.addItem(byCol)
-            } else {
-                let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectLayout(_:)), keyEquivalent: "")
-                item.tag = mode.rawValue
-                item.target = self
-                layoutSubmenu.addItem(item)
-            }
+        let twoRowItem = NSMenuItem(
+            title: String(localized: "Two Rows"),
+            action: #selector(toggleTwoRows), keyEquivalent: "")
+        twoRowItem.target = self
+        layoutSubmenu.addItem(twoRowItem)
+        let byRow = NSMenuItem(
+            title: String(localized: "Rows first"),
+            action: #selector(selectTwoRowByRow), keyEquivalent: "")
+        byRow.target = self
+        layoutSubmenu.addItem(byRow)
+        let byCol = NSMenuItem(
+            title: String(localized: "Columns first"),
+            action: #selector(selectTwoRowByColumn), keyEquivalent: "")
+        byCol.target = self
+        layoutSubmenu.addItem(byCol)
+        layoutSubmenu.addItem(NSMenuItem.separator())
+        for mode in IconSize.allCases {
+            let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectLayout(_:)), keyEquivalent: "")
+            item.tag = mode.rawValue
+            item.target = self
+            layoutSubmenu.addItem(item)
         }
         layoutSubmenu.addItem(NSMenuItem.separator())
         let variableWidthItem = NSMenuItem(
@@ -133,7 +137,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         variableWidthItem.target = self
         layoutSubmenu.addItem(variableWidthItem)
 
-        layoutMenuItem = NSMenuItem(title: String(localized: "Layout"), action: nil, keyEquivalent: "")
+        layoutMenuItem = NSMenuItem(title: String(localized: "Icon Size"), action: nil, keyEquivalent: "")
         layoutMenuItem.submenu = layoutSubmenu
 
         let iconStyleSubmenu = NSMenu()
@@ -276,13 +280,13 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         scrollAccumulator += event.scrollingDeltaY
         let threshold: CGFloat = 8
 
-        if scrollAccumulator > threshold, let next = layoutMode.larger {
+        if scrollAccumulator > threshold, let next = iconSize.larger {
             scrollAccumulator = 0
-            layoutMode = next
+            iconSize = next
             NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
-        } else if scrollAccumulator < -threshold, let next = layoutMode.smaller {
+        } else if scrollAccumulator < -threshold, let next = iconSize.smaller {
             scrollAccumulator = 0
-            layoutMode = next
+            iconSize = next
             NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
         }
     }
@@ -356,14 +360,18 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func menuWillOpen(_ menu: NSMenu) {
         // Update checkmarks on submenu items to reflect current settings
         for item in layoutMenuItem.submenu?.items ?? [] {
-            if item.action == #selector(selectDualRowByColumn) {
-                item.state = (layoutMode == .dualRows && dualRowFillOrder == .byColumn) ? .on : .off
-            } else if item.action == #selector(selectDualRowByRow) {
-                item.state = (layoutMode == .dualRows && dualRowFillOrder == .byRow) ? .on : .off
+            if item.action == #selector(toggleTwoRows) {
+                item.state = twoRows ? .on : .off
+            } else if item.action == #selector(selectTwoRowByColumn) {
+                item.state = (twoRows && twoRowFillOrder == .byColumn) ? .on : .off
+                item.isEnabled = twoRows
+            } else if item.action == #selector(selectTwoRowByRow) {
+                item.state = (twoRows && twoRowFillOrder == .byRow) ? .on : .off
+                item.isEnabled = twoRows
             } else if item.action == #selector(toggleVariableWidth) {
                 item.state = useVariableWidth ? .on : .off
             } else {
-                item.state = item.tag == layoutMode.rawValue ? .on : .off
+                item.state = item.tag == iconSize.rawValue ? .on : .off
             }
         }
         for item in iconStyleMenuItem.submenu?.items ?? [] {
@@ -397,20 +405,23 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func selectLayout(_ sender: NSMenuItem) {
-        guard let mode = LayoutMode(rawValue: sender.tag) else { return }
-        layoutMode = mode
+        guard let mode = IconSize(rawValue: sender.tag) else { return }
+        iconSize = mode
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
-    @objc func selectDualRowByColumn() {
-        layoutMode = .dualRows
-        dualRowFillOrder = .byColumn
+    @objc func toggleTwoRows() {
+        twoRows.toggle()
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
-    @objc func selectDualRowByRow() {
-        layoutMode = .dualRows
-        dualRowFillOrder = .byRow
+    @objc func selectTwoRowByColumn() {
+        twoRowFillOrder = .byColumn
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func selectTwoRowByRow() {
+        twoRowFillOrder = .byRow
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
