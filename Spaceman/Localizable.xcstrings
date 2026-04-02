@@ -650,41 +650,6 @@
         }
       }
     },
-    "Columns first" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spalten zuerst"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Columnas primero"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Columnas primero"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Colonnes"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kolommen eerst"
-          }
-        }
-      }
-    },
     "Command ⌘" : {
       "localizations" : {
         "de" : {
@@ -1027,41 +992,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Extra groot"
-          }
-        }
-      }
-    },
-    "Fill order" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reihenfolge"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Orden de llenado"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Orden de llenado"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ordre de remplissage"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Volgorde"
           }
         }
       }
@@ -1889,6 +1819,7 @@
       }
     },
     "Layout" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3180,6 +3111,40 @@
         }
       }
     },
+    "Row Layout" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reihenanordnung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposición de filas"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposición de filas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposition des rangées"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rij-indeling"
+          }
+        }
+      }
+    },
     "Rows" : {
       "localizations" : {
         "de" : {
@@ -3210,41 +3175,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rijen"
-          }
-        }
-      }
-    },
-    "Rows first" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reihen zuerst"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filas primero"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filas primero"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lignes"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rijen eerst"
           }
         }
       }
@@ -3556,7 +3486,38 @@
       }
     },
     "Single Row" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Reihe"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una fila"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una fila"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une rangée"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een enkele rij"
+          }
+        }
+      }
     },
     "Spaceman" : {
       "localizations" : {
@@ -3802,46 +3763,73 @@
         }
       }
     },
-    "Two Rows" : {
-      "extractionState" : "stale",
+    "Two Rows, by Columns" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zwei Reihen"
+            "value" : "Zwei Reihen, spaltenweise"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dos filas"
+            "value" : "Dos filas, por columnas"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dos filas"
+            "value" : "Dos filas, por columnas"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deux rangées"
+            "value" : "Deux rangées, par colonnes"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Twee rijen"
+            "value" : "Twee rijen, per kolom"
           }
         }
       }
     },
-    "Two Rows, by Columns" : {
-
-    },
     "Two Rows, by Rows" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwei Reihen, zeilenweise"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dos filas, por filas"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dos filas, por filas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deux rangées, par rangées"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twee rijen, per rij"
+          }
+        }
+      }
     },
     "Two, by cols" : {
       "localizations" : {
@@ -3854,13 +3842,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dos, por cols"
+            "value" : "Dos, por columnas"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dos, por cols"
+            "value" : "Dos, por columnas"
           }
         },
         "fr" : {
