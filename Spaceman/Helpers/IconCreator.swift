@@ -10,9 +10,9 @@ import Foundation
 import SwiftUI
 
 class IconCreator {
-    @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
+    @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
-    @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
+    @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
@@ -26,7 +26,7 @@ class IconCreator {
         set { visibleSpacesModeRaw = newValue.rawValue }
     }
     private var displayCount = 1
-    private var iconSize = NSSize(width: 0, height: 0)
+    private var cellSize = NSSize(width: 0, height: 0)
     private var gapWidth = CGFloat.zero
     private var displayGapWidth = CGFloat.zero
     private var minIconWidth = CGFloat.zero
@@ -36,13 +36,15 @@ class IconCreator {
     public var iconWidths: [IconWidth] = []
 
     public func getIcon(for spaces: [Space], appearance: NSAppearance? = nil) -> NSImage {
-        sizes = Constants.sizes[layoutMode]
+        sizes = rowLayout.isTwoRows
+            ? Constants.nearestTwoRowSize(for: iconSize)
+            : Constants.sizes[iconSize]
 
         let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
         let actualFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
         gapWidth = allNoDecoration ? 0 : CGFloat(sizes.GAP_WIDTH_SPACES)
         displayGapWidth = allNoDecoration ? 0 : CGFloat(sizes.GAP_WIDTH_DISPLAYS)
-        iconSize = NSSize(
+        cellSize = NSSize(
             width: 0,
             height: actualFontSize + sizes.VERTICAL_PADDING * 2)
 
@@ -54,14 +56,14 @@ class IconCreator {
         // Gracefully handle transient empty state (e.g., during Mission Control updates)
         if filteredSpaces.isEmpty {
             iconWidths = []
-            let empty = NSImage(size: NSSize(width: 1, height: iconSize.height))
+            let empty = NSImage(size: NSSize(width: 1, height: cellSize.height))
             empty.isTemplate = true
             return empty
         }
 
         // For uniform icon widths: measure the widest rendered name, capped for compactness
         let showsNames = displayStyle == .names || displayStyle == .numbersAndNames
-        let maxNameChars = 4
+        let maxNameChars = rowLayout.isTwoRows ? 8 : 4
         if !useVariableWidth && showsNames {
             let measureAttrs = getStringAttributes(alpha: 1, color: .black)
             let padding = sizes.HORIZONTAL_PADDING * 2
@@ -91,8 +93,9 @@ class IconCreator {
         }
 
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
-        if layoutMode == .dualRows {
-            return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID)
+        if rowLayout.isTwoRows {
+            return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID,
+                                        spaces: filteredSpaces, defaultColor: defaultColor)
         } else {
             return mergeIcons(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID)
         }
@@ -108,7 +111,7 @@ class IconCreator {
 
     // MARK: - Unified box rendering
 
-    private func createSpaceIcon(space: Space, defaultColor: NSColor?) -> NSImage {
+    private func createSpaceIcon(space: Space, defaultColor: NSColor?, minWidth: CGFloat = 0) -> NSImage {
         // 1. Determine text content based on display style
         let text: NSString
         switch displayStyle {
@@ -158,8 +161,11 @@ class IconCreator {
         if minIconWidth > 0 {
             iconWidth = max(iconWidth, minIconWidth)
         }
+        if minWidth > 0 {
+            iconWidth = max(iconWidth, minWidth)
+        }
 
-        let size = NSSize(width: iconWidth, height: iconSize.height)
+        let size = NSSize(width: iconWidth, height: cellSize.height)
 
         return renderIcon(
             text: text, size: size, decoration: decoration,
@@ -335,7 +341,7 @@ class IconCreator {
         let accomodatingDisplayGapWidth = CGFloat(max(0, displayCount - 1)) * displayGapWidth
         let totalIconWidth = combinedIconWidth + accomodatingGapWidth + accomodatingDisplayGapWidth
         let totalWidth = max(1, totalIconWidth)
-        let image = NSImage(size: NSSize(width: totalWidth, height: iconSize.height))
+        let image = NSImage(size: NSSize(width: totalWidth, height: cellSize.height))
 
         image.lockFocus()
         var left = CGFloat.zero
@@ -376,7 +382,9 @@ class IconCreator {
     private func mergeIconsTwoRows(
         _ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool,
                                         isFullScreen: Bool, spaceID: String, colorHex: String?)],
-        indexMap: [String: Int]
+        indexMap: [String: Int],
+        spaces: [Space],
+        defaultColor: NSColor?
     ) -> NSImage {
         // Column describes a stacked pair (top/bottom)
         // and its rendered width and trailing gap
@@ -393,8 +401,8 @@ class IconCreator {
 
         // Build columns depending on fill order preference
         var columns: [Column] = []
-        switch dualRowFillOrder {
-        case .byColumn:
+        switch rowLayout {
+        case .twoRowsByColumn, .singleRow:
             // Original behavior: fill top then bottom per column
             var current = Column()
             var placeTop = true
@@ -429,7 +437,7 @@ class IconCreator {
                     columns.append(current)
                 }
             }
-        case .byRow:
+        case .twoRowsByRow:
             // New behavior: fill entire top row left-to-right, then bottom row
             // First, segment by display to place display gaps correctly
             typealias Segment = (
@@ -484,10 +492,27 @@ class IconCreator {
             }
         }
 
+        // Equalize icon widths within each column by re-rendering the narrower icon at column width;
+        // this achieves simplicity by keeping all pairing logic in one place and avoids a complex pre-computation pass
+        let spacesByID = Dictionary(spaces.map { ($0.spaceID, $0) }, uniquingKeysWith: { first, _ in first })
+        for i in 0..<columns.count {
+            let colWidth = columns[i].width
+            if let top = columns[i].top, top.image.size.width < colWidth,
+               let space = spacesByID[top.spaceID] {
+                let newImage = createSpaceIcon(space: space, defaultColor: defaultColor, minWidth: colWidth)
+                columns[i].top = (newImage, top.isFull, top.tag, top.spaceID, top.colorHex)
+            }
+            if let bottom = columns[i].bottom, bottom.image.size.width < colWidth,
+               let space = spacesByID[bottom.spaceID] {
+                let newImage = createSpaceIcon(space: space, defaultColor: defaultColor, minWidth: colWidth)
+                columns[i].bottom = (newImage, bottom.isFull, bottom.tag, bottom.spaceID, bottom.colorHex)
+            }
+        }
+
         // Render
         let totalWidth = columns.reduce(CGFloat(0)) { $0 + $1.width + $1.gapAfter }
-        let gap = Constants.dualRowGapHeight
-        let imageHeight = iconSize.height * 2 + gap
+        let gap = sizes.GAP_HEIGHT_ROWS
+        let imageHeight = cellSize.height * 2 + gap
         let image = NSImage(size: NSSize(width: totalWidth, height: imageHeight))
 
         image.lockFocus()
@@ -498,6 +523,10 @@ class IconCreator {
             (col.top?.colorHex != nil) || (col.bottom?.colorHex != nil)
         }
 
+        // Split vertical hit area at the gap midpoint; extend bounds generously
+        // to cover menu bar padding above/below the image
+        let midGap = cellSize.height + gap / 2.0
+
         for col in columns {
             // Simple gap splitting: each icon owns half the gap on each side
             // (col.gapAfter already accounts for display gaps vs regular gaps)
@@ -506,15 +535,15 @@ class IconCreator {
 
             if let top = col.top {
                 top.image.draw(
-                    at: NSPoint(x: left, y: iconSize.height + gap),
+                    at: NSPoint(x: left, y: cellSize.height + gap),
                     from: .zero,
                     operation: .sourceOver,
                     fraction: 1.0)
                 iconWidths.append(IconWidth(
                     left: iconLeft,
                     right: iconRight,
-                    top: iconSize.height + gap,
-                    bottom: imageHeight,
+                    top: midGap,
+                    bottom: imageHeight * 2,
                     index: top.tag))
             }
             if let bottom = col.bottom {
@@ -526,8 +555,8 @@ class IconCreator {
                 iconWidths.append(IconWidth(
                     left: iconLeft,
                     right: iconRight,
-                    top: 0,
-                    bottom: iconSize.height,
+                    top: -imageHeight,
+                    bottom: midGap,
                     index: bottom.tag))
             }
             left += col.width + col.gapAfter

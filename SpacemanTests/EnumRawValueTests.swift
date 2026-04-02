@@ -59,48 +59,55 @@ final class EnumRawValueTests: XCTestCase {
         XCTAssertEqual(IconStyle.filledRounded.fullscreenVariant, .filledRectangular)
     }
 
-    // MARK: - LayoutMode
+    // MARK: - IconSize
 
-    func testLayoutModeRawValues() {
-        XCTAssertEqual(LayoutMode.dualRows.rawValue, 0)
-        XCTAssertEqual(LayoutMode.compact.rawValue, 1)
-        XCTAssertEqual(LayoutMode.medium.rawValue, 2)
-        XCTAssertEqual(LayoutMode.large.rawValue, 3)
-        XCTAssertEqual(LayoutMode.extraLarge.rawValue, 4)
-        XCTAssertEqual(LayoutMode.narrow.rawValue, 5)
-        XCTAssertEqual(LayoutMode.enormous.rawValue, 6)
+    func testIconSizeRawValues() {
+        XCTAssertEqual(IconSize.narrow.rawValue, 0)
+        XCTAssertEqual(IconSize.compact.rawValue, 1)
+        XCTAssertEqual(IconSize.medium.rawValue, 2)
+        XCTAssertEqual(IconSize.large.rawValue, 3)
+        XCTAssertEqual(IconSize.extraLarge.rawValue, 4)
+        XCTAssertEqual(IconSize.enormous.rawValue, 5)
     }
 
-    func testLayoutModeAllCases() {
-        XCTAssertEqual(LayoutMode.allCases.count, 7)
+    func testIconSizeAllCases() {
+        XCTAssertEqual(IconSize.allCases.count, 6)
     }
 
-    func testLayoutModeInitFromRawValue() {
-        XCTAssertEqual(LayoutMode(rawValue: 0), .dualRows)
-        XCTAssertEqual(LayoutMode(rawValue: 1), .compact)
-        XCTAssertEqual(LayoutMode(rawValue: 2), .medium)
-        XCTAssertEqual(LayoutMode(rawValue: 3), .large)
-        XCTAssertEqual(LayoutMode(rawValue: 4), .extraLarge)
-        XCTAssertEqual(LayoutMode(rawValue: 5), .narrow)
-        XCTAssertEqual(LayoutMode(rawValue: 6), .enormous)
-        XCTAssertNil(LayoutMode(rawValue: 99))
+    func testIconSizeInitFromRawValue() {
+        XCTAssertEqual(IconSize(rawValue: 0), .narrow)
+        XCTAssertEqual(IconSize(rawValue: 1), .compact)
+        XCTAssertEqual(IconSize(rawValue: 2), .medium)
+        XCTAssertEqual(IconSize(rawValue: 3), .large)
+        XCTAssertEqual(IconSize(rawValue: 4), .extraLarge)
+        XCTAssertEqual(IconSize(rawValue: 5), .enormous)
+        XCTAssertNil(IconSize(rawValue: 6))
+        XCTAssertNil(IconSize(rawValue: 99))
     }
 
-    // MARK: - DualRowFillOrder
+    // MARK: - RowLayout
 
-    func testDualRowFillOrderRawValues() {
-        XCTAssertEqual(DualRowFillOrder.byColumn.rawValue, 0)
-        XCTAssertEqual(DualRowFillOrder.byRow.rawValue, 1)
+    func testRowLayoutRawValues() {
+        XCTAssertEqual(RowLayout.singleRow.rawValue, 0)
+        XCTAssertEqual(RowLayout.twoRowsByRow.rawValue, 1)
+        XCTAssertEqual(RowLayout.twoRowsByColumn.rawValue, 2)
     }
 
-    func testDualRowFillOrderAllCases() {
-        XCTAssertEqual(DualRowFillOrder.allCases.count, 2)
+    func testRowLayoutAllCases() {
+        XCTAssertEqual(RowLayout.allCases.count, 3)
     }
 
-    func testDualRowFillOrderInitFromRawValue() {
-        XCTAssertEqual(DualRowFillOrder(rawValue: 0), .byColumn)
-        XCTAssertEqual(DualRowFillOrder(rawValue: 1), .byRow)
-        XCTAssertNil(DualRowFillOrder(rawValue: 99))
+    func testRowLayoutInitFromRawValue() {
+        XCTAssertEqual(RowLayout(rawValue: 0), .singleRow)
+        XCTAssertEqual(RowLayout(rawValue: 1), .twoRowsByRow)
+        XCTAssertEqual(RowLayout(rawValue: 2), .twoRowsByColumn)
+        XCTAssertNil(RowLayout(rawValue: 99))
+    }
+
+    func testRowLayoutIsTwoRows() {
+        XCTAssertFalse(RowLayout.singleRow.isTwoRows)
+        XCTAssertTrue(RowLayout.twoRowsByColumn.isTwoRows)
+        XCTAssertTrue(RowLayout.twoRowsByRow.isTwoRows)
     }
 
     // MARK: - VisibleSpacesMode

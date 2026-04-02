@@ -101,7 +101,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     static func resetMigratedKeys() {
         let keys = [
             "visibleSpacesMode", "restartNumberingByDisplay", "horizontalDirection",
-            "useVariableWidth", "decorationActive", "decorationInactive"
+            "useVariableWidth", "decorationActive", "decorationInactive",
+            "iconSize", "rowLayout"
         ]
         for key in keys {
             UserDefaults.standard.removeObject(forKey: key)
@@ -165,6 +166,45 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
             UserDefaults.standard.removeObject(forKey: "inactiveStyle")
+        }
+
+        // Migrate layoutMode=0 (old .dualRows) to rowLayout + compact size
+        if UserDefaults.standard.object(forKey: "layoutMode") != nil,
+           UserDefaults.standard.integer(forKey: "layoutMode") == 0 {
+            UserDefaults.standard.set(RowLayout.twoRowsByColumn.rawValue, forKey: "rowLayout")
+            UserDefaults.standard.set(IconSize.compact.rawValue, forKey: "layoutMode")
+        }
+
+        // Migrate dualRows + dualRowFillOrder → rowLayout
+        if UserDefaults.standard.object(forKey: "rowLayout") == nil,
+           UserDefaults.standard.object(forKey: "dualRows") != nil {
+            let dualRows = UserDefaults.standard.bool(forKey: "dualRows")
+            if dualRows {
+                let fillOrder = UserDefaults.standard.integer(forKey: "dualRowFillOrder")
+                let newValue = fillOrder == 1
+                    ? RowLayout.twoRowsByRow.rawValue
+                    : RowLayout.twoRowsByColumn.rawValue
+                UserDefaults.standard.set(newValue, forKey: "rowLayout")
+            } else {
+                UserDefaults.standard.set(RowLayout.singleRow.rawValue, forKey: "rowLayout")
+            }
+            UserDefaults.standard.removeObject(forKey: "dualRows")
+            UserDefaults.standard.removeObject(forKey: "dualRowFillOrder")
+        }
+
+        // Migrate layoutMode (old key + raw values) to iconSize (new key + raw values)
+        // Old: compact=1, medium=2, large=3, extraLarge=4, narrow=5, enormous=6
+        // New: narrow=0, compact=1, medium=2, large=3, extraLarge=4, enormous=5
+        if UserDefaults.standard.object(forKey: "iconSize") == nil,
+           let oldValue = UserDefaults.standard.object(forKey: "layoutMode") as? Int {
+            let newValue: Int
+            switch oldValue {
+            case 5:  newValue = IconSize.narrow.rawValue    // 5 → 0
+            case 6:  newValue = IconSize.enormous.rawValue  // 6 → 5
+            default: newValue = oldValue                    // 1–4 unchanged
+            }
+            UserDefaults.standard.set(newValue, forKey: "iconSize")
+            UserDefaults.standard.removeObject(forKey: "layoutMode")
         }
     }
 }

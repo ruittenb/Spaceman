@@ -79,6 +79,10 @@ For ultra-compact mode, choose the Two Rows layout:
 
 <img src="images/Button-99-TwoRows.png" width="auto" height="40px">
 
+Full Unicode support:
+
+<img src="images/Button-9-Greek.png" width="auto" height="40px">
+
 You can choose to display all spaces or just a few neighboring ones; and to hide Fullscreen spaces entirely.
 
 ## 🔹 Preferences

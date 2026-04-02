@@ -21,13 +21,13 @@ struct PreferencesView: View {
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
-    @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
+    @AppStorage("iconSize") private var iconSize = IconSize.medium
+    @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
-    @AppStorage("dualRowFillOrder") private var dualRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
@@ -367,8 +367,8 @@ struct PreferencesView: View {
             Text("Appearance")
                 .font(.title2)
                 .fontWeight(.semibold)
-            layoutSizePicker
-            dualRowFillOrderPicker
+            iconSizePicker
+            iconWidthPicker
             spacesStylePicker
             fontDesignPicker
             activeIconStylePicker
@@ -386,15 +386,12 @@ struct PreferencesView: View {
                 .font(.subheadline)
                 .frame(maxWidth: .infinity, alignment: .trailing)
             }
-            iconWidthPicker
+            rowLayoutPicker
             spacesShownPicker
             Toggle("Hide fullscreen spaces", isOn: $hideFullscreenSpaces)
                 .padding(.top, 2)
         }
         .padding()
-        .onChange(of: dualRowFillOrder) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
         .onChange(of: visibleSpacesModeRaw) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
@@ -498,43 +495,57 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Layout Size Picker
-    private var layoutSizePicker: some View {
-        HStack(spacing: 12) {
-            Text("Layout")
+    // MARK: - Icon Size Picker
+    private var iconSizePicker: some View {
+        let availableSizes = rowLayout.isTwoRows
+            ? Array(Constants.sizesTwoRows.keys).sorted { $0.rawValue < $1.rawValue }
+            : Array(IconSize.allCases)
+        return HStack(spacing: 12) {
+            Text("Icon size")
             Spacer()
-            Picker("", selection: $layoutMode) {
-                Text("Dual Row").tag(LayoutMode.dualRows)
-                Text("Narrow").tag(LayoutMode.narrow)
-                Text("Compact").tag(LayoutMode.compact)
-                Text("Medium").tag(LayoutMode.medium)
-                Text("Large").tag(LayoutMode.large)
-                Text("Extra Large").tag(LayoutMode.extraLarge)
-                Text("Enormous").tag(LayoutMode.enormous)
+            Picker("", selection: $iconSize) {
+                ForEach(availableSizes, id: \.self) { mode in
+                    Text(mode.menuLabel).tag(mode)
+                }
             }
             .fixedSize()
         }
-        .onChange(of: layoutMode) { _ in
+        .onChange(of: iconSize) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
 
-    // MARK: - Dual Row Fill Order Picker
-    private var dualRowFillOrderPicker: some View {
+    // MARK: - Row Layout Picker
+    private var rowLayoutPicker: some View {
         HStack(spacing: 12) {
-            Text("Dual Row fill order")
+            Text("Rows")
                 .fixedSize()
-                .foregroundColor(layoutMode == .dualRows ? .primary : .secondary)
-                .padding(.leading, subItemIndent)
             Spacer(minLength: 8)
-            Picker("", selection: $dualRowFillOrder) {
-                Text("Rows first").tag(DualRowFillOrder.byRow)
-                Text("Columns first").tag(DualRowFillOrder.byColumn)
+            HStack(spacing: 1) {
+                ForEach(RowLayout.allCases, id: \.self) { layout in
+                    let isSelected = rowLayout == layout
+                    Button(layout.pickerLabel) {
+                        rowLayout = layout
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(isSelected ? Color.accentColor : Color.gray.opacity(0.2))
+                    .foregroundColor(isSelected ? .white : .primary)
+                }
             }
-            .pickerStyle(.segmented)
-            .fixedSize()
+            .clipShape(RoundedRectangle(cornerRadius: 6))
         }
-        .disabled(layoutMode != .dualRows)
+        .onChange(of: rowLayout) { newValue in
+            if newValue.isTwoRows && Constants.sizesTwoRows[iconSize] == nil {
+                switch iconSize {
+                case .narrow, .compact:              iconSize = .compact
+                case .medium:                        iconSize = .medium
+                case .large, .extraLarge, .enormous:  iconSize = .large
+                }
+            }
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
     }
 
     // MARK: - Style Pickers
