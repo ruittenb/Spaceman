@@ -3,25 +3,27 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.15.10: support proportional fonts</title>
+            <title>v1.16.0: Improved Two-Rows mode</title>
             <description>
                 <![CDATA[
-                    <p>v1.15.10</p>
+                    <p>v1.16.0</p>
                     <ul>
-                        <li> - Support proportional system fonts: sans-serif, serif and rounded in addition to monospace</li>
-                        <li> - Use Option + Mouse wheel on the menu bar icon to change size</li>
+                        <li> - Make Two Rows a separate setting, independent of Icon Size</li>
+                        <li> - Allow longer names in two-row icons</li>
+                        <li> - Equalize widths for pairs of vertically aligned icons in two-rows mode</li>
+                        <li> - Extend clickable region of two-row icons to top and bottom of menu bar</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 02 Apr 2026 08:00:54 +0200</pubDate>
+            <pubDate>Thu, 02 Apr 2026 23:36:38 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.10/Spaceman-1.15.10.dmg"
-                sparkle:version="1.15.10"
-                sparkle:shortVersionString="1.15.10"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.16.0/Spaceman-1.16.0.dmg"
+                sparkle:version="1.16.0"
+                sparkle:shortVersionString="1.16.0"
                 type="application/octet-stream"
-                length="3051545"
-sparkle:edSignature="b2ymxLcM9Pv5aKbk/w7IES3PBBiLqFviHyuLA6jVeROXvyRsZRWKZDXcAoxKJyoRvpSvkcTJL3Q9Mlh6ocUHBQ=="
+                length="3071664"
+sparkle:edSignature="LSTbGdiyYy+5yCc05Rj7Zdw03H3Od1jn108clD9LmHKxNhRVIf+jmhfIl5osiK2wPvc3l/JgqqVssJK4M7O5CA=="
             />
         </item>
     </channel>
