@@ -95,7 +95,8 @@ class IconCreator {
 
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
         if twoRows {
-            return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID)
+            return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID,
+                                        spaces: filteredSpaces, defaultColor: defaultColor)
         } else {
             return mergeIcons(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID)
         }
@@ -111,7 +112,7 @@ class IconCreator {
 
     // MARK: - Unified box rendering
 
-    private func createSpaceIcon(space: Space, defaultColor: NSColor?) -> NSImage {
+    private func createSpaceIcon(space: Space, defaultColor: NSColor?, minWidth: CGFloat = 0) -> NSImage {
         // 1. Determine text content based on display style
         let text: NSString
         switch displayStyle {
@@ -160,6 +161,9 @@ class IconCreator {
 
         if minIconWidth > 0 {
             iconWidth = max(iconWidth, minIconWidth)
+        }
+        if minWidth > 0 {
+            iconWidth = max(iconWidth, minWidth)
         }
 
         let size = NSSize(width: iconWidth, height: cellSize.height)
@@ -379,7 +383,9 @@ class IconCreator {
     private func mergeIconsTwoRows(
         _ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool,
                                         isFullScreen: Bool, spaceID: String, colorHex: String?)],
-        indexMap: [String: Int]
+        indexMap: [String: Int],
+        spaces: [Space],
+        defaultColor: NSColor?
     ) -> NSImage {
         // Column describes a stacked pair (top/bottom)
         // and its rendered width and trailing gap
@@ -484,6 +490,23 @@ class IconCreator {
                     last.gapAfter = 0
                     columns.append(last)
                 }
+            }
+        }
+
+        // Equalize icon widths within each column by re-rendering the narrower icon at column width;
+        // this achieves simplicity by keeping all pairing logic in one place and avoids a complex pre-computation pass
+        let spacesByID = Dictionary(spaces.map { ($0.spaceID, $0) }, uniquingKeysWith: { first, _ in first })
+        for i in 0..<columns.count {
+            let colWidth = columns[i].width
+            if let top = columns[i].top, top.image.size.width < colWidth,
+               let space = spacesByID[top.spaceID] {
+                let newImage = createSpaceIcon(space: space, defaultColor: defaultColor, minWidth: colWidth)
+                columns[i].top = (newImage, top.isFull, top.tag, top.spaceID, top.colorHex)
+            }
+            if let bottom = columns[i].bottom, bottom.image.size.width < colWidth,
+               let space = spacesByID[bottom.spaceID] {
+                let newImage = createSpaceIcon(space: space, defaultColor: defaultColor, minWidth: colWidth)
+                columns[i].bottom = (newImage, bottom.isFull, bottom.tag, bottom.spaceID, bottom.colorHex)
             }
         }
 
