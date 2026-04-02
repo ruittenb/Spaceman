@@ -1889,7 +1889,6 @@
       }
     },
     "Layout" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3556,6 +3555,9 @@
         }
       }
     },
+    "Single Row" : {
+
+    },
     "Spaceman" : {
       "localizations" : {
         "de" : {
@@ -3834,6 +3836,12 @@
           }
         }
       }
+    },
+    "Two Rows, by Columns" : {
+
+    },
+    "Two Rows, by Rows" : {
+
     },
     "Two, by cols" : {
       "localizations" : {

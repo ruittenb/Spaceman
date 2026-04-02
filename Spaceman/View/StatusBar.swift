@@ -35,10 +35,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var refreshItem: NSMenuItem!
     private var prefItem: NSMenuItem!
     private var quitItem: NSMenuItem!
+    private var rowLayoutMenuItem: NSMenuItem!
     private var layoutMenuItem: NSMenuItem!
     private var iconStyleMenuItem: NSMenuItem!
     private var iconShapeMenuItem: NSMenuItem!
-    private var fontMenuItem: NSMenuItem!
     private var spacesShownMenuItem: NSMenuItem!
     private var prefsWindow: PreferencesWindow!
     private var scrollAccumulator: CGFloat = 0
@@ -107,7 +107,18 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             keyEquivalent: "")
         quitItem.image = NSImage(systemSymbolName: "xmark.rectangle", accessibilityDescription: nil)
 
-        // Build settings submenus (icon size submenu is rebuilt dynamically in menuWillOpen)
+        // Build settings submenus
+        let rowLayoutSubmenu = NSMenu()
+        for layout in RowLayout.allCases {
+            let item = NSMenuItem(title: layout.menuLabel, action: #selector(selectRowLayout(_:)), keyEquivalent: "")
+            item.tag = layout.rawValue
+            item.target = self
+            rowLayoutSubmenu.addItem(item)
+        }
+        rowLayoutMenuItem = NSMenuItem(title: String(localized: "Row Layout"), action: nil, keyEquivalent: "")
+        rowLayoutMenuItem.submenu = rowLayoutSubmenu
+
+        // Icon size submenu is rebuilt dynamically in menuWillOpen
         layoutMenuItem = NSMenuItem(title: String(localized: "Icon Size"), action: nil, keyEquivalent: "")
         layoutMenuItem.submenu = NSMenu()
 
@@ -115,6 +126,13 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         for style in IconText.allCases {
             let item = NSMenuItem(title: style.menuLabel, action: #selector(selectIconStyle(_:)), keyEquivalent: "")
             item.tag = style.rawValue
+            item.target = self
+            iconStyleSubmenu.addItem(item)
+        }
+        iconStyleSubmenu.addItem(NSMenuItem.separator())
+        for design in FontDesign.allCases {
+            let item = NSMenuItem(title: design.menuLabel, action: #selector(selectFont(_:)), keyEquivalent: "")
+            item.tag = design.rawValue
             item.target = self
             iconStyleSubmenu.addItem(item)
         }
@@ -163,16 +181,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         spacesShownMenuItem = NSMenuItem(title: String(localized: "Spaces Shown"), action: nil, keyEquivalent: "")
         spacesShownMenuItem.submenu = spacesShownSubmenu
 
-        let fontSubmenu = NSMenu()
-        for design in FontDesign.allCases {
-            let item = NSMenuItem(title: design.menuLabel, action: #selector(selectFont(_:)), keyEquivalent: "")
-            item.tag = design.rawValue
-            item.target = self
-            fontSubmenu.addItem(item)
-        }
-        fontMenuItem = NSMenuItem(title: String(localized: "Font"), action: nil, keyEquivalent: "")
-        fontMenuItem.submenu = fontSubmenu
-
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
         // Dynamic space items will be inserted starting at index 2
@@ -180,7 +188,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         statusBarMenu.addItem(layoutMenuItem)
         statusBarMenu.addItem(iconStyleMenuItem)
         statusBarMenu.addItem(iconShapeMenuItem)
-        statusBarMenu.addItem(fontMenuItem)
+        statusBarMenu.addItem(rowLayoutMenuItem)
         statusBarMenu.addItem(spacesShownMenuItem)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(refreshItem)
@@ -352,6 +360,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     // MARK: - Settings Submenus
 
     func menuWillOpen(_ menu: NSMenu) {
+        // Update row layout checkmarks
+        for item in rowLayoutMenuItem.submenu?.items ?? [] {
+            item.state = item.tag == rowLayout.rawValue ? .on : .off
+        }
         // Rebuild icon size submenu: filter sizes based on two-row mode
         let layoutSubmenu = NSMenu()
         let availableSizes = rowLayout.isTwoRows
@@ -373,7 +385,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         layoutSubmenu.addItem(variableWidthItem)
         layoutMenuItem.submenu = layoutSubmenu
         for item in iconStyleMenuItem.submenu?.items ?? [] {
-            item.state = item.tag == displayStyle.rawValue ? .on : .off
+            if item.action == #selector(selectIconStyle(_:)) {
+                item.state = item.tag == displayStyle.rawValue ? .on : .off
+            } else if item.action == #selector(selectFont(_:)) {
+                item.state = item.tag == fontDesign.rawValue ? .on : .off
+            }
         }
         let bothNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
         let shapesMatch = !bothNoDecoration
@@ -393,9 +409,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 item.state = (fillsMatch && item.tag == decorationActive.fill.rawValue) ? .on : .off
             }
         }
-        for item in fontMenuItem.submenu?.items ?? [] {
-            item.state = item.tag == fontDesign.rawValue ? .on : .off
-        }
         for item in spacesShownMenuItem.submenu?.items ?? [] {
             if item.action == #selector(toggleHideFullscreenSpaces) {
                 item.state = hideFullscreenSpaces ? .off : .on
@@ -403,6 +416,19 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 item.state = item.tag == visibleSpacesModeRaw ? .on : .off
             }
         }
+    }
+
+    @objc func selectRowLayout(_ sender: NSMenuItem) {
+        guard let layout = RowLayout(rawValue: sender.tag) else { return }
+        rowLayout = layout
+        if layout.isTwoRows && Constants.sizesTwoRows[iconSize] == nil {
+            switch iconSize {
+            case .narrow, .compact:              iconSize = .compact
+            case .medium:                        iconSize = .medium
+            case .large, .extraLarge, .enormous:  iconSize = .large
+            }
+        }
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
     @objc func selectLayout(_ sender: NSMenuItem) {

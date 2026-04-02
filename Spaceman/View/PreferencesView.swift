@@ -368,6 +368,7 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
             iconSizePicker
+            iconWidthPicker
             spacesStylePicker
             fontDesignPicker
             activeIconStylePicker
@@ -385,9 +386,8 @@ struct PreferencesView: View {
                 .font(.subheadline)
                 .frame(maxWidth: .infinity, alignment: .trailing)
             }
-            iconWidthPicker
-            spacesShownPicker
             rowLayoutPicker
+            spacesShownPicker
             Toggle("Hide fullscreen spaces", isOn: $hideFullscreenSpaces)
                 .padding(.top, 2)
         }
@@ -524,7 +524,7 @@ struct PreferencesView: View {
             HStack(spacing: 1) {
                 ForEach(RowLayout.allCases, id: \.self) { layout in
                     let isSelected = rowLayout == layout
-                    Button(layout.menuLabel) {
+                    Button(layout.pickerLabel) {
                         rowLayout = layout
                     }
                     .buttonStyle(.plain)
