@@ -108,22 +108,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
         // Build settings submenus
         let layoutSubmenu = NSMenu()
-        let twoRowItem = NSMenuItem(
-            title: String(localized: "Two Rows"),
-            action: #selector(toggleTwoRows), keyEquivalent: "")
-        twoRowItem.target = self
-        layoutSubmenu.addItem(twoRowItem)
-        let byRow = NSMenuItem(
-            title: String(localized: "Rows first"),
-            action: #selector(selectTwoRowByRow), keyEquivalent: "")
-        byRow.target = self
-        layoutSubmenu.addItem(byRow)
-        let byCol = NSMenuItem(
-            title: String(localized: "Columns first"),
-            action: #selector(selectTwoRowByColumn), keyEquivalent: "")
-        byCol.target = self
-        layoutSubmenu.addItem(byCol)
-        layoutSubmenu.addItem(NSMenuItem.separator())
         for mode in IconSize.allCases {
             let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectLayout(_:)), keyEquivalent: "")
             item.tag = mode.rawValue
@@ -360,15 +344,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func menuWillOpen(_ menu: NSMenu) {
         // Update checkmarks on submenu items to reflect current settings
         for item in layoutMenuItem.submenu?.items ?? [] {
-            if item.action == #selector(toggleTwoRows) {
-                item.state = twoRows ? .on : .off
-            } else if item.action == #selector(selectTwoRowByColumn) {
-                item.state = (twoRows && twoRowFillOrder == .byColumn) ? .on : .off
-                item.isEnabled = twoRows
-            } else if item.action == #selector(selectTwoRowByRow) {
-                item.state = (twoRows && twoRowFillOrder == .byRow) ? .on : .off
-                item.isEnabled = twoRows
-            } else if item.action == #selector(toggleVariableWidth) {
+            if item.action == #selector(toggleVariableWidth) {
                 item.state = useVariableWidth ? .on : .off
             } else {
                 item.state = item.tag == iconSize.rawValue ? .on : .off

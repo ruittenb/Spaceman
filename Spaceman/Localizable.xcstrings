@@ -219,13 +219,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todos los espacios"
+            "value" : "Todos los escritorios"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todos los espacios"
+            "value" : "Todos los escritorios"
           }
         },
         "fr" : {
@@ -831,13 +831,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo el espacio actual"
+            "value" : "Solo el escritorio actual"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo el espacio actual"
+            "value" : "Solo el escritorio actual"
           }
         },
         "fr" : {
@@ -918,146 +918,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beeldschermen"
-          }
-        }
-      }
-    },
-    "Dual Row" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zwei Reihen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doble fila"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doble fila"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deux rangées"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Twee rijen"
-          }
-        }
-      }
-    },
-    "Dual Row fill order" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Füllreihenfolge"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Orden de llenado"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Orden de llenado"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ordre de remplissage"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Twee rijen vullen"
-          }
-        }
-      }
-    },
-    "Dual Row, columns first" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zwei Reihen, Spalten zuerst"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dos filas, columnas primero"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dos filas, columnas primero"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deux rangées, colonnes en premier"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Twee rijen, kolommen eerst"
-          }
-        }
-      }
-    },
-    "Dual Row, rows first" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zwei Reihen, Reihen zuerst"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dos filas, filas primero"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dos filas, filas primero"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deux rangées, lignes en premier"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Twee rijen, rijen eerst"
           }
         }
       }
@@ -1171,7 +1031,38 @@
       }
     },
     "Fill order" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reihenfolge"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orden de llenado"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orden de llenado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ordre de remplissage"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volgorde"
+          }
+        }
+      }
     },
     "Filled" : {
       "localizations" : {
@@ -1388,13 +1279,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Para que el cambio entre espacios funcione, estas configuraciones deben coincidir con las funciones rápidas de teclado asignadas a Mission Control."
+            "value" : "Para que el cambio entre escritorios funcione, estas configuraciones deben coincidir con las funciones rápidas de teclado asignadas a Mission Control."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Para que el cambio entre espacios funcione, estas configuraciones deben coincidir con las funciones rápidas de teclado asignadas a Mission Control."
+            "value" : "Para que el cambio entre escritorios funcione, estas configuraciones deben coincidir con las funciones rápidas de teclado asignadas a Mission Control."
           }
         },
         "fr" : {
@@ -1422,13 +1313,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios en pantalla completa"
+            "value" : "Escritorios en pantalla completa"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios en pantalla completa"
+            "value" : "Escritorios en pantalla completa"
           }
         },
         "fr" : {
@@ -1524,13 +1415,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ocultar espacios en pantalla completa"
+            "value" : "Ocultar escritorios en pantalla completa"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ocultar espacios en pantalla completa"
+            "value" : "Ocultar escritorios en pantalla completa"
           }
         },
         "fr" : {
@@ -1548,10 +1439,72 @@
       }
     },
     "Icon size" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbolgröße"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamaño de icono"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamaño de ícono"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taille des icônes"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icoongrootte"
+          }
+        }
+      }
     },
     "Icon Size" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbolgröße"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamaño de icono"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamaño de ícono"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taille des icônes"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icoongrootte"
+          }
+        }
+      }
     },
     "Icon Style" : {
       "localizations" : {
@@ -2115,13 +2068,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rango de espacios cercanos: ±%lld"
+            "value" : "Rango de escritorios cercanos: ±%lld"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rango de espacios cercanos: ±%lld"
+            "value" : "Rango de escritorios cercanos: ±%lld"
           }
         },
         "fr" : {
@@ -2183,13 +2136,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios cercanos"
+            "value" : "Escritorios cercanos"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios cercanos"
+            "value" : "Escritorios cercanos"
           }
         },
         "fr" : {
@@ -2353,13 +2306,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aún no se detectaron espacios."
+            "value" : "Aún no se detectaron escritorios."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aún no se detectaron espacios."
+            "value" : "Aún no se detectaron escritorios."
           }
         },
         "fr" : {
@@ -2965,13 +2918,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizar espacios en segundo plano"
+            "value" : "Actualizar escritorios en segundo plano"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizar espacios en segundo plano"
+            "value" : "Actualizar escritorios en segundo plano"
           }
         },
         "fr" : {
@@ -2999,13 +2952,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reiniciar la numeración de los espacios por pantalla"
+            "value" : "Reiniciar la numeración de los escritorios por pantalla"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reiniciar la numeración de los espacios por pantalla"
+            "value" : "Reiniciar la numeración de los escritorios por pantalla"
           }
         },
         "fr" : {
@@ -3577,13 +3530,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios"
+            "value" : "Escritorios"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios"
+            "value" : "Escritorios"
           }
         },
         "fr" : {
@@ -3617,13 +3570,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios mostrados"
+            "value" : "Escritorios mostrados"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios mostrados"
+            "value" : "Escritorios mostrados"
           }
         },
         "fr" : {
@@ -3651,13 +3604,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios visibles"
+            "value" : "Escritorios visibles"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios visibles"
+            "value" : "Escritorios visibles"
           }
         },
         "fr" : {
@@ -3685,13 +3638,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cambiar entre espacios"
+            "value" : "Cambiar entre escritorios"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cambiar entre espacios"
+            "value" : "Cambiar entre escritorios"
           }
         },
         "fr" : {
@@ -3777,7 +3730,38 @@
       }
     },
     "Two Rows" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwei Reihen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dos filas"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dos filas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deux rangées"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twee rijen"
+          }
+        }
+      }
     },
     "Update available..." : {
       "localizations" : {
