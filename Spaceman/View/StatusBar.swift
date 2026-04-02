@@ -24,6 +24,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("dualRows") private var twoRows = false
+    @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -38,6 +39,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var layoutMenuItem: NSMenuItem!
     private var iconStyleMenuItem: NSMenuItem!
     private var iconShapeMenuItem: NSMenuItem!
+    private var fontMenuItem: NSMenuItem!
     private var spacesShownMenuItem: NSMenuItem!
     private var prefsWindow: PreferencesWindow!
     private var scrollAccumulator: CGFloat = 0
@@ -162,6 +164,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         spacesShownMenuItem = NSMenuItem(title: String(localized: "Spaces Shown"), action: nil, keyEquivalent: "")
         spacesShownMenuItem.submenu = spacesShownSubmenu
 
+        let fontSubmenu = NSMenu()
+        for design in FontDesign.allCases {
+            let item = NSMenuItem(title: design.menuLabel, action: #selector(selectFont(_:)), keyEquivalent: "")
+            item.tag = design.rawValue
+            item.target = self
+            fontSubmenu.addItem(item)
+        }
+        fontMenuItem = NSMenuItem(title: String(localized: "Font"), action: nil, keyEquivalent: "")
+        fontMenuItem.submenu = fontSubmenu
+
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
         // Dynamic space items will be inserted starting at index 2
@@ -169,6 +181,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         statusBarMenu.addItem(layoutMenuItem)
         statusBarMenu.addItem(iconStyleMenuItem)
         statusBarMenu.addItem(iconShapeMenuItem)
+        statusBarMenu.addItem(fontMenuItem)
         statusBarMenu.addItem(spacesShownMenuItem)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(refreshItem)
@@ -381,6 +394,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 item.state = (fillsMatch && item.tag == decorationActive.fill.rawValue) ? .on : .off
             }
         }
+        for item in fontMenuItem.submenu?.items ?? [] {
+            item.state = item.tag == fontDesign.rawValue ? .on : .off
+        }
         for item in spacesShownMenuItem.submenu?.items ?? [] {
             if item.action == #selector(toggleHideFullscreenSpaces) {
                 item.state = hideFullscreenSpaces ? .off : .on
@@ -413,6 +429,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func toggleVariableWidth() {
         useVariableWidth.toggle()
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func selectFont(_ sender: NSMenuItem) {
+        guard let design = FontDesign(rawValue: sender.tag) else { return }
+        fontDesign = design
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
