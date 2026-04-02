@@ -8,6 +8,8 @@
 #ifndef Spaceman_Bridging_Header_h
 #define Spaceman_Bridging_Header_h
 
+#pragma clang diagnostic ignored "-Wpch-date-time"
+
 #import <Foundation/Foundation.h>
 
 int _CGSDefaultConnection();
