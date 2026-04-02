@@ -501,6 +501,10 @@ class IconCreator {
             (col.top?.colorHex != nil) || (col.bottom?.colorHex != nil)
         }
 
+        // Split vertical hit area at the gap midpoint; extend bounds generously
+        // to cover menu bar padding above/below the image
+        let midGap = cellSize.height + gap / 2.0
+
         for col in columns {
             // Simple gap splitting: each icon owns half the gap on each side
             // (col.gapAfter already accounts for display gaps vs regular gaps)
@@ -516,8 +520,8 @@ class IconCreator {
                 iconWidths.append(IconWidth(
                     left: iconLeft,
                     right: iconRight,
-                    top: cellSize.height + gap,
-                    bottom: imageHeight,
+                    top: midGap,
+                    bottom: imageHeight * 2,
                     index: top.tag))
             }
             if let bottom = col.bottom {
@@ -529,8 +533,8 @@ class IconCreator {
                 iconWidths.append(IconWidth(
                     left: iconLeft,
                     right: iconRight,
-                    top: 0,
-                    bottom: cellSize.height,
+                    top: -imageHeight,
+                    bottom: midGap,
                     index: bottom.tag))
             }
             left += col.width + col.gapAfter
