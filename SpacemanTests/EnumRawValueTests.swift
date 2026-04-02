@@ -156,4 +156,63 @@ final class EnumRawValueTests: XCTestCase {
         XCTAssertEqual(VerticalDirection(rawValue: 2), .bottomGoesFirst)
         XCTAssertNil(VerticalDirection(rawValue: 99))
     }
+
+    // MARK: - IconFill
+
+    func testIconFillRawValues() {
+        XCTAssertEqual(IconFill.bordered.rawValue, 0)
+        XCTAssertEqual(IconFill.filled.rawValue, 1)
+    }
+
+    func testIconFillAllCases() {
+        XCTAssertEqual(IconFill.allCases.count, 2)
+    }
+
+    func testIconFillInitFromRawValue() {
+        XCTAssertEqual(IconFill(rawValue: 0), .bordered)
+        XCTAssertEqual(IconFill(rawValue: 1), .filled)
+        XCTAssertNil(IconFill(rawValue: 99))
+    }
+
+    // MARK: - IconShape
+
+    func testIconShapeRawValues() {
+        XCTAssertEqual(IconShape.noDecoration.rawValue, 0)
+        XCTAssertEqual(IconShape.rectangular.rawValue, 1)
+        XCTAssertEqual(IconShape.rounded.rawValue, 2)
+        XCTAssertEqual(IconShape.pill.rawValue, 3)
+    }
+
+    func testIconShapeAllCases() {
+        XCTAssertEqual(IconShape.allCases.count, 4)
+    }
+
+    func testIconShapeInitFromRawValue() {
+        XCTAssertEqual(IconShape(rawValue: 0), .noDecoration)
+        XCTAssertEqual(IconShape(rawValue: 1), .rectangular)
+        XCTAssertEqual(IconShape(rawValue: 2), .rounded)
+        XCTAssertEqual(IconShape(rawValue: 3), .pill)
+        XCTAssertNil(IconShape(rawValue: 99))
+    }
+
+    // MARK: - FontDesign
+
+    func testFontDesignRawValues() {
+        XCTAssertEqual(FontDesign.sans.rawValue, 0)
+        XCTAssertEqual(FontDesign.serif.rawValue, 1)
+        XCTAssertEqual(FontDesign.monospaced.rawValue, 2)
+        XCTAssertEqual(FontDesign.rounded.rawValue, 3)
+    }
+
+    func testFontDesignAllCases() {
+        XCTAssertEqual(FontDesign.allCases.count, 4)
+    }
+
+    func testFontDesignInitFromRawValue() {
+        XCTAssertEqual(FontDesign(rawValue: 0), .sans)
+        XCTAssertEqual(FontDesign(rawValue: 1), .serif)
+        XCTAssertEqual(FontDesign(rawValue: 2), .monospaced)
+        XCTAssertEqual(FontDesign(rawValue: 3), .rounded)
+        XCTAssertNil(FontDesign(rawValue: 99))
+    }
 }

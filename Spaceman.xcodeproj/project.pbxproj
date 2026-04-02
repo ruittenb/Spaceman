@@ -19,6 +19,7 @@
 		96356224D363C59D464B5D8D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED480E85F666F5E94CCE8DB1 /* Foundation.framework */; };
 		9A6DE94BB0D75559B9039ABA /* SpaceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCE20A6B4C0E9E494935DB8 /* SpaceFilter.swift */; };
 		A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */; };
+		A2B3C4D5E6F7A8B9C0D1E2F4 /* EnumBehaviorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */; };
 		E70044AC2E7F6584001C7295 /* RowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70044AB2E7F6584001C7295 /* RowLayout.swift */; };
 		E70044AE2E80380B001C7295 /* OpenPreferencesCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70044AD2E80380B001C7295 /* OpenPreferencesCommand.swift */; };
 		E70044B02E80380B001C7296 /* RestorePreferencesCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70044AF2E80380B001C7296 /* RestorePreferencesCommand.swift */; };
@@ -84,6 +85,7 @@
 		A1B2C3D4E5F6A7B8C9D0E1F2 /* IconStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconStyle.swift; sourceTree = "<group>"; };
 		A4EB8773F2764BC7A1C695B7 /* SpaceNameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNameStore.swift; sourceTree = "<group>"; };
 		B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumRawValueTests.swift; path = SpacemanTests/EnumRawValueTests.swift; sourceTree = "<group>"; };
+		B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumBehaviorTests.swift; path = SpacemanTests/EnumBehaviorTests.swift; sourceTree = "<group>"; };
 		C0F9A49EF2025B97049F7053 /* SpaceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceTests.swift; path = SpacemanTests/SpaceTests.swift; sourceTree = "<group>"; };
 		D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameResolutionTests.swift; path = SpacemanTests/SpaceNameResolutionTests.swift; sourceTree = "<group>"; };
 		D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameInfoTests.swift; path = SpacemanTests/SpaceNameInfoTests.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */,
 				D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */,
 				B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */,
+				B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */,
 			);
 			name = SpacemanTests;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */,
 				F605F4B85B7ADD5424BDDFAE /* SpaceNameResolutionTests.swift in Sources */,
 				A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */,
+				A2B3C4D5E6F7A8B9C0D1E2F4 /* EnumBehaviorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
