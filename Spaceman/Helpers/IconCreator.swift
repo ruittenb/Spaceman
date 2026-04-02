@@ -18,6 +18,7 @@ class IconCreator {
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("useVariableWidth") private var useVariableWidth = false
+    @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
@@ -28,7 +29,7 @@ class IconCreator {
     private var iconSize = NSSize(width: 0, height: 0)
     private var gapWidth = CGFloat.zero
     private var displayGapWidth = CGFloat.zero
-    private var minIconCharWidth = 0
+    private var minIconWidth = CGFloat.zero
     private let spaceFilter = SpaceFilter()
 
     public var sizes: GuiSize!
@@ -58,13 +59,25 @@ class IconCreator {
             return empty
         }
 
-        // For uniform icon widths: match the longest name, capped at 4 characters
+        // For uniform icon widths: measure the widest rendered name, capped for compactness
         let showsNames = displayStyle == .names || displayStyle == .numbersAndNames
+        let maxNameChars = 4
         if !useVariableWidth && showsNames {
-            let longestName = filteredSpaces.filter { !$0.isFullScreen }.map { $0.spaceName.count }.max() ?? 0
-            minIconCharWidth = min(longestName, 4)
+            let measureAttrs = getStringAttributes(alpha: 1, color: .black)
+            let padding = sizes.HORIZONTAL_PADDING * 2
+            minIconWidth = filteredSpaces.filter { !$0.isFullScreen }.reduce(CGFloat.zero) { widest, space in
+                let cappedName = String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength)))
+                let nameText: NSString
+                if displayStyle == .numbersAndNames {
+                    nameText = NSString(string: "\(space.spaceByDesktopID):\(cappedName)")
+                } else {
+                    nameText = NSString(string: cappedName)
+                }
+                let textWidth = nameText.size(withAttributes: measureAttrs).width
+                return max(widest, textWidth + padding)
+            }
         } else {
-            minIconCharWidth = 0
+            minIconWidth = 0
         }
 
         // Pre-scan for mixed color context: when some spaces have custom colors,
@@ -142,9 +155,8 @@ class IconCreator {
 
         var iconWidth = contentWidth + padding
 
-        if minIconCharWidth > 0 {
-            let prefixWidth = displayStyle == .numbersAndNames ? monoCharWidth * 2 : 0
-            iconWidth = max(iconWidth, prefixWidth + monoCharWidth * CGFloat(minIconCharWidth) + padding)
+        if minIconWidth > 0 {
+            iconWidth = max(iconWidth, minIconWidth)
         }
 
         let size = NSSize(width: iconWidth, height: iconSize.height)
@@ -474,7 +486,7 @@ class IconCreator {
 
         // Render
         let totalWidth = columns.reduce(CGFloat(0)) { $0 + $1.width + $1.gapAfter }
-        let gap = CGFloat(sizes.GAP_HEIGHT_DUALROWS)
+        let gap = Constants.dualRowGapHeight
         let imageHeight = iconSize.height * 2 + gap
         let image = NSImage(size: NSSize(width: totalWidth, height: imageHeight))
 
@@ -530,16 +542,27 @@ class IconCreator {
     private func getStringAttributes(
         alpha: CGFloat,
         fontSize: CGFloat = .zero,
-        color: NSColor = .black
+        color: NSColor = .black,
+        design: NSFontDescriptor.SystemDesign? = nil
     ) -> [NSAttributedString.Key: Any] {
+        let design = design ?? fontDesign.systemDesign
         let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
         let baseFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
         let actualFontSize = fontSize == .zero ? baseFontSize : fontSize
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
+
+        let base = NSFont.systemFont(ofSize: actualFontSize, weight: .bold)
+        let font: NSFont
+        if let descriptor = base.fontDescriptor.withDesign(design),
+           let designFont = NSFont(descriptor: descriptor, size: actualFontSize) {
+            font = designFont
+        } else {
+            font = base
+        }
         return [
             .foregroundColor: color.withAlphaComponent(alpha),
-            .font: NSFont.monospacedSystemFont(ofSize: actualFontSize, weight: .bold),
+            .font: font,
             .paragraphStyle: paragraphStyle]
     }
 
