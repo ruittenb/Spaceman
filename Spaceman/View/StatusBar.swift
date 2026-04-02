@@ -250,14 +250,26 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         scrollAccumulator += event.scrollingDeltaY
         let threshold: CGFloat = 8
 
-        if scrollAccumulator > threshold, let next = iconSize.larger {
+        if scrollAccumulator > threshold {
             scrollAccumulator = 0
-            iconSize = next
-            NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
-        } else if scrollAccumulator < -threshold, let next = iconSize.smaller {
+            var next = iconSize.larger
+            while let candidate = next, twoRows && Constants.sizesTwoRows[candidate] == nil {
+                next = candidate.larger
+            }
+            if let next = next {
+                iconSize = next
+                NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+            }
+        } else if scrollAccumulator < -threshold {
             scrollAccumulator = 0
-            iconSize = next
-            NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+            var next = iconSize.smaller
+            while let candidate = next, twoRows && Constants.sizesTwoRows[candidate] == nil {
+                next = candidate.smaller
+            }
+            if let next = next {
+                iconSize = next
+                NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+            }
         }
     }
 
