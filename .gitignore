@@ -1,5 +1,6 @@
 .DS_Store
-.claude
+.claude/*
+!.claude/skills/
 
 # Build artifacts
 localbuild/
