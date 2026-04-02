@@ -106,23 +106,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             keyEquivalent: "")
         quitItem.image = NSImage(systemSymbolName: "xmark.rectangle", accessibilityDescription: nil)
 
-        // Build settings submenus
-        let layoutSubmenu = NSMenu()
-        for mode in IconSize.allCases {
-            let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectLayout(_:)), keyEquivalent: "")
-            item.tag = mode.rawValue
-            item.target = self
-            layoutSubmenu.addItem(item)
-        }
-        layoutSubmenu.addItem(NSMenuItem.separator())
-        let variableWidthItem = NSMenuItem(
-            title: String(localized: "Variable width"),
-            action: #selector(toggleVariableWidth), keyEquivalent: "")
-        variableWidthItem.target = self
-        layoutSubmenu.addItem(variableWidthItem)
-
+        // Build settings submenus (icon size submenu is rebuilt dynamically in menuWillOpen)
         layoutMenuItem = NSMenuItem(title: String(localized: "Icon Size"), action: nil, keyEquivalent: "")
-        layoutMenuItem.submenu = layoutSubmenu
+        layoutMenuItem.submenu = NSMenu()
 
         let iconStyleSubmenu = NSMenu()
         for style in IconText.allCases {
@@ -342,14 +328,26 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     // MARK: - Settings Submenus
 
     func menuWillOpen(_ menu: NSMenu) {
-        // Update checkmarks on submenu items to reflect current settings
-        for item in layoutMenuItem.submenu?.items ?? [] {
-            if item.action == #selector(toggleVariableWidth) {
-                item.state = useVariableWidth ? .on : .off
-            } else {
-                item.state = item.tag == iconSize.rawValue ? .on : .off
-            }
+        // Rebuild icon size submenu: filter sizes based on two-row mode
+        let layoutSubmenu = NSMenu()
+        let availableSizes = twoRows
+            ? IconSize.allCases.filter { Constants.sizesTwoRows[$0] != nil }
+            : Array(IconSize.allCases)
+        for mode in availableSizes {
+            let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectLayout(_:)), keyEquivalent: "")
+            item.tag = mode.rawValue
+            item.target = self
+            item.state = mode == iconSize ? .on : .off
+            layoutSubmenu.addItem(item)
         }
+        layoutSubmenu.addItem(NSMenuItem.separator())
+        let variableWidthItem = NSMenuItem(
+            title: String(localized: "Variable width"),
+            action: #selector(toggleVariableWidth), keyEquivalent: "")
+        variableWidthItem.target = self
+        variableWidthItem.state = useVariableWidth ? .on : .off
+        layoutSubmenu.addItem(variableWidthItem)
+        layoutMenuItem.submenu = layoutSubmenu
         for item in iconStyleMenuItem.submenu?.items ?? [] {
             item.state = item.tag == displayStyle.rawValue ? .on : .off
         }
