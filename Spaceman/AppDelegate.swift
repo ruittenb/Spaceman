@@ -101,8 +101,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     static func resetMigratedKeys() {
         let keys = [
             "visibleSpacesMode", "restartNumberingByDisplay", "horizontalDirection",
-            "useVariableWidth", "decorationActive", "decorationInactive", "dualRows",
-            "iconSize"
+            "useVariableWidth", "decorationActive", "decorationInactive",
+            "iconSize", "rowLayout"
         ]
         for key in keys {
             UserDefaults.standard.removeObject(forKey: key)
@@ -168,11 +168,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             UserDefaults.standard.removeObject(forKey: "inactiveStyle")
         }
 
-        // Migrate layoutMode=0 (old .dualRows) to separate twoRows boolean + compact size
+        // Migrate layoutMode=0 (old .dualRows) to rowLayout + compact size
         if UserDefaults.standard.object(forKey: "layoutMode") != nil,
            UserDefaults.standard.integer(forKey: "layoutMode") == 0 {
-            UserDefaults.standard.set(true, forKey: "dualRows")
+            UserDefaults.standard.set(RowLayout.twoRowsByColumn.rawValue, forKey: "rowLayout")
             UserDefaults.standard.set(IconSize.compact.rawValue, forKey: "layoutMode")
+        }
+
+        // Migrate dualRows + dualRowFillOrder → rowLayout
+        if UserDefaults.standard.object(forKey: "rowLayout") == nil,
+           UserDefaults.standard.object(forKey: "dualRows") != nil {
+            let dualRows = UserDefaults.standard.bool(forKey: "dualRows")
+            if dualRows {
+                let fillOrder = UserDefaults.standard.integer(forKey: "dualRowFillOrder")
+                let newValue = fillOrder == 1
+                    ? RowLayout.twoRowsByRow.rawValue
+                    : RowLayout.twoRowsByColumn.rawValue
+                UserDefaults.standard.set(newValue, forKey: "rowLayout")
+            } else {
+                UserDefaults.standard.set(RowLayout.singleRow.rawValue, forKey: "rowLayout")
+            }
+            UserDefaults.standard.removeObject(forKey: "dualRows")
+            UserDefaults.standard.removeObject(forKey: "dualRowFillOrder")
         }
 
         // Migrate layoutMode (old key + raw values) to iconSize (new key + raw values)

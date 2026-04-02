@@ -12,13 +12,12 @@ import SwiftUI
 class IconCreator {
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
-    @AppStorage("dualRowFillOrder") private var twoRowFillOrder = DualRowFillOrder.byColumn
+    @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("useVariableWidth") private var useVariableWidth = false
-    @AppStorage("dualRows") private var twoRows = false
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
 
@@ -37,7 +36,7 @@ class IconCreator {
     public var iconWidths: [IconWidth] = []
 
     public func getIcon(for spaces: [Space], appearance: NSAppearance? = nil) -> NSImage {
-        sizes = twoRows
+        sizes = rowLayout.isTwoRows
             ? Constants.nearestTwoRowSize(for: iconSize)
             : Constants.sizes[iconSize]
 
@@ -64,7 +63,7 @@ class IconCreator {
 
         // For uniform icon widths: measure the widest rendered name, capped for compactness
         let showsNames = displayStyle == .names || displayStyle == .numbersAndNames
-        let maxNameChars = twoRows ? 8 : 4
+        let maxNameChars = rowLayout.isTwoRows ? 8 : 4
         if !useVariableWidth && showsNames {
             let measureAttrs = getStringAttributes(alpha: 1, color: .black)
             let padding = sizes.HORIZONTAL_PADDING * 2
@@ -94,7 +93,7 @@ class IconCreator {
         }
 
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
-        if twoRows {
+        if rowLayout.isTwoRows {
             return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID,
                                         spaces: filteredSpaces, defaultColor: defaultColor)
         } else {
@@ -402,8 +401,8 @@ class IconCreator {
 
         // Build columns depending on fill order preference
         var columns: [Column] = []
-        switch twoRowFillOrder {
-        case .byColumn:
+        switch rowLayout {
+        case .twoRowsByColumn, .singleRow:
             // Original behavior: fill top then bottom per column
             var current = Column()
             var placeTop = true
@@ -438,7 +437,7 @@ class IconCreator {
                     columns.append(current)
                 }
             }
-        case .byRow:
+        case .twoRowsByRow:
             // New behavior: fill entire top row left-to-right, then bottom row
             // First, segment by display to place display gaps correctly
             typealias Segment = (

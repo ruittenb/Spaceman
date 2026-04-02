@@ -13,7 +13,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
     @AppStorage("iconSize") private var iconSize = IconSize.medium
-    @AppStorage("dualRowFillOrder") private var twoRowFillOrder = DualRowFillOrder.byColumn
+    @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
@@ -23,7 +23,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("lastInactiveFill") private var lastInactiveFillRaw: Int = IconFill.bordered.rawValue
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
     @AppStorage("useVariableWidth") private var useVariableWidth = false
-    @AppStorage("dualRows") private var twoRows = false
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
 
     private var visibleSpacesMode: VisibleSpacesMode {
@@ -266,7 +265,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         if scrollAccumulator > threshold {
             scrollAccumulator = 0
             var next = iconSize.larger
-            while let candidate = next, twoRows && Constants.sizesTwoRows[candidate] == nil {
+            while let candidate = next, rowLayout.isTwoRows && Constants.sizesTwoRows[candidate] == nil {
                 next = candidate.larger
             }
             if let next = next {
@@ -276,7 +275,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         } else if scrollAccumulator < -threshold {
             scrollAccumulator = 0
             var next = iconSize.smaller
-            while let candidate = next, twoRows && Constants.sizesTwoRows[candidate] == nil {
+            while let candidate = next, rowLayout.isTwoRows && Constants.sizesTwoRows[candidate] == nil {
                 next = candidate.smaller
             }
             if let next = next {
@@ -355,7 +354,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func menuWillOpen(_ menu: NSMenu) {
         // Rebuild icon size submenu: filter sizes based on two-row mode
         let layoutSubmenu = NSMenu()
-        let availableSizes = twoRows
+        let availableSizes = rowLayout.isTwoRows
             ? IconSize.allCases.filter { Constants.sizesTwoRows[$0] != nil }
             : Array(IconSize.allCases)
         for mode in availableSizes {
@@ -409,21 +408,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @objc func selectLayout(_ sender: NSMenuItem) {
         guard let mode = IconSize(rawValue: sender.tag) else { return }
         iconSize = mode
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
-    }
-
-    @objc func toggleTwoRows() {
-        twoRows.toggle()
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
-    }
-
-    @objc func selectTwoRowByColumn() {
-        twoRowFillOrder = .byColumn
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
-    }
-
-    @objc func selectTwoRowByRow() {
-        twoRowFillOrder = .byRow
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 

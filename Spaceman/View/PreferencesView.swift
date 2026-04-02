@@ -22,13 +22,12 @@ struct PreferencesView: View {
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("iconSize") private var iconSize = IconSize.medium
-    @AppStorage("dualRows") private var twoRows = false
+    @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
-    @AppStorage("dualRowFillOrder") private var twoRowFillOrder = DualRowFillOrder.byColumn
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
     @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
@@ -368,8 +367,6 @@ struct PreferencesView: View {
             Text("Appearance")
                 .font(.title2)
                 .fontWeight(.semibold)
-            twoRowToggle
-            twoRowFillOrderPicker
             iconSizePicker
             spacesStylePicker
             fontDesignPicker
@@ -390,13 +387,11 @@ struct PreferencesView: View {
             }
             iconWidthPicker
             spacesShownPicker
+            rowLayoutPicker
             Toggle("Hide fullscreen spaces", isOn: $hideFullscreenSpaces)
                 .padding(.top, 2)
         }
         .padding()
-        .onChange(of: twoRowFillOrder) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
         .onChange(of: visibleSpacesModeRaw) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
@@ -500,25 +495,9 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Two Rows Toggle
-    private var twoRowToggle: some View {
-        Toggle("Two Rows", isOn: $twoRows)
-            .onChange(of: twoRows) { newValue in
-                if newValue && Constants.sizesTwoRows[iconSize] == nil {
-                    // Map to nearest available two-row size
-                    switch iconSize {
-                    case .narrow, .compact:             iconSize = .compact
-                    case .medium:                       iconSize = .medium
-                    case .large, .extraLarge, .enormous: iconSize = .large
-                    }
-                }
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-            }
-    }
-
     // MARK: - Icon Size Picker
     private var iconSizePicker: some View {
-        let availableSizes = twoRows
+        let availableSizes = rowLayout.isTwoRows
             ? Array(Constants.sizesTwoRows.keys).sorted { $0.rawValue < $1.rawValue }
             : Array(IconSize.allCases)
         return HStack(spacing: 12) {
@@ -536,22 +515,37 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Dual Row Fill Order Picker
-    private var twoRowFillOrderPicker: some View {
+    // MARK: - Row Layout Picker
+    private var rowLayoutPicker: some View {
         HStack(spacing: 12) {
-            Text("Fill order")
+            Text("Rows")
                 .fixedSize()
-                .foregroundColor(twoRows ? .primary : .secondary)
-                .padding(.leading, subItemIndent)
             Spacer(minLength: 8)
-            Picker("", selection: $twoRowFillOrder) {
-                Text("Rows first").tag(DualRowFillOrder.byRow)
-                Text("Columns first").tag(DualRowFillOrder.byColumn)
+            HStack(spacing: 1) {
+                ForEach(RowLayout.allCases, id: \.self) { layout in
+                    let isSelected = rowLayout == layout
+                    Button(layout.menuLabel) {
+                        rowLayout = layout
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(isSelected ? Color.accentColor : Color.gray.opacity(0.2))
+                    .foregroundColor(isSelected ? .white : .primary)
+                }
             }
-            .pickerStyle(.segmented)
-            .fixedSize()
+            .clipShape(RoundedRectangle(cornerRadius: 6))
         }
-        .disabled(!twoRows)
+        .onChange(of: rowLayout) { newValue in
+            if newValue.isTwoRows && Constants.sizesTwoRows[iconSize] == nil {
+                switch iconSize {
+                case .narrow, .compact:              iconSize = .compact
+                case .medium:                        iconSize = .medium
+                case .large, .extraLarge, .enormous:  iconSize = .large
+                }
+            }
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
     }
 
     // MARK: - Style Pickers
