@@ -3,25 +3,25 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.15.9: Added Icon Style submenu</title>
+            <title>v1.15.10: support proportional fonts</title>
             <description>
                 <![CDATA[
-                    <p>v1.15.9</p>
+                    <p>v1.15.10</p>
                     <ul>
-                        <li> - Added Icon Style submenu for quickly selecting shape and fill</li>
-                        <li> - Added "Clear all colors" button</li>
+                        <li> - Support proportional system fonts: sans-serif, serif and rounded in addition to monospace</li>
+                        <li> - Use Option + Mouse wheel on the menu bar icon to change size</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Tue, 31 Mar 2026 14:46:51 +0200</pubDate>
+            <pubDate>Thu, 02 Apr 2026 08:00:54 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.9/Spaceman-1.15.9.dmg"
-                sparkle:version="1.15.9"
-                sparkle:shortVersionString="1.15.9"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.15.10/Spaceman-1.15.10.dmg"
+                sparkle:version="1.15.10"
+                sparkle:shortVersionString="1.15.10"
                 type="application/octet-stream"
-                length="3043877"
-sparkle:edSignature="0bzk+hsVPzlnlsqTZX9XYHBSQHpJKeDUVGVdHYwz76RwZ/EOFRRr07avdI6gZR9yhJcBB2QpfGRWghfKd6gCCw=="
+                length="3051545"
+sparkle:edSignature="b2ymxLcM9Pv5aKbk/w7IES3PBBiLqFviHyuLA6jVeROXvyRsZRWKZDXcAoxKJyoRvpSvkcTJL3Q9Mlh6ocUHBQ=="
             />
         </item>
     </channel>
