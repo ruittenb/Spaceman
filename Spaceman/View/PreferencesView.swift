@@ -11,7 +11,7 @@ import LaunchAtLogin
 import SwiftUI
 
 struct PreferencesView: View {
-    private let subItemIndent: CGFloat = 40
+    private let subItemIndent: CGFloat = 30
 
     weak var parentWindow: PreferencesWindow?
 
@@ -386,6 +386,8 @@ struct PreferencesView: View {
                 .font(.subheadline)
                 .frame(maxWidth: .infinity, alignment: .trailing)
             }
+            Divider()
+                .padding(.vertical, 2)
             rowLayoutPicker
             spacesShownPicker
             Toggle("Hide fullscreen spaces", isOn: $hideFullscreenSpaces)
@@ -623,6 +625,7 @@ struct PreferencesView: View {
     private var iconWidthPicker: some View {
         HStack(spacing: 12) {
             Text("Icon widths")
+                .padding(.leading, subItemIndent)
             Spacer()
             Picker("", selection: $useVariableWidth) {
                 Text("Roughly equal").tag(false)
@@ -736,16 +739,20 @@ struct PreferencesView: View {
                     .fixedSize()
                     .layoutPriority(1)
                 Spacer()
-                Picker("", selection: Binding(
-                    get: { visibleSpacesMode },
-                    set: { visibleSpacesModeRaw = $0.rawValue }
-                )) {
-                    Text("All spaces").tag(VisibleSpacesMode.all)
-                    Text("Nearby spaces").tag(VisibleSpacesMode.neighbors)
-                    Text("Current only").tag(VisibleSpacesMode.currentOnly)
+                HStack(spacing: 1) {
+                    ForEach(VisibleSpacesMode.allCases, id: \.self) { mode in
+                        let isSelected = visibleSpacesMode == mode
+                        Button(mode.pickerLabel) {
+                            visibleSpacesModeRaw = mode.rawValue
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(isSelected ? Color.accentColor : Color.gray.opacity(0.2))
+                        .foregroundColor(isSelected ? .white : .primary)
+                    }
                 }
-                .pickerStyle(.segmented)
-                .fixedSize()
+                .clipShape(RoundedRectangle(cornerRadius: 6))
             }
             Stepper(value: $neighborRadius, in: 1...3) {
                 Text("Nearby range: ±\(neighborRadius)")
