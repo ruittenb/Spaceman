@@ -114,3 +114,218 @@ gesture fails. Left-clicks (the primary interaction) already work in the
 gap.
 
 ================================================================================
+SLANTED ICON SHAPES: triangles and trapezoids
+================================================================================
+
+Status:   IDEA (2026-04-03)
+Effort:   Medium — custom NSBezierPath rendering, hit testing changes
+Risk:     Low — additive, new icon shape option alongside existing ones
+
+--- What it is ---
+
+A new decoration shape where icons have slanted/diagonal edges instead of
+vertical ones. With short text (numbers), icons become triangles. With longer
+text (names), they become trapezoids. The slant creates a distinctive,
+dynamic look.
+
+Numbers (triangles), without or with gaps:
+
+      _______                   . _____ .    
+     / \ 5 / \       or        / \\ 5 // \   
+    / 4 \ / 6 \               / 4 \\ // 6 \  
+    ‾‾‾‾‾‾‾‾‾‾‾               ‾‾‾‾‾ ' ‾‾‾‾‾  
+
+Names (trapezoids) without or with gaps:
+
+      ___________________                  ____ ________ _______   
+     /    \ Five /       \      or        /    \\ Five //       \  
+    / Four \    / Private \              / Four \\    // Private \ 
+    ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾              ‾‾‾‾‾‾‾‾ ‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾ 
+
+Icons can tessellate (share slanted edges) or have gaps between them, like
+the existing rectangular icons do.
+
+--- Rendering ---
+
+NSBezierPath can draw arbitrary polygons, so the shape itself is
+straightforward — just a trapezoid/triangle path instead of the current
+NSBezierPath(roundedRect:). Would be a new case in IconStyle or IconShape.
+
+For each icon, the path would be:
+  - Top edge: shorter than bottom (or equal for rectangles)
+  - Left edge: slanted inward from bottom-left to top-left
+  - Right edge: slanted inward from bottom-right to top-right
+  - The slant angle is constant; the top width depends on the text width
+
+Text is centered within the shape. For trapezoids this is approximately
+the center of the bounding rect; for narrow triangles the text sits in
+the wider bottom portion.
+
+--- Considerations ---
+
+1. Hit testing: IconWidth currently uses rectangular left/right bounds.
+   Slanted edges mean the actual clickable shape is a trapezoid. Two
+   approaches:
+     a) Keep rectangular hit zones (simpler, small visual mismatch at edges)
+     b) Add diagonal hit testing (more accurate, more code)
+   Option (a) is probably fine — the mismatch is 1-2px at the slant.
+
+2. Interlocking vs gaps: The shapes can tessellate (each icon's right slant
+   is the next icon's left slant) or have gaps. Gaps are simpler since icons
+   remain independently rendered. Tessellation requires either rendering the
+   whole strip as one composite path or handling overlap between adjacent
+   icon images.
+
+3. Two-row mode: Slanted shapes in two rows could alternate the slant
+   direction per row (top row: /‾\, bottom row: \_/) for a zig-zag effect.
+   Or both rows could slant the same way. Needs visual experimentation.
+   Or this shape could be unavailable in two-row mode.
+
+4. Active/inactive distinction: The existing fill/border distinction works
+   naturally with trapezoid paths — filled trapezoids vs bordered trapezoids.
+
+5. Fullscreen variant: Could use inverted slant (wider at top instead of
+   bottom) as the contrasting shape, analogous to how rectangular↔pill works
+   currently.
+
+--- Implementation sketch ---
+
+  - Add a new IconShape case (e.g. .slanted) or a separate slant parameter
+  - In renderIcon(), when slanted: build an NSBezierPath with 4 points
+    instead of using roundedRect
+  - The slant inset = some fraction of the icon height (e.g. height * 0.3)
+  - Top-left = (slantInset, height), top-right = (width - slantInset, height)
+  - Bottom-left = (0, 0), bottom-right = (width, 0)
+  - For bordered: stroke the path. For filled: fill the path
+  - Text drawing unchanged (centered in bounding rect, close enough)
+
+================================================================================
+UNIFIED POPUP PANEL: replace NSMenu + Preferences window with a single panel
+================================================================================
+
+Status:   IDEA (2026-04-03)
+Effort:   High — new UI architecture, replaces two existing systems
+Risk:     Medium — touches all user-facing settings UI
+
+--- KEY TRADE-OFF: speed vs. organization ---
+
+The right-click menu exists because it's FAST. Changing icon size is two
+actions: right-click → hover submenu → click. A tabbed panel would make
+this three or four: right-click → click tab → open dropdown → select.
+That's a regression for the most common quick-settings use case.
+
+The Preferences window exists because it's ORGANIZED. Everything in one
+place, clearly labeled, with room for complex controls.
+
+Merging them optimizes for one goal at the expense of the other. If this
+idea is pursued, mitigations for the speed regression:
+  - Option-scroll for size changes remains the fastest path (no menu at all)
+  - The panel could remember the last-used tab
+  - The most-changed settings (size, spaces shown) could appear on the
+    default Spaces tab alongside the space list, avoiding tab switches
+  - Or: keep the right-click menu for quick settings AND the panel for
+    deep settings. Accept the duplication as the cost of good UX in both
+    contexts. The menu is fast because it's shallow; the panel is complete
+    because it's deep. Different tools for different needs.
+
+--- Motivation ---
+
+Settings currently live in two places:
+  1. The right-click NSMenu (Icon Size, Icon Text, Icon Shape, Row Layout,
+     Spaces Shown — with checkmarks and submenus)
+  2. The Preferences window (all settings, organized in four tabs)
+
+This duplication means changes must be kept in sync. Adding a new setting
+requires updating both the menu and the Preferences window. Some settings
+are only in Preferences (font, icon widths, active/inactive style, colors,
+backup/restore, shortcuts). The right-click menu is a subset.
+
+--- The idea ---
+
+Replace both with a single popup panel anchored to the menu bar icon:
+
+  - Left-click on a space icon → switches spaces (unchanged)
+  - Right-click on the menu bar icon → opens the popup panel
+
+The panel is a borderless NSPanel (or NSPopover) containing a SwiftUI view
+with tabs, similar to the current Preferences window but appearing as a
+dropdown from the menu bar. Apps like Bartender, iStat Menus, and Dato
+use this pattern.
+
+--- Panel structure ---
+
+  Tabs: [ Spaces | Appearance | General | Shortcuts ]
+
+  Spaces tab:
+    - List of spaces with names and checkmarks for the current space
+    - Clicking a space switches to it (replaces the NSMenu space list)
+    - Space name editing (currently in Preferences → Spaces)
+    - Color assignment per space
+
+  Appearance tab:
+    - All appearance settings in one place (currently split between menu
+      and Preferences → Appearance)
+    - Icon size, widths, text, font, active/inactive style, rows, etc.
+
+  General tab:
+    - Launch at login, refresh, display ordering, backup/restore
+    - Same as current Preferences → General
+
+  Shortcuts tab:
+    - Keyboard shortcut configuration
+    - Same as current Preferences → Shortcuts
+
+--- What goes away ---
+
+  - The right-click NSMenu (replaced by the panel)
+  - The separate Preferences window (merged into the panel)
+  - The "Open Preferences" menu item (no longer needed)
+  - The duplicate settings code in StatusBar.swift
+
+--- What stays ---
+
+  - Left-click space switching (unchanged)
+  - Option-scroll to resize (unchanged)
+  - AppleScript commands (unchanged)
+
+--- Implementation approach ---
+
+  1. Create a borderless NSPanel positioned below the status bar item
+  2. Host the existing SwiftUI PreferencesView (or a refactored version)
+     inside it via NSHostingView
+  3. Add dismiss-on-click-outside behavior (NSEvent global monitor for
+     mouseDown outside the panel)
+  4. Add escape-to-dismiss
+  5. Integrate the space list + switching into the Spaces tab
+  6. Remove the NSMenu construction from StatusBar.swift
+  7. Remove the separate PreferencesWindow
+
+--- Considerations ---
+
+  1. Panel width: The current Preferences window is ~500px wide. A menu
+     bar popup that wide might feel oversized. May need a narrower layout
+     or allow the panel to be wider than the status bar item.
+
+  2. Space name editing: The Spaces tab currently has a scrollable list
+     of text fields. This needs decent vertical space. A popup panel
+     might need to be taller than a typical menu.
+
+  3. Keyboard shortcut recording: The KeyboardShortcuts library shows a
+     recording UI inline. This works in a window but might feel cramped
+     in a popup. Needs testing.
+
+  4. The "About" info (version, GitHub/Website links) needs a home —
+     could go at the top of the panel or in a small footer.
+
+  5. Quit button needs a home — bottom of the panel, always visible.
+
+  6. Sparkle update UI currently uses the Preferences window as parent.
+     Would need to adapt to the popup panel.
+
+--- Why parked ---
+
+This is a v2.0-level change. The current system works well. The
+duplication is manageable. This idea is worth pursuing when there's
+appetite for a bigger UI overhaul, not as a mid-release tweak.
+
+================================================================================

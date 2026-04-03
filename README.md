@@ -81,7 +81,7 @@ For ultra-compact mode, choose the Two Rows layout:
 
 Full Unicode support:
 
-<img src="images/Button-9-Greek.png" width="auto" height="40px">
+<img src="images/Button-9-Unicode.png" width="auto" height="40px">
 
 You can choose to display all spaces or just a few neighboring ones; and to hide Fullscreen spaces entirely.
 
@@ -104,18 +104,19 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Appearance Tab
 
-<img src="images/Preferences-Appearance-1.png" width="66%" height="auto">
+<img src="images/Preferences-Appearance-2.png" width="66%" height="auto">
 
-- **Layout**: Adjusts icon and font sizes for the menu bar
-- **Dual Row fill order**: When using Dual Row layout, choose whether to fill rows first or columns first:
-
-<img src="images/Dual-Row-Directions.png" width="66%" height="auto">
-
-- **Icon text**: Selects one of the five visual icon styles shown in [What It Looks Like](#-what-it-looks-like)
-- **Inactive style**: Choose between dimmed (reduced opacity) or bordered (outlined) inactive spaces
+- **Icon size**: Adjusts the size of the space icons in the menu bar
 - **Icon widths**: Switches between:
   - roughly equal icon widths (short names are padded to match the longest, but fullscreen names are disregarded), or
   - variable widths (each icon sized to its own content)
+- **Icon text**: Selects whether to show space numbers and/or names in the icons
+  - **Font**: Choose from four main font styles
+- **Active style** / **Inactive style**: Choose the shape and fill for active and inactive space icons
+- **Rows**: Choose single row, or two rows filled by rows or by columns:
+
+<img src="images/Dual-Row-Directions.png" width="66%" height="auto">
+
 - **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
 - **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
 - **Hide fullscreen spaces**: Hides fullscreen app spaces from the menu bar
@@ -193,10 +194,10 @@ For space switching to work, you need to configure three things:
 
 Some appearance settings are also available directly from this menu.
 
-<img src="images/Menu-1.png" width="auto" height="auto">
+<img src="images/Menu-4.png" width="auto" height="auto">
 
 **Resizing the Icon**
-- Hold **⌥ Option** and scroll on the menu bar icon to quickly change the layout size
+- Hold **⌥ Option** and scroll on the menu bar icon to quickly change the icon size
 
 **Keyboard Shortcuts**
 - Spaceman does not do the space switching itself, but sends shortcut keystrokes to Mission Control.
