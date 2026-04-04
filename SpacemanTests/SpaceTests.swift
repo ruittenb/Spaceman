@@ -118,4 +118,47 @@ final class SpaceTests: XCTestCase {
         let map = Space.buildSwitchIndexMap(for: [])
         XCTAssertTrue(map.isEmpty)
     }
+
+    // MARK: - Navigation index constants
+
+    func testNavigationIndicesAreDistinct() {
+        let indices: Set<Int> = [
+            Space.unswitchableIndex,
+            Space.missionControlIndex,
+            Space.previousSpaceIndex,
+            Space.nextSpaceIndex
+        ]
+        XCTAssertEqual(indices.count, 4, "All navigation indices must be unique")
+    }
+
+    func testNavigationIndicesDoNotCollideWithSwitchMap() {
+        // Switch map uses 1–10 for desktops and -1 for first fullscreen
+        let spaces = (1...10).map { makeSpace(id: "s\($0)") }
+            + [makeSpace(id: "f1", fullScreen: true)]
+        let map = Space.buildSwitchIndexMap(for: spaces)
+        let mapValues = Set(map.values)
+
+        XCTAssertFalse(mapValues.contains(Space.missionControlIndex))
+        XCTAssertFalse(mapValues.contains(Space.previousSpaceIndex))
+        XCTAssertFalse(mapValues.contains(Space.nextSpaceIndex))
+        XCTAssertFalse(mapValues.contains(Space.unswitchableIndex))
+    }
+
+    // MARK: - NavigationMode enum
+
+    func testNavigationModeAllCases() {
+        XCTAssertEqual(NavigationMode.allCases.count, 3)
+    }
+
+    func testNavigationModeRawValues() {
+        XCTAssertEqual(NavigationMode.none.rawValue, 0)
+        XCTAssertEqual(NavigationMode.missionControl.rawValue, 1)
+        XCTAssertEqual(NavigationMode.missionControlWithArrows.rawValue, 2)
+    }
+
+    func testNavigationModeMenuLabels() {
+        for mode in NavigationMode.allCases {
+            XCTAssertFalse(mode.menuLabel.isEmpty)
+        }
+    }
 }

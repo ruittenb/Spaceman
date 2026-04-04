@@ -24,6 +24,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
+    @AppStorage("navigationMode") private var navigationMode = NavigationMode.missionControlWithArrows
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -40,6 +41,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var iconStyleMenuItem: NSMenuItem!
     private var iconShapeMenuItem: NSMenuItem!
     private var spacesShownMenuItem: NSMenuItem!
+    private var navigationMenuItem: NSMenuItem!
     private var prefsWindow: PreferencesWindow!
     private var scrollAccumulator: CGFloat = 0
     private var lastScrollTime: Date = .distantPast
@@ -181,6 +183,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         spacesShownMenuItem = NSMenuItem(title: String(localized: "Spaces Shown"), action: nil, keyEquivalent: "")
         spacesShownMenuItem.submenu = spacesShownSubmenu
 
+        let navigationSubmenu = NSMenu()
+        for mode in NavigationMode.allCases {
+            let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectNavigationMode(_:)), keyEquivalent: "")
+            item.tag = mode.rawValue
+            item.target = self
+            navigationSubmenu.addItem(item)
+        }
+        navigationMenuItem = NSMenuItem(title: String(localized: "Navigation"), action: nil, keyEquivalent: "")
+        navigationMenuItem.submenu = navigationSubmenu
+
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
         // Dynamic space items will be inserted starting at index 2
@@ -190,6 +202,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         statusBarMenu.addItem(iconShapeMenuItem)
         statusBarMenu.addItem(rowLayoutMenuItem)
         statusBarMenu.addItem(spacesShownMenuItem)
+        statusBarMenu.addItem(navigationMenuItem)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(refreshItem)
         statusBarMenu.addItem(prefItem)
@@ -416,6 +429,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 item.state = item.tag == visibleSpacesModeRaw ? .on : .off
             }
         }
+        for item in navigationMenuItem.submenu?.items ?? [] {
+            item.state = item.tag == navigationMode.rawValue ? .on : .off
+        }
     }
 
     @objc func selectRowLayout(_ sender: NSMenuItem) {
@@ -501,6 +517,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func selectSpacesShown(_ sender: NSMenuItem) {
         visibleSpacesModeRaw = sender.tag
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func selectNavigationMode(_ sender: NSMenuItem) {
+        guard let mode = NavigationMode(rawValue: sender.tag) else { return }
+        navigationMode = mode
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 

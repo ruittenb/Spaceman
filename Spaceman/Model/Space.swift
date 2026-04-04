@@ -21,6 +21,15 @@ struct Space: Equatable {
     /// Any negative index causes SpaceSwitcher to trigger onError instead of switching.
     static let unswitchableIndex = -99
 
+    /// Switch index for the Mission Control button.
+    static let missionControlIndex = -100
+
+    /// Switch index for the previous-space arrow (Ctrl+Left).
+    static let previousSpaceIndex = -101
+
+    /// Switch index for the next-space arrow (Ctrl+Right).
+    static let nextSpaceIndex = -102
+
     /// Build a mapping from spaceID to Mission Control switch index.
     /// Regular desktops get 1, 2, ... up to 10 (matching ⌃1–⌃0 shortcuts).
     /// Desktops beyond 10 are omitted.
