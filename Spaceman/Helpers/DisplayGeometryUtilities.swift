@@ -2,7 +2,7 @@
 //  DisplayGeometryUtilities.swift
 //  Spaceman
 //
-//  Created by René Uittenbogaard on 08/10/2025.
+//  Created by René Uittenbogaard on 2025-10-08.
 //
 
 import Cocoa

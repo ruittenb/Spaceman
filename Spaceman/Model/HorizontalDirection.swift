@@ -2,7 +2,7 @@
 //  HorizontalDirection.swift
 //  Spaceman
 //
-//  Created by René Uittenbogaard on 13/10/2025.
+//  Created by René Uittenbogaard on 2025-10-13.
 //
 
 enum HorizontalDirection: Int {

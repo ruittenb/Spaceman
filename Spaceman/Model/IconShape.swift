@@ -2,7 +2,8 @@
 //  IconShape.swift
 //  Spaceman
 //
-//  Created by Claude Code on 30/03/2026.
+//  Created by René Uittenbogaard on 2026-03-30.
+//  Co-author: Claude Code
 //
 
 import Foundation

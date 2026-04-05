@@ -2,7 +2,8 @@
 //  IconStyle.swift
 //  Spaceman
 //
-//  Created by Claude Code on 27/03/2026.
+//  Created by René Uittenbogaard on 2026-03-27.
+//  Co-author: Claude Code
 //
 
 import AppKit

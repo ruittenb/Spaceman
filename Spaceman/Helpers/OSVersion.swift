@@ -2,7 +2,7 @@
 //  OSVersion.swift
 //  Spaceman
 //
-//  Created by René Uittenbogaard on 05/09/2024.
+//  Created by René Uittenbogaard on 2024-09-05.
 //
 
 import Foundation

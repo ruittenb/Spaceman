@@ -2,7 +2,7 @@
 //  SpaceSwitcher.swift
 //  Spaceman
 //
-//  Created by René Uittenbogaard on 28/08/2024.
+//  Created by René Uittenbogaard on 2024-08-28.
 //
 
 import Foundation
