@@ -12,6 +12,178 @@ The column-building logic for twoRowsByColumn vs twoRowsByRow could be extracted
 class level.
 
 ================================================================================
+OPTION + RIGHT CLICK: show spatial mini-map of spaces in a popup balloon
+================================================================================
+
+Status:   IDEA (2026-04-03)
+Effort:   Medium — NSPopover + SwiftUI grid + slider, hover detection
+Risk:     Low — additive, no impact on existing functionality
+
+--- What it is ---
+
+When the user hovers over the menu bar icon (optionally with Option held),
+a popup balloon appears showing all spaces in a grid layout — a mini
+Mission Control. The current space is highlighted. Clicking a cell switches
+to that space.
+
+The grid dimensions are controlled by a slider inside the popup itself.
+The user sets one dimension (e.g. number of columns), and the other
+follows from the total space count. For example, with 9 spaces and the
+slider set to 3 columns, the grid is 3×3. With 8 spaces and 2 columns,
+it's 2×4.
+
+--- Why it's useful ---
+
+The linear menu bar strip shows which space you're on, but not where it
+sits relative to the others spatially. The grid gives that at a glance.
+
+This makes "Current only" mode especially powerful for users with busy
+menu bars: the menu bar icon is tiny (just one space indicator), but
+hovering reveals the full spatial map. Minimal footprint, full awareness.
+
+--- What the popup contains ---
+
+  ┌───────────────────────────┐
+  │  ┌─────┐ ┌─────┐ ┌─────┐  │
+  │  │  1  │ │ [2] │ │  3  │  │
+  │  └─────┘ └─────┘ └─────┘  │
+  │  ┌─────┐ ┌─────┐ ┌─────┐  │
+  │  │  4  │ │  5  │ │  6  │  │
+  │  └─────┘ └─────┘ └─────┘  │
+  │  ┌─────┐ ┌─────┐ ┌─────┐  │
+  │  │  7  │ │  8  │ │  9  │  │
+  │  └─────┘ └─────┘ └─────┘  │
+  │                           │
+  │  Columns: ──●────── 3     │
+  └───────────────────────────┘
+
+  - Each cell shows the space number, name, or emoji (matching the
+    current display style setting)
+  - Current space is highlighted (filled/colored)
+  - Per-space colors are shown
+  - Clicking a cell switches to that space
+  - The slider at the bottom controls the number of columns (or rows)
+  - Slider value is persisted in UserDefaults
+
+--- Hover detection ---
+
+Same mechanism as the original OPTION-HOVER idea:
+
+  1. NSTrackingArea on statusBarItem.button for mouseEntered/mouseExited
+  2. On mouseEntered: check NSEvent.modifierFlags.contains(.option)
+     (or show unconditionally — TBD)
+  3. If triggered → show NSPopover with the grid view
+  4. On mouseExited → dismiss (with a small delay to allow entering the
+     popover itself)
+
+  let area = NSTrackingArea(
+      rect: button.bounds,
+      options: [.mouseEnteredAndExited, .activeAlways, .inVisibleRect],
+      owner: self
+  )
+  button.addTrackingArea(area)
+
+--- Grid rendering ---
+
+SwiftUI LazyVGrid or manual VStack/HStack:
+
+  let columns = Array(repeating: GridItem(.flexible()), count: numColumns)
+  LazyVGrid(columns: columns, spacing: 4) {
+      ForEach(spaces) { space in
+          SpaceCell(space: space, isCurrent: space.isCurrentSpace)
+              .onTapGesture { switchToSpace(space) }
+      }
+  }
+
+--- Considerations ---
+
+1. Trigger: Option-hover vs always-hover. Option-hover is safer (no
+   accidental popups). Always-hover is more discoverable. Could be a
+   preference toggle, or start with Option-hover.
+
+2. Multi-display: Each display has its own spaces. The grid could show
+   all displays (with separators) or just the current display's spaces.
+
+3. Dismiss behavior: The popover should stay open while the cursor is
+   inside it (not just while hovering the menu bar icon). Need to track
+   mouseExited on both the button and the popover.
+
+4. Slider persistence: Store the column count in UserDefaults via
+   @AppStorage. Default could be auto-calculated: ceil(sqrt(spaceCount)).
+
+5. Interaction with existing click behavior: Left-click still switches
+   spaces via the menu bar icon directly. The popup is hover-only.
+   Right-click still opens the settings menu. The popup doesn't replace
+   either — it adds a third interaction mode.
+
+================================================================================
+OPTION-HOVER (original idea): show extra info on the menu bar icon
+================================================================================
+
+Status:   SUPERSEDED by HOVER GRID above (2026-04-03)
+Effort:   Low — isolated change, entirely within StatusBar.swift
+Risk:     None — additive, no architectural impact, easy to remove
+
+Why superseded: The hover grid idea covers this use case and goes further.
+The original idea of showing a tooltip or simple popover with space names
+is a subset of the grid popup. Keeping this section for historical context.
+
+--- What it does ---
+
+When the user hovers over the menu bar icon while holding Option, show
+additional detail about the spaces.
+
+--- What to show (candidates) ---
+
+  a) Space numbers and/or names — for users who use compact/number styles and
+     occasionally want to see which space is which without opening the menu.
+     Easiest.
+
+  b) Space screenshots — tiny thumbnails of each space's content. Much cooler
+     but much harder: needs CGWindowListCreateImage, Screen Recording
+     permission, and image rendering. Different league of effort.
+
+  c) Other ideas considered: focused app per space.
+
+--- How to present it (candidates) ---
+
+  a) Tooltip — simplest. Just set statusBarItem.button.toolTip to a string.
+     Plain text only, no formatting control. Only works for (a) above.
+
+  b) NSPopover — speech balloon like the help popovers in Preferences (which
+     use SwiftUI .popover). The menu bar icon is AppKit, so this would use
+     NSPopover with an NSHostingView to embed SwiftUI content. More effort
+     but can show rich/formatted content, and the pattern already exists in
+     the codebase (PreferencesView.swift:262, :421). Works for all options.
+
+--- Hover detection (common to all approaches) ---
+
+All in StatusBar.swift (~15-20 lines):
+
+  1. NSTrackingArea on statusBarItem.button for mouseEntered/mouseExited
+  2. On mouseEntered: check NSEvent.modifierFlags.contains(.option)
+  3. If Option held → show the detail (tooltip or popover)
+  4. On mouseExited → hide it
+
+  let area = NSTrackingArea(
+      rect: button.bounds,
+      options: [.mouseEnteredAndExited, .activeAlways, .inVisibleRect],
+      owner: self
+  )
+  button.addTrackingArea(area)
+
+  Notes:
+  - .activeAlways works even when the app isn't frontmost (menu bar item)
+  - .inVisibleRect auto-updates the rect if the button resizes
+  - mouseEntered/mouseExited go to the owner (StatusBar inherits from NSObject)
+
+--- Future-proofing ---
+
+No concerns. The tracking area + event monitor pattern is standard AppKit.
+If more modifier-based behaviors are added later (Cmd-hover, etc.), the
+flag-checking can be refactored trivially at that point.
+
+================================================================================
 RIGHT-CLICK DEAD ZONE: top 1-2px of menu bar icon
 ================================================================================
 

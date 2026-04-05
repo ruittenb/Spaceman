@@ -41,6 +41,7 @@
 		E828E6582737D2E4007075E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6572737D2E4007075E8 /* Constants.swift */; };
 		E87334E9256B51CF0012586E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87334E8256B51CF0012586E /* AppDelegate.swift */; };
 		E87334EB256B51CF0012586E /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87334EA256B51CF0012586E /* PreferencesView.swift */; };
+		E87334EB256B51CF0012586F /* SpaceGridPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87334EA256B51CF0012586F /* SpaceGridPopover.swift */; };
 		E87334ED256B51CF0012586E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E87334EC256B51CF0012586E /* Assets.xcassets */; };
 		E87334F0256B51CF0012586E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E87334EF256B51CF0012586E /* Preview Assets.xcassets */; };
 		E87334F3256B51CF0012586E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E87334F1256B51CF0012586E /* Main.storyboard */; };
@@ -114,6 +115,7 @@
 		E87334E5256B51CF0012586E /* Spaceman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spaceman.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E87334E8256B51CF0012586E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E87334EA256B51CF0012586E /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		E87334EA256B51CF0012586F /* SpaceGridPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceGridPopover.swift; sourceTree = "<group>"; };
 		E87334EC256B51CF0012586E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E87334EF256B51CF0012586E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E87334F2256B51CF0012586E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 			children = (
 				E8C5AFF42580848100614F50 /* AboutView.swift */,
 				E87334EA256B51CF0012586E /* PreferencesView.swift */,
+				E87334EA256B51CF0012586F /* SpaceGridPopover.swift */,
 				E8EBF090257739ED001BA74F /* PreferencesWindow.swift */,
 				E8733502256B532D0012586E /* StatusBar.swift */,
 				E828E6542737CBA0007075E8 /* VisualEffectView.swift */,
@@ -471,6 +474,7 @@
 				E722A6E12E95BF8D00D5FA4F /* VerticalDirection.swift in Sources */,
 				E8733503256B532D0012586E /* StatusBar.swift in Sources */,
 				E87334EB256B51CF0012586E /* PreferencesView.swift in Sources */,
+				E87334EB256B51CF0012586F /* SpaceGridPopover.swift in Sources */,
 				E8C5AFF52580848100614F50 /* AboutView.swift in Sources */,
 				E70044AE2E80380B001C7295 /* OpenPreferencesCommand.swift in Sources */,
 				E70044B02E80380B001C7296 /* RestorePreferencesCommand.swift in Sources */,

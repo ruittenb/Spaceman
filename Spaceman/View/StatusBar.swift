@@ -48,9 +48,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var lastScrollTime: Date = .distantPast
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
+    private var currentSpaces: [Space] = []
+    private var gridPopover: NSPopover?
+    private var gridClickMonitor: Any?
     private var updaterController: SPUStandardUpdaterController!
     private var aboutView: NSHostingView<AboutView>!
-    private var currentSpaces: [Space] = []
     private var missingShortcutBalloon: NSPopover?
 
     public var iconCreator: IconCreator!
@@ -251,7 +253,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let mouseLocation = NSEvent.mouseLocation
         let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-            if event.type == .rightMouseDown {
+            if event.type == .rightMouseDown && event.modifierFlags.contains(.option) {
+                // Option + right-click: show the grid popup
+                self.showGridPopover()
+            } else if event.type == .rightMouseDown {
                 // Show the menu on right-click
                 if let sbMenu = self.statusBarMenu {
                     // This calculation is not right, but looks good. This is likely because of the
@@ -294,6 +299,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     private func handleScroll(_ event: NSEvent) {
+        dismissGridPopover()
         guard event.modifierFlags.contains(.option) else { return }
         let now = Date()
         if now.timeIntervalSince(lastScrollTime) > 0.3 {
@@ -435,6 +441,44 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func reloadShortcuts() {
         shortcutHelper.reload()
         spaceSwitcher.reloadShortcuts()
+    }
+
+    // MARK: - Grid Popover
+
+    private func showGridPopover() {
+        guard gridPopover == nil, let button = statusBarItem.button else { return }
+
+        let popover = NSPopover()
+        popover.behavior = .applicationDefined
+        popover.contentViewController = NSHostingController(
+            rootView: SpaceGridPopover(
+                spaces: currentSpaces,
+                onSwitch: { [weak self] spaceNumber in
+                    self?.dismissGridPopover()
+                    self?.spaceSwitcher.switchToSpace(
+                        spaceNumber: spaceNumber,
+                        onError: self?.flashStatusBar ?? {})
+                }
+            )
+        )
+        popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+        gridPopover = popover
+
+        // Dismiss on any click outside the popover
+        gridClickMonitor = NSEvent.addGlobalMonitorForEvents(
+            matching: [.leftMouseDown, .rightMouseDown]
+        ) { [weak self] _ in
+            self?.dismissGridPopover()
+        }
+    }
+
+    private func dismissGridPopover() {
+        gridPopover?.performClose(nil)
+        gridPopover = nil
+        if let monitor = gridClickMonitor {
+            NSEvent.removeMonitor(monitor)
+            gridClickMonitor = nil
+        }
     }
 
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
