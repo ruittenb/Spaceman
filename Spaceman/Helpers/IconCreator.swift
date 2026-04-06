@@ -19,8 +19,9 @@ class IconCreator {
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
-    @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
-    @AppStorage("navigationMode") private var navigationMode = NavigationMode.missionControlWithArrows
+    @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
+    @AppStorage("showMissionControl") private var showMissionControl = false
+    @AppStorage("showNavArrows") private var showNavArrows = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -107,7 +108,7 @@ class IconCreator {
 
     private func filterSpaces(_ spaces: [Space]) -> [Space] {
         var result = spaceFilter.filter(spaces, mode: visibleSpacesMode, neighborRadius: neighborRadius)
-        if hideFullscreenSpaces {
+        if !showFullscreenSpaces {
             result = result.filter { !$0.isFullScreen }
         }
         return result
@@ -300,46 +301,60 @@ class IconCreator {
 
     // MARK: - Navigation icons (arrows + Mission Control)
 
-    private func createNavIcon(text: NSString, defaultColor: NSColor?) -> NSImage {
-        let boxColor: NSColor
-        let useTemplate: Bool
-        if let defaultColor = defaultColor {
-            boxColor = defaultColor
-            useTemplate = false
-        } else {
-            boxColor = .black
-            useTemplate = true
-        }
-
-        let decoration = decorationInactive
-        let measureAttrs = getStringAttributes(alpha: 1, color: .black)
-        let padding = sizes.HORIZONTAL_PADDING * 2
-        let contentWidth = text.size(withAttributes: measureAttrs).width
-        let iconWidth = contentWidth + padding
-        let size = NSSize(width: iconWidth, height: cellSize.height)
-
-        return renderIcon(
-            text: text, size: size, decoration: decoration,
-            boxColor: boxColor, useTemplate: useTemplate,
-            alpha: 1.0, borderWidth: sizes.BORDER_WIDTH)
+    private func makeNavSpace(label: String) -> Space {
+        Space(displayID: "", spaceID: "nav-\(label)", spaceName: label,
+              spaceNumber: 0, spaceByDesktopID: label,
+              isCurrentSpace: false, isFullScreen: false)
     }
 
-    /// Returns navigation icons based on the current navigation mode.
+    /// Returns navigation icons based on the current settings.
     private func createNavigationIcons(defaultColor: NSColor?) -> [(image: NSImage, index: Int)] {
-        switch navigationMode {
-        case .none:
-            return []
-        case .missionControl:
-            return [
-                (createNavIcon(text: "MC", defaultColor: defaultColor), Space.missionControlIndex)
-            ]
-        case .missionControlWithArrows:
-            return [
-                (createNavIcon(text: "◀", defaultColor: defaultColor), Space.previousSpaceIndex),
-                (createNavIcon(text: "MC", defaultColor: defaultColor), Space.missionControlIndex),
-                (createNavIcon(text: "▶", defaultColor: defaultColor), Space.nextSpaceIndex)
-            ]
+        var result: [(image: NSImage, index: Int)] = []
+        if showNavArrows {
+            result.append((createSpaceIcon(
+                space: makeNavSpace(label: "◀"), defaultColor: defaultColor),
+                Space.previousSpaceIndex))
         }
+        if showMissionControl {
+            result.append((createSpaceIcon(
+                space: makeNavSpace(label: "⧉"), defaultColor: defaultColor),
+                Space.missionControlIndex))
+        }
+        if showNavArrows {
+            result.append((createSpaceIcon(
+                space: makeNavSpace(label: "▶"), defaultColor: defaultColor),
+                Space.nextSpaceIndex))
+        }
+        return result
+    }
+
+    /// Draw navigation icons and append their hit-test entries.
+    /// Call within a lockFocus context. Returns the updated left position.
+    private func drawNavIcons(
+        _ navIcons: [(image: NSImage, index: Int)],
+        at y: CGFloat,
+        left: CGFloat
+    ) -> CGFloat {
+        var left = left
+        for (idx, nav) in navIcons.enumerated() {
+            nav.image.draw(
+                at: NSPoint(x: left, y: y),
+                from: .zero,
+                operation: .sourceOver,
+                fraction: 1.0)
+            let isLast = idx == navIcons.count - 1
+            let gap = isLast ? displayGapWidth : gapWidth
+            let iconLeft = left - (gap / 2.0)
+            let iconRight = left + nav.image.size.width + (gap / 2.0)
+            // Nav icons use no vertical bounds (Y ignored in hit testing)
+            iconWidths.append(IconWidth(
+                left: iconLeft,
+                right: iconRight,
+                index: nav.index
+            ))
+            left += nav.image.size.width + gap
+        }
+        return left
     }
 
     // MARK: - Display properties and merging
@@ -400,24 +415,7 @@ class IconCreator {
 
         let hasAnyColoredIcon = iconsWithDisplayProperties.contains { $0.colorHex != nil }
 
-        // Draw navigation icons [◀][MC][▶]
-        for (idx, nav) in navIcons.enumerated() {
-            nav.image.draw(
-                at: NSPoint(x: left, y: 0),
-                from: NSRect.zero,
-                operation: .sourceOver,
-                fraction: 1.0)
-            let isLast = idx == navIcons.count - 1
-            let gap = isLast ? displayGapWidth : gapWidth
-            let iconLeft = left - (gap / 2.0)
-            let iconRight = left + nav.image.size.width + (gap / 2.0)
-            iconWidths.append(IconWidth(
-                left: iconLeft,
-                right: iconRight,
-                index: nav.index
-            ))
-            left += nav.image.size.width + gap
-        }
+        left = drawNavIcons(navIcons, at: 0, left: left)
 
         // Draw space icons
         var right: CGFloat
@@ -597,25 +595,8 @@ class IconCreator {
             (col.top?.colorHex != nil) || (col.bottom?.colorHex != nil)
         }
 
-        // Draw navigation icons [◀][MC][▶] centered vertically
-        for (idx, nav) in navIcons.enumerated() {
-            let navY = (imageHeight - nav.image.size.height) / 2.0
-            nav.image.draw(
-                at: NSPoint(x: left, y: navY),
-                from: .zero,
-                operation: .sourceOver,
-                fraction: 1.0)
-            let isLast = idx == navIcons.count - 1
-            let navGap = isLast ? displayGapWidth : gapWidth
-            let iconLeft = left - (navGap / 2.0)
-            let iconRight = left + nav.image.size.width + (navGap / 2.0)
-            iconWidths.append(IconWidth(
-                left: iconLeft,
-                right: iconRight,
-                index: nav.index
-            ))
-            left += nav.image.size.width + navGap
-        }
+        let navY = (imageHeight - cellSize.height) / 2.0
+        left = drawNavIcons(navIcons, at: navY, left: left)
 
         // Split vertical hit area at the gap midpoint; extend bounds generously
         // to cover menu bar padding above/below the image

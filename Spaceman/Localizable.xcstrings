@@ -140,6 +140,9 @@
         }
       }
     },
+    "◀▶ arrows: use Control. ⧉ Mission Control: uses above modifiers." : {
+
+    },
     "Active style" : {
       "localizations" : {
         "de" : {
@@ -1337,6 +1340,7 @@
       }
     },
     "Hide fullscreen spaces" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1887,6 +1891,9 @@
         }
       }
     },
+    "Mission Control Button" : {
+
+    },
     "Name" : {
       "localizations" : {
         "de" : {
@@ -1988,6 +1995,9 @@
           }
         }
       }
+    },
+    "Navigation Arrows" : {
+
     },
     "Nearby range: ±%lld" : {
       "localizations" : {
@@ -3450,6 +3460,15 @@
           }
         }
       }
+    },
+    "Show fullscreen spaces" : {
+
+    },
+    "Show Mission Control button" : {
+
+    },
+    "Show navigation arrows" : {
+
     },
     "Show top display first" : {
       "localizations" : {

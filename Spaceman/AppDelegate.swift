@@ -102,7 +102,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let keys = [
             "visibleSpacesMode", "restartNumberingByDisplay", "horizontalDirection",
             "useVariableWidth", "decorationActive", "decorationInactive",
-            "iconSize", "rowLayout"
+            "iconSize", "rowLayout", "showFullscreenSpaces"
         ]
         for key in keys {
             UserDefaults.standard.removeObject(forKey: key)
@@ -205,6 +205,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
             UserDefaults.standard.set(newValue, forKey: "iconSize")
             UserDefaults.standard.removeObject(forKey: "layoutMode")
+        }
+
+        // Migrate hideFullscreenSpaces (inverted bool) to showFullscreenSpaces
+        if UserDefaults.standard.object(forKey: "showFullscreenSpaces") == nil,
+           let oldValue = UserDefaults.standard.object(forKey: "hideFullscreenSpaces") as? Bool {
+            UserDefaults.standard.set(!oldValue, forKey: "showFullscreenSpaces")
+            UserDefaults.standard.removeObject(forKey: "hideFullscreenSpaces")
         }
     }
 }

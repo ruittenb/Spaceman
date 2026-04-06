@@ -23,9 +23,11 @@ struct PreferencesView: View {
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
+    @AppStorage("showMissionControl") private var showMissionControl = false
+    @AppStorage("showNavArrows") private var showNavArrows = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
-    @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
+    @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
@@ -388,14 +390,21 @@ struct PreferencesView: View {
             }
             rowLayoutPicker
             spacesShownPicker
-            Toggle("Hide fullscreen spaces", isOn: $hideFullscreenSpaces)
-                .padding(.top, 2)
+            Toggle("Show fullscreen spaces", isOn: $showFullscreenSpaces)
+            Toggle("Show Mission Control button", isOn: $showMissionControl)
+            Toggle("Show navigation arrows", isOn: $showNavArrows)
         }
         .padding()
         .onChange(of: visibleSpacesModeRaw) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
-        .onChange(of: hideFullscreenSpaces) { _ in
+        .onChange(of: showFullscreenSpaces) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: showMissionControl) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: showNavArrows) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -467,6 +476,10 @@ struct PreferencesView: View {
                     .frame(width: 240)
                 }
             }
+            Text("◀▶ arrows: use Control. ⧉ Mission Control: uses above modifiers.")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .padding(.top, 4)
         }
         .padding()
         .onChange(of: keySet) { _ in

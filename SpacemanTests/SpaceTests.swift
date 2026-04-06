@@ -144,21 +144,4 @@ final class SpaceTests: XCTestCase {
         XCTAssertFalse(mapValues.contains(Space.unswitchableIndex))
     }
 
-    // MARK: - NavigationMode enum
-
-    func testNavigationModeAllCases() {
-        XCTAssertEqual(NavigationMode.allCases.count, 3)
-    }
-
-    func testNavigationModeRawValues() {
-        XCTAssertEqual(NavigationMode.none.rawValue, 0)
-        XCTAssertEqual(NavigationMode.missionControl.rawValue, 1)
-        XCTAssertEqual(NavigationMode.missionControlWithArrows.rawValue, 2)
-    }
-
-    func testNavigationModeMenuLabels() {
-        for mode in NavigationMode.allCases {
-            XCTAssertFalse(mode.menuLabel.isEmpty)
-        }
-    }
 }
