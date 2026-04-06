@@ -83,6 +83,11 @@ Full Unicode support:
 
 <img src="images/Button-9-Unicode.png" width="auto" height="40px">
 
+Optional navigation buttons let you switch to the previous/next space or
+open Mission Control directly from the menu bar:
+
+<img src="images/Button-10-Navigation-1.png" width="auto" height="40px">
+
 You can choose to display all spaces or just a few neighboring ones; and to hide Fullscreen spaces entirely.
 
 ## 🔹 Preferences
@@ -104,10 +109,10 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Appearance Tab
 
-<img src="images/Preferences-Appearance-2.png" width="66%" height="auto">
+<img src="images/Preferences-Appearance-3.png" width="66%" height="auto">
 
 - **Icon size**: Adjusts the size of the space icons in the menu bar
-- **Icon widths**: Switches between:
+- **Icon width**: Switches between:
   - roughly equal icon widths (short names are padded to match the longest, but fullscreen names are disregarded), or
   - variable widths (each icon sized to its own content)
 - **Icon text**: Selects whether to show space numbers and/or names in the icons
@@ -119,7 +124,9 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 - **Spaces shown**: Selects which spaces are shown in the menu bar: all, a few, or just the current one
 - **Nearby range**: With "Nearby spaces", this determines how many spaces will be shown
-- **Hide fullscreen spaces**: Hides fullscreen app spaces from the menu bar
+- **Show fullscreen spaces**: Shows or hides fullscreen app spaces from the menu bar
+- **Show Mission Control button**: Adds a button to open Mission Control to the menu bar
+- **Show navigation arrows**: Adds buttons to the menu bar for switching to previous/next space
 
 ### Spaces Tab
 
@@ -132,11 +139,12 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Shortcuts Tab
 
-<img src="images/Preferences-Shortcuts.png" width="66%" height="auto">
+<img src="images/Preferences-Shortcuts-2.png" width="66%" height="auto">
 
 - **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
 - **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
 - **Switching keys** and **Modifiers**: Tell Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
+- **Arrow buttons and Mission Control button**: The macOS default is ^← for previous, ^→ for next, and ^↑ to open Mission Control. With this option you can choose different modifiers
 - **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to define these.
 
 ## 🔹 Switching Spaces
@@ -179,6 +187,14 @@ For space switching to work, you need to configure three things:
 - Add the modifier keys (Shift, Control, Option, Command) that Mission Control has been configured to use
 
 ### Usage Methods
+
+**Navigation Buttons**
+- Optionally show arrow buttons and a Mission Control button in the menu bar
+- Arrow buttons switch to the previous or next space
+- The Mission Control button opens Mission Control
+- Enable these in Preferences → Appearance or via the right-click menu → Buttons Shown
+
+<img src="images/Button-10-Navigation-2.png" width="auto" height="auto">
 
 **Menu Bar Clicking**
 - Click directly on any space icon in the menu bar to switch to that space
@@ -261,6 +277,7 @@ Spaceman is not compatible with the setting **System Settings → Desktop & Dock
   - [Waylon Wang](https://github.com/waylonwang/Spaceman)
   - [ultravioletcatastrophe](https://github.com/ultravioletcatastrophe/Spaceman)
   - [Nicomalacho](https://github.com/Nicomalacho/Spaceman)
+  - [DonBox](https://github.com/donbox/Spaceman)
   - [Dmitry Poznyak](https://github.com/triangular-sneaky/Spaceman)
   - [Grzegorz Milka](https://github.com/gregorias/Spaceman)
   - [Michael Lehenauer](https://github.com/mike-jl/Spaceman)
