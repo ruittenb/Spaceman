@@ -17,8 +17,11 @@ struct Space: Equatable {
     var isFullScreen: Bool
     var colorHex: String?        // Custom color tint (hex string)
 
+    // Special switch indices. Desktops use 1–10, fullscreen spaces use -1, -2, etc.
+    // These are deliberately far below that range to avoid collisions.
+    // See SpaceTests.testNavigationIndicesDoNotCollideWithFullscreen.
+
     /// Switch index used when a space has no keyboard shortcut (e.g. beyond desktop 10).
-    /// Any negative index causes SpaceSwitcher to trigger onError instead of switching.
     static let unswitchableIndex = -99
 
     /// Switch index for the Mission Control button.

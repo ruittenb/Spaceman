@@ -144,4 +144,20 @@ final class SpaceTests: XCTestCase {
         XCTAssertFalse(mapValues.contains(Space.unswitchableIndex))
     }
 
+    func testNavigationIndicesAreNegative() {
+        // Must be negative to avoid colliding with desktop indices (1–10)
+        XCTAssertLessThan(Space.unswitchableIndex, 0)
+        XCTAssertLessThan(Space.missionControlIndex, 0)
+        XCTAssertLessThan(Space.previousSpaceIndex, 0)
+        XCTAssertLessThan(Space.nextSpaceIndex, 0)
+    }
+
+    func testNavigationIndicesDoNotCollideWithFullscreen() {
+        // Fullscreen spaces get -1, -2, etc. Nav indices must be well below that range.
+        let lowestFullscreen = -10  // generous upper bound for fullscreen indices
+        XCTAssertLessThan(Space.unswitchableIndex, lowestFullscreen)
+        XCTAssertLessThan(Space.missionControlIndex, lowestFullscreen)
+        XCTAssertLessThan(Space.previousSpaceIndex, lowestFullscreen)
+        XCTAssertLessThan(Space.nextSpaceIndex, lowestFullscreen)
+    }
 }

@@ -194,4 +194,26 @@ final class EnumBehaviorTests: XCTestCase {
                            "Single-row size for \(size) should have zero GAP_HEIGHT_ROWS")
         }
     }
+
+    // MARK: - RowLayout labels
+
+    func testRowLayoutPickerLabels() {
+        for layout in RowLayout.allCases {
+            XCTAssertFalse(layout.pickerLabel.isEmpty, "\(layout) pickerLabel should not be empty")
+        }
+    }
+
+    func testRowLayoutMenuLabels() {
+        for layout in RowLayout.allCases {
+            XCTAssertFalse(layout.menuLabel.isEmpty, "\(layout) menuLabel should not be empty")
+        }
+    }
+
+    func testRowLayoutPickerAndMenuLabelsDiffer() {
+        // pickerLabel is short (for segmented picker), menuLabel is longer (for right-click menu)
+        for layout in RowLayout.allCases where layout != .singleRow {
+            XCTAssertNotEqual(layout.pickerLabel, layout.menuLabel,
+                              "\(layout) should have different picker and menu labels")
+        }
+    }
 }
