@@ -171,7 +171,6 @@ class IconCreator {
         }
 
         let size = NSSize(width: iconWidth, height: cellSize.height)
-
         return renderIcon(
             text: text, size: size, decoration: decoration,
             boxColor: boxColor, useTemplate: useTemplate,
@@ -317,7 +316,7 @@ class IconCreator {
         }
         if showMissionControl {
             result.append((createSpaceIcon(
-                space: makeNavSpace(label: "⧉"), defaultColor: defaultColor),
+                space: makeNavSpace(label: "■"), defaultColor: defaultColor),
                 Space.missionControlIndex))
         }
         if showNavArrows {

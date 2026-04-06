@@ -225,6 +225,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             self.handleScroll(event)
             return nil // consume the event
         }
+
+        // Tracking area for tooltips on hover
+        if let button = statusBarItem.button {
+            let area = NSTrackingArea(
+                rect: button.bounds,
+                options: [.mouseMoved, .mouseEnteredAndExited, .activeAlways, .inVisibleRect],
+                owner: self
+            )
+            button.addTrackingArea(area)
+        }
     }
 
     @objc func handleClick(_ sbButton: NSStatusBarButton) {
@@ -323,6 +333,38 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 }
             }
         }
+    }
+
+    // MARK: - Tooltips
+
+    @objc(mouseEntered:) func mouseEntered(with event: NSEvent) {
+        // Required by NSTrackingArea with .mouseEnteredAndExited; no action needed
+    }
+
+    @objc(mouseMoved:) func mouseMoved(with event: NSEvent) {
+        guard let button = statusBarItem.button else { return }
+        let locationInButton = button.convert(event.locationInWindow, from: nil)
+        let imageWidth = button.image?.size.width ?? button.bounds.width
+        let margin = max((button.bounds.width - imageWidth) / 2.0, 0)
+        let x = locationInButton.x - margin
+
+        var tooltip: String?
+        for iw in iconCreator.iconWidths {
+            if x >= iw.left && x < iw.right {
+                switch iw.index {
+                case Space.previousSpaceIndex:     tooltip = "Previous"
+                case Space.missionControlIndex:    tooltip = "Mission Control"
+                case Space.nextSpaceIndex:         tooltip = "Next"
+                default: break
+                }
+                break
+            }
+        }
+        button.toolTip = tooltip
+    }
+
+    @objc(mouseExited:) func mouseExited(with event: NSEvent) {
+        statusBarItem.button?.toolTip = nil
     }
 
     func getButtonFrame() -> NSRect? {
