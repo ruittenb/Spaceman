@@ -25,6 +25,7 @@ struct PreferencesView: View {
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
+    @AppStorage("navUseSwitchingModifiers") private var navUseSwitchingModifiers = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
@@ -427,6 +428,8 @@ struct PreferencesView: View {
             Text("Switching Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
+            Text("Spaceman will send these keypresses to Mission Control.")
+                .foregroundColor(.secondary)
             HStack(alignment: .firstTextBaseline) {
                 Text("Shortcut keys")
                     .frame(width: 130, alignment: .leading)
@@ -453,6 +456,15 @@ struct PreferencesView: View {
                 Spacer()
             }
             .padding(.bottom, 6)
+            Text("Arrow buttons and Mission Control button:")
+                .padding(.top, 6)
+            Picker("", selection: $navUseSwitchingModifiers) {
+                Text("send control as modifier (macOS default)").tag(false)
+                Text("send the same modifiers as specified above").tag(true)
+            }
+            .pickerStyle(.radioGroup)
+            .labelsHidden()
+            .padding(.leading, subItemIndent)
             HStack(spacing: 8) {
                 Button {
                     openMissionControlShortcuts()
@@ -476,10 +488,6 @@ struct PreferencesView: View {
                     .frame(width: 240)
                 }
             }
-            Text("◀▶ arrows: use Control. ⧉ Mission Control: uses above modifiers.")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-                .padding(.top, 4)
         }
         .padding()
         .onChange(of: keySet) { _ in

@@ -94,7 +94,13 @@ class IconCreator {
             createSpaceIcon(space: space, defaultColor: defaultColor)
         }
 
+        // Nav icons always use single-row sizes
+        let savedSizes = sizes!
+        if rowLayout.isTwoRows {
+            sizes = Constants.sizes[iconSize]
+        }
         let navIcons = createNavigationIcons(defaultColor: defaultColor)
+        sizes = savedSizes
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
         if rowLayout.isTwoRows {
             return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID,
@@ -163,7 +169,7 @@ class IconCreator {
 
         var iconWidth = contentWidth + padding
 
-        if minIconWidth > 0 {
+        if minIconWidth > 0 && !space.spaceID.hasPrefix("nav-") {
             iconWidth = max(iconWidth, minIconWidth)
         }
         if minWidth > 0 {
@@ -306,17 +312,50 @@ class IconCreator {
               isCurrentSpace: false, isFullScreen: false)
     }
 
+    /// Mission Control icon: square box with two small rects left, one tall rect right.
+    /// Reuses createSpaceIcon for the decoration box, then composites the symbol on top.
+    private func createMissionControlIcon(defaultColor: NSColor?, minWidth: CGFloat = 0) -> NSImage {
+        let h = cellSize.height
+        let boxWidth = max(h, minWidth)
+        let box = createSpaceIcon(space: makeNavSpace(label: " "), defaultColor: defaultColor, minWidth: boxWidth)
+        let size = box.size
+        let inset = h * 0.25
+        let squareOriginX = (size.width - h) / 2  // center the square area horizontally
+        let inner = NSRect(x: squareOriginX + inset, y: inset, width: h - inset * 2, height: h - inset * 2)
+        let gap: CGFloat = 1.5
+        let colW = (inner.width - gap) / 2
+        let smallH = (inner.height - gap) / 2
+
+        let symbol = NSImage(size: size)
+        symbol.lockFocus()
+        NSColor.black.setFill()
+        NSBezierPath(roundedRect: NSRect(x: inner.minX, y: inner.minY + smallH + gap,
+                                         width: colW, height: smallH), xRadius: 0.5, yRadius: 0.5).fill()
+        NSBezierPath(roundedRect: NSRect(x: inner.minX, y: inner.minY,
+                                         width: colW, height: smallH), xRadius: 0.5, yRadius: 0.5).fill()
+        NSBezierPath(roundedRect: NSRect(x: inner.minX + colW + gap, y: inner.minY,
+                                         width: colW, height: inner.height), xRadius: 0.5, yRadius: 0.5).fill()
+        symbol.unlockFocus()
+
+        box.lockFocus()
+        let op: NSCompositingOperation = (decorationInactive.isFilled && box.isTemplate) ? .destinationOut : .sourceOver
+        symbol.draw(in: NSRect(origin: .zero, size: size), from: .zero, operation: op, fraction: 1.0)
+        box.unlockFocus()
+        return box
+    }
+
     /// Returns navigation icons based on the current settings.
     private func createNavigationIcons(defaultColor: NSColor?) -> [(image: NSImage, index: Int)] {
         var result: [(image: NSImage, index: Int)] = []
+        var arrowIcon: NSImage?
         if showNavArrows {
-            result.append((createSpaceIcon(
-                space: makeNavSpace(label: "◀"), defaultColor: defaultColor),
-                Space.previousSpaceIndex))
+            let left = createSpaceIcon(space: makeNavSpace(label: "◀"), defaultColor: defaultColor)
+            arrowIcon = left
+            result.append((left, Space.previousSpaceIndex))
         }
         if showMissionControl {
-            result.append((createSpaceIcon(
-                space: makeNavSpace(label: "■"), defaultColor: defaultColor),
+            let minWidth = (!useVariableWidth && arrowIcon != nil) ? arrowIcon!.size.width : 0
+            result.append((createMissionControlIcon(defaultColor: defaultColor, minWidth: minWidth),
                 Space.missionControlIndex))
         }
         if showNavArrows {

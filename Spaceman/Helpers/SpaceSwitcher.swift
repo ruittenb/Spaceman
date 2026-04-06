@@ -58,16 +58,21 @@ class SpaceSwitcher {
         }
     }
 
+    private var navModifiers: String {
+        let useSwitching = UserDefaults.standard.bool(forKey: "navUseSwitchingModifiers")
+        return useSwitching ? shortcutHelper.getModifiers() : "control down"
+    }
+
     public func triggerMissionControl() {
-        sendKeyCode(126, modifiers: "control down") // Up arrow
+        sendKeyCode(126, modifiers: navModifiers) // Up arrow
     }
 
     public func switchToPreviousSpace() {
-        sendKeyCode(123, modifiers: "control down") // Left arrow
+        sendKeyCode(123, modifiers: navModifiers) // Left arrow
     }
 
     public func switchToNextSpace() {
-        sendKeyCode(124, modifiers: "control down") // Right arrow
+        sendKeyCode(124, modifiers: navModifiers) // Right arrow
     }
 
     private func sendKeyCode(_ keyCode: Int, modifiers: String) {

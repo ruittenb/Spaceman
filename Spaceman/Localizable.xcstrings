@@ -140,9 +140,6 @@
         }
       }
     },
-    "◀▶ arrows: use Control. ⧉ Mission Control: uses above modifiers." : {
-
-    },
     "Active style" : {
       "localizations" : {
         "de" : {
@@ -278,6 +275,9 @@
           }
         }
       }
+    },
+    "Arrow buttons and Mission Control button:" : {
+
     },
     "Backup" : {
       "localizations" : {
@@ -1892,7 +1892,14 @@
       }
     },
     "Mission Control Button" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mission Control knop"
+          }
+        }
+      }
     },
     "Name" : {
       "localizations" : {
@@ -1997,7 +2004,14 @@
       }
     },
     "Navigation Arrows" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigatiepijlen"
+          }
+        }
+      }
     },
     "Nearby range: ±%lld" : {
       "localizations" : {
@@ -3223,6 +3237,12 @@
         }
       }
     },
+    "send control as modifier (macOS default)" : {
+
+    },
+    "send the same modifiers as specified above" : {
+
+    },
     "Serif" : {
       "localizations" : {
         "de" : {
@@ -3462,13 +3482,40 @@
       }
     },
     "Show fullscreen spaces" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Montrer les espaces en plein écran"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volledig scherm-spaces tonen"
+          }
+        }
+      }
     },
     "Show Mission Control button" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mission Control knop tonen"
+          }
+        }
+      }
     },
     "Show navigation arrows" : {
-
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigatiepijlen tonen"
+          }
+        }
+      }
     },
     "Show top display first" : {
       "localizations" : {
@@ -3571,6 +3618,9 @@
           }
         }
       }
+    },
+    "Spaceman will send these keypresses to Mission Control." : {
+
     },
     "Spaces" : {
       "localizations" : {
