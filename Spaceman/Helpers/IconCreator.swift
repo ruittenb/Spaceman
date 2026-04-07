@@ -94,18 +94,8 @@ class IconCreator {
             createSpaceIcon(space: space, defaultColor: defaultColor)
         }
 
-        // Nav icons always use single-row sizes and height
-        let savedSizes = sizes
-        let savedCellSize = cellSize
-        if rowLayout.isTwoRows {
-            sizes = Constants.sizes[iconSize]
-            let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
-            let actualFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
-            cellSize = NSSize(width: 0, height: actualFontSize + sizes.VERTICAL_PADDING * 2)
-        }
+        // Nav icons use the current cellSize (matching one row height in two-row mode)
         let navIcons = createNavigationIcons(defaultColor: defaultColor)
-        sizes = savedSizes
-        cellSize = savedCellSize
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
         if rowLayout.isTwoRows {
             return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID,
@@ -373,8 +363,16 @@ class IconCreator {
             result.append((left, Space.previousSpaceIndex))
         }
         if showMissionControl {
-            let minWidth = (!useVariableWidth && arrowIcon != nil) ? arrowIcon?.size.width ?? 0 : 0
-            result.append((createMissionControlIcon(defaultColor: defaultColor, minWidth: minWidth),
+            let mcMinWidth: CGFloat
+            if rowLayout.isTwoRows, let aw = arrowIcon?.size.width {
+                // In two-row mode: MC spans the full width of both arrows + gap
+                mcMinWidth = aw * 2 + gapWidth
+            } else if !useVariableWidth, let aw = arrowIcon?.size.width {
+                mcMinWidth = aw
+            } else {
+                mcMinWidth = 0
+            }
+            result.append((createMissionControlIcon(defaultColor: defaultColor, minWidth: mcMinWidth),
                 Space.missionControlIndex))
         }
         if showNavArrows {
@@ -637,9 +635,14 @@ class IconCreator {
         }
 
         // Render
-        let navWidth = navIcons.reduce(CGFloat(0)) { $0 + $1.image.size.width }
-        let navGaps = navIcons.isEmpty ? 0 : CGFloat(max(0, navIcons.count - 1)) * gapWidth + displayGapWidth
-        let totalWidth = navWidth + navGaps + columns.reduce(CGFloat(0)) { $0 + $1.width + $1.gapAfter }
+        let topNavIcons = navIcons.filter { $0.index != Space.missionControlIndex }
+        let bottomNavIcons = navIcons.filter { $0.index == Space.missionControlIndex }
+        let topNavWidth = topNavIcons.reduce(CGFloat(0)) { $0 + $1.image.size.width }
+            + CGFloat(max(0, topNavIcons.count - 1)) * gapWidth
+        let bottomNavWidth = bottomNavIcons.reduce(CGFloat(0)) { $0 + $1.image.size.width }
+        let navColWidth = max(topNavWidth, bottomNavWidth)
+        let navTotal = navIcons.isEmpty ? 0 : navColWidth + displayGapWidth
+        let totalWidth = navTotal + columns.reduce(CGFloat(0)) { $0 + $1.width + $1.gapAfter }
         let gap = sizes.GAP_HEIGHT_ROWS
         let imageHeight = cellSize.height * 2 + gap
         let image = NSImage(size: NSSize(width: totalWidth, height: imageHeight))
@@ -652,13 +655,44 @@ class IconCreator {
             (col.top?.colorHex != nil) || (col.bottom?.colorHex != nil)
         }
 
-        let navIconHeight = navIcons.first?.image.size.height ?? cellSize.height
-        let navY = (imageHeight - navIconHeight) / 2.0
-        left = drawNavIcons(navIcons, at: navY, left: left)
+        // Draw nav icons: arrows on top row, MC on bottom (or top if no arrows)
+        let midGap = cellSize.height + gap / 2.0
+        if !navIcons.isEmpty {
+            if topNavIcons.isEmpty {
+                // No arrows: MC goes on top row
+                for nav in bottomNavIcons {
+                    nav.image.draw(at: NSPoint(x: left, y: cellSize.height + gap),
+                                   from: .zero, operation: .sourceOver, fraction: 1.0)
+                    iconWidths.append(IconWidth(left: left, right: left + nav.image.size.width,
+                                                index: nav.index))
+                }
+            } else {
+                // Arrows on top row
+                var topLeft = left
+                for (idx, nav) in topNavIcons.enumerated() {
+                    nav.image.draw(at: NSPoint(x: topLeft, y: cellSize.height + gap),
+                                   from: .zero, operation: .sourceOver, fraction: 1.0)
+                    let navGap = idx < topNavIcons.count - 1 ? gapWidth : CGFloat(0)
+                    let iconLeft = topLeft - (navGap / 2.0)
+                    let iconRight = topLeft + nav.image.size.width + (navGap / 2.0)
+                    iconWidths.append(IconWidth(left: iconLeft, right: iconRight,
+                                                top: midGap, bottom: imageHeight * 2, index: nav.index))
+                    topLeft += nav.image.size.width + navGap
+                }
+                // MC on bottom row, centered
+                for nav in bottomNavIcons {
+                    let mcX = left + (navColWidth - nav.image.size.width) / 2.0
+                    nav.image.draw(at: NSPoint(x: mcX, y: 0),
+                                   from: .zero, operation: .sourceOver, fraction: 1.0)
+                    iconWidths.append(IconWidth(left: left, right: left + navColWidth,
+                                                top: -imageHeight, bottom: midGap, index: nav.index))
+                }
+            }
+            left += navColWidth + displayGapWidth
+        }
 
         // Split vertical hit area at the gap midpoint; extend bounds generously
         // to cover menu bar padding above/below the image
-        let midGap = cellSize.height + gap / 2.0
 
         for col in columns {
             // Simple gap splitting: each icon owns half the gap on each side
