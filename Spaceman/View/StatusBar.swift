@@ -348,10 +348,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let margin = max((button.bounds.width - imageWidth) / 2.0, 0)
         let x = locationInButton.x - margin
 
+        let imageHeight = button.image?.size.height ?? button.bounds.height
+        let yMargin = max((button.bounds.height - imageHeight) / 2.0, 0)
+        let y = imageHeight - (locationInButton.y - yMargin)
         var tooltip: String?
-        for iw in iconCreator.iconWidths {
-            if x >= iw.left && x < iw.right {
-                switch iw.index {
+        for iconWidth in iconCreator.iconWidths {
+            let hitX = x >= iconWidth.left && x < iconWidth.right
+            let hasY = iconWidth.top != 0 || iconWidth.bottom != 0
+            let hitY = hasY ? (y >= iconWidth.top && y < iconWidth.bottom) : true
+            if hitX && hitY {
+                switch iconWidth.index {
                 case Space.previousSpaceIndex:     tooltip = "Previous"
                 case Space.missionControlIndex:    tooltip = "Mission Control"
                 case Space.nextSpaceIndex:         tooltip = "Next"
