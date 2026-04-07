@@ -2,7 +2,7 @@
 //  ShortcutHelper.swift
 //  Spaceman
 //
-//  Created by René Uittenbogaard on 28/08/2024.
+//  Created by René Uittenbogaard on 2024-08-28.
 //
 //  See https://apple.stackexchange.com/questions/36943/how-do-i-automate-a-key-press-in-applescript
 

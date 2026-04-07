@@ -2,7 +2,8 @@
 //  RowLayout.swift
 //  Spaceman
 //
-//  Created by Claude Code on 2026-04-02.
+//  Created by René Uittenbogaard on 2026-04-02.
+//  Co-author: Claude Code
 //
 
 import Foundation

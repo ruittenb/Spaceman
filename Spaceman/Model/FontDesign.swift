@@ -2,7 +2,7 @@
 //  FontDesign.swift
 //  Spaceman
 //
-//  Created by René Uittenbogaard on 31/03/2026.
+//  Created by René Uittenbogaard on 2026-03-31.
 //
 
 import AppKit

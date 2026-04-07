@@ -2,7 +2,7 @@
 //  SpaceSwitcher.swift
 //  Spaceman
 //
-//  Created by René Uittenbogaard on 28/08/2024.
+//  Created by René Uittenbogaard on 2024-08-28.
 //
 
 import Foundation
@@ -58,6 +58,33 @@ class SpaceSwitcher {
         }
     }
 
+    private var navModifiers: String {
+        let useSwitching = UserDefaults.standard.bool(forKey: "navUseSwitchingModifiers")
+        return useSwitching ? shortcutHelper.getModifiers() : "control down"
+    }
+
+    public func triggerMissionControl() {
+        sendKeyCode(126, modifiers: navModifiers) // Up arrow
+    }
+
+    public func switchToPreviousSpace() {
+        sendKeyCode(123, modifiers: navModifiers) // Left arrow
+    }
+
+    public func switchToNextSpace() {
+        sendKeyCode(124, modifiers: navModifiers) // Right arrow
+    }
+
+    private func sendKeyCode(_ keyCode: Int, modifiers: String) {
+        let appleScript = "tell application \"System Events\" to key code \(keyCode) using {\(modifiers)}"
+        DispatchQueue.global(qos: .background).async {
+            if let scriptObject = NSAppleScript(source: appleScript) {
+                var error: NSDictionary?
+                scriptObject.executeAndReturnError(&error)
+            }
+        }
+    }
+
     public func switchUsingLocation(iconWidths: [IconWidth], point: CGPoint, onError: () -> Void) {
         var index: Int = 0
         for i in 0 ..< iconWidths.count {
@@ -69,7 +96,16 @@ class SpaceSwitcher {
                 break
             }
         }
-        if index < 0 {
+        if index == Space.missionControlIndex {
+            triggerMissionControl()
+            return
+        } else if index == Space.previousSpaceIndex {
+            switchToPreviousSpace()
+            return
+        } else if index == Space.nextSpaceIndex {
+            switchToNextSpace()
+            return
+        } else if index < 0 {
             // Fullscreen spaces: always flash, then attempt switch (F1 only)
             onError()
             switchToSpace(spaceNumber: index, onError: {})

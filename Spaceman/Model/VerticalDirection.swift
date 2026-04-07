@@ -2,7 +2,7 @@
 //  VerticalDirection.swift
 //  Spaceman
 //
-//  Created by René Uittenbogaard on 07/10/2025.
+//  Created by Waylon Wang on 2025-09-13
 //
 
 enum VerticalDirection: Int {

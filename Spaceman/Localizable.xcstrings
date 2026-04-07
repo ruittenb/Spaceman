@@ -276,6 +276,40 @@
         }
       }
     },
+    "Arrow buttons and Mission Control button:" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pfeiltasten und Mission Control-Taste:"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botones de flecha y botón de Mission Control:"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botones de flecha y botón de Mission Control:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boutons fléchés et bouton Mission Control :"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pijlknoppen en Mission Control-knop:"
+          }
+        }
+      }
+    },
     "Backup" : {
       "localizations" : {
         "de" : {
@@ -510,6 +544,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Omlijnd, afgerond"
+          }
+        }
+      }
+    },
+    "Buttons Shown" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angezeigte Tasten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botones mostrados"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botones mostrados"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boutons affichés"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getoonde knoppen"
           }
         }
       }
@@ -1336,40 +1404,6 @@
         }
       }
     },
-    "Hide fullscreen spaces" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vollbild-Spaces ausblenden"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ocultar escritorios en pantalla completa"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ocultar escritorios en pantalla completa"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Masquer les espaces en plein écran"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Volledig scherm-spaces verbergen"
-          }
-        }
-      }
-    },
     "Icon size" : {
       "localizations" : {
         "de" : {
@@ -1381,13 +1415,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tamaño de icono"
+            "value" : "Tamaño del icono"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tamaño de ícono"
+            "value" : "Tamaño del ícono"
           }
         },
         "fr" : {
@@ -1415,13 +1449,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tamaño de icono"
+            "value" : "Tamaño del icono"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tamaño de ícono"
+            "value" : "Tamaño del ícono"
           }
         },
         "fr" : {
@@ -1461,7 +1495,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Style de l'icône"
+            "value" : "Style des icônes"
           }
         },
         "nl" : {
@@ -1495,7 +1529,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Texte de l'icône"
+            "value" : "Texte des icônes"
           }
         },
         "nl" : {
@@ -1529,7 +1563,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Texte de l'icône"
+            "value" : "Texte des icônes"
           }
         },
         "nl" : {
@@ -1540,24 +1574,24 @@
         }
       }
     },
-    "Icon widths" : {
+    "Icon width" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Symbolbreiten"
+            "value" : "Symbolbreite"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ancho de iconos"
+            "value" : "Ancho del icono"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ancho de íconos"
+            "value" : "Ancho del ícono"
           }
         },
         "fr" : {
@@ -1569,7 +1603,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Icoonbreedtes"
+            "value" : "Icoonbreedte"
           }
         }
       }
@@ -1818,41 +1852,6 @@
         }
       }
     },
-    "Layout" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Layout"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disposición"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disposición"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disposition"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indeling"
-          }
-        }
-      }
-    },
     "Medium" : {
       "localizations" : {
         "de" : {
@@ -1883,6 +1882,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Middelgroot"
+          }
+        }
+      }
+    },
+    "Mission Control Button" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mission Control-Taste"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botón de Mission Control"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botón de Mission Control"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bouton Mission Control"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mission Control-knop"
           }
         }
       }
@@ -1985,6 +2018,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Smal"
+          }
+        }
+      }
+    },
+    "Navigation Arrows" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigationspfeile"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flechas de navegación"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flechas de navegación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flèches de navigation"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigatiepijlen"
           }
         }
       }
@@ -3213,6 +3280,74 @@
         }
       }
     },
+    "send Control as modifier (macOS default)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control als Modifikator senden (macOS-Standard)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enviar Control como modificador (predeterminado en macOS)"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enviar Control como modificador (predeterminado en macOS)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "envoyer Contrôle comme modificateur (par défaut macOS)"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control als modifier versturen (macOS-default)"
+          }
+        }
+      }
+    },
+    "send the same modifiers as specified above" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dieselben Modifikatoren wie oben angegeben senden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enviar los mismos modificadores especificados arriba"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enviar los mismos modificadores especificados arriba"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "envoyer les mêmes modificateurs que ci-dessus"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dezelfde modifiers als hierboven versturen"
+          }
+        }
+      }
+    },
     "Serif" : {
       "localizations" : {
         "de" : {
@@ -3451,6 +3586,108 @@
         }
       }
     },
+    "Show fullscreen spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vollbild-Spaces anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar escritorios en pantalla completa"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar escritorios en pantalla completa"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les espaces en plein écran"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volledig scherm-spaces tonen"
+          }
+        }
+      }
+    },
+    "Show Mission Control button" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mission Control-Taste anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar botón de Mission Control"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar botón de Mission Control"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le bouton Mission Control"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mission Control-knop tonen"
+          }
+        }
+      }
+    },
+    "Show navigation arrows" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigationspfeile anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar flechas de navegación"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar flechas de navegación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les flèches de navigation"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigatiepijlen tonen"
+          }
+        }
+      }
+    },
     "Show top display first" : {
       "localizations" : {
         "de" : {
@@ -3553,6 +3790,40 @@
         }
       }
     },
+    "Spaceman will send these keypresses to Mission Control." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman sendet diese Tastenkombinationen an Mission Control."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman enviará estas teclas a Mission Control."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman enviará estas teclas a Mission Control."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman enverra ces raccourcis clavier à Mission Control."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman stuurt deze toetsaanslagen naar Mission Control."
+          }
+        }
+      }
+    },
     "Spaces" : {
       "localizations" : {
         "de" : {
@@ -3611,40 +3882,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escritorios mostrados"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Espaces affichés"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zichtbare spaces"
-          }
-        }
-      }
-    },
-    "Spaces Shown" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spaces anzeigen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escritorios visibles"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escritorios visibles"
           }
         },
         "fr" : {
@@ -3820,7 +4057,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deux rangées, par rangées"
+            "value" : "Deux rangées, par lignes"
           }
         },
         "nl" : {

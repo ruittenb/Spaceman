@@ -3,7 +3,7 @@
 Description : Composite a window screenshot (containing transparent borders) over a
               mirrored/rotated version of a background image (images/_background.png).
               Produces <name>-bg.png next to the input file.
-Usage       : python3 scripts/add-background.py images/Preferences-General.png
+Usage       : python3 scripts/add-background.py images/Preferences-General.png [more files...]
 Requires    : Pillow (pip3 install Pillow)
 """
 
@@ -53,16 +53,13 @@ def output_path(input_path: Path) -> Path:
     return input_path.with_name(f"{stem}-bg.png")
 
 
-def main() -> None:
-    if len(sys.argv) != 2:
-        sys.exit(f"Usage: {sys.argv[0]} <screenshot.png>")
-
-    input_path = Path(sys.argv[1])
+def process_file(input_path: Path, bg_path: Path) -> None:
     if not input_path.exists():
-        sys.exit(f"Input file not found: {input_path}")
+        print(f"Input file not found: {input_path}", file=sys.stderr)
+        return
 
     screenshot = Image.open(input_path).convert("RGBA")
-    bg = Image.open(find_background()).convert("RGBA")
+    bg = Image.open(bg_path).convert("RGBA")
 
     bg = random_transform(bg)
     bg = cover_crop(bg, screenshot.width, screenshot.height)
@@ -76,6 +73,15 @@ def main() -> None:
     out = output_path(input_path)
     bg.save(out, "PNG")
     print(f"Saved: {out}")
+
+
+def main() -> None:
+    if len(sys.argv) < 2:
+        sys.exit(f"Usage: {sys.argv[0]} <screenshot.png> [more files...]")
+
+    bg_path = find_background()
+    for arg in sys.argv[1:]:
+        process_file(Path(arg), bg_path)
 
 
 if __name__ == "__main__":

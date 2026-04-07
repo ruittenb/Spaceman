@@ -2,7 +2,8 @@
 //  OpenPreferencesCommand.swift
 //  Spaceman
 //
-//  Created by Claude Code on 21/09/2025.
+//  Created by René Uittenbogaard on 2025-09-21.
+//  Co-author: Claude Code
 //
 
 import Foundation

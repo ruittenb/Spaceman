@@ -21,9 +21,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("lastActiveFill") private var lastActiveFillRaw: Int = IconFill.filled.rawValue
     @AppStorage("lastInactiveShape") private var lastInactiveShapeRaw: Int = IconShape.rounded.rawValue
     @AppStorage("lastInactiveFill") private var lastInactiveFillRaw: Int = IconFill.bordered.rawValue
-    @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
+    @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
+    @AppStorage("showMissionControl") private var showMissionControl = false
+    @AppStorage("showNavArrows") private var showNavArrows = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -171,14 +173,27 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             spacesShownSubmenu.addItem(item)
         }
         spacesShownSubmenu.addItem(NSMenuItem.separator())
-        let hideFullscreenItem = NSMenuItem(
+        let showFullscreenItem = NSMenuItem(
             title: String(localized: "Fullscreen Spaces"),
-            action: #selector(toggleHideFullscreenSpaces), keyEquivalent: ""
+            action: #selector(toggleShowFullscreenSpaces), keyEquivalent: ""
         )
-        hideFullscreenItem.target = self
-        spacesShownSubmenu.addItem(hideFullscreenItem)
+        showFullscreenItem.target = self
+        spacesShownSubmenu.addItem(showFullscreenItem)
+        spacesShownSubmenu.addItem(NSMenuItem.separator())
+        let showMCItem = NSMenuItem(
+            title: String(localized: "Mission Control Button"),
+            action: #selector(toggleShowMissionControl), keyEquivalent: ""
+        )
+        showMCItem.target = self
+        spacesShownSubmenu.addItem(showMCItem)
+        let showArrowsItem = NSMenuItem(
+            title: String(localized: "Navigation Arrows"),
+            action: #selector(toggleShowNavArrows), keyEquivalent: ""
+        )
+        showArrowsItem.target = self
+        spacesShownSubmenu.addItem(showArrowsItem)
 
-        spacesShownMenuItem = NSMenuItem(title: String(localized: "Spaces Shown"), action: nil, keyEquivalent: "")
+        spacesShownMenuItem = NSMenuItem(title: String(localized: "Buttons Shown"), action: nil, keyEquivalent: "")
         spacesShownMenuItem.submenu = spacesShownSubmenu
 
         statusBarMenu.addItem(about)
@@ -209,6 +224,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                   event.window === buttonWindow else { return event }
             self.handleScroll(event)
             return nil // consume the event
+        }
+
+        // Tracking area for tooltips on hover
+        if let button = statusBarItem.button {
+            let area = NSTrackingArea(
+                rect: button.bounds,
+                options: [.mouseMoved, .mouseEnteredAndExited, .activeAlways, .inVisibleRect],
+                owner: self
+            )
+            button.addTrackingArea(area)
         }
     }
 
@@ -308,6 +333,38 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 }
             }
         }
+    }
+
+    // MARK: - Tooltips
+
+    @objc(mouseEntered:) func mouseEntered(with event: NSEvent) {
+        // Required by NSTrackingArea with .mouseEnteredAndExited; no action needed
+    }
+
+    @objc(mouseMoved:) func mouseMoved(with event: NSEvent) {
+        guard let button = statusBarItem.button else { return }
+        let locationInButton = button.convert(event.locationInWindow, from: nil)
+        let imageWidth = button.image?.size.width ?? button.bounds.width
+        let margin = max((button.bounds.width - imageWidth) / 2.0, 0)
+        let x = locationInButton.x - margin
+
+        var tooltip: String?
+        for iw in iconCreator.iconWidths {
+            if x >= iw.left && x < iw.right {
+                switch iw.index {
+                case Space.previousSpaceIndex:     tooltip = "Previous"
+                case Space.missionControlIndex:    tooltip = "Mission Control"
+                case Space.nextSpaceIndex:         tooltip = "Next"
+                default: break
+                }
+                break
+            }
+        }
+        button.toolTip = tooltip
+    }
+
+    @objc(mouseExited:) func mouseExited(with event: NSEvent) {
+        statusBarItem.button?.toolTip = nil
     }
 
     func getButtonFrame() -> NSRect? {
@@ -410,8 +467,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             }
         }
         for item in spacesShownMenuItem.submenu?.items ?? [] {
-            if item.action == #selector(toggleHideFullscreenSpaces) {
-                item.state = hideFullscreenSpaces ? .off : .on
+            if item.action == #selector(toggleShowFullscreenSpaces) {
+                item.state = showFullscreenSpaces ? .on : .off
+            } else if item.action == #selector(toggleShowMissionControl) {
+                item.state = showMissionControl ? .on : .off
+            } else if item.action == #selector(toggleShowNavArrows) {
+                item.state = showNavArrows ? .on : .off
             } else {
                 item.state = item.tag == visibleSpacesModeRaw ? .on : .off
             }
@@ -504,8 +565,18 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 
-    @objc func toggleHideFullscreenSpaces() {
-        hideFullscreenSpaces.toggle()
+    @objc func toggleShowFullscreenSpaces() {
+        showFullscreenSpaces.toggle()
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func toggleShowMissionControl() {
+        showMissionControl.toggle()
+        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+    }
+
+    @objc func toggleShowNavArrows() {
+        showNavArrows.toggle()
         NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
     }
 

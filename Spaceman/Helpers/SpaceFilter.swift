@@ -2,7 +2,8 @@
 //  SpaceFilter.swift
 //  Spaceman
 //
-//  Created by Claude Code 13/10/2025
+//  Created by René Uittenbogaard on 2025-10-13.
+//  Co-author: Claude Code
 //  Extracted from IconCreator for better testability
 //
 

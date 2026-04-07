@@ -11,7 +11,7 @@ import LaunchAtLogin
 import SwiftUI
 
 struct PreferencesView: View {
-    private let subItemIndent: CGFloat = 40
+    private let subItemIndent: CGFloat = 30
 
     weak var parentWindow: PreferencesWindow?
 
@@ -23,9 +23,12 @@ struct PreferencesView: View {
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
+    @AppStorage("showMissionControl") private var showMissionControl = false
+    @AppStorage("showNavArrows") private var showNavArrows = false
+    @AppStorage("navUseSwitchingModifiers") private var navUseSwitchingModifiers = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
-    @AppStorage("hideFullscreenSpaces") private var hideFullscreenSpaces = false
+    @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
@@ -386,16 +389,25 @@ struct PreferencesView: View {
                 .font(.subheadline)
                 .frame(maxWidth: .infinity, alignment: .trailing)
             }
+            Divider()
+                .padding(.vertical, 2)
             rowLayoutPicker
             spacesShownPicker
-            Toggle("Hide fullscreen spaces", isOn: $hideFullscreenSpaces)
-                .padding(.top, 2)
+            Toggle("Show fullscreen spaces", isOn: $showFullscreenSpaces)
+            Toggle("Show Mission Control button", isOn: $showMissionControl)
+            Toggle("Show navigation arrows", isOn: $showNavArrows)
         }
         .padding()
         .onChange(of: visibleSpacesModeRaw) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
-        .onChange(of: hideFullscreenSpaces) { _ in
+        .onChange(of: showFullscreenSpaces) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: showMissionControl) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: showNavArrows) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -418,6 +430,8 @@ struct PreferencesView: View {
             Text("Switching Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
+            Text("Spaceman will send these keypresses to Mission Control.")
+                .foregroundColor(.secondary)
             HStack(alignment: .firstTextBaseline) {
                 Text("Shortcut keys")
                     .frame(width: 130, alignment: .leading)
@@ -444,6 +458,15 @@ struct PreferencesView: View {
                 Spacer()
             }
             .padding(.bottom, 6)
+            Text("Arrow buttons and Mission Control button:")
+                .padding(.top, 6)
+            Picker("", selection: $navUseSwitchingModifiers) {
+                Text("send Control as modifier (macOS default)").tag(false)
+                Text("send the same modifiers as specified above").tag(true)
+            }
+            .pickerStyle(.radioGroup)
+            .labelsHidden()
+            .padding(.leading, subItemIndent)
             HStack(spacing: 8) {
                 Button {
                     openMissionControlShortcuts()
@@ -622,7 +645,8 @@ struct PreferencesView: View {
     // MARK: - Icon Width Picker
     private var iconWidthPicker: some View {
         HStack(spacing: 12) {
-            Text("Icon widths")
+            Text("Icon width")
+                .padding(.leading, subItemIndent)
             Spacer()
             Picker("", selection: $useVariableWidth) {
                 Text("Roughly equal").tag(false)
@@ -736,16 +760,20 @@ struct PreferencesView: View {
                     .fixedSize()
                     .layoutPriority(1)
                 Spacer()
-                Picker("", selection: Binding(
-                    get: { visibleSpacesMode },
-                    set: { visibleSpacesModeRaw = $0.rawValue }
-                )) {
-                    Text("All spaces").tag(VisibleSpacesMode.all)
-                    Text("Nearby spaces").tag(VisibleSpacesMode.neighbors)
-                    Text("Current only").tag(VisibleSpacesMode.currentOnly)
+                HStack(spacing: 1) {
+                    ForEach(VisibleSpacesMode.allCases, id: \.self) { mode in
+                        let isSelected = visibleSpacesMode == mode
+                        Button(mode.pickerLabel) {
+                            visibleSpacesModeRaw = mode.rawValue
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(isSelected ? Color.accentColor : Color.gray.opacity(0.2))
+                        .foregroundColor(isSelected ? .white : .primary)
+                    }
                 }
-                .pickerStyle(.segmented)
-                .fixedSize()
+                .clipShape(RoundedRectangle(cornerRadius: 6))
             }
             Stepper(value: $neighborRadius, in: 1...3) {
                 Text("Nearby range: ±\(neighborRadius)")

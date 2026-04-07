@@ -2,7 +2,7 @@
 //  IconWidth.swift
 //  Spaceman
 //
-//  Created by René Uittenbogaard on 02/10/2024.
+//  Created by René Uittenbogaard on 2024-10-02.
 //
 
 import Foundation

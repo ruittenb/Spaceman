@@ -2,7 +2,7 @@
 //  RestorePreferencesCommand.swift
 //  Spaceman
 //
-//  Created by René Uittenbogaard on 16/03/2026.
+//  Created by René Uittenbogaard on 2026-03-16.
 //
 
 import Foundation

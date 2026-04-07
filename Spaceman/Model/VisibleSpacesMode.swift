@@ -13,6 +13,16 @@ enum VisibleSpacesMode: Int, CaseIterable {
     case neighbors = 1
     case currentOnly = 2
 
+    /// Sentence case for preferences UI.
+    var pickerLabel: String {
+        switch self {
+        case .all:         return String(localized: "All spaces")
+        case .neighbors:   return String(localized: "Nearby spaces")
+        case .currentOnly: return String(localized: "Current only")
+        }
+    }
+
+    /// Title case for right-click menu.
     var menuLabel: String {
         switch self {
         case .all:         return String(localized: "All Spaces")
