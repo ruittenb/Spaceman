@@ -459,7 +459,7 @@ struct PreferencesView: View {
             Text("Arrow buttons and Mission Control button:")
                 .padding(.top, 6)
             Picker("", selection: $navUseSwitchingModifiers) {
-                Text("send control as modifier (macOS default)").tag(false)
+                Text("send Control as modifier (macOS default)").tag(false)
                 Text("send the same modifiers as specified above").tag(true)
             }
             .pickerStyle(.radioGroup)
@@ -643,7 +643,7 @@ struct PreferencesView: View {
     // MARK: - Icon Width Picker
     private var iconWidthPicker: some View {
         HStack(spacing: 12) {
-            Text("Icon widths")
+            Text("Icon width")
             Spacer()
             Picker("", selection: $useVariableWidth) {
                 Text("Roughly equal").tag(false)
