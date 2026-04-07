@@ -94,18 +94,8 @@ class IconCreator {
             createSpaceIcon(space: space, defaultColor: defaultColor)
         }
 
-        // Nav icons always use single-row sizes and height
-        let savedSizes = sizes
-        let savedCellSize = cellSize
-        if rowLayout.isTwoRows {
-            sizes = Constants.sizes[iconSize]
-            let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
-            let actualFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
-            cellSize = NSSize(width: 0, height: actualFontSize + sizes.VERTICAL_PADDING * 2)
-        }
+        // Nav icons use the current cellSize (matching one row height in two-row mode)
         let navIcons = createNavigationIcons(defaultColor: defaultColor)
-        sizes = savedSizes
-        cellSize = savedCellSize
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
         if rowLayout.isTwoRows {
             return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID,
@@ -652,8 +642,8 @@ class IconCreator {
             (col.top?.colorHex != nil) || (col.bottom?.colorHex != nil)
         }
 
-        let navIconHeight = navIcons.first?.image.size.height ?? cellSize.height
-        let navY = (imageHeight - navIconHeight) / 2.0
+        // Draw nav icons aligned with top row
+        let navY = cellSize.height + gap
         left = drawNavIcons(navIcons, at: navY, left: left)
 
         // Split vertical hit area at the gap midpoint; extend bounds generously
