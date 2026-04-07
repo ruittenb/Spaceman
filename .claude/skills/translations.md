@@ -43,6 +43,7 @@ All five non-English languages must have translations for every string entry.
 ### Spanish (es / es-419)
 - Use "escritorios" for Spaces (virtual desktops), matching Apple's macOS terminology. Not "espacios".
 - `es` (Spain) uses "icono" (no accent); `es-419` (Latin America) uses "ícono" (with accent). Never mix these up.
+- Use "modificador"/"modificadores" for modifier keys, not "teclas modificadoras".
 - Maintain consistency in word choice across the file. If "Quitar" has been used for "remove" in existing translations, don't switch to "Eliminar" for a new similar string.
 
 ### German (de) / Dutch (nl)
@@ -50,6 +51,7 @@ All five non-English languages must have translations for every string entry.
 
 ### French (fr)
 - Use "espaces" for Spaces (matching Apple's French macOS localization).
+- Use "modificateur"/"modificateurs" for modifier keys, not "touches de modification".
 
 ### All languages
 - Keep translations concise — these appear in menus and preferences UI where space is limited.
