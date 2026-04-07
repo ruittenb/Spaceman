@@ -3,27 +3,33 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.16.0: Improved Two-Rows mode</title>
+            <title>v1.17.2: Add Prev/Next/Mission Control buttons</title>
             <description>
                 <![CDATA[
-                    <p>v1.16.0</p>
+                    <p>v1.17.2:</p>
                     <ul>
-                        <li> - Make Two Rows a separate setting, independent of Icon Size</li>
-                        <li> - Allow longer names in two-row icons</li>
-                        <li> - Equalize widths for pairs of vertically aligned icons in two-rows mode</li>
-                        <li> - Extend clickable region of two-row icons to top and bottom of menu bar</li>
+                        <li>- Arranged arrow buttons and Mission Control button in two-rows mode</li>
+                    </ul>
+                    <p>v1.17.1:</p>
+                    <ul>
+                        <li>- Minor visual updates</li>
+                    </ul>
+                    <p>v1.17.0: Contributions by Don Box:</p>
+                    <ul>
+                        <li>- Added button to open Mission Control</li>
+                        <li>- Added Prev/Next navigation buttons</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 02 Apr 2026 23:36:38 +0200</pubDate>
+            <pubDate>Tue, 07 Apr 2026 17:21:08 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.16.0/Spaceman-1.16.0.dmg"
-                sparkle:version="1.16.0"
-                sparkle:shortVersionString="1.16.0"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.17.2/Spaceman-1.17.2.dmg"
+                sparkle:version="1.17.2"
+                sparkle:shortVersionString="1.17.2"
                 type="application/octet-stream"
-                length="3071664"
-sparkle:edSignature="LSTbGdiyYy+5yCc05Rj7Zdw03H3Od1jn108clD9LmHKxNhRVIf+jmhfIl5osiK2wPvc3l/JgqqVssJK4M7O5CA=="
+                length="3087492"
+sparkle:edSignature="f9HFLlSOX0WimNvPydsg4Dz8x4MVP20HyDFgW9OENY8UBK4OdxtYj0OpZP7w/C2Dp5/8t3SOjYFg49E9lq8ICw=="
             />
         </item>
     </channel>
