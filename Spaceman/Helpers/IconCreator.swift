@@ -94,13 +94,18 @@ class IconCreator {
             createSpaceIcon(space: space, defaultColor: defaultColor)
         }
 
-        // Nav icons always use single-row sizes
-        let savedSizes = sizes!
+        // Nav icons always use single-row sizes and height
+        let savedSizes = sizes
+        let savedCellSize = cellSize
         if rowLayout.isTwoRows {
             sizes = Constants.sizes[iconSize]
+            let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
+            let actualFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
+            cellSize = NSSize(width: 0, height: actualFontSize + sizes.VERTICAL_PADDING * 2)
         }
         let navIcons = createNavigationIcons(defaultColor: defaultColor)
         sizes = savedSizes
+        cellSize = savedCellSize
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
         if rowLayout.isTwoRows {
             return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID,
@@ -326,9 +331,23 @@ class IconCreator {
         let colW = (inner.width - gap) / 2
         let smallH = (inner.height - gap) / 2
 
+        let shouldDim = decorationActive == decorationInactive
+        let alpha: CGFloat = shouldDim ? Constants.inactiveAlpha : 1.0
+        let symbolColor: NSColor
+        if box.isTemplate {
+            // Template mode: macOS handles color inversion; alpha for dimming
+            symbolColor = NSColor.black.withAlphaComponent(alpha)
+        } else if decorationInactive.isFilled {
+            // Filled + colored: text at full opacity (same as renderIcon line 270)
+            symbolColor = getContrastingTextColor(for: defaultColor ?? .black)
+        } else {
+            // Bordered + colored: text matches border, dimmed
+            symbolColor = (defaultColor ?? .black).withAlphaComponent(alpha)
+        }
+
         let symbol = NSImage(size: size)
         symbol.lockFocus()
-        NSColor.black.setFill()
+        symbolColor.setFill()
         NSBezierPath(roundedRect: NSRect(x: inner.minX, y: inner.minY + smallH + gap,
                                          width: colW, height: smallH), xRadius: 0.5, yRadius: 0.5).fill()
         NSBezierPath(roundedRect: NSRect(x: inner.minX, y: inner.minY,
@@ -354,7 +373,7 @@ class IconCreator {
             result.append((left, Space.previousSpaceIndex))
         }
         if showMissionControl {
-            let minWidth = (!useVariableWidth && arrowIcon != nil) ? arrowIcon!.size.width : 0
+            let minWidth = (!useVariableWidth && arrowIcon != nil) ? arrowIcon?.size.width ?? 0 : 0
             result.append((createMissionControlIcon(defaultColor: defaultColor, minWidth: minWidth),
                 Space.missionControlIndex))
         }
@@ -633,7 +652,8 @@ class IconCreator {
             (col.top?.colorHex != nil) || (col.bottom?.colorHex != nil)
         }
 
-        let navY = (imageHeight - cellSize.height) / 2.0
+        let navIconHeight = navIcons.first?.image.size.height ?? cellSize.height
+        let navY = (imageHeight - navIconHeight) / 2.0
         left = drawNavIcons(navIcons, at: navY, left: left)
 
         // Split vertical hit area at the gap midpoint; extend bounds generously
