@@ -26,6 +26,7 @@ struct PreferencesView: View {
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
     @AppStorage("navUseSwitchingModifiers") private var navUseSwitchingModifiers = false
+    @AppStorage("navigateAnywhere") private var navigateAnywhere = true
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
@@ -490,6 +491,12 @@ struct PreferencesView: View {
                     .frame(width: 240)
                 }
             }
+            Toggle("Switch to anywhere", isOn: $navigateAnywhere)
+                .padding(.top, 6)
+            Text("Reach spaces beyond 10 and fullscreen spaces by chaining arrow keypresses.")
+                .foregroundColor(.secondary)
+                .font(.callout)
+                .padding(.leading, subItemIndent)
         }
         .padding()
         .onChange(of: keySet) { _ in

@@ -2872,6 +2872,9 @@
         }
       }
     },
+    "Reach spaces beyond 10 and fullscreen spaces by chaining arrow keypresses." : {
+
+    },
     "Rectangular" : {
       "localizations" : {
         "de" : {
@@ -3897,6 +3900,9 @@
           }
         }
       }
+    },
+    "Switch to anywhere" : {
+
     },
     "Switching Spaces" : {
       "localizations" : {

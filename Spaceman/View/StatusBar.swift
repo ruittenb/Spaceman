@@ -26,6 +26,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
+    @AppStorage("navigateAnywhere") private var navigateAnywhere = true
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -49,6 +50,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var shortcutHelper: ShortcutHelper!
     private var updaterController: SPUStandardUpdaterController!
     private var aboutView: NSHostingView<AboutView>!
+    private var currentSpaces: [Space] = []
 
     public var iconCreator: IconCreator!
 
@@ -278,6 +280,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 self.spaceSwitcher.switchUsingLocation(
                     iconWidths: self.iconCreator.iconWidths,
                     point: adjPoint,
+                    spaces: self.currentSpaces,
+                    navigateAnywhere: self.navigateAnywhere,
                     onError: self.flashStatusBar)
             } else {
                 print("Other event: \(event.type)")
@@ -382,6 +386,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
+        currentSpaces = spaces
         // update icon
         if let statusBarButton = statusBarItem.button {
             statusBarButton.image = icon
@@ -617,7 +622,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         item.target = self
         item.tag = desktopNumber ?? -(space.spaceNumber)
         item.image = menuIcon
-        if space.isCurrentSpace || shortcutKey == "" {
+        if space.isCurrentSpace || (shortcutKey == "" && !navigateAnywhere) {
             item.isEnabled = false
             if space.isCurrentSpace {
                 item.state = .on // tick mark
@@ -627,11 +632,17 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func switchToSpace(_ sender: NSMenuItem) {
-        let spaceNumber = sender.tag
-        guard spaceNumber >= 1 && spaceNumber <= 10 else {
-            return
+        let tag = sender.tag
+        if tag >= 1 && tag <= 10 {
+            spaceSwitcher.switchToSpace(spaceNumber: tag, onError: flashStatusBar)
+        } else if tag < 0 && navigateAnywhere {
+            // Negative tag = -(spaceNumber) for spaces without a direct shortcut
+            let targetSpaceNumber = -tag
+            spaceSwitcher.navigateByChaining(
+                targetSpaceNumber: targetSpaceNumber,
+                spaces: currentSpaces,
+                onError: flashStatusBar)
         }
-        spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, onError: flashStatusBar)
     }
 
     // MARK: - SPUStandardUserDriverDelegate
