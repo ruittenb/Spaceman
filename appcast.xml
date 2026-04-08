@@ -3,33 +3,34 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.17.2: Add Prev/Next/Mission Control buttons</title>
+            <title>v1.18.1: </title>
             <description>
                 <![CDATA[
-                    <p>v1.17.2:</p>
+                    <p>v1.18.1:</p>
                     <ul>
-                        <li>- Arranged arrow buttons and Mission Control button in two-rows mode</li>
+                        <li> - Preferences window: removed shortcuts tab</li>
+                        <li> - Preferences window: fix sizing issues</li>
                     </ul>
-                    <p>v1.17.1:</p>
+                    <p>v1.18.0:</p>
                     <ul>
-                        <li>- Minor visual updates</li>
+                        <li> - Read shortcut keys from user defaults. This eliminates the need for manual configuration and makes it possible to reach all non-fullscreen spaces</li>
+                        <li> - Chain keypresses for switching to fullscreen spaces</li>
                     </ul>
-                    <p>v1.17.0: Contributions by Don Box:</p>
+                    <p>v1.17.3:</p>
                     <ul>
-                        <li>- Added button to open Mission Control</li>
-                        <li>- Added Prev/Next navigation buttons</li>
+                        <li> - Updated Mission Control Icon (more asymmetrical)</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Tue, 07 Apr 2026 17:21:08 +0200</pubDate>
+            <pubDate>Wed, 08 Apr 2026 20:25:15 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.17.2/Spaceman-1.17.2.dmg"
-                sparkle:version="1.17.2"
-                sparkle:shortVersionString="1.17.2"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.18.1/Spaceman-1.18.1.dmg"
+                sparkle:version="1.18.1"
+                sparkle:shortVersionString="1.18.1"
                 type="application/octet-stream"
-                length="3087492"
-sparkle:edSignature="f9HFLlSOX0WimNvPydsg4Dz8x4MVP20HyDFgW9OENY8UBK4OdxtYj0OpZP7w/C2Dp5/8t3SOjYFg49E9lq8ICw=="
+                length="3084391"
+sparkle:edSignature="kvnNAxBqak2hEo9UzElW/AeqFbxwUt7vtrmQSarrET0p5yeEohkXMULpE+VodyanXvNzprIWTIRguK9W+Jv5BQ=="
             />
         </item>
     </channel>
