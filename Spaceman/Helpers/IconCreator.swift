@@ -423,9 +423,9 @@ class IconCreator {
     private func getIconsWithDisplayProps(
         icons: [NSImage],
         spaces: [Space]
-    ) -> [(NSImage, Bool, Bool, String, String?)] {
+    ) -> [(NSImage, Bool, Bool, String, String?, Int)] {
         var iconsWithDisplayProperties =
-            [(NSImage, Bool, Bool, String, String?)]()
+            [(NSImage, Bool, Bool, String, String?, Int)]()
         guard spaces.count > 0 else { return iconsWithDisplayProperties }
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
@@ -445,7 +445,8 @@ class IconCreator {
                 nextSpaceIsOnDifferentDisplay,
                 spaces[index].isFullScreen,
                 spaces[index].spaceID,
-                spaces[index].colorHex
+                spaces[index].colorHex,
+                spaces[index].spaceNumber
             ))
         }
 
@@ -454,7 +455,8 @@ class IconCreator {
 
     private func mergeIcons(
         _ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool,
-                                        isFullScreen: Bool, spaceID: String, colorHex: String?)],
+                                        isFullScreen: Bool, spaceID: String, colorHex: String?,
+                                        spaceNumber: Int)],
         indexMap: [String: Int],
         navIcons: [(image: NSImage, index: Int)]
     ) -> NSImage {
@@ -498,7 +500,8 @@ class IconCreator {
             iconWidths.append(IconWidth(
                 left: iconLeft,
                 right: iconRight,
-                index: targetIndex
+                index: targetIndex,
+                spaceNumber: icon.spaceNumber
             ))
             left = right
         }
@@ -511,7 +514,8 @@ class IconCreator {
 
     private func mergeIconsTwoRows(
         _ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool,
-                                        isFullScreen: Bool, spaceID: String, colorHex: String?)],
+                                        isFullScreen: Bool, spaceID: String, colorHex: String?,
+                                        spaceNumber: Int)],
         indexMap: [String: Int],
         spaces: [Space],
         defaultColor: NSColor?,
@@ -520,8 +524,8 @@ class IconCreator {
         // Column describes a stacked pair (top/bottom)
         // and its rendered width and trailing gap
         struct Column {
-            var top: (image: NSImage, isFull: Bool, tag: Int, spaceID: String, colorHex: String?)?
-            var bottom: (image: NSImage, isFull: Bool, tag: Int, spaceID: String, colorHex: String?)?
+            var top: (image: NSImage, isFull: Bool, tag: Int, spaceID: String, colorHex: String?, spaceNumber: Int)?
+            var bottom: (image: NSImage, isFull: Bool, tag: Int, spaceID: String, colorHex: String?, spaceNumber: Int)?
             var width: CGFloat = 0
             var gapAfter: CGFloat = 0
         }
@@ -542,14 +546,16 @@ class IconCreator {
                 if placeTop {
                     current.top = (
                         icon.image, icon.isFullScreen,
-                        tag, icon.spaceID, icon.colorHex
+                        tag, icon.spaceID, icon.colorHex,
+                        icon.spaceNumber
                     )
                     current.width = max(current.width, icon.image.size.width)
                     placeTop = false
                 } else {
                     current.bottom = (
                         icon.image, icon.isFullScreen,
-                        tag, icon.spaceID, icon.colorHex
+                        tag, icon.spaceID, icon.colorHex,
+                        icon.spaceNumber
                     )
                     current.width = max(current.width, icon.image.size.width)
                     placeTop = true
@@ -573,7 +579,8 @@ class IconCreator {
             // First, segment by display to place display gaps correctly
             typealias Segment = (
                 image: NSImage, nextDisplay: Bool, isFull: Bool,
-                tag: Int, spaceID: String, colorHex: String?
+                tag: Int, spaceID: String, colorHex: String?,
+                spaceNumber: Int
             )
             var segments: [[Segment]] = []
             var cur: [Segment] = []
@@ -581,7 +588,8 @@ class IconCreator {
                 cur.append((
                     icon.image, icon.nextSpaceOnDifferentDisplay,
                     icon.isFullScreen, assignedIndices[idx],
-                    icon.spaceID, icon.colorHex
+                    icon.spaceID, icon.colorHex,
+                    icon.spaceNumber
                 ))
                 if icon.nextSpaceOnDifferentDisplay { segments.append(cur); cur = [] }
             }
@@ -597,7 +605,14 @@ class IconCreator {
                     var col = Column()
                     if i < top.count {
                         let topItem = top[i]
-                        col.top = (topItem.image, topItem.isFull, topItem.tag, topItem.spaceID, topItem.colorHex)
+                        col.top = (
+                            topItem.image,
+                            topItem.isFull,
+                            topItem.tag,
+                            topItem.spaceID,
+                            topItem.colorHex,
+                            topItem.spaceNumber
+                        )
                         col.width = max(col.width, topItem.image.size.width)
                     }
                     if i < bottom.count {
@@ -605,7 +620,7 @@ class IconCreator {
                         col.bottom = (
                             bottomItem.image, bottomItem.isFull,
                             bottomItem.tag, bottomItem.spaceID,
-                            bottomItem.colorHex
+                            bottomItem.colorHex, bottomItem.spaceNumber
                         )
                         col.width = max(col.width, bottomItem.image.size.width)
                     }
@@ -631,12 +646,19 @@ class IconCreator {
             if let top = columns[i].top, top.image.size.width < colWidth,
                let space = spacesByID[top.spaceID] {
                 let newImage = createSpaceIcon(space: space, defaultColor: defaultColor, minWidth: colWidth)
-                columns[i].top = (newImage, top.isFull, top.tag, top.spaceID, top.colorHex)
+                columns[i].top = (newImage, top.isFull, top.tag, top.spaceID, top.colorHex, top.spaceNumber)
             }
             if let bottom = columns[i].bottom, bottom.image.size.width < colWidth,
                let space = spacesByID[bottom.spaceID] {
                 let newImage = createSpaceIcon(space: space, defaultColor: defaultColor, minWidth: colWidth)
-                columns[i].bottom = (newImage, bottom.isFull, bottom.tag, bottom.spaceID, bottom.colorHex)
+                columns[i].bottom = (
+                    newImage,
+                    bottom.isFull,
+                    bottom.tag,
+                    bottom.spaceID,
+                    bottom.colorHex,
+                    bottom.spaceNumber
+                )
             }
         }
 
@@ -717,7 +739,8 @@ class IconCreator {
                     right: iconRight,
                     top: midGap,
                     bottom: imageHeight * 2,
-                    index: top.tag))
+                    index: top.tag,
+                    spaceNumber: top.spaceNumber))
             }
             if let bottom = col.bottom {
                 bottom.image.draw(
@@ -730,7 +753,8 @@ class IconCreator {
                     right: iconRight,
                     top: -imageHeight,
                     bottom: midGap,
-                    index: bottom.tag))
+                    index: bottom.tag,
+                    spaceNumber: bottom.spaceNumber))
             }
             left += col.width + col.gapAfter
         }

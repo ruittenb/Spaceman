@@ -15,4 +15,6 @@ struct IconWidth: Codable {
     var bottom: CGFloat = 0
     // Positive: space number; Negative: full-screen pseudo index (-1, -2)
     let index: Int
+    // Global sequential position (from Space.spaceNumber), used for chained navigation
+    var spaceNumber: Int = 0
 }

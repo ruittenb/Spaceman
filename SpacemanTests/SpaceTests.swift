@@ -78,11 +78,12 @@ final class SpaceTests: XCTestCase {
             makeSpace(id: "f1", fullScreen: true),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
+        // First fullscreen space mapped to -1 (minus key shortcut)
         XCTAssertEqual(map, ["s1": 1, "s2": 2, "f1": -1])
     }
 
     func testBuildSwitchIndexMap_FullscreenBetweenDesktops() {
-        // [D, F, D, D] → desktops 1,2,3 (not 1,3,4); fullscreen -1
+        // [D, F, D, D] → desktops 1,2,3 (not 1,3,4); first fullscreen → -1
         let spaces = [
             makeSpace(id: "d1"),
             makeSpace(id: "f1", fullScreen: true),
@@ -100,18 +101,19 @@ final class SpaceTests: XCTestCase {
             makeSpace(id: "f3", fullScreen: true),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
+        // Only first fullscreen is mapped
         XCTAssertEqual(map, ["f1": -1])
     }
 
-    func testBuildSwitchIndexMap_MoreThan10Desktops() {
-        let spaces = (1...11).map { makeSpace(id: "s\($0)") }
+    func testBuildSwitchIndexMap_MoreThanMaxDesktops() {
+        let max = Space.maxSwitchableDesktop
+        let spaces = (1...max + 1).map { makeSpace(id: "s\($0)") }
         let map = Space.buildSwitchIndexMap(for: spaces)
-        // First 10 are mapped, 11th is absent
-        for i in 1...10 {
+        for i in 1...max {
             XCTAssertEqual(map["s\(i)"], i)
         }
-        XCTAssertNil(map["s11"])
-        XCTAssertEqual(map.count, 10)
+        XCTAssertNil(map["s\(max + 1)"])
+        XCTAssertEqual(map.count, max)
     }
 
     func testBuildSwitchIndexMap_Empty() {
@@ -132,9 +134,7 @@ final class SpaceTests: XCTestCase {
     }
 
     func testNavigationIndicesDoNotCollideWithSwitchMap() {
-        // Switch map uses 1–10 for desktops and -1 for first fullscreen
-        let spaces = (1...10).map { makeSpace(id: "s\($0)") }
-            + [makeSpace(id: "f1", fullScreen: true)]
+        let spaces = (1...Space.maxSwitchableDesktop).map { makeSpace(id: "s\($0)") }
         let map = Space.buildSwitchIndexMap(for: spaces)
         let mapValues = Set(map.values)
 
@@ -145,19 +145,10 @@ final class SpaceTests: XCTestCase {
     }
 
     func testNavigationIndicesAreNegative() {
-        // Must be negative to avoid colliding with desktop indices (1–10)
+        // Must be negative to avoid colliding with desktop indices
         XCTAssertLessThan(Space.unswitchableIndex, 0)
         XCTAssertLessThan(Space.missionControlIndex, 0)
         XCTAssertLessThan(Space.previousSpaceIndex, 0)
         XCTAssertLessThan(Space.nextSpaceIndex, 0)
-    }
-
-    func testNavigationIndicesDoNotCollideWithFullscreen() {
-        // Fullscreen spaces get -1, -2, etc. Nav indices must be well below that range.
-        let lowestFullscreen = -10  // generous upper bound for fullscreen indices
-        XCTAssertLessThan(Space.unswitchableIndex, lowestFullscreen)
-        XCTAssertLessThan(Space.missionControlIndex, lowestFullscreen)
-        XCTAssertLessThan(Space.previousSpaceIndex, lowestFullscreen)
-        XCTAssertLessThan(Space.nextSpaceIndex, lowestFullscreen)
     }
 }

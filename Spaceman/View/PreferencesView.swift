@@ -25,18 +25,13 @@ struct PreferencesView: View {
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
-    @AppStorage("navUseSwitchingModifiers") private var navUseSwitchingModifiers = false
+    @AppStorage("navigateAnywhere") private var navigateAnywhere = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
-    @AppStorage("schema") private var keySet = KeySet.toprow
-    @AppStorage("withShift") private var withShift = false
-    @AppStorage("withControl") private var withControl = false
-    @AppStorage("withOption") private var withOption = false
-    @AppStorage("withCommand") private var withCommand = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -185,11 +180,7 @@ struct PreferencesView: View {
                 } else if selectedTab == 2 {
                     spacesPane
                 } else {
-                    VStack(alignment: .leading, spacing: 0) {
-                        shortcutsPane
-                        Divider()
-                        switchingPane
-                    }
+                    switchingPane
                 }
             }
         }
@@ -204,6 +195,8 @@ struct PreferencesView: View {
                 .fontWeight(.semibold)
             LaunchAtLogin.Toggle { Text("Launch Spaceman at login") }
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
+            refreshShortcutRecorder
+            preferencesShortcutRecorder
         }
         .padding()
         .onChange(of: autoRefreshSpaces) { enabled in
@@ -412,61 +405,12 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Shortcuts pane
-    private var shortcutsPane: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("General")
-                .font(.title2)
-                .fontWeight(.semibold)
-            refreshShortcutRecorder
-            preferencesShortcutRecorder
-        }
-        .padding()
-    }
-
     // MARK: - Switching pane
     private var switchingPane: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Switching Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
-            Text("Spaceman will send these keypresses to Mission Control.")
-                .foregroundColor(.secondary)
-            HStack(alignment: .firstTextBaseline) {
-                Text("Shortcut keys")
-                    .frame(width: 130, alignment: .leading)
-                Picker("Shortcut keys", selection: $keySet) {
-                    Text("number keys on top row").tag(KeySet.toprow).padding(.bottom, 2)
-                    Text("numeric keypad").tag(KeySet.numpad)
-                }
-                .pickerStyle(.radioGroup)
-                .labelsHidden()
-            }
-            .padding(.bottom, 6)
-            HStack(alignment: .top) {
-                Text("With modifiers")
-                    .frame(width: 130, alignment: .leading)
-                VStack(alignment: .leading) {
-                    Toggle("Shift ⇧", isOn: $withShift)
-                    Toggle("Control ⌃", isOn: $withControl)
-                }
-                Spacer()
-                VStack(alignment: .leading) {
-                    Toggle("Option ⌥", isOn: $withOption)
-                    Toggle("Command ⌘", isOn: $withCommand)
-                }
-                Spacer()
-            }
-            .padding(.bottom, 6)
-            Text("Arrow buttons and Mission Control button:")
-                .padding(.top, 6)
-            Picker("", selection: $navUseSwitchingModifiers) {
-                Text("send Control as modifier (macOS default)").tag(false)
-                Text("send the same modifiers as specified above").tag(true)
-            }
-            .pickerStyle(.radioGroup)
-            .labelsHidden()
-            .padding(.leading, subItemIndent)
             HStack(spacing: 8) {
                 Button {
                     openMissionControlShortcuts()
@@ -482,22 +426,21 @@ struct PreferencesView: View {
                 .buttonStyle(.plain)
                 .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
                     Text("""
-                        For switching between spaces to work, these settings \
-                        must match the keyboard shortcuts assigned \
-                        for Mission Control.
+                        Spaceman reads the Mission Control keyboard shortcuts \
+                        directly from macOS settings. To change them, use \
+                        this button.
                         """)
                     .padding()
                     .frame(width: 240)
                 }
             }
+            Toggle(isOn: $navigateAnywhere) {
+                Text("Enable switching to Fullscreen spaces by chaining keypresses")
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.top, 6)
         }
         .padding()
-        .onChange(of: keySet) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
-        .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
     }
 
     // MARK: - Refresh Shortcut Recorder
