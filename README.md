@@ -86,7 +86,7 @@ Full Unicode support:
 Optional navigation buttons let you switch to the previous/next space or
 open Mission Control directly from the menu bar:
 
-<img src="images/Button-10-Navigation-1.png" width="auto" height="40px">
+<img src="images/Button-10-Navigation-3.png" width="auto" height="40px">
 
 You can choose to display all spaces or just a few neighboring ones; and to hide Fullscreen spaces entirely.
 
@@ -102,12 +102,12 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 - **Refresh spaces in background**: If enabled, Spaceman will update the view when your space configuration changes
 - **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
 - **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
-- **Enable switching to Fullscreen spaces by chaining keypresses**: When enabled, Spaceman can switch to fullscreen spaces by chaining arrow keypresses
-- **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to define these
+- **Enable switching to Fullscreen spaces by chaining keypresses**: When enabled, Spaceman can switch to fullscreen spaces by first switching to a neighboring space and then sending shortcuts for Previous/Next space.
+- **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to manage them.
 - **Backup Preferences**: Saves all your preferences to `~/.spaceman/app-defaults.xml` (old copies are preserved)
 - **Restore Preferences**: Loads preferences from that file
 
-Spaceman reads keyboard shortcuts directly from your system settings — no manual configuration needed.
+**Spaceman reads keyboard shortcuts directly from your system settings** — no manual configuration needed.
 
 ### Appearance Tab
 
@@ -175,8 +175,10 @@ For space switching to work, you need to configure two things:
 
 **2. Mission Control Shortcuts**
 - Go to **System Settings → Keyboard → Keyboard Shortcuts → Mission Control**
-- Assign keyboard shortcuts to "Switch to Desktop 1", "Switch to Desktop 2", etc.
-- Make sure shortcuts are enabled for the spaces you want to access
+- Assign and enable shortcuts for the following, if you want to use them:
+  - "Switch to Desktop" for any spaces you want to be able to switch to
+  - "Move left/right a space" for navigation buttons
+  - "Mission Control" if you want to use a menu bar button to open Mission Control
 
 <img src="images/Shortcuts.png" width="66%" height="auto">
 
@@ -188,7 +190,7 @@ For space switching to work, you need to configure two things:
 - The Mission Control button opens Mission Control
 - Enable these in Preferences → Appearance or via the right-click menu → Buttons Shown
 
-<img src="images/Button-10-Navigation-2.png" width="auto" height="auto">
+<img src="images/Button-10-Navigation-4.png" width="auto" height="auto">
 
 **Menu Bar Clicking**
 - Click directly on any space icon in the menu bar to switch to that space
