@@ -18,6 +18,10 @@ class SpaceSwitcher {
         AXIsProcessTrusted()
     }
 
+    func reloadShortcuts() {
+        shortcutHelper.reload()
+    }
+
     public func switchToSpace(spaceNumber: Int, onError: () -> Void) {
         let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
         if keyCode < 0 {

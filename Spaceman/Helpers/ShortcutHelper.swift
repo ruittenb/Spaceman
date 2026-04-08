@@ -67,17 +67,13 @@ class ShortcutHelper {
         moveRightShortcut = parseHotkey(id: ShortcutHelper.moveRightID, from: hotkeys)
         missionControlShortcut = parseHotkey(id: ShortcutHelper.missionControlID, from: hotkeys)
 
-        // Synthesize F1 fullscreen shortcut: Desktop 1's modifiers + minus key
-        if let desktop1 = desktopShortcuts[1] {
-            let numpadKeyCodes = Set([82, 83, 84, 85, 86, 87, 88, 89, 91, 92])
-            let minusKeyCode = numpadKeyCodes.contains(desktop1.keyCode) ? 78 : 27
-            fullscreenShortcut = SpaceShortcut(
-                keyCode: minusKeyCode,
-                modifiers: desktop1.modifiers,
-                modifierFlags: desktop1.modifierFlags,
-                keyEquivalent: "-"
-            )
-        }
+        // Hardcoded F1 fullscreen shortcut: ⌃⌘- (marginally supported, for Apptivate etc.)
+        fullscreenShortcut = SpaceShortcut(
+            keyCode: 27,  // VK_ANSI_Minus
+            modifiers: "control down,command down",
+            modifierFlags: [.control, .command],
+            keyEquivalent: "-"
+        )
     }
 
     /// Returns the shortcut for a given desktop number (1-15), or nil if not configured/enabled.

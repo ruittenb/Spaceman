@@ -180,11 +180,7 @@ struct PreferencesView: View {
                 } else if selectedTab == 2 {
                     spacesPane
                 } else {
-                    VStack(alignment: .leading, spacing: 0) {
-                        shortcutsPane
-                        Divider()
-                        switchingPane
-                    }
+                    switchingPane
                 }
             }
         }
@@ -199,6 +195,8 @@ struct PreferencesView: View {
                 .fontWeight(.semibold)
             LaunchAtLogin.Toggle { Text("Launch Spaceman at login") }
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
+            refreshShortcutRecorder
+            preferencesShortcutRecorder
         }
         .padding()
         .onChange(of: autoRefreshSpaces) { enabled in
@@ -407,18 +405,6 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Shortcuts pane
-    private var shortcutsPane: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("General")
-                .font(.title2)
-                .fontWeight(.semibold)
-            refreshShortcutRecorder
-            preferencesShortcutRecorder
-        }
-        .padding()
-    }
-
     // MARK: - Switching pane
     private var switchingPane: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -441,8 +427,8 @@ struct PreferencesView: View {
                 .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
                     Text("""
                         Spaceman reads the Mission Control keyboard shortcuts \
-                        directly from macOS settings. To change them, use the \
-                        button on the left.
+                        directly from macOS settings. To change them, use \
+                        this button.
                         """)
                     .padding()
                     .frame(width: 240)

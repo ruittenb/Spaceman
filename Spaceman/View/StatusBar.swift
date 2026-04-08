@@ -384,6 +384,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         return statusBarItem.button?.effectiveAppearance
     }
 
+    func reloadShortcuts() {
+        shortcutHelper.reload()
+        spaceSwitcher.reloadShortcuts()
+    }
+
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
         currentSpaces = spaces
         // update icon
