@@ -17,11 +17,13 @@ struct Space: Equatable {
     var isFullScreen: Bool
     var colorHex: String?        // Custom color tint (hex string)
 
-    // Special switch indices. Desktops use 1–10, fullscreen spaces use -1, -2, etc.
-    // These are deliberately far below that range to avoid collisions.
-    // See SpaceTests.testNavigationIndicesDoNotCollideWithFullscreen.
+    /// Maximum number of desktops that macOS supports keyboard shortcuts for (IDs 118–133).
+    static let maxSwitchableDesktop = 16
 
-    /// Switch index used when a space has no keyboard shortcut (e.g. beyond desktop 10).
+    // Special switch indices. Desktops use 1–maxSwitchableDesktop.
+    // These are deliberately far below that range to avoid collisions.
+
+    /// Switch index used when a space has no keyboard shortcut.
     static let unswitchableIndex = -99
 
     /// Switch index for the Mission Control button.
@@ -34,30 +36,19 @@ struct Space: Equatable {
     static let nextSpaceIndex = -102
 
     /// Build a mapping from spaceID to Mission Control switch index.
-    /// Regular desktops get 1, 2, ... up to 10 (matching ⌃1–⌃0 shortcuts).
-    /// Desktops beyond 10 are omitted.
+    /// Regular desktops get 1, 2, ... up to `maxSwitchableDesktop` (matching
+    /// keyboard shortcuts read from macOS user defaults). Beyond that, omitted.
     ///
-    /// Switching to fullscreen spaces is not a Spaceman feature. As an
-    /// exception, the first fullscreen space (F1) is switchable via menu bar
-    /// icon click only. It is mapped to index -1 (the minus key). Additional
-    /// fullscreen spaces are intentionally omitted from the map so they get
-    /// `unswitchableIndex` and trigger an error flash instead.
+    /// Fullscreen spaces are omitted from the map so they get
+    /// `unswitchableIndex` and are handled by chaining or error flash.
     static func buildSwitchIndexMap(for spaces: [Space]) -> [String: Int] {
         var map: [String: Int] = [:]
         var desktopIndex = 1
-        var fullscreenIndex = 1
-        for s in spaces {
-            if s.isFullScreen {
-                if fullscreenIndex <= 1 {
-                    map[s.spaceID] = -fullscreenIndex
-                }
-                fullscreenIndex += 1
-            } else {
-                if desktopIndex <= 10 {
-                    map[s.spaceID] = desktopIndex
-                }
-                desktopIndex += 1
+        for s in spaces where !s.isFullScreen {
+            if desktopIndex <= maxSwitchableDesktop {
+                map[s.spaceID] = desktopIndex
             }
+            desktopIndex += 1
         }
         return map
     }

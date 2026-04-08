@@ -651,7 +651,14 @@ class IconCreator {
             if let bottom = columns[i].bottom, bottom.image.size.width < colWidth,
                let space = spacesByID[bottom.spaceID] {
                 let newImage = createSpaceIcon(space: space, defaultColor: defaultColor, minWidth: colWidth)
-                columns[i].bottom = (newImage, bottom.isFull, bottom.tag, bottom.spaceID, bottom.colorHex, bottom.spaceNumber)
+                columns[i].bottom = (
+                    newImage,
+                    bottom.isFull,
+                    bottom.tag,
+                    bottom.spaceID,
+                    bottom.colorHex,
+                    bottom.spaceNumber
+                )
             }
         }
 

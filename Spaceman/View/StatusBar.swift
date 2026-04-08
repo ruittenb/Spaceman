@@ -14,7 +14,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
-    @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("lastActiveShape") private var lastActiveShapeRaw: Int = IconShape.rounded.rawValue
@@ -603,14 +602,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func makeSwitchToSpaceItem(space: Space, desktopNumber: Int?) -> NSMenuItem {
         let spaceName = space.spaceName.isEmpty ? "-" : space.spaceName
 
-        let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
-        if let n = desktopNumber {
-            if n >= 1 && n <= 9 {
-                shortcutKey = String(n)
-            } else if n == 10 {
-                shortcutKey = "0"
-            }
+        var mask = NSEvent.ModifierFlags()
+        if let n = desktopNumber, let sc = shortcutHelper.shortcut(forDesktop: n) {
+            shortcutKey = sc.keyEquivalent
+            mask = sc.modifierFlags
         }
 
         let menuIcon = iconCreator.createMenuItemIcon(space: space, fraction: 0.6)
@@ -633,7 +629,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func switchToSpace(_ sender: NSMenuItem) {
         let tag = sender.tag
-        if tag >= 1 && tag <= 10 {
+        if tag >= 1 && tag <= Space.maxSwitchableDesktop {
             spaceSwitcher.switchToSpace(spaceNumber: tag, onError: flashStatusBar)
         } else if tag < 0 && navigateAnywhere {
             // Negative tag = -(spaceNumber) for spaces without a direct shortcut

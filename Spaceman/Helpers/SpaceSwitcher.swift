@@ -23,7 +23,7 @@ class SpaceSwitcher {
         if keyCode < 0 {
             return onError()
         }
-        let modifiers = shortcutHelper.getModifiers()
+        let modifiers = shortcutHelper.getModifiers(spaceNumber: spaceNumber)
         let appleScript = makeAppleScript(keyCode: keyCode, modifiers: modifiers)
         var error: NSDictionary?
         DispatchQueue.global(qos: .background).async {
@@ -60,21 +60,19 @@ class SpaceSwitcher {
         }
     }
 
-    private var navModifiers: String {
-        let useSwitching = UserDefaults.standard.bool(forKey: "navUseSwitchingModifiers")
-        return useSwitching ? shortcutHelper.getModifiers() : "control down"
-    }
-
     public func triggerMissionControl() {
-        sendKeyCode(126, modifiers: navModifiers) // Up arrow
+        let sc = shortcutHelper.missionControlShortcut
+        sendKeyCode(sc?.keyCode ?? 126, modifiers: sc?.modifiers ?? "control down")
     }
 
     public func switchToPreviousSpace() {
-        sendKeyCode(123, modifiers: navModifiers) // Left arrow
+        let sc = shortcutHelper.moveLeftShortcut
+        sendKeyCode(sc?.keyCode ?? 123, modifiers: sc?.modifiers ?? "control down")
     }
 
     public func switchToNextSpace() {
-        sendKeyCode(124, modifiers: navModifiers) // Right arrow
+        let sc = shortcutHelper.moveRightShortcut
+        sendKeyCode(sc?.keyCode ?? 124, modifiers: sc?.modifiers ?? "control down")
     }
 
     private func sendKeyCode(_ keyCode: Int, modifiers: String) {
@@ -146,7 +144,7 @@ class SpaceSwitcher {
         let targetDisplaySpaces = spaces.filter { $0.displayID == targetSpace.displayID }
         let switchable = targetDisplaySpaces.filter {
             guard let idx = switchMap[$0.spaceID] else { return false }
-            return idx >= 1 && idx <= 10
+            return idx >= 1 && idx <= Space.maxSwitchableDesktop
         }
         let anchor = switchable.min(by: {
             abs($0.spaceNumber - targetSpaceNumber) < abs($1.spaceNumber - targetSpaceNumber)

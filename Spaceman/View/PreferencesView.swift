@@ -25,7 +25,6 @@ struct PreferencesView: View {
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
-    @AppStorage("navUseSwitchingModifiers") private var navUseSwitchingModifiers = false
     @AppStorage("navigateAnywhere") private var navigateAnywhere = true
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
@@ -33,11 +32,6 @@ struct PreferencesView: View {
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
-    @AppStorage("schema") private var keySet = KeySet.toprow
-    @AppStorage("withShift") private var withShift = false
-    @AppStorage("withControl") private var withControl = false
-    @AppStorage("withOption") private var withOption = false
-    @AppStorage("withCommand") private var withCommand = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -431,43 +425,8 @@ struct PreferencesView: View {
             Text("Switching Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
-            Text("Spaceman will send these keypresses to Mission Control.")
+            Text("Spaceman reads keyboard shortcuts from macOS Mission Control settings.")
                 .foregroundColor(.secondary)
-            HStack(alignment: .firstTextBaseline) {
-                Text("Shortcut keys")
-                    .frame(width: 130, alignment: .leading)
-                Picker("Shortcut keys", selection: $keySet) {
-                    Text("number keys on top row").tag(KeySet.toprow).padding(.bottom, 2)
-                    Text("numeric keypad").tag(KeySet.numpad)
-                }
-                .pickerStyle(.radioGroup)
-                .labelsHidden()
-            }
-            .padding(.bottom, 6)
-            HStack(alignment: .top) {
-                Text("With modifiers")
-                    .frame(width: 130, alignment: .leading)
-                VStack(alignment: .leading) {
-                    Toggle("Shift ⇧", isOn: $withShift)
-                    Toggle("Control ⌃", isOn: $withControl)
-                }
-                Spacer()
-                VStack(alignment: .leading) {
-                    Toggle("Option ⌥", isOn: $withOption)
-                    Toggle("Command ⌘", isOn: $withCommand)
-                }
-                Spacer()
-            }
-            .padding(.bottom, 6)
-            Text("Arrow buttons and Mission Control button:")
-                .padding(.top, 6)
-            Picker("", selection: $navUseSwitchingModifiers) {
-                Text("send Control as modifier (macOS default)").tag(false)
-                Text("send the same modifiers as specified above").tag(true)
-            }
-            .pickerStyle(.radioGroup)
-            .labelsHidden()
-            .padding(.leading, subItemIndent)
             HStack(spacing: 8) {
                 Button {
                     openMissionControlShortcuts()
@@ -483,28 +442,20 @@ struct PreferencesView: View {
                 .buttonStyle(.plain)
                 .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
                     Text("""
-                        For switching between spaces to work, these settings \
-                        must match the keyboard shortcuts assigned \
-                        for Mission Control.
+                        Spaceman reads the Mission Control keyboard shortcuts \
+                        directly from macOS settings. To change them, use the \
+                        button on the left.
                         """)
                     .padding()
                     .frame(width: 240)
                 }
             }
-            Toggle("Switch to anywhere", isOn: $navigateAnywhere)
-                .padding(.top, 6)
-            Text("Reach spaces beyond 10 and fullscreen spaces by chaining arrow keypresses.")
+            Toggle("Enable switching to Fullscreen spaces by chaining keypresses", isOn: $navigateAnywhere)
                 .foregroundColor(.secondary)
                 .font(.callout)
                 .padding(.leading, subItemIndent)
         }
         .padding()
-        .onChange(of: keySet) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
-        .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
     }
 
     // MARK: - Refresh Shortcut Recorder

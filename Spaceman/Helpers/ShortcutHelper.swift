@@ -4,127 +4,147 @@
 //
 //  Created by René Uittenbogaard on 2024-08-28.
 //
-//  See https://apple.stackexchange.com/questions/36943/how-do-i-automate-a-key-press-in-applescript
+//  Reads Mission Control keyboard shortcuts from macOS user defaults
+//  (com.apple.symbolichotkeys) so Spaceman sends the correct keypresses.
 
 import Foundation
 import SwiftUI
 
+/// A resolved keyboard shortcut: keycode + AppleScript modifier string + NSEvent modifier flags.
+struct SpaceShortcut {
+    let keyCode: Int
+    let modifiers: String          // AppleScript format: "control down,command down"
+    let modifierFlags: NSEvent.ModifierFlags
+    let keyEquivalent: String      // For NSMenuItem display: "1", "2", etc.
+}
+
 class ShortcutHelper {
 
-    @AppStorage("schema") private var keySet = KeySet.toprow
-    @AppStorage("withShift") private var withShift = false
-    @AppStorage("withControl") private var withControl = false
-    @AppStorage("withOption") private var withOption = false
-    @AppStorage("withCommand") private var withCommand = false
+    // Plist hotkey IDs for "Switch to Desktop N"
+    // 118-127 = Desktop 1-10, 128-132 = Desktop 11-15
+    private static let desktopHotkeyBaseID = 118
 
-    /**
-     * Uses the number keys on the top row of the keyboard
-     */
-    private func getKeyCodeTopRow(spaceNumber: Int) -> Int {
-        let keyCode: Int
-        switch spaceNumber {
-        case 1:
-            keyCode = 18 // VK_ANSI_1
-        case 2:
-            keyCode = 19 // VK_ANSI_2
-        case 3:
-            keyCode = 20 // VK_ANSI_3
-        case 4:
-            keyCode = 21 // VK_ANSI_4
-        case 5:
-            keyCode = 23 // VK_ANSI_5 (!)
-        case 6:
-            keyCode = 22 // VK_ANSI_6
-        case 7:
-            keyCode = 26 // VK_ANSI_7
-        case 8:
-            keyCode = 28 // VK_ANSI_8
-        case 9:
-            keyCode = 25 // VK_ANSI_9
-        case 10:
-            keyCode = 29 // VK_ANSI_0
-        case -1: // As an exception, allow switching to the first fullscreen app (undocumented)
-            keyCode = 27 // VK_ANSI_Minus
-        default:
-            keyCode = -1
-        }
-        return keyCode
+    // Navigation hotkey IDs
+    private static let moveLeftID = 79
+    private static let moveRightID = 81
+    private static let missionControlID = 32
+
+    /// Cached shortcuts, keyed by desktop number (1-15).
+    private var desktopShortcuts: [Int: SpaceShortcut] = [:]
+
+    /// Cached navigation shortcuts.
+    private(set) var moveLeftShortcut: SpaceShortcut?
+    private(set) var moveRightShortcut: SpaceShortcut?
+    private(set) var missionControlShortcut: SpaceShortcut?
+
+    init() {
+        reload()
     }
 
-    /**
-     * Uses the number keys on the numeric keypad
-     */
-    private func getKeyCodeNumPad(spaceNumber: Int) -> Int {
-        let keyCode: Int
-        switch spaceNumber {
-        case 1:
-            keyCode = 83 // VK_ANSI_Keypad1
-        case 2:
-            keyCode = 84 // VK_ANSI_Keypad2
-        case 3:
-            keyCode = 85 // VK_ANSI_Keypad3
-        case 4:
-            keyCode = 86 // VK_ANSI_Keypad4
-        case 5:
-            keyCode = 87 // VK_ANSI_Keypad5
-        case 6:
-            keyCode = 88 // VK_ANSI_Keypad6
-        case 7:
-            keyCode = 89 // VK_ANSI_Keypad7
-        case 8:
-            keyCode = 91 // VK_ANSI_Keypad8 (!)
-        case 9:
-            keyCode = 92 // VK_ANSI_Keypad9
-        case 10:
-            keyCode = 82 // VK_ANSI_Keypad0
-        case -1: // As an exception, allow switching to the first fullscreen app (undocumented)
-            keyCode = 78 // VK_ANSI_KeypadMinus
-        default:
-            keyCode = -1
+    /// Re-read shortcuts from macOS user defaults.
+    func reload() {
+        desktopShortcuts.removeAll()
+        guard let plist = UserDefaults(suiteName: "com.apple.symbolichotkeys"),
+              let hotkeys = plist.persistentDomain(
+                forName: "com.apple.symbolichotkeys"
+              )?["AppleSymbolicHotKeys"] as? [String: Any] else {
+            return
         }
-        return keyCode
+
+        // Desktop shortcuts (1-15)
+        for desktop in 1...Space.maxSwitchableDesktop {
+            let hotkeyID = ShortcutHelper.desktopHotkeyBaseID + desktop - 1
+            if let shortcut = parseHotkey(id: hotkeyID, from: hotkeys) {
+                desktopShortcuts[desktop] = shortcut
+            }
+        }
+
+        // Navigation shortcuts
+        moveLeftShortcut = parseHotkey(id: ShortcutHelper.moveLeftID, from: hotkeys)
+        moveRightShortcut = parseHotkey(id: ShortcutHelper.moveRightID, from: hotkeys)
+        missionControlShortcut = parseHotkey(id: ShortcutHelper.missionControlID, from: hotkeys)
     }
 
+    /// Returns the shortcut for a given desktop number (1-15), or nil if not configured/enabled.
+    func shortcut(forDesktop desktop: Int) -> SpaceShortcut? {
+        return desktopShortcuts[desktop]
+    }
+
+    // MARK: - SpaceSwitcher support
+
+    /// Returns the keycode for a desktop number, or -1 if unavailable.
     func getKeyCode(spaceNumber: Int) -> Int {
-        switch keySet {
-        case .toprow:
-            return getKeyCodeTopRow(spaceNumber: spaceNumber)
-        case .numpad:
-            return getKeyCodeNumPad(spaceNumber: spaceNumber)
-        }
+        return desktopShortcuts[spaceNumber]?.keyCode ?? -1
     }
 
-    func getModifiers() -> String {
-        var modifiers: [String] = []
-        if withShift {
-            modifiers.append("shift down")
-        }
-        if withControl {
-            modifiers.append("control down")
-        }
-        if withOption {
-            modifiers.append("option down")
-        }
-        if withCommand {
-            modifiers.append("command down")
-        }
-        return modifiers.joined(separator: ",")
+    /// Returns the AppleScript modifier string for a desktop number.
+    func getModifiers(spaceNumber: Int) -> String {
+        return desktopShortcuts[spaceNumber]?.modifiers ?? ""
     }
 
-    func getModifiersAsFlags() -> NSEvent.ModifierFlags {
-        var mask = NSEvent.ModifierFlags()
-        if withShift {
-            mask = mask.union(NSEvent.ModifierFlags.shift)
+    // MARK: - Plist parsing
+
+    private func parseHotkey(id: Int, from hotkeys: [String: Any]) -> SpaceShortcut? {
+        guard let entry = hotkeys[String(id)] as? [String: Any],
+              let enabled = entry["enabled"] as? Bool, enabled,
+              let value = entry["value"] as? [String: Any],
+              let params = value["parameters"] as? [Int],
+              params.count >= 3 else {
+            return nil
         }
-        if withControl {
-            mask = mask.union(NSEvent.ModifierFlags.control)
+
+        let keyCode = params[1]
+        let modRaw = params[2]
+
+        // Build AppleScript modifier string
+        var mods: [String] = []
+        if modRaw & (1 << 17) != 0 { mods.append("shift down") }
+        if modRaw & (1 << 18) != 0 { mods.append("control down") }
+        if modRaw & (1 << 19) != 0 { mods.append("option down") }
+        if modRaw & (1 << 20) != 0 { mods.append("command down") }
+
+        // Build NSEvent modifier flags
+        var flags = NSEvent.ModifierFlags()
+        if modRaw & (1 << 17) != 0 { flags.insert(.shift) }
+        if modRaw & (1 << 18) != 0 { flags.insert(.control) }
+        if modRaw & (1 << 19) != 0 { flags.insert(.option) }
+        if modRaw & (1 << 20) != 0 { flags.insert(.command) }
+
+        // Key equivalent character for menu display
+        let keyEquivalent = keyCodeToCharacter(keyCode)
+
+        return SpaceShortcut(
+            keyCode: keyCode,
+            modifiers: mods.joined(separator: ","),
+            modifierFlags: flags,
+            keyEquivalent: keyEquivalent
+        )
+    }
+
+    /// Map a virtual keycode to a display character for NSMenuItem.keyEquivalent.
+    private func keyCodeToCharacter(_ keyCode: Int) -> String {
+        switch keyCode {
+        case 18: return "1"
+        case 19: return "2"
+        case 20: return "3"
+        case 21: return "4"
+        case 23: return "5"
+        case 22: return "6"
+        case 26: return "7"
+        case 28: return "8"
+        case 25: return "9"
+        case 29: return "0"
+        case 83: return "1"  // Keypad
+        case 84: return "2"
+        case 85: return "3"
+        case 86: return "4"
+        case 87: return "5"
+        case 88: return "6"
+        case 89: return "7"
+        case 91: return "8"
+        case 92: return "9"
+        case 82: return "0"
+        default: return ""
         }
-        if withOption {
-            mask = mask.union(NSEvent.ModifierFlags.option)
-        }
-        if withCommand {
-            mask = mask.union(NSEvent.ModifierFlags.command)
-        }
-        return mask
     }
 }
