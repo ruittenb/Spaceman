@@ -39,16 +39,25 @@ struct Space: Equatable {
     /// Regular desktops get 1, 2, ... up to `maxSwitchableDesktop` (matching
     /// keyboard shortcuts read from macOS user defaults). Beyond that, omitted.
     ///
-    /// Fullscreen spaces are omitted from the map so they get
-    /// `unswitchableIndex` and are handled by chaining or error flash.
+    /// The first fullscreen space (F1) is mapped to -1 so it can be
+    /// distinguished for the hidden minus-key shortcut (used by Apptivate etc.).
+    /// Additional fullscreen spaces are omitted and get `unswitchableIndex`.
     static func buildSwitchIndexMap(for spaces: [Space]) -> [String: Int] {
         var map: [String: Int] = [:]
         var desktopIndex = 1
-        for s in spaces where !s.isFullScreen {
-            if desktopIndex <= maxSwitchableDesktop {
-                map[s.spaceID] = desktopIndex
+        var fullscreenIndex = 1
+        for s in spaces {
+            if s.isFullScreen {
+                if fullscreenIndex == 1 {
+                    map[s.spaceID] = -1
+                }
+                fullscreenIndex += 1
+            } else {
+                if desktopIndex <= maxSwitchableDesktop {
+                    map[s.spaceID] = desktopIndex
+                }
+                desktopIndex += 1
             }
-            desktopIndex += 1
         }
         return map
     }

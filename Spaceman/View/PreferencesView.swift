@@ -25,7 +25,7 @@ struct PreferencesView: View {
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
-    @AppStorage("navigateAnywhere") private var navigateAnywhere = true
+    @AppStorage("navigateAnywhere") private var navigateAnywhere = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
@@ -425,8 +425,6 @@ struct PreferencesView: View {
             Text("Switching Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
-            Text("Spaceman reads keyboard shortcuts from macOS Mission Control settings.")
-                .foregroundColor(.secondary)
             HStack(spacing: 8) {
                 Button {
                     openMissionControlShortcuts()
@@ -450,10 +448,11 @@ struct PreferencesView: View {
                     .frame(width: 240)
                 }
             }
-            Toggle("Enable switching to Fullscreen spaces by chaining keypresses", isOn: $navigateAnywhere)
-                .foregroundColor(.secondary)
-                .font(.callout)
-                .padding(.leading, subItemIndent)
+            Toggle(isOn: $navigateAnywhere) {
+                Text("Enable switching to Fullscreen spaces by chaining keypresses")
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.top, 6)
         }
         .padding()
     }

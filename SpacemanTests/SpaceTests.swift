@@ -78,12 +78,12 @@ final class SpaceTests: XCTestCase {
             makeSpace(id: "f1", fullScreen: true),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
-        // Fullscreen spaces are not mapped (handled by chaining)
-        XCTAssertEqual(map, ["s1": 1, "s2": 2])
+        // First fullscreen space mapped to -1 (minus key shortcut)
+        XCTAssertEqual(map, ["s1": 1, "s2": 2, "f1": -1])
     }
 
     func testBuildSwitchIndexMap_FullscreenBetweenDesktops() {
-        // [D, F, D, D] → desktops 1,2,3 (not 1,3,4); fullscreen omitted
+        // [D, F, D, D] → desktops 1,2,3 (not 1,3,4); first fullscreen → -1
         let spaces = [
             makeSpace(id: "d1"),
             makeSpace(id: "f1", fullScreen: true),
@@ -91,7 +91,7 @@ final class SpaceTests: XCTestCase {
             makeSpace(id: "d3"),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
-        XCTAssertEqual(map, ["d1": 1, "d2": 2, "d3": 3])
+        XCTAssertEqual(map, ["d1": 1, "f1": -1, "d2": 2, "d3": 3])
     }
 
     func testBuildSwitchIndexMap_MultipleFullscreen() {
@@ -101,7 +101,8 @@ final class SpaceTests: XCTestCase {
             makeSpace(id: "f3", fullScreen: true),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
-        XCTAssertTrue(map.isEmpty)
+        // Only first fullscreen is mapped
+        XCTAssertEqual(map, ["f1": -1])
     }
 
     func testBuildSwitchIndexMap_MoreThanMaxDesktops() {

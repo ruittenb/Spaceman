@@ -37,6 +37,9 @@ class ShortcutHelper {
     private(set) var moveRightShortcut: SpaceShortcut?
     private(set) var missionControlShortcut: SpaceShortcut?
 
+    /// Synthesized shortcut for the first fullscreen space (minus key + Desktop 1's modifiers).
+    private(set) var fullscreenShortcut: SpaceShortcut?
+
     init() {
         reload()
     }
@@ -63,6 +66,18 @@ class ShortcutHelper {
         moveLeftShortcut = parseHotkey(id: ShortcutHelper.moveLeftID, from: hotkeys)
         moveRightShortcut = parseHotkey(id: ShortcutHelper.moveRightID, from: hotkeys)
         missionControlShortcut = parseHotkey(id: ShortcutHelper.missionControlID, from: hotkeys)
+
+        // Synthesize F1 fullscreen shortcut: Desktop 1's modifiers + minus key
+        if let desktop1 = desktopShortcuts[1] {
+            let numpadKeyCodes = Set([82, 83, 84, 85, 86, 87, 88, 89, 91, 92])
+            let minusKeyCode = numpadKeyCodes.contains(desktop1.keyCode) ? 78 : 27
+            fullscreenShortcut = SpaceShortcut(
+                keyCode: minusKeyCode,
+                modifiers: desktop1.modifiers,
+                modifierFlags: desktop1.modifierFlags,
+                keyEquivalent: "-"
+            )
+        }
     }
 
     /// Returns the shortcut for a given desktop number (1-15), or nil if not configured/enabled.

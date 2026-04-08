@@ -75,6 +75,10 @@ class SpaceSwitcher {
         sendKeyCode(sc?.keyCode ?? 124, modifiers: sc?.modifiers ?? "control down")
     }
 
+    func sendFullscreenShortcut(_ shortcut: SpaceShortcut) {
+        sendKeyCode(shortcut.keyCode, modifiers: shortcut.modifiers)
+    }
+
     private func sendKeyCode(_ keyCode: Int, modifiers: String) {
         let appleScript = "tell application \"System Events\" to key code \(keyCode) using {\(modifiers)}"
         DispatchQueue.global(qos: .background).async {
@@ -116,9 +120,14 @@ class SpaceSwitcher {
             navigateByChaining(
                 targetSpaceNumber: hitSpaceNumber, spaces: spaces, onError: onError)
         } else if hitIndex < 0 {
-            // Fullscreen spaces without navigateAnywhere: flash, then attempt switch (F1 only)
+            // F1 fullscreen with chaining disabled: send minus key (for Apptivate etc.)
+            if let sc = shortcutHelper.fullscreenShortcut {
+                sendKeyCode(sc.keyCode, modifiers: sc.modifiers)
+            } else {
+                onError()
+            }
+        } else if hitIndex == Space.unswitchableIndex {
             onError()
-            switchToSpace(spaceNumber: hitIndex, onError: {})
         } else {
             switchToSpace(spaceNumber: hitIndex, onError: onError)
         }
