@@ -686,6 +686,7 @@
       }
     },
     "Close window (⌘W)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3533,6 +3534,7 @@
       }
     },
     "Shortcuts" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3804,7 +3806,7 @@
         }
       }
     },
-    "Spaceman reads the Mission Control keyboard shortcuts directly from macOS settings. To change them, use the button on the left." : {
+    "Spaceman reads the Mission Control keyboard shortcuts directly from your system settings. To change them, use this button." : {
 
     },
     "Spaceman will send these keypresses to Mission Control." : {

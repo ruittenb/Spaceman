@@ -342,14 +342,38 @@ class IconCreator {
         symbolColor.setFill()
         let shift: CGFloat = gap
         // Top-left small rect (shifted left)
-        NSBezierPath(roundedRect: NSRect(x: inner.minX - shift, y: inner.minY + smallH + gap,
-                                         width: leftW, height: smallH), xRadius: 0.5, yRadius: 0.5).fill()
+        NSBezierPath(
+            roundedRect: NSRect(
+                x: inner.minX - shift,
+                y: inner.minY + smallH + gap,
+                width: leftW,
+                height: smallH
+            ),
+            xRadius: 0.5,
+            yRadius: 0.5
+        ).fill()
         // Bottom-left small rect (original position)
-        NSBezierPath(roundedRect: NSRect(x: inner.minX, y: inner.minY,
-                                         width: leftW, height: smallH), xRadius: 0.5, yRadius: 0.5).fill()
+        NSBezierPath(
+            roundedRect: NSRect(
+                x: inner.minX,
+                y: inner.minY,
+                width: leftW,
+                height: smallH
+            ),
+            xRadius: 0.5,
+            yRadius: 0.5
+        ).fill()
         // Right tall rect (cropped at the bottom)
-        NSBezierPath(roundedRect: NSRect(x: inner.minX + leftW + gap, y: inner.minY + shift,
-                                         width: rightW, height: inner.height - shift), xRadius: 0.5, yRadius: 0.5).fill()
+        NSBezierPath(
+            roundedRect: NSRect(
+                x: inner.minX + leftW + gap,
+                y: inner.minY + shift,
+                width: rightW,
+                height: inner.height - shift
+            ),
+            xRadius: 0.5,
+            yRadius: 0.5
+        ).fill()
         symbol.unlockFocus()
 
         box.lockFocus()

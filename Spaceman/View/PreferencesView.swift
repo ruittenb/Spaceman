@@ -13,8 +13,6 @@ import SwiftUI
 struct PreferencesView: View {
     private let subItemIndent: CGFloat = 30
 
-    weak var parentWindow: PreferencesWindow?
-
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
@@ -46,65 +44,26 @@ struct PreferencesView: View {
     // MARK: - Main Body
     var body: some View {
         VStack(spacing: 0) {
-            ZStack {
-                VisualEffectView(material: .sidebar, blendingMode: .behindWindow)
-                closeButton
-                appInfo
-            }
-            .frame(maxWidth: .infinity, alignment: .center)
-            .frame(height: 60)
-            .offset(y: 1) // Looked like it was off center
-
+            appInfo
             Divider()
-
             preferencePanes
         }
-        .ignoresSafeArea()
-        .frame(maxWidth: .infinity, alignment: .top)
         .onAppear(perform: prefsVM.loadData)
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ActiveSpacesChanged"))) { _ in
             prefsVM.loadData()
         }
     }
 
-    // MARK: - Close Button
-    private var closeButton: some View {
-        VStack {
-            Spacer()
-            HStack {
-                if let parentWindow = parentWindow {
-                    Button {
-                        parentWindow.close()
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                    }
-                    .buttonStyle(BorderlessButtonStyle())
-                    .keyboardShortcut("w", modifiers: .command)
-                    .help("Close window (⌘W)")
-                    .padding(.leading, 12)
-                }
-                Spacer()
-            }
-            Spacer()
-        }
-    }
-
     // MARK: - App Info
     private var appInfo: some View {
         HStack(spacing: 8) {
-            HStack {
-                Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
-                VStack(alignment: .leading) {
-                    Text("Spaceman").font(.headline)
-                    Text("Version \(Constants.AppInfo.appVersion ?? "?")")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-            }
-            .padding(.leading)
+            Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
+                .resizable()
+                .scaledToFit()
+                .frame(width: 48, height: 48)
+            Text("Version \(Constants.AppInfo.appVersion ?? "?")")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
 
             Spacer()
 
@@ -131,6 +90,7 @@ struct PreferencesView: View {
             }
         }
         .padding(.horizontal, 18)
+        .padding(.vertical, 2)
     }
 
     // MARK: - Preference Panes
@@ -141,7 +101,7 @@ struct PreferencesView: View {
                 Text("General").help("⌘1").tag(0)
                 Text("Appearance").help("⌘2").tag(1)
                 Text("Spaces").help("⌘3").tag(2)
-                Text("Shortcuts").help("⌘4").tag(3)
+                Text("Displays").help("⌘4").tag(3)
             }
             .labelsHidden()
             .pickerStyle(.segmented)
@@ -171,7 +131,7 @@ struct PreferencesView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         generalPane
                         Divider()
-                        displaysPane
+                        switchingPane
                         Divider()
                         backupRestorePane
                     }
@@ -180,21 +140,27 @@ struct PreferencesView: View {
                 } else if selectedTab == 2 {
                     spacesPane
                 } else {
-                    switchingPane
+                    displaysPane
                 }
             }
         }
         .padding(.bottom, 20)
+        .onChange(of: selectedTab) { _ in
+            NotificationCenter.default.post(
+                name: NSNotification.Name("PreferencesTabChanged"), object: nil)
+        }
     }
 
     // MARK: - General pane
     private var generalPane: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 10) {
             Text("General")
                 .font(.title2)
                 .fontWeight(.semibold)
             LaunchAtLogin.Toggle { Text("Launch Spaceman at login") }
+                .padding(.bottom, 4)
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
+                .padding(.bottom, 4)
             refreshShortcutRecorder
             preferencesShortcutRecorder
         }
@@ -411,6 +377,11 @@ struct PreferencesView: View {
             Text("Switching Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
+            Toggle(isOn: $navigateAnywhere) {
+                Text("Enable switching to Fullscreen spaces by chaining keypresses")
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.vertical, 6)
             HStack(spacing: 8) {
                 Button {
                     openMissionControlShortcuts()
@@ -426,19 +397,13 @@ struct PreferencesView: View {
                 .buttonStyle(.plain)
                 .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
                     Text("""
-                        Spaceman reads the Mission Control keyboard shortcuts \
-                        directly from macOS settings. To change them, use \
-                        this button.
+                        Spaceman reads the Mission Control keyboard shortcuts directly \
+                        from your system settings. To change them, use this button.
                         """)
                     .padding()
                     .frame(width: 240)
                 }
             }
-            Toggle(isOn: $navigateAnywhere) {
-                Text("Enable switching to Fullscreen spaces by chaining keypresses")
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(.top, 6)
         }
         .padding()
     }
@@ -507,7 +472,7 @@ struct PreferencesView: View {
                 switch iconSize {
                 case .narrow, .compact:              iconSize = .compact
                 case .medium:                        iconSize = .medium
-                case .large, .extraLarge, .enormous:  iconSize = .large
+                case .large, .extraLarge, .enormous: iconSize = .large
                 }
             }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
@@ -780,6 +745,6 @@ func openSettings(candidates: [String]) {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        PreferencesView(parentWindow: nil)
+        PreferencesView()
     }
 }

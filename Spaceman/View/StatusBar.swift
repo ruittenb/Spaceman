@@ -43,6 +43,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var iconShapeMenuItem: NSMenuItem!
     private var spacesShownMenuItem: NSMenuItem!
     private var prefsWindow: PreferencesWindow!
+    private var tabChangeObserver: NSObjectProtocol?
     private var scrollAccumulator: CGFloat = 0
     private var lastScrollTime: Date = .distantPast
     private var spaceSwitcher: SpaceSwitcher!
@@ -598,9 +599,23 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func showPreferencesWindow(_ sender: AnyObject) {
-        let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
+        let hostedPrefsView = NSHostingView(rootView: PreferencesView())
+        hostedPrefsView.sizingOptions = [.intrinsicContentSize]
         prefsWindow.contentView = hostedPrefsView
 
+        // Observe tab changes to resize the window
+        if tabChangeObserver == nil {
+            tabChangeObserver = NotificationCenter.default.addObserver(
+                forName: NSNotification.Name("PreferencesTabChanged"),
+                object: nil, queue: .main
+            ) { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.prefsWindow.resizeToFitContent()
+                }
+            }
+        }
+
+        prefsWindow.resizeToFitContent(animate: false)
         prefsWindow.center()
         prefsWindow.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
