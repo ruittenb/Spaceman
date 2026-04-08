@@ -265,6 +265,6 @@ struct SpacemanApp: App {
 
 struct SettingsView: View {
     var body: some View {
-        PreferencesView(parentWindow: nil)
+        PreferencesView()
     }
 }
