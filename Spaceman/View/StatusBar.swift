@@ -14,7 +14,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
-    @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("lastActiveShape") private var lastActiveShapeRaw: Int = IconShape.rounded.rawValue
@@ -26,6 +25,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
+    @AppStorage("navigateAnywhere") private var navigateAnywhere = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -43,12 +43,14 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var iconShapeMenuItem: NSMenuItem!
     private var spacesShownMenuItem: NSMenuItem!
     private var prefsWindow: PreferencesWindow!
+    private var tabChangeObserver: NSObjectProtocol?
     private var scrollAccumulator: CGFloat = 0
     private var lastScrollTime: Date = .distantPast
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
     private var updaterController: SPUStandardUpdaterController!
     private var aboutView: NSHostingView<AboutView>!
+    private var currentSpaces: [Space] = []
 
     public var iconCreator: IconCreator!
 
@@ -278,6 +280,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 self.spaceSwitcher.switchUsingLocation(
                     iconWidths: self.iconCreator.iconWidths,
                     point: adjPoint,
+                    spaces: self.currentSpaces,
+                    navigateAnywhere: self.navigateAnywhere,
                     onError: self.flashStatusBar)
             } else {
                 print("Other event: \(event.type)")
@@ -381,7 +385,13 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         return statusBarItem.button?.effectiveAppearance
     }
 
+    func reloadShortcuts() {
+        shortcutHelper.reload()
+        spaceSwitcher.reloadShortcuts()
+    }
+
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
+        currentSpaces = spaces
         // update icon
         if let statusBarButton = statusBarItem.button {
             statusBarButton.image = icon
@@ -406,8 +416,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 itemsToInsert.append(NSMenuItem.separator())
             }
             let idx = switchMap[space.spaceID]
+            // Positive indices are desktop numbers; -1 is F1 (fullscreen); nil is unswitchable
             let desktopNum: Int? = if let idx, idx > 0 { idx } else { nil }
-            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum))
+            let isF1 = idx == -1
+            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum, isF1: isF1))
             lastDisplayID = space.displayID
         }
         // No trailing separator needed — the fixed separator before the settings submenus handles it
@@ -587,25 +599,36 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func showPreferencesWindow(_ sender: AnyObject) {
-        let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
+        let hostedPrefsView = NSHostingView(rootView: PreferencesView())
+        hostedPrefsView.sizingOptions = [.intrinsicContentSize]
         prefsWindow.contentView = hostedPrefsView
 
+        // Observe tab changes to resize the window
+        if tabChangeObserver == nil {
+            tabChangeObserver = NotificationCenter.default.addObserver(
+                forName: NSNotification.Name("PreferencesTabChanged"),
+                object: nil, queue: .main
+            ) { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.prefsWindow.resizeToFitContent()
+                }
+            }
+        }
+
+        prefsWindow.resizeToFitContent(animate: false)
         prefsWindow.center()
         prefsWindow.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
 
-    func makeSwitchToSpaceItem(space: Space, desktopNumber: Int?) -> NSMenuItem {
+    func makeSwitchToSpaceItem(space: Space, desktopNumber: Int?, isF1: Bool = false) -> NSMenuItem {
         let spaceName = space.spaceName.isEmpty ? "-" : space.spaceName
 
-        let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
-        if let n = desktopNumber {
-            if n >= 1 && n <= 9 {
-                shortcutKey = String(n)
-            } else if n == 10 {
-                shortcutKey = "0"
-            }
+        var mask = NSEvent.ModifierFlags()
+        if let n = desktopNumber, let sc = shortcutHelper.shortcut(forDesktop: n) {
+            shortcutKey = sc.keyEquivalent
+            mask = sc.modifierFlags
         }
 
         let menuIcon = iconCreator.createMenuItemIcon(space: space, fraction: 0.6)
@@ -617,7 +640,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         item.target = self
         item.tag = desktopNumber ?? -(space.spaceNumber)
         item.image = menuIcon
-        if space.isCurrentSpace || shortcutKey == "" {
+        if space.isCurrentSpace || (shortcutKey == "" && !navigateAnywhere && !isF1) {
             item.isEnabled = false
             if space.isCurrentSpace {
                 item.state = .on // tick mark
@@ -627,11 +650,22 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func switchToSpace(_ sender: NSMenuItem) {
-        let spaceNumber = sender.tag
-        guard spaceNumber >= 1 && spaceNumber <= 10 else {
-            return
+        let tag = sender.tag
+        if tag >= 1 && tag <= Space.maxSwitchableDesktop {
+            spaceSwitcher.switchToSpace(spaceNumber: tag, onError: flashStatusBar)
+        } else if tag < 0 && navigateAnywhere {
+            // Negative tag = -(spaceNumber) for spaces without a direct shortcut
+            let targetSpaceNumber = -tag
+            spaceSwitcher.navigateByChaining(
+                targetSpaceNumber: targetSpaceNumber,
+                spaces: currentSpaces,
+                onError: flashStatusBar)
+        } else if tag < 0 {
+            // F1 with chaining disabled: send minus key shortcut
+            if let sc = shortcutHelper.fullscreenShortcut {
+                spaceSwitcher.sendFullscreenShortcut(sc)
+            }
         }
-        spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, onError: flashStatusBar)
     }
 
     // MARK: - SPUStandardUserDriverDelegate

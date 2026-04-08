@@ -1,133 +1,31 @@
 
-================================================================================
-NAVIGATE ANYWHERE: switch to spaces beyond the 10-space shortcut limit
-================================================================================
+----
 
-Status:   IDEA (2026-04-05)
-Effort:   Medium — keypress chaining logic + timing, optional preference
-Risk:     Low-Medium — depends on macOS animation timing; optional setting
+Display a bubble with "Enable switching to fullscreen spaces in Preferences"
 
---- What it is ---
+----
 
-Currently, only the first 10 desktop spaces are switchable (via ⌃1–⌃0
-shortcuts). Spaces beyond 10 and most fullscreen spaces trigger an error
-flash. This feature chains keypresses to reach any space:
-
-  - Space 12: send ⌃0 (jump to space 10), then ⌃→ twice
-  - Space 15: send ⌃0, then ⌃→ five times
-  - Fullscreen 2 → Fullscreen 1: send ⌃← once
-  - Desktop → Fullscreen: send ⌃→ past the last desktop
-
---- Why it works in practice ---
-
-Fervent space users (Spaceman's audience) typically have 10-15 desktop
-spaces and 1-3 fullscreen spaces. The arrow-key chain is usually short:
-
-  - Space 11-13: 1-3 arrow presses (fast, minimal visual noise)
-  - Fullscreen spaces: 1-2 arrow presses
-  - Space 20+: rare edge case; 10 arrow presses (noticeable but functional)
-
-The typical case is comparable to fullscreen navigation — a few presses,
-not dozens.
-
---- Timing between keypresses ---
-
-Each ⌃→/⌃← transition involves a macOS space-switching animation
-(~300-600ms). The keypresses must be spaced to let the animation complete
-before sending the next one. Approaches:
-
-  a) Fixed delay between keypresses (e.g., 400ms) — simple, may be too
-     slow or too fast depending on the Mac's speed
-  b) Adaptive delay — start fast, retry if the space didn't change
-  c) User-configurable delay — add a slider in preferences
-
-Option (a) is the simplest starting point.
-
---- Implementation ---
-
-  - In SpaceSwitcher, add a method for chained navigation
-  - Calculate the path: current space → target space as a sequence of
-    (jump-to-10, then N arrow presses)
-  - Send keypresses with delays using DispatchQueue.asyncAfter
-  - Make this an optional preference ("Navigate to all spaces") so users
-    who find it unreliable can disable it
-  - When disabled: current behavior (flash on unavailable spaces)
-
---- Considerations ---
-
-  1. "Automatically rearrange Spaces" must be off (already a requirement)
-  2. The user sees spaces sliding by during the chain — this is inherent
-     to the approach and cannot be suppressed
-  3. If a transition fails mid-chain (e.g., due to timing), the user ends
-     up on the wrong space — annoying but not destructive
-  4. Should be an optional preference setting to manage expectations
+Flash icon when moving left from leftmost; or moving right from rightmost
 
 ================================================================================
-OPTION-HOVER: show extra info on the menu bar icon
+REFACTORING
 ================================================================================
 
-Status:   PARKED (2026-03-25)
-Effort:   Low — isolated change, entirely within StatusBar.swift
-Risk:     None — additive, no architectural impact, easy to remove
+Candidates worth refactoring
 
-Why parked: The itch that prompted this isn't strong right now. The mechanism
-is simple enough to add whenever it's needed, and the "what to show" decision
-doesn't need to be made upfront.
+IconCreator.swift — the 6-element unnamed tuple
+(NSImage, Bool, Bool, String, String?, Int) in getIconsWithDisplayProps return type. The merge methods already name the fields, but the source
+function doesn't. A named struct would eliminate the fragile positional coupling that caused extra work when we added spaceNumber.
 
---- What it does ---
+IconCreator.swift — mergeIconsTwoRows() at 250 lines
+The column-building logic for twoRowsByColumn vs twoRowsByRow could be extracted into separate methods. The inline Column struct could also move to
+class level.
 
-When the user hovers over the menu bar icon while holding Option, show
-additional detail about the spaces.
+StatusBar.swift — repeated notification posting
+NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil) appears 11+ times. Trivial to extract.
 
---- What to show (candidates) ---
-
-  a) Space numbers and/or names — for users who use compact/number styles and
-     occasionally want to see which space is which without opening the menu.
-     Easiest.
-
-  b) Space screenshots — tiny thumbnails of each space's content. Much cooler
-     but much harder: needs CGWindowListCreateImage, Screen Recording
-     permission, and image rendering. Different league of effort.
-
-  c) Other ideas considered: focused app per space.
-
---- How to present it (candidates) ---
-
-  a) Tooltip — simplest. Just set statusBarItem.button.toolTip to a string.
-     Plain text only, no formatting control. Only works for (a) above.
-
-  b) NSPopover — speech balloon like the help popovers in Preferences (which
-     use SwiftUI .popover). The menu bar icon is AppKit, so this would use
-     NSPopover with an NSHostingView to embed SwiftUI content. More effort
-     but can show rich/formatted content, and the pattern already exists in
-     the codebase (PreferencesView.swift:262, :421). Works for all options.
-
---- Hover detection (common to all approaches) ---
-
-All in StatusBar.swift (~15-20 lines):
-
-  1. NSTrackingArea on statusBarItem.button for mouseEntered/mouseExited
-  2. On mouseEntered: check NSEvent.modifierFlags.contains(.option)
-  3. If Option held → show the detail (tooltip or popover)
-  4. On mouseExited → hide it
-
-  let area = NSTrackingArea(
-      rect: button.bounds,
-      options: [.mouseEnteredAndExited, .activeAlways, .inVisibleRect],
-      owner: self
-  )
-  button.addTrackingArea(area)
-
-  Notes:
-  - .activeAlways works even when the app isn't frontmost (menu bar item)
-  - .inVisibleRect auto-updates the rect if the button resizes
-  - mouseEntered/mouseExited go to the owner (StatusBar inherits from NSObject)
-
---- Future-proofing ---
-
-No concerns. The tracking area + event monitor pattern is standard AppKit.
-If more modifier-based behaviors are added later (Cmd-hover, etc.), the
-flag-checking can be refactored trivially at that point.
+StatusBar.swift — duplicate coordinate margin math
+The max((bounds.width - imageWidth) / 2.0, 0) pattern appears in both handleClick and mouseMoved.
 
 ================================================================================
 RIGHT-CLICK DEAD ZONE: top 1-2px of menu bar icon

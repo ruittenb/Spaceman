@@ -277,6 +277,7 @@
       }
     },
     "Arrow buttons and Mission Control button:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -685,6 +686,7 @@
       }
     },
     "Close window (⌘W)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -719,6 +721,7 @@
       }
     },
     "Command ⌘" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -787,6 +790,7 @@
       }
     },
     "Control ⌃" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -955,6 +959,9 @@
           }
         }
       }
+    },
+    "Enable switching to Fullscreen spaces by chaining keypresses" : {
+
     },
     "Enormous" : {
       "localizations" : {
@@ -1269,6 +1276,7 @@
       }
     },
     "For switching between spaces to work, these settings must match the keyboard shortcuts assigned for Mission Control." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2397,6 +2405,7 @@
       }
     },
     "number keys on top row" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2533,6 +2542,7 @@
       }
     },
     "numeric keypad" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2669,6 +2679,7 @@
       }
     },
     "Option ⌥" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3281,6 +3292,7 @@
       }
     },
     "send Control as modifier (macOS default)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3315,6 +3327,7 @@
       }
     },
     "send the same modifiers as specified above" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3383,6 +3396,7 @@
       }
     },
     "Shift ⇧" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3451,6 +3465,7 @@
       }
     },
     "Shortcut keys" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3519,6 +3534,7 @@
       }
     },
     "Shortcuts" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3790,7 +3806,11 @@
         }
       }
     },
+    "Spaceman reads the Mission Control keyboard shortcuts directly from your system settings. To change them, use this button." : {
+
+    },
     "Spaceman will send these keypresses to Mission Control." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4409,6 +4429,7 @@
       }
     },
     "With modifiers" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

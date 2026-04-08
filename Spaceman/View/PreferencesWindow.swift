@@ -11,14 +11,29 @@ import AppKit
 class PreferencesWindow: NSWindow {
     init() {
         super.init(
-            contentRect: NSRect(x: 0, y: 0, width: 400, height: 550),
-            styleMask: [.titled, .fullSizeContentView],
+            contentRect: NSRect(x: 0, y: 0, width: 400, height: 400),
+            styleMask: [.titled, .closable],
             backing: .buffered,
             defer: false
         )
-        self.titlebarAppearsTransparent = true
+        self.title = "Spaceman Preferences"
         self.isMovableByWindowBackground = true
         self.isReleasedWhenClosed = false
         self.collectionBehavior = [.moveToActiveSpace]
+    }
+
+    /// Resize the window to fit the current content, pinning the top edge.
+    func resizeToFitContent(animate: Bool = true) {
+        guard let contentView = contentView else { return }
+        let contentSize = contentView.fittingSize
+        let newSize = frameRect(forContentRect: CGRect(origin: .zero, size: contentSize)).size
+        var frame = frame
+        frame.origin.y += frame.height - newSize.height
+        frame.size = newSize
+        if animate {
+            animator().setFrame(frame, display: false)
+        } else {
+            setFrame(frame, display: false)
+        }
     }
 }

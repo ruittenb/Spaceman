@@ -86,30 +86,32 @@ Full Unicode support:
 Optional navigation buttons let you switch to the previous/next space or
 open Mission Control directly from the menu bar:
 
-<img src="images/Button-10-Navigation-1.png" width="auto" height="40px">
+<img src="images/Button-10-Navigation-3.png" width="auto" height="40px">
 
 You can choose to display all spaces or just a few neighboring ones; and to hide Fullscreen spaces entirely.
 
 ## 🔹 Preferences
 
-Spaceman's preferences are organized into four tabs: **General**, **Appearance**, **Spaces**, and **Shortcuts**.
+Spaceman's preferences are organized into four tabs: **General**, **Appearance**, **Spaces**, and **Displays**.
 
 ### General Tab
 
-<img src="images/Preferences-General.png" width="66%" height="auto">
+<img src="images/Preferences-General-2.png" width="66%" height="auto">
 
 - **Launch Spaceman at login**: Automatically start Spaceman when you log in to macOS
 - **Refresh spaces in background**: If enabled, Spaceman will update the view when your space configuration changes
-- **Restart space numbering by display**: For each display, Space numbering starts at 1, instead of using continuous numbering
-- **When displays are side by side**: Use macOS display order or reverse it
-- **When displays are stacked**: macOS standard is to sort displays by the X coordinate of their center. This option enables sorting by Y coordinate
-- **Open System Settings → Displays**: Opens the System Settings panel for Displays. Click [Arrange] to adjust the arrangement of the displays
+- **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
+- **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
+- **Enable switching to Fullscreen spaces by chaining keypresses**: When enabled, Spaceman can switch to fullscreen spaces by first switching to a neighboring space and then sending shortcuts for Previous/Next space.
+- **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to manage them.
 - **Backup Preferences**: Saves all your preferences to `~/.spaceman/app-defaults.xml` (old copies are preserved)
 - **Restore Preferences**: Loads preferences from that file
 
+**Spaceman reads keyboard shortcuts directly from your system settings** — no manual configuration needed.
+
 ### Appearance Tab
 
-<img src="images/Preferences-Appearance-3.png" width="66%" height="auto">
+<img src="images/Preferences-Appearance-4.png" width="66%" height="auto">
 
 - **Icon size**: Adjusts the size of the space icons in the menu bar
 - **Icon width**: Switches between:
@@ -130,22 +132,21 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Spaces Tab
 
-<img src="images/Preferences-Spaces-1.png" width="66%" height="auto">
+<img src="images/Preferences-Spaces-2.png" width="66%" height="auto">
 
 - **Space names**: Assigns custom names of any length to individual spaces
   - The menu displays full names regardless of length
   - Menu bar icons truncate names to 10 characters for compactness
   - Optionally, for each Space icon, a color can be selected.
 
-### Shortcuts Tab
+### Displays Tab
 
-<img src="images/Preferences-Shortcuts-2.png" width="66%" height="auto">
+<img src="images/Preferences-Displays-1.png" width="66%" height="auto">
 
-- **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
-- **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
-- **Switching keys** and **Modifiers**: Tell Spaceman which shortcut keys have been defined in Mission Control for switching spaces.
-- **Arrow buttons and Mission Control button**: The macOS default is ^← for previous, ^→ for next, and ^↑ to open Mission Control. With this option you can choose different modifiers
-- **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to define these.
+- **Restart space numbering by display**: For each display, Space numbering starts at 1, instead of using continuous numbering
+- **When displays are side by side**: Use macOS display order or reverse it
+- **When displays are stacked**: macOS standard is to sort displays by the X coordinate of their center. This option enables sorting by Y coordinate
+- **Open System Settings → Displays**: Opens the System Settings panel for Displays. Click [Arrange] to adjust the arrangement of the displays
 
 ## 🔹 Switching Spaces
 
@@ -153,7 +154,7 @@ Spaceman provides multiple ways to switch between spaces quickly and efficiently
 
 ### Setup Requirements
 
-For space switching to work, you need to configure three things:
+For space switching to work, you need to configure two things:
 
 **1. Accessibility and Automation Permissions**
 - Go to **System Settings → Privacy & Security → Accessibility**
@@ -174,17 +175,12 @@ For space switching to work, you need to configure three things:
 
 **2. Mission Control Shortcuts**
 - Go to **System Settings → Keyboard → Keyboard Shortcuts → Mission Control**
-- Assign keyboard shortcuts to "Switch to Desktop 1", "Switch to Desktop 2", etc.
-- Make sure shortcuts are enabled for the spaces you want to access
+- Assign and enable shortcuts for the following, if you want to use them:
+  - "Switch to Desktop" for any spaces you want to be able to switch to
+  - "Move left/right a space" for navigation buttons
+  - "Mission Control" if you want to use a menu bar button to open Mission Control
 
 <img src="images/Shortcuts.png" width="66%" height="auto">
-
-**3. Spaceman Shortcut Configuration**
-- Open Spaceman preferences and go to the **Spaces** tab
-- Under "Switching Spaces", select your preferred shortcut scheme:
-  - **Number keys on top row**: Uses keys 1-9, 0 for spaces 1-10
-  - **Numeric keypad**: Uses numpad keys
-- Add the modifier keys (Shift, Control, Option, Command) that Mission Control has been configured to use
 
 ### Usage Methods
 
@@ -194,7 +190,7 @@ For space switching to work, you need to configure three things:
 - The Mission Control button opens Mission Control
 - Enable these in Preferences → Appearance or via the right-click menu → Buttons Shown
 
-<img src="images/Button-10-Navigation-2.png" width="auto" height="auto">
+<img src="images/Button-10-Navigation-4.png" width="auto" height="auto">
 
 **Menu Bar Clicking**
 - Click directly on any space icon in the menu bar to switch to that space
@@ -210,20 +206,18 @@ For space switching to work, you need to configure three things:
 
 Some appearance settings are also available directly from this menu.
 
-<img src="images/Menu-4.png" width="auto" height="auto">
+<img src="images/Menu-5.png" width="auto" height="auto">
 
 **Resizing the Icon**
 - Hold **⌥ Option** and scroll on the menu bar icon to quickly change the icon size
 
 **Keyboard Shortcuts**
-- Spaceman does not do the space switching itself, but sends shortcut keystrokes to Mission Control.
-  - Switching between spaces is then handled by Mission Control directly.
-- The first 10 regular spaces will send shortcuts with numbers (1-9, 0)
+- Spaceman reads keyboard shortcuts directly from macOS Mission Control settings and sends the corresponding keystrokes.
+- Desktops 1–16 are supported (matching the macOS Mission Control shortcut limit).
+- Mission Control doesn't have keyboard shortcuts for fullscreen spaces. With "Enable switching to Fullscreen spaces by chaining keypresses" turned on, Spaceman can reach them by chaining arrow keypresses.
 
 ### Limitations
 
-- Spaces beyond the first 10 cannot be switched to via keyboard shortcuts
-- Mission Control doesn't have the capability to switch to fullscreen spaces
 - Space switching will fail without proper Accessibility permissions
 
 ## 🔹 Remote Control

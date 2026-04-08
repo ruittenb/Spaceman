@@ -13,8 +13,6 @@ import SwiftUI
 struct PreferencesView: View {
     private let subItemIndent: CGFloat = 30
 
-    weak var parentWindow: PreferencesWindow?
-
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
@@ -25,18 +23,13 @@ struct PreferencesView: View {
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
-    @AppStorage("navUseSwitchingModifiers") private var navUseSwitchingModifiers = false
+    @AppStorage("navigateAnywhere") private var navigateAnywhere = false
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
-    @AppStorage("schema") private var keySet = KeySet.toprow
-    @AppStorage("withShift") private var withShift = false
-    @AppStorage("withControl") private var withControl = false
-    @AppStorage("withOption") private var withOption = false
-    @AppStorage("withCommand") private var withCommand = false
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -51,65 +44,26 @@ struct PreferencesView: View {
     // MARK: - Main Body
     var body: some View {
         VStack(spacing: 0) {
-            ZStack {
-                VisualEffectView(material: .sidebar, blendingMode: .behindWindow)
-                closeButton
-                appInfo
-            }
-            .frame(maxWidth: .infinity, alignment: .center)
-            .frame(height: 60)
-            .offset(y: 1) // Looked like it was off center
-
+            appInfo
             Divider()
-
             preferencePanes
         }
-        .ignoresSafeArea()
-        .frame(maxWidth: .infinity, alignment: .top)
         .onAppear(perform: prefsVM.loadData)
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ActiveSpacesChanged"))) { _ in
             prefsVM.loadData()
         }
     }
 
-    // MARK: - Close Button
-    private var closeButton: some View {
-        VStack {
-            Spacer()
-            HStack {
-                if let parentWindow = parentWindow {
-                    Button {
-                        parentWindow.close()
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                    }
-                    .buttonStyle(BorderlessButtonStyle())
-                    .keyboardShortcut("w", modifiers: .command)
-                    .help("Close window (⌘W)")
-                    .padding(.leading, 12)
-                }
-                Spacer()
-            }
-            Spacer()
-        }
-    }
-
     // MARK: - App Info
     private var appInfo: some View {
         HStack(spacing: 8) {
-            HStack {
-                Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
-                VStack(alignment: .leading) {
-                    Text("Spaceman").font(.headline)
-                    Text("Version \(Constants.AppInfo.appVersion ?? "?")")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-            }
-            .padding(.leading)
+            Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
+                .resizable()
+                .scaledToFit()
+                .frame(width: 48, height: 48)
+            Text("Version \(Constants.AppInfo.appVersion ?? "?")")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
 
             Spacer()
 
@@ -136,6 +90,7 @@ struct PreferencesView: View {
             }
         }
         .padding(.horizontal, 18)
+        .padding(.vertical, 2)
     }
 
     // MARK: - Preference Panes
@@ -146,7 +101,7 @@ struct PreferencesView: View {
                 Text("General").help("⌘1").tag(0)
                 Text("Appearance").help("⌘2").tag(1)
                 Text("Spaces").help("⌘3").tag(2)
-                Text("Shortcuts").help("⌘4").tag(3)
+                Text("Displays").help("⌘4").tag(3)
             }
             .labelsHidden()
             .pickerStyle(.segmented)
@@ -176,7 +131,7 @@ struct PreferencesView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         generalPane
                         Divider()
-                        displaysPane
+                        switchingPane
                         Divider()
                         backupRestorePane
                     }
@@ -185,25 +140,29 @@ struct PreferencesView: View {
                 } else if selectedTab == 2 {
                     spacesPane
                 } else {
-                    VStack(alignment: .leading, spacing: 0) {
-                        shortcutsPane
-                        Divider()
-                        switchingPane
-                    }
+                    displaysPane
                 }
             }
         }
         .padding(.bottom, 20)
+        .onChange(of: selectedTab) { _ in
+            NotificationCenter.default.post(
+                name: NSNotification.Name("PreferencesTabChanged"), object: nil)
+        }
     }
 
     // MARK: - General pane
     private var generalPane: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 10) {
             Text("General")
                 .font(.title2)
                 .fontWeight(.semibold)
             LaunchAtLogin.Toggle { Text("Launch Spaceman at login") }
+                .padding(.bottom, 4)
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
+                .padding(.bottom, 4)
+            refreshShortcutRecorder
+            preferencesShortcutRecorder
         }
         .padding()
         .onChange(of: autoRefreshSpaces) { enabled in
@@ -412,61 +371,17 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Shortcuts pane
-    private var shortcutsPane: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("General")
-                .font(.title2)
-                .fontWeight(.semibold)
-            refreshShortcutRecorder
-            preferencesShortcutRecorder
-        }
-        .padding()
-    }
-
     // MARK: - Switching pane
     private var switchingPane: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Switching Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
-            Text("Spaceman will send these keypresses to Mission Control.")
-                .foregroundColor(.secondary)
-            HStack(alignment: .firstTextBaseline) {
-                Text("Shortcut keys")
-                    .frame(width: 130, alignment: .leading)
-                Picker("Shortcut keys", selection: $keySet) {
-                    Text("number keys on top row").tag(KeySet.toprow).padding(.bottom, 2)
-                    Text("numeric keypad").tag(KeySet.numpad)
-                }
-                .pickerStyle(.radioGroup)
-                .labelsHidden()
+            Toggle(isOn: $navigateAnywhere) {
+                Text("Enable switching to Fullscreen spaces by chaining keypresses")
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .padding(.bottom, 6)
-            HStack(alignment: .top) {
-                Text("With modifiers")
-                    .frame(width: 130, alignment: .leading)
-                VStack(alignment: .leading) {
-                    Toggle("Shift ⇧", isOn: $withShift)
-                    Toggle("Control ⌃", isOn: $withControl)
-                }
-                Spacer()
-                VStack(alignment: .leading) {
-                    Toggle("Option ⌥", isOn: $withOption)
-                    Toggle("Command ⌘", isOn: $withCommand)
-                }
-                Spacer()
-            }
-            .padding(.bottom, 6)
-            Text("Arrow buttons and Mission Control button:")
-                .padding(.top, 6)
-            Picker("", selection: $navUseSwitchingModifiers) {
-                Text("send Control as modifier (macOS default)").tag(false)
-                Text("send the same modifiers as specified above").tag(true)
-            }
-            .pickerStyle(.radioGroup)
-            .labelsHidden()
-            .padding(.leading, subItemIndent)
+            .padding(.vertical, 6)
             HStack(spacing: 8) {
                 Button {
                     openMissionControlShortcuts()
@@ -482,9 +397,8 @@ struct PreferencesView: View {
                 .buttonStyle(.plain)
                 .popover(isPresented: $showSwitchingHelp, arrowEdge: .trailing) {
                     Text("""
-                        For switching between spaces to work, these settings \
-                        must match the keyboard shortcuts assigned \
-                        for Mission Control.
+                        Spaceman reads the Mission Control keyboard shortcuts directly \
+                        from your system settings. To change them, use this button.
                         """)
                     .padding()
                     .frame(width: 240)
@@ -492,12 +406,6 @@ struct PreferencesView: View {
             }
         }
         .padding()
-        .onChange(of: keySet) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
-        .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
     }
 
     // MARK: - Refresh Shortcut Recorder
@@ -564,7 +472,7 @@ struct PreferencesView: View {
                 switch iconSize {
                 case .narrow, .compact:              iconSize = .compact
                 case .medium:                        iconSize = .medium
-                case .large, .extraLarge, .enormous:  iconSize = .large
+                case .large, .extraLarge, .enormous: iconSize = .large
                 }
             }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
@@ -837,6 +745,6 @@ func openSettings(candidates: [String]) {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        PreferencesView(parentWindow: nil)
+        PreferencesView()
     }
 }

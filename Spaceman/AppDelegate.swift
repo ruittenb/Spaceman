@@ -219,6 +219,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 extension AppDelegate: SpaceObserverDelegate {
     func didUpdateSpaces(spaces: [Space]) {
         currentSpaces = spaces
+        statusBar.reloadShortcuts()
         let buttonAppearance = statusBar.getButtonAppearance()
         let icon = iconCreator.getIcon(for: spaces, appearance: buttonAppearance)
         statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
@@ -264,6 +265,6 @@ struct SpacemanApp: App {
 
 struct SettingsView: View {
     var body: some View {
-        PreferencesView(parentWindow: nil)
+        PreferencesView()
     }
 }
