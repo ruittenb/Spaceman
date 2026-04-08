@@ -315,10 +315,12 @@ class IconCreator {
         let box = createSpaceIcon(space: makeNavSpace(label: " "), defaultColor: defaultColor, minWidth: boxWidth)
         let size = box.size
         let inset = h * 0.25
-        let squareOriginX = (size.width - h) / 2  // center the square area horizontally
-        let inner = NSRect(x: squareOriginX + inset, y: inset, width: h - inset * 2, height: h - inset * 2)
-        let gap: CGFloat = 1.5
-        let colW = (inner.width - gap) / 2
+        let gap: CGFloat = 1.25
+        let innerW = h - inset * 2
+        let rightW = (innerW - gap) / 2
+        let leftW = (innerW - gap) / 1.8
+        let squareOriginX = (size.width - 2 * inset - leftW - rightW) / 2  // center the staggered symbol horizontally
+        let inner = NSRect(x: squareOriginX + inset, y: inset, width: innerW, height: h - inset * 2)
         let smallH = (inner.height - gap) / 2
 
         let shouldDim = decorationActive == decorationInactive
@@ -338,12 +340,16 @@ class IconCreator {
         let symbol = NSImage(size: size)
         symbol.lockFocus()
         symbolColor.setFill()
-        NSBezierPath(roundedRect: NSRect(x: inner.minX, y: inner.minY + smallH + gap,
-                                         width: colW, height: smallH), xRadius: 0.5, yRadius: 0.5).fill()
+        let shift: CGFloat = gap
+        // Top-left small rect (shifted left)
+        NSBezierPath(roundedRect: NSRect(x: inner.minX - shift, y: inner.minY + smallH + gap,
+                                         width: leftW, height: smallH), xRadius: 0.5, yRadius: 0.5).fill()
+        // Bottom-left small rect (original position)
         NSBezierPath(roundedRect: NSRect(x: inner.minX, y: inner.minY,
-                                         width: colW, height: smallH), xRadius: 0.5, yRadius: 0.5).fill()
-        NSBezierPath(roundedRect: NSRect(x: inner.minX + colW + gap, y: inner.minY,
-                                         width: colW, height: inner.height), xRadius: 0.5, yRadius: 0.5).fill()
+                                         width: leftW, height: smallH), xRadius: 0.5, yRadius: 0.5).fill()
+        // Right tall rect (cropped at the bottom)
+        NSBezierPath(roundedRect: NSRect(x: inner.minX + leftW + gap, y: inner.minY + shift,
+                                         width: rightW, height: inner.height - shift), xRadius: 0.5, yRadius: 0.5).fill()
         symbol.unlockFocus()
 
         box.lockFocus()
