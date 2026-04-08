@@ -71,7 +71,7 @@ struct PreferencesView: View {
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.repo)
                 } label: {
-                    Text("GitHub").font(.callout)
+                    Text("Documentation").font(.callout)
                 }
                 .buttonStyle(LinkButtonStyle())
                 .onHover { hovering in
@@ -378,7 +378,7 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
             Toggle(isOn: $navigateAnywhere) {
-                Text("Enable switching to Fullscreen spaces by chaining keypresses")
+                Text("Allow switching to fullscreen spaces using multiple steps")
                     .fixedSize(horizontal: false, vertical: true)
             }
             .padding(.vertical, 6)

@@ -640,7 +640,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         item.target = self
         item.tag = desktopNumber ?? -(space.spaceNumber)
         item.image = menuIcon
-        if space.isCurrentSpace || (shortcutKey == "" && !navigateAnywhere && !isF1) {
+        if space.isCurrentSpace || (shortcutKey == "" && !isF1) {
             item.isEnabled = false
             if space.isCurrentSpace {
                 item.state = .on // tick mark
