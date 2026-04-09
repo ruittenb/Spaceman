@@ -67,7 +67,7 @@ struct PreferencesView: View {
 
             Spacer()
 
-            HStack {
+            HStack(spacing: 4) {
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.repo)
                 } label: {
@@ -77,7 +77,7 @@ struct PreferencesView: View {
                 .onHover { hovering in
                     if hovering { NSCursor.pointingHand.push() } else { NSCursor.pop() }
                 }
-
+                Text("·").font(.callout).foregroundColor(.secondary)
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.website)
                 } label: {
@@ -153,14 +153,15 @@ struct PreferencesView: View {
 
     // MARK: - General pane
     private var generalPane: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 2) {
             Text("General")
                 .font(.title2)
                 .fontWeight(.semibold)
+                .padding(.bottom, 12)
             LaunchAtLogin.Toggle { Text("Launch Spaceman at login") }
-                .padding(.bottom, 4)
+                .padding(.bottom, 8)
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
-                .padding(.bottom, 4)
+                .padding(.bottom, 6)
             refreshShortcutRecorder
             preferencesShortcutRecorder
         }

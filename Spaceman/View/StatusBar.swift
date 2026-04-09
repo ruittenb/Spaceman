@@ -398,9 +398,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             let hitY = hasY ? (y >= iconWidth.top && y < iconWidth.bottom) : true
             if hitX && hitY {
                 switch iconWidth.index {
-                case Space.previousSpaceIndex:     tooltip = "Previous"
-                case Space.missionControlIndex:    tooltip = "Mission Control"
-                case Space.nextSpaceIndex:         tooltip = "Next"
+                case Space.previousSpaceIndex:     tooltip = String(localized: "Previous")
+                case Space.missionControlIndex:    tooltip = String(localized: "Mission Control")
+                case Space.nextSpaceIndex:         tooltip = String(localized: "Next")
                 default: break
                 }
                 break
