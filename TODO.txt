@@ -1,11 +1,6 @@
 
-----
-
 Display a bubble with "Enable switching to fullscreen spaces in Preferences"
-
-----
-
-Flash icon when moving left from leftmost; or moving right from rightmost
+Display a bubble with "No shortcut key known [ Configure ]"
 
 ================================================================================
 REFACTORING

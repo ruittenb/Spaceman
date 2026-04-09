@@ -115,10 +115,18 @@ class SpaceSwitcher {
             triggerMissionControl()
             return
         } else if hitIndex == Space.previousSpaceIndex {
-            switchToPreviousSpace()
+            if isAtEdge(spaces: spaces, goingRight: false) {
+                onError()
+            } else {
+                switchToPreviousSpace()
+            }
             return
         } else if hitIndex == Space.nextSpaceIndex {
-            switchToNextSpace()
+            if isAtEdge(spaces: spaces, goingRight: true) {
+                onError()
+            } else {
+                switchToNextSpace()
+            }
             return
         } else if (hitIndex == Space.unswitchableIndex || hitIndex < 0) && navigateAnywhere {
             navigateByChaining(
@@ -233,6 +241,23 @@ class SpaceSwitcher {
         chainTimeout?.cancel()
         chainTimeout = nil
         removeChainObserver()
+    }
+
+    /// Returns true when the current space is already at the
+    /// first (goingRight=false) or last (goingRight=true)
+    /// position on its display.
+    private func isAtEdge(spaces: [Space], goingRight: Bool) -> Bool {
+        guard let current = spaces.first(where: { $0.isCurrentSpace }) else {
+            return false
+        }
+        let displaySpaces = spaces
+            .filter { $0.displayID == current.displayID }
+            .sorted { $0.spaceNumber < $1.spaceNumber }
+        if goingRight {
+            return current.spaceNumber == displaySpaces.last?.spaceNumber
+        } else {
+            return current.spaceNumber == displaySpaces.first?.spaceNumber
+        }
     }
 
     private func removeChainObserver() {
