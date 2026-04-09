@@ -51,6 +51,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var updaterController: SPUStandardUpdaterController!
     private var aboutView: NSHostingView<AboutView>!
     private var currentSpaces: [Space] = []
+    private var missingShortcutBalloon: NSPopover?
 
     public var iconCreator: IconCreator!
 
@@ -282,7 +283,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     point: adjPoint,
                     spaces: self.currentSpaces,
                     navigateAnywhere: self.navigateAnywhere,
-                    onError: self.flashStatusBar)
+                    onError: self.flashStatusBar,
+                    onMissingShortcut: { [weak self] in
+                        self?.showMissingShortcutBalloon()
+                    })
             } else {
                 print("Other event: \(event.type)")
             }
@@ -337,6 +341,37 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 }
             }
         }
+    }
+
+    // MARK: - Missing Shortcut Balloon
+
+    private func showMissingShortcutBalloon() {
+        dismissMissingShortcutBalloon()
+
+        let popover = NSPopover()
+        popover.behavior = .transient
+        popover.animates = true
+
+        let viewController = NSViewController()
+        let hostingView = NSHostingView(rootView: MissingShortcutBalloonView(
+            onConfigure: { [weak self] in
+                self?.dismissMissingShortcutBalloon()
+                openMissionControlShortcuts()
+            }
+        ))
+        hostingView.frame.size = hostingView.intrinsicContentSize
+        viewController.view = hostingView
+        popover.contentViewController = viewController
+
+        if let button = statusBarItem.button {
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+        }
+        missingShortcutBalloon = popover
+    }
+
+    private func dismissMissingShortcutBalloon() {
+        missingShortcutBalloon?.close()
+        missingShortcutBalloon = nil
     }
 
     // MARK: - Tooltips
@@ -710,5 +745,24 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func updater(_ updater: SPUUpdater, willInstallUpdate item: SUAppcastItem) {
         // About to install
         hideBadge()
+    }
+}
+
+// MARK: - Missing Shortcut Balloon
+
+private struct MissingShortcutBalloonView: View {
+    var onConfigure: () -> Void
+
+    var body: some View {
+        VStack(spacing: 10) {
+            Text("No shortcut known")
+                .font(.system(size: 12))
+                .fixedSize()
+            Button("Configure") {
+                onConfigure()
+            }
+            .font(.system(size: 12))
+        }
+        .padding(14)
     }
 }

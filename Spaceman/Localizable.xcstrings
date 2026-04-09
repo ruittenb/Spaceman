@@ -718,6 +718,9 @@
         }
       }
     },
+    "Configure" : {
+
+    },
     "Current only" : {
       "localizations" : {
         "de" : {
@@ -2157,6 +2160,9 @@
           }
         }
       }
+    },
+    "No shortcut known" : {
+
     },
     "No spaces detected yet." : {
       "localizations" : {

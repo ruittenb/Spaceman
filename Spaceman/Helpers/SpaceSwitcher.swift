@@ -96,7 +96,8 @@ class SpaceSwitcher {
     public func switchUsingLocation(
         iconWidths: [IconWidth], point: CGPoint,
         spaces: [Space], navigateAnywhere: Bool,
-        onError: @escaping () -> Void
+        onError: @escaping () -> Void,
+        onMissingShortcut: (() -> Void)? = nil
     ) {
         cancelChain()
         var hitIndex: Int = 0
@@ -112,17 +113,23 @@ class SpaceSwitcher {
             }
         }
         if hitIndex == Space.missionControlIndex {
-            triggerMissionControl()
+            if shortcutHelper.missionControlShortcut != nil {
+                triggerMissionControl()
+            } else if let onMissingShortcut { onMissingShortcut() } else { onError() }
             return
         } else if hitIndex == Space.previousSpaceIndex {
-            if isAtEdge(spaces: spaces, goingRight: false) {
+            if shortcutHelper.moveLeftShortcut == nil {
+                if let onMissingShortcut { onMissingShortcut() } else { onError() }
+            } else if isAtEdge(spaces: spaces, goingRight: false) {
                 onError()
             } else {
                 switchToPreviousSpace()
             }
             return
         } else if hitIndex == Space.nextSpaceIndex {
-            if isAtEdge(spaces: spaces, goingRight: true) {
+            if shortcutHelper.moveRightShortcut == nil {
+                if let onMissingShortcut { onMissingShortcut() } else { onError() }
+            } else if isAtEdge(spaces: spaces, goingRight: true) {
                 onError()
             } else {
                 switchToNextSpace()
@@ -139,7 +146,9 @@ class SpaceSwitcher {
                 onError()
             }
         } else if hitIndex == Space.unswitchableIndex {
-            onError()
+            if let onMissingShortcut { onMissingShortcut() } else { onError() }
+        } else if shortcutHelper.getKeyCode(spaceNumber: hitIndex) < 0 {
+            if let onMissingShortcut { onMissingShortcut() } else { onError() }
         } else {
             switchToSpace(spaceNumber: hitIndex, onError: onError)
         }
