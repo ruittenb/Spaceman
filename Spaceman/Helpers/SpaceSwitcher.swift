@@ -99,6 +99,7 @@ class SpaceSwitcher {
         onError: @escaping () -> Void,
         onMissingShortcut: (() -> Void)? = nil
     ) {
+        shortcutHelper.reload()
         cancelChain()
         var hitIndex: Int = 0
         var hitSpaceNumber: Int = 0
