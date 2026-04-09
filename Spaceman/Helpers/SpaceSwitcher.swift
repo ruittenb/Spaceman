@@ -8,6 +8,11 @@
 import Foundation
 import SwiftUI
 
+enum MissingShortcutKind {
+    case navigation  // Mission Control, Move left/right
+    case desktop     // Switch to Desktop N
+}
+
 class SpaceSwitcher {
     private let shortcutHelper = ShortcutHelper()
     private var chainObserver: NSObjectProtocol?
@@ -97,7 +102,7 @@ class SpaceSwitcher {
         iconWidths: [IconWidth], point: CGPoint,
         spaces: [Space], navigateAnywhere: Bool,
         onError: @escaping () -> Void,
-        onMissingShortcut: (() -> Void)? = nil
+        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
         shortcutHelper.reload()
         cancelChain()
@@ -116,11 +121,11 @@ class SpaceSwitcher {
         if hitIndex == Space.missionControlIndex {
             if shortcutHelper.missionControlShortcut != nil {
                 triggerMissionControl()
-            } else if let onMissingShortcut { onMissingShortcut() } else { onError() }
+            } else if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
             return
         } else if hitIndex == Space.previousSpaceIndex {
             if shortcutHelper.moveLeftShortcut == nil {
-                if let onMissingShortcut { onMissingShortcut() } else { onError() }
+                if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
             } else if isAtEdge(spaces: spaces, goingRight: false) {
                 onError()
             } else {
@@ -129,7 +134,7 @@ class SpaceSwitcher {
             return
         } else if hitIndex == Space.nextSpaceIndex {
             if shortcutHelper.moveRightShortcut == nil {
-                if let onMissingShortcut { onMissingShortcut() } else { onError() }
+                if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
             } else if isAtEdge(spaces: spaces, goingRight: true) {
                 onError()
             } else {
@@ -147,9 +152,9 @@ class SpaceSwitcher {
                 onError()
             }
         } else if hitIndex == Space.unswitchableIndex {
-            if let onMissingShortcut { onMissingShortcut() } else { onError() }
+            if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
         } else if shortcutHelper.getKeyCode(spaceNumber: hitIndex) < 0 {
-            if let onMissingShortcut { onMissingShortcut() } else { onError() }
+            if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
         } else {
             switchToSpace(spaceNumber: hitIndex, onError: onError)
         }

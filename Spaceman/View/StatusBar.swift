@@ -284,8 +284,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     spaces: self.currentSpaces,
                     navigateAnywhere: self.navigateAnywhere,
                     onError: self.flashStatusBar,
-                    onMissingShortcut: { [weak self] in
-                        self?.showMissingShortcutBalloon()
+                    onMissingShortcut: { [weak self] kind in
+                        self?.showMissingShortcutBalloon(kind: kind)
                     })
             } else {
                 print("Other event: \(event.type)")
@@ -345,7 +345,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     // MARK: - Missing Shortcut Balloon
 
-    private func showMissingShortcutBalloon() {
+    private func showMissingShortcutBalloon(kind: MissingShortcutKind) {
         dismissMissingShortcutBalloon()
 
         let popover = NSPopover()
@@ -354,6 +354,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
         let viewController = NSViewController()
         let hostingView = NSHostingView(rootView: MissingShortcutBalloonView(
+            kind: kind,
             onConfigure: { [weak self] in
                 self?.dismissMissingShortcutBalloon()
                 openMissionControlShortcuts()
@@ -751,13 +752,28 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 // MARK: - Missing Shortcut Balloon
 
 private struct MissingShortcutBalloonView: View {
+    var kind: MissingShortcutKind
     var onConfigure: () -> Void
+
+    private var imageName: String {
+        switch kind {
+        case .navigation: return "MCShortcutsNavigation"
+        case .desktop:    return "MCShortcutsDesktops"
+        }
+    }
 
     var body: some View {
         VStack(spacing: 10) {
             Text("No shortcut known")
-                .font(.system(size: 12))
-                .fixedSize()
+                .font(.system(size: 13, weight: .medium))
+            Text("Enable under Keyboard → Shortcuts → Mission Control:")
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+            Image(imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: 320)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
             Button("Configure") {
                 onConfigure()
             }
