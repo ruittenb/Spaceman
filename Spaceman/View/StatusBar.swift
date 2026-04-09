@@ -51,6 +51,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var updaterController: SPUStandardUpdaterController!
     private var aboutView: NSHostingView<AboutView>!
     private var currentSpaces: [Space] = []
+    private var missingShortcutBalloon: NSPopover?
 
     public var iconCreator: IconCreator!
 
@@ -282,7 +283,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     point: adjPoint,
                     spaces: self.currentSpaces,
                     navigateAnywhere: self.navigateAnywhere,
-                    onError: self.flashStatusBar)
+                    onError: self.flashStatusBar,
+                    onMissingShortcut: { [weak self] kind in
+                        self?.showMissingShortcutBalloon(kind: kind)
+                    })
             } else {
                 print("Other event: \(event.type)")
             }
@@ -339,6 +343,38 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
     }
 
+    // MARK: - Missing Shortcut Balloon
+
+    private func showMissingShortcutBalloon(kind: MissingShortcutKind) {
+        dismissMissingShortcutBalloon()
+
+        let popover = NSPopover()
+        popover.behavior = .transient
+        popover.animates = true
+
+        let viewController = NSViewController()
+        let hostingView = NSHostingView(rootView: MissingShortcutBalloonView(
+            kind: kind,
+            onConfigure: { [weak self] in
+                self?.dismissMissingShortcutBalloon()
+                openMissionControlShortcuts()
+            }
+        ))
+        hostingView.frame.size = hostingView.intrinsicContentSize
+        viewController.view = hostingView
+        popover.contentViewController = viewController
+
+        if let button = statusBarItem.button {
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+        }
+        missingShortcutBalloon = popover
+    }
+
+    private func dismissMissingShortcutBalloon() {
+        missingShortcutBalloon?.close()
+        missingShortcutBalloon = nil
+    }
+
     // MARK: - Tooltips
 
     @objc(mouseEntered:) func mouseEntered(with event: NSEvent) {
@@ -362,9 +398,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             let hitY = hasY ? (y >= iconWidth.top && y < iconWidth.bottom) : true
             if hitX && hitY {
                 switch iconWidth.index {
-                case Space.previousSpaceIndex:     tooltip = "Previous"
-                case Space.missionControlIndex:    tooltip = "Mission Control"
-                case Space.nextSpaceIndex:         tooltip = "Next"
+                case Space.previousSpaceIndex:     tooltip = String(localized: "Previous")
+                case Space.missionControlIndex:    tooltip = String(localized: "Mission Control")
+                case Space.nextSpaceIndex:         tooltip = String(localized: "Next")
                 default: break
                 }
                 break
@@ -710,5 +746,39 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func updater(_ updater: SPUUpdater, willInstallUpdate item: SUAppcastItem) {
         // About to install
         hideBadge()
+    }
+}
+
+// MARK: - Missing Shortcut Balloon
+
+private struct MissingShortcutBalloonView: View {
+    var kind: MissingShortcutKind
+    var onConfigure: () -> Void
+
+    private var imageName: String {
+        switch kind {
+        case .navigation: return "MCShortcutsNavigation"
+        case .desktop:    return "MCShortcutsDesktops"
+        }
+    }
+
+    var body: some View {
+        VStack(spacing: 10) {
+            Text("No shortcut known")
+                .font(.system(size: 13, weight: .medium))
+            Text("Enable under Keyboard → Shortcuts → Mission Control:")
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+            Image(imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: 320)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+            Button("Configure") {
+                onConfigure()
+            }
+            .font(.system(size: 12))
+        }
+        .padding(14)
     }
 }
