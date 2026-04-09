@@ -38,6 +38,7 @@ struct PreferencesView: View {
 
     @StateObject private var prefsVM = PreferencesViewModel()
     @State private var selectedTab = 0
+    @FocusState private var tabPickerFocused: Bool
     @State private var showDisplaysHelp = false
     @State private var showSwitchingHelp = false
 
@@ -105,6 +106,12 @@ struct PreferencesView: View {
             }
             .labelsHidden()
             .pickerStyle(.segmented)
+            .focused($tabPickerFocused)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    tabPickerFocused = true
+                }
+            }
             .padding(10)
             .background(
                 Group {
