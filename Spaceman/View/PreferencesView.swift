@@ -61,7 +61,7 @@ struct PreferencesView: View {
             Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
                 .resizable()
                 .scaledToFit()
-                .frame(width: 48, height: 48)
+                .frame(width: 52, height: 52)
             Text("Version \(Constants.AppInfo.appVersion ?? "?")")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
@@ -90,7 +90,8 @@ struct PreferencesView: View {
                 }
             }
         }
-        .padding(.horizontal, 18)
+        .padding(.leading, 16)
+        .padding(.trailing, 18)
         .padding(.vertical, 2)
     }
 
