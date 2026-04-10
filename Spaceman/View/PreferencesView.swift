@@ -38,6 +38,7 @@ struct PreferencesView: View {
 
     @StateObject private var prefsVM = PreferencesViewModel()
     @State private var selectedTab = 0
+    @FocusState private var tabPickerFocused: Bool
     @State private var showDisplaysHelp = false
     @State private var showSwitchingHelp = false
 
@@ -60,24 +61,24 @@ struct PreferencesView: View {
             Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
                 .resizable()
                 .scaledToFit()
-                .frame(width: 48, height: 48)
+                .frame(width: 52, height: 52)
             Text("Version \(Constants.AppInfo.appVersion ?? "?")")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
 
             Spacer()
 
-            HStack {
+            HStack(spacing: 4) {
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.repo)
                 } label: {
-                    Text("GitHub").font(.callout)
+                    Text("Documentation").font(.callout)
                 }
                 .buttonStyle(LinkButtonStyle())
                 .onHover { hovering in
                     if hovering { NSCursor.pointingHand.push() } else { NSCursor.pop() }
                 }
-
+                Text("·").font(.callout).foregroundColor(.secondary)
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.website)
                 } label: {
@@ -89,7 +90,8 @@ struct PreferencesView: View {
                 }
             }
         }
-        .padding(.horizontal, 18)
+        .padding(.leading, 16)
+        .padding(.trailing, 18)
         .padding(.vertical, 2)
     }
 
@@ -105,6 +107,12 @@ struct PreferencesView: View {
             }
             .labelsHidden()
             .pickerStyle(.segmented)
+            .focused($tabPickerFocused)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    tabPickerFocused = true
+                }
+            }
             .padding(10)
             .background(
                 Group {
@@ -153,14 +161,15 @@ struct PreferencesView: View {
 
     // MARK: - General pane
     private var generalPane: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 2) {
             Text("General")
                 .font(.title2)
                 .fontWeight(.semibold)
+                .padding(.bottom, 12)
             LaunchAtLogin.Toggle { Text("Launch Spaceman at login") }
-                .padding(.bottom, 4)
+                .padding(.bottom, 8)
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
-                .padding(.bottom, 4)
+                .padding(.bottom, 6)
             refreshShortcutRecorder
             preferencesShortcutRecorder
         }
@@ -378,7 +387,7 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
             Toggle(isOn: $navigateAnywhere) {
-                Text("Enable switching to Fullscreen spaces by chaining keypresses")
+                Text("Allow switching to fullscreen spaces using multiple steps")
                     .fixedSize(horizontal: false, vertical: true)
             }
             .padding(.vertical, 6)

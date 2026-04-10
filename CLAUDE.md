@@ -28,6 +28,10 @@ This project does not have a developer certificate, so no code signing or notari
 xcodebuild test -project Spaceman.xcodeproj -scheme Spaceman -destination platform=macOS
 ```
 
+## Linting
+
+Never write lines that are longer than 200 characters: they will trip up the linter.
+
 ## Space Name Persistence — The ManagedSpaceID Problem
 
 This section documents a subtle and recurring class of bugs around persisting user-assigned space names. Issues #17, #20, #22, #22b, #22c, #22d, and #29 all stem from the same root cause. If you're touching `SpaceObserver`, `SpaceNameStore`, `PreferencesViewModel`, or `SpaceNameInfo`, read this first.

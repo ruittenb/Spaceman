@@ -8,6 +8,11 @@
 import Foundation
 import SwiftUI
 
+enum MissingShortcutKind {
+    case navigation  // Mission Control, Move left/right
+    case desktop     // Switch to Desktop N
+}
+
 class SpaceSwitcher {
     private let shortcutHelper = ShortcutHelper()
     private var chainObserver: NSObjectProtocol?
@@ -96,8 +101,10 @@ class SpaceSwitcher {
     public func switchUsingLocation(
         iconWidths: [IconWidth], point: CGPoint,
         spaces: [Space], navigateAnywhere: Bool,
-        onError: @escaping () -> Void
+        onError: @escaping () -> Void,
+        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
+        shortcutHelper.reload()
         cancelChain()
         var hitIndex: Int = 0
         var hitSpaceNumber: Int = 0
@@ -112,13 +119,27 @@ class SpaceSwitcher {
             }
         }
         if hitIndex == Space.missionControlIndex {
-            triggerMissionControl()
+            if shortcutHelper.missionControlShortcut != nil {
+                triggerMissionControl()
+            } else if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
             return
         } else if hitIndex == Space.previousSpaceIndex {
-            switchToPreviousSpace()
+            if shortcutHelper.moveLeftShortcut == nil {
+                if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
+            } else if isAtEdge(spaces: spaces, goingRight: false) {
+                onError()
+            } else {
+                switchToPreviousSpace()
+            }
             return
         } else if hitIndex == Space.nextSpaceIndex {
-            switchToNextSpace()
+            if shortcutHelper.moveRightShortcut == nil {
+                if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
+            } else if isAtEdge(spaces: spaces, goingRight: true) {
+                onError()
+            } else {
+                switchToNextSpace()
+            }
             return
         } else if (hitIndex == Space.unswitchableIndex || hitIndex < 0) && navigateAnywhere {
             navigateByChaining(
@@ -131,7 +152,9 @@ class SpaceSwitcher {
                 onError()
             }
         } else if hitIndex == Space.unswitchableIndex {
-            onError()
+            if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
+        } else if shortcutHelper.getKeyCode(spaceNumber: hitIndex) < 0 {
+            if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
         } else {
             switchToSpace(spaceNumber: hitIndex, onError: onError)
         }
@@ -233,6 +256,23 @@ class SpaceSwitcher {
         chainTimeout?.cancel()
         chainTimeout = nil
         removeChainObserver()
+    }
+
+    /// Returns true when the current space is already at the
+    /// first (goingRight=false) or last (goingRight=true)
+    /// position on its display.
+    private func isAtEdge(spaces: [Space], goingRight: Bool) -> Bool {
+        guard let current = spaces.first(where: { $0.isCurrentSpace }) else {
+            return false
+        }
+        let displaySpaces = spaces
+            .filter { $0.displayID == current.displayID }
+            .sorted { $0.spaceNumber < $1.spaceNumber }
+        if goingRight {
+            return current.spaceNumber == displaySpaces.last?.spaceNumber
+        } else {
+            return current.spaceNumber == displaySpaces.first?.spaceNumber
+        }
     }
 
     private func removeChainObserver() {

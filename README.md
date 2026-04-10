@@ -96,7 +96,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### General Tab
 
-<img src="images/Preferences-General-2.png" width="66%" height="auto">
+<img src="images/Preferences-General-3.png" width="66%" height="auto">
 
 - **Launch Spaceman at login**: Automatically start Spaceman when you log in to macOS
 - **Refresh spaces in background**: If enabled, Spaceman will update the view when your space configuration changes
