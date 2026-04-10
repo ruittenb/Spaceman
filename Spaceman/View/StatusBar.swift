@@ -275,9 +275,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     x: mouseLocation.x - buttonFrame.minX,
                     y: mouseLocation.y - buttonFrame.minY)
                 // Convert to image-relative coordinates for hit testing
-                let imageWidth = sbButton.image?.size.width ?? sbButton.bounds.width
-                let margin = max((sbButton.bounds.width - imageWidth) / 2.0, 0)
-                let adjPoint = NSPoint(x: locationInButton.x - margin, y: locationInButton.y)
+                let adjPoint = NSPoint(
+                    x: locationInButton.x - self.imageHorizontalMargin(of: sbButton),
+                    y: locationInButton.y)
                 self.spaceSwitcher.switchUsingLocation(
                     iconWidths: self.iconCreator.iconWidths,
                     point: adjPoint,
@@ -311,7 +311,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             }
             if let next = next {
                 iconSize = next
-                NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+                postRefreshNotification()
             }
         } else if scrollAccumulator < -threshold {
             scrollAccumulator = 0
@@ -321,7 +321,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             }
             if let next = next {
                 iconSize = next
-                NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+                postRefreshNotification()
             }
         }
     }
@@ -384,13 +384,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @objc(mouseMoved:) func mouseMoved(with event: NSEvent) {
         guard let button = statusBarItem.button else { return }
         let locationInButton = button.convert(event.locationInWindow, from: nil)
-        let imageWidth = button.image?.size.width ?? button.bounds.width
-        let margin = max((button.bounds.width - imageWidth) / 2.0, 0)
-        let x = locationInButton.x - margin
+        let x = locationInButton.x - imageHorizontalMargin(of: button)
 
         let imageHeight = button.image?.size.height ?? button.bounds.height
-        let yMargin = max((button.bounds.height - imageHeight) / 2.0, 0)
-        let y = imageHeight - (locationInButton.y - yMargin)
+        let y = imageHeight - (locationInButton.y - imageVerticalMargin(of: button))
         var tooltip: String?
         for iconWidth in iconCreator.iconWidths {
             let hitX = x >= iconWidth.left && x < iconWidth.right
@@ -411,6 +408,20 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc(mouseExited:) func mouseExited(with event: NSEvent) {
         statusBarItem.button?.toolTip = nil
+    }
+
+    /// The horizontal centering margin between the button edge and the image,
+    /// when the image is narrower than the button.
+    private func imageHorizontalMargin(of button: NSStatusBarButton) -> CGFloat {
+        let imageWidth = button.image?.size.width ?? button.bounds.width
+        return max((button.bounds.width - imageWidth) / 2.0, 0)
+    }
+
+    /// The vertical centering margin between the button edge and the image,
+    /// when the image is shorter than the button.
+    private func imageVerticalMargin(of button: NSStatusBarButton) -> CGFloat {
+        let imageHeight = button.image?.size.height ?? button.bounds.height
+        return max((button.bounds.height - imageHeight) / 2.0, 0)
     }
 
     func getButtonFrame() -> NSRect? {
@@ -465,7 +476,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func refreshSpaces(_ sender: AnyObject) {
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     // MARK: - Settings Submenus
@@ -543,30 +554,30 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             case .large, .extraLarge, .enormous:  iconSize = .large
             }
         }
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     @objc func selectLayout(_ sender: NSMenuItem) {
         guard let mode = IconSize(rawValue: sender.tag) else { return }
         iconSize = mode
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     @objc func toggleVariableWidth() {
         useVariableWidth.toggle()
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     @objc func selectFont(_ sender: NSMenuItem) {
         guard let design = FontDesign(rawValue: sender.tag) else { return }
         fontDesign = design
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     @objc func selectIconStyle(_ sender: NSMenuItem) {
         guard let style = IconText(rawValue: sender.tag) else { return }
         displayStyle = style
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     @objc func selectIconShape(_ sender: NSMenuItem) {
@@ -586,7 +597,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             decorationInactive = decorationInactive.withShape(shape).withFill(inactiveFill)
             saveLastDecoration()
         }
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     @objc func selectIconFill(_ sender: NSMenuItem) {
@@ -600,7 +611,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         decorationActive = decorationActive.withFill(fill).withShape(activeShape)
         decorationInactive = decorationInactive.withFill(fill).withShape(inactiveShape)
         saveLastDecoration()
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     private func saveLastDecoration() {
@@ -616,22 +627,22 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func selectSpacesShown(_ sender: NSMenuItem) {
         visibleSpacesModeRaw = sender.tag
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     @objc func toggleShowFullscreenSpaces() {
         showFullscreenSpaces.toggle()
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     @objc func toggleShowMissionControl() {
         showMissionControl.toggle()
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     @objc func toggleShowNavArrows() {
         showNavArrows.toggle()
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     @objc func showPreferencesWindow(_ sender: AnyObject) {

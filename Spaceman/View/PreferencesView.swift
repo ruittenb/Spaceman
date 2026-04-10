@@ -247,13 +247,13 @@ struct PreferencesView: View {
         }
         .padding()
         .onChange(of: restartNumberingByDisplay) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
         .onChange(of: horizontalDirection) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
         .onChange(of: verticalDirection) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
     }
 
@@ -314,7 +314,7 @@ struct PreferencesView: View {
                             prefsVM.removeAllColors()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                 NotificationCenter.default.post(
-                                    name: NSNotification.Name(rawValue: "ButtonPressed"),
+                                    name: ButtonPressedName,
                                     object: nil)
                             }
                         } label: {
@@ -367,16 +367,16 @@ struct PreferencesView: View {
         }
         .padding()
         .onChange(of: visibleSpacesModeRaw) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
         .onChange(of: showFullscreenSpaces) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
         .onChange(of: showMissionControl) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
         .onChange(of: showNavArrows) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
     }
 
@@ -451,7 +451,7 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: iconSize) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
     }
 
@@ -484,7 +484,7 @@ struct PreferencesView: View {
                 case .large, .extraLarge, .enormous: iconSize = .large
                 }
             }
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
     }
 
@@ -502,7 +502,7 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: displayStyle) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
     }
 
@@ -522,7 +522,7 @@ struct PreferencesView: View {
         }
         .disabled(displayStyle == .noText)
         .onChange(of: fontDesign) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
     }
 
@@ -539,7 +539,7 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: decorationActive) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
     }
 
@@ -555,7 +555,7 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: decorationInactive) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
     }
 
@@ -573,7 +573,7 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: useVariableWidth) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postRefreshNotification()
         }
     }
 
@@ -611,7 +611,7 @@ struct PreferencesView: View {
                                     prefsVM.updateSpace(for: entry.key, to: trimmed)
                                     prefsVM.persistChanges(for: entry.key)
                                     NotificationCenter.default.post(
-                                        name: NSNotification.Name(rawValue: "ButtonPressed"),
+                                        name: ButtonPressedName,
                                         object: nil)
                                 }
                             )
@@ -636,7 +636,7 @@ struct PreferencesView: View {
                                 prefsVM.updateSpaceColor(for: entry.key, to: newColor)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                     NotificationCenter.default.post(
-                                        name: NSNotification.Name(rawValue: "ButtonPressed"),
+                                        name: ButtonPressedName,
                                         object: nil)
                                 }
                             }
@@ -649,7 +649,7 @@ struct PreferencesView: View {
                                 prefsVM.updateSpaceColor(for: entry.key, to: nil)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                     NotificationCenter.default.post(
-                                        name: NSNotification.Name(rawValue: "ButtonPressed"),
+                                        name: ButtonPressedName,
                                         object: nil)
                                 }
                             } label: {
@@ -699,7 +699,7 @@ struct PreferencesView: View {
             }
             .disabled(visibleSpacesMode != .neighbors)
             .onChange(of: neighborRadius) { _ in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                postRefreshNotification()
             }
         }
     }

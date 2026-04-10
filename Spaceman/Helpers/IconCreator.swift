@@ -9,6 +9,16 @@ import AppKit
 import Foundation
 import SwiftUI
 
+/// A rendered space icon together with the display metadata needed for merging.
+struct SpaceIconInfo {
+    let image: NSImage
+    let nextSpaceOnDifferentDisplay: Bool
+    let isFullScreen: Bool
+    let spaceID: String
+    let colorHex: String?
+    let spaceNumber: Int
+}
+
 class IconCreator {
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
@@ -447,9 +457,8 @@ class IconCreator {
     private func getIconsWithDisplayProps(
         icons: [NSImage],
         spaces: [Space]
-    ) -> [(NSImage, Bool, Bool, String, String?, Int)] {
-        var iconsWithDisplayProperties =
-            [(NSImage, Bool, Bool, String, String?, Int)]()
+    ) -> [SpaceIconInfo] {
+        var iconsWithDisplayProperties = [SpaceIconInfo]()
         guard spaces.count > 0 else { return iconsWithDisplayProperties }
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
@@ -464,13 +473,13 @@ class IconCreator {
                     nextSpaceIsOnDifferentDisplay = true
                 }
             }
-            iconsWithDisplayProperties.append((
-                icons[index],
-                nextSpaceIsOnDifferentDisplay,
-                spaces[index].isFullScreen,
-                spaces[index].spaceID,
-                spaces[index].colorHex,
-                spaces[index].spaceNumber
+            iconsWithDisplayProperties.append(SpaceIconInfo(
+                image: icons[index],
+                nextSpaceOnDifferentDisplay: nextSpaceIsOnDifferentDisplay,
+                isFullScreen: spaces[index].isFullScreen,
+                spaceID: spaces[index].spaceID,
+                colorHex: spaces[index].colorHex,
+                spaceNumber: spaces[index].spaceNumber
             ))
         }
 
@@ -478,9 +487,7 @@ class IconCreator {
     }
 
     private func mergeIcons(
-        _ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool,
-                                        isFullScreen: Bool, spaceID: String, colorHex: String?,
-                                        spaceNumber: Int)],
+        _ iconsWithDisplayProperties: [SpaceIconInfo],
         indexMap: [String: Int],
         navIcons: [(image: NSImage, index: Int)]
     ) -> NSImage {
@@ -537,9 +544,7 @@ class IconCreator {
     }
 
     private func mergeIconsTwoRows(
-        _ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool,
-                                        isFullScreen: Bool, spaceID: String, colorHex: String?,
-                                        spaceNumber: Int)],
+        _ iconsWithDisplayProperties: [SpaceIconInfo],
         indexMap: [String: Int],
         spaces: [Space],
         defaultColor: NSColor?,

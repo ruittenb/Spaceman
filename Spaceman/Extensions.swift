@@ -35,6 +35,14 @@ func systemSettingsName() -> String {
     }
 }
 
+/// Notification name used to trigger a full space redraw.
+let ButtonPressedName = NSNotification.Name("ButtonPressed")
+
+/// Notify the app that a setting changed and spaces should be redrawn.
+func postRefreshNotification() {
+    NotificationCenter.default.post(name: ButtonPressedName, object: nil)
+}
+
 // MARK: - NSColor Extensions
 
 extension NSColor {
