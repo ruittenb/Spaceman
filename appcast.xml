@@ -3,34 +3,27 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.18.1: </title>
+            <title>v1.18.2: Show help balloon if shortcut key is unknown</title>
             <description>
                 <![CDATA[
-                    <p>v1.18.1:</p>
+                    <p>v1.18.2</p>
                     <ul>
-                        <li> - Preferences window: removed shortcuts tab</li>
-                        <li> - Preferences window: fix sizing issues</li>
-                    </ul>
-                    <p>v1.18.0:</p>
-                    <ul>
-                        <li> - Read shortcut keys from user defaults. This eliminates the need for manual configuration and makes it possible to reach all non-fullscreen spaces</li>
-                        <li> - Chain keypresses for switching to fullscreen spaces</li>
-                    </ul>
-                    <p>v1.17.3:</p>
-                    <ul>
-                        <li> - Updated Mission Control Icon (more asymmetrical)</li>
+                        <li> - Show popup balloon in case a shortcut is missing</li>
+                        <li> - Flash icon when attempting to navigate beyond the first/last space</li>
+                        <li> - Do not automatically focus Documentation link when opening preferences</li>
+                        <li> - Faster detection of changes in shortcut key definitions</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 08 Apr 2026 20:25:15 +0200</pubDate>
+            <pubDate>Fri, 10 Apr 2026 09:06:31 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.18.1/Spaceman-1.18.1.dmg"
-                sparkle:version="1.18.1"
-                sparkle:shortVersionString="1.18.1"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.18.2/Spaceman-1.18.2.dmg"
+                sparkle:version="1.18.2"
+                sparkle:shortVersionString="1.18.2"
                 type="application/octet-stream"
-                length="3084391"
-sparkle:edSignature="kvnNAxBqak2hEo9UzElW/AeqFbxwUt7vtrmQSarrET0p5yeEohkXMULpE+VodyanXvNzprIWTIRguK9W+Jv5BQ=="
+                length="3337692"
+sparkle:edSignature="GeJUWiqG4wP8GWho6O7mQTXzAxsmBFrstxT/U+z1zCh5Y9m9GLO3PEUnlAFIhV9bk1gtmhjyFjDHJau55U4UCQ=="
             />
         </item>
     </channel>
