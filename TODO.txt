@@ -1,6 +1,4 @@
 
-Display a bubble with "Enable switching to fullscreen spaces in Preferences"
-Display a bubble with "No shortcut key known [ Configure ]"
 
 ================================================================================
 REFACTORING
