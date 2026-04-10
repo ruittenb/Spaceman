@@ -964,6 +964,9 @@
         }
       }
     },
+    "Display spaces in menu as" : {
+
+    },
     "Displays" : {
       "localizations" : {
         "de" : {
@@ -1446,6 +1449,9 @@
         }
       }
     },
+    "Grid" : {
+
+    },
     "Icon size" : {
       "localizations" : {
         "de" : {
@@ -1894,6 +1900,9 @@
         }
       }
     },
+    "List" : {
+
+    },
     "Medium" : {
       "localizations" : {
         "de" : {
@@ -1927,6 +1936,9 @@
           }
         }
       }
+    },
+    "Menu" : {
+
     },
     "Mission Control" : {
       "localizations" : {
@@ -2539,6 +2551,9 @@
           }
         }
       }
+    },
+    "Number of columns" : {
+
     },
     "Numbers" : {
       "localizations" : {
@@ -3805,6 +3820,7 @@
       }
     },
     "Switching Spaces" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
