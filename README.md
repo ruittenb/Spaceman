@@ -96,14 +96,15 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### General Tab
 
-<img src="images/Preferences-General-3.png" width="66%" height="auto">
+<img src="images/Preferences-General-4.png" width="66%" height="auto">
 
 - **Launch Spaceman at login**: Automatically start Spaceman when you log in to macOS
 - **Refresh spaces in background**: If enabled, Spaceman will update the view when your space configuration changes
 - **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
 - **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
-- **Enable switching to Fullscreen spaces by chaining keypresses**: When enabled, Spaceman can switch to fullscreen spaces by first switching to a neighboring space and then sending shortcuts for Previous/Next space.
-- **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to manage them.
+
+- **Display spaces in menu as**: Choose between a list or a grid layout for the right-click menu
+- **Nr. of columns in grid**: When using grid layout, this sets the number of columns
 - **Backup Preferences**: Saves all your preferences to `~/.spaceman/app-defaults.xml` (old copies are preserved)
 - **Restore Preferences**: Loads preferences from that file
 
@@ -132,12 +133,14 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Spaces Tab
 
-<img src="images/Preferences-Spaces-2.png" width="66%" height="auto">
+<img src="images/Preferences-Spaces-3.png" width="66%" height="auto">
 
 - **Space names**: Assigns custom names of any length to individual spaces
   - The menu displays full names regardless of length
   - Menu bar icons truncate names to 10 characters for compactness
   - Optionally, for each Space icon, a color can be selected.
+- **Allow switching to fullscreen spaces in multiple steps**: When enabled, Spaceman can switch to fullscreen spaces by first switching to a neighboring space and then sending shortcuts for Previous/Next space.
+- **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to manage them.
 
 ### Displays Tab
 
@@ -203,18 +206,24 @@ For space switching to work, you need to configure two things:
 - Right-click the Spaceman icon to open the context menu
 - Select any space from the list to switch to it
 - Menu shows full space names and indicates the current space with a checkmark
+- Spaces can be displayed as a list or as a grid (configurable in Preferences → Menu)
 
 Some appearance settings are also available directly from this menu.
 
 <img src="images/Menu-5.png" width="auto" height="auto">
 
+If the mental image of your desktop is a grid of spaces, you can choose to display the
+spaces in a grid:
+
+<img src="images/Menu-Grid-1.png" width="auto" height="auto">
+
 **Resizing the Icon**
 - Hold **⌥ Option** and scroll on the menu bar icon to quickly change the icon size
 
 **Keyboard Shortcuts**
-- Spaceman reads keyboard shortcuts directly from macOS Mission Control settings and sends the corresponding keystrokes.
+- Spaceman reads keyboard shortcuts directly from macOS Mission Control settings and sends the corresponding keystrokes. You are free to choose these shortcuts however you like.
 - Desktops 1–16 are supported (matching the macOS Mission Control shortcut limit).
-- Mission Control doesn't have keyboard shortcuts for fullscreen spaces. With "Enable switching to Fullscreen spaces by chaining keypresses" turned on, Spaceman can reach them by chaining arrow keypresses.
+- Mission Control doesn't have keyboard shortcuts for fullscreen spaces. With "Allow switching to fullscreen spaces in multiple steps" turned on, Spaceman can reach them by chaining arrow keypresses.
 
 ### Limitations
 
@@ -230,7 +239,7 @@ $ osascript -e 'tell application "Spaceman" to open preferences' # Open Preferen
 $ osascript -e 'tell application "Spaceman" to restore preferences' # Restore Preferences from Backup
 ```
 
-It also exposes read-only properties for querying the current space:
+It also exposes read-only properties that can be queried:
 
 ```sh
 $ osascript -e 'tell application "Spaceman" to get current space number' # e.g. 3
