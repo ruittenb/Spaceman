@@ -11,7 +11,7 @@ import LaunchAtLogin
 import SwiftUI
 
 struct PreferencesView: View {
-    private let subItemIndent: CGFloat = 30
+    private let subItemIndent: CGFloat = 20
 
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
@@ -139,7 +139,7 @@ struct PreferencesView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         generalPane
                         Divider()
-                        switchingPane
+                        menuPane
                         Divider()
                         backupRestorePane
                     }
@@ -328,6 +328,11 @@ struct PreferencesView: View {
             // The Space names are always shown in the menu, therefore:
             // allow editing even if icon style does not include names
             spaceNameListEditor
+
+            Spacer()
+                .frame(height: 12)
+
+            switchingOptions
         }
         .padding()
     }
@@ -380,17 +385,55 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Switching pane
-    private var switchingPane: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Switching Spaces")
+    // MARK: - Menu pane
+    @AppStorage("spaceDisplayMode") private var spaceDisplayMode = SpaceDisplayMode.list
+    @AppStorage("gridColumns") private var gridColumns: Int = 3
+
+    private var menuPane: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text("Menu")
                 .font(.title2)
                 .fontWeight(.semibold)
+                .padding(.bottom, 12)
+            HStack {
+                Text("Display spaces in menu as")
+                Spacer()
+                Picker("", selection: $spaceDisplayMode) {
+                    Text("List").tag(SpaceDisplayMode.list)
+                    Text("Grid").tag(SpaceDisplayMode.grid)
+                }
+                .pickerStyle(.segmented)
+                .fixedSize()
+            }
+            .padding(.bottom, 8)
+            HStack {
+                Text("Nr. of columns in grid")
+                    .foregroundColor(spaceDisplayMode == .grid ? .primary : .secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                Slider(value: Binding(
+                    get: { Double(gridColumns) },
+                    set: { gridColumns = max(1, Int($0)) }
+                ), in: 1...Double(max(2, prefsVM.spaceNamesDict.count)), step: 1)
+                    .disabled(spaceDisplayMode != .grid)
+                    .padding(.horizontal, 10)
+                Text("\(gridColumns)")
+                    .monospacedDigit()
+                    .foregroundColor(spaceDisplayMode == .grid ? .primary : .secondary)
+                    .frame(width: 10, alignment: .trailing)
+            }
+            .padding(.leading, subItemIndent)
+        }
+        .padding()
+    }
+
+    // MARK: - Switching options (shown at the bottom of Spaces tab)
+    private var switchingOptions: some View {
+        VStack(alignment: .leading, spacing: 10) {
             Toggle(isOn: $navigateAnywhere) {
                 Text("Allow switching to fullscreen spaces using multiple steps")
                     .fixedSize(horizontal: false, vertical: true)
             }
-            .padding(.vertical, 6)
+            .padding(.bottom, 6)
             HStack(spacing: 8) {
                 Button {
                     openMissionControlShortcuts()
@@ -414,7 +457,6 @@ struct PreferencesView: View {
                 }
             }
         }
-        .padding()
     }
 
     // MARK: - Refresh Shortcut Recorder

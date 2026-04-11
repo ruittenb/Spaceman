@@ -1,5 +1,7 @@
 
-"You are free to choose the exact shortcut key."
+Add: "You are free to choose the exact shortcut key." to missing shortcut popup
+
+osascript -e 'tell application "Spaceman" to get number of displays'
 
 ================================================================================
 REFACTORING
@@ -8,8 +10,10 @@ REFACTORING
 Candidates worth refactoring
 
 IconCreator.swift — mergeIconsTwoRows() at 250 lines
-The column-building logic for twoRowsByColumn vs twoRowsByRow could be extracted into separate methods. The inline Column struct could also move to
-class level.
+
+The column-building logic for twoRowsByColumn vs twoRowsByRow could be
+extracted into separate methods. The inline Column struct could also
+move to class level.
 
 ================================================================================
 RIGHT-CLICK DEAD ZONE: top 1-2px of menu bar icon

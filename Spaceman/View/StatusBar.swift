@@ -26,6 +26,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
     @AppStorage("navigateAnywhere") private var navigateAnywhere = false
+    @AppStorage("spaceDisplayMode") private var spaceDisplayMode = SpaceDisplayMode.list
 
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
@@ -48,9 +49,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var lastScrollTime: Date = .distantPast
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
+    private var currentSpaces: [Space] = []
     private var updaterController: SPUStandardUpdaterController!
     private var aboutView: NSHostingView<AboutView>!
-    private var currentSpaces: [Space] = []
     private var missingShortcutBalloon: NSPopover?
 
     public var iconCreator: IconCreator!
@@ -252,16 +253,20 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
             if event.type == .rightMouseDown {
-                // Show the menu on right-click
                 if let sbMenu = self.statusBarMenu {
-                    // This calculation is not right, but looks good. This is likely because of the
-                    // NSMenu popup having its own visual padding, borders and/or drop shadows.
+                    let useGrid = self.spaceDisplayMode == .grid
+                    if useGrid {
+                        self.replaceDynamicItemsWithGrid()
+                    }
                     let menuOrigin = CGPoint(
                         x: buttonFrame.minX,
                         y: buttonFrame.minY - CGFloat(self.iconCreator.sizes.FONT_SIZE) / 2)
                     sbMenu.minimumWidth = Constants.minMenuWidth
                     sbMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
                     sbButton.isHighlighted = false
+                    if useGrid {
+                        self.restoreDynamicItemsAsList()
+                    }
                 }
             } else if event.type == .leftMouseDown {
                 // Switch desktops on left click, unless one single space shown
@@ -447,13 +452,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         guard spaces.count > 0 else {
             return
         }
-        // Remove previously inserted dynamic items between the fixed header and the settings submenus
-        let boundaryIdx = statusBarMenu.index(of: layoutMenuItem)
-        // There's a separator before layoutMenuItem; dynamic items sit between index 2 and that separator
-        let separatorIdx = boundaryIdx - 1
-        if separatorIdx > 2 {
-            for _ in 2..<separatorIdx { statusBarMenu.removeItem(at: 2) }
-        }
+        removeDynamicMenuItems()
         // Build items grouped by display with a separator between displays.
         var itemsToInsert: [NSMenuItem] = []
         var lastDisplayID: String?
@@ -471,6 +470,57 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
         // No trailing separator needed — the fixed separator before the settings submenus handles it
         // Insert in order at index 2
+        var insertIndex = 2
+        for item in itemsToInsert { statusBarMenu.insertItem(item, at: insertIndex); insertIndex += 1 }
+    }
+
+    /// Remove all dynamic items between the about header (index 2) and the settings submenus.
+    private func removeDynamicMenuItems() {
+        let boundaryIdx = statusBarMenu.index(of: layoutMenuItem)
+        let separatorIdx = boundaryIdx - 1
+        if separatorIdx > 2 {
+            for _ in 2..<separatorIdx { statusBarMenu.removeItem(at: 2) }
+        }
+    }
+
+    /// Replace the space list with a grid view for Option+right-click.
+    private func replaceDynamicItemsWithGrid() {
+        removeDynamicMenuItems()
+        let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
+        let gridItem = NSMenuItem()
+        let gridView = NSHostingView(rootView: SpaceGridMenuView(
+            spaces: currentSpaces,
+            onSwitch: { [weak self] spaceNumber in
+                self?.statusBarMenu.cancelTracking()
+                self?.spaceSwitcher.switchToSpace(
+                    spaceNumber: spaceNumber,
+                    onError: self?.flashStatusBar ?? {})
+            },
+            switchMap: switchMap,
+            menuWidth: Constants.minMenuWidth
+        ))
+        gridView.frame.size = gridView.fittingSize
+        gridView.sizingOptions = [.intrinsicContentSize]
+        gridItem.view = gridView
+        statusBarMenu.insertItem(gridItem, at: 2)
+    }
+
+    /// Restore the normal space list after the grid menu closes.
+    private func restoreDynamicItemsAsList() {
+        removeDynamicMenuItems()
+        var itemsToInsert: [NSMenuItem] = []
+        var lastDisplayID: String?
+        let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
+        for space in currentSpaces {
+            if let last = lastDisplayID, last != space.displayID {
+                itemsToInsert.append(NSMenuItem.separator())
+            }
+            let idx = switchMap[space.spaceID]
+            let desktopNum: Int? = if let idx, idx > 0 { idx } else { nil }
+            let isF1 = idx == -1
+            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum, isF1: isF1))
+            lastDisplayID = space.displayID
+        }
         var insertIndex = 2
         for item in itemsToInsert { statusBarMenu.insertItem(item, at: insertIndex); insertIndex += 1 }
     }
