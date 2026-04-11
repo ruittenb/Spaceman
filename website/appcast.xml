@@ -3,27 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.18.2: Show help balloon if shortcut key is unknown</title>
+            <title>v1.19.0: Show Spaces grid in menu</title>
             <description>
                 <![CDATA[
-                    <p>v1.18.2</p>
+                    <p>v1.19.0</p>
                     <ul>
-                        <li> - Show popup balloon in case a shortcut is missing</li>
-                        <li> - Flash icon when attempting to navigate beyond the first/last space</li>
-                        <li> - Do not automatically focus Documentation link when opening preferences</li>
-                        <li> - Faster detection of changes in shortcut key definitions</li>
+                        <li> - Added option to display the Spaces as a grid in the menu</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 10 Apr 2026 09:06:31 +0200</pubDate>
+            <pubDate>Sat, 11 Apr 2026 22:51:43 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.18.2/Spaceman-1.18.2.dmg"
-                sparkle:version="1.18.2"
-                sparkle:shortVersionString="1.18.2"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.19.0/Spaceman-1.19.0.dmg"
+                sparkle:version="1.19.0"
+                sparkle:shortVersionString="1.19.0"
                 type="application/octet-stream"
-                length="3337692"
-sparkle:edSignature="GeJUWiqG4wP8GWho6O7mQTXzAxsmBFrstxT/U+z1zCh5Y9m9GLO3PEUnlAFIhV9bk1gtmhjyFjDHJau55U4UCQ=="
+                length="3366406"
+sparkle:edSignature="V2LqF8VM1DrMTYIh9Gz6wxS2IHABTeotzdQAOF5BhilBob2cdOZ3Kf8qloKARCn4OhZjF3/eBimZTK3Lb/HPCQ=="
             />
         </item>
     </channel>
