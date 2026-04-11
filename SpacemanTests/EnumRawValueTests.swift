@@ -195,6 +195,23 @@ final class EnumRawValueTests: XCTestCase {
         XCTAssertNil(IconShape(rawValue: 99))
     }
 
+    // MARK: - SpaceDisplayMode
+
+    func testSpaceDisplayModeRawValues() {
+        XCTAssertEqual(SpaceDisplayMode.list.rawValue, 0)
+        XCTAssertEqual(SpaceDisplayMode.grid.rawValue, 1)
+    }
+
+    func testSpaceDisplayModeAllCases() {
+        XCTAssertEqual(SpaceDisplayMode.allCases.count, 2)
+    }
+
+    func testSpaceDisplayModeInitFromRawValue() {
+        XCTAssertEqual(SpaceDisplayMode(rawValue: 0), .list)
+        XCTAssertEqual(SpaceDisplayMode(rawValue: 1), .grid)
+        XCTAssertNil(SpaceDisplayMode(rawValue: 99))
+    }
+
     // MARK: - FontDesign
 
     func testFontDesignRawValues() {
