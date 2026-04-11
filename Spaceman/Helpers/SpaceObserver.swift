@@ -55,7 +55,7 @@ class SpaceObserver {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(updateSpaceInformation),
-            name: NSNotification.Name("ButtonPressed"),
+            name: ButtonPressedName,
             object: nil)
         workspace.notificationCenter.addObserver(
             self,

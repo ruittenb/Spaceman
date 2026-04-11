@@ -127,7 +127,7 @@ class PreferencesViewModel: ObservableObject {
     }
 
     @objc func refreshSpaces() {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     private func rebuildSortedSpaceNames() {
@@ -191,7 +191,7 @@ class PreferencesViewModel: ObservableObject {
         AppDelegate.resetMigratedKeys()
         UserDefaults.standard.setPersistentDomain(dict, forName: bundleIdentifier)
         AppDelegate.performLegacyMigrations()
-        NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil)
+        postRefreshNotification()
     }
 
     func restorePreferences() {

@@ -1,3 +1,4 @@
+1.19.0: Show the spaces grid in the menu
 1.18.2: Show help balloon if no shortcut is available for action
 1.18.1: Updated Preferences window
 1.18.0: Read shortcut keys from user defaults. Chain keypresses for Fullscreen spaces

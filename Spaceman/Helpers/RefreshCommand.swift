@@ -10,7 +10,7 @@ import Cocoa
 
 class RefreshCommand: NSScriptCommand {
     override func performDefaultImplementation() -> Any? {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        postRefreshNotification()
         return nil
     }
 }

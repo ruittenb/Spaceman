@@ -1,6 +1,7 @@
 
-Display a bubble with "Enable switching to fullscreen spaces in Preferences"
-Display a bubble with "No shortcut key known [ Configure ]"
+Add: "You are free to choose the exact shortcut key." to missing shortcut popup
+
+osascript -e 'tell application "Spaceman" to get number of displays'
 
 ================================================================================
 REFACTORING
@@ -8,19 +9,11 @@ REFACTORING
 
 Candidates worth refactoring
 
-IconCreator.swift — the 6-element unnamed tuple
-(NSImage, Bool, Bool, String, String?, Int) in getIconsWithDisplayProps return type. The merge methods already name the fields, but the source
-function doesn't. A named struct would eliminate the fragile positional coupling that caused extra work when we added spaceNumber.
-
 IconCreator.swift — mergeIconsTwoRows() at 250 lines
-The column-building logic for twoRowsByColumn vs twoRowsByRow could be extracted into separate methods. The inline Column struct could also move to
-class level.
 
-StatusBar.swift — repeated notification posting
-NotificationCenter.default.post(name: NSNotification.Name("ButtonPressed"), object: nil) appears 11+ times. Trivial to extract.
-
-StatusBar.swift — duplicate coordinate margin math
-The max((bounds.width - imageWidth) / 2.0, 0) pattern appears in both handleClick and mouseMoved.
+The column-building logic for twoRowsByColumn vs twoRowsByRow could be
+extracted into separate methods. The inline Column struct could also
+move to class level.
 
 ================================================================================
 RIGHT-CLICK DEAD ZONE: top 1-2px of menu bar icon
