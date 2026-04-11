@@ -11,7 +11,7 @@ import LaunchAtLogin
 import SwiftUI
 
 struct PreferencesView: View {
-    private let subItemIndent: CGFloat = 30
+    private let subItemIndent: CGFloat = 20
 
     @AppStorage("displayStyle") private var displayStyle = IconText.numbers
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
@@ -407,7 +407,7 @@ struct PreferencesView: View {
             }
             .padding(.bottom, 8)
             HStack {
-                Text("Number of columns")
+                Text("Nr. of columns in grid")
                     .foregroundColor(spaceDisplayMode == .grid ? .primary : .secondary)
                     .fixedSize(horizontal: false, vertical: true)
                 Slider(value: Binding(
@@ -415,10 +415,11 @@ struct PreferencesView: View {
                     set: { gridColumns = max(1, Int($0)) }
                 ), in: 1...Double(max(2, prefsVM.spaceNamesDict.count)), step: 1)
                     .disabled(spaceDisplayMode != .grid)
+                    .padding(.horizontal, 10)
                 Text("\(gridColumns)")
                     .monospacedDigit()
                     .foregroundColor(spaceDisplayMode == .grid ? .primary : .secondary)
-                    .frame(width: 20, alignment: .trailing)
+                    .frame(width: 10, alignment: .trailing)
             }
             .padding(.leading, subItemIndent)
         }
