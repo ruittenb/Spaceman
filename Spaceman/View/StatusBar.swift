@@ -835,6 +835,9 @@ private struct MissingShortcutBalloonView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: 320)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
+            Text("You are free to choose any shortcut key you like.")
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
             Button("Configure") {
                 onConfigure()
             }

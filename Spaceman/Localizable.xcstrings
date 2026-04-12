@@ -3887,7 +3887,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spaceman leest de Mission Control-sneltoetsen rechtstreeks uit je systeeminstellingen. Gebruik deze knop om ze te wijzigen."
+            "value" : "Spaceman leest de Mission Control-sneltoetsen rechtstreeks uit uw systeeminstellingen. Gebruik deze knop om ze te wijzigen."
           }
         }
       }
@@ -4438,6 +4438,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beeldschermen boven elkaar"
+          }
+        }
+      }
+    },
+    "You are free to choose any shortcut key you like." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie können eine beliebige Tastenkombination wählen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puedes elegir cualquier atajo de teclado."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puedes elegir cualquier atajo de teclado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous êtes libre de choisir n'importe quel raccourci."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "U bent vrij om elke gewenste sneltoets te kiezen."
           }
         }
       }

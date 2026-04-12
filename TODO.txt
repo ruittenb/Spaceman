@@ -1,8 +1,4 @@
 
-Add: "You are free to choose any shortcut key." to missing shortcut popup
-
-Add: some visual feedback when clicking on an unavailable space in the grid
-
 Examine: displaying grids when there is more than one display
 
 ================================================================================
