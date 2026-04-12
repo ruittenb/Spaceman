@@ -45,11 +45,27 @@ struct SpaceCellView: View {
         !space.spaceName.isEmpty
     }
 
-    private var cellColor: Color {
+    private var cellNSColor: NSColor? {
         if let hex = space.colorHex, let nsColor = NSColor.fromHex(hex) {
+            return nsColor
+        }
+        return nil
+    }
+
+    private var cellColor: Color {
+        if let nsColor = cellNSColor {
             return Color(nsColor)
         }
         return Color.gray.opacity(0.3)
+    }
+
+    private var cellAlpha: CGFloat {
+        space.isCurrentSpace ? 1.0 : Constants.inactiveAlpha
+    }
+
+    private var textColor: Color {
+        guard let nsColor = cellNSColor else { return .primary }
+        return Color(nsColor.contrastingTextColor(withAlpha: cellAlpha, over: .windowBackgroundColor))
     }
 
     var body: some View {
@@ -67,12 +83,12 @@ struct SpaceCellView: View {
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 4)
-                .fill(cellColor.opacity(0.6))
+                .fill(cellColor.opacity(cellAlpha))
         )
         .overlay(
             RoundedRectangle(cornerRadius: 4)
                 .stroke(Color.accentColor, lineWidth: space.isCurrentSpace ? 2.5 : 0)
         )
-        .foregroundColor(enabled ? .primary : .secondary)
+        .foregroundColor(textColor)
     }
 }
