@@ -37,6 +37,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         KeyboardShortcuts.onKeyUp(for: .preferences) { [] in
             self.statusBar.showPreferencesWindow(self)
         }
+        KeyboardShortcuts.onKeyUp(for: .quickRename) { [] in
+            self.statusBar.showQuickRenamePanel()
+        }
 
         // Listen for AppleScript "open preferences" notification
         NotificationCenter.default.addObserver(
@@ -90,11 +93,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func orderedDisplayIDs() -> [String] {
         var seen = Set<String>()
         var result: [String] = []
+        // swiftlint:disable for_where
+        // insert() mutates `seen` as a side effect; `where` can't do that
         for space in currentSpaces {
             if seen.insert(space.displayID).inserted {
                 result.append(space.displayID)
             }
         }
+        // swiftlint:enable for_where
         return result
     }
 

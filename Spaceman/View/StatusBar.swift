@@ -36,6 +36,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var statusBarMenu: NSMenu!
     private var updatesItem: NSMenuItem!
     private var refreshItem: NSMenuItem!
+    private var quickRenameItem: NSMenuItem!
     private var prefItem: NSMenuItem!
     private var quitItem: NSMenuItem!
     private var rowLayoutMenuItem: NSMenuItem!
@@ -53,6 +54,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var updaterController: SPUStandardUpdaterController!
     private var aboutView: NSHostingView<AboutView>!
     private var missingShortcutBalloon: NSPopover?
+    private var quickRenamePanel: NSPanel?
 
     public var iconCreator: IconCreator!
 
@@ -96,6 +98,15 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         refreshItem.target = self
         Task { @MainActor in
             refreshItem.setShortcut(for: .refresh)
+        }
+
+        quickRenameItem = NSMenuItem(
+            title: String(localized: "Rename Current Space…"),
+            action: #selector(quickRenameCurrentSpace(_:)),
+            keyEquivalent: "")
+        quickRenameItem.target = self
+        Task { @MainActor in
+            quickRenameItem.setShortcut(for: .quickRename)
         }
 
         prefItem = NSMenuItem(
@@ -211,6 +222,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         statusBarMenu.addItem(spacesShownMenuItem)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(refreshItem)
+        statusBarMenu.addItem(quickRenameItem)
         statusBarMenu.addItem(prefItem)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(updatesItem)
@@ -529,6 +541,98 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         postRefreshNotification()
     }
 
+    // MARK: - Quick Rename
+
+    @objc func quickRenameCurrentSpace(_ sender: AnyObject) {
+        showQuickRenamePanel()
+    }
+
+    func showQuickRenamePanel() {
+        // Dismiss any existing panel
+        quickRenamePanel?.close()
+        quickRenamePanel = nil
+
+        // Find the current space on the frontmost display
+        let activeSpaces = currentSpaces.filter { $0.isCurrentSpace }
+        guard !activeSpaces.isEmpty else { return }
+
+        let currentSpace: Space
+        if activeSpaces.count == 1 {
+            currentSpace = activeSpaces[0]
+        } else if let mainScreen = NSScreen.main,
+                  let screenNumber = mainScreen.deviceDescription[
+                      NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber {
+            let mainDisplayID = CGDirectDisplayID(screenNumber.uint32Value)
+            currentSpace = activeSpaces.first { space in
+                let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, space.displayID as CFString)
+                return CGDisplayGetDisplayIDFromUUID(uuid) == mainDisplayID
+            } ?? activeSpaces[0]
+        } else {
+            currentSpace = activeSpaces[0]
+        }
+
+        let spaceID = currentSpace.spaceID
+        let currentName = currentSpace.spaceName
+
+        let panel = NSPanel(
+            contentRect: NSRect(x: 0, y: 0, width: 280, height: 1),
+            styleMask: [.titled, .closable, .fullSizeContentView],
+            backing: .buffered,
+            defer: false)
+        panel.title = String(
+            localized: "Rename Space \(currentSpace.spaceByDesktopID)")
+        panel.isFloatingPanel = true
+        panel.level = .floating
+        panel.titlebarAppearsTransparent = true
+        panel.isMovableByWindowBackground = true
+        panel.becomesKeyOnlyIfNeeded = false
+
+        let renameView = QuickRenameView(
+            currentName: currentName,
+            onRename: { [weak self] newName in
+                self?.applyQuickRename(spaceID: spaceID, newName: newName)
+                self?.quickRenamePanel?.close()
+                self?.quickRenamePanel = nil
+            },
+            onCancel: { [weak self] in
+                self?.quickRenamePanel?.close()
+                self?.quickRenamePanel = nil
+            })
+        let hostingView = NSHostingView(rootView: renameView)
+        panel.contentView = hostingView
+
+        // Position near the status bar item
+        if let buttonFrame = statusBarItem.button?.window?.frame {
+            let x = buttonFrame.midX - 140
+            let y = buttonFrame.minY - 4
+            panel.setFrameTopLeftPoint(NSPoint(x: x, y: y))
+        } else {
+            panel.center()
+        }
+
+        panel.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+        quickRenamePanel = panel
+    }
+
+    private func applyQuickRename(spaceID: String, newName: String) {
+        let nameStore = SpaceNameStore.shared
+        nameStore.update { stored in
+            guard let info = stored[spaceID] else { return }
+            var updated = SpaceNameInfo(
+                spaceNum: info.spaceNum,
+                spaceName: newName,
+                spaceByDesktopID: info.spaceByDesktopID)
+            updated.displayUUID = info.displayUUID
+            updated.positionOnDisplay = info.positionOnDisplay
+            updated.currentDisplayIndex = info.currentDisplayIndex
+            updated.currentSpaceNumber = info.currentSpaceNumber
+            updated.colorHex = info.colorHex
+            stored[spaceID] = updated
+        }
+        postRefreshNotification()
+    }
+
     // MARK: - Settings Submenus
 
     func menuWillOpen(_ menu: NSMenu) {
@@ -844,5 +948,37 @@ private struct MissingShortcutBalloonView: View {
             .font(.system(size: 12))
         }
         .padding(14)
+    }
+}
+
+// MARK: - Quick Rename View
+
+private struct QuickRenameView: View {
+    @State private var name: String
+    var onRename: (String) -> Void
+    var onCancel: () -> Void
+
+    init(currentName: String, onRename: @escaping (String) -> Void,
+         onCancel: @escaping () -> Void) {
+        _name = State(initialValue: currentName)
+        self.onRename = onRename
+        self.onCancel = onCancel
+    }
+
+    var body: some View {
+        VStack(spacing: 12) {
+            TextField(String(localized: "Space name"), text: $name)
+                .textFieldStyle(.roundedBorder)
+                .onSubmit { onRename(name) }
+            HStack {
+                Button(String(localized: "Cancel")) { onCancel() }
+                    .keyboardShortcut(.cancelAction)
+                Spacer()
+                Button(String(localized: "OK")) { onRename(name) }
+                    .keyboardShortcut(.defaultAction)
+            }
+        }
+        .padding(16)
+        .frame(width: 280)
     }
 }

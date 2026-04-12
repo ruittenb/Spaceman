@@ -172,6 +172,7 @@ struct PreferencesView: View {
                 .padding(.bottom, 6)
             refreshShortcutRecorder
             preferencesShortcutRecorder
+            quickRenameShortcutRecorder
         }
         .padding()
         .onChange(of: autoRefreshSpaces) { enabled in
@@ -474,6 +475,15 @@ struct PreferencesView: View {
             Text("Shortcut to open preferences window")
             Spacer()
             KeyboardShortcuts.Recorder(for: .preferences)
+        }
+    }
+
+    // MARK: - Quick Rename Shortcut Recorder
+    private var quickRenameShortcutRecorder: some View {
+        HStack {
+            Text("Shortcut to rename current space")
+            Spacer()
+            KeyboardShortcuts.Recorder(for: .quickRename)
         }
     }
 
