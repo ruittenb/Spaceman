@@ -27,6 +27,14 @@
                       description="The user-assigned name of the current space on the frontmost display">
                 <cocoa key="currentSpaceName"/>
             </property>
+            <property name="display count" code="DpCt" type="integer" access="r"
+                      description="The number of displays currently connected">
+                <cocoa key="displayCount"/>
+            </property>
+            <property name="current display number" code="DpNo" type="integer" access="r"
+                      description="The 1-based index of the frontmost display">
+                <cocoa key="currentDisplayNumber"/>
+            </property>
         </class>
 
     </suite>

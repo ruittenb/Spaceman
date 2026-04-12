@@ -5,9 +5,6 @@ Add: some visual feedback when clicking on an unavailable space in the grid
 
 Examine: displaying grids when there is more than one display
 
-osascript -e 'tell application "Spaceman" to get number of displays'
-osascript -e 'tell application "Spaceman" to get current display number'
-
 ================================================================================
 REFACTORING
 ================================================================================
