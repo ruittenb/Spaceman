@@ -79,6 +79,8 @@ For ultra-compact mode, choose the Two Rows layout:
 
 <img src="images/Button-99-TwoRows.png" width="auto" height="40px">
 
+<img src="images/Button-99-TwoRows-Names.png" width="auto" height="40px">
+
 Full Unicode support:
 
 <img src="images/Button-9-Unicode.png" width="auto" height="40px">
@@ -102,6 +104,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 - **Refresh spaces in background**: If enabled, Spaceman will update the view when your space configuration changes
 - **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
 - **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
+- **Shortcut to rename current space**: Defines a shortcut key to quickly rename the current space without opening Preferences
 
 - **Display spaces in menu as**: Choose between a list or a grid layout for the right-click menu
 - **Nr. of columns in grid**: When using grid layout, this sets the number of columns
@@ -203,19 +206,22 @@ For space switching to work, you need to configure two things:
 <img src="images/Switching-Spaces.gif" width="66%" height="auto">
 
 **Menu Selection**
-- Right-click the Spaceman icon to open the context menu
-- Select any space from the list to switch to it
-- Menu shows full space names and indicates the current space with a checkmark
-- Spaces can be displayed as a list or as a grid (configurable in Preferences → Menu)
+- Right-click the Spaceman icon to open the context menu.
+  - Depending on your preferences, the spaces are shown as a list or as a grid
+- Click on any space from the list or grid to switch to it
+- Menu shows full space names and indicates the current space
 
 Some appearance settings are also available directly from this menu.
 
 <img src="images/Menu-5.png" width="auto" height="auto">
 
-If the mental image of your desktop is a grid of spaces, you can choose to display the
-spaces in a grid:
-
 <img src="images/Menu-Grid-1.png" width="auto" height="auto">
+
+**Quick Rename Current Space**
+- Rename the current space on the fly via the right-click menu ("Rename Current Space…") or a configurable keyboard shortcut
+- A small dialog appears with the current name pre-filled; press Enter to confirm or Escape to cancel
+
+<img src="images/Quick-Rename-1.png" width="auto" height="auto">
 
 **Resizing the Icon**
 - Hold **⌥ Option** and scroll on the menu bar icon to quickly change the icon size
