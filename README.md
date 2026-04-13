@@ -203,7 +203,7 @@ For space switching to work, you need to configure two things:
 - Current space is highlighted and cannot be clicked
 - Clicking an unavailable space flashes the menu bar
 
-<img src="images/Switching-Spaces.gif" width="66%" height="auto">
+<img src="images/Switching-Spaces-2.gif" width="66%" height="auto">
 
 **Menu Selection**
 - Right-click the Spaceman icon to open the context menu.
@@ -215,7 +215,7 @@ Some appearance settings are also available directly from this menu.
 
 <img src="images/Menu-5.png" width="auto" height="auto">
 
-<img src="images/Menu-Grid-1.png" width="auto" height="auto">
+<img src="images/Menu-Grid-2.png" width="auto" height="auto">
 
 **Quick Rename Current Space**
 - Rename the current space on the fly via the right-click menu ("Rename Current Space…") or a configurable keyboard shortcut
