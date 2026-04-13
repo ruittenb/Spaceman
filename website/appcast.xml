@@ -3,24 +3,26 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.19.0: Show Spaces grid in menu</title>
+            <title>v1.19.1: Quick rename Current Space</title>
             <description>
                 <![CDATA[
-                    <p>v1.19.0</p>
+                    <p>v1.19.1</p>
                     <ul>
-                        <li> - Added option to display the Spaces as a grid in the menu</li>
+                        <li> - Option in menu to quickly rename the current space</li>
+                        <li> - Shortcut key to quickly rename the current space</li>
+                        <li> - Added two new AppleScript properties: 'display count' and 'current display number'; e.g. `osascript -e 'tell application "Spaceman" to get display count'`</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Sat, 11 Apr 2026 22:51:43 +0200</pubDate>
+            <pubDate>Mon, 13 Apr 2026 15:24:48 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.19.0/Spaceman-1.19.0.dmg"
-                sparkle:version="1.19.0"
-                sparkle:shortVersionString="1.19.0"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.19.1/Spaceman-1.19.1.dmg"
+                sparkle:version="1.19.1"
+                sparkle:shortVersionString="1.19.1"
                 type="application/octet-stream"
-                length="3366406"
-sparkle:edSignature="V2LqF8VM1DrMTYIh9Gz6wxS2IHABTeotzdQAOF5BhilBob2cdOZ3Kf8qloKARCn4OhZjF3/eBimZTK3Lb/HPCQ=="
+                length="3381273"
+sparkle:edSignature="0hGY9SEku2FutmsQdCEzifbAmzO4UvSLPj4l/A4nXZ3GsGHOktHq8vzsK+2OumuMuf9C8HbVtRUHkwCkfCcVBw=="
             />
         </item>
     </channel>
