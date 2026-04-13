@@ -620,16 +620,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let nameStore = SpaceNameStore.shared
         nameStore.update { stored in
             guard let info = stored[spaceID] else { return }
-            var updated = SpaceNameInfo(
-                spaceNum: info.spaceNum,
-                spaceName: newName,
-                spaceByDesktopID: info.spaceByDesktopID)
-            updated.displayUUID = info.displayUUID
-            updated.positionOnDisplay = info.positionOnDisplay
-            updated.currentDisplayIndex = info.currentDisplayIndex
-            updated.currentSpaceNumber = info.currentSpaceNumber
-            updated.colorHex = info.colorHex
-            stored[spaceID] = updated
+            stored[spaceID] = info.withName(newName)
         }
         postRefreshNotification()
     }

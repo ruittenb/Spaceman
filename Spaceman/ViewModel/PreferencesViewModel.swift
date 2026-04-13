@@ -58,33 +58,12 @@ class PreferencesViewModel: ObservableObject {
 
     private func updateSpaceName(for key: String, to newName: String) {
         guard let info = spaceNamesDict[key] else { return }
-        // Update only the name, preserve all other fields
-        var updatedInfo = SpaceNameInfo(
-            spaceNum: info.spaceNum,
-            spaceName: newName,
-            spaceByDesktopID: info.spaceByDesktopID)
-        updatedInfo.displayUUID = info.displayUUID
-        updatedInfo.positionOnDisplay = info.positionOnDisplay
-        updatedInfo.currentDisplayIndex = info.currentDisplayIndex
-        updatedInfo.currentSpaceNumber = info.currentSpaceNumber
-        updatedInfo.colorHex = info.colorHex
-        spaceNamesDict[key] = updatedInfo
+        spaceNamesDict[key] = info.withName(newName)
     }
 
     func updateSpaceColor(for key: String, to color: NSColor?) {
         guard let info = spaceNamesDict[key] else { return }
-        let hexString = color?.toHexString()
-
-        var updatedInfo = SpaceNameInfo(
-            spaceNum: info.spaceNum,
-            spaceName: info.spaceName,
-            spaceByDesktopID: info.spaceByDesktopID)
-        updatedInfo.displayUUID = info.displayUUID
-        updatedInfo.positionOnDisplay = info.positionOnDisplay
-        updatedInfo.currentDisplayIndex = info.currentDisplayIndex
-        updatedInfo.currentSpaceNumber = info.currentSpaceNumber
-        updatedInfo.colorHex = hexString
-        spaceNamesDict[key] = updatedInfo
+        spaceNamesDict[key] = info.withColor(color?.toHexString())
 
         // Save immediately but don't rebuild sorted array (avoids ForEach recreation).
         // Use update() to merge into existing store, preserving disconnected display entries.

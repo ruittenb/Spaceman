@@ -7,6 +7,12 @@ REFACTORING
 
 Candidates worth refactoring
 
+IconCreator.swift — renderIcon() at 122 lines
+
+Four branches (noDecoration, filled+template, filled+colored, bordered)
+with duplicated box path creation and text drawing. Extract into
+drawFilledIcon(), drawBorderedIcon(), drawBareTextIcon() helpers.
+
 IconCreator.swift — mergeIconsTwoRows() at 250 lines
 
 The column-building logic for twoRowsByColumn vs twoRowsByRow could be
