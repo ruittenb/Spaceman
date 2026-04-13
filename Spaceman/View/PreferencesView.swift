@@ -171,8 +171,8 @@ struct PreferencesView: View {
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
                 .padding(.bottom, 6)
             refreshShortcutRecorder
-            preferencesShortcutRecorder
             quickRenameShortcutRecorder
+            preferencesShortcutRecorder
         }
         .padding()
         .onChange(of: autoRefreshSpaces) { enabled in
