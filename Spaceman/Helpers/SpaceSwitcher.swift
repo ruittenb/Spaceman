@@ -289,8 +289,9 @@ class SpaceSwitcher {
             alert.informativeText = "\(msg)"
             alert.addButton(withTitle: String(localized: "Dismiss"))
             if permissionTypeName != "" {
+                // Not in xcstrings: systemSettingsName() is already localized
                 let settingsName = systemSettingsName()
-                alert.addButton(withTitle: "\(settingsName)...")
+                alert.addButton(withTitle: "\(settingsName)…")
             }
             let response = alert.runModal()
             if response == .alertSecondButtonReturn {

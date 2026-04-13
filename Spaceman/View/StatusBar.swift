@@ -80,7 +80,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         about.view = aboutView
 
         updatesItem = NSMenuItem(
-            title: String(localized: "Check for updates..."),
+            title: String(localized: "Check for updates…"),
             action: #selector(updaterController.checkForUpdates(_:)),
             keyEquivalent: "")
         updatesItem.target = updaterController
@@ -110,7 +110,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
 
         prefItem = NSMenuItem(
-            title: String(localized: "Preferences..."),
+            title: String(localized: "Preferences…"),
             action: #selector(showPreferencesWindow(_:)),
             keyEquivalent: "")
         prefItem.target = self
@@ -221,8 +221,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         statusBarMenu.addItem(rowLayoutMenuItem)
         statusBarMenu.addItem(spacesShownMenuItem)
         statusBarMenu.addItem(NSMenuItem.separator())
-        statusBarMenu.addItem(refreshItem)
         statusBarMenu.addItem(quickRenameItem)
+        statusBarMenu.addItem(NSMenuItem.separator())
+        statusBarMenu.addItem(refreshItem)
         statusBarMenu.addItem(prefItem)
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(updatesItem)
@@ -880,7 +881,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
         // Update is available - show badge with version number
         DispatchQueue.main.async {
-            self.updatesItem.title = String(localized: "Update available...")
+            self.updatesItem.title = String(localized: "Update available…")
             if #available(macOS 14.0, *) {
                 let versionString = item.displayVersionString
                 self.updatesItem.badge = NSMenuItemBadge(string: "v\(versionString)")
@@ -891,7 +892,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func hideBadge() {
         // Hide the 'available' badge in the menu
         DispatchQueue.main.async {
-            self.updatesItem.title = String(localized: "Check for updates...")
+            self.updatesItem.title = String(localized: "Check for updates…")
             if #available(macOS 14.0, *) {
                 self.updatesItem.badge = nil
             }
@@ -986,7 +987,7 @@ private struct QuickRenameView: View {
                 Button(String(localized: "Cancel")) { onCancel() }
                     .keyboardShortcut(.cancelAction)
                 Spacer()
-                Button(String(localized: "OK")) { onRename(name) }
+                Button(String(localized: "Rename")) { onRename(name) }
                     .keyboardShortcut(.defaultAction)
             }
         }

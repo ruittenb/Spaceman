@@ -2,7 +2,8 @@
 //  SpaceNameStore.swift
 //  Spaceman
 //
-//  Created by ChatGPT on 16/09/2025.
+//  Created by René Uittenbogaard on 2025-09-16.
+//  Co-author: ChatGPT
 //
 
 import Foundation
