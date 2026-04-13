@@ -955,6 +955,7 @@ private struct MissingShortcutBalloonView: View {
 
 private struct QuickRenameView: View {
     @State private var name: String
+    @FocusState private var isFocused: Bool
     var onRename: (String) -> Void
     var onCancel: () -> Void
 
@@ -967,9 +968,20 @@ private struct QuickRenameView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            TextField(String(localized: "Space name"), text: $name)
-                .textFieldStyle(.roundedBorder)
-                .onSubmit { onRename(name) }
+            HStack(spacing: 8) {
+                Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
+                    .resizable()
+                    .frame(width: 32, height: 32)
+                TextField(String(localized: "Space name"), text: $name)
+                    .textFieldStyle(.roundedBorder)
+                    .focused($isFocused)
+                    .onSubmit { onRename(name) }
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            isFocused = true
+                        }
+                    }
+            }
             HStack {
                 Button(String(localized: "Cancel")) { onCancel() }
                     .keyboardShortcut(.cancelAction)
