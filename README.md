@@ -98,13 +98,13 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### General Tab
 
-<img src="images/Preferences-General-4.png" width="66%" height="auto">
+<img src="images/Preferences-General-5.png" width="66%" height="auto">
 
 - **Launch Spaceman at login**: Automatically start Spaceman when you log in to macOS
 - **Refresh spaces in background**: If enabled, Spaceman will update the view when your space configuration changes
 - **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
-- **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
 - **Shortcut to rename current space**: Defines a shortcut key to quickly rename the current space without opening Preferences
+- **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
 
 - **Display spaces in menu as**: Choose between a list or a grid layout for the right-click menu
 - **Nr. of columns in grid**: When using grid layout, this sets the number of columns
@@ -221,7 +221,7 @@ Some appearance settings are also available directly from this menu.
 - Rename the current space on the fly via the right-click menu ("Rename Current Space…") or a configurable keyboard shortcut
 - A small dialog appears with the current name pre-filled; press Enter to confirm or Escape to cancel
 
-<img src="images/Quick-Rename-1.png" width="auto" height="auto">
+<img src="images/Quick-Rename-2.png" width="auto" height="auto">
 
 **Resizing the Icon**
 - Hold **⌥ Option** and scroll on the menu bar icon to quickly change the icon size
