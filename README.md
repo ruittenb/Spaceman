@@ -79,6 +79,8 @@ For ultra-compact mode, choose the Two Rows layout:
 
 <img src="images/Button-99-TwoRows.png" width="auto" height="40px">
 
+<img src="images/Button-99-TwoRows-Names.png" width="auto" height="40px">
+
 Full Unicode support:
 
 <img src="images/Button-9-Unicode.png" width="auto" height="40px">
@@ -96,11 +98,12 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### General Tab
 
-<img src="images/Preferences-General-4.png" width="66%" height="auto">
+<img src="images/Preferences-General-5.png" width="66%" height="auto">
 
 - **Launch Spaceman at login**: Automatically start Spaceman when you log in to macOS
 - **Refresh spaces in background**: If enabled, Spaceman will update the view when your space configuration changes
 - **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
+- **Shortcut to rename current space**: Defines a shortcut key to quickly rename the current space without opening Preferences
 - **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
 
 - **Display spaces in menu as**: Choose between a list or a grid layout for the right-click menu
@@ -203,19 +206,22 @@ For space switching to work, you need to configure two things:
 <img src="images/Switching-Spaces.gif" width="66%" height="auto">
 
 **Menu Selection**
-- Right-click the Spaceman icon to open the context menu
-- Select any space from the list to switch to it
-- Menu shows full space names and indicates the current space with a checkmark
-- Spaces can be displayed as a list or as a grid (configurable in Preferences → Menu)
+- Right-click the Spaceman icon to open the context menu.
+  - Depending on your preferences, the spaces are shown as a list or as a grid
+- Click on any space from the list or grid to switch to it
+- Menu shows full space names and indicates the current space
 
 Some appearance settings are also available directly from this menu.
 
 <img src="images/Menu-5.png" width="auto" height="auto">
 
-If the mental image of your desktop is a grid of spaces, you can choose to display the
-spaces in a grid:
-
 <img src="images/Menu-Grid-1.png" width="auto" height="auto">
+
+**Quick Rename Current Space**
+- Rename the current space on the fly via the right-click menu ("Rename Current Space…") or a configurable keyboard shortcut
+- A small dialog appears with the current name pre-filled; press Enter to confirm or Escape to cancel
+
+<img src="images/Quick-Rename-2.png" width="auto" height="auto">
 
 **Resizing the Icon**
 - Hold **⌥ Option** and scroll on the menu bar icon to quickly change the icon size
@@ -242,11 +248,13 @@ $ osascript -e 'tell application "Spaceman" to restore preferences' # Restore Pr
 It also exposes read-only properties that can be queried:
 
 ```sh
-$ osascript -e 'tell application "Spaceman" to get current space number' # e.g. 3
-$ osascript -e 'tell application "Spaceman" to get current space name'   # e.g. "Mail"
+$ osascript -e 'tell application "Spaceman" to get current space number'   # e.g. 3
+$ osascript -e 'tell application "Spaceman" to get current space name'     # e.g. "Mail"
+$ osascript -e 'tell application "Spaceman" to get display count'          # e.g. 2
+$ osascript -e 'tell application "Spaceman" to get current display number' # e.g. 1
 ```
 
-With multiple displays, these return the current space on the frontmost display.
+With multiple displays, `current space number` and `current space name` return the current space on the frontmost display.
 
 These commands and properties can be used in automation tools like Alfred, Keyboard Maestro, or custom scripts.
 For details on how to maximize usefulness of 'refresh', see [MikeJL's Comments](README-Yabai.md)

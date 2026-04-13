@@ -37,6 +37,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         KeyboardShortcuts.onKeyUp(for: .preferences) { [] in
             self.statusBar.showPreferencesWindow(self)
         }
+        KeyboardShortcuts.onKeyUp(for: .quickRename) { [] in
+            self.statusBar.showQuickRenamePanel()
+        }
 
         // Listen for AppleScript "open preferences" notification
         NotificationCenter.default.addObserver(
@@ -63,6 +66,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func application(_ sender: NSApplication, delegateHandlesKey key: String) -> Bool {
         return key == "currentSpaceNumber" || key == "currentSpaceName"
+            || key == "displayCount" || key == "currentDisplayNumber"
     }
 
     @objc var currentSpaceNumber: Int {
@@ -73,21 +77,55 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return currentSpaceOnFrontmostDisplay()?.spaceName ?? ""
     }
 
+    @objc var displayCount: Int {
+        return orderedDisplayIDs().count
+    }
+
+    @objc var currentDisplayNumber: Int {
+        let displayIDs = orderedDisplayIDs()
+        guard let frontmostDisplayID = frontmostDisplayID() else { return 0 }
+        if let index = displayIDs.firstIndex(of: frontmostDisplayID) {
+            return index + 1
+        }
+        return 0
+    }
+
+    private func orderedDisplayIDs() -> [String] {
+        var seen = Set<String>()
+        var result: [String] = []
+        // swiftlint:disable for_where
+        // insert() mutates `seen` as a side effect; `where` can't do that
+        for space in currentSpaces {
+            if seen.insert(space.displayID).inserted {
+                result.append(space.displayID)
+            }
+        }
+        // swiftlint:enable for_where
+        return result
+    }
+
+    private func frontmostDisplayID() -> String? {
+        guard let mainScreen = NSScreen.main,
+              let screenNumber = mainScreen.deviceDescription[
+                  NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber
+        else { return nil }
+        let mainCGDisplayID = CGDirectDisplayID(screenNumber.uint32Value)
+        for displayID in orderedDisplayIDs() {
+            let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, displayID as CFString)
+            if CGDisplayGetDisplayIDFromUUID(uuid) == mainCGDisplayID {
+                return displayID
+            }
+        }
+        return nil
+    }
+
     private func currentSpaceOnFrontmostDisplay() -> Space? {
         let activeSpaces = currentSpaces.filter { $0.isCurrentSpace }
         guard !activeSpaces.isEmpty else { return nil }
         if activeSpaces.count == 1 { return activeSpaces.first }
 
-        if let mainScreen = NSScreen.main,
-           let screenNumber = mainScreen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber {
-            let mainDisplayID = CGDirectDisplayID(screenNumber.uint32Value)
-            for space in activeSpaces {
-                let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, space.displayID as CFString)
-                let did = CGDisplayGetDisplayIDFromUUID(uuid)
-                if did == mainDisplayID {
-                    return space
-                }
-            }
+        if let displayID = frontmostDisplayID() {
+            return activeSpaces.first { $0.displayID == displayID }
         }
 
         return activeSpaces.first

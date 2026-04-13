@@ -2,7 +2,8 @@
 //  SpaceGridPopover.swift
 //  Spaceman
 //
-//  Created by Claude Code on 03/04/2026.
+//  Created by René Uittenbogaard on 2026-04-03.
+//  Co-author: Claude Code
 //
 
 import SwiftUI
