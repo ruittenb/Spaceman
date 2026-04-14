@@ -58,19 +58,23 @@ struct SpaceGridMenuView: View {
     var menuWidth: CGFloat
 
     @AppStorage("gridColumns") private var gridColumns: Int = 3
+    @AppStorage("navigateAnywhere") private var navigateAnywhere = false
 
     var body: some View {
         let columns = Array(repeating: GridItem(.flexible(), spacing: 4),
                             count: max(1, min(gridColumns, spaces.count)))
         LazyVGrid(columns: columns, spacing: 4) {
             ForEach(Array(spaces.enumerated()), id: \.element.spaceID) { _, space in
-                let switchIndex = switchMap[space.spaceID]
-                let desktopNum = if let idx = switchIndex, idx > 0 { idx } else { nil as Int? }
-                SpaceCellView(space: space)
+                let tag = switchMap[space.spaceID]
+                // F1 has tag -1 (always switchable). F2+ have no tag (only via chaining).
+                // Regular desktops have positive tags.
+                let canSwitch = tag != nil || (space.isFullScreen && navigateAnywhere)
+                let enabled = !space.isCurrentSpace && canSwitch
+                SpaceCellView(space: space, enabled: enabled)
                     .onTapGesture {
-                        if let num = desktopNum, !space.isCurrentSpace {
-                            onSwitch(num)
-                        }
+                        guard enabled else { return }
+                        let switchTag = (tag != nil && tag! > 0) ? tag! : -(space.spaceNumber)
+                        onSwitch(switchTag)
                     }
             }
         }
@@ -81,6 +85,7 @@ struct SpaceGridMenuView: View {
 
 struct SpaceCellView: View {
     let space: Space
+    var enabled: Bool = true
 
     private var hasName: Bool {
         !space.spaceName.isEmpty
@@ -116,6 +121,6 @@ struct SpaceCellView: View {
             RoundedRectangle(cornerRadius: 4)
                 .stroke(Color.accentColor, lineWidth: space.isCurrentSpace ? 2.5 : 0)
         )
-        .foregroundColor(.primary)
+        .foregroundColor(enabled ? .primary : .secondary)
     }
 }

@@ -144,13 +144,16 @@ class SpaceSwitcher {
         } else if (hitIndex == Space.unswitchableIndex || hitIndex < 0) && navigateAnywhere {
             navigateByChaining(
                 targetSpaceNumber: hitSpaceNumber, spaces: spaces, onError: onError)
-        } else if hitIndex < 0 {
+        } else if hitIndex == -1 {
             // F1 fullscreen with chaining disabled: send minus key (for Apptivate etc.)
             if let sc = shortcutHelper.fullscreenShortcut {
                 sendKeyCode(sc.keyCode, modifiers: sc.modifiers)
             } else {
                 onError()
             }
+        } else if hitIndex < 0 {
+            // F2+ fullscreen with chaining disabled: no shortcut available, just blink
+            onError()
         } else if hitIndex == Space.unswitchableIndex {
             if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
         } else if shortcutHelper.getKeyCode(spaceNumber: hitIndex) < 0 {
