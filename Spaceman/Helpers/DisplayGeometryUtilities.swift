@@ -51,8 +51,4 @@ class DisplayGeometryUtilities {
         let deltaY = abs(c1.y - c2.y)
         return abs(deltaY - averageHeight) < verticalStackMargin
     }
-
-    static func getIsHorizontallyArranged(d1: NSDictionary, d2: NSDictionary) -> Bool {
-        return !getIsVerticallyArranged(d1: d1, d2: d2)
-    }
 }
