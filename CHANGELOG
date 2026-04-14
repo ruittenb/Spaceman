@@ -1,3 +1,4 @@
+1.19.2: Fixed some space switching bugs
 1.19.1: Quick Rename dialog for Space names; added two new AppleScript queryable properties
 1.19.0: Show the spaces grid in the menu
 1.18.2: Show help balloon if no shortcut is available for action
