@@ -27,4 +27,26 @@ struct SpaceNameInfo: Hashable, Codable {
     var hasUserData: Bool {
         return !spaceName.isEmpty || colorHex != nil
     }
+
+    /// Return a copy with only the space name changed.
+    func withName(_ newName: String) -> SpaceNameInfo {
+        var copy = SpaceNameInfo(spaceNum: spaceNum, spaceName: newName, spaceByDesktopID: spaceByDesktopID)
+        copy.displayUUID = displayUUID
+        copy.positionOnDisplay = positionOnDisplay
+        copy.currentDisplayIndex = currentDisplayIndex
+        copy.currentSpaceNumber = currentSpaceNumber
+        copy.colorHex = colorHex
+        return copy
+    }
+
+    /// Return a copy with only the color changed.
+    func withColor(_ newColorHex: String?) -> SpaceNameInfo {
+        var copy = SpaceNameInfo(spaceNum: spaceNum, spaceName: spaceName, spaceByDesktopID: spaceByDesktopID)
+        copy.displayUUID = displayUUID
+        copy.positionOnDisplay = positionOnDisplay
+        copy.currentDisplayIndex = currentDisplayIndex
+        copy.currentSpaceNumber = currentSpaceNumber
+        copy.colorHex = newColorHex
+        return copy
+    }
 }

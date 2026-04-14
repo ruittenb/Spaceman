@@ -32,7 +32,6 @@
 		E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */; };
 		E79FCED32E9D1EE60000DA6E /* HorizontalDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */; };
 		E7A066232C7F65F1002DFC52 /* SpaceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */; };
-		E7B0862F2C8980130016C851 /* OSVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B0862E2C8980130016C851 /* OSVersion.swift */; };
 		E7B7E2DF2F7A8CC000FEDEFE /* IconShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7E2DE2F7A8CC000FEDEFE /* IconShape.swift */; };
 		E7B7E2E12F7AA96F00FEDEFE /* IconFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7E2E02F7AA96F00FEDEFE /* IconFill.swift */; };
 		E7B7E2E32F7C753900FEDEFE /* FontDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7E2E22F7C753900FEDEFE /* FontDesign.swift */; };
@@ -105,7 +104,6 @@
 		E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDisplayMode.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
 		E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSwitcher.swift; sourceTree = "<group>"; };
-		E7B0862E2C8980130016C851 /* OSVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSVersion.swift; sourceTree = "<group>"; };
 		E7B7AC962F77E77B002B37E2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		E7B7E2DE2F7A8CC000FEDEFE /* IconShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconShape.swift; sourceTree = "<group>"; };
 		E7B7E2E02F7AA96F00FEDEFE /* IconFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconFill.swift; sourceTree = "<group>"; };
@@ -254,7 +252,6 @@
 			children = (
 				45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */,
 				E8733510256B779B0012586E /* IconCreator.swift */,
-				E7B0862E2C8980130016C851 /* OSVersion.swift */,
 				E70044AD2E80380B001C7295 /* OpenPreferencesCommand.swift */,
 				4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */,
 				E70044AF2E80380B001C7296 /* RestorePreferencesCommand.swift */,
@@ -469,7 +466,6 @@
 				E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */,
 				1A2B3C4D5E6F7A8B9C0D1E2F /* IconStyle.swift in Sources */,
 				51E05D46B347497D8CA2D991 /* DisplayGeometryUtilities.swift in Sources */,
-				E7B0862F2C8980130016C851 /* OSVersion.swift in Sources */,
 				E8E2AEF8257CB4D700319BBC /* PreferencesViewModel.swift in Sources */,
 				E79FCED32E9D1EE60000DA6E /* HorizontalDirection.swift in Sources */,
 				E7B7E2E32F7C753900FEDEFE /* FontDesign.swift in Sources */,
@@ -700,7 +696,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.19.1;
+				CURRENT_PROJECT_VERSION = 1.19.2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = B83F4KWQ2G;
@@ -717,7 +713,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.19.1;
+				MARKETING_VERSION = 1.19.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -737,7 +733,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.19.1;
+				CURRENT_PROJECT_VERSION = 1.19.2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = B83F4KWQ2G;
@@ -754,7 +750,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.19.1;
+				MARKETING_VERSION = 1.19.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

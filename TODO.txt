@@ -1,11 +1,37 @@
 
 Examine: displaying grids when there is more than one display
 
+Disable ALL CAPS when auto-assigning Fullscreen name
+
+
+  ┌────────────────────┬─────────────────────────────────────────────┬──────────────────────────────────┐
+  │      Scenario      │             Multiple steps OFF              │        Multiple steps ON         │
+  ├────────────────────┼─────────────────────────────────────────────┼──────────────────────────────────┤
+  │ Menu list F1       │ enabled, switches via fullscreen shortcut   │ enabled, switches via chaining   │
+  ├────────────────────┼─────────────────────────────────────────────┼──────────────────────────────────┤
+  │ Menu list F2+      │ greyed out                                  │ enabled, switches via chaining   │
+  ├────────────────────┼─────────────────────────────────────────────┼──────────────────────────────────┤
+  │ Menu grid F1       │ clickable, switches via fullscreen shortcut │ clickable, switches via chaining │
+  ├────────────────────┼─────────────────────────────────────────────┼──────────────────────────────────┤
+  │ Menu grid F2+      │ greyed out                                  │ clickable, switches via chaining │
+  ├────────────────────┼─────────────────────────────────────────────┼──────────────────────────────────┤
+  │ Statusbar icon F1  │ switches via fullscreen shortcut            │ switches via chaining            │
+  ├────────────────────┼─────────────────────────────────────────────┼──────────────────────────────────┤
+  │ Statusbar icon F2+ │ blink (error)                               │ switches via chaining            │
+  └────────────────────┴─────────────────────────────────────────────┴──────────────────────────────────┘
+
+
 ================================================================================
 REFACTORING
 ================================================================================
 
 Candidates worth refactoring
+
+IconCreator.swift — renderIcon() at 122 lines
+
+Four branches (noDecoration, filled+template, filled+colored, bordered)
+with duplicated box path creation and text drawing. Extract into
+drawFilledIcon(), drawBorderedIcon(), drawBareTextIcon() helpers.
 
 IconCreator.swift — mergeIconsTwoRows() at 250 lines
 

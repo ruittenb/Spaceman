@@ -503,11 +503,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let gridItem = NSMenuItem()
         let gridView = NSHostingView(rootView: SpaceGridMenuView(
             spaces: currentSpaces,
-            onSwitch: { [weak self] spaceNumber in
+            onSwitch: { [weak self] tag in
                 self?.statusBarMenu.cancelTracking()
-                self?.spaceSwitcher.switchToSpace(
-                    spaceNumber: spaceNumber,
-                    onError: self?.flashStatusBar ?? {})
+                self?.handleSwitchTag(tag)
             },
             switchMap: switchMap,
             menuWidth: Constants.minMenuWidth
@@ -620,16 +618,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let nameStore = SpaceNameStore.shared
         nameStore.update { stored in
             guard let info = stored[spaceID] else { return }
-            var updated = SpaceNameInfo(
-                spaceNum: info.spaceNum,
-                spaceName: newName,
-                spaceByDesktopID: info.spaceByDesktopID)
-            updated.displayUUID = info.displayUUID
-            updated.positionOnDisplay = info.positionOnDisplay
-            updated.currentDisplayIndex = info.currentDisplayIndex
-            updated.currentSpaceNumber = info.currentSpaceNumber
-            updated.colorHex = info.colorHex
-            stored[spaceID] = updated
+            stored[spaceID] = info.withName(newName)
         }
         postRefreshNotification()
     }
@@ -842,7 +831,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         item.target = self
         item.tag = desktopNumber ?? -(space.spaceNumber)
         item.image = menuIcon
-        if space.isCurrentSpace || (shortcutKey == "" && !isF1) {
+        let canChain = navigateAnywhere && space.isFullScreen
+        if space.isCurrentSpace || (shortcutKey == "" && !isF1 && !canChain) {
             item.isEnabled = false
             if space.isCurrentSpace {
                 item.state = .on // tick mark
@@ -852,7 +842,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func switchToSpace(_ sender: NSMenuItem) {
-        let tag = sender.tag
+        handleSwitchTag(sender.tag)
+    }
+
+    private func handleSwitchTag(_ tag: Int) {
         if tag >= 1 && tag <= Space.maxSwitchableDesktop {
             spaceSwitcher.switchToSpace(spaceNumber: tag, onError: flashStatusBar)
         } else if tag < 0 && navigateAnywhere {
