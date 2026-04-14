@@ -3,26 +3,25 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.19.1: Quick rename Current Space</title>
+            <title>v1.19.2: Fixed space switching bugs</title>
             <description>
                 <![CDATA[
-                    <p>v1.19.1</p>
+                    <p>v1.19.2</p>
                     <ul>
-                        <li> - Option in menu to quickly rename the current space</li>
-                        <li> - Shortcut key to quickly rename the current space</li>
-                        <li> - Added two new AppleScript properties: 'display count' and 'current display number'; e.g. `osascript -e 'tell application "Spaceman" to get display count'`</li>
+                        <li> - fixed some space switching bugs</li>
+                        <li> - code maintenance</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Mon, 13 Apr 2026 15:24:48 +0200</pubDate>
+            <pubDate>Tue, 14 Apr 2026 12:08:48 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.19.1/Spaceman-1.19.1.dmg"
-                sparkle:version="1.19.1"
-                sparkle:shortVersionString="1.19.1"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.19.2/Spaceman-1.19.2.dmg"
+                sparkle:version="1.19.2"
+                sparkle:shortVersionString="1.19.2"
                 type="application/octet-stream"
-                length="3381273"
-sparkle:edSignature="0hGY9SEku2FutmsQdCEzifbAmzO4UvSLPj4l/A4nXZ3GsGHOktHq8vzsK+2OumuMuf9C8HbVtRUHkwCkfCcVBw=="
+                length="3381327"
+sparkle:edSignature="92cQzfrs/ZG+7XyRWCtmuVBP1F7E4qm2DVUUGTQ0EA5DV/U2kdKsLYEtFs3oIDkU4nAu+Xn8eQz92F97ld7JCg=="
             />
         </item>
     </channel>
