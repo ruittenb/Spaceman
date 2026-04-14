@@ -66,15 +66,12 @@ struct SpaceGridMenuView: View {
         LazyVGrid(columns: columns, spacing: 4) {
             ForEach(Array(spaces.enumerated()), id: \.element.spaceID) { _, space in
                 let tag = switchMap[space.spaceID]
-                // F1 has tag -1 (always switchable). F2+ have no tag (only via chaining).
-                // Regular desktops have positive tags.
-                let canSwitch = tag != nil || (space.isFullScreen && navigateAnywhere)
-                let enabled = !space.isCurrentSpace && canSwitch
+                let enabled = Space.canSwitch(
+                    space: space, switchTag: tag, navigateAnywhere: navigateAnywhere)
                 SpaceCellView(space: space, enabled: enabled)
                     .onTapGesture {
                         guard enabled else { return }
-                        let switchTag = (tag != nil && tag! > 0) ? tag! : -(space.spaceNumber)
-                        onSwitch(switchTag)
+                        onSwitch(Space.switchTag(switchMapEntry: tag, spaceNumber: space.spaceNumber))
                     }
             }
         }

@@ -121,6 +121,102 @@ final class SpaceTests: XCTestCase {
         XCTAssertTrue(map.isEmpty)
     }
 
+    // MARK: - buildSwitchIndexMap: F1/F2+ fullscreen behavior
+
+    func testBuildSwitchIndexMap_F1HasMinusOne() {
+        let spaces = [
+            makeSpace(id: "d1"),
+            makeSpace(id: "f1", fullScreen: true),
+        ]
+        let map = Space.buildSwitchIndexMap(for: spaces)
+        XCTAssertEqual(map["f1"], -1, "F1 must be mapped to -1")
+    }
+
+    func testBuildSwitchIndexMap_F2NotInMap() {
+        let spaces = [
+            makeSpace(id: "d1"),
+            makeSpace(id: "f1", fullScreen: true),
+            makeSpace(id: "f2", fullScreen: true),
+        ]
+        let map = Space.buildSwitchIndexMap(for: spaces)
+        XCTAssertEqual(map["f1"], -1)
+        XCTAssertNil(map["f2"], "F2 must not be in the switch map")
+    }
+
+    func testBuildSwitchIndexMap_F3NotInMap() {
+        let spaces = [
+            makeSpace(id: "f1", fullScreen: true),
+            makeSpace(id: "f2", fullScreen: true),
+            makeSpace(id: "f3", fullScreen: true),
+        ]
+        let map = Space.buildSwitchIndexMap(for: spaces)
+        XCTAssertEqual(map["f1"], -1)
+        XCTAssertNil(map["f2"])
+        XCTAssertNil(map["f3"])
+    }
+
+    // MARK: - canSwitch
+
+    private func makeSpaceWithNumber(
+        id: String, number: Int, fullScreen: Bool = false, current: Bool = false
+    ) -> Space {
+        Space(displayID: "d", spaceID: id, spaceName: "", spaceNumber: number,
+              spaceByDesktopID: "\(number)", isCurrentSpace: current, isFullScreen: fullScreen)
+    }
+
+    func testCanSwitch_regularDesktop() {
+        let space = makeSpaceWithNumber(id: "d1", number: 1)
+        XCTAssertTrue(Space.canSwitch(space: space, switchTag: 1, navigateAnywhere: false))
+        XCTAssertTrue(Space.canSwitch(space: space, switchTag: 1, navigateAnywhere: true))
+    }
+
+    func testCanSwitch_currentSpace_alwaysFalse() {
+        let space = makeSpaceWithNumber(id: "d1", number: 1, current: true)
+        XCTAssertFalse(Space.canSwitch(space: space, switchTag: 1, navigateAnywhere: false))
+        XCTAssertFalse(Space.canSwitch(space: space, switchTag: 1, navigateAnywhere: true))
+    }
+
+    func testCanSwitch_F1_alwaysSwitchable() {
+        let space = makeSpaceWithNumber(id: "f1", number: 10, fullScreen: true)
+        // F1 has tag -1 in switchMap
+        XCTAssertTrue(Space.canSwitch(space: space, switchTag: -1, navigateAnywhere: false))
+        XCTAssertTrue(Space.canSwitch(space: space, switchTag: -1, navigateAnywhere: true))
+    }
+
+    func testCanSwitch_F2_onlyWithChaining() {
+        let space = makeSpaceWithNumber(id: "f2", number: 11, fullScreen: true)
+        // F2 has no switchMap entry
+        XCTAssertFalse(Space.canSwitch(space: space, switchTag: nil, navigateAnywhere: false))
+        XCTAssertTrue(Space.canSwitch(space: space, switchTag: nil, navigateAnywhere: true))
+    }
+
+    func testCanSwitch_desktopBeyondMax_noTag() {
+        let space = makeSpaceWithNumber(id: "d17", number: 17)
+        // Desktop 17+ has no shortcut and is not fullscreen
+        XCTAssertFalse(Space.canSwitch(space: space, switchTag: nil, navigateAnywhere: false))
+        // With chaining: still false (not fullscreen)
+        XCTAssertFalse(Space.canSwitch(space: space, switchTag: nil, navigateAnywhere: false))
+    }
+
+    // MARK: - switchTag
+
+    func testSwitchTag_regularDesktop() {
+        XCTAssertEqual(Space.switchTag(switchMapEntry: 3, spaceNumber: 3), 3)
+    }
+
+    func testSwitchTag_F1_usesNegativeSpaceNumber() {
+        // F1 has switchMapEntry -1, which is not > 0, so falls through to -(spaceNumber)
+        XCTAssertEqual(Space.switchTag(switchMapEntry: -1, spaceNumber: 10), -10)
+    }
+
+    func testSwitchTag_F2_usesNegativeSpaceNumber() {
+        XCTAssertEqual(Space.switchTag(switchMapEntry: nil, spaceNumber: 11), -11)
+    }
+
+    func testSwitchTag_unswitchableDesktop() {
+        XCTAssertEqual(Space.switchTag(switchMapEntry: nil, spaceNumber: 17), -17)
+    }
+
     // MARK: - Navigation index constants
 
     func testNavigationIndicesAreDistinct() {
