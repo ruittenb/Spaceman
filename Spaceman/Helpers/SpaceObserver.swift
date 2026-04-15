@@ -459,7 +459,7 @@ class SpaceObserver {
             if let pid = spaceDict["pid"] as? pid_t,
                let app = NSRunningApplication(processIdentifier: pid),
                let name = app.localizedName {
-                return name.uppercased()
+                return name.capitalized
             }
             return "FULL"
         }

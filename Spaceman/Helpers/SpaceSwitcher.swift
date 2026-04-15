@@ -106,7 +106,7 @@ class SpaceSwitcher {
     ) {
         shortcutHelper.reload()
         cancelChain()
-        var hitIndex: Int = 0
+        var hitIndex: Int?
         var hitSpaceNumber: Int = 0
         for i in 0 ..< iconWidths.count {
             let hitX = point.x >= iconWidths[i].left && point.x < iconWidths[i].right
@@ -117,6 +117,10 @@ class SpaceSwitcher {
                 hitSpaceNumber = iconWidths[i].spaceNumber
                 break
             }
+        }
+        guard let hitIndex else {
+            onError()
+            return
         }
         if hitIndex == Space.missionControlIndex {
             if shortcutHelper.missionControlShortcut != nil {
