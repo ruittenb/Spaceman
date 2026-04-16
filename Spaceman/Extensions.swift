@@ -57,6 +57,38 @@ extension NSColor {
         return String(format: "%02X%02X%02X%02X", red, green, blue, alpha)
     }
 
+    /// Calculate relative luminance (WCAG formula with sRGB gamma correction).
+    var relativeLuminance: CGFloat {
+        guard let rgb = self.usingColorSpace(.sRGB) else { return 0.5 }
+        var r = rgb.redComponent
+        var g = rgb.greenComponent
+        var b = rgb.blueComponent
+        r = (r <= 0.03928) ? r / 12.92 : pow((r + 0.055) / 1.055, 2.4)
+        g = (g <= 0.03928) ? g / 12.92 : pow((g + 0.055) / 1.055, 2.4)
+        b = (b <= 0.03928) ? b / 12.92 : pow((b + 0.055) / 1.055, 2.4)
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b
+    }
+
+    /// Return black or white, whichever has better contrast against this color.
+    var contrastingTextColor: NSColor {
+        relativeLuminance > 0.3 ? .black : .white
+    }
+
+    /// Return black or white for contrast, accounting for alpha blending over a background.
+    func contrastingTextColor(withAlpha alpha: CGFloat, over background: NSColor) -> NSColor {
+        guard let fg = self.usingColorSpace(.sRGB),
+              let bg = background.usingColorSpace(.sRGB) else {
+            return contrastingTextColor
+        }
+        let a = min(max(alpha, 0), 1)
+        let blended = NSColor(
+            srgbRed: a * fg.redComponent + (1 - a) * bg.redComponent,
+            green: a * fg.greenComponent + (1 - a) * bg.greenComponent,
+            blue: a * fg.blueComponent + (1 - a) * bg.blueComponent,
+            alpha: 1.0)
+        return blended.relativeLuminance > 0.3 ? .black : .white
+    }
+
     /// Create NSColor from hex string (e.g., "FF5733", "FF5733FF", or "#FF5733")
     static func fromHex(_ hexString: String) -> NSColor? {
         var hex = hexString.trimmingCharacters(in: .whitespacesAndNewlines)

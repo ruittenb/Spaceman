@@ -572,9 +572,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
         let spaceID = currentSpace.spaceID
         let currentName = currentSpace.spaceName
+        let currentColorHex = currentSpace.colorHex
 
         let panel = NSPanel(
-            contentRect: NSRect(x: 0, y: 0, width: 280, height: 1),
+            contentRect: NSRect(x: 0, y: 0, width: 340, height: 1),
             styleMask: [.titled, .closable, .fullSizeContentView],
             backing: .buffered,
             defer: false)
@@ -588,10 +589,14 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
         let renameView = QuickRenameView(
             currentName: currentName,
+            currentColorHex: currentColorHex,
             onRename: { [weak self] newName in
                 self?.applyQuickRename(spaceID: spaceID, newName: newName)
                 self?.quickRenamePanel?.close()
                 self?.quickRenamePanel = nil
+            },
+            onColorChange: { [weak self] newColor in
+                self?.applyColorChange(spaceID: spaceID, color: newColor)
             },
             onCancel: { [weak self] in
                 self?.quickRenamePanel?.close()
@@ -602,7 +607,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
         // Position near the status bar item
         if let buttonFrame = statusBarItem.button?.window?.frame {
-            let x = buttonFrame.midX - 140
+            let x = buttonFrame.midX - 170
             let y = buttonFrame.minY - 4
             panel.setFrameTopLeftPoint(NSPoint(x: x, y: y))
         } else {
@@ -619,6 +624,15 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         nameStore.update { stored in
             guard let info = stored[spaceID] else { return }
             stored[spaceID] = info.withName(newName)
+        }
+        postRefreshNotification()
+    }
+
+    private func applyColorChange(spaceID: String, color: NSColor?) {
+        let nameStore = SpaceNameStore.shared
+        nameStore.update { stored in
+            guard let info = stored[spaceID] else { return }
+            stored[spaceID] = info.withColor(color?.toHexString())
         }
         postRefreshNotification()
     }
@@ -942,49 +956,5 @@ private struct MissingShortcutBalloonView: View {
             .font(.system(size: 12))
         }
         .padding(14)
-    }
-}
-
-// MARK: - Quick Rename View
-
-private struct QuickRenameView: View {
-    @State private var name: String
-    @FocusState private var isFocused: Bool
-    var onRename: (String) -> Void
-    var onCancel: () -> Void
-
-    init(currentName: String, onRename: @escaping (String) -> Void,
-         onCancel: @escaping () -> Void) {
-        _name = State(initialValue: currentName)
-        self.onRename = onRename
-        self.onCancel = onCancel
-    }
-
-    var body: some View {
-        VStack(spacing: 12) {
-            HStack(spacing: 8) {
-                Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
-                    .resizable()
-                    .frame(width: 32, height: 32)
-                TextField(String(localized: "Space name"), text: $name)
-                    .textFieldStyle(.roundedBorder)
-                    .focused($isFocused)
-                    .onSubmit { onRename(name) }
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            isFocused = true
-                        }
-                    }
-            }
-            HStack {
-                Button(String(localized: "Cancel")) { onCancel() }
-                    .keyboardShortcut(.cancelAction)
-                Spacer()
-                Button(String(localized: "Rename")) { onRename(name) }
-                    .keyboardShortcut(.defaultAction)
-            }
-        }
-        .padding(16)
-        .frame(width: 280)
     }
 }
