@@ -835,29 +835,7 @@ class IconCreator {
         }
     }
 
-    private func calculateLuminance(_ color: NSColor) -> CGFloat {
-        // Convert to RGB color space if needed
-        guard let rgbColor = color.usingColorSpace(.sRGB) else {
-            return 0.5 // Default to medium luminance if conversion fails
-        }
-
-        // Get RGB components
-        var r = rgbColor.redComponent
-        var g = rgbColor.greenComponent
-        var b = rgbColor.blueComponent
-
-        // Apply gamma correction (sRGB)
-        r = (r <= 0.03928) ? r / 12.92 : pow((r + 0.055) / 1.055, 2.4)
-        g = (g <= 0.03928) ? g / 12.92 : pow((g + 0.055) / 1.055, 2.4)
-        b = (b <= 0.03928) ? b / 12.92 : pow((b + 0.055) / 1.055, 2.4)
-
-        // Calculate relative luminance
-        return 0.2126 * r + 0.7152 * g + 0.0722 * b
-    }
-
     private func getContrastingTextColor(for backgroundColor: NSColor) -> NSColor {
-        let luminance = calculateLuminance(backgroundColor)
-        // WCAG threshold is typically 0.5, but 0.4 works better for colored buttons
-        return luminance > 0.4 ? NSColor.black : NSColor.white
+        backgroundColor.contrastingTextColor
     }
 }
