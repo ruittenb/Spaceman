@@ -13,6 +13,7 @@ struct SpaceGridMenuView: View {
     var onSwitch: (Int) -> Void
     let switchMap: [String: Int]
     var menuWidth: CGFloat
+    var focusedDisplayID: String?
 
     @AppStorage("gridColumns") private var gridColumns: Int = 3
     @AppStorage("navigateAnywhere") private var navigateAnywhere = false
@@ -46,7 +47,8 @@ struct SpaceGridMenuView: View {
                     ForEach(Array(group.enumerated()), id: \.element.spaceID) { _, space in
                         let tag = switchMap[space.spaceID]
                         let enabled = Space.canSwitch(
-                            space: space, switchTag: tag, navigateAnywhere: navigateAnywhere)
+                            space: space, switchTag: tag, navigateAnywhere: navigateAnywhere,
+                            focusedDisplayID: focusedDisplayID)
                         SpaceCellView(space: space, enabled: enabled)
                             .onTapGesture {
                                 guard enabled else { return }

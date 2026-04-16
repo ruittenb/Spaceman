@@ -489,6 +489,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         var itemsToInsert: [NSMenuItem] = []
         var lastDisplayID: String?
         let switchMap = Space.buildSwitchIndexMap(for: spaces)
+        let displayIDs = Set(spaces.map { $0.displayID })
+        let focused = DisplayGeometryUtilities.focusedDisplayID(knownDisplayIDs: displayIDs)
         for space in spaces {
             if let last = lastDisplayID, last != space.displayID {
                 itemsToInsert.append(NSMenuItem.separator())
@@ -497,7 +499,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             // Positive indices are desktop numbers; -1 is F1 (fullscreen); nil is unswitchable
             let desktopNum: Int? = if let idx, idx > 0 { idx } else { nil }
             let isF1 = idx == -1
-            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum, isF1: isF1))
+            itemsToInsert.append(makeSwitchToSpaceItem(
+                space: space, desktopNumber: desktopNum, isF1: isF1, focusedDisplayID: focused))
             lastDisplayID = space.displayID
         }
         // No trailing separator needed — the fixed separator before the settings submenus handles it
@@ -519,6 +522,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private func replaceDynamicItemsWithGrid() {
         removeDynamicMenuItems()
         let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
+        let displayIDs = Set(currentSpaces.map { $0.displayID })
+        let focused = DisplayGeometryUtilities.focusedDisplayID(knownDisplayIDs: displayIDs)
         let gridItem = NSMenuItem()
         let gridView = NSHostingView(rootView: SpaceGridMenuView(
             spaces: currentSpaces,
@@ -527,7 +532,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 self?.handleSwitchTag(tag)
             },
             switchMap: switchMap,
-            menuWidth: Constants.minMenuWidth
+            menuWidth: Constants.minMenuWidth,
+            focusedDisplayID: focused
         ))
         gridView.frame.size = gridView.fittingSize
         gridView.sizingOptions = [.intrinsicContentSize]
@@ -541,6 +547,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         var itemsToInsert: [NSMenuItem] = []
         var lastDisplayID: String?
         let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
+        let displayIDs = Set(currentSpaces.map { $0.displayID })
+        let focused = DisplayGeometryUtilities.focusedDisplayID(knownDisplayIDs: displayIDs)
         for space in currentSpaces {
             if let last = lastDisplayID, last != space.displayID {
                 itemsToInsert.append(NSMenuItem.separator())
@@ -548,7 +556,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             let idx = switchMap[space.spaceID]
             let desktopNum: Int? = if let idx, idx > 0 { idx } else { nil }
             let isF1 = idx == -1
-            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum, isF1: isF1))
+            itemsToInsert.append(makeSwitchToSpaceItem(
+                space: space, desktopNumber: desktopNum, isF1: isF1, focusedDisplayID: focused))
             lastDisplayID = space.displayID
         }
         var insertIndex = 2
@@ -861,7 +870,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
 
-    func makeSwitchToSpaceItem(space: Space, desktopNumber: Int?, isF1: Bool = false) -> NSMenuItem {
+    func makeSwitchToSpaceItem(
+        space: Space, desktopNumber: Int?, isF1: Bool = false, focusedDisplayID: String? = nil
+    ) -> NSMenuItem {
         let spaceName = space.spaceName.isEmpty ? "-" : space.spaceName
 
         var shortcutKey = ""
@@ -880,7 +891,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         item.target = self
         item.tag = desktopNumber ?? -(space.spaceNumber)
         item.image = menuIcon
-        let canChain = navigateAnywhere && space.isFullScreen
+        let onFocusedDisplay = focusedDisplayID == nil || space.displayID == focusedDisplayID
+        let canChain = navigateAnywhere && space.isFullScreen && onFocusedDisplay
         if space.isCurrentSpace || (shortcutKey == "" && !isF1 && !canChain) {
             item.isEnabled = false
             if space.isCurrentSpace {
