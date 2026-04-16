@@ -41,6 +41,20 @@ class DisplayGeometryUtilities {
         return CGDisplayBounds(did).size.height
     }
 
+    /// Returns the display UUID (from Space.displayID) of the main (focused) screen.
+    static func focusedDisplayID(knownDisplayIDs: Set<String>) -> String? {
+        guard let mainScreen = NSScreen.main,
+              let screenNumber = mainScreen.deviceDescription[
+                  NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
+            return nil
+        }
+        let mainDisplayID = CGDirectDisplayID(screenNumber.uint32Value)
+        return knownDisplayIDs.first { displayID in
+            let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, displayID as CFString)
+            return CGDisplayGetDisplayIDFromUUID(uuid) == mainDisplayID
+        }
+    }
+
     static func getIsVerticallyArranged(d1: NSDictionary, d2: NSDictionary) -> Bool {
         // Displays are vertically stacked if deltaY is within margin from average height
         let c1 = DisplayGeometryUtilities.getDisplayCenter(display: d1)

@@ -274,19 +274,9 @@ class SpaceSwitcher {
         removeChainObserver()
     }
 
-    /// Returns the display UUID of the main (focused) screen.
     private func focusedDisplayID(spaces: [Space]) -> String? {
-        guard let mainScreen = NSScreen.main,
-              let screenNumber = mainScreen.deviceDescription[
-                  NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
-            return nil
-        }
-        let mainDisplayID = CGDirectDisplayID(screenNumber.uint32Value)
-        let displayIDs = Set(spaces.map { $0.displayID })
-        return displayIDs.first { displayID in
-            let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, displayID as CFString)
-            return CGDisplayGetDisplayIDFromUUID(uuid) == mainDisplayID
-        }
+        DisplayGeometryUtilities.focusedDisplayID(
+            knownDisplayIDs: Set(spaces.map { $0.displayID }))
     }
 
     /// Returns true when the current space is already at the
