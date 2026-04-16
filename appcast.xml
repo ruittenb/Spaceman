@@ -3,25 +3,27 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.19.2: Fixed space switching bugs</title>
+            <title>v1.19.3: fixed colors in grid; fixed click in empty area besides icon</title>
             <description>
                 <![CDATA[
-                    <p>v1.19.2</p>
+                    <p>v1.19.3</p>
                     <ul>
-                        <li> - fixed some space switching bugs</li>
-                        <li> - code maintenance</li>
+                        <li>- Removed unjustified message when clicking in empty area besides a space icon</li>
+                        <li>- Fixed space button colors in menu grid</li>
+                        <li>- Added color selector to Quick Rename dialog</li>
+                        <li>- Removed automatic capitalization of fullscreen spaces</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Tue, 14 Apr 2026 12:08:48 +0200</pubDate>
+            <pubDate>Thu, 16 Apr 2026 16:28:53 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.19.2/Spaceman-1.19.2.dmg"
-                sparkle:version="1.19.2"
-                sparkle:shortVersionString="1.19.2"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.19.3/Spaceman-1.19.3.dmg"
+                sparkle:version="1.19.3"
+                sparkle:shortVersionString="1.19.3"
                 type="application/octet-stream"
-                length="3381327"
-sparkle:edSignature="92cQzfrs/ZG+7XyRWCtmuVBP1F7E4qm2DVUUGTQ0EA5DV/U2kdKsLYEtFs3oIDkU4nAu+Xn8eQz92F97ld7JCg=="
+                length="3386838"
+sparkle:edSignature="ncr3WtX+o8fjxPOZa/i4pT5GXD54AHCxFccxZiL0MjpjT5oduOI/VbCY0WwwyFHxe3JDwYaG6I9o3zRyTrAnCw=="
             />
         </item>
     </channel>
