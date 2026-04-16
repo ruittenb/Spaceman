@@ -55,14 +55,12 @@ struct SpaceCellView: View {
     var body: some View {
         VStack(spacing: 1) {
             Text(space.spaceByDesktopID)
-                .font(.system(size: hasName ? 9 : 11,
+                .font(.system(size: 9,
                               weight: space.isCurrentSpace ? .bold : .regular))
-            if hasName {
-                Text(space.spaceName)
-                    .font(.system(size: 11, weight: space.isCurrentSpace ? .bold : .regular))
-                    .lineLimit(1)
-                    .truncationMode(.tail)
-            }
+            Text(hasName ? space.spaceName : "\u{00A0}")
+                .font(.system(size: 11, weight: space.isCurrentSpace ? .bold : .regular))
+                .lineLimit(1)
+                .truncationMode(.tail)
         }
         .padding(.horizontal, 6)
         .padding(.vertical, 4)

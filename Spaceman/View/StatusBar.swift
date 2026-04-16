@@ -958,4 +958,3 @@ private struct MissingShortcutBalloonView: View {
         .padding(14)
     }
 }
-
