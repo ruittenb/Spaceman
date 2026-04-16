@@ -27,6 +27,7 @@
 		E70587F52C827E5600D9B729 /* exportOptions.plist in Resources */ = {isa = PBXBuildFile; fileRef = E70587F42C827E5600D9B729 /* exportOptions.plist */; };
 		E71750BB2F74431C00E240FD /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E71750BA2F74431C00E240FD /* Localizable.xcstrings */; };
 		E722A6E12E95BF8D00D5FA4F /* VerticalDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E722A6E02E95BF8D00D5FA4F /* VerticalDirection.swift */; };
+		E732CE8A2F90F6BA00B2C067 /* QuickRenameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE892F90F6BA00B2C067 /* QuickRenameView.swift */; };
 		E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73504B32CAD14BE007F62B5 /* IconWidth.swift */; };
 		E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E754B2C82D7F03E100F31468 /* Sparkle */; };
 		E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */; };
@@ -37,7 +38,6 @@
 		E7B7E2E32F7C753900FEDEFE /* FontDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7E2E22F7C753900FEDEFE /* FontDesign.swift */; };
 		E7DA73A62CA6E74D00212836 /* IconSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DA73A52CA6E74D00212836 /* IconSize.swift */; };
 		E7DA73A82CA6E7A700212836 /* GuiSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DA73A72CA6E7A700212836 /* GuiSize.swift */; };
-		E828E6552737CBA0007075E8 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6542737CBA0007075E8 /* VisualEffectView.swift */; };
 		E828E6582737D2E4007075E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6572737D2E4007075E8 /* Constants.swift */; };
 		E87334E9256B51CF0012586E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87334E8256B51CF0012586E /* AppDelegate.swift */; };
 		E87334EB256B51CF0012586E /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87334EA256B51CF0012586E /* PreferencesView.swift */; };
@@ -100,6 +100,7 @@
 		E71750BD2F747B0400E240FD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		E71750BE2F74981F00E240FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		E722A6E02E95BF8D00D5FA4F /* VerticalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalDirection.swift; sourceTree = "<group>"; };
+		E732CE892F90F6BA00B2C067 /* QuickRenameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickRenameView.swift; sourceTree = "<group>"; };
 		E73504B32CAD14BE007F62B5 /* IconWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWidth.swift; sourceTree = "<group>"; };
 		E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDisplayMode.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
@@ -110,7 +111,6 @@
 		E7B7E2E22F7C753900FEDEFE /* FontDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontDesign.swift; sourceTree = "<group>"; };
 		E7DA73A52CA6E74D00212836 /* IconSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSize.swift; sourceTree = "<group>"; };
 		E7DA73A72CA6E7A700212836 /* GuiSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiSize.swift; sourceTree = "<group>"; };
-		E828E6542737CBA0007075E8 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		E828E6572737D2E4007075E8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E87334E5256B51CF0012586E /* Spaceman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spaceman.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E87334E8256B51CF0012586E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -269,9 +269,9 @@
 				E8C5AFF42580848100614F50 /* AboutView.swift */,
 				E87334EA256B51CF0012586E /* PreferencesView.swift */,
 				E8EBF090257739ED001BA74F /* PreferencesWindow.swift */,
+				E732CE892F90F6BA00B2C067 /* QuickRenameView.swift */,
 				E87334EA256B51CF0012586F /* SpaceGrid.swift */,
 				E8733502256B532D0012586E /* StatusBar.swift */,
-				E828E6542737CBA0007075E8 /* VisualEffectView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -491,7 +491,7 @@
 				E7B7E2DF2F7A8CC000FEDEFE /* IconShape.swift in Sources */,
 				53A56E17092ACF887E1B46F5 /* SpaceNameStore.swift in Sources */,
 				E7DA73A82CA6E7A700212836 /* GuiSize.swift in Sources */,
-				E828E6552737CBA0007075E8 /* VisualEffectView.swift in Sources */,
+				E732CE8A2F90F6BA00B2C067 /* QuickRenameView.swift in Sources */,
 				E8733517256C6F3A0012586E /* Extensions.swift in Sources */,
 				9A6DE94BB0D75559B9039ABA /* SpaceFilter.swift in Sources */,
 			);
