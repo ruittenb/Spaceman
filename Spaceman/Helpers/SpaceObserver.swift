@@ -270,7 +270,7 @@ class SpaceObserver {
                 let savedName = savedInfo?.spaceName
                 let resolvedName = resolveSpaceName(
                     from: savedName,
-                    spaceNumber: spaceNumber,
+                    spaceByDesktopID: spaceByDesktopID,
                     isFullScreen: isFullScreen,
                     spaceDict: spaceDict)
 
@@ -448,7 +448,7 @@ class SpaceObserver {
 
     private func resolveSpaceName(
         from savedName: String?,
-        spaceNumber: Int,
+        spaceByDesktopID: String,
         isFullScreen: Bool,
         spaceDict: [String: Any]
     ) -> String {
@@ -462,6 +462,9 @@ class SpaceObserver {
                 return name.capitalized
             }
             return "FULL"
+        }
+        if savedName == nil {
+            return "Space \(spaceByDesktopID)"
         }
         return ""
     }
