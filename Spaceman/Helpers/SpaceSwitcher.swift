@@ -146,8 +146,15 @@ class SpaceSwitcher {
             }
             return
         } else if (hitIndex == Space.unswitchableIndex || hitIndex < 0) && navigateAnywhere {
-            navigateByChaining(
-                targetSpaceNumber: hitSpaceNumber, spaces: spaces, onError: onError)
+            let target = spaces.first { $0.spaceNumber == hitSpaceNumber }
+            if target?.displayID != focusedDisplayID(spaces: spaces) {
+                // Spaces on another display can't be reached by chaining:
+                // Ctrl+arrow only cycles within the focused display's spaces.
+                onError()
+            } else {
+                navigateByChaining(
+                    targetSpaceNumber: hitSpaceNumber, spaces: spaces, onError: onError)
+            }
         } else if hitIndex == -1 {
             // F1 fullscreen with chaining disabled: send minus key (for Apptivate etc.)
             if let sc = shortcutHelper.fullscreenShortcut {
@@ -177,7 +184,9 @@ class SpaceSwitcher {
         targetSpaceNumber: Int, spaces: [Space], onError: @escaping () -> Void
     ) {
         guard let targetSpace = spaces.first(where: { $0.spaceNumber == targetSpaceNumber }),
-              let currentSpace = spaces.first(where: { $0.isCurrentSpace }) else {
+              let currentSpace = spaces.first(where: {
+                  $0.isCurrentSpace && $0.displayID == targetSpace.displayID
+              }) else {
             onError()
             return
         }
@@ -263,6 +272,21 @@ class SpaceSwitcher {
         chainTimeout?.cancel()
         chainTimeout = nil
         removeChainObserver()
+    }
+
+    /// Returns the display UUID of the main (focused) screen.
+    private func focusedDisplayID(spaces: [Space]) -> String? {
+        guard let mainScreen = NSScreen.main,
+              let screenNumber = mainScreen.deviceDescription[
+                  NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
+            return nil
+        }
+        let mainDisplayID = CGDirectDisplayID(screenNumber.uint32Value)
+        let displayIDs = Set(spaces.map { $0.displayID })
+        return displayIDs.first { displayID in
+            let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, displayID as CFString)
+            return CGDisplayGetDisplayIDFromUUID(uuid) == mainDisplayID
+        }
     }
 
     /// Returns true when the current space is already at the
