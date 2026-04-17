@@ -640,20 +640,35 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     // MARK: - Settings Submenus
 
     func menuWillOpen(_ menu: NSMenu) {
+        // Read fresh from UserDefaults — @AppStorage on NSObject caches the
+        // initial value and does not observe external writes (e.g. from Preferences).
+        let ud = UserDefaults.standard
+        let currentRowLayout = RowLayout(rawValue: ud.integer(forKey: "rowLayout")) ?? .singleRow
+        let currentIconSize = IconSize(rawValue: ud.integer(forKey: "iconSize")) ?? .medium
+        let currentDisplayStyle = IconText(rawValue: ud.integer(forKey: "displayStyle")) ?? .numbers
+        let currentFontDesign = FontDesign(rawValue: ud.integer(forKey: "fontDesign")) ?? .monospaced
+        let currentUseVariableWidth = ud.bool(forKey: "useVariableWidth")
+        let currentDecorationActive = IconStyle(rawValue: ud.integer(forKey: "decorationActive")) ?? .filledRounded
+        let currentDecorationInactive = IconStyle(rawValue: ud.integer(forKey: "decorationInactive")) ?? .borderedRounded
+        let currentShowFullscreenSpaces = ud.object(forKey: "showFullscreenSpaces") as? Bool ?? true
+        let currentShowMissionControl = ud.bool(forKey: "showMissionControl")
+        let currentShowNavArrows = ud.bool(forKey: "showNavArrows")
+        let currentVisibleSpacesModeRaw = ud.integer(forKey: "visibleSpacesMode")
+
         // Update row layout checkmarks
         for item in rowLayoutMenuItem.submenu?.items ?? [] {
-            item.state = item.tag == rowLayout.rawValue ? .on : .off
+            item.state = item.tag == currentRowLayout.rawValue ? .on : .off
         }
         // Rebuild icon size submenu: filter sizes based on two-row mode
         let layoutSubmenu = NSMenu()
-        let availableSizes = rowLayout.isTwoRows
+        let availableSizes = currentRowLayout.isTwoRows
             ? IconSize.allCases.filter { Constants.sizesTwoRows[$0] != nil }
             : Array(IconSize.allCases)
         for mode in availableSizes {
             let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectLayout(_:)), keyEquivalent: "")
             item.tag = mode.rawValue
             item.target = self
-            item.state = mode == iconSize ? .on : .off
+            item.state = mode == currentIconSize ? .on : .off
             layoutSubmenu.addItem(item)
         }
         layoutSubmenu.addItem(NSMenuItem.separator())
@@ -661,43 +676,43 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             title: String(localized: "Variable width"),
             action: #selector(toggleVariableWidth), keyEquivalent: "")
         variableWidthItem.target = self
-        variableWidthItem.state = useVariableWidth ? .on : .off
+        variableWidthItem.state = currentUseVariableWidth ? .on : .off
         layoutSubmenu.addItem(variableWidthItem)
         layoutMenuItem.submenu = layoutSubmenu
         for item in iconStyleMenuItem.submenu?.items ?? [] {
             if item.action == #selector(selectIconStyle(_:)) {
-                item.state = item.tag == displayStyle.rawValue ? .on : .off
+                item.state = item.tag == currentDisplayStyle.rawValue ? .on : .off
             } else if item.action == #selector(selectFont(_:)) {
-                item.state = item.tag == fontDesign.rawValue ? .on : .off
+                item.state = item.tag == currentFontDesign.rawValue ? .on : .off
             }
         }
-        let bothNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
+        let bothNoDecoration = currentDecorationActive.isNoDecoration && currentDecorationInactive.isNoDecoration
         let shapesMatch = !bothNoDecoration
-            && !decorationActive.isNoDecoration && !decorationInactive.isNoDecoration
-            && decorationActive.shape == decorationInactive.shape
+            && !currentDecorationActive.isNoDecoration && !currentDecorationInactive.isNoDecoration
+            && currentDecorationActive.shape == currentDecorationInactive.shape
         let fillsMatch = !bothNoDecoration
-            && !decorationActive.isNoDecoration && !decorationInactive.isNoDecoration
-            && decorationActive.fill == decorationInactive.fill
+            && !currentDecorationActive.isNoDecoration && !currentDecorationInactive.isNoDecoration
+            && currentDecorationActive.fill == currentDecorationInactive.fill
         for item in iconShapeMenuItem.submenu?.items ?? [] {
             if item.action == #selector(selectIconShape(_:)) {
                 if item.tag == IconShape.noDecoration.rawValue {
                     item.state = bothNoDecoration ? .on : .off
                 } else {
-                    item.state = (shapesMatch && item.tag == decorationActive.shape.rawValue) ? .on : .off
+                    item.state = (shapesMatch && item.tag == currentDecorationActive.shape.rawValue) ? .on : .off
                 }
             } else if item.action == #selector(selectIconFill(_:)) {
-                item.state = (fillsMatch && item.tag == decorationActive.fill.rawValue) ? .on : .off
+                item.state = (fillsMatch && item.tag == currentDecorationActive.fill.rawValue) ? .on : .off
             }
         }
         for item in spacesShownMenuItem.submenu?.items ?? [] {
             if item.action == #selector(toggleShowFullscreenSpaces) {
-                item.state = showFullscreenSpaces ? .on : .off
+                item.state = currentShowFullscreenSpaces ? .on : .off
             } else if item.action == #selector(toggleShowMissionControl) {
-                item.state = showMissionControl ? .on : .off
+                item.state = currentShowMissionControl ? .on : .off
             } else if item.action == #selector(toggleShowNavArrows) {
-                item.state = showNavArrows ? .on : .off
+                item.state = currentShowNavArrows ? .on : .off
             } else {
-                item.state = item.tag == visibleSpacesModeRaw ? .on : .off
+                item.state = item.tag == currentVisibleSpacesModeRaw ? .on : .off
             }
         }
     }
