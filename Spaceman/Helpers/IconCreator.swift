@@ -73,21 +73,29 @@ class IconCreator {
             return empty
         }
 
-        // For uniform icon widths: measure the widest rendered name, capped for compactness
+        // For uniform icon widths: find the widest text and use it as the minimum width for all icons.
+        // In single-row mode, this only applies to name-based styles (names, numbers+names).
+        // In two-row mode, numbers-only also gets equalized — without it, "1" and "10" would have
+        // visibly different widths, making the two-row grid look uneven.
         let showsNames = displayStyle == .names || displayStyle == .numbersAndNames
         let maxNameChars = rowLayout.isTwoRows ? 8 : 4
-        if !useVariableWidth && showsNames {
+        let equalizeNumbers = rowLayout.isTwoRows && displayStyle == .numbers
+        if !useVariableWidth && (showsNames || equalizeNumbers) {
             let measureAttrs = getStringAttributes(alpha: 1, color: .black)
             let padding = sizes.HORIZONTAL_PADDING * 2
             minIconWidth = filteredSpaces.filter { !$0.isFullScreen }.reduce(CGFloat.zero) { widest, space in
-                let cappedName = String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength)))
-                let nameText: NSString
-                if displayStyle == .numbersAndNames {
-                    nameText = NSString(string: "\(space.spaceByDesktopID):\(cappedName)")
+                // Build the same text string that createSpaceIcon() will render,
+                // so the width measurement matches the actual content.
+                let text: NSString
+                if equalizeNumbers {
+                    text = NSString(string: space.spaceByDesktopID)
+                } else if displayStyle == .numbersAndNames {
+                    let cappedName = String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength)))
+                    text = NSString(string: "\(space.spaceByDesktopID):\(cappedName)")
                 } else {
-                    nameText = NSString(string: cappedName)
+                    text = NSString(string: String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength))))
                 }
-                let textWidth = nameText.size(withAttributes: measureAttrs).width
+                let textWidth = text.size(withAttributes: measureAttrs).width
                 return max(widest, textWidth + padding)
             }
         } else {
