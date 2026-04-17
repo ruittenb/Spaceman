@@ -205,9 +205,6 @@ ul {
         max-width: 100%;
     }
 
-    .Spaceman_stylesGrid img {
-        height: 19px;
-    }
 }
 
 @media only screen and (min-width: 660px) {
@@ -243,18 +240,15 @@ ul {
     display: grid;
     width: 100%;
     gap: 0.5rem;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
 
-    & small {
-        justify-self: end;
-        margin-top: 0.25rem;
-    }
     & img {
-        justify-self: start;
         width: 100%;
-        height: auto;
+        height: 2rem;
+        object-fit: contain;
+        background: var(--button-color);
         border-radius: 4px;
-        filter: saturate(125%);
+        filter: var(--video-filter);
     }
 }
 
