@@ -3,27 +3,28 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.19.3: fixed colors in grid; fixed click in empty area besides icon</title>
+            <title>v1.19.4: fixes for two-row layout; sync menu with settings</title>
             <description>
                 <![CDATA[
-                    <p>v1.19.3</p>
+                    <p>v1.19.4</p>
                     <ul>
-                        <li>- Removed unjustified message when clicking in empty area besides a space icon</li>
-                        <li>- Fixed space button colors in menu grid</li>
-                        <li>- Added color selector to Quick Rename dialog</li>
-                        <li>- Removed automatic capitalization of fullscreen spaces</li>
+                        <li> - Fixed menu checkmarks synchronization with preferences</li>
+                        <li> - Fixed icon widths in two-rows layout</li>
+                        <li> - Adjusted font-weights in two-rows layout</li>
+                        <li> - Added default names for new spaces</li>
+                        <li> - Restart fullscreen numbering by display</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 16 Apr 2026 16:28:53 +0200</pubDate>
+            <pubDate>Fri, 17 Apr 2026 23:27:03 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.19.3/Spaceman-1.19.3.dmg"
-                sparkle:version="1.19.3"
-                sparkle:shortVersionString="1.19.3"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.19.4/Spaceman-1.19.4.dmg"
+                sparkle:version="1.19.4"
+                sparkle:shortVersionString="1.19.4"
                 type="application/octet-stream"
-                length="3386838"
-sparkle:edSignature="ncr3WtX+o8fjxPOZa/i4pT5GXD54AHCxFccxZiL0MjpjT5oduOI/VbCY0WwwyFHxe3JDwYaG6I9o3zRyTrAnCw=="
+                length="3392777"
+sparkle:edSignature="0gHqaE3K43+0JhVEM0Y+2pJ6/hL83nHBHSwECtpMZgn7YO+f7mD1b2KLFfBQNeYUhXL3X2HUViUfyy0cwx23Aw=="
             />
         </item>
     </channel>
