@@ -73,21 +73,29 @@ class IconCreator {
             return empty
         }
 
-        // For uniform icon widths: measure the widest rendered name, capped for compactness
+        // For uniform icon widths: find the widest text and use it as the minimum width for all icons.
+        // In single-row mode, this only applies to name-based styles (names, numbers+names).
+        // In two-row mode, numbers-only also gets equalized — without it, "1" and "10" would have
+        // visibly different widths, making the two-row grid look uneven.
         let showsNames = displayStyle == .names || displayStyle == .numbersAndNames
         let maxNameChars = rowLayout.isTwoRows ? 8 : 4
-        if !useVariableWidth && showsNames {
+        let equalizeNumbers = rowLayout.isTwoRows && displayStyle == .numbers
+        if !useVariableWidth && (showsNames || equalizeNumbers) {
             let measureAttrs = getStringAttributes(alpha: 1, color: .black)
             let padding = sizes.HORIZONTAL_PADDING * 2
             minIconWidth = filteredSpaces.filter { !$0.isFullScreen }.reduce(CGFloat.zero) { widest, space in
-                let cappedName = String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength)))
-                let nameText: NSString
-                if displayStyle == .numbersAndNames {
-                    nameText = NSString(string: "\(space.spaceByDesktopID):\(cappedName)")
+                // Build the same text string that createSpaceIcon() will render,
+                // so the width measurement matches the actual content.
+                let text: NSString
+                if equalizeNumbers {
+                    text = NSString(string: space.spaceByDesktopID)
+                } else if displayStyle == .numbersAndNames {
+                    let cappedName = String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength)))
+                    text = NSString(string: "\(space.spaceByDesktopID):\(cappedName)")
                 } else {
-                    nameText = NSString(string: cappedName)
+                    text = NSString(string: String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength))))
                 }
-                let textWidth = nameText.size(withAttributes: measureAttrs).width
+                let textWidth = text.size(withAttributes: measureAttrs).width
                 return max(widest, textWidth + padding)
             }
         } else {
@@ -181,11 +189,13 @@ class IconCreator {
             iconWidth = max(iconWidth, minWidth)
         }
 
+        let fontWeight: NSFont.Weight = !isActive && rowLayout.isTwoRows ? .medium : .bold
         let size = NSSize(width: iconWidth, height: cellSize.height)
         return renderIcon(
             text: text, size: size, decoration: decoration,
             boxColor: boxColor, useTemplate: useTemplate,
-            alpha: alpha, borderWidth: sizes.BORDER_WIDTH)
+            alpha: alpha, borderWidth: sizes.BORDER_WIDTH,
+            fontWeight: fontWeight)
     }
 
     /// Create an icon for use in the dropdown menu (StatusBar).
@@ -232,7 +242,8 @@ class IconCreator {
         useTemplate: Bool,
         alpha: CGFloat,
         borderWidth: CGFloat,
-        fontSize: CGFloat = .zero
+        fontSize: CGFloat = .zero,
+        fontWeight: NSFont.Weight = .bold
     ) -> NSImage {
         let iconImage = NSImage(size: size)
         let drawRect = NSRect(origin: .zero, size: size)
@@ -243,7 +254,8 @@ class IconCreator {
             let textColor = useTemplate ? NSColor.black : boxColor
             text.drawVerticallyCentered(
                 in: drawRect,
-                withAttributes: getStringAttributes(alpha: alpha, fontSize: fontSize, color: textColor))
+                withAttributes: getStringAttributes(alpha: alpha, fontSize: fontSize, color: textColor,
+                                                    weight: fontWeight))
         } else if decoration.isFilled {
             let boxRect = drawRect.insetBy(dx: borderWidth / 2, dy: borderWidth / 2)
             let cornerRadius = decoration.cornerRadius(for: boxRect)
@@ -258,7 +270,8 @@ class IconCreator {
                     textImage.lockFocus()
                     text.drawVerticallyCentered(
                         in: drawRect,
-                        withAttributes: getStringAttributes(alpha: 1, fontSize: fontSize, color: .black))
+                        withAttributes: getStringAttributes(alpha: 1, fontSize: fontSize, color: .black,
+                                                            weight: fontWeight))
                     textImage.unlockFocus()
 
                     textImage.draw(in: drawRect, from: .zero, operation: .destinationOut, fraction: 1.0)
@@ -272,7 +285,8 @@ class IconCreator {
                     let textColor = getContrastingTextColor(for: boxColor)
                     text.drawVerticallyCentered(
                         in: drawRect,
-                        withAttributes: getStringAttributes(alpha: 1.0, fontSize: fontSize, color: textColor))
+                        withAttributes: getStringAttributes(alpha: 1.0, fontSize: fontSize, color: textColor,
+                                                            weight: fontWeight))
                 }
             }
         } else {
@@ -289,7 +303,8 @@ class IconCreator {
                 if text.length > 0 {
                     text.drawVerticallyCentered(
                         in: drawRect,
-                        withAttributes: getStringAttributes(alpha: alpha, fontSize: fontSize, color: .black))
+                        withAttributes: getStringAttributes(alpha: alpha, fontSize: fontSize, color: .black,
+                                                            weight: fontWeight))
                 }
             } else {
                 boxColor.withAlphaComponent(alpha).setStroke()
@@ -298,7 +313,8 @@ class IconCreator {
                 if text.length > 0 {
                     text.drawVerticallyCentered(
                         in: drawRect,
-                        withAttributes: getStringAttributes(alpha: alpha, fontSize: fontSize, color: boxColor))
+                        withAttributes: getStringAttributes(alpha: alpha, fontSize: fontSize, color: boxColor,
+                                                            weight: fontWeight))
                 }
             }
         }
@@ -798,7 +814,8 @@ class IconCreator {
         alpha: CGFloat,
         fontSize: CGFloat = .zero,
         color: NSColor = .black,
-        design: NSFontDescriptor.SystemDesign? = nil
+        design: NSFontDescriptor.SystemDesign? = nil,
+        weight: NSFont.Weight = .bold
     ) -> [NSAttributedString.Key: Any] {
         let design = design ?? fontDesign.systemDesign
         let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
@@ -807,7 +824,7 @@ class IconCreator {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
 
-        let base = NSFont.systemFont(ofSize: actualFontSize, weight: .bold)
+        let base = NSFont.systemFont(ofSize: actualFontSize, weight: weight)
         let font: NSFont
         if let descriptor = base.fontDescriptor.withDesign(design),
            let designFont = NSFont(descriptor: descriptor, size: actualFontSize) {

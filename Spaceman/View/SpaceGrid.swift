@@ -17,22 +17,48 @@ struct SpaceGridMenuView: View {
     @AppStorage("gridColumns") private var gridColumns: Int = 3
     @AppStorage("navigateAnywhere") private var navigateAnywhere = false
 
+    /// Spaces grouped by display, preserving order.
+    private var spacesByDisplay: [[Space]] {
+        var groups: [[Space]] = []
+        var currentGroup: [Space] = []
+        var lastDisplayID: String?
+        for space in spaces {
+            if let last = lastDisplayID, last != space.displayID {
+                groups.append(currentGroup)
+                currentGroup = []
+            }
+            currentGroup.append(space)
+            lastDisplayID = space.displayID
+        }
+        if !currentGroup.isEmpty { groups.append(currentGroup) }
+        return groups
+    }
+
     var body: some View {
-        let columns = Array(repeating: GridItem(.flexible(), spacing: 4),
-                            count: max(1, min(gridColumns, spaces.count)))
-        LazyVGrid(columns: columns, spacing: 4) {
-            ForEach(Array(spaces.enumerated()), id: \.element.spaceID) { _, space in
-                let tag = switchMap[space.spaceID]
-                let enabled = Space.canSwitch(
-                    space: space, switchTag: tag, navigateAnywhere: navigateAnywhere)
-                SpaceCellView(space: space, enabled: enabled)
-                    .onTapGesture {
-                        guard enabled else { return }
-                        onSwitch(Space.switchTag(switchMapEntry: tag, spaceNumber: space.spaceNumber))
+        VStack(spacing: 0) {
+            ForEach(Array(spacesByDisplay.enumerated()), id: \.offset) { groupIdx, group in
+                if groupIdx > 0 {
+                    Divider().padding(.vertical, 2)
+                }
+                let columns = Array(repeating: GridItem(.flexible(), spacing: 4),
+                                    count: max(1, min(gridColumns, group.count)))
+                LazyVGrid(columns: columns, spacing: 4) {
+                    ForEach(Array(group.enumerated()), id: \.element.spaceID) { _, space in
+                        let tag = switchMap[space.spaceID]
+                        let enabled = Space.canSwitch(
+                            space: space, switchTag: tag, navigateAnywhere: navigateAnywhere)
+                        SpaceCellView(space: space, enabled: enabled)
+                            .onTapGesture {
+                                guard enabled else { return }
+                                onSwitch(Space.switchTag(
+                                    switchMapEntry: tag, spaceNumber: space.spaceNumber))
+                            }
                     }
+                }
+                .padding(.vertical, 8)
             }
         }
-        .padding(8)
+        .padding(.horizontal, 8)
         .frame(width: menuWidth)
     }
 }

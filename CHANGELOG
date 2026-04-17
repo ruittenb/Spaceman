@@ -1,3 +1,4 @@
+1.19.4: Fixed fonts and widths in two-rows layout; Added space name defaults; Fixed menu checkmarks synchronization with preferences
 1.19.3: Fixed clicking besides a space icon; fixed space button colors in menu grid; added color selector to Quick Rename dialog; removed capitalization of fullscreen spaces
 1.19.2: Fixed some space switching bugs
 1.19.1: Quick Rename dialog for Space names; added two new AppleScript queryable properties

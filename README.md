@@ -250,14 +250,15 @@ It also exposes read-only properties that can be queried:
 ```sh
 $ osascript -e 'tell application "Spaceman" to get current space number'   # e.g. 3
 $ osascript -e 'tell application "Spaceman" to get current space name'     # e.g. "Mail"
-$ osascript -e 'tell application "Spaceman" to get display count'          # e.g. 2
 $ osascript -e 'tell application "Spaceman" to get current display number' # e.g. 1
+$ osascript -e 'tell application "Spaceman" to get display count'          # e.g. 2
 ```
 
 With multiple displays, `current space number` and `current space name` return the current space on the frontmost display.
+For `display count`, mirrored displays count as one.
 
 These commands and properties can be used in automation tools like Alfred, Keyboard Maestro, or custom scripts.
-For details on how to maximize usefulness of 'refresh', see [MikeJL's Comments](README-Yabai.md)
+For details on how to make good use of 'refresh', see [MikeJL's Comments](README-Yabai.md)
 
 ## 🔹 Troubleshooting
 

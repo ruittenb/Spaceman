@@ -203,6 +203,7 @@ class SpaceObserver {
         var updatedNames: [String: SpaceNameInfo] = [:]
         var activeSpaceID = -1
         var lastSpaceByDesktopNumber = 0
+        var lastFullScreenNumber = 0
         var collectedSpaces: [Space] = []
 
         for d in displays {
@@ -232,9 +233,8 @@ class SpaceObserver {
 
             if restartNumberingByDisplay {
                 lastSpaceByDesktopNumber = 0
+                lastFullScreenNumber = 0
             }
-
-            var lastFullScreenSpaceNumber = 0
             var positionOnThisDisplay = 0
             let currentSpaceID = currentSpaces["ManagedSpaceID"] as? Int ?? -1
             if currentSpaceID != -1 && activeSpaceID == -1 {
@@ -253,8 +253,8 @@ class SpaceObserver {
 
                 let spaceByDesktopID: String
                 if isFullScreen {
-                    lastFullScreenSpaceNumber += 1
-                    spaceByDesktopID = "F\(lastFullScreenSpaceNumber)"
+                    lastFullScreenNumber += 1
+                    spaceByDesktopID = "F\(lastFullScreenNumber)"
                 } else {
                     lastSpaceByDesktopNumber += 1
                     spaceByDesktopID = String(lastSpaceByDesktopNumber)
@@ -270,7 +270,7 @@ class SpaceObserver {
                 let savedName = savedInfo?.spaceName
                 let resolvedName = resolveSpaceName(
                     from: savedName,
-                    spaceNumber: spaceNumber,
+                    spaceByDesktopID: spaceByDesktopID,
                     isFullScreen: isFullScreen,
                     spaceDict: spaceDict)
 
@@ -448,7 +448,7 @@ class SpaceObserver {
 
     private func resolveSpaceName(
         from savedName: String?,
-        spaceNumber: Int,
+        spaceByDesktopID: String,
         isFullScreen: Bool,
         spaceDict: [String: Any]
     ) -> String {
@@ -462,6 +462,9 @@ class SpaceObserver {
                 return name.capitalized
             }
             return "FULL"
+        }
+        if savedName == nil {
+            return "Space \(spaceByDesktopID)"
         }
         return ""
     }
