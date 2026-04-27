@@ -176,6 +176,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         suppressOcclusionUntil = Date().addingTimeInterval(1.0)
 
         let buttonAppearance = statusBar.getButtonAppearance()
+        statusBar.isAppIconMode = (shrinkLevel == .icon)
 
         switch shrinkLevel {
         case .none:

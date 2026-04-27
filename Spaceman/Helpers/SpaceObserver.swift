@@ -44,11 +44,6 @@ class SpaceObserver {
     /// Only accessed from workerQueue.
     private var _topologyChangeGracePeriod: Int = 0
 
-    /// Tracks what triggered the current update, so the delegate can decide
-    /// whether to reset auto-shrink state. Set on the main thread before
-    /// dispatching to workerQueue; read on workerQueue.
-    private var _pendingTrigger: SpaceUpdateTrigger = .manualRefresh
-
     weak var delegate: SpaceObserverDelegate?
 
     init() {
@@ -80,18 +75,15 @@ class SpaceObserver {
     }
 
     @objc private func handleSpaceSwitch() {
-        _pendingTrigger = .spaceSwitch
-        updateSpaceInformation()
+        updateSpaceInformation(trigger: .spaceSwitch)
     }
 
     @objc private func handleManualRefresh() {
-        _pendingTrigger = .manualRefresh
-        updateSpaceInformation()
+        updateSpaceInformation(trigger: .manualRefresh)
     }
 
     @objc private func handleAutoRefresh() {
-        _pendingTrigger = .autoRefresh
-        updateSpaceInformation()
+        updateSpaceInformation(trigger: .autoRefresh)
     }
 
     @objc private func handleWake() {
@@ -99,8 +91,7 @@ class SpaceObserver {
     }
 
     @objc private func handleScreenChange() {
-        _pendingTrigger = .topologyChange
-        updateSpaceInformation()
+        updateSpaceInformation(trigger: .topologyChange)
     }
 
     // Compare two displays according to user preferences
@@ -159,6 +150,10 @@ class SpaceObserver {
     }
 
     @objc public func updateSpaceInformation() {
+        updateSpaceInformation(trigger: .manualRefresh)
+    }
+
+    public func updateSpaceInformation(trigger: SpaceUpdateTrigger) {
         let restartNumberingByDisplay = defaults.bool(forKey: "restartNumberingByDisplay")
         let horizontalDirection = HorizontalDirection(
             rawValue: defaults.integer(forKey: "horizontalDirection")) ?? .defaultOrder
@@ -166,7 +161,6 @@ class SpaceObserver {
             rawValue: defaults.integer(forKey: "verticalDirection")) ?? .bottomGoesFirst
         let needsRevalidation = _needsPositionRevalidation
         _needsPositionRevalidation = false
-        let trigger = _pendingTrigger
         workerQueue.async { [weak self] in
             self?.performSpaceInformationUpdate(
                 restartNumberingByDisplay: restartNumberingByDisplay,
