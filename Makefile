@@ -26,7 +26,7 @@ translations: ## Update and complete all translations
 
 .PHONY: test
 test: ## Run unit tests
-	xcodebuild test -project Spaceman.xcodeproj -scheme Spaceman -destination platform=macOS | xcbeautify
+	xcodebuild test -project Spaceman.xcodeproj -scheme Spaceman -destination platform=macOS | xcbeautify --quiet
 
 .PHONY: lint
 lint: ## Check source code style
