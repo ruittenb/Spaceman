@@ -186,7 +186,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             // Override size, text style, and visibility — but not row layout,
             // which stays at the user's preference (two-row is more compact).
             let overrides = ShrinkOverrides(
-                iconSize: .narrow, displayStyle: .numbers,
+                iconSize: .compact, displayStyle: .numbers,
                 showFullscreenSpaces: false, showNavArrows: false, showMissionControl: false)
             let icon = iconCreator.getIcon(for: spaces, appearance: buttonAppearance,
                                             shrinkOverrides: overrides)
