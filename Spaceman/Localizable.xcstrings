@@ -378,6 +378,40 @@
         }
       }
     },
+    "Auto-shrink when there is shortage of space" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisch verkleinern bei Platzmangel"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reducir automáticamente cuando falta espacio"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reducir automáticamente cuando falta espacio"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réduire automatiquement en cas de manque d'espace"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisch verkleinen bij ruimtegebrek"
+          }
+        }
+      }
+    },
     "Backup" : {
       "localizations" : {
         "de" : {
@@ -4204,6 +4238,40 @@
         }
       }
     },
+    "Spaceman will attempt to unshrink the menu bar icon when you switch spaces, or trigger a manual refresh." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman versucht, das Menüleistensymbol wieder zu vergrößern, wenn Sie zwischen Spaces wechseln oder eine manuelle Aktualisierung auslösen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman intentará restaurar el tamaño del icono de la barra de menús al cambiar de escritorios o activar una actualización manual."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman intentará restaurar el tamaño del ícono de la barra de menús al cambiar de escritorios o activar una actualización manual."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman tentera de restaurer la taille de l'icône de la barre des menus lorsque vous changez d'espaces ou déclenchez un rafraîchissement manuel."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman zal proberen het menubalk-icoon weer te vergroten wanneer u wisselt tussen spaces of handmatig ververst."
+          }
+        }
+      }
+    },
     "Two Rows, by Columns" : {
       "localizations" : {
         "de" : {
@@ -4608,6 +4676,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beeldschermen boven elkaar"
+          }
+        }
+      }
+    },
+    "When switching spaces, the icon may blink briefly." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beim Wechseln zwischen Spaces kann das Symbol kurz blinken."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al cambiar de escritorios, el icono puede parpadear brevemente."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al cambiar de escritorios, el ícono puede parpadear brevemente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lors du changement d'espaces, l'icône peut flasher brièvement."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bij het wisselen tussen spaces kan het icoon even knipperen."
           }
         }
       }

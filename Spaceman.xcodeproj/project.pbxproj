@@ -28,6 +28,10 @@
 		E71750BB2F74431C00E240FD /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E71750BA2F74431C00E240FD /* Localizable.xcstrings */; };
 		E722A6E12E95BF8D00D5FA4F /* VerticalDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E722A6E02E95BF8D00D5FA4F /* VerticalDirection.swift */; };
 		E732CE8A2F90F6BA00B2C067 /* QuickRenameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE892F90F6BA00B2C067 /* QuickRenameView.swift */; };
+		E732CE8E2F996B6D00B2C067 /* ShrinkLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE8B2F996B6D00B2C067 /* ShrinkLevel.swift */; };
+		E732CE8F2F996B6D00B2C067 /* SpaceUpdateTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */; };
+		E732CE902F996B6D00B2C067 /* ShrinkOverrides.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE8C2F996B6D00B2C067 /* ShrinkOverrides.swift */; };
+		E732CE922FA00FCB00B2C067 /* AutoShrinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE912FA00FCB00B2C067 /* AutoShrinkTests.swift */; };
 		E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73504B32CAD14BE007F62B5 /* IconWidth.swift */; };
 		E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E754B2C82D7F03E100F31468 /* Sparkle */; };
 		E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */; };
@@ -101,6 +105,10 @@
 		E71750BE2F74981F00E240FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		E722A6E02E95BF8D00D5FA4F /* VerticalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalDirection.swift; sourceTree = "<group>"; };
 		E732CE892F90F6BA00B2C067 /* QuickRenameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickRenameView.swift; sourceTree = "<group>"; };
+		E732CE8B2F996B6D00B2C067 /* ShrinkLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkLevel.swift; sourceTree = "<group>"; };
+		E732CE8C2F996B6D00B2C067 /* ShrinkOverrides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkOverrides.swift; sourceTree = "<group>"; };
+		E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceUpdateTrigger.swift; sourceTree = "<group>"; };
+		E732CE912FA00FCB00B2C067 /* AutoShrinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoShrinkTests.swift; sourceTree = "<group>"; };
 		E73504B32CAD14BE007F62B5 /* IconWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWidth.swift; sourceTree = "<group>"; };
 		E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDisplayMode.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
@@ -168,14 +176,15 @@
 		E01C7C6DCACCB0D1EBF510E6 /* SpacemanTests */ = {
 			isa = PBXGroup;
 			children = (
-				C0F9A49EF2025B97049F7053 /* SpaceTests.swift */,
-				D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */,
+				E732CE912FA00FCB00B2C067 /* AutoShrinkTests.swift */,
+				83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */,
+				B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */,
+				B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */,
 				141909F55D23EE17579D9208 /* IconTextTests.swift */,
 				0F604F4F3D323E1E17C5AB87 /* SpaceFilterTests.swift */,
-				83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */,
+				D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */,
 				D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */,
-				B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */,
-				B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */,
+				C0F9A49EF2025B97049F7053 /* SpaceTests.swift */,
 			);
 			name = SpacemanTests;
 			sourceTree = "<group>";
@@ -297,9 +306,12 @@
 				E8E2AEFE257CB5AF00319BBC /* IconText.swift */,
 				E73504B32CAD14BE007F62B5 /* IconWidth.swift */,
 				E70044AB2E7F6584001C7295 /* RowLayout.swift */,
+				E732CE8B2F996B6D00B2C067 /* ShrinkLevel.swift */,
+				E732CE8C2F996B6D00B2C067 /* ShrinkOverrides.swift */,
 				E873350D256B5F0F0012586E /* Space.swift */,
 				E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */,
 				E8E2AF02257CB5CE00319BBC /* SpaceNameInfo.swift */,
+				E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */,
 				E722A6E02E95BF8D00D5FA4F /* VerticalDirection.swift */,
 				8F4A6E10892D4C67AD5F9BE3 /* VisibleSpacesMode.swift */,
 			);
@@ -449,6 +461,7 @@
 				854639D9C559DF47F8A2A2C6 /* IconTextTests.swift in Sources */,
 				0A988E67F965C0C2AE24E78D /* SpaceFilterTests.swift in Sources */,
 				cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */,
+				E732CE922FA00FCB00B2C067 /* AutoShrinkTests.swift in Sources */,
 				F605F4B85B7ADD5424BDDFAE /* SpaceNameResolutionTests.swift in Sources */,
 				A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */,
 				A2B3C4D5E6F7A8B9C0D1E2F4 /* EnumBehaviorTests.swift in Sources */,
@@ -474,6 +487,9 @@
 				E8733503256B532D0012586E /* StatusBar.swift in Sources */,
 				E87334EB256B51CF0012586E /* PreferencesView.swift in Sources */,
 				E87334EB256B51CF0012586F /* SpaceGrid.swift in Sources */,
+				E732CE8E2F996B6D00B2C067 /* ShrinkLevel.swift in Sources */,
+				E732CE8F2F996B6D00B2C067 /* SpaceUpdateTrigger.swift in Sources */,
+				E732CE902F996B6D00B2C067 /* ShrinkOverrides.swift in Sources */,
 				E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */,
 				E8C5AFF52580848100614F50 /* AboutView.swift in Sources */,
 				E70044AE2E80380B001C7295 /* OpenPreferencesCommand.swift in Sources */,
@@ -696,7 +712,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.19.4;
+				CURRENT_PROJECT_VERSION = 1.20.0;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = B83F4KWQ2G;
@@ -713,7 +729,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.19.4;
+				MARKETING_VERSION = 1.20.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -733,7 +749,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.19.4;
+				CURRENT_PROJECT_VERSION = 1.20.0;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = B83F4KWQ2G;
@@ -750,7 +766,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.19.4;
+				MARKETING_VERSION = 1.20.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

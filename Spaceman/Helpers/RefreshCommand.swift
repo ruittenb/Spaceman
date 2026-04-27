@@ -10,7 +10,7 @@ import Cocoa
 
 class RefreshCommand: NSScriptCommand {
     override func performDefaultImplementation() -> Any? {
-        postRefreshNotification()
+        postSettingsChanged()
         return nil
     }
 }

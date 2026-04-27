@@ -106,7 +106,7 @@ class PreferencesViewModel: ObservableObject {
     }
 
     @objc func refreshSpaces() {
-        postRefreshNotification()
+        NotificationCenter.default.post(name: AutoRefreshTriggeredName, object: nil)
     }
 
     private func rebuildSortedSpaceNames() {
@@ -170,7 +170,7 @@ class PreferencesViewModel: ObservableObject {
         AppDelegate.resetMigratedKeys()
         UserDefaults.standard.setPersistentDomain(dict, forName: bundleIdentifier)
         AppDelegate.performLegacyMigrations()
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     func restorePreferences() {

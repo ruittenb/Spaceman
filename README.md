@@ -115,7 +115,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Appearance Tab
 
-<img src="images/Preferences-Appearance-4.png" width="66%" height="auto">
+<img src="images/Preferences-Appearance-5.png" width="66%" height="auto">
 
 - **Icon size**: Adjusts the size of the space icons in the menu bar
 - **Icon width**: Switches between:
@@ -133,6 +133,10 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 - **Show fullscreen spaces**: Shows or hides fullscreen app spaces from the menu bar
 - **Show Mission Control button**: Adds a button to open Mission Control to the menu bar
 - **Show navigation arrows**: Adds buttons to the menu bar for switching to previous/next space
+- **Auto-shrink**: When the menu bar icon is too wide to fit, Spaceman progressively shrinks it:
+  first to compact numbers-only, then to the app icon.
+  The icon unshrinks automatically when you switch spaces, trigger a manual refresh, or click the app icon.
+  Enabled by default.
 
 ### Spaces Tab
 
