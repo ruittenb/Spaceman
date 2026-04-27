@@ -250,13 +250,13 @@ struct PreferencesView: View {
         }
         .padding()
         .onChange(of: restartNumberingByDisplay) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
         .onChange(of: horizontalDirection) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
         .onChange(of: verticalDirection) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
     }
 
@@ -317,7 +317,7 @@ struct PreferencesView: View {
                             prefsVM.removeAllColors()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                 NotificationCenter.default.post(
-                                    name: ButtonPressedName,
+                                    name: SettingsChangedName,
                                     object: nil)
                             }
                         } label: {
@@ -396,19 +396,19 @@ struct PreferencesView: View {
         }
         .padding()
         .onChange(of: autoShrink) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            postSettingsChanged()
         }
         .onChange(of: visibleSpacesModeRaw) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
         .onChange(of: showFullscreenSpaces) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
         .onChange(of: showMissionControl) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
         .onChange(of: showNavArrows) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
     }
 
@@ -529,7 +529,7 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: iconSize) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
     }
 
@@ -562,7 +562,7 @@ struct PreferencesView: View {
                 case .large, .extraLarge, .enormous: iconSize = .large
                 }
             }
-            postRefreshNotification()
+            postSettingsChanged()
         }
     }
 
@@ -580,7 +580,7 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: displayStyle) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
     }
 
@@ -600,7 +600,7 @@ struct PreferencesView: View {
         }
         .disabled(displayStyle == .noText)
         .onChange(of: fontDesign) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
     }
 
@@ -617,7 +617,7 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: decorationActive) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
     }
 
@@ -633,7 +633,7 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: decorationInactive) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
     }
 
@@ -651,7 +651,7 @@ struct PreferencesView: View {
             .fixedSize()
         }
         .onChange(of: useVariableWidth) { _ in
-            postRefreshNotification()
+            postSettingsChanged()
         }
     }
 
@@ -689,7 +689,7 @@ struct PreferencesView: View {
                                     prefsVM.updateSpace(for: entry.key, to: trimmed)
                                     prefsVM.persistChanges(for: entry.key)
                                     NotificationCenter.default.post(
-                                        name: ButtonPressedName,
+                                        name: SettingsChangedName,
                                         object: nil)
                                 }
                             )
@@ -714,7 +714,7 @@ struct PreferencesView: View {
                                 prefsVM.updateSpaceColor(for: entry.key, to: newColor)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                     NotificationCenter.default.post(
-                                        name: ButtonPressedName,
+                                        name: SettingsChangedName,
                                         object: nil)
                                 }
                             }
@@ -727,7 +727,7 @@ struct PreferencesView: View {
                                 prefsVM.updateSpaceColor(for: entry.key, to: nil)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                     NotificationCenter.default.post(
-                                        name: ButtonPressedName,
+                                        name: SettingsChangedName,
                                         object: nil)
                                 }
                             } label: {
@@ -777,7 +777,7 @@ struct PreferencesView: View {
             }
             .disabled(visibleSpacesMode != .neighbors)
             .onChange(of: neighborRadius) { _ in
-                postRefreshNotification()
+                postSettingsChanged()
             }
         }
     }

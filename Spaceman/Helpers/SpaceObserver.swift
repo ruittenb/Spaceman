@@ -54,13 +54,13 @@ class SpaceObserver {
             object: workspace)
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(handleManualRefresh),
-            name: ButtonPressedName,
+            selector: #selector(handleUserRefresh),
+            name: SettingsChangedName,
             object: nil)
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleAutoRefresh),
-            name: NSNotification.Name("RefreshSpaces"),
+            name: AutoRefreshTriggeredName,
             object: nil)
         workspace.notificationCenter.addObserver(
             self,
@@ -78,8 +78,8 @@ class SpaceObserver {
         updateSpaceInformation(trigger: .spaceSwitch)
     }
 
-    @objc private func handleManualRefresh() {
-        updateSpaceInformation(trigger: .manualRefresh)
+    @objc private func handleUserRefresh() {
+        updateSpaceInformation(trigger: .userRefresh)
     }
 
     @objc private func handleAutoRefresh() {
@@ -150,7 +150,7 @@ class SpaceObserver {
     }
 
     @objc public func updateSpaceInformation() {
-        updateSpaceInformation(trigger: .manualRefresh)
+        updateSpaceInformation(trigger: .userRefresh)
     }
 
     public func updateSpaceInformation(trigger: SpaceUpdateTrigger) {
@@ -176,7 +176,7 @@ class SpaceObserver {
         horizontalDirection: HorizontalDirection,
         verticalDirection: VerticalDirection,
         needsRevalidation: Bool,
-        trigger: SpaceUpdateTrigger = .manualRefresh
+        trigger: SpaceUpdateTrigger = .userRefresh
     ) {
         guard var displays = fetchDisplaySpaces() else { return }
 

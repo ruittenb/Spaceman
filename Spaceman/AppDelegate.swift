@@ -40,7 +40,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         NSApp.activate(ignoringOtherApps: true)
         KeyboardShortcuts.onKeyUp(for: .refresh) { [] in
-            postRefreshNotification()
+            postSettingsChanged()
         }
         KeyboardShortcuts.onKeyUp(for: .preferences) { [] in
             self.statusBar.showPreferencesWindow(self)
@@ -64,7 +64,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         // Auto-shrink resets happen in didUpdateSpaces(trigger:) —
-        // ButtonPressed triggers .manualRefresh, which resets shrinkLevel there.
+        // SettingsChanged triggers .userRefresh, which resets shrinkLevel there.
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -157,11 +157,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     //   .none → .shrunken → .icon
     //
     // .none:     Full rendering with all user settings.
-    // .shrunken: Numbers only, narrowest size, no fullscreen/arrows/MC.
+    // .shrunken: Numbers only, compact size, no fullscreen/arrows/MC.
     //            Row layout (single/two-row) is preserved from user settings.
     // .icon:     Static Spaceman app icon — the smallest possible representation.
     //
-    // The level resets to .none on topology changes, manual refresh, or space
+    // The level resets to .none on topology changes, user refresh, or space
     // switches (via didUpdateSpaces). Auto-refresh does not reset it.
     //
     // Occlusion detection has two paths:
@@ -387,7 +387,7 @@ extension AppDelegate: SpaceObserverDelegate {
         // Auto-refresh preserves the current shrink state — if the icon still
         // doesn't fit, shrinkIfEvicted() will shrink it back down.
         switch trigger {
-        case .spaceSwitch, .topologyChange, .manualRefresh:
+        case .spaceSwitch, .topologyChange, .userRefresh:
             shrinkLevel = .none
         case .autoRefresh:
             break

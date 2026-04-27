@@ -12,6 +12,6 @@ import Foundation
 enum SpaceUpdateTrigger {
     case spaceSwitch     // User switched spaces (activeSpaceDidChangeNotification)
     case topologyChange  // Display connected/disconnected/mirrored (didChangeScreenParametersNotification)
-    case manualRefresh   // User changed a setting or triggered refresh (ButtonPressed)
-    case autoRefresh     // Periodic auto-refresh timer (RefreshSpaces)
+    case userRefresh     // User changed a setting or triggered refresh (SettingsChanged)
+    case autoRefresh     // Periodic auto-refresh timer (AutoRefreshTriggered)
 }
