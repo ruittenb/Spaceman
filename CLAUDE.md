@@ -30,7 +30,7 @@ xcodebuild test -project Spaceman.xcodeproj -scheme Spaceman -destination platfo
 
 ## Linting
 
-Never write lines that are longer than 200 characters: they will trip up the linter.
+Never write `.swift` lines longer than 120 characters: SwiftLint will flag them.
 
 ## Space Name Persistence — The ManagedSpaceID Problem
 
