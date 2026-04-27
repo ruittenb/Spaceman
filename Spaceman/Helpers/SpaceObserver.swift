@@ -49,13 +49,18 @@ class SpaceObserver {
     init() {
         workspace.notificationCenter.addObserver(
             self,
-            selector: #selector(updateSpaceInformation),
+            selector: #selector(handleSpaceSwitch),
             name: NSWorkspace.activeSpaceDidChangeNotification,
             object: workspace)
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(updateSpaceInformation),
-            name: ButtonPressedName,
+            selector: #selector(handleUserRefresh),
+            name: SettingsChangedName,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleAutoRefresh),
+            name: AutoRefreshTriggeredName,
             object: nil)
         workspace.notificationCenter.addObserver(
             self,
@@ -69,12 +74,24 @@ class SpaceObserver {
             object: nil)
     }
 
+    @objc private func handleSpaceSwitch() {
+        updateSpaceInformation(trigger: .spaceSwitch)
+    }
+
+    @objc private func handleUserRefresh() {
+        updateSpaceInformation(trigger: .userRefresh)
+    }
+
+    @objc private func handleAutoRefresh() {
+        updateSpaceInformation(trigger: .autoRefresh)
+    }
+
     @objc private func handleWake() {
         _needsPositionRevalidation = true
     }
 
     @objc private func handleScreenChange() {
-        updateSpaceInformation()
+        updateSpaceInformation(trigger: .topologyChange)
     }
 
     // Compare two displays according to user preferences
@@ -133,6 +150,10 @@ class SpaceObserver {
     }
 
     @objc public func updateSpaceInformation() {
+        updateSpaceInformation(trigger: .userRefresh)
+    }
+
+    public func updateSpaceInformation(trigger: SpaceUpdateTrigger) {
         let restartNumberingByDisplay = defaults.bool(forKey: "restartNumberingByDisplay")
         let horizontalDirection = HorizontalDirection(
             rawValue: defaults.integer(forKey: "horizontalDirection")) ?? .defaultOrder
@@ -145,7 +166,8 @@ class SpaceObserver {
                 restartNumberingByDisplay: restartNumberingByDisplay,
                 horizontalDirection: horizontalDirection,
                 verticalDirection: verticalDirection,
-                needsRevalidation: needsRevalidation)
+                needsRevalidation: needsRevalidation,
+                trigger: trigger)
         }
     }
 
@@ -153,7 +175,8 @@ class SpaceObserver {
         restartNumberingByDisplay: Bool,
         horizontalDirection: HorizontalDirection,
         verticalDirection: VerticalDirection,
-        needsRevalidation: Bool
+        needsRevalidation: Bool,
+        trigger: SpaceUpdateTrigger = .userRefresh
     ) {
         guard var displays = fetchDisplaySpaces() else { return }
 
@@ -331,7 +354,7 @@ class SpaceObserver {
         }
 
         DispatchQueue.main.async {
-            self.delegate?.didUpdateSpaces(spaces: collectedSpaces)
+            self.delegate?.didUpdateSpaces(spaces: collectedSpaces, trigger: trigger)
         }
     }
 
@@ -471,5 +494,5 @@ class SpaceObserver {
 }
 
 protocol SpaceObserverDelegate: AnyObject {
-    func didUpdateSpaces(spaces: [Space])
+    func didUpdateSpaces(spaces: [Space], trigger: SpaceUpdateTrigger)
 }

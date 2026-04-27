@@ -28,6 +28,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("navigateAnywhere") private var navigateAnywhere = false
     @AppStorage("spaceDisplayMode") private var spaceDisplayMode = SpaceDisplayMode.list
 
+    /// When true, the status bar shows a static app icon (auto-shrink fallback).
+    /// Left-clicks are ignored because there are no individual space targets.
+    var isAppIconMode = false
+
     private var visibleSpacesMode: VisibleSpacesMode {
         get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
         set { visibleSpacesModeRaw = newValue.rawValue }
@@ -282,6 +286,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     }
                 }
             } else if event.type == .leftMouseDown {
+                // No space targets to click when showing the static app icon;
+                // trigger a full re-render so the user can briefly see their spaces.
+                guard !self.isAppIconMode else {
+                    postSettingsChanged()
+                    return
+                }
                 // Switch desktops on left click, unless one single space shown
                 guard self.visibleSpacesMode != .currentOnly else {
                     print("Not switching: just one space visible")
@@ -329,7 +339,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             }
             if let next = next {
                 iconSize = next
-                postRefreshNotification()
+                postSettingsChanged()
             }
         } else if scrollAccumulator < -threshold {
             scrollAccumulator = 0
@@ -339,7 +349,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             }
             if let next = next {
                 iconSize = next
-                postRefreshNotification()
+                postSettingsChanged()
             }
         }
     }
@@ -442,6 +452,15 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         return max((button.bounds.height - imageHeight) / 2.0, 0)
     }
 
+    func isIconVisible() -> Bool {
+        guard let window = statusBarItem.button?.window else { return false }
+        return window.occlusionState.contains(.visible)
+    }
+
+    func statusBarWindow() -> NSWindow? {
+        return statusBarItem.button?.window
+    }
+
     func getButtonFrame() -> NSRect? {
         return statusBarItem.button?.frame
     }
@@ -537,7 +556,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func refreshSpaces(_ sender: AnyObject) {
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     // MARK: - Quick Rename
@@ -625,7 +644,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             guard let info = stored[spaceID] else { return }
             stored[spaceID] = info.withName(newName)
         }
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     private func applyColorChange(spaceID: String, color: NSColor?) {
@@ -634,7 +653,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             guard let info = stored[spaceID] else { return }
             stored[spaceID] = info.withColor(color?.toHexString())
         }
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     // MARK: - Settings Submenus
@@ -649,7 +668,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let currentFontDesign = FontDesign(rawValue: ud.integer(forKey: "fontDesign")) ?? .monospaced
         let currentUseVariableWidth = ud.bool(forKey: "useVariableWidth")
         let currentDecorationActive = IconStyle(rawValue: ud.integer(forKey: "decorationActive")) ?? .filledRounded
-        let currentDecorationInactive = IconStyle(rawValue: ud.integer(forKey: "decorationInactive")) ?? .borderedRounded
+        let currentDecorationInactive =
+                IconStyle(rawValue: ud.integer(forKey: "decorationInactive")) ?? .borderedRounded
         let currentShowFullscreenSpaces = ud.object(forKey: "showFullscreenSpaces") as? Bool ?? true
         let currentShowMissionControl = ud.bool(forKey: "showMissionControl")
         let currentShowNavArrows = ud.bool(forKey: "showNavArrows")
@@ -727,30 +747,30 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             case .large, .extraLarge, .enormous:  iconSize = .large
             }
         }
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     @objc func selectLayout(_ sender: NSMenuItem) {
         guard let mode = IconSize(rawValue: sender.tag) else { return }
         iconSize = mode
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     @objc func toggleVariableWidth() {
         useVariableWidth.toggle()
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     @objc func selectFont(_ sender: NSMenuItem) {
         guard let design = FontDesign(rawValue: sender.tag) else { return }
         fontDesign = design
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     @objc func selectIconStyle(_ sender: NSMenuItem) {
         guard let style = IconText(rawValue: sender.tag) else { return }
         displayStyle = style
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     @objc func selectIconShape(_ sender: NSMenuItem) {
@@ -770,7 +790,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             decorationInactive = decorationInactive.withShape(shape).withFill(inactiveFill)
             saveLastDecoration()
         }
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     @objc func selectIconFill(_ sender: NSMenuItem) {
@@ -784,7 +804,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         decorationActive = decorationActive.withFill(fill).withShape(activeShape)
         decorationInactive = decorationInactive.withFill(fill).withShape(inactiveShape)
         saveLastDecoration()
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     private func saveLastDecoration() {
@@ -800,22 +820,22 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func selectSpacesShown(_ sender: NSMenuItem) {
         visibleSpacesModeRaw = sender.tag
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     @objc func toggleShowFullscreenSpaces() {
         showFullscreenSpaces.toggle()
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     @objc func toggleShowMissionControl() {
         showMissionControl.toggle()
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     @objc func toggleShowNavArrows() {
         showNavArrows.toggle()
-        postRefreshNotification()
+        postSettingsChanged()
     }
 
     @objc func showPreferencesWindow(_ sender: AnyObject) {

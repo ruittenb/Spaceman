@@ -36,12 +36,15 @@ func systemSettingsName() -> String {
     }
 }
 
-/// Notification name used to trigger a full space redraw.
-let ButtonPressedName = NSNotification.Name("ButtonPressed")
+/// Notification posted when the user changes a setting that requires a redraw.
+let SettingsChangedName = NSNotification.Name("SettingsChanged")
+
+/// Notification posted by the auto-refresh timer.
+let AutoRefreshTriggeredName = NSNotification.Name("AutoRefreshTriggered")
 
 /// Notify the app that a setting changed and spaces should be redrawn.
-func postRefreshNotification() {
-    NotificationCenter.default.post(name: ButtonPressedName, object: nil)
+func postSettingsChanged() {
+    NotificationCenter.default.post(name: SettingsChangedName, object: nil)
 }
 
 // MARK: - NSColor Extensions

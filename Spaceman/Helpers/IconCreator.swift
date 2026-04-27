@@ -47,10 +47,29 @@ class IconCreator {
     public var sizes: GuiSize!
     public var iconWidths: [IconWidth] = []
 
-    public func getIcon(for spaces: [Space], appearance: NSAppearance? = nil) -> NSImage {
+    /// Active shrink overrides for the current render pass. Set at the start
+    /// of getIcon() and cleared via defer. When non-nil, the `effective*`
+    /// computed properties below return overridden values instead of the
+    /// @AppStorage user preferences, so all downstream methods automatically
+    /// use the shrink settings without parameter threading.
+    /// Properties not in ShrinkOverrides (e.g., rowLayout) always use the
+    /// user preference — row layout is intentionally never overridden because
+    /// two-row mode is more horizontally compact than single-row.
+    private var activeShrinkOverrides: ShrinkOverrides?
+
+    private var effectiveIconSize: IconSize { activeShrinkOverrides?.iconSize ?? iconSize }
+    private var effectiveDisplayStyle: IconText { activeShrinkOverrides?.displayStyle ?? displayStyle }
+    private var effectiveShowFullscreen: Bool { activeShrinkOverrides?.showFullscreenSpaces ?? showFullscreenSpaces }
+    private var effectiveShowNavArrows: Bool { activeShrinkOverrides?.showNavArrows ?? showNavArrows }
+    private var effectiveShowMissionControl: Bool { activeShrinkOverrides?.showMissionControl ?? showMissionControl }
+
+    public func getIcon(for spaces: [Space], appearance: NSAppearance? = nil,
+                        shrinkOverrides: ShrinkOverrides? = nil) -> NSImage {
+        activeShrinkOverrides = shrinkOverrides
+        defer { activeShrinkOverrides = nil }
         sizes = rowLayout.isTwoRows
-            ? Constants.nearestTwoRowSize(for: iconSize)
-            : Constants.sizes[iconSize]
+            ? Constants.nearestTwoRowSize(for: effectiveIconSize)
+            : Constants.sizes[effectiveIconSize]
 
         let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
         let actualFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
@@ -77,9 +96,9 @@ class IconCreator {
         // In single-row mode, this only applies to name-based styles (names, numbers+names).
         // In two-row mode, numbers-only also gets equalized — without it, "1" and "10" would have
         // visibly different widths, making the two-row grid look uneven.
-        let showsNames = displayStyle == .names || displayStyle == .numbersAndNames
+        let showsNames = effectiveDisplayStyle == .names || effectiveDisplayStyle == .numbersAndNames
         let maxNameChars = rowLayout.isTwoRows ? 8 : 4
-        let equalizeNumbers = rowLayout.isTwoRows && displayStyle == .numbers
+        let equalizeNumbers = rowLayout.isTwoRows && effectiveDisplayStyle == .numbers
         if !useVariableWidth && (showsNames || equalizeNumbers) {
             let measureAttrs = getStringAttributes(alpha: 1, color: .black)
             let padding = sizes.HORIZONTAL_PADDING * 2
@@ -89,11 +108,13 @@ class IconCreator {
                 let text: NSString
                 if equalizeNumbers {
                     text = NSString(string: space.spaceByDesktopID)
-                } else if displayStyle == .numbersAndNames {
+                } else if effectiveDisplayStyle == .numbersAndNames {
                     let cappedName = String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength)))
                     text = NSString(string: "\(space.spaceByDesktopID):\(cappedName)")
                 } else {
-                    text = NSString(string: String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength))))
+                    text = NSString(
+                        string: String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength)))
+                    )
                 }
                 let textWidth = text.size(withAttributes: measureAttrs).width
                 return max(widest, textWidth + padding)
@@ -127,7 +148,7 @@ class IconCreator {
 
     private func filterSpaces(_ spaces: [Space]) -> [Space] {
         var result = spaceFilter.filter(spaces, mode: visibleSpacesMode, neighborRadius: neighborRadius)
-        if !showFullscreenSpaces {
+        if !effectiveShowFullscreen {
             result = result.filter { !$0.isFullScreen }
         }
         return result
@@ -138,7 +159,7 @@ class IconCreator {
     private func createSpaceIcon(space: Space, defaultColor: NSColor?, minWidth: CGFloat = 0) -> NSImage {
         // 1. Determine text content based on display style
         let text: NSString
-        switch displayStyle {
+        switch effectiveDisplayStyle {
         case .noText:
             text = ""
         case .numbers:
@@ -413,12 +434,12 @@ class IconCreator {
     private func createNavigationIcons(defaultColor: NSColor?) -> [(image: NSImage, index: Int)] {
         var result: [(image: NSImage, index: Int)] = []
         var arrowIcon: NSImage?
-        if showNavArrows {
+        if effectiveShowNavArrows {
             let left = createSpaceIcon(space: makeNavSpace(label: "◀"), defaultColor: defaultColor)
             arrowIcon = left
             result.append((left, Space.previousSpaceIndex))
         }
-        if showMissionControl {
+        if effectiveShowMissionControl {
             let mcMinWidth: CGFloat
             if rowLayout.isTwoRows, let aw = arrowIcon?.size.width {
                 // In two-row mode: MC spans the full width of both arrows + gap
@@ -431,7 +452,7 @@ class IconCreator {
             result.append((createMissionControlIcon(defaultColor: defaultColor, minWidth: mcMinWidth),
                 Space.missionControlIndex))
         }
-        if showNavArrows {
+        if effectiveShowNavArrows {
             result.append((createSpaceIcon(
                 space: makeNavSpace(label: "▶"), defaultColor: defaultColor),
                 Space.nextSpaceIndex))
