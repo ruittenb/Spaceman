@@ -2,7 +2,8 @@
 //  SpaceDisplayMode.swift
 //  Spaceman
 //
-//  Controls whether spaces are shown as a list or grid in the menu.
+//  Created by René Uittenbogaard on 2026-04-10.
+//  Co-author: Claude Code
 //
 
 import Foundation

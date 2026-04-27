@@ -40,7 +40,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         NSApp.activate(ignoringOtherApps: true)
         KeyboardShortcuts.onKeyUp(for: .refresh) { [] in
-            self.spaceObserver.updateSpaceInformation()
+            postRefreshNotification()
         }
         KeyboardShortcuts.onKeyUp(for: .preferences) { [] in
             self.statusBar.showPreferencesWindow(self)
@@ -63,19 +63,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             self.shrinkIfEvicted()
         }
 
-        // Reset auto-shrink when the user explicitly changes a setting.
-        // Note: PreferencesViewModel's periodic timer posts "RefreshSpaces" instead
-        // of "ButtonPressed", so it does NOT reset auto-shrink.
-        NotificationCenter.default.addObserver(
-            forName: NSNotification.Name("ButtonPressed"),
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            if self.shrinkLevel != .none {
-                self.shrinkLevel = .none
-            }
-        }
+        // Auto-shrink resets happen in didUpdateSpaces(trigger:) —
+        // ButtonPressed triggers .manualRefresh, which resets shrinkLevel there.
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -161,10 +150,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     // MARK: - Auto-shrink
+    //
+    // When the status bar icon is too wide for the menu bar, macOS hides it
+    // (occlusion). Auto-shrink detects this and progressively reduces the icon:
+    //
+    //   .none → .shrunken → .icon
+    //
+    // .none:     Full rendering with all user settings.
+    // .shrunken: Numbers only, narrowest size, no fullscreen/arrows/MC.
+    //            Row layout (single/two-row) is preserved from user settings.
+    // .icon:     Static Spaceman app icon — the smallest possible representation.
+    //
+    // The level resets to .none on topology changes, manual refresh, or space
+    // switches (via didUpdateSpaces). Auto-refresh does not reset it.
+    //
+    // Occlusion detection has two paths:
+    // 1. NSWindow.didChangeOcclusionStateNotification (primary)
+    // 2. A scheduled fallback check 1.1s after each render, because the
+    //    notification may fire during the suppression window and get ignored.
 
+    /// Renders the status bar icon at the current shrinkLevel.
     private func renderIcon(for spaces: [Space]) {
-        // Suppress occlusion checks briefly: setting a new image on the status bar
-        // button can cause macOS to briefly report the item as occluded.
+        // After setting a new image, macOS may briefly report the item as occluded.
+        // Suppress occlusion checks for 1 second to avoid false triggers.
         suppressOcclusionUntil = Date().addingTimeInterval(1.0)
 
         let buttonAppearance = statusBar.getButtonAppearance()
@@ -174,8 +182,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let icon = iconCreator.getIcon(for: spaces, appearance: buttonAppearance)
             statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
         case .shrunken:
+            // Override size, text style, and visibility — but not row layout,
+            // which stays at the user's preference (two-row is more compact).
             let overrides = ShrinkOverrides(
-                iconSize: .narrow, rowLayout: .singleRow, displayStyle: .numbers,
+                iconSize: .narrow, displayStyle: .numbers,
                 showFullscreenSpaces: false, showNavArrows: false, showMissionControl: false)
             let icon = iconCreator.getIcon(for: spaces, appearance: buttonAppearance,
                                             shrinkOverrides: overrides)
@@ -195,8 +205,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             setupOcclusionObserver()
         }
 
-        // Schedule a fallback occlusion check after the suppression window,
-        // in case the occlusion notification arrived during suppression.
+        // Schedule a fallback occlusion check after the suppression window.
+        // The primary path (didChangeOcclusionStateNotification) may have fired
+        // during suppression and been ignored — this ensures we still react.
         if autoShrink && shrinkLevel != .icon {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) { [weak self] in
                 self?.shrinkIfEvicted()
@@ -204,6 +215,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    /// Observes the status bar window's occlusion state. When macOS hides the
+    /// icon (e.g., not enough room), this triggers shrinkIfEvicted().
     private func setupOcclusionObserver() {
         guard occlusionObserver == nil,
               let window = statusBar.statusBarWindow() else { return }
@@ -216,6 +229,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    /// If the icon is occluded and we're not in the suppression window,
+    /// advance to the next shrink level and re-render.
     private func shrinkIfEvicted() {
         guard autoShrink,
               !statusBar.isIconVisible(),
@@ -229,7 +244,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             shrinkLevel = .icon
             renderIcon(for: lastSpaces)
         case .icon:
-            break // Already at minimum
+            break
         }
     }
 
@@ -362,8 +377,9 @@ extension AppDelegate: SpaceObserverDelegate {
         statusBar.reloadShortcuts()
         lastSpaces = spaces
 
-        // Reset auto-shrink on space switch, topology change, or manual refresh.
-        // Auto-refresh preserves the current shrink state.
+        // Reset auto-shrink so the full icon gets a chance to render.
+        // Auto-refresh preserves the current shrink state — if the icon still
+        // doesn't fit, shrinkIfEvicted() will shrink it back down.
         switch trigger {
         case .spaceSwitch, .topologyChange, .manualRefresh:
             shrinkLevel = .none

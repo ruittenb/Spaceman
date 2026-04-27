@@ -47,13 +47,17 @@ class IconCreator {
     public var sizes: GuiSize!
     public var iconWidths: [IconWidth] = []
 
-    /// Active shrink overrides for the current render pass. Set before calling
-    /// internal methods and cleared afterward. When non-nil, the `effective*`
-    /// computed properties return overridden values instead of user preferences.
+    /// Active shrink overrides for the current render pass. Set at the start
+    /// of getIcon() and cleared via defer. When non-nil, the `effective*`
+    /// computed properties below return overridden values instead of the
+    /// @AppStorage user preferences, so all downstream methods automatically
+    /// use the shrink settings without parameter threading.
+    /// Properties not in ShrinkOverrides (e.g., rowLayout) always use the
+    /// user preference — row layout is intentionally never overridden because
+    /// two-row mode is more horizontally compact than single-row.
     private var activeShrinkOverrides: ShrinkOverrides?
 
     private var effectiveIconSize: IconSize { activeShrinkOverrides?.iconSize ?? iconSize }
-    private var effectiveRowLayout: RowLayout { activeShrinkOverrides?.rowLayout ?? rowLayout }
     private var effectiveDisplayStyle: IconText { activeShrinkOverrides?.displayStyle ?? displayStyle }
     private var effectiveShowFullscreen: Bool { activeShrinkOverrides?.showFullscreenSpaces ?? showFullscreenSpaces }
     private var effectiveShowNavArrows: Bool { activeShrinkOverrides?.showNavArrows ?? showNavArrows }
@@ -63,7 +67,7 @@ class IconCreator {
                         shrinkOverrides: ShrinkOverrides? = nil) -> NSImage {
         activeShrinkOverrides = shrinkOverrides
         defer { activeShrinkOverrides = nil }
-        sizes = effectiveRowLayout.isTwoRows
+        sizes = rowLayout.isTwoRows
             ? Constants.nearestTwoRowSize(for: effectiveIconSize)
             : Constants.sizes[effectiveIconSize]
 
@@ -93,8 +97,8 @@ class IconCreator {
         // In two-row mode, numbers-only also gets equalized — without it, "1" and "10" would have
         // visibly different widths, making the two-row grid look uneven.
         let showsNames = effectiveDisplayStyle == .names || effectiveDisplayStyle == .numbersAndNames
-        let maxNameChars = effectiveRowLayout.isTwoRows ? 8 : 4
-        let equalizeNumbers = effectiveRowLayout.isTwoRows && effectiveDisplayStyle == .numbers
+        let maxNameChars = rowLayout.isTwoRows ? 8 : 4
+        let equalizeNumbers = rowLayout.isTwoRows && effectiveDisplayStyle == .numbers
         if !useVariableWidth && (showsNames || equalizeNumbers) {
             let measureAttrs = getStringAttributes(alpha: 1, color: .black)
             let padding = sizes.HORIZONTAL_PADDING * 2
@@ -132,7 +136,7 @@ class IconCreator {
         // Nav icons use the current cellSize (matching one row height in two-row mode)
         let navIcons = createNavigationIcons(defaultColor: defaultColor)
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
-        if effectiveRowLayout.isTwoRows {
+        if rowLayout.isTwoRows {
             return mergeIconsTwoRows(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID,
                                         spaces: filteredSpaces, defaultColor: defaultColor,
                                         navIcons: navIcons)
@@ -206,7 +210,7 @@ class IconCreator {
             iconWidth = max(iconWidth, minWidth)
         }
 
-        let fontWeight: NSFont.Weight = !isActive && effectiveRowLayout.isTwoRows ? .medium : .bold
+        let fontWeight: NSFont.Weight = !isActive && rowLayout.isTwoRows ? .medium : .bold
         let size = NSSize(width: iconWidth, height: cellSize.height)
         return renderIcon(
             text: text, size: size, decoration: decoration,
@@ -437,7 +441,7 @@ class IconCreator {
         }
         if effectiveShowMissionControl {
             let mcMinWidth: CGFloat
-            if effectiveRowLayout.isTwoRows, let aw = arrowIcon?.size.width {
+            if rowLayout.isTwoRows, let aw = arrowIcon?.size.width {
                 // In two-row mode: MC spans the full width of both arrows + gap
                 mcMinWidth = aw * 2 + gapWidth
             } else if !useVariableWidth, let aw = arrowIcon?.size.width {
@@ -598,7 +602,7 @@ class IconCreator {
 
         // Build columns depending on fill order preference
         var columns: [Column] = []
-        switch effectiveRowLayout {
+        switch rowLayout {
         case .twoRowsByColumn, .singleRow:
             // Original behavior: fill top then bottom per column
             var current = Column()
