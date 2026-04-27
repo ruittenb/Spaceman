@@ -42,6 +42,7 @@ struct PreferencesView: View {
     @FocusState private var tabPickerFocused: Bool
     @State private var showDisplaysHelp = false
     @State private var showSwitchingHelp = false
+    @State private var showAutoShrinkHelp = false
 
     // MARK: - Main Body
     var body: some View {
@@ -371,7 +372,27 @@ struct PreferencesView: View {
             Toggle("Show fullscreen spaces", isOn: $showFullscreenSpaces)
             Toggle("Show Mission Control button", isOn: $showMissionControl)
             Toggle("Show navigation arrows", isOn: $showNavArrows)
-            Toggle("Auto-shrink when there is shortage of space", isOn: $autoShrink)
+            HStack {
+                Toggle("Auto-shrink when there is shortage of space", isOn: $autoShrink)
+                Button {
+                    showAutoShrinkHelp.toggle()
+                } label: {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .popover(isPresented: $showAutoShrinkHelp, arrowEdge: .trailing) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("""
+                            Spaceman will attempt to unshrink the menu bar icon \
+                            when you switch spaces, or trigger a manual refresh.
+                            """)
+                        Text("When switching spaces, the icon may blink briefly.")
+                    }
+                    .padding()
+                    .frame(width: 300)
+                }
+            }
         }
         .padding()
         .onChange(of: autoShrink) { _ in
