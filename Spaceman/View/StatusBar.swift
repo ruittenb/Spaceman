@@ -286,8 +286,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     }
                 }
             } else if event.type == .leftMouseDown {
-                // No space targets to click when showing the static app icon
-                guard !self.isAppIconMode else { return }
+                // No space targets to click when showing the static app icon;
+                // trigger a full re-render so the user can briefly see their spaces.
+                guard !self.isAppIconMode else {
+                    postRefreshNotification()
+                    return
+                }
                 // Switch desktops on left click, unless one single space shown
                 guard self.visibleSpacesMode != .currentOnly else {
                     print("Not switching: just one space visible")

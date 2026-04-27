@@ -166,14 +166,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     //
     // Occlusion detection has two paths:
     // 1. NSWindow.didChangeOcclusionStateNotification (primary)
-    // 2. A scheduled fallback check 1.1s after each render, because the
-    //    notification may fire during the suppression window and get ignored.
+    // 2. A scheduled fallback check after each render, because the notification
+    //    may fire during the suppression window and get ignored.
+    //    Timing: 1.1s for .none (conservative), 0.4s for .shrunken (faster,
+    //    since a false trigger to .icon is harmless).
 
     /// Renders the status bar icon at the current shrinkLevel.
     private func renderIcon(for spaces: [Space]) {
         // After setting a new image, macOS may briefly report the item as occluded.
-        // Suppress occlusion checks for 1 second to avoid false triggers.
-        suppressOcclusionUntil = Date().addingTimeInterval(1.0)
+        // Use a shorter suppression for .shrunken → .icon because the size change
+        // is small and a false trigger to .icon (the final fallback) is harmless.
+        let suppressDuration: TimeInterval = shrinkLevel == .shrunken ? 0.3 : 1.0
+        let fallbackDelay: TimeInterval = suppressDuration + 0.1
+        suppressOcclusionUntil = Date().addingTimeInterval(suppressDuration)
 
         let buttonAppearance = statusBar.getButtonAppearance()
         statusBar.isAppIconMode = (shrinkLevel == .icon)
@@ -210,7 +215,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // The primary path (didChangeOcclusionStateNotification) may have fired
         // during suppression and been ignored — this ensures we still react.
         if autoShrink && shrinkLevel != .icon {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + fallbackDelay) { [weak self] in
                 self?.shrinkIfEvicted()
             }
         }
