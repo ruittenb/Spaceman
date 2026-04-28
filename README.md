@@ -225,7 +225,7 @@ Some appearance settings are also available directly from this menu.
 - Rename the current space on the fly via the right-click menu ("Rename Current Space…") or a configurable keyboard shortcut
 - A small dialog appears with the current name pre-filled; press Enter to confirm or Escape to cancel
 
-<img src="images/Quick-Rename-2.png" width="auto" height="auto">
+<img src="images/Quick-Rename-3.png" width="auto" height="auto">
 
 **Resizing the Icon**
 - Hold **⌥ Option** and scroll on the menu bar icon to quickly change the icon size
