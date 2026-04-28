@@ -23,9 +23,15 @@ extension NSString {
 }
 
 extension KeyboardShortcuts.Name {
-    static let refresh = Self("refresh")
-    static let preferences = Self("preferences")
-    static let quickRename = Self("quickRename")
+    static let refresh = Self(
+        "refresh",
+        default: .init(.r, modifiers: [.control, .option, .command]))
+    static let preferences = Self(
+        "preferences",
+        default: .init(.p, modifiers: [.control, .option, .command]))
+    static let quickRename = Self(
+        "quickRename",
+        default: .init(.n, modifiers: [.control, .option, .command]))
 }
 
 func systemSettingsName() -> String {
