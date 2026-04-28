@@ -3,28 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.19.4: fixes for two-row layout; sync menu with settings</title>
+            <title>v1.20.0: Auto-shrink menu bar icon</title>
             <description>
                 <![CDATA[
-                    <p>v1.19.4</p>
-                    <ul>
-                        <li> - Fixed menu checkmarks synchronization with preferences</li>
-                        <li> - Fixed icon widths in two-rows layout</li>
-                        <li> - Adjusted font-weights in two-rows layout</li>
-                        <li> - Added default names for new spaces</li>
-                        <li> - Restart fullscreen numbering by display</li>
-                    </ul>
+                    <p>v1.20.0</p>
+                    <p>Auto-shrink the menu bar icon when there is not enough room.</p>
+                    <p>When the menu bar icon is too wide to fit, Spaceman progressively shrinks it: first to compact numbers-only, then to the app icon. The icon unshrinks automatically when you switch spaces, trigger a manual refresh, or click the app icon.</p>
+                    <p>Note: this option is enabled by default.</p>
                 ]]>
             </description>
-            <pubDate>Fri, 17 Apr 2026 23:27:03 +0200</pubDate>
+            <pubDate>Tue, 28 Apr 2026 00:09:05 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.19.4/Spaceman-1.19.4.dmg"
-                sparkle:version="1.19.4"
-                sparkle:shortVersionString="1.19.4"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.20.0/Spaceman-1.20.0.dmg"
+                sparkle:version="1.20.0"
+                sparkle:shortVersionString="1.20.0"
                 type="application/octet-stream"
-                length="3392777"
-sparkle:edSignature="0gHqaE3K43+0JhVEM0Y+2pJ6/hL83nHBHSwECtpMZgn7YO+f7mD1b2KLFfBQNeYUhXL3X2HUViUfyy0cwx23Aw=="
+                length="3408546"
+sparkle:edSignature="V+KPqL5xsJLgI+27EQ+Y/RNuDGh0zPzu8UHuna0eg/MAKoNiEt0vkR1Fx/fQK2jiMBSPVzOog5STzbjVrSR9BQ=="
             />
         </item>
     </channel>
