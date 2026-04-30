@@ -72,6 +72,16 @@ class SpaceObserver {
             selector: #selector(handleScreenChange),
             name: NSApplication.didChangeScreenParametersNotification,
             object: nil)
+        workspace.notificationCenter.addObserver(
+            self,
+            selector: #selector(handleSessionActive),
+            name: NSWorkspace.sessionDidBecomeActiveNotification,
+            object: workspace)
+        DistributedNotificationCenter.default().addObserver(
+            self,
+            selector: #selector(handleSessionActive),
+            name: NSNotification.Name("com.apple.screenIsUnlocked"),
+            object: nil)
     }
 
     @objc private func handleSpaceSwitch() {
@@ -92,6 +102,10 @@ class SpaceObserver {
 
     @objc private func handleScreenChange() {
         updateSpaceInformation(trigger: .topologyChange)
+    }
+
+    @objc private func handleSessionActive() {
+        updateSpaceInformation(trigger: .sessionActive)
     }
 
     // Compare two displays according to user preferences
