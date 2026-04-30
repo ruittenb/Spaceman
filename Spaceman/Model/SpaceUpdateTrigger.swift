@@ -14,4 +14,5 @@ enum SpaceUpdateTrigger {
     case topologyChange  // Display connected/disconnected/mirrored (didChangeScreenParametersNotification)
     case userRefresh     // User changed a setting or triggered refresh (SettingsChanged)
     case autoRefresh     // Periodic auto-refresh timer (AutoRefreshTriggered)
+    case sessionActive   // Screen unlock or user session resumed (sessionDidBecomeActiveNotification)
 }

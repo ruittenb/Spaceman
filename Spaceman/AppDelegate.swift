@@ -387,7 +387,7 @@ extension AppDelegate: SpaceObserverDelegate {
         // Auto-refresh preserves the current shrink state — if the icon still
         // doesn't fit, shrinkIfEvicted() will shrink it back down.
         switch trigger {
-        case .spaceSwitch, .topologyChange, .userRefresh:
+        case .spaceSwitch, .topologyChange, .userRefresh, .sessionActive:
             shrinkLevel = .none
         case .autoRefresh:
             break

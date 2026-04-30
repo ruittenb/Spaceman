@@ -1,3 +1,4 @@
+1.20.2: Unshrink the menu bar icon when unlocking the screen
 1.20.1: Define default shortcut keys
 1.20.0: Auto-shrink the menu bar icon when there is not enough room.
 1.19.4: Fixed fonts and widths in two-rows layout; Added space name defaults; Fixed menu checkmarks synchronization with preferences
