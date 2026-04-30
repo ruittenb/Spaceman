@@ -42,7 +42,7 @@ final class AutoShrinkTests: XCTestCase {
     /// Simulates the reset logic from AppDelegate.didUpdateSpaces(trigger:)
     private func shouldResetShrinkLevel(for trigger: SpaceUpdateTrigger) -> Bool {
         switch trigger {
-        case .spaceSwitch, .topologyChange, .userRefresh:
+        case .spaceSwitch, .topologyChange, .userRefresh, .sessionActive:
             return true
         case .autoRefresh:
             return false
@@ -99,17 +99,22 @@ final class AutoShrinkTests: XCTestCase {
 
     // MARK: - SpaceUpdateTrigger cases
 
+    func testSessionActiveResetsShrinkLevel() {
+        XCTAssertTrue(shouldResetShrinkLevel(for: .sessionActive))
+    }
+
     func testSpaceUpdateTriggerCasesAreExhaustive() {
         let triggers: [SpaceUpdateTrigger] = [
-            .spaceSwitch, .topologyChange, .userRefresh, .autoRefresh
+            .spaceSwitch, .topologyChange, .userRefresh,
+            .autoRefresh, .sessionActive
         ]
         for trigger in triggers {
             switch trigger {
             case .spaceSwitch, .topologyChange,
-                 .userRefresh, .autoRefresh:
+                 .userRefresh, .autoRefresh, .sessionActive:
                 break
             }
         }
-        XCTAssertEqual(triggers.count, 4)
+        XCTAssertEqual(triggers.count, 5)
     }
 }
