@@ -71,6 +71,22 @@ class IconCreator {
             ? Constants.nearestTwoRowSize(for: effectiveIconSize)
             : Constants.sizes[effectiveIconSize]
 
+        // In two-row mode, reduce vertical padding if the icon would
+        // overflow the actual menu bar height. The available height is
+        // computed from the screen geometry, not NSStatusBar.system.thickness
+        // (which has been observed to report 22pt even when more space is
+        // available, e.g. 25pt on a 13" and 31pt on a 16" MacBook Pro).
+        if rowLayout.isTwoRows, let screen = NSScreen.main {
+            let available = screen.frame.maxY - screen.visibleFrame.maxY
+            let fontSize = CGFloat(sizes.FONT_SIZE)
+            let totalHeight = 2 * (fontSize + 2 * sizes.VERTICAL_PADDING)
+                + sizes.GAP_HEIGHT_ROWS
+            if totalHeight > available {
+                let excess = totalHeight - available
+                sizes.VERTICAL_PADDING = max(0, sizes.VERTICAL_PADDING - excess / 4)
+            }
+        }
+
         let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
         let actualFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
         gapWidth = allNoDecoration ? 0 : CGFloat(sizes.GAP_WIDTH_SPACES)
