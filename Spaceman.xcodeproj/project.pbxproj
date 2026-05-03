@@ -31,7 +31,7 @@
 		E732CE8E2F996B6D00B2C067 /* ShrinkLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE8B2F996B6D00B2C067 /* ShrinkLevel.swift */; };
 		E732CE8F2F996B6D00B2C067 /* SpaceUpdateTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */; };
 		E732CE902F996B6D00B2C067 /* ShrinkOverrides.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE8C2F996B6D00B2C067 /* ShrinkOverrides.swift */; };
-		E732CE922FA00FCB00B2C067 /* AutoShrinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE912FA00FCB00B2C067 /* AutoShrinkTests.swift */; };
+		E732CE942FA7A99E00B2C067 /* AutoShrinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE932FA7A99E00B2C067 /* AutoShrinkTests.swift */; };
 		E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73504B32CAD14BE007F62B5 /* IconWidth.swift */; };
 		E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E754B2C82D7F03E100F31468 /* Sparkle */; };
 		E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */; };
@@ -108,7 +108,7 @@
 		E732CE8B2F996B6D00B2C067 /* ShrinkLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkLevel.swift; sourceTree = "<group>"; };
 		E732CE8C2F996B6D00B2C067 /* ShrinkOverrides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkOverrides.swift; sourceTree = "<group>"; };
 		E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceUpdateTrigger.swift; sourceTree = "<group>"; };
-		E732CE912FA00FCB00B2C067 /* AutoShrinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoShrinkTests.swift; sourceTree = "<group>"; };
+		E732CE932FA7A99E00B2C067 /* AutoShrinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AutoShrinkTests.swift; path = SpacemanTests/AutoShrinkTests.swift; sourceTree = "<group>"; };
 		E73504B32CAD14BE007F62B5 /* IconWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWidth.swift; sourceTree = "<group>"; };
 		E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDisplayMode.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 		E01C7C6DCACCB0D1EBF510E6 /* SpacemanTests */ = {
 			isa = PBXGroup;
 			children = (
-				E732CE912FA00FCB00B2C067 /* AutoShrinkTests.swift */,
+				E732CE932FA7A99E00B2C067 /* AutoShrinkTests.swift */,
 				83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */,
 				B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */,
 				B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */,
@@ -461,7 +461,7 @@
 				854639D9C559DF47F8A2A2C6 /* IconTextTests.swift in Sources */,
 				0A988E67F965C0C2AE24E78D /* SpaceFilterTests.swift in Sources */,
 				cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */,
-				E732CE922FA00FCB00B2C067 /* AutoShrinkTests.swift in Sources */,
+				E732CE942FA7A99E00B2C067 /* AutoShrinkTests.swift in Sources */,
 				F605F4B85B7ADD5424BDDFAE /* SpaceNameResolutionTests.swift in Sources */,
 				A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */,
 				A2B3C4D5E6F7A8B9C0D1E2F4 /* EnumBehaviorTests.swift in Sources */,
