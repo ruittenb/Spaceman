@@ -501,7 +501,7 @@ class SpaceObserver {
             return "FULL"
         }
         if savedName == nil {
-            return "Space \(spaceByDesktopID)"
+            return "---"
         }
         return ""
     }
