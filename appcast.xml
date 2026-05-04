@@ -3,24 +3,25 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.20.2: auto-unshrink when the screen is unlocked  </title>
+            <title>v1.20.3: Fix icon padding on 13" screens</title>
             <description>
                 <![CDATA[
-                    <p>v1.20.2</p>
+                    <p>v1.20.3</p>
                     <ul>
-                        <li> Spaceman now attempts to unshrink the menu bar icon when the screen is unlocked</li>
+                        <li>- Fix icon padding on 13" screens</li>
+                        <li>- Make default name for new spaces static</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 30 Apr 2026 14:38:11 +0200</pubDate>
+            <pubDate>Mon, 04 May 2026 09:39:14 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.20.2/Spaceman-1.20.2.dmg"
-                sparkle:version="1.20.2"
-                sparkle:shortVersionString="1.20.2"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.20.3/Spaceman-1.20.3.dmg"
+                sparkle:version="1.20.3"
+                sparkle:shortVersionString="1.20.3"
                 type="application/octet-stream"
-                length="3408908"
-sparkle:edSignature="X+ueOmStYEzdBoy1BAvsSZXjNqBRCNHRwzTiWvpSMDizJSRCC2Rs3jzVUG6TJ8/3wVD0eAaIcC0bX4YiZ1oHDg=="
+                length="3409345"
+sparkle:edSignature="BINUEZcsyBdexOYurqjkXlkUEBOCkp6xSpNpil/RnS+QAuNL8IeXaBvwYEbnWzBrniT5L54bCJHBjmN9jczOAg=="
             />
         </item>
     </channel>
