@@ -263,7 +263,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let keys = [
             "visibleSpacesMode", "restartNumberingByDisplay", "horizontalDirection",
             "useVariableWidth", "decorationActive", "decorationInactive",
-            "iconSize", "rowLayout", "showFullscreenSpaces"
+            "iconSize", "rowLayout", "showFullscreenSpaces", "allowChaining",
+            "switchingMode"
         ]
         for key in keys {
             UserDefaults.standard.removeObject(forKey: key)
@@ -373,6 +374,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
            let oldValue = UserDefaults.standard.object(forKey: "hideFullscreenSpaces") as? Bool {
             UserDefaults.standard.set(!oldValue, forKey: "showFullscreenSpaces")
             UserDefaults.standard.removeObject(forKey: "hideFullscreenSpaces")
+        }
+
+        // Migrate navigateAnywhere to allowChaining
+        if UserDefaults.standard.object(forKey: "allowChaining") == nil,
+           let oldValue = UserDefaults.standard.object(forKey: "navigateAnywhere") as? Bool {
+            UserDefaults.standard.set(oldValue, forKey: "allowChaining")
+            UserDefaults.standard.removeObject(forKey: "navigateAnywhere")
+        }
+
+        // Migrate useGestureSwitching (bool) to switchingMode (enum)
+        if UserDefaults.standard.object(forKey: "switchingMode") == nil,
+           let oldValue = UserDefaults.standard.object(forKey: "useGestureSwitching") as? Bool {
+            let mode = oldValue ? SwitchingMode.instant : SwitchingMode.smooth
+            UserDefaults.standard.set(mode.rawValue, forKey: "switchingMode")
+            UserDefaults.standard.removeObject(forKey: "useGestureSwitching")
         }
     }
 }

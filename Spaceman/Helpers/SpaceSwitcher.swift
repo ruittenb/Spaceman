@@ -15,6 +15,8 @@ enum MissingShortcutKind {
 
 class SpaceSwitcher {
     private let shortcutHelper = ShortcutHelper()
+    private let gestureSwitcher = GestureSwitcher()
+    @AppStorage("switchingMode") private var switchingMode = SwitchingMode.smooth.rawValue
     private var chainObserver: NSObjectProtocol?
     private var chainTimeout: DispatchWorkItem?
 
@@ -100,7 +102,7 @@ class SpaceSwitcher {
 
     public func switchUsingLocation(
         iconWidths: [IconWidth], point: CGPoint,
-        spaces: [Space], navigateAnywhere: Bool,
+        spaces: [Space], allowChaining: Bool,
         onError: @escaping () -> Void,
         onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
@@ -122,6 +124,74 @@ class SpaceSwitcher {
             onError()
             return
         }
+        let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
+        if mode != .smooth {
+            switchUsingGesture(
+                hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
+                spaces: spaces, mode: mode, onError: onError)
+        } else {
+            switchUsingShortcut(
+                hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
+                spaces: spaces, allowChaining: allowChaining,
+                onError: onError, onMissingShortcut: onMissingShortcut)
+        }
+    }
+
+    private func switchUsingGesture(
+        hitIndex: Int, hitSpaceNumber: Int,
+        spaces: [Space], mode: SwitchingMode,
+        onError: @escaping () -> Void
+    ) {
+        // Mission Control: always AppleScript (gestures can't trigger MC)
+        if hitIndex == Space.missionControlIndex {
+            if shortcutHelper.missionControlShortcut != nil {
+                triggerMissionControl()
+            } else { onError() }
+            return
+        }
+        // Prev/next arrows: gesture-based
+        if hitIndex == Space.previousSpaceIndex {
+            if isAtEdge(spaces: spaces, goingRight: false) {
+                onError()
+            } else {
+                gestureSwitcher.switchRelative(goRight: false, mode: mode)
+            }
+            return
+        } else if hitIndex == Space.nextSpaceIndex {
+            if isAtEdge(spaces: spaces, goingRight: true) {
+                onError()
+            } else {
+                gestureSwitcher.switchRelative(goRight: true, mode: mode)
+            }
+            return
+        }
+        // Any other space: switch via gesture
+        guard let target = spaces.first(
+            where: { $0.spaceNumber == hitSpaceNumber }),
+              let current = spaces.first(
+                where: { $0.isCurrentSpace })
+        else {
+            onError()
+            return
+        }
+        if !gestureSwitcher.switchToSpace(
+            target: target, current: current, spaces: spaces, mode: mode
+        ) {
+            // Cross-display: fall back to AppleScript
+            if hitIndex >= 1 && hitIndex <= Space.maxSwitchableDesktop {
+                switchToSpace(spaceNumber: hitIndex, onError: onError)
+            } else {
+                onError()
+            }
+        }
+    }
+
+    private func switchUsingShortcut(
+        hitIndex: Int, hitSpaceNumber: Int,
+        spaces: [Space], allowChaining: Bool,
+        onError: @escaping () -> Void,
+        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
+    ) {
         if hitIndex == Space.missionControlIndex {
             if shortcutHelper.missionControlShortcut != nil {
                 triggerMissionControl()
@@ -145,7 +215,7 @@ class SpaceSwitcher {
                 switchToNextSpace()
             }
             return
-        } else if (hitIndex == Space.unswitchableIndex || hitIndex < 0) && navigateAnywhere {
+        } else if (hitIndex == Space.unswitchableIndex || hitIndex < 0) && allowChaining {
             navigateByChaining(
                 targetSpaceNumber: hitSpaceNumber, spaces: spaces, onError: onError)
         } else if hitIndex == -1 {

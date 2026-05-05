@@ -32,6 +32,8 @@
 		E732CE8F2F996B6D00B2C067 /* SpaceUpdateTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */; };
 		E732CE902F996B6D00B2C067 /* ShrinkOverrides.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE8C2F996B6D00B2C067 /* ShrinkOverrides.swift */; };
 		E732CE942FA7A99E00B2C067 /* AutoShrinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE932FA7A99E00B2C067 /* AutoShrinkTests.swift */; };
+		E732CE962FAA021900B2C067 /* GestureSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE952FAA021900B2C067 /* GestureSwitcher.swift */; };
+		E732CE982FAA157200B2C067 /* SwitchingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE972FAA157200B2C067 /* SwitchingMode.swift */; };
 		E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73504B32CAD14BE007F62B5 /* IconWidth.swift */; };
 		E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E754B2C82D7F03E100F31468 /* Sparkle */; };
 		E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */; };
@@ -109,6 +111,8 @@
 		E732CE8C2F996B6D00B2C067 /* ShrinkOverrides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkOverrides.swift; sourceTree = "<group>"; };
 		E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceUpdateTrigger.swift; sourceTree = "<group>"; };
 		E732CE932FA7A99E00B2C067 /* AutoShrinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AutoShrinkTests.swift; path = SpacemanTests/AutoShrinkTests.swift; sourceTree = "<group>"; };
+		E732CE952FAA021900B2C067 /* GestureSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureSwitcher.swift; sourceTree = "<group>"; };
+		E732CE972FAA157200B2C067 /* SwitchingMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchingMode.swift; sourceTree = "<group>"; };
 		E73504B32CAD14BE007F62B5 /* IconWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWidth.swift; sourceTree = "<group>"; };
 		E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDisplayMode.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
@@ -260,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */,
+				E732CE952FAA021900B2C067 /* GestureSwitcher.swift */,
 				E8733510256B779B0012586E /* IconCreator.swift */,
 				E70044AD2E80380B001C7295 /* OpenPreferencesCommand.swift */,
 				4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */,
@@ -312,6 +317,7 @@
 				E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */,
 				E8E2AF02257CB5CE00319BBC /* SpaceNameInfo.swift */,
 				E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */,
+				E732CE972FAA157200B2C067 /* SwitchingMode.swift */,
 				E722A6E02E95BF8D00D5FA4F /* VerticalDirection.swift */,
 				8F4A6E10892D4C67AD5F9BE3 /* VisibleSpacesMode.swift */,
 			);
@@ -491,6 +497,7 @@
 				E732CE8F2F996B6D00B2C067 /* SpaceUpdateTrigger.swift in Sources */,
 				E732CE902F996B6D00B2C067 /* ShrinkOverrides.swift in Sources */,
 				E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */,
+				E732CE982FAA157200B2C067 /* SwitchingMode.swift in Sources */,
 				E8C5AFF52580848100614F50 /* AboutView.swift in Sources */,
 				E70044AE2E80380B001C7295 /* OpenPreferencesCommand.swift in Sources */,
 				E70044B02E80380B001C7296 /* RestorePreferencesCommand.swift in Sources */,
@@ -508,6 +515,7 @@
 				53A56E17092ACF887E1B46F5 /* SpaceNameStore.swift in Sources */,
 				E7DA73A82CA6E7A700212836 /* GuiSize.swift in Sources */,
 				E732CE8A2F90F6BA00B2C067 /* QuickRenameView.swift in Sources */,
+				E732CE962FAA021900B2C067 /* GestureSwitcher.swift in Sources */,
 				E8733517256C6F3A0012586E /* Extensions.swift in Sources */,
 				9A6DE94BB0D75559B9039ABA /* SpaceFilter.swift in Sources */,
 			);

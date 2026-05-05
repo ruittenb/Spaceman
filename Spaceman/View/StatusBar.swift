@@ -25,7 +25,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
-    @AppStorage("navigateAnywhere") private var navigateAnywhere = false
+    @AppStorage("allowChaining") private var allowChaining = false
+    @AppStorage("switchingMode") private var switchingMode = SwitchingMode.smooth.rawValue
     @AppStorage("spaceDisplayMode") private var spaceDisplayMode = SpaceDisplayMode.list
 
     /// When true, the status bar shows a static app icon (auto-shrink fallback).
@@ -53,6 +54,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var scrollAccumulator: CGFloat = 0
     private var lastScrollTime: Date = .distantPast
     private var spaceSwitcher: SpaceSwitcher!
+    private var gestureSwitcher = GestureSwitcher()
     private var shortcutHelper: ShortcutHelper!
     private var currentSpaces: [Space] = []
     private var updaterController: SPUStandardUpdaterController!
@@ -310,7 +312,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     iconWidths: self.iconCreator.iconWidths,
                     point: adjPoint,
                     spaces: self.currentSpaces,
-                    navigateAnywhere: self.navigateAnywhere,
+                    allowChaining: self.allowChaining,
                     onError: self.flashStatusBar,
                     onMissingShortcut: { [weak self] kind in
                         self?.showMissingShortcutBalloon(kind: kind)
@@ -880,8 +882,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         item.target = self
         item.tag = desktopNumber ?? -(space.spaceNumber)
         item.image = menuIcon
-        let canChain = navigateAnywhere && space.isFullScreen
-        if space.isCurrentSpace || (shortcutKey == "" && !isF1 && !canChain) {
+        let canSwitch = switchingMode != SwitchingMode.smooth.rawValue
+            || isF1
+            || (allowChaining && space.isFullScreen)
+            || shortcutKey != ""
+        if space.isCurrentSpace || !canSwitch {
             item.isEnabled = false
             if space.isCurrentSpace {
                 item.state = .on // tick mark
@@ -895,10 +900,53 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     private func handleSwitchTag(_ tag: Int) {
+        if switchingMode != SwitchingMode.smooth.rawValue {
+            handleSwitchTagGesture(tag)
+        } else {
+            handleSwitchTagShortcut(tag)
+        }
+    }
+
+    private func handleSwitchTagGesture(_ tag: Int) {
+        // Resolve target space: positive tag = switch index, negative = -(spaceNumber)
+        let target: Space?
+        if tag > 0 {
+            let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
+            target = currentSpaces.first(where: {
+                switchMap[$0.spaceID] == tag
+            })
+        } else {
+            target = currentSpaces.first(where: {
+                $0.spaceNumber == -tag
+            })
+        }
+        guard let target,
+              let current = currentSpaces.first(
+                where: { $0.isCurrentSpace })
+        else {
+            flashStatusBar()
+            return
+        }
+        let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
+        if !gestureSwitcher.switchToSpace(
+            target: target, current: current, spaces: currentSpaces,
+            mode: mode
+        ) {
+            // Cross-display: fall back to AppleScript
+            if tag >= 1 && tag <= Space.maxSwitchableDesktop {
+                spaceSwitcher.switchToSpace(
+                    spaceNumber: tag, onError: flashStatusBar)
+            } else {
+                flashStatusBar()
+            }
+        }
+    }
+
+    private func handleSwitchTagShortcut(_ tag: Int) {
         if tag >= 1 && tag <= Space.maxSwitchableDesktop {
-            spaceSwitcher.switchToSpace(spaceNumber: tag, onError: flashStatusBar)
-        } else if tag < 0 && navigateAnywhere {
-            // Negative tag = -(spaceNumber) for spaces without a direct shortcut
+            spaceSwitcher.switchToSpace(
+                spaceNumber: tag, onError: flashStatusBar)
+        } else if tag < 0 && allowChaining {
             let targetSpaceNumber = -tag
             spaceSwitcher.navigateByChaining(
                 targetSpaceNumber: targetSpaceNumber,
