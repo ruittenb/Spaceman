@@ -198,6 +198,30 @@ final class SpaceTests: XCTestCase {
         XCTAssertFalse(Space.canSwitch(space: space, switchTag: nil, allowChaining: false))
     }
 
+    // MARK: - canSwitch (gesture modes)
+
+    func testCanSwitch_gestureMode_anySpaceSwitchable() {
+        let desktop = makeSpaceWithNumber(id: "d17", number: 17)
+        let fullscreen = makeSpaceWithNumber(id: "f2", number: 11, fullScreen: true)
+        for mode: SwitchingMode in [.fast, .instant] {
+            XCTAssertTrue(Space.canSwitch(
+                space: desktop, switchTag: nil, allowChaining: false,
+                switchingMode: mode))
+            XCTAssertTrue(Space.canSwitch(
+                space: fullscreen, switchTag: nil, allowChaining: false,
+                switchingMode: mode))
+        }
+    }
+
+    func testCanSwitch_gestureMode_currentSpaceStillFalse() {
+        let space = makeSpaceWithNumber(id: "d1", number: 1, current: true)
+        for mode: SwitchingMode in [.fast, .instant] {
+            XCTAssertFalse(Space.canSwitch(
+                space: space, switchTag: 1, allowChaining: true,
+                switchingMode: mode))
+        }
+    }
+
     // MARK: - switchTag
 
     func testSwitchTag_regularDesktop() {
