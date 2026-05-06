@@ -54,8 +54,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var scrollAccumulator: CGFloat = 0
     private var lastScrollTime: Date = .distantPast
     private var spaceSwitcher: SpaceSwitcher!
-    private var gestureSwitcher = GestureSwitcher()
-    private var shortcutHelper: ShortcutHelper!
     private var currentSpaces: [Space] = []
     private var updaterController: SPUStandardUpdaterController!
     private var aboutView: NSHostingView<AboutView>!
@@ -67,7 +65,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     override init() {
         super.init()
 
-        shortcutHelper = ShortcutHelper()
         spaceSwitcher = SpaceSwitcher()
         updaterController = SPUStandardUpdaterController(
             startingUpdater: true, updaterDelegate: self, userDriverDelegate: self)
@@ -469,7 +466,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     func reloadShortcuts() {
-        shortcutHelper.reload()
         spaceSwitcher.reloadShortcuts()
     }
 
@@ -865,7 +861,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
         var shortcutKey = ""
         var mask = NSEvent.ModifierFlags()
-        if let n = desktopNumber, let sc = shortcutHelper.shortcut(forDesktop: n) {
+        if let n = desktopNumber, let sc = spaceSwitcher.shortcut(forDesktop: n) {
             shortcutKey = sc.keyEquivalent
             mask = sc.modifierFlags
         }
@@ -925,7 +921,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             return
         }
         let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
-        if !gestureSwitcher.switchToSpace(
+        if !spaceSwitcher.switchToSpaceByGesture(
             target: target, current: current, spaces: currentSpaces,
             mode: mode
         ) {
@@ -951,7 +947,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 onError: flashStatusBar)
         } else if tag < 0 {
             // F1 with chaining disabled: send minus key shortcut
-            if let sc = shortcutHelper.fullscreenShortcut {
+            if let sc = spaceSwitcher.fullscreenShortcut {
                 spaceSwitcher.sendFullscreenShortcut(sc)
             }
         }

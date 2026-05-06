@@ -29,6 +29,25 @@ class SpaceSwitcher {
         shortcutHelper.reload()
     }
 
+    /// Shortcut for a desktop number, for menu key equivalent display.
+    func shortcut(forDesktop desktop: Int) -> SpaceShortcut? {
+        shortcutHelper.shortcut(forDesktop: desktop)
+    }
+
+    /// The synthesized F1 fullscreen shortcut (minus key).
+    var fullscreenShortcut: SpaceShortcut? {
+        shortcutHelper.fullscreenShortcut
+    }
+
+    /// Switch to a space using gesture. Returns false if cross-display.
+    func switchToSpaceByGesture(
+        target: Space, current: Space, spaces: [Space],
+        mode: SwitchingMode
+    ) -> Bool {
+        gestureSwitcher.switchToSpace(
+            target: target, current: current, spaces: spaces, mode: mode)
+    }
+
     public func switchToSpace(spaceNumber: Int, onError: () -> Void) {
         let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
         if keyCode < 0 {
