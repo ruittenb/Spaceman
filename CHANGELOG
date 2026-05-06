@@ -1,4 +1,4 @@
-1.20.4: Added option to switch between spaces with no animation
+1.20.4: Added option to switch between spaces instantly, or with a smooth or fast animation
 1.20.3: Fix icon padding on 13" screens; make default name for new spaces static
 1.20.2: Unshrink the menu bar icon when unlocking the screen
 1.20.1: Define default shortcut keys

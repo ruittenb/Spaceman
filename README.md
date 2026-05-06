@@ -140,13 +140,17 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Spaces Tab
 
-<img src="images/Preferences-Spaces-3.png" width="66%" height="auto">
+<img src="images/Preferences-Spaces-4.png" width="66%" height="auto">
 
 - **Space names**: Assigns custom names of any length to individual spaces
   - The menu displays full names regardless of length
   - Menu bar icons truncate names to 10 characters for compactness
   - Optionally, for each Space icon, a color can be selected.
-- **Allow switching to fullscreen spaces in multiple steps**: When enabled, Spaceman can switch to fullscreen spaces by first switching to a neighboring space and then sending shortcuts for Previous/Next space.
+- **Switching Spaces**: Controls how Spaceman switches between spaces when you click a space icon:
+  - **Use smooth transitions**: Sends keyboard shortcuts to macOS, which switches spaces with the standard sliding animation. Requires Mission Control shortcuts to be configured in System Settings.
+  - **Use fast animations**: Uses simulated trackpad gestures to switch spaces with a faster animation. Does not require shortcuts to be configured. Only works for spaces on the same display.
+  - **Use instant switching**: Uses simulated trackpad gestures to switch spaces with no animation at all. Does not require shortcuts to be configured. Only works for spaces on the same display.
+  - When using fast or instant switching and the target space is on a different display, Spaceman falls back to keyboard shortcuts automatically.
 - **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to manage them.
 
 ### Displays Tab
@@ -188,7 +192,6 @@ For space switching to work, you need to configure two things:
 - Assign and enable shortcuts for the following, if you want to use them:
   - "Switch to Desktop" for any spaces you want to be able to switch to
   - "Move left/right a space" for navigation buttons
-  - "Mission Control" if you want to use a menu bar button to open Mission Control
 
 <img src="images/Shortcuts.png" width="66%" height="auto">
 
@@ -231,9 +234,9 @@ Some appearance settings are also available directly from this menu.
 - Hold **⌥ Option** and scroll on the menu bar icon to quickly change the icon size
 
 **Keyboard Shortcuts**
-- Spaceman reads keyboard shortcuts directly from macOS Mission Control settings and sends the corresponding keystrokes. You are free to choose these shortcuts however you like.
-- Desktops 1–16 are supported (matching the macOS Mission Control shortcut limit).
-- Mission Control doesn't have keyboard shortcuts for fullscreen spaces. With "Allow switching to fullscreen spaces in multiple steps" turned on, Spaceman can reach them by chaining arrow keypresses.
+- When **Smooth transitions** is selected, Spaceman reads keyboard shortcuts directly from macOS Mission Control settings and sends the corresponding keystrokes. You are free to choose these shortcuts however you like.
+- Desktops 1–16 are supported.
+- Mission Control doesn't have keyboard shortcuts for switching to fullscreen spaces. With "Allow switching to fullscreen spaces in multiple steps" turned on, Spaceman can reach them by chaining arrow keypresses.
 
 ### Limitations
 
