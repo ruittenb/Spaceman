@@ -27,15 +27,12 @@ class ShortcutHelper {
     // Navigation hotkey IDs
     private static let moveLeftID = 79
     private static let moveRightID = 81
-    private static let missionControlID = 32
-
     /// Cached shortcuts, keyed by desktop number (1-15).
     private var desktopShortcuts: [Int: SpaceShortcut] = [:]
 
     /// Cached navigation shortcuts.
     private(set) var moveLeftShortcut: SpaceShortcut?
     private(set) var moveRightShortcut: SpaceShortcut?
-    private(set) var missionControlShortcut: SpaceShortcut?
 
     /// Synthesized shortcut for the first fullscreen space (minus key + Desktop 1's modifiers).
     private(set) var fullscreenShortcut: SpaceShortcut?
@@ -65,8 +62,6 @@ class ShortcutHelper {
         // Navigation shortcuts
         moveLeftShortcut = parseHotkey(id: ShortcutHelper.moveLeftID, from: hotkeys)
         moveRightShortcut = parseHotkey(id: ShortcutHelper.moveRightID, from: hotkeys)
-        missionControlShortcut = parseHotkey(id: ShortcutHelper.missionControlID, from: hotkeys)
-
         // Hardcoded F1 fullscreen shortcut: ⌃⌘- (marginally supported, for Apptivate etc.)
         fullscreenShortcut = SpaceShortcut(
             keyCode: 27,  // VK_ANSI_Minus

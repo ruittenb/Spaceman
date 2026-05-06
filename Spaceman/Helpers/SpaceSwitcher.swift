@@ -29,6 +29,25 @@ class SpaceSwitcher {
         shortcutHelper.reload()
     }
 
+    /// Shortcut for a desktop number, for menu key equivalent display.
+    func shortcut(forDesktop desktop: Int) -> SpaceShortcut? {
+        shortcutHelper.shortcut(forDesktop: desktop)
+    }
+
+    /// The synthesized F1 fullscreen shortcut (minus key).
+    var fullscreenShortcut: SpaceShortcut? {
+        shortcutHelper.fullscreenShortcut
+    }
+
+    /// Switch to a space using gesture. Returns false if cross-display.
+    func switchToSpaceByGesture(
+        target: Space, current: Space, spaces: [Space],
+        mode: SwitchingMode
+    ) -> Bool {
+        gestureSwitcher.switchToSpace(
+            target: target, current: current, spaces: spaces, mode: mode)
+    }
+
     public func switchToSpace(spaceNumber: Int, onError: () -> Void) {
         let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
         if keyCode < 0 {
@@ -72,8 +91,13 @@ class SpaceSwitcher {
     }
 
     public func triggerMissionControl() {
-        let sc = shortcutHelper.missionControlShortcut
-        sendKeyCode(sc?.keyCode ?? 126, modifiers: sc?.modifiers ?? "control down")
+        let appleScript = "tell application \"Mission Control\" to launch"
+        DispatchQueue.global(qos: .background).async {
+            if let scriptObject = NSAppleScript(source: appleScript) {
+                var error: NSDictionary?
+                scriptObject.executeAndReturnError(&error)
+            }
+        }
     }
 
     public func switchToPreviousSpace() {
@@ -124,6 +148,10 @@ class SpaceSwitcher {
             onError()
             return
         }
+        if hitIndex == Space.missionControlIndex {
+            triggerMissionControl()
+            return
+        }
         let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
         if mode != .smooth {
             switchUsingGesture(
@@ -142,13 +170,6 @@ class SpaceSwitcher {
         spaces: [Space], mode: SwitchingMode,
         onError: @escaping () -> Void
     ) {
-        // Mission Control: always AppleScript (gestures can't trigger MC)
-        if hitIndex == Space.missionControlIndex {
-            if shortcutHelper.missionControlShortcut != nil {
-                triggerMissionControl()
-            } else { onError() }
-            return
-        }
         // Prev/next arrows: gesture-based
         if hitIndex == Space.previousSpaceIndex {
             if isAtEdge(spaces: spaces, goingRight: false) {
@@ -192,12 +213,7 @@ class SpaceSwitcher {
         onError: @escaping () -> Void,
         onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
-        if hitIndex == Space.missionControlIndex {
-            if shortcutHelper.missionControlShortcut != nil {
-                triggerMissionControl()
-            } else if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
-            return
-        } else if hitIndex == Space.previousSpaceIndex {
+        if hitIndex == Space.previousSpaceIndex {
             if shortcutHelper.moveLeftShortcut == nil {
                 if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
             } else if isAtEdge(spaces: spaces, goingRight: false) {
@@ -238,19 +254,6 @@ class SpaceSwitcher {
     }
 
     // MARK: - Chained navigation
-
-    /// The result of calculating a chaining strategy.
-    enum ChainingStrategy: Equatable {
-        /// Chain arrow keypresses from the current position.
-        case chainFromCurrent(steps: Int, goRight: Bool)
-        /// Jump to an anchor space, then chain remaining arrows.
-        case jumpThenChain(
-            anchorSwitchIndex: Int, steps: Int, goRight: Bool)
-        /// Target is the anchor itself — direct switch.
-        case directSwitch(switchIndex: Int)
-        /// No reachable path.
-        case unreachable
-    }
 
     /// Calculate the optimal chaining strategy without executing it.
     static func calculateChainingStrategy(
