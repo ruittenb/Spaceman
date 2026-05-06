@@ -296,7 +296,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 }
                 // Switch desktops on left click, unless one single space shown
                 guard self.visibleSpacesMode != .currentOnly else {
-                    print("Not switching: just one space visible")
                     return
                 }
                 // Use screen coordinates for hit testing; sbButton.convert() returns
@@ -317,8 +316,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     onMissingShortcut: { [weak self] kind in
                         self?.showMissingShortcutBalloon(kind: kind)
                     })
-            } else {
-                print("Other event: \(event.type)")
             }
         }
     }
