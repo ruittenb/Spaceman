@@ -402,11 +402,8 @@ extension AppDelegate: SpaceObserverDelegate {
         // Reset auto-shrink so the full icon gets a chance to render.
         // Auto-refresh preserves the current shrink state — if the icon still
         // doesn't fit, shrinkIfEvicted() will shrink it back down.
-        switch trigger {
-        case .spaceSwitch, .topologyChange, .userRefresh, .sessionActive:
+        if trigger.resetsAutoShrink {
             shrinkLevel = .none
-        case .autoRefresh:
-            break
         }
 
         renderIcon(for: spaces)

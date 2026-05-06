@@ -15,7 +15,6 @@
 		51E05D46B347497D8CA2D991 /* DisplayGeometryUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */; };
 		53A56E17092ACF887E1B46F5 /* SpaceNameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EB8773F2764BC7A1C695B7 /* SpaceNameStore.swift */; };
 		709A151B3432769701825254 /* SpaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F9A49EF2025B97049F7053 /* SpaceTests.swift */; };
-		854639D9C559DF47F8A2A2C6 /* IconTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141909F55D23EE17579D9208 /* IconTextTests.swift */; };
 		96356224D363C59D464B5D8D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED480E85F666F5E94CCE8DB1 /* Foundation.framework */; };
 		9A6DE94BB0D75559B9039ABA /* SpaceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCE20A6B4C0E9E494935DB8 /* SpaceFilter.swift */; };
 		A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */; };
@@ -82,7 +81,6 @@
 
 /* Begin PBXFileReference section */
 		0F604F4F3D323E1E17C5AB87 /* SpaceFilterTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceFilterTests.swift; path = SpacemanTests/SpaceFilterTests.swift; sourceTree = "<group>"; };
-		141909F55D23EE17579D9208 /* IconTextTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IconTextTests.swift; path = SpacemanTests/IconTextTests.swift; sourceTree = "<group>"; };
 		45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayGeometryUtilities.swift; sourceTree = "<group>"; };
 		4C02BD6C2C0894DC00F07491 /* Scriptable.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Scriptable.sdef; sourceTree = "<group>"; };
 		4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshCommand.swift; sourceTree = "<group>"; };
@@ -190,7 +188,6 @@
 				B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */,
 				B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */,
 				E732CE992FAB094800B2C067 /* GestureSwitcherTests.swift */,
-				141909F55D23EE17579D9208 /* IconTextTests.swift */,
 				0F604F4F3D323E1E17C5AB87 /* SpaceFilterTests.swift */,
 				D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */,
 				D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */,
@@ -471,7 +468,6 @@
 				709A151B3432769701825254 /* SpaceTests.swift in Sources */,
 				F67105E91D29DA62516E5958 /* SpaceNameInfoTests.swift in Sources */,
 				E732CE9A2FAB094800B2C067 /* GestureSwitcherTests.swift in Sources */,
-				854639D9C559DF47F8A2A2C6 /* IconTextTests.swift in Sources */,
 				0A988E67F965C0C2AE24E78D /* SpaceFilterTests.swift in Sources */,
 				cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */,
 				E732CE942FA7A99E00B2C067 /* AutoShrinkTests.swift in Sources */,
