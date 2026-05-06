@@ -35,6 +35,7 @@
 		E732CE982FAA157200B2C067 /* SwitchingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE972FAA157200B2C067 /* SwitchingMode.swift */; };
 		E732CE9A2FAB094800B2C067 /* GestureSwitcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE992FAB094800B2C067 /* GestureSwitcherTests.swift */; };
 		E732CE9C2FAB095E00B2C067 /* ChainingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE9B2FAB095E00B2C067 /* ChainingStrategyTests.swift */; };
+		E732CEA02FAC000000B2C067 /* ChainingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE9F2FAC000000B2C067 /* ChainingStrategy.swift */; };
 		E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73504B32CAD14BE007F62B5 /* IconWidth.swift */; };
 		E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E754B2C82D7F03E100F31468 /* Sparkle */; };
 		E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */; };
@@ -115,6 +116,7 @@
 		E732CE972FAA157200B2C067 /* SwitchingMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchingMode.swift; sourceTree = "<group>"; };
 		E732CE992FAB094800B2C067 /* GestureSwitcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GestureSwitcherTests.swift; path = SpacemanTests/GestureSwitcherTests.swift; sourceTree = "<group>"; };
 		E732CE9B2FAB095E00B2C067 /* ChainingStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChainingStrategyTests.swift; path = SpacemanTests/ChainingStrategyTests.swift; sourceTree = "<group>"; };
+		E732CE9F2FAC000000B2C067 /* ChainingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainingStrategy.swift; sourceTree = "<group>"; };
 		E73504B32CAD14BE007F62B5 /* IconWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWidth.swift; sourceTree = "<group>"; };
 		E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDisplayMode.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 		E8E2AEFC257CB51C00319BBC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E732CE9F2FAC000000B2C067 /* ChainingStrategy.swift */,
 				E7B7E2E22F7C753900FEDEFE /* FontDesign.swift */,
 				E7DA73A72CA6E7A700212836 /* GuiSize.swift */,
 				E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */,
@@ -502,6 +505,7 @@
 				E732CE902F996B6D00B2C067 /* ShrinkOverrides.swift in Sources */,
 				E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */,
 				E732CE982FAA157200B2C067 /* SwitchingMode.swift in Sources */,
+				E732CEA02FAC000000B2C067 /* ChainingStrategy.swift in Sources */,
 				E8C5AFF52580848100614F50 /* AboutView.swift in Sources */,
 				E70044AE2E80380B001C7295 /* OpenPreferencesCommand.swift in Sources */,
 				E70044B02E80380B001C7296 /* RestorePreferencesCommand.swift in Sources */,

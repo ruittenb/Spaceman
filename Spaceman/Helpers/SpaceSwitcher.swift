@@ -255,19 +255,6 @@ class SpaceSwitcher {
 
     // MARK: - Chained navigation
 
-    /// The result of calculating a chaining strategy.
-    enum ChainingStrategy: Equatable {
-        /// Chain arrow keypresses from the current position.
-        case chainFromCurrent(steps: Int, goRight: Bool)
-        /// Jump to an anchor space, then chain remaining arrows.
-        case jumpThenChain(
-            anchorSwitchIndex: Int, steps: Int, goRight: Bool)
-        /// Target is the anchor itself — direct switch.
-        case directSwitch(switchIndex: Int)
-        /// No reachable path.
-        case unreachable
-    }
-
     /// Calculate the optimal chaining strategy without executing it.
     static func calculateChainingStrategy(
         targetSpaceNumber: Int, spaces: [Space]
