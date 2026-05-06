@@ -12,57 +12,26 @@ import XCTest
 
 final class AutoShrinkTests: XCTestCase {
 
-    // MARK: - ShrinkLevel transitions
-
-    func testShrinkLevelProgression() {
-        // The shrink cascade is .none → .shrunken → .icon
-        var level: ShrinkLevel = .none
-
-        level = .shrunken
-        XCTAssertEqual(level, .shrunken)
-
-        level = .icon
-        XCTAssertEqual(level, .icon)
-    }
-
-    func testShrinkLevelCasesAreExhaustive() {
-        // Verify all three cases exist (compile-time check via switch)
-        let levels: [ShrinkLevel] = [.none, .shrunken, .icon]
-        for level in levels {
-            switch level {
-            case .none, .shrunken, .icon:
-                break // All cases covered
-            }
-        }
-        XCTAssertEqual(levels.count, 3)
-    }
-
     // MARK: - SpaceUpdateTrigger reset behavior
 
-    /// Simulates the reset logic from AppDelegate.didUpdateSpaces(trigger:)
-    private func shouldResetShrinkLevel(for trigger: SpaceUpdateTrigger) -> Bool {
-        switch trigger {
-        case .spaceSwitch, .topologyChange, .userRefresh, .sessionActive:
-            return true
-        case .autoRefresh:
-            return false
-        }
-    }
-
     func testSpaceSwitchResetsShrinkLevel() {
-        XCTAssertTrue(shouldResetShrinkLevel(for: .spaceSwitch))
+        XCTAssertTrue(SpaceUpdateTrigger.spaceSwitch.resetsAutoShrink)
     }
 
     func testTopologyChangeResetsShrinkLevel() {
-        XCTAssertTrue(shouldResetShrinkLevel(for: .topologyChange))
+        XCTAssertTrue(SpaceUpdateTrigger.topologyChange.resetsAutoShrink)
     }
 
     func testUserRefreshResetsShrinkLevel() {
-        XCTAssertTrue(shouldResetShrinkLevel(for: .userRefresh))
+        XCTAssertTrue(SpaceUpdateTrigger.userRefresh.resetsAutoShrink)
+    }
+
+    func testSessionActiveResetsShrinkLevel() {
+        XCTAssertTrue(SpaceUpdateTrigger.sessionActive.resetsAutoShrink)
     }
 
     func testAutoRefreshPreservesShrinkLevel() {
-        XCTAssertFalse(shouldResetShrinkLevel(for: .autoRefresh))
+        XCTAssertFalse(SpaceUpdateTrigger.autoRefresh.resetsAutoShrink)
     }
 
     // MARK: - ShrinkOverrides
@@ -95,26 +64,5 @@ final class AutoShrinkTests: XCTestCase {
         let propertyNames = mirror.children.map { $0.label }
         XCTAssertFalse(propertyNames.contains("rowLayout"))
         XCTAssertEqual(propertyNames.count, 5)
-    }
-
-    // MARK: - SpaceUpdateTrigger cases
-
-    func testSessionActiveResetsShrinkLevel() {
-        XCTAssertTrue(shouldResetShrinkLevel(for: .sessionActive))
-    }
-
-    func testSpaceUpdateTriggerCasesAreExhaustive() {
-        let triggers: [SpaceUpdateTrigger] = [
-            .spaceSwitch, .topologyChange, .userRefresh,
-            .autoRefresh, .sessionActive
-        ]
-        for trigger in triggers {
-            switch trigger {
-            case .spaceSwitch, .topologyChange,
-                 .userRefresh, .autoRefresh, .sessionActive:
-                break
-            }
-        }
-        XCTAssertEqual(triggers.count, 5)
     }
 }

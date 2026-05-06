@@ -15,7 +15,6 @@
 		51E05D46B347497D8CA2D991 /* DisplayGeometryUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */; };
 		53A56E17092ACF887E1B46F5 /* SpaceNameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EB8773F2764BC7A1C695B7 /* SpaceNameStore.swift */; };
 		709A151B3432769701825254 /* SpaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F9A49EF2025B97049F7053 /* SpaceTests.swift */; };
-		854639D9C559DF47F8A2A2C6 /* IconTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141909F55D23EE17579D9208 /* IconTextTests.swift */; };
 		96356224D363C59D464B5D8D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED480E85F666F5E94CCE8DB1 /* Foundation.framework */; };
 		9A6DE94BB0D75559B9039ABA /* SpaceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCE20A6B4C0E9E494935DB8 /* SpaceFilter.swift */; };
 		A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */; };
@@ -32,6 +31,10 @@
 		E732CE8F2F996B6D00B2C067 /* SpaceUpdateTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */; };
 		E732CE902F996B6D00B2C067 /* ShrinkOverrides.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE8C2F996B6D00B2C067 /* ShrinkOverrides.swift */; };
 		E732CE942FA7A99E00B2C067 /* AutoShrinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE932FA7A99E00B2C067 /* AutoShrinkTests.swift */; };
+		E732CE962FAA021900B2C067 /* GestureSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE952FAA021900B2C067 /* GestureSwitcher.swift */; };
+		E732CE982FAA157200B2C067 /* SwitchingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE972FAA157200B2C067 /* SwitchingMode.swift */; };
+		E732CE9A2FAB094800B2C067 /* GestureSwitcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE992FAB094800B2C067 /* GestureSwitcherTests.swift */; };
+		E732CE9C2FAB095E00B2C067 /* ChainingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE9B2FAB095E00B2C067 /* ChainingStrategyTests.swift */; };
 		E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73504B32CAD14BE007F62B5 /* IconWidth.swift */; };
 		E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E754B2C82D7F03E100F31468 /* Sparkle */; };
 		E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */; };
@@ -78,7 +81,6 @@
 
 /* Begin PBXFileReference section */
 		0F604F4F3D323E1E17C5AB87 /* SpaceFilterTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceFilterTests.swift; path = SpacemanTests/SpaceFilterTests.swift; sourceTree = "<group>"; };
-		141909F55D23EE17579D9208 /* IconTextTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IconTextTests.swift; path = SpacemanTests/IconTextTests.swift; sourceTree = "<group>"; };
 		45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayGeometryUtilities.swift; sourceTree = "<group>"; };
 		4C02BD6C2C0894DC00F07491 /* Scriptable.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Scriptable.sdef; sourceTree = "<group>"; };
 		4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshCommand.swift; sourceTree = "<group>"; };
@@ -109,6 +111,10 @@
 		E732CE8C2F996B6D00B2C067 /* ShrinkOverrides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkOverrides.swift; sourceTree = "<group>"; };
 		E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceUpdateTrigger.swift; sourceTree = "<group>"; };
 		E732CE932FA7A99E00B2C067 /* AutoShrinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AutoShrinkTests.swift; path = SpacemanTests/AutoShrinkTests.swift; sourceTree = "<group>"; };
+		E732CE952FAA021900B2C067 /* GestureSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureSwitcher.swift; sourceTree = "<group>"; };
+		E732CE972FAA157200B2C067 /* SwitchingMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchingMode.swift; sourceTree = "<group>"; };
+		E732CE992FAB094800B2C067 /* GestureSwitcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GestureSwitcherTests.swift; path = SpacemanTests/GestureSwitcherTests.swift; sourceTree = "<group>"; };
+		E732CE9B2FAB095E00B2C067 /* ChainingStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChainingStrategyTests.swift; path = SpacemanTests/ChainingStrategyTests.swift; sourceTree = "<group>"; };
 		E73504B32CAD14BE007F62B5 /* IconWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWidth.swift; sourceTree = "<group>"; };
 		E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDisplayMode.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
@@ -177,10 +183,11 @@
 			isa = PBXGroup;
 			children = (
 				E732CE932FA7A99E00B2C067 /* AutoShrinkTests.swift */,
+				E732CE9B2FAB095E00B2C067 /* ChainingStrategyTests.swift */,
 				83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */,
 				B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */,
 				B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */,
-				141909F55D23EE17579D9208 /* IconTextTests.swift */,
+				E732CE992FAB094800B2C067 /* GestureSwitcherTests.swift */,
 				0F604F4F3D323E1E17C5AB87 /* SpaceFilterTests.swift */,
 				D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */,
 				D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */,
@@ -260,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */,
+				E732CE952FAA021900B2C067 /* GestureSwitcher.swift */,
 				E8733510256B779B0012586E /* IconCreator.swift */,
 				E70044AD2E80380B001C7295 /* OpenPreferencesCommand.swift */,
 				4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */,
@@ -312,6 +320,7 @@
 				E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */,
 				E8E2AF02257CB5CE00319BBC /* SpaceNameInfo.swift */,
 				E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */,
+				E732CE972FAA157200B2C067 /* SwitchingMode.swift */,
 				E722A6E02E95BF8D00D5FA4F /* VerticalDirection.swift */,
 				8F4A6E10892D4C67AD5F9BE3 /* VisibleSpacesMode.swift */,
 			);
@@ -458,12 +467,13 @@
 			files = (
 				709A151B3432769701825254 /* SpaceTests.swift in Sources */,
 				F67105E91D29DA62516E5958 /* SpaceNameInfoTests.swift in Sources */,
-				854639D9C559DF47F8A2A2C6 /* IconTextTests.swift in Sources */,
+				E732CE9A2FAB094800B2C067 /* GestureSwitcherTests.swift in Sources */,
 				0A988E67F965C0C2AE24E78D /* SpaceFilterTests.swift in Sources */,
 				cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */,
 				E732CE942FA7A99E00B2C067 /* AutoShrinkTests.swift in Sources */,
 				F605F4B85B7ADD5424BDDFAE /* SpaceNameResolutionTests.swift in Sources */,
 				A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */,
+				E732CE9C2FAB095E00B2C067 /* ChainingStrategyTests.swift in Sources */,
 				A2B3C4D5E6F7A8B9C0D1E2F4 /* EnumBehaviorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,6 +501,7 @@
 				E732CE8F2F996B6D00B2C067 /* SpaceUpdateTrigger.swift in Sources */,
 				E732CE902F996B6D00B2C067 /* ShrinkOverrides.swift in Sources */,
 				E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */,
+				E732CE982FAA157200B2C067 /* SwitchingMode.swift in Sources */,
 				E8C5AFF52580848100614F50 /* AboutView.swift in Sources */,
 				E70044AE2E80380B001C7295 /* OpenPreferencesCommand.swift in Sources */,
 				E70044B02E80380B001C7296 /* RestorePreferencesCommand.swift in Sources */,
@@ -508,6 +519,7 @@
 				53A56E17092ACF887E1B46F5 /* SpaceNameStore.swift in Sources */,
 				E7DA73A82CA6E7A700212836 /* GuiSize.swift in Sources */,
 				E732CE8A2F90F6BA00B2C067 /* QuickRenameView.swift in Sources */,
+				E732CE962FAA021900B2C067 /* GestureSwitcher.swift in Sources */,
 				E8733517256C6F3A0012586E /* Extensions.swift in Sources */,
 				9A6DE94BB0D75559B9039ABA /* SpaceFilter.swift in Sources */,
 			);

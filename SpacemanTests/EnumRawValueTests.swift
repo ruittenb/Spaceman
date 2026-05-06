@@ -19,6 +19,28 @@ import XCTest
 
 final class EnumRawValueTests: XCTestCase {
 
+    // MARK: - IconText
+
+    func testIconTextRawValues() {
+        XCTAssertEqual(IconText.noText.rawValue, 0)
+        XCTAssertEqual(IconText.numbers.rawValue, 2)
+        XCTAssertEqual(IconText.names.rawValue, 3)
+        XCTAssertEqual(IconText.numbersAndNames.rawValue, 4)
+    }
+
+    func testIconTextAllCases() {
+        XCTAssertEqual(IconText.allCases.count, 4)
+    }
+
+    func testIconTextInitFromRawValue() {
+        XCTAssertEqual(IconText(rawValue: 0), .noText)
+        XCTAssertNil(IconText(rawValue: 1)) // was bare numbers, now migrated away
+        XCTAssertEqual(IconText(rawValue: 2), .numbers)
+        XCTAssertEqual(IconText(rawValue: 3), .names)
+        XCTAssertEqual(IconText(rawValue: 4), .numbersAndNames)
+        XCTAssertNil(IconText(rawValue: 99))
+    }
+
     // MARK: - IconStyle
 
     func testIconStyleRawValues() {

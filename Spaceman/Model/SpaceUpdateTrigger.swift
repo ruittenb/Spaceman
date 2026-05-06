@@ -15,4 +15,14 @@ enum SpaceUpdateTrigger {
     case userRefresh     // User changed a setting or triggered refresh (SettingsChanged)
     case autoRefresh     // Periodic auto-refresh timer (AutoRefreshTriggered)
     case sessionActive   // Screen unlock or user session resumed (sessionDidBecomeActiveNotification)
+
+    /// Whether this trigger should reset the auto-shrink level back to `.none`.
+    var resetsAutoShrink: Bool {
+        switch self {
+        case .spaceSwitch, .topologyChange, .userRefresh, .sessionActive:
+            return true
+        case .autoRefresh:
+            return false
+        }
+    }
 }

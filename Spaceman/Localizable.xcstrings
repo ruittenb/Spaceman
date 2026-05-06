@@ -310,40 +310,6 @@
         }
       }
     },
-    "Allow switching to fullscreen spaces using multiple steps" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wechseln zu Vollbild-Spaces in mehreren Schritten erlauben"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Permitir cambiar a escritorios en pantalla completa en varios pasos"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Permitir cambiar a escritorios en pantalla completa en varios pasos"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Autoriser le passage aux espaces en plein écran en plusieurs étapes"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wisselen naar volledig-scherm-spaces in meerdere stappen toestaan"
-          }
-        }
-      }
-    },
     "Appearance" : {
       "localizations" : {
         "de" : {
@@ -4096,6 +4062,40 @@
         }
       }
     },
+    "Spaceman will attempt to unshrink the menu bar icon when you switch spaces, or trigger a manual refresh." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman versucht, das Menüleistensymbol wieder zu vergrößern, wenn Sie zwischen Spaces wechseln oder eine manuelle Aktualisierung auslösen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman intentará restaurar el tamaño del icono de la barra de menús al cambiar de escritorios o activar una actualización manual."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman intentará restaurar el tamaño del ícono de la barra de menús al cambiar de escritorios o activar una actualización manual."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman tentera de restaurer la taille de l'icône de la barre des menus lorsque vous changez d'espaces ou déclenchez un rafraîchissement manuel."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman zal proberen het menubalk-icoon weer te vergroten wanneer u wisselt tussen spaces of handmatig ververst."
+          }
+        }
+      }
+    },
     "Spaces" : {
       "localizations" : {
         "de" : {
@@ -4170,6 +4170,40 @@
         }
       }
     },
+    "Switching Spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces wechseln"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar de escritorio"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar de escritorio"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changer d'espace"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces wisselen"
+          }
+        }
+      }
+    },
     "System Preferences" : {
       "localizations" : {
         "de" : {
@@ -4234,40 +4268,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Systeeminstellingen"
-          }
-        }
-      }
-    },
-    "Spaceman will attempt to unshrink the menu bar icon when you switch spaces, or trigger a manual refresh." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spaceman versucht, das Menüleistensymbol wieder zu vergrößern, wenn Sie zwischen Spaces wechseln oder eine manuelle Aktualisierung auslösen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spaceman intentará restaurar el tamaño del icono de la barra de menús al cambiar de escritorios o activar una actualización manual."
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spaceman intentará restaurar el tamaño del ícono de la barra de menús al cambiar de escritorios o activar una actualización manual."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spaceman tentera de restaurer la taille de l'icône de la barre des menus lorsque vous changez d'espaces ou déclenchez un rafraîchissement manuel."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spaceman zal proberen het menubalk-icoon weer te vergroten wanneer u wisselt tussen spaces of handmatig ververst."
           }
         }
       }
@@ -4442,6 +4442,74 @@
         }
       }
     },
+    "Use fast animations" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schnelle Animationen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Animaciones rápidas"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Animaciones rápidas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Animations rapides"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snelle animatie"
+          }
+        }
+      }
+    },
+    "Use instant switching" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sofort wechseln"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambio instantáneo"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambio instantáneo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changements instantanés"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direct wisselen"
+          }
+        }
+      }
+    },
     "Use macOS order" : {
       "localizations" : {
         "de" : {
@@ -4472,6 +4540,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS-volgorde gebruiken"
+          }
+        }
+      }
+    },
+    "Use smooth transitions" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fließende Übergänge"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transiciones suaves"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transiciones suaves"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transitions douces"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soepele overgang"
           }
         }
       }
