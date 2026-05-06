@@ -34,6 +34,8 @@
 		E732CE942FA7A99E00B2C067 /* AutoShrinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE932FA7A99E00B2C067 /* AutoShrinkTests.swift */; };
 		E732CE962FAA021900B2C067 /* GestureSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE952FAA021900B2C067 /* GestureSwitcher.swift */; };
 		E732CE982FAA157200B2C067 /* SwitchingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE972FAA157200B2C067 /* SwitchingMode.swift */; };
+		E732CE9A2FAB094800B2C067 /* GestureSwitcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE992FAB094800B2C067 /* GestureSwitcherTests.swift */; };
+		E732CE9C2FAB095E00B2C067 /* ChainingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE9B2FAB095E00B2C067 /* ChainingStrategyTests.swift */; };
 		E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73504B32CAD14BE007F62B5 /* IconWidth.swift */; };
 		E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E754B2C82D7F03E100F31468 /* Sparkle */; };
 		E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */; };
@@ -113,6 +115,8 @@
 		E732CE932FA7A99E00B2C067 /* AutoShrinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AutoShrinkTests.swift; path = SpacemanTests/AutoShrinkTests.swift; sourceTree = "<group>"; };
 		E732CE952FAA021900B2C067 /* GestureSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureSwitcher.swift; sourceTree = "<group>"; };
 		E732CE972FAA157200B2C067 /* SwitchingMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchingMode.swift; sourceTree = "<group>"; };
+		E732CE992FAB094800B2C067 /* GestureSwitcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GestureSwitcherTests.swift; path = SpacemanTests/GestureSwitcherTests.swift; sourceTree = "<group>"; };
+		E732CE9B2FAB095E00B2C067 /* ChainingStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChainingStrategyTests.swift; path = SpacemanTests/ChainingStrategyTests.swift; sourceTree = "<group>"; };
 		E73504B32CAD14BE007F62B5 /* IconWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWidth.swift; sourceTree = "<group>"; };
 		E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDisplayMode.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
@@ -181,9 +185,11 @@
 			isa = PBXGroup;
 			children = (
 				E732CE932FA7A99E00B2C067 /* AutoShrinkTests.swift */,
+				E732CE9B2FAB095E00B2C067 /* ChainingStrategyTests.swift */,
 				83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */,
 				B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */,
 				B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */,
+				E732CE992FAB094800B2C067 /* GestureSwitcherTests.swift */,
 				141909F55D23EE17579D9208 /* IconTextTests.swift */,
 				0F604F4F3D323E1E17C5AB87 /* SpaceFilterTests.swift */,
 				D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */,
@@ -464,12 +470,14 @@
 			files = (
 				709A151B3432769701825254 /* SpaceTests.swift in Sources */,
 				F67105E91D29DA62516E5958 /* SpaceNameInfoTests.swift in Sources */,
+				E732CE9A2FAB094800B2C067 /* GestureSwitcherTests.swift in Sources */,
 				854639D9C559DF47F8A2A2C6 /* IconTextTests.swift in Sources */,
 				0A988E67F965C0C2AE24E78D /* SpaceFilterTests.swift in Sources */,
 				cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */,
 				E732CE942FA7A99E00B2C067 /* AutoShrinkTests.swift in Sources */,
 				F605F4B85B7ADD5424BDDFAE /* SpaceNameResolutionTests.swift in Sources */,
 				A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */,
+				E732CE9C2FAB095E00B2C067 /* ChainingStrategyTests.swift in Sources */,
 				A2B3C4D5E6F7A8B9C0D1E2F4 /* EnumBehaviorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
