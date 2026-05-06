@@ -72,8 +72,13 @@ class SpaceSwitcher {
     }
 
     public func triggerMissionControl() {
-        let sc = shortcutHelper.missionControlShortcut
-        sendKeyCode(sc?.keyCode ?? 126, modifiers: sc?.modifiers ?? "control down")
+        let appleScript = "tell application \"Mission Control\" to launch"
+        DispatchQueue.global(qos: .background).async {
+            if let scriptObject = NSAppleScript(source: appleScript) {
+                var error: NSDictionary?
+                scriptObject.executeAndReturnError(&error)
+            }
+        }
     }
 
     public func switchToPreviousSpace() {
@@ -124,6 +129,10 @@ class SpaceSwitcher {
             onError()
             return
         }
+        if hitIndex == Space.missionControlIndex {
+            triggerMissionControl()
+            return
+        }
         let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
         if mode != .smooth {
             switchUsingGesture(
@@ -142,13 +151,6 @@ class SpaceSwitcher {
         spaces: [Space], mode: SwitchingMode,
         onError: @escaping () -> Void
     ) {
-        // Mission Control: always AppleScript (gestures can't trigger MC)
-        if hitIndex == Space.missionControlIndex {
-            if shortcutHelper.missionControlShortcut != nil {
-                triggerMissionControl()
-            } else { onError() }
-            return
-        }
         // Prev/next arrows: gesture-based
         if hitIndex == Space.previousSpaceIndex {
             if isAtEdge(spaces: spaces, goingRight: false) {
@@ -192,12 +194,7 @@ class SpaceSwitcher {
         onError: @escaping () -> Void,
         onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
-        if hitIndex == Space.missionControlIndex {
-            if shortcutHelper.missionControlShortcut != nil {
-                triggerMissionControl()
-            } else if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
-            return
-        } else if hitIndex == Space.previousSpaceIndex {
+        if hitIndex == Space.previousSpaceIndex {
             if shortcutHelper.moveLeftShortcut == nil {
                 if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
             } else if isAtEdge(spaces: spaces, goingRight: false) {
