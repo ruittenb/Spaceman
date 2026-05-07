@@ -488,7 +488,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             }
             let idx = switchMap[space.spaceID]
             let desktopNum: Int? = if let idx, idx > 0 { idx } else { nil }
-            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum))
+            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum, spaces: spaces))
             lastDisplayID = space.displayID
         }
         // No trailing separator needed — the fixed separator before the settings submenus handles it
@@ -538,7 +538,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             }
             let idx = switchMap[space.spaceID]
             let desktopNum: Int? = if let idx, idx > 0 { idx } else { nil }
-            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum))
+            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum, spaces: currentSpaces))
             lastDisplayID = space.displayID
         }
         var insertIndex = 2
@@ -851,7 +851,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
 
-    func makeSwitchToSpaceItem(space: Space, desktopNumber: Int?) -> NSMenuItem {
+    func makeSwitchToSpaceItem(space: Space, desktopNumber: Int?, spaces: [Space]) -> NSMenuItem {
         let spaceName = space.spaceName.isEmpty ? "-" : space.spaceName
 
         var shortcutKey = ""
@@ -870,10 +870,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         item.target = self
         item.tag = desktopNumber ?? -(space.spaceNumber)
         item.image = menuIcon
-        let canSwitch = switchingMode != SwitchingMode.smooth.rawValue
-            || space.isFullScreen
-            || shortcutKey != ""
-        if space.isCurrentSpace || !canSwitch {
+        let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
+        let canSwitch = Space.canSwitch(
+            space: space, switchTag: desktopNumber,
+            switchingMode: mode, spaces: spaces)
+        if !canSwitch {
             item.isEnabled = false
             if space.isCurrentSpace {
                 item.state = .on // tick mark

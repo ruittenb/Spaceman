@@ -224,7 +224,8 @@ class SpaceSwitcher {
             return
         } else if hitIndex == Space.unswitchableIndex || hitIndex < 0 {
             navigateByChaining(
-                targetSpaceNumber: hitSpaceNumber, spaces: spaces, onError: onError)
+                targetSpaceNumber: hitSpaceNumber, spaces: spaces,
+                onError: onError, onMissingShortcut: onMissingShortcut)
         } else if shortcutHelper.getKeyCode(spaceNumber: hitIndex) < 0 {
             if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
         } else {
@@ -290,7 +291,8 @@ class SpaceSwitcher {
     /// chaining arrow keypresses.
     func navigateByChaining(
         targetSpaceNumber: Int, spaces: [Space],
-        onError: @escaping () -> Void
+        onError: @escaping () -> Void,
+        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
         let strategy = Self.calculateChainingStrategy(
             targetSpaceNumber: targetSpaceNumber, spaces: spaces)
@@ -312,7 +314,7 @@ class SpaceSwitcher {
         case .directSwitch(let switchIndex):
             switchToSpace(spaceNumber: switchIndex, onError: onError)
         case .unreachable:
-            onError()
+            if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
         }
     }
 

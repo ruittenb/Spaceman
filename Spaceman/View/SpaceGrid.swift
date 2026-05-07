@@ -47,7 +47,8 @@ struct SpaceGridMenuView: View {
                         let tag = switchMap[space.spaceID]
                         let enabled = Space.canSwitch(
                             space: space, switchTag: tag,
-                            switchingMode: SwitchingMode(rawValue: switchingMode) ?? .smooth)
+                            switchingMode: SwitchingMode(rawValue: switchingMode) ?? .smooth,
+                            spaces: spaces)
                         SpaceCellView(space: space, enabled: enabled)
                             .onTapGesture {
                                 guard enabled else { return }
