@@ -263,7 +263,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let keys = [
             "visibleSpacesMode", "restartNumberingByDisplay", "horizontalDirection",
             "useVariableWidth", "decorationActive", "decorationInactive",
-            "iconSize", "rowLayout", "showFullscreenSpaces"
+            "iconSize", "rowLayout", "showFullscreenSpaces", "allowChaining",
+            "switchingMode"
         ]
         for key in keys {
             UserDefaults.standard.removeObject(forKey: key)
@@ -374,6 +375,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             UserDefaults.standard.set(!oldValue, forKey: "showFullscreenSpaces")
             UserDefaults.standard.removeObject(forKey: "hideFullscreenSpaces")
         }
+
+        // Migrate navigateAnywhere to allowChaining
+        if UserDefaults.standard.object(forKey: "allowChaining") == nil,
+           let oldValue = UserDefaults.standard.object(forKey: "navigateAnywhere") as? Bool {
+            UserDefaults.standard.set(oldValue, forKey: "allowChaining")
+            UserDefaults.standard.removeObject(forKey: "navigateAnywhere")
+        }
+
+        // Migrate useGestureSwitching (bool) to switchingMode (enum)
+        if UserDefaults.standard.object(forKey: "switchingMode") == nil,
+           let oldValue = UserDefaults.standard.object(forKey: "useGestureSwitching") as? Bool {
+            let mode = oldValue ? SwitchingMode.instant : SwitchingMode.smooth
+            UserDefaults.standard.set(mode.rawValue, forKey: "switchingMode")
+            UserDefaults.standard.removeObject(forKey: "useGestureSwitching")
+        }
     }
 }
 
@@ -386,11 +402,8 @@ extension AppDelegate: SpaceObserverDelegate {
         // Reset auto-shrink so the full icon gets a chance to render.
         // Auto-refresh preserves the current shrink state — if the icon still
         // doesn't fit, shrinkIfEvicted() will shrink it back down.
-        switch trigger {
-        case .spaceSwitch, .topologyChange, .userRefresh, .sessionActive:
+        if trigger.resetsAutoShrink {
             shrinkLevel = .none
-        case .autoRefresh:
-            break
         }
 
         renderIcon(for: spaces)

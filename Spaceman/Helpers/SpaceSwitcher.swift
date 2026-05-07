@@ -15,6 +15,8 @@ enum MissingShortcutKind {
 
 class SpaceSwitcher {
     private let shortcutHelper = ShortcutHelper()
+    private let gestureSwitcher = GestureSwitcher()
+    @AppStorage("switchingMode") private var switchingMode = SwitchingMode.smooth.rawValue
     private var chainObserver: NSObjectProtocol?
     private var chainTimeout: DispatchWorkItem?
 
@@ -25,6 +27,25 @@ class SpaceSwitcher {
 
     func reloadShortcuts() {
         shortcutHelper.reload()
+    }
+
+    /// Shortcut for a desktop number, for menu key equivalent display.
+    func shortcut(forDesktop desktop: Int) -> SpaceShortcut? {
+        shortcutHelper.shortcut(forDesktop: desktop)
+    }
+
+    /// The synthesized F1 fullscreen shortcut (minus key).
+    var fullscreenShortcut: SpaceShortcut? {
+        shortcutHelper.fullscreenShortcut
+    }
+
+    /// Switch to a space using gesture. Returns false if cross-display.
+    func switchToSpaceByGesture(
+        target: Space, current: Space, spaces: [Space],
+        mode: SwitchingMode
+    ) -> Bool {
+        gestureSwitcher.switchToSpace(
+            target: target, current: current, spaces: spaces, mode: mode)
     }
 
     public func switchToSpace(spaceNumber: Int, onError: () -> Void) {
@@ -70,8 +91,13 @@ class SpaceSwitcher {
     }
 
     public func triggerMissionControl() {
-        let sc = shortcutHelper.missionControlShortcut
-        sendKeyCode(sc?.keyCode ?? 126, modifiers: sc?.modifiers ?? "control down")
+        let appleScript = "tell application \"Mission Control\" to launch"
+        DispatchQueue.global(qos: .background).async {
+            if let scriptObject = NSAppleScript(source: appleScript) {
+                var error: NSDictionary?
+                scriptObject.executeAndReturnError(&error)
+            }
+        }
     }
 
     public func switchToPreviousSpace() {
@@ -100,7 +126,7 @@ class SpaceSwitcher {
 
     public func switchUsingLocation(
         iconWidths: [IconWidth], point: CGPoint,
-        spaces: [Space], navigateAnywhere: Bool,
+        spaces: [Space], allowChaining: Bool,
         onError: @escaping () -> Void,
         onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
@@ -123,11 +149,71 @@ class SpaceSwitcher {
             return
         }
         if hitIndex == Space.missionControlIndex {
-            if shortcutHelper.missionControlShortcut != nil {
-                triggerMissionControl()
-            } else if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
+            triggerMissionControl()
             return
-        } else if hitIndex == Space.previousSpaceIndex {
+        }
+        let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
+        if mode != .smooth {
+            switchUsingGesture(
+                hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
+                spaces: spaces, mode: mode, onError: onError)
+        } else {
+            switchUsingShortcut(
+                hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
+                spaces: spaces, allowChaining: allowChaining,
+                onError: onError, onMissingShortcut: onMissingShortcut)
+        }
+    }
+
+    private func switchUsingGesture(
+        hitIndex: Int, hitSpaceNumber: Int,
+        spaces: [Space], mode: SwitchingMode,
+        onError: @escaping () -> Void
+    ) {
+        // Prev/next arrows: gesture-based
+        if hitIndex == Space.previousSpaceIndex {
+            if isAtEdge(spaces: spaces, goingRight: false) {
+                onError()
+            } else {
+                gestureSwitcher.switchRelative(goRight: false, mode: mode)
+            }
+            return
+        } else if hitIndex == Space.nextSpaceIndex {
+            if isAtEdge(spaces: spaces, goingRight: true) {
+                onError()
+            } else {
+                gestureSwitcher.switchRelative(goRight: true, mode: mode)
+            }
+            return
+        }
+        // Any other space: switch via gesture
+        guard let target = spaces.first(
+            where: { $0.spaceNumber == hitSpaceNumber }),
+              let current = spaces.first(
+                where: { $0.isCurrentSpace })
+        else {
+            onError()
+            return
+        }
+        if !gestureSwitcher.switchToSpace(
+            target: target, current: current, spaces: spaces, mode: mode
+        ) {
+            // Cross-display: fall back to AppleScript
+            if hitIndex >= 1 && hitIndex <= Space.maxSwitchableDesktop {
+                switchToSpace(spaceNumber: hitIndex, onError: onError)
+            } else {
+                onError()
+            }
+        }
+    }
+
+    private func switchUsingShortcut(
+        hitIndex: Int, hitSpaceNumber: Int,
+        spaces: [Space], allowChaining: Bool,
+        onError: @escaping () -> Void,
+        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
+    ) {
+        if hitIndex == Space.previousSpaceIndex {
             if shortcutHelper.moveLeftShortcut == nil {
                 if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
             } else if isAtEdge(spaces: spaces, goingRight: false) {
@@ -145,7 +231,7 @@ class SpaceSwitcher {
                 switchToNextSpace()
             }
             return
-        } else if (hitIndex == Space.unswitchableIndex || hitIndex < 0) && navigateAnywhere {
+        } else if (hitIndex == Space.unswitchableIndex || hitIndex < 0) && allowChaining {
             navigateByChaining(
                 targetSpaceNumber: hitSpaceNumber, spaces: spaces, onError: onError)
         } else if hitIndex == -1 {
@@ -169,55 +255,84 @@ class SpaceSwitcher {
 
     // MARK: - Chained navigation
 
-    /// Navigate to a space that has no direct keyboard shortcut by chaining arrow keypresses.
-    /// Finds the nearest directly-switchable space to the target, jumps there, then chains
-    /// the remaining arrows. If the current space is on the same display and closer, chains
-    /// from current position instead.
-    func navigateByChaining(
-        targetSpaceNumber: Int, spaces: [Space], onError: @escaping () -> Void
-    ) {
-        guard let targetSpace = spaces.first(where: { $0.spaceNumber == targetSpaceNumber }),
-              let currentSpace = spaces.first(where: { $0.isCurrentSpace }) else {
-            onError()
-            return
+    /// Calculate the optimal chaining strategy without executing it.
+    static func calculateChainingStrategy(
+        targetSpaceNumber: Int, spaces: [Space]
+    ) -> ChainingStrategy {
+        guard let targetSpace = spaces.first(
+            where: { $0.spaceNumber == targetSpaceNumber }),
+              let currentSpace = spaces.first(
+                where: { $0.isCurrentSpace })
+        else {
+            return .unreachable
         }
 
-        // Find nearest directly-switchable space to target on the target's display
         let switchMap = Space.buildSwitchIndexMap(for: spaces)
-        let targetDisplaySpaces = spaces.filter { $0.displayID == targetSpace.displayID }
+        let targetDisplaySpaces = spaces.filter {
+            $0.displayID == targetSpace.displayID
+        }
         let switchable = targetDisplaySpaces.filter {
             guard let idx = switchMap[$0.spaceID] else { return false }
             return idx >= 1 && idx <= Space.maxSwitchableDesktop
         }
         let anchor = switchable.min(by: {
-            abs($0.spaceNumber - targetSpaceNumber) < abs($1.spaceNumber - targetSpaceNumber)
+            abs($0.spaceNumber - targetSpaceNumber)
+                < abs($1.spaceNumber - targetSpaceNumber)
         })
 
-        let arrowsFromAnchor = anchor.map { abs(targetSpaceNumber - $0.spaceNumber) } ?? Int.max
+        let arrowsFromAnchor = anchor.map {
+            abs(targetSpaceNumber - $0.spaceNumber)
+        } ?? Int.max
         let sameDisplay = targetSpace.displayID == currentSpace.displayID
-        let arrowsFromCurrent = sameDisplay ? abs(targetSpaceNumber - currentSpace.spaceNumber) : Int.max
+        let arrowsFromCurrent = sameDisplay
+            ? abs(targetSpaceNumber - currentSpace.spaceNumber)
+            : Int.max
 
-        // Compare: chaining from current needs arrowsFromCurrent waits;
-        // jumping to anchor needs 1 wait (direct switch) + arrowsFromAnchor waits
         if arrowsFromCurrent <= arrowsFromAnchor + 1 {
-            // Chain from current position (same display, and it's closer or equal)
-            guard arrowsFromCurrent > 0 else { return }
+            guard arrowsFromCurrent > 0 else { return .unreachable }
             let goRight = targetSpaceNumber > currentSpace.spaceNumber
-            executeChain(stepsRemaining: arrowsFromCurrent, goRight: goRight, onError: onError)
-        } else if let anchor = anchor, let switchIndex = switchMap[anchor.spaceID] {
-            // Jump to nearest switchable anchor, then chain remaining arrows
+            return .chainFromCurrent(
+                steps: arrowsFromCurrent, goRight: goRight)
+        } else if let anchor = anchor,
+                  let switchIndex = switchMap[anchor.spaceID] {
             let delta = targetSpaceNumber - anchor.spaceNumber
             if delta == 0 {
-                switchToSpace(spaceNumber: switchIndex, onError: onError)
-                return
+                return .directSwitch(switchIndex: switchIndex)
             }
-            switchToSpace(spaceNumber: switchIndex, onError: onError)
+            return .jumpThenChain(
+                anchorSwitchIndex: switchIndex,
+                steps: abs(delta), goRight: delta > 0)
+        } else {
+            return .unreachable
+        }
+    }
+
+    /// Navigate to a space that has no direct keyboard shortcut by
+    /// chaining arrow keypresses.
+    func navigateByChaining(
+        targetSpaceNumber: Int, spaces: [Space],
+        onError: @escaping () -> Void
+    ) {
+        let strategy = Self.calculateChainingStrategy(
+            targetSpaceNumber: targetSpaceNumber, spaces: spaces)
+
+        switch strategy {
+        case .chainFromCurrent(let steps, let goRight):
+            executeChain(
+                stepsRemaining: steps, goRight: goRight,
+                onError: onError)
+        case .jumpThenChain(let anchorIndex, let steps, let goRight):
+            switchToSpace(spaceNumber: anchorIndex, onError: onError)
             waitForSpaceChange {
-                self.executeChain(stepsRemaining: abs(delta), goRight: delta > 0, onError: onError)
+                self.executeChain(
+                    stepsRemaining: steps, goRight: goRight,
+                    onError: onError)
             } onTimeout: {
                 onError()
             }
-        } else {
+        case .directSwitch(let switchIndex):
+            switchToSpace(spaceNumber: switchIndex, onError: onError)
+        case .unreachable:
             onError()
         }
     }

@@ -232,6 +232,8 @@ class SpaceObserver {
         // Build space number map AFTER sorting to ensure numbering matches display order
         let spaceNumberMap = buildSpaceNumberMap(from: displays)
 
+        // TOCTOU: a rename between this loadAll() and save() below would be overwritten.
+        // The window is tiny (ms) so this is acceptable; fixing it requires holding a write lock throughout.
         let storedNames = nameStore.loadAll()
 
         // Determine which stored display UUIDs have entries

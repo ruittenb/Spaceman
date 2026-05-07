@@ -15,7 +15,8 @@ struct SpaceGridMenuView: View {
     var menuWidth: CGFloat
 
     @AppStorage("gridColumns") private var gridColumns: Int = 3
-    @AppStorage("navigateAnywhere") private var navigateAnywhere = false
+    @AppStorage("allowChaining") private var allowChaining = false
+    @AppStorage("switchingMode") private var switchingMode = SwitchingMode.smooth.rawValue
 
     /// Spaces grouped by display, preserving order.
     private var spacesByDisplay: [[Space]] {
@@ -46,7 +47,8 @@ struct SpaceGridMenuView: View {
                     ForEach(Array(group.enumerated()), id: \.element.spaceID) { _, space in
                         let tag = switchMap[space.spaceID]
                         let enabled = Space.canSwitch(
-                            space: space, switchTag: tag, navigateAnywhere: navigateAnywhere)
+                            space: space, switchTag: tag, allowChaining: allowChaining,
+                            switchingMode: SwitchingMode(rawValue: switchingMode) ?? .smooth)
                         SpaceCellView(space: space, enabled: enabled)
                             .onTapGesture {
                                 guard enabled else { return }

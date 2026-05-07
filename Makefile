@@ -1,4 +1,6 @@
 
+SHELL    = /bin/bash
+
 PROJECT  = Spaceman
 APPNAME  = $(PROJECT).app
 BUILDDIR = build
@@ -11,7 +13,7 @@ IMAGE    = $(BUILDDIR)/$(PROJECT)-$(VERSION).dmg
 RCDIR    = ~/.spaceman
 AUTHOR   = ruittenb
 DOMAIN   = dev.$(AUTHOR).$(PROJECT)
-BREWDIR := $(shell brew --repo $(AUTHOR)/tap)
+BREWDIR  = $(shell brew --repo $(AUTHOR)/tap)
 DATE    := $(shell date +"%Y-%m-%dT%H:%M:%S%z")
 
 .DEFAULT_GOAL := help
@@ -26,30 +28,31 @@ translations: ## Update and complete all translations
 
 .PHONY: test
 test: ## Run unit tests
-	xcodebuild test -project Spaceman.xcodeproj -scheme Spaceman -destination platform=macOS | xcbeautify --quiet
+	set -o pipefail && \
+		xcodebuild test -project $(PROJECT).xcodeproj -scheme $(PROJECT) -destination platform=macOS | \
+		xcbeautify --quiet
 
 .PHONY: lint
 lint: ## Check source code style
 	swiftlint Spaceman
 
 .PHONY: build
-build: ## Make the archive file
-	$(MAKE) $(ARCHIVE)
+build: $(ARCHIVE) ## Make the archive file
 
 $(ARCHIVE): $(PBXPROJ)
-	xcodebuild -workspace $(PROJECT).xcodeproj/project.xcworkspace -scheme $(PROJECT) -configuration Release clean archive -archivePath $(ARCHIVE) | xcbeautify
+	set -o pipefail && \
+		xcodebuild -project $(PROJECT).xcodeproj -scheme $(PROJECT) -configuration Release clean archive -archivePath $(ARCHIVE) | \
+		xcbeautify
 
 .PHONY: export
-export: ## Make the app file
-	$(MAKE) $(APPFILE)
+export: $(APPFILE) ## Make the app file
 
 $(APPFILE): $(ARCHIVE)
 	xcodebuild -exportArchive -archivePath $(ARCHIVE) -exportOptionsPlist $(PROJECT)/exportOptions.plist -exportPath $(IMAGEDIR)
 	@test -d "$(APPFILE)" || { echo $$'\nExport failed: "$(APPFILE)" not found. Check code signing or exportOptions.plist.'; exit 1; }
 
 .PHONY: image
-image: ## Make the dmg image file
-	$(MAKE) $(IMAGE)
+image: $(IMAGE) ## Make the dmg image file
 
 $(IMAGE): $(APPFILE)
 	create-dmg \
@@ -67,6 +70,7 @@ $(IMAGE): $(APPFILE)
 		$(IMAGE)                                                    \
 		$(IMAGEDIR) # source folder
 
+.PHONY: all
 all: image ## Make all of the above
 
 

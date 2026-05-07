@@ -24,7 +24,7 @@ struct PreferencesView: View {
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
-    @AppStorage("navigateAnywhere") private var navigateAnywhere = false
+
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
@@ -454,12 +454,27 @@ struct PreferencesView: View {
     }
 
     // MARK: - Switching options (shown at the bottom of Spaces tab)
+    @AppStorage("switchingMode") private var switchingMode = SwitchingMode.smooth.rawValue
+
+    private var isGestureMode: Bool {
+        switchingMode != SwitchingMode.smooth.rawValue
+    }
+
     private var switchingOptions: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Toggle(isOn: $navigateAnywhere) {
-                Text("Allow switching to fullscreen spaces using multiple steps")
-                    .fixedSize(horizontal: false, vertical: true)
+            Text("Switching Spaces")
+                .font(.title2)
+                .fontWeight(.semibold)
+            Picker("", selection: $switchingMode) {
+                Text("Use smooth transitions")
+                    .tag(SwitchingMode.smooth.rawValue)
+                Text("Use fast animations")
+                    .tag(SwitchingMode.fast.rawValue)
+                Text("Use instant switching")
+                    .tag(SwitchingMode.instant.rawValue)
             }
+            .pickerStyle(.radioGroup)
+            .labelsHidden()
             .padding(.bottom, 6)
             HStack(spacing: 8) {
                 Button {
@@ -467,6 +482,7 @@ struct PreferencesView: View {
                 } label: {
                     Text("Open \(systemSettingsName()) → Mission Control Shortcuts…")
                 }
+                .disabled(isGestureMode)
                 Button {
                     showSwitchingHelp.toggle()
                 } label: {

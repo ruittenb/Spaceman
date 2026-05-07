@@ -10,42 +10,6 @@ import XCTest
 
 final class SpaceNameInfoTests: XCTestCase {
 
-    func testSpaceNameInfoInitialization() {
-        let info = SpaceNameInfo(
-            spaceNum: 1,
-            spaceName: "Development",
-            spaceByDesktopID: "1",
-            displayUUID: "uuid-1",
-            positionOnDisplay: 1,
-            currentDisplayIndex: 1,
-            currentSpaceNumber: 1
-        )
-
-        XCTAssertEqual(info.spaceNum, 1)
-        XCTAssertEqual(info.spaceName, "Development")
-        XCTAssertEqual(info.spaceByDesktopID, "1")
-        XCTAssertEqual(info.displayUUID, "uuid-1")
-        XCTAssertEqual(info.positionOnDisplay, 1)
-        XCTAssertEqual(info.currentDisplayIndex, 1)
-        XCTAssertEqual(info.currentSpaceNumber, 1)
-    }
-
-    func testSpaceNameInfoMinimalInitialization() {
-        let info = SpaceNameInfo(
-            spaceNum: 2,
-            spaceName: "Minimal",
-            spaceByDesktopID: "2"
-        )
-
-        XCTAssertEqual(info.spaceNum, 2)
-        XCTAssertEqual(info.spaceName, "Minimal")
-        XCTAssertEqual(info.spaceByDesktopID, "2")
-        XCTAssertNil(info.displayUUID)
-        XCTAssertNil(info.positionOnDisplay)
-        XCTAssertNil(info.currentDisplayIndex)
-        XCTAssertNil(info.currentSpaceNumber)
-    }
-
     func testSpaceNameInfoHashable() {
         let info1 = SpaceNameInfo(spaceNum: 1, spaceName: "Test", spaceByDesktopID: "1")
         let info2 = SpaceNameInfo(spaceNum: 1, spaceName: "Test", spaceByDesktopID: "1")

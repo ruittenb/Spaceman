@@ -596,133 +596,133 @@ class IconCreator {
         return image
     }
 
-    private func mergeIconsTwoRows(
-        _ iconsWithDisplayProperties: [SpaceIconInfo],
-        indexMap: [String: Int],
-        spaces: [Space],
-        defaultColor: NSColor?,
-        navIcons: [(image: NSImage, index: Int)]
-    ) -> NSImage {
-        // Column describes a stacked pair (top/bottom)
-        // and its rendered width and trailing gap
-        struct Column {
-            var top: (image: NSImage, isFull: Bool, tag: Int, spaceID: String, colorHex: String?, spaceNumber: Int)?
-            var bottom: (image: NSImage, isFull: Bool, tag: Int, spaceID: String, colorHex: String?, spaceNumber: Int)?
-            var width: CGFloat = 0
-            var gapAfter: CGFloat = 0
-        }
+    /// A stacked pair (top/bottom) of icons and its rendered width and trailing gap.
+    private struct Column {
+        var top: (image: NSImage, isFull: Bool, tag: Int, spaceID: String, colorHex: String?,
+                  spaceNumber: Int)?
+        var bottom: (image: NSImage, isFull: Bool, tag: Int, spaceID: String, colorHex: String?,
+                     spaceNumber: Int)?
+        var width: CGFloat = 0
+        var gapAfter: CGFloat = 0
+    }
 
-        let assignedIndices: [Int] = iconsWithDisplayProperties.map {
-            indexMap[$0.spaceID] ?? Space.unswitchableIndex
-        }
-
-        // Build columns depending on fill order preference
+    /// Build columns by filling top then bottom per column (by-column layout).
+    private func buildColumnsByColumn(
+        _ icons: [SpaceIconInfo], assignedIndices: [Int]
+    ) -> [Column] {
         var columns: [Column] = []
-        switch rowLayout {
-        case .twoRowsByColumn, .singleRow:
-            // Original behavior: fill top then bottom per column
-            var current = Column()
-            var placeTop = true
-            for (idx, icon) in iconsWithDisplayProperties.enumerated() {
-                let tag = assignedIndices[idx]
-                if placeTop {
-                    current.top = (
-                        icon.image, icon.isFullScreen,
-                        tag, icon.spaceID, icon.colorHex,
-                        icon.spaceNumber
-                    )
-                    current.width = max(current.width, icon.image.size.width)
-                    placeTop = false
-                } else {
-                    current.bottom = (
-                        icon.image, icon.isFullScreen,
-                        tag, icon.spaceID, icon.colorHex,
-                        icon.spaceNumber
-                    )
-                    current.width = max(current.width, icon.image.size.width)
-                    placeTop = true
-                }
-                let isColumnEnd = placeTop || icon.nextSpaceOnDifferentDisplay
-                if isColumnEnd {
-                    current.gapAfter = icon.nextSpaceOnDifferentDisplay
-                        ? displayGapWidth : gapWidth
-                    columns.append(current)
-                    current = Column()
-                    placeTop = true
-                }
-                let isLast = idx == iconsWithDisplayProperties.count - 1
-                if isLast && (current.top != nil || current.bottom != nil) {
-                    current.gapAfter = 0
-                    columns.append(current)
-                }
-            }
-        case .twoRowsByRow:
-            // New behavior: fill entire top row left-to-right, then bottom row
-            // First, segment by display to place display gaps correctly
-            typealias Segment = (
-                image: NSImage, nextDisplay: Bool, isFull: Bool,
-                tag: Int, spaceID: String, colorHex: String?,
-                spaceNumber: Int
-            )
-            var segments: [[Segment]] = []
-            var cur: [Segment] = []
-            for (idx, icon) in iconsWithDisplayProperties.enumerated() {
-                cur.append((
-                    icon.image, icon.nextSpaceOnDifferentDisplay,
-                    icon.isFullScreen, assignedIndices[idx],
-                    icon.spaceID, icon.colorHex,
+        var current = Column()
+        var placeTop = true
+        for (idx, icon) in icons.enumerated() {
+            let tag = assignedIndices[idx]
+            if placeTop {
+                current.top = (
+                    icon.image, icon.isFullScreen,
+                    tag, icon.spaceID, icon.colorHex,
                     icon.spaceNumber
-                ))
-                if icon.nextSpaceOnDifferentDisplay { segments.append(cur); cur = [] }
+                )
+                current.width = max(current.width, icon.image.size.width)
+                placeTop = false
+            } else {
+                current.bottom = (
+                    icon.image, icon.isFullScreen,
+                    tag, icon.spaceID, icon.colorHex,
+                    icon.spaceNumber
+                )
+                current.width = max(current.width, icon.image.size.width)
+                placeTop = true
             }
-            if !cur.isEmpty { segments.append(cur) }
-
-            for (segIdx, seg) in segments.enumerated() {
-                let count = seg.count
-                let topCount = Int(ceil(Double(count) / 2.0))
-                let top = Array(seg.prefix(topCount))
-                let bottom = Array(seg.dropFirst(topCount))
-                let maxLen = max(top.count, bottom.count)
-                for i in 0..<maxLen {
-                    var col = Column()
-                    if i < top.count {
-                        let topItem = top[i]
-                        col.top = (
-                            topItem.image,
-                            topItem.isFull,
-                            topItem.tag,
-                            topItem.spaceID,
-                            topItem.colorHex,
-                            topItem.spaceNumber
-                        )
-                        col.width = max(col.width, topItem.image.size.width)
-                    }
-                    if i < bottom.count {
-                        let bottomItem = bottom[i]
-                        col.bottom = (
-                            bottomItem.image, bottomItem.isFull,
-                            bottomItem.tag, bottomItem.spaceID,
-                            bottomItem.colorHex, bottomItem.spaceNumber
-                        )
-                        col.width = max(col.width, bottomItem.image.size.width)
-                    }
-                    // Add inter-column gap. After the last column of a display,
-                    // add display gap (except trailing overall)
-                    let isLastInSegment = (i == maxLen - 1)
-                    col.gapAfter = isLastInSegment ? displayGapWidth : gapWidth
-                    columns.append(col)
-                }
-                // Avoid display gap after final segment
-                if segIdx == segments.count - 1, var last = columns.popLast() {
-                    last.gapAfter = 0
-                    columns.append(last)
-                }
+            let isColumnEnd = placeTop || icon.nextSpaceOnDifferentDisplay
+            if isColumnEnd {
+                current.gapAfter = icon.nextSpaceOnDifferentDisplay
+                    ? displayGapWidth : gapWidth
+                columns.append(current)
+                current = Column()
+                placeTop = true
+            }
+            let isLast = idx == icons.count - 1
+            if isLast && (current.top != nil || current.bottom != nil) {
+                current.gapAfter = 0
+                columns.append(current)
             }
         }
+        return columns
+    }
 
-        // Equalize icon widths within each column by re-rendering the narrower icon at column width;
-        // this achieves simplicity by keeping all pairing logic in one place and avoids a complex pre-computation pass
-        let spacesByID = Dictionary(spaces.map { ($0.spaceID, $0) }, uniquingKeysWith: { first, _ in first })
+    /// Build columns by filling entire top row left-to-right, then bottom row (by-row layout).
+    private func buildColumnsByRow(
+        _ icons: [SpaceIconInfo], assignedIndices: [Int]
+    ) -> [Column] {
+        typealias Segment = (
+            image: NSImage, nextDisplay: Bool, isFull: Bool,
+            tag: Int, spaceID: String, colorHex: String?,
+            spaceNumber: Int
+        )
+        // Segment by display to place display gaps correctly
+        var segments: [[Segment]] = []
+        var cur: [Segment] = []
+        for (idx, icon) in icons.enumerated() {
+            cur.append((
+                icon.image, icon.nextSpaceOnDifferentDisplay,
+                icon.isFullScreen, assignedIndices[idx],
+                icon.spaceID, icon.colorHex,
+                icon.spaceNumber
+            ))
+            if icon.nextSpaceOnDifferentDisplay { segments.append(cur); cur = [] }
+        }
+        if !cur.isEmpty { segments.append(cur) }
+
+        var columns: [Column] = []
+        for (segIdx, seg) in segments.enumerated() {
+            let count = seg.count
+            let topCount = Int(ceil(Double(count) / 2.0))
+            let top = Array(seg.prefix(topCount))
+            let bottom = Array(seg.dropFirst(topCount))
+            let maxLen = max(top.count, bottom.count)
+            for i in 0..<maxLen {
+                var col = Column()
+                if i < top.count {
+                    let topItem = top[i]
+                    col.top = (
+                        topItem.image,
+                        topItem.isFull,
+                        topItem.tag,
+                        topItem.spaceID,
+                        topItem.colorHex,
+                        topItem.spaceNumber
+                    )
+                    col.width = max(col.width, topItem.image.size.width)
+                }
+                if i < bottom.count {
+                    let bottomItem = bottom[i]
+                    col.bottom = (
+                        bottomItem.image, bottomItem.isFull,
+                        bottomItem.tag, bottomItem.spaceID,
+                        bottomItem.colorHex, bottomItem.spaceNumber
+                    )
+                    col.width = max(col.width, bottomItem.image.size.width)
+                }
+                // Add inter-column gap. After the last column of a display,
+                // add display gap (except trailing overall)
+                let isLastInSegment = (i == maxLen - 1)
+                col.gapAfter = isLastInSegment ? displayGapWidth : gapWidth
+                columns.append(col)
+            }
+            // Avoid display gap after final segment
+            if segIdx == segments.count - 1, var last = columns.popLast() {
+                last.gapAfter = 0
+                columns.append(last)
+            }
+        }
+        return columns
+    }
+
+    /// Re-render the narrower icon in each column at the full column width.
+    private func equalizeColumnWidths(
+        _ columns: inout [Column], spaces: [Space], defaultColor: NSColor?
+    ) {
+        let spacesByID = Dictionary(
+            spaces.map { ($0.spaceID, $0) }, uniquingKeysWith: { first, _ in first })
         for i in 0..<columns.count {
             let colWidth = columns[i].width
             if let top = columns[i].top, top.image.size.width < colWidth,
@@ -734,15 +734,34 @@ class IconCreator {
                let space = spacesByID[bottom.spaceID] {
                 let newImage = createSpaceIcon(space: space, defaultColor: defaultColor, minWidth: colWidth)
                 columns[i].bottom = (
-                    newImage,
-                    bottom.isFull,
-                    bottom.tag,
-                    bottom.spaceID,
-                    bottom.colorHex,
-                    bottom.spaceNumber
+                    newImage, bottom.isFull, bottom.tag, bottom.spaceID,
+                    bottom.colorHex, bottom.spaceNumber
                 )
             }
         }
+    }
+
+    private func mergeIconsTwoRows(
+        _ iconsWithDisplayProperties: [SpaceIconInfo],
+        indexMap: [String: Int],
+        spaces: [Space],
+        defaultColor: NSColor?,
+        navIcons: [(image: NSImage, index: Int)]
+    ) -> NSImage {
+        let assignedIndices: [Int] = iconsWithDisplayProperties.map {
+            indexMap[$0.spaceID] ?? Space.unswitchableIndex
+        }
+
+        // Build columns depending on fill order preference
+        var columns: [Column]
+        switch rowLayout {
+        case .twoRowsByColumn, .singleRow:
+            columns = buildColumnsByColumn(iconsWithDisplayProperties, assignedIndices: assignedIndices)
+        case .twoRowsByRow:
+            columns = buildColumnsByRow(iconsWithDisplayProperties, assignedIndices: assignedIndices)
+        }
+
+        equalizeColumnWidths(&columns, spaces: spaces, defaultColor: defaultColor)
 
         // Render
         let topNavIcons = navIcons.filter { $0.index != Space.missionControlIndex }
