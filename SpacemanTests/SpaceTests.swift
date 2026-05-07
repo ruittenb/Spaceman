@@ -30,12 +30,12 @@ final class SpaceTests: XCTestCase {
             makeSpace(id: "f1", fullScreen: true),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
-        // First fullscreen space mapped to -1 (minus key shortcut)
-        XCTAssertEqual(map, ["s1": 1, "s2": 2, "f1": -1])
+        // Fullscreen spaces are not in the map
+        XCTAssertEqual(map, ["s1": 1, "s2": 2])
     }
 
     func testBuildSwitchIndexMap_FullscreenBetweenDesktops() {
-        // [D, F, D, D] → desktops 1,2,3 (not 1,3,4); first fullscreen → -1
+        // [D, F, D, D] → desktops 1,2,3 (not 1,3,4); fullscreen omitted
         let spaces = [
             makeSpace(id: "d1"),
             makeSpace(id: "f1", fullScreen: true),
@@ -43,7 +43,7 @@ final class SpaceTests: XCTestCase {
             makeSpace(id: "d3"),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
-        XCTAssertEqual(map, ["d1": 1, "f1": -1, "d2": 2, "d3": 3])
+        XCTAssertEqual(map, ["d1": 1, "d2": 2, "d3": 3])
     }
 
     func testBuildSwitchIndexMap_MultipleFullscreen() {
@@ -53,8 +53,7 @@ final class SpaceTests: XCTestCase {
             makeSpace(id: "f3", fullScreen: true),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
-        // Only first fullscreen is mapped
-        XCTAssertEqual(map, ["f1": -1])
+        XCTAssertTrue(map.isEmpty)
     }
 
     func testBuildSwitchIndexMap_MoreThanMaxDesktops() {
@@ -73,38 +72,38 @@ final class SpaceTests: XCTestCase {
         XCTAssertTrue(map.isEmpty)
     }
 
-    // MARK: - buildSwitchIndexMap: F1/F2+ fullscreen behavior
+    // MARK: - buildSwitchIndexMap: fullscreen behavior
 
-    func testBuildSwitchIndexMap_F1HasMinusOne() {
+    func testBuildSwitchIndexMap_fullscreenNotInMap() {
         let spaces = [
             makeSpace(id: "d1"),
             makeSpace(id: "f1", fullScreen: true),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
-        XCTAssertEqual(map["f1"], -1, "F1 must be mapped to -1")
+        XCTAssertNil(map["f1"], "Fullscreen spaces must not be in the switch map")
+        XCTAssertEqual(map, ["d1": 1])
     }
 
-    func testBuildSwitchIndexMap_F2NotInMap() {
+    func testBuildSwitchIndexMap_multipleFullscreenNotInMap() {
         let spaces = [
             makeSpace(id: "d1"),
             makeSpace(id: "f1", fullScreen: true),
             makeSpace(id: "f2", fullScreen: true),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
-        XCTAssertEqual(map["f1"], -1)
-        XCTAssertNil(map["f2"], "F2 must not be in the switch map")
+        XCTAssertNil(map["f1"])
+        XCTAssertNil(map["f2"])
+        XCTAssertEqual(map, ["d1": 1])
     }
 
-    func testBuildSwitchIndexMap_F3NotInMap() {
+    func testBuildSwitchIndexMap_onlyFullscreen() {
         let spaces = [
             makeSpace(id: "f1", fullScreen: true),
             makeSpace(id: "f2", fullScreen: true),
             makeSpace(id: "f3", fullScreen: true),
         ]
         let map = Space.buildSwitchIndexMap(for: spaces)
-        XCTAssertEqual(map["f1"], -1)
-        XCTAssertNil(map["f2"])
-        XCTAssertNil(map["f3"])
+        XCTAssertTrue(map.isEmpty)
     }
 
     // MARK: - canSwitch
@@ -128,16 +127,9 @@ final class SpaceTests: XCTestCase {
         XCTAssertFalse(Space.canSwitch(space: space, switchTag: 1, allowChaining: true))
     }
 
-    func testCanSwitch_F1_alwaysSwitchable() {
+    func testCanSwitch_fullscreen_onlyWithChaining() {
         let space = makeSpaceWithNumber(id: "f1", number: 10, fullScreen: true)
-        // F1 has tag -1 in switchMap
-        XCTAssertTrue(Space.canSwitch(space: space, switchTag: -1, allowChaining: false))
-        XCTAssertTrue(Space.canSwitch(space: space, switchTag: -1, allowChaining: true))
-    }
-
-    func testCanSwitch_F2_onlyWithChaining() {
-        let space = makeSpaceWithNumber(id: "f2", number: 11, fullScreen: true)
-        // F2 has no switchMap entry
+        // Fullscreen spaces have no switchMap entry
         XCTAssertFalse(Space.canSwitch(space: space, switchTag: nil, allowChaining: false))
         XCTAssertTrue(Space.canSwitch(space: space, switchTag: nil, allowChaining: true))
     }
@@ -180,13 +172,9 @@ final class SpaceTests: XCTestCase {
         XCTAssertEqual(Space.switchTag(switchMapEntry: 3, spaceNumber: 3), 3)
     }
 
-    func testSwitchTag_F1_usesNegativeSpaceNumber() {
-        // F1 has switchMapEntry -1, which is not > 0, so falls through to -(spaceNumber)
-        XCTAssertEqual(Space.switchTag(switchMapEntry: -1, spaceNumber: 10), -10)
-    }
-
-    func testSwitchTag_F2_usesNegativeSpaceNumber() {
-        XCTAssertEqual(Space.switchTag(switchMapEntry: nil, spaceNumber: 11), -11)
+    func testSwitchTag_fullscreen_usesNegativeSpaceNumber() {
+        // Fullscreen has no switchMapEntry, falls through to -(spaceNumber)
+        XCTAssertEqual(Space.switchTag(switchMapEntry: nil, spaceNumber: 10), -10)
     }
 
     func testSwitchTag_unswitchableDesktop() {

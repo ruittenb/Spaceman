@@ -38,26 +38,15 @@ struct Space: Equatable {
     /// Build a mapping from spaceID to Mission Control switch index.
     /// Regular desktops get 1, 2, ... up to `maxSwitchableDesktop` (matching
     /// keyboard shortcuts read from macOS user defaults). Beyond that, omitted.
-    ///
-    /// The first fullscreen space (F1) is mapped to -1 so it can be
-    /// distinguished for the hidden minus-key shortcut (used by Apptivate etc.).
-    /// Additional fullscreen spaces are omitted and get `unswitchableIndex`.
+    /// Fullscreen spaces are not in the map (no macOS shortcut exists for them).
     static func buildSwitchIndexMap(for spaces: [Space]) -> [String: Int] {
         var map: [String: Int] = [:]
         var desktopIndex = 1
-        var fullscreenIndex = 1
-        for s in spaces {
-            if s.isFullScreen {
-                if fullscreenIndex == 1 {
-                    map[s.spaceID] = -1
-                }
-                fullscreenIndex += 1
-            } else {
-                if desktopIndex <= maxSwitchableDesktop {
-                    map[s.spaceID] = desktopIndex
-                }
-                desktopIndex += 1
+        for s in spaces where !s.isFullScreen {
+            if desktopIndex <= maxSwitchableDesktop {
+                map[s.spaceID] = desktopIndex
             }
+            desktopIndex += 1
         }
         return map
     }
@@ -70,9 +59,9 @@ struct Space: Equatable {
     ) -> Bool {
         guard !space.isCurrentSpace else { return false }
         if switchingMode != .smooth { return true }
-        // Has a direct shortcut (desktop 1-16 or F1)
+        // Has a direct shortcut (desktop 1-16)
         if switchTag != nil { return true }
-        // F2+ fullscreen: only reachable via chaining
+        // Fullscreen: only reachable via chaining
         if space.isFullScreen && allowChaining { return true }
         return false
     }

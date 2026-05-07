@@ -489,10 +489,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 itemsToInsert.append(NSMenuItem.separator())
             }
             let idx = switchMap[space.spaceID]
-            // Positive indices are desktop numbers; -1 is F1 (fullscreen); nil is unswitchable
             let desktopNum: Int? = if let idx, idx > 0 { idx } else { nil }
-            let isF1 = idx == -1
-            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum, isF1: isF1))
+            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum))
             lastDisplayID = space.displayID
         }
         // No trailing separator needed — the fixed separator before the settings submenus handles it
@@ -542,8 +540,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             }
             let idx = switchMap[space.spaceID]
             let desktopNum: Int? = if let idx, idx > 0 { idx } else { nil }
-            let isF1 = idx == -1
-            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum, isF1: isF1))
+            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum))
             lastDisplayID = space.displayID
         }
         var insertIndex = 2
@@ -856,7 +853,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
 
-    func makeSwitchToSpaceItem(space: Space, desktopNumber: Int?, isF1: Bool = false) -> NSMenuItem {
+    func makeSwitchToSpaceItem(space: Space, desktopNumber: Int?) -> NSMenuItem {
         let spaceName = space.spaceName.isEmpty ? "-" : space.spaceName
 
         var shortcutKey = ""
@@ -876,7 +873,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         item.tag = desktopNumber ?? -(space.spaceNumber)
         item.image = menuIcon
         let canSwitch = switchingMode != SwitchingMode.smooth.rawValue
-            || isF1
             || (allowChaining && space.isFullScreen)
             || shortcutKey != ""
         if space.isCurrentSpace || !canSwitch {
@@ -945,11 +941,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 targetSpaceNumber: targetSpaceNumber,
                 spaces: currentSpaces,
                 onError: flashStatusBar)
-        } else if tag < 0 {
-            // F1 with chaining disabled: send minus key shortcut
-            if let sc = spaceSwitcher.fullscreenShortcut {
-                spaceSwitcher.sendFullscreenShortcut(sc)
-            }
         }
     }
 

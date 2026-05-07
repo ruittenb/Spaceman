@@ -34,11 +34,6 @@ class SpaceSwitcher {
         shortcutHelper.shortcut(forDesktop: desktop)
     }
 
-    /// The synthesized F1 fullscreen shortcut (minus key).
-    var fullscreenShortcut: SpaceShortcut? {
-        shortcutHelper.fullscreenShortcut
-    }
-
     /// Switch to a space using gesture. Returns false if cross-display.
     func switchToSpaceByGesture(
         target: Space, current: Space, spaces: [Space],
@@ -108,10 +103,6 @@ class SpaceSwitcher {
     public func switchToNextSpace() {
         let sc = shortcutHelper.moveRightShortcut
         sendKeyCode(sc?.keyCode ?? 124, modifiers: sc?.modifiers ?? "control down")
-    }
-
-    func sendFullscreenShortcut(_ shortcut: SpaceShortcut) {
-        sendKeyCode(shortcut.keyCode, modifiers: shortcut.modifiers)
     }
 
     private func sendKeyCode(_ keyCode: Int, modifiers: String) {
@@ -234,17 +225,7 @@ class SpaceSwitcher {
         } else if (hitIndex == Space.unswitchableIndex || hitIndex < 0) && allowChaining {
             navigateByChaining(
                 targetSpaceNumber: hitSpaceNumber, spaces: spaces, onError: onError)
-        } else if hitIndex == -1 {
-            // F1 fullscreen with chaining disabled: send minus key (for Apptivate etc.)
-            if let sc = shortcutHelper.fullscreenShortcut {
-                sendKeyCode(sc.keyCode, modifiers: sc.modifiers)
-            } else {
-                onError()
-            }
-        } else if hitIndex < 0 {
-            // F2+ fullscreen with chaining disabled: no shortcut available, just blink
-            onError()
-        } else if hitIndex == Space.unswitchableIndex {
+        } else if hitIndex < 0 || hitIndex == Space.unswitchableIndex {
             if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
         } else if shortcutHelper.getKeyCode(spaceNumber: hitIndex) < 0 {
             if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
