@@ -117,29 +117,23 @@ final class SpaceTests: XCTestCase {
 
     func testCanSwitch_regularDesktop() {
         let space = makeSpaceWithNumber(id: "d1", number: 1)
-        XCTAssertTrue(Space.canSwitch(space: space, switchTag: 1, allowChaining: false))
-        XCTAssertTrue(Space.canSwitch(space: space, switchTag: 1, allowChaining: true))
+        XCTAssertTrue(Space.canSwitch(space: space, switchTag: 1))
     }
 
     func testCanSwitch_currentSpace_alwaysFalse() {
         let space = makeSpaceWithNumber(id: "d1", number: 1, current: true)
-        XCTAssertFalse(Space.canSwitch(space: space, switchTag: 1, allowChaining: false))
-        XCTAssertFalse(Space.canSwitch(space: space, switchTag: 1, allowChaining: true))
+        XCTAssertFalse(Space.canSwitch(space: space, switchTag: 1))
     }
 
-    func testCanSwitch_fullscreen_onlyWithChaining() {
+    func testCanSwitch_fullscreen_switchable() {
         let space = makeSpaceWithNumber(id: "f1", number: 10, fullScreen: true)
-        // Fullscreen spaces have no switchMap entry
-        XCTAssertFalse(Space.canSwitch(space: space, switchTag: nil, allowChaining: false))
-        XCTAssertTrue(Space.canSwitch(space: space, switchTag: nil, allowChaining: true))
+        XCTAssertTrue(Space.canSwitch(space: space, switchTag: nil))
     }
 
     func testCanSwitch_desktopBeyondMax_noTag() {
         let space = makeSpaceWithNumber(id: "d17", number: 17)
         // Desktop 17+ has no shortcut and is not fullscreen
-        XCTAssertFalse(Space.canSwitch(space: space, switchTag: nil, allowChaining: false))
-        // With chaining: still not switchable (not fullscreen)
-        XCTAssertFalse(Space.canSwitch(space: space, switchTag: nil, allowChaining: true))
+        XCTAssertFalse(Space.canSwitch(space: space, switchTag: nil))
     }
 
     // MARK: - canSwitch (gesture modes)
@@ -149,11 +143,9 @@ final class SpaceTests: XCTestCase {
         let fullscreen = makeSpaceWithNumber(id: "f2", number: 11, fullScreen: true)
         for mode: SwitchingMode in [.fast, .instant] {
             XCTAssertTrue(Space.canSwitch(
-                space: desktop, switchTag: nil, allowChaining: false,
-                switchingMode: mode))
+                space: desktop, switchTag: nil, switchingMode: mode))
             XCTAssertTrue(Space.canSwitch(
-                space: fullscreen, switchTag: nil, allowChaining: false,
-                switchingMode: mode))
+                space: fullscreen, switchTag: nil, switchingMode: mode))
         }
     }
 
@@ -161,8 +153,7 @@ final class SpaceTests: XCTestCase {
         let space = makeSpaceWithNumber(id: "d1", number: 1, current: true)
         for mode: SwitchingMode in [.fast, .instant] {
             XCTAssertFalse(Space.canSwitch(
-                space: space, switchTag: 1, allowChaining: true,
-                switchingMode: mode))
+                space: space, switchTag: 1, switchingMode: mode))
         }
     }
 

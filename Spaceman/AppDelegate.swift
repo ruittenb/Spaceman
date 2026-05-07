@@ -263,7 +263,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let keys = [
             "visibleSpacesMode", "restartNumberingByDisplay", "horizontalDirection",
             "useVariableWidth", "decorationActive", "decorationInactive",
-            "iconSize", "rowLayout", "showFullscreenSpaces", "allowChaining",
+            "iconSize", "rowLayout", "showFullscreenSpaces",
             "switchingMode"
         ]
         for key in keys {
@@ -376,12 +376,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             UserDefaults.standard.removeObject(forKey: "hideFullscreenSpaces")
         }
 
-        // Migrate navigateAnywhere to allowChaining
-        if UserDefaults.standard.object(forKey: "allowChaining") == nil,
-           let oldValue = UserDefaults.standard.object(forKey: "navigateAnywhere") as? Bool {
-            UserDefaults.standard.set(oldValue, forKey: "allowChaining")
-            UserDefaults.standard.removeObject(forKey: "navigateAnywhere")
-        }
+        // Clean up obsolete chaining keys (chaining is now always on)
+        UserDefaults.standard.removeObject(forKey: "allowChaining")
+        UserDefaults.standard.removeObject(forKey: "navigateAnywhere")
 
         // Migrate useGestureSwitching (bool) to switchingMode (enum)
         if UserDefaults.standard.object(forKey: "switchingMode") == nil,

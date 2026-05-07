@@ -25,7 +25,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
-    @AppStorage("allowChaining") private var allowChaining = false
     @AppStorage("switchingMode") private var switchingMode = SwitchingMode.smooth.rawValue
     @AppStorage("spaceDisplayMode") private var spaceDisplayMode = SpaceDisplayMode.list
 
@@ -308,7 +307,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     iconWidths: self.iconCreator.iconWidths,
                     point: adjPoint,
                     spaces: self.currentSpaces,
-                    allowChaining: self.allowChaining,
                     onError: self.flashStatusBar,
                     onMissingShortcut: { [weak self] kind in
                         self?.showMissingShortcutBalloon(kind: kind)
@@ -873,7 +871,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         item.tag = desktopNumber ?? -(space.spaceNumber)
         item.image = menuIcon
         let canSwitch = switchingMode != SwitchingMode.smooth.rawValue
-            || (allowChaining && space.isFullScreen)
+            || space.isFullScreen
             || shortcutKey != ""
         if space.isCurrentSpace || !canSwitch {
             item.isEnabled = false
@@ -935,7 +933,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         if tag >= 1 && tag <= Space.maxSwitchableDesktop {
             spaceSwitcher.switchToSpace(
                 spaceNumber: tag, onError: flashStatusBar)
-        } else if tag < 0 && allowChaining {
+        } else if tag < 0 {
             let targetSpaceNumber = -tag
             spaceSwitcher.navigateByChaining(
                 targetSpaceNumber: targetSpaceNumber,

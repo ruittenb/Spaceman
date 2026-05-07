@@ -117,7 +117,7 @@ class SpaceSwitcher {
 
     public func switchUsingLocation(
         iconWidths: [IconWidth], point: CGPoint,
-        spaces: [Space], allowChaining: Bool,
+        spaces: [Space],
         onError: @escaping () -> Void,
         onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
@@ -151,7 +151,7 @@ class SpaceSwitcher {
         } else {
             switchUsingShortcut(
                 hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
-                spaces: spaces, allowChaining: allowChaining,
+                spaces: spaces,
                 onError: onError, onMissingShortcut: onMissingShortcut)
         }
     }
@@ -200,7 +200,7 @@ class SpaceSwitcher {
 
     private func switchUsingShortcut(
         hitIndex: Int, hitSpaceNumber: Int,
-        spaces: [Space], allowChaining: Bool,
+        spaces: [Space],
         onError: @escaping () -> Void,
         onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
@@ -222,11 +222,9 @@ class SpaceSwitcher {
                 switchToNextSpace()
             }
             return
-        } else if (hitIndex == Space.unswitchableIndex || hitIndex < 0) && allowChaining {
+        } else if hitIndex == Space.unswitchableIndex || hitIndex < 0 {
             navigateByChaining(
                 targetSpaceNumber: hitSpaceNumber, spaces: spaces, onError: onError)
-        } else if hitIndex < 0 || hitIndex == Space.unswitchableIndex {
-            if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
         } else if shortcutHelper.getKeyCode(spaceNumber: hitIndex) < 0 {
             if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
         } else {

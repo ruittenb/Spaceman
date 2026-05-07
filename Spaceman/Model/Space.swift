@@ -51,18 +51,18 @@ struct Space: Equatable {
         return map
     }
 
-    /// Whether a space can be switched to, given its switch map tag and chaining setting.
+    /// Whether a space can be switched to, given its switch map tag.
     /// Used by both grid and list views to determine if a space is clickable.
     static func canSwitch(
-        space: Space, switchTag: Int?, allowChaining: Bool,
+        space: Space, switchTag: Int?,
         switchingMode: SwitchingMode = .smooth
     ) -> Bool {
         guard !space.isCurrentSpace else { return false }
         if switchingMode != .smooth { return true }
         // Has a direct shortcut (desktop 1-16)
         if switchTag != nil { return true }
-        // Fullscreen: only reachable via chaining
-        if space.isFullScreen && allowChaining { return true }
+        // Fullscreen: reachable via chaining
+        if space.isFullScreen { return true }
         return false
     }
 
