@@ -933,16 +933,20 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             target: target, current: current, spaces: currentSpaces,
             mode: mode
         ) {
-            // Cross-display: fall back to AppleScript
-            if tag >= 1 && tag <= Space.maxSwitchableDesktop {
-                spaceSwitcher.switchToSpace(
-                    spaceNumber: tag, onError: flashStatusBar)
-            } else {
-                flashStatusBar()
-            }
+            // Cross-display: gestures can't cross displays, fall back to
+            // shortcut-based switching with full chaining support.
+            spaceSwitcher.navigateByShortcut(
+                targetSpaceNumber: target.spaceNumber,
+                spaces: currentSpaces,
+                onError: flashStatusBar)
         }
     }
 
+    /// Routes all menu switches through `navigateByShortcut`, even desktops
+    /// that have a direct shortcut. This is intentional: `calculateChainingStrategy`
+    /// prefers a single arrow keypress over a jump when the target is adjacent to
+    /// the current space, which avoids the brief visual jump that a direct shortcut
+    /// would cause.
     private func handleSwitchTagShortcut(_ tag: Int) {
         let targetSpaceNumber: Int
         if tag >= 1 && tag <= Space.maxSwitchableDesktop {
@@ -960,7 +964,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             flashStatusBar()
             return
         }
-        spaceSwitcher.navigateByChaining(
+        spaceSwitcher.navigateByShortcut(
             targetSpaceNumber: targetSpaceNumber,
             spaces: currentSpaces,
             onError: flashStatusBar)

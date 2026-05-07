@@ -189,12 +189,10 @@ class SpaceSwitcher {
         if !gestureSwitcher.switchToSpace(
             target: target, current: current, spaces: spaces, mode: mode
         ) {
-            // Cross-display: fall back to AppleScript
-            if hitIndex >= 1 && hitIndex <= Space.maxSwitchableDesktop {
-                switchToSpace(spaceNumber: hitIndex, onError: onError)
-            } else {
-                onError()
-            }
+            // Cross-display: fall back to shortcut-based switching
+            navigateByShortcut(
+                targetSpaceNumber: hitSpaceNumber, spaces: spaces,
+                onError: onError)
         }
     }
 
@@ -223,10 +221,14 @@ class SpaceSwitcher {
             }
             return
         } else if hitIndex == Space.unswitchableIndex || hitIndex < 0 {
-            navigateByChaining(
+            // Fullscreen spaces have no macOS shortcut, so always use chaining.
+            navigateByShortcut(
                 targetSpaceNumber: hitSpaceNumber, spaces: spaces,
                 onError: onError, onMissingShortcut: onMissingShortcut)
         } else if shortcutHelper.getKeyCode(spaceNumber: hitIndex) < 0 {
+            // Regular desktop whose shortcut is not configured in Mission Control.
+            // Unlike fullscreen (which chains), desktops prompt the user to enable
+            // the shortcut — because once enabled, direct switching is the better UX.
             if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
         } else {
             switchToSpace(spaceNumber: hitIndex, onError: onError)
@@ -321,7 +323,7 @@ class SpaceSwitcher {
 
     /// Navigate to a space that has no direct keyboard shortcut by
     /// chaining arrow keypresses.
-    func navigateByChaining(
+    func navigateByShortcut(
         targetSpaceNumber: Int, spaces: [Space],
         onError: @escaping () -> Void,
         onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
