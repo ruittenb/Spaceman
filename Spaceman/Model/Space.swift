@@ -56,19 +56,18 @@ struct Space: Equatable {
     static func canSwitch(
         space: Space, switchTag: Int?,
         switchingMode: SwitchingMode = .smooth,
-        spaces: [Space] = []
+        spaces: [Space] = [],
+        enabledSwitchMap: [String: Int]? = nil
     ) -> Bool {
         guard !space.isCurrentSpace else { return false }
         if switchingMode != .smooth { return true }
-        // Has a direct shortcut (desktop 1-16)
+        // Has an enabled shortcut
         if switchTag != nil { return true }
-        // Fullscreen: reachable only if chaining can reach it
-        if space.isFullScreen {
-            let strategy = SpaceSwitcher.calculateChainingStrategy(
-                targetSpaceNumber: space.spaceNumber, spaces: spaces)
-            return strategy != .unreachable
-        }
-        return false
+        // No direct shortcut: reachable only if chaining can reach it
+        let strategy = SpaceSwitcher.calculateChainingStrategy(
+            targetSpaceNumber: space.spaceNumber, spaces: spaces,
+            switchMap: enabledSwitchMap)
+        return strategy != .unreachable
     }
 
     /// The tag to pass to the switch handler for this space.

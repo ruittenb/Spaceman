@@ -482,13 +482,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         var itemsToInsert: [NSMenuItem] = []
         var lastDisplayID: String?
         let switchMap = Space.buildSwitchIndexMap(for: spaces)
+        let enabledMap = spaceSwitcher.buildEnabledSwitchMap(for: spaces)
         for space in spaces {
             if let last = lastDisplayID, last != space.displayID {
                 itemsToInsert.append(NSMenuItem.separator())
             }
             let idx = switchMap[space.spaceID]
             let desktopNum: Int? = if let idx, idx > 0 { idx } else { nil }
-            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum, spaces: spaces))
+            itemsToInsert.append(makeSwitchToSpaceItem(
+                space: space, desktopNumber: desktopNum, spaces: spaces,
+                enabledSwitchMap: enabledMap))
             lastDisplayID = space.displayID
         }
         // No trailing separator needed — the fixed separator before the settings submenus handles it
@@ -510,6 +513,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private func replaceDynamicItemsWithGrid() {
         removeDynamicMenuItems()
         let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
+        let enabledMap = spaceSwitcher.buildEnabledSwitchMap(for: currentSpaces)
         let gridItem = NSMenuItem()
         let gridView = NSHostingView(rootView: SpaceGridMenuView(
             spaces: currentSpaces,
@@ -518,6 +522,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 self?.handleSwitchTag(tag)
             },
             switchMap: switchMap,
+            enabledSwitchMap: enabledMap,
             menuWidth: Constants.minMenuWidth
         ))
         gridView.frame.size = gridView.fittingSize
@@ -532,13 +537,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         var itemsToInsert: [NSMenuItem] = []
         var lastDisplayID: String?
         let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
+        let enabledMap = spaceSwitcher.buildEnabledSwitchMap(for: currentSpaces)
         for space in currentSpaces {
             if let last = lastDisplayID, last != space.displayID {
                 itemsToInsert.append(NSMenuItem.separator())
             }
             let idx = switchMap[space.spaceID]
             let desktopNum: Int? = if let idx, idx > 0 { idx } else { nil }
-            itemsToInsert.append(makeSwitchToSpaceItem(space: space, desktopNumber: desktopNum, spaces: currentSpaces))
+            itemsToInsert.append(makeSwitchToSpaceItem(
+                space: space, desktopNumber: desktopNum, spaces: currentSpaces,
+                enabledSwitchMap: enabledMap))
             lastDisplayID = space.displayID
         }
         var insertIndex = 2
@@ -851,7 +859,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
 
-    func makeSwitchToSpaceItem(space: Space, desktopNumber: Int?, spaces: [Space]) -> NSMenuItem {
+    func makeSwitchToSpaceItem(
+        space: Space, desktopNumber: Int?, spaces: [Space],
+        enabledSwitchMap: [String: Int]? = nil
+    ) -> NSMenuItem {
         let spaceName = space.spaceName.isEmpty ? "-" : space.spaceName
 
         var shortcutKey = ""
@@ -861,6 +872,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             mask = sc.modifierFlags
         }
 
+        let enabledTag = enabledSwitchMap?[space.spaceID]
         let menuIcon = iconCreator.createMenuItemIcon(space: space, fraction: 0.6)
         let item = NSMenuItem(
             title: spaceName,
@@ -872,8 +884,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         item.image = menuIcon
         let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
         let canSwitch = Space.canSwitch(
-            space: space, switchTag: desktopNumber,
-            switchingMode: mode, spaces: spaces)
+            space: space, switchTag: enabledTag,
+            switchingMode: mode, spaces: spaces,
+            enabledSwitchMap: enabledSwitchMap)
         if !canSwitch {
             item.isEnabled = false
             if space.isCurrentSpace {
@@ -931,16 +944,26 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     private func handleSwitchTagShortcut(_ tag: Int) {
+        let targetSpaceNumber: Int
         if tag >= 1 && tag <= Space.maxSwitchableDesktop {
-            spaceSwitcher.switchToSpace(
-                spaceNumber: tag, onError: flashStatusBar)
+            let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
+            guard let space = currentSpaces.first(
+                where: { switchMap[$0.spaceID] == tag })
+            else {
+                flashStatusBar()
+                return
+            }
+            targetSpaceNumber = space.spaceNumber
         } else if tag < 0 {
-            let targetSpaceNumber = -tag
-            spaceSwitcher.navigateByChaining(
-                targetSpaceNumber: targetSpaceNumber,
-                spaces: currentSpaces,
-                onError: flashStatusBar)
+            targetSpaceNumber = -tag
+        } else {
+            flashStatusBar()
+            return
         }
+        spaceSwitcher.navigateByChaining(
+            targetSpaceNumber: targetSpaceNumber,
+            spaces: currentSpaces,
+            onError: flashStatusBar)
     }
 
     // MARK: - SPUStandardUserDriverDelegate

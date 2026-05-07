@@ -233,11 +233,50 @@ class SpaceSwitcher {
         }
     }
 
+    /// Switch map filtered to only include desktops with enabled shortcuts.
+    func buildEnabledSwitchMap(for spaces: [Space]) -> [String: Int] {
+        Space.buildSwitchIndexMap(for: spaces).filter {
+            shortcutHelper.getKeyCode(spaceNumber: $0.value) >= 0
+        }
+    }
+
     // MARK: - Chained navigation
+
+    /// Find the nearest desktop with an enabled shortcut on the same
+    /// display as the target space.
+    /// Find the nearest desktop with an enabled shortcut on the same
+    /// display as the target space. When two anchors are equally close
+    /// to the target, prefer the one between current and target
+    /// (i.e. "along the way").
+    static func findNearestAnchor(
+        targetSpaceNumber: Int, currentSpaceNumber: Int,
+        spaces: [Space], switchMap: [String: Int]
+    ) -> Space? {
+        guard let targetSpace = spaces.first(
+            where: { $0.spaceNumber == targetSpaceNumber })
+        else { return nil }
+        let targetDisplaySpaces = spaces.filter {
+            $0.displayID == targetSpace.displayID
+        }
+        let switchable = targetDisplaySpaces.filter {
+            guard let idx = switchMap[$0.spaceID] else { return false }
+            return idx >= 1 && idx <= Space.maxSwitchableDesktop
+        }
+        let goingRight = targetSpaceNumber > currentSpaceNumber
+        return switchable.min(by: {
+            let d0 = abs($0.spaceNumber - targetSpaceNumber)
+            let d1 = abs($1.spaceNumber - targetSpaceNumber)
+            if d0 != d1 { return d0 < d1 }
+            // Tie-break: prefer the anchor along the way
+            if goingRight { return $0.spaceNumber < $1.spaceNumber }
+            return $0.spaceNumber > $1.spaceNumber
+        })
+    }
 
     /// Calculate the optimal chaining strategy without executing it.
     static func calculateChainingStrategy(
-        targetSpaceNumber: Int, spaces: [Space]
+        targetSpaceNumber: Int, spaces: [Space],
+        switchMap: [String: Int]? = nil
     ) -> ChainingStrategy {
         guard let targetSpace = spaces.first(
             where: { $0.spaceNumber == targetSpaceNumber }),
@@ -247,18 +286,11 @@ class SpaceSwitcher {
             return .unreachable
         }
 
-        let switchMap = Space.buildSwitchIndexMap(for: spaces)
-        let targetDisplaySpaces = spaces.filter {
-            $0.displayID == targetSpace.displayID
-        }
-        let switchable = targetDisplaySpaces.filter {
-            guard let idx = switchMap[$0.spaceID] else { return false }
-            return idx >= 1 && idx <= Space.maxSwitchableDesktop
-        }
-        let anchor = switchable.min(by: {
-            abs($0.spaceNumber - targetSpaceNumber)
-                < abs($1.spaceNumber - targetSpaceNumber)
-        })
+        let switchMap = switchMap ?? Space.buildSwitchIndexMap(for: spaces)
+        let anchor = findNearestAnchor(
+            targetSpaceNumber: targetSpaceNumber,
+            currentSpaceNumber: currentSpace.spaceNumber,
+            spaces: spaces, switchMap: switchMap)
 
         let arrowsFromAnchor = anchor.map {
             abs(targetSpaceNumber - $0.spaceNumber)
@@ -294,8 +326,10 @@ class SpaceSwitcher {
         onError: @escaping () -> Void,
         onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
+        let filteredMap = buildEnabledSwitchMap(for: spaces)
         let strategy = Self.calculateChainingStrategy(
-            targetSpaceNumber: targetSpaceNumber, spaces: spaces)
+            targetSpaceNumber: targetSpaceNumber, spaces: spaces,
+            switchMap: filteredMap)
 
         switch strategy {
         case .chainFromCurrent(let steps, let goRight):

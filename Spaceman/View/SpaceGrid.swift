@@ -12,6 +12,7 @@ struct SpaceGridMenuView: View {
     let spaces: [Space]
     var onSwitch: (Int) -> Void
     let switchMap: [String: Int]
+    var enabledSwitchMap: [String: Int]
     var menuWidth: CGFloat
 
     @AppStorage("gridColumns") private var gridColumns: Int = 3
@@ -44,16 +45,18 @@ struct SpaceGridMenuView: View {
                                     count: max(1, min(gridColumns, group.count)))
                 LazyVGrid(columns: columns, spacing: 4) {
                     ForEach(Array(group.enumerated()), id: \.element.spaceID) { _, space in
-                        let tag = switchMap[space.spaceID]
+                        let enabledTag = enabledSwitchMap[space.spaceID]
                         let enabled = Space.canSwitch(
-                            space: space, switchTag: tag,
+                            space: space, switchTag: enabledTag,
                             switchingMode: SwitchingMode(rawValue: switchingMode) ?? .smooth,
-                            spaces: spaces)
+                            spaces: spaces,
+                            enabledSwitchMap: enabledSwitchMap)
                         SpaceCellView(space: space, enabled: enabled)
                             .onTapGesture {
                                 guard enabled else { return }
                                 onSwitch(Space.switchTag(
-                                    switchMapEntry: tag, spaceNumber: space.spaceNumber))
+                                    switchMapEntry: switchMap[space.spaceID],
+                                    spaceNumber: space.spaceNumber))
                             }
                     }
                 }
