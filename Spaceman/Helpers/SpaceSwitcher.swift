@@ -294,15 +294,20 @@ class SpaceSwitcher {
             currentSpaceNumber: currentSpace.spaceNumber,
             spaces: spaces, switchMap: switchMap)
 
+        // No single display can have more than ~100 spaces (16 desktops +
+        // fullscreen apps). Anything beyond this cap is treated as unreachable,
+        // which also avoids an Int.max + 1 overflow when no anchor exists.
+        let maxArrows = 100
         let arrowsFromAnchor = anchor.map {
             abs(targetSpaceNumber - $0.spaceNumber)
-        } ?? Int.max
+        } ?? maxArrows + 1
         let sameDisplay = targetSpace.displayID == currentSpace.displayID
         let arrowsFromCurrent = sameDisplay
             ? abs(targetSpaceNumber - currentSpace.spaceNumber)
-            : Int.max
+            : maxArrows + 1
 
-        if arrowsFromCurrent <= arrowsFromAnchor + 1 {
+        if arrowsFromCurrent <= maxArrows
+            && arrowsFromCurrent <= arrowsFromAnchor + 1 {
             guard arrowsFromCurrent > 0 else { return .unreachable }
             let goRight = targetSpaceNumber > currentSpace.spaceNumber
             return .chainFromCurrent(
