@@ -61,7 +61,15 @@ struct Space: Equatable {
         hasArrowShortcuts: Bool = true
     ) -> Bool {
         guard !space.isCurrentSpace else { return false }
-        if switchingMode != .smooth { return true }
+        if switchingMode != .smooth {
+            // Gesture modes: same-display always works. Cross-display
+            // falls back to shortcut-based switching, so check reachability.
+            guard let current = spaces.first(where: { $0.isCurrentSpace }),
+                  space.displayID != current.displayID else {
+                return true
+            }
+            // Cross-display: fall through to smooth-mode reachability check.
+        }
         // Has an enabled shortcut
         if switchTag != nil { return true }
         // No direct shortcut: reachable only if chaining can reach it

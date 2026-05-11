@@ -174,6 +174,24 @@ final class SpaceTests: XCTestCase {
         }
     }
 
+    func testCanSwitch_gestureMode_crossDisplay_noAnchor() {
+        // Current on d1, target fullscreen on d2 with no anchor on d2.
+        let current = Space(
+            displayID: "d1", spaceID: "s1", spaceName: "",
+            spaceNumber: 1, spaceByDesktopID: "1",
+            isCurrentSpace: true, isFullScreen: false)
+        let target = Space(
+            displayID: "d2", spaceID: "f1", spaceName: "",
+            spaceNumber: 2, spaceByDesktopID: "F1",
+            isCurrentSpace: false, isFullScreen: true)
+        let spaces = [current, target]
+        for mode: SwitchingMode in [.fast, .instant] {
+            XCTAssertFalse(Space.canSwitch(
+                space: target, switchTag: nil, switchingMode: mode,
+                spaces: spaces, enabledSwitchMap: ["s1": 1]))
+        }
+    }
+
     // MARK: - switchTag
 
     func testSwitchTag_regularDesktop() {
