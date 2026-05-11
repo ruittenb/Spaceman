@@ -57,7 +57,8 @@ struct Space: Equatable {
         space: Space, switchTag: Int?,
         switchingMode: SwitchingMode = .smooth,
         spaces: [Space] = [],
-        enabledSwitchMap: [String: Int]? = nil
+        enabledSwitchMap: [String: Int]? = nil,
+        hasArrowShortcuts: Bool = true
     ) -> Bool {
         guard !space.isCurrentSpace else { return false }
         if switchingMode != .smooth { return true }
@@ -66,7 +67,8 @@ struct Space: Equatable {
         // No direct shortcut: reachable only if chaining can reach it
         let strategy = SpaceSwitcher.calculateChainingStrategy(
             targetSpaceNumber: space.spaceNumber, spaces: spaces,
-            switchMap: enabledSwitchMap)
+            switchMap: enabledSwitchMap,
+            hasArrowShortcuts: hasArrowShortcuts)
         return strategy != .unreachable
     }
 

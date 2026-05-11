@@ -34,6 +34,12 @@ class SpaceSwitcher {
         shortcutHelper.shortcut(forDesktop: desktop)
     }
 
+    /// Whether Move Left/Right shortcuts are configured in Mission Control.
+    var hasArrowShortcuts: Bool {
+        shortcutHelper.moveLeftShortcut != nil
+            && shortcutHelper.moveRightShortcut != nil
+    }
+
     /// Switch to a space using gesture. Returns false if cross-display.
     func switchToSpaceByGesture(
         target: Space, current: Space, spaces: [Space],
@@ -280,9 +286,12 @@ class SpaceSwitcher {
     }
 
     /// Calculate the optimal chaining strategy without executing it.
+    /// When `hasArrowShortcuts` is false, strategies that require chaining
+    /// (arrow keypresses) are excluded — only `directSwitch` survives.
     static func calculateChainingStrategy(
         targetSpaceNumber: Int, spaces: [Space],
-        switchMap: [String: Int]? = nil
+        switchMap: [String: Int]? = nil,
+        hasArrowShortcuts: Bool = true
     ) -> ChainingStrategy {
         guard let targetSpace = spaces.first(
             where: { $0.spaceNumber == targetSpaceNumber }),
@@ -310,7 +319,8 @@ class SpaceSwitcher {
             ? abs(targetSpaceNumber - currentSpace.spaceNumber)
             : maxArrows + 1
 
-        if arrowsFromCurrent <= maxArrows
+        if hasArrowShortcuts
+            && arrowsFromCurrent <= maxArrows
             && arrowsFromCurrent <= arrowsFromAnchor + 1 {
             guard arrowsFromCurrent > 0 else { return .unreachable }
             let goRight = targetSpaceNumber > currentSpace.spaceNumber
@@ -322,6 +332,7 @@ class SpaceSwitcher {
             if delta == 0 {
                 return .directSwitch(switchIndex: switchIndex)
             }
+            guard hasArrowShortcuts else { return .unreachable }
             return .jumpThenChain(
                 anchorSwitchIndex: switchIndex,
                 steps: abs(delta), goRight: delta > 0)
@@ -340,7 +351,8 @@ class SpaceSwitcher {
         let filteredMap = buildEnabledSwitchMap(for: spaces)
         let strategy = Self.calculateChainingStrategy(
             targetSpaceNumber: targetSpaceNumber, spaces: spaces,
-            switchMap: filteredMap)
+            switchMap: filteredMap,
+            hasArrowShortcuts: hasArrowShortcuts)
 
         switch strategy {
         case .chainFromCurrent(let steps, let goRight):

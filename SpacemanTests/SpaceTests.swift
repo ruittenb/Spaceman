@@ -135,6 +135,18 @@ final class SpaceTests: XCTestCase {
             spaces: spaces, enabledSwitchMap: enabledMap))
     }
 
+    func testCanSwitch_fullscreen_noArrowShortcuts() {
+        let current = makeSpaceWithNumber(id: "d1", number: 1, current: true)
+        let space = makeSpaceWithNumber(id: "f1", number: 2, fullScreen: true)
+        let spaces = [current, space]
+        let enabledMap = ["d1": 1]
+        // Same setup as above, but without arrow shortcuts → unreachable
+        XCTAssertFalse(Space.canSwitch(
+            space: space, switchTag: nil,
+            spaces: spaces, enabledSwitchMap: enabledMap,
+            hasArrowShortcuts: false))
+    }
+
     func testCanSwitch_desktopBeyondMax_noTag() {
         let space = makeSpaceWithNumber(id: "d17", number: 17)
         // Desktop 17+ has no shortcut and is not fullscreen

@@ -13,6 +13,7 @@ struct SpaceGridMenuView: View {
     var onSwitch: (Int) -> Void
     let switchMap: [String: Int]
     var enabledSwitchMap: [String: Int]
+    var hasArrowShortcuts: Bool = true
     var menuWidth: CGFloat
 
     @AppStorage("gridColumns") private var gridColumns: Int = 3
@@ -50,7 +51,8 @@ struct SpaceGridMenuView: View {
                             space: space, switchTag: enabledTag,
                             switchingMode: SwitchingMode(rawValue: switchingMode) ?? .smooth,
                             spaces: spaces,
-                            enabledSwitchMap: enabledSwitchMap)
+                            enabledSwitchMap: enabledSwitchMap,
+                            hasArrowShortcuts: hasArrowShortcuts)
                         SpaceCellView(space: space, enabled: enabled)
                             .onTapGesture {
                                 guard enabled else { return }

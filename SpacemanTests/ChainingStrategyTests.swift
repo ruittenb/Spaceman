@@ -179,6 +179,43 @@ final class ChainingStrategyTests: XCTestCase {
         XCTAssertEqual(strategy, .unreachable)
     }
 
+    // MARK: - No arrow shortcuts
+
+    func testNoArrows_chainFromCurrentBecomesUnreachable() {
+        // Same setup as testChainFromCurrent_closerThanAnchor:
+        // 18 desktops, current=16, target=18. Normally chains from current.
+        // Without arrows, no chaining path → but desktop 16 is an anchor,
+        // delta=2, needs chain → unreachable.
+        let spaces = makeSpaces(desktops: 18, currentNumber: 16)
+        let strategy = SpaceSwitcher.calculateChainingStrategy(
+            targetSpaceNumber: 18, spaces: spaces,
+            hasArrowShortcuts: false)
+
+        XCTAssertEqual(strategy, .unreachable)
+    }
+
+    func testNoArrows_directSwitchStillWorks() {
+        // 20 desktops, current=20, target=16. Desktop 16 has a shortcut.
+        // Without arrows, only directSwitch survives.
+        let spaces = makeSpaces(desktops: 20, currentNumber: 20)
+        let strategy = SpaceSwitcher.calculateChainingStrategy(
+            targetSpaceNumber: 16, spaces: spaces,
+            hasArrowShortcuts: false)
+
+        XCTAssertEqual(strategy, .directSwitch(switchIndex: 16))
+    }
+
+    func testNoArrows_jumpThenChainBecomesUnreachable() {
+        // 20 desktops, current=1, target=18.
+        // Normally jumpThenChain from anchor 16. Without arrows, chain fails.
+        let spaces = makeSpaces(desktops: 20, currentNumber: 1)
+        let strategy = SpaceSwitcher.calculateChainingStrategy(
+            targetSpaceNumber: 18, spaces: spaces,
+            hasArrowShortcuts: false)
+
+        XCTAssertEqual(strategy, .unreachable)
+    }
+
     func testUnreachable_noCurrentSpace() {
         let spaces = [
             Space(

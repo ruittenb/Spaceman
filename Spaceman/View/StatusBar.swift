@@ -523,6 +523,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             },
             switchMap: switchMap,
             enabledSwitchMap: enabledMap,
+            hasArrowShortcuts: spaceSwitcher.hasArrowShortcuts,
             menuWidth: Constants.minMenuWidth
         ))
         gridView.frame.size = gridView.fittingSize
@@ -886,7 +887,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let canSwitch = Space.canSwitch(
             space: space, switchTag: enabledTag,
             switchingMode: mode, spaces: spaces,
-            enabledSwitchMap: enabledSwitchMap)
+            enabledSwitchMap: enabledSwitchMap,
+            hasArrowShortcuts: spaceSwitcher.hasArrowShortcuts)
         if !canSwitch {
             item.isEnabled = false
             if space.isCurrentSpace {
@@ -942,14 +944,15 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         }
     }
 
-    /// Routes all menu switches through `navigateByShortcut`, even desktops
-    /// that have a direct shortcut. This is intentional: `calculateChainingStrategy`
-    /// prefers a single arrow keypress over a jump when the target is adjacent to
-    /// the current space, which avoids the brief visual jump that a direct shortcut
-    /// would cause.
     private func handleSwitchTagShortcut(_ tag: Int) {
-        let targetSpaceNumber: Int
+        // Desktop with a switch index: use direct shortcut if enabled.
         if tag >= 1 && tag <= Space.maxSwitchableDesktop {
+            if spaceSwitcher.shortcut(forDesktop: tag) != nil {
+                spaceSwitcher.switchToSpace(
+                    spaceNumber: tag, onError: flashStatusBar)
+                return
+            }
+            // Shortcut not enabled — resolve space and try chaining.
             let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
             guard let space = currentSpaces.first(
                 where: { switchMap[$0.spaceID] == tag })
@@ -957,17 +960,19 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 flashStatusBar()
                 return
             }
-            targetSpaceNumber = space.spaceNumber
+            spaceSwitcher.navigateByShortcut(
+                targetSpaceNumber: space.spaceNumber,
+                spaces: currentSpaces,
+                onError: flashStatusBar)
         } else if tag < 0 {
-            targetSpaceNumber = -tag
+            // Fullscreen / unswitchable: always chain.
+            spaceSwitcher.navigateByShortcut(
+                targetSpaceNumber: -tag,
+                spaces: currentSpaces,
+                onError: flashStatusBar)
         } else {
             flashStatusBar()
-            return
         }
-        spaceSwitcher.navigateByShortcut(
-            targetSpaceNumber: targetSpaceNumber,
-            spaces: currentSpaces,
-            onError: flashStatusBar)
     }
 
     // MARK: - SPUStandardUserDriverDelegate
