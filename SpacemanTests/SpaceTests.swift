@@ -126,8 +126,13 @@ final class SpaceTests: XCTestCase {
     }
 
     func testCanSwitch_fullscreen_switchable() {
-        let space = makeSpaceWithNumber(id: "f1", number: 10, fullScreen: true)
-        XCTAssertTrue(Space.canSwitch(space: space, switchTag: nil))
+        let current = makeSpaceWithNumber(id: "d1", number: 1, current: true)
+        let space = makeSpaceWithNumber(id: "f1", number: 2, fullScreen: true)
+        let spaces = [current, space]
+        let enabledMap = ["d1": 1]
+        XCTAssertTrue(Space.canSwitch(
+            space: space, switchTag: nil,
+            spaces: spaces, enabledSwitchMap: enabledMap))
     }
 
     func testCanSwitch_desktopBeyondMax_noTag() {

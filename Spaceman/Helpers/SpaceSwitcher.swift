@@ -147,7 +147,8 @@ class SpaceSwitcher {
         if mode != .smooth {
             switchUsingGesture(
                 hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
-                spaces: spaces, mode: mode, onError: onError)
+                spaces: spaces, mode: mode, onError: onError,
+                onMissingShortcut: onMissingShortcut)
         } else {
             switchUsingShortcut(
                 hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
@@ -159,7 +160,8 @@ class SpaceSwitcher {
     private func switchUsingGesture(
         hitIndex: Int, hitSpaceNumber: Int,
         spaces: [Space], mode: SwitchingMode,
-        onError: @escaping () -> Void
+        onError: @escaping () -> Void,
+        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
         // Prev/next arrows: gesture-based
         if hitIndex == Space.previousSpaceIndex {
@@ -189,10 +191,12 @@ class SpaceSwitcher {
         if !gestureSwitcher.switchToSpace(
             target: target, current: current, spaces: spaces, mode: mode
         ) {
-            // Cross-display: fall back to shortcut-based switching
-            navigateByShortcut(
-                targetSpaceNumber: hitSpaceNumber, spaces: spaces,
-                onError: onError)
+            // Cross-display: gestures can't cross displays, fall back to
+            // the same logic as the smooth (shortcut) click handler.
+            switchUsingShortcut(
+                hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
+                spaces: spaces,
+                onError: onError, onMissingShortcut: onMissingShortcut)
         }
     }
 
