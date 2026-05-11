@@ -904,14 +904,16 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     private func handleSwitchTag(_ tag: Int) {
-        let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
-        let enabledMap = spaceSwitcher.shortcutSwitcher
-            .buildEnabledSwitchMap(for: currentSpaces)
-        let outcome = SpaceSwitcher.resolveOutcome(
-            switchTag: tag, entryPoint: .menu, mode: mode,
-            spaces: currentSpaces, enabledSwitchMap: enabledMap,
+        let ctx = SwitchContext(
+            entryPoint: .menu,
+            mode: SwitchingMode(rawValue: switchingMode) ?? .smooth,
+            spaces: currentSpaces,
+            enabledSwitchMap: spaceSwitcher.shortcutSwitcher
+                .buildEnabledSwitchMap(for: currentSpaces),
             hasArrowShortcuts: spaceSwitcher.shortcutSwitcher
                 .hasArrowShortcuts)
+        let outcome = SpaceSwitcher.resolveOutcome(
+            switchTag: tag, context: ctx)
         spaceSwitcher.executeOutcome(
             outcome, spaces: currentSpaces,
             onError: flashStatusBar)

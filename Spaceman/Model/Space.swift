@@ -61,13 +61,27 @@ struct Space: Equatable {
         hasArrowShortcuts: Bool = true
     ) -> Bool {
         guard !space.isCurrentSpace else { return false }
+        // Gesture mode, same display: always reachable
+        if switchingMode != .smooth {
+            guard let current = spaces.first(
+                where: { $0.isCurrentSpace }),
+                  space.displayID != current.displayID else {
+                return true
+            }
+        }
+        // Has an enabled shortcut: always reachable
+        if switchTag != nil { return true }
+        // Complex case: delegate to strategizer
         let tag = Self.switchTag(
-            switchMapEntry: switchTag, spaceNumber: space.spaceNumber)
-        let outcome = SpaceSwitcher.resolveOutcome(
-            switchTag: tag, entryPoint: .menu,
-            mode: switchingMode, spaces: spaces,
+            switchMapEntry: switchTag,
+            spaceNumber: space.spaceNumber)
+        let ctx = SwitchContext(
+            entryPoint: .menu, mode: switchingMode,
+            spaces: spaces,
             enabledSwitchMap: enabledSwitchMap ?? [:],
             hasArrowShortcuts: hasArrowShortcuts)
+        let outcome = SpaceSwitcher.resolveOutcome(
+            switchTag: tag, context: ctx)
         return outcome != .unreachable
     }
 

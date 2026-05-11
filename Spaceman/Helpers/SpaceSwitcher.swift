@@ -22,28 +22,27 @@ class SpaceSwitcher {
 
     /// Determine the switch outcome for a space target.
     static func resolveOutcome(
-        switchTag: Int,
-        entryPoint: SwitchEntryPoint,
-        mode: SwitchingMode,
-        spaces: [Space],
-        enabledSwitchMap: [String: Int],
-        hasArrowShortcuts: Bool
+        switchTag: Int, context: SwitchContext
     ) -> SwitchOutcome {
         // Resolve target and current space
         let targetSpaceNumber: Int
         let target: Space?
         if switchTag > 0 {
-            // Positive tag = switch index → find space by switch map
-            let switchMap = Space.buildSwitchIndexMap(for: spaces)
-            target = spaces.first { switchMap[$0.spaceID] == switchTag }
+            let switchMap = Space.buildSwitchIndexMap(
+                for: context.spaces)
+            target = context.spaces.first {
+                switchMap[$0.spaceID] == switchTag
+            }
             targetSpaceNumber = target?.spaceNumber ?? 0
         } else {
-            // Negative tag = -(spaceNumber)
             targetSpaceNumber = -switchTag
-            target = spaces.first { $0.spaceNumber == targetSpaceNumber }
+            target = context.spaces.first {
+                $0.spaceNumber == targetSpaceNumber
+            }
         }
         guard let target,
-              let current = spaces.first(where: { $0.isCurrentSpace })
+              let current = context.spaces.first(
+                where: { $0.isCurrentSpace })
         else {
             return .unreachable
         }
@@ -51,43 +50,47 @@ class SpaceSwitcher {
         let sameDisplay = target.displayID == current.displayID
 
         // Gesture mode, same display → gesture
-        if mode != .smooth && sameDisplay {
+        if context.mode != .smooth && sameDisplay {
             return .gestureDirect(
-                target: target, current: current, mode: mode)
+                target: target, current: current,
+                mode: context.mode)
         }
         // Gesture mode, cross display → fall through to shortcut logic
 
         // Does the target have an enabled direct shortcut?
-        let enabledIndex = enabledSwitchMap.first(
-            where: { $0.key == target.spaceID })?.value
+        let enabledIndex = context.enabledSwitchMap[target.spaceID]
         if let enabledIndex,
-           enabledIndex >= 1, enabledIndex <= Space.maxSwitchableDesktop {
+           enabledIndex >= 1,
+           enabledIndex <= Space.maxSwitchableDesktop {
             return .shortcutDirect(switchIndex: enabledIndex)
         }
 
         // Desktop without shortcut + click → show balloon
         if !target.isFullScreen && switchTag > 0
-            && entryPoint == .click {
+            && context.entryPoint == .click {
             return .showBalloon(.desktop)
         }
 
         // Try chaining
         let strategy = calculateChainingStrategy(
-            targetSpaceNumber: targetSpaceNumber, spaces: spaces,
-            switchMap: enabledSwitchMap,
-            hasArrowShortcuts: hasArrowShortcuts)
+            targetSpaceNumber: targetSpaceNumber,
+            spaces: context.spaces,
+            switchMap: context.enabledSwitchMap,
+            hasArrowShortcuts: context.hasArrowShortcuts)
 
         switch strategy {
         case .chainFromCurrent(let steps, let goRight):
             return .shortcutChain(steps: steps, goRight: goRight)
-        case .jumpThenChain(let anchorIndex, let steps, let goRight):
+        case .jumpThenChain(
+            let anchorIndex, let steps, let goRight
+        ):
             return .shortcutJumpThenChain(
                 anchorSwitchIndex: anchorIndex,
                 steps: steps, goRight: goRight)
         case .directSwitch(let switchIndex):
             return .shortcutDirect(switchIndex: switchIndex)
         case .unreachable:
-            if entryPoint == .click {
+            if context.entryPoint == .click {
                 return .showBalloon(
                     target.isFullScreen ? .navigation : .desktop)
             }
@@ -95,13 +98,10 @@ class SpaceSwitcher {
         }
     }
 
-    /// Determine the outcome for navigation buttons (prev/next, Mission Control).
+    /// Determine the outcome for navigation buttons
+    /// (prev/next, Mission Control).
     static func resolveNavigationOutcome(
-        hitIndex: Int,
-        mode: SwitchingMode,
-        spaces: [Space],
-        hasArrowShortcuts: Bool,
-        entryPoint: SwitchEntryPoint
+        hitIndex: Int, context: SwitchContext
     ) -> SwitchOutcome {
         if hitIndex == Space.missionControlIndex {
             return .missionControl
@@ -109,20 +109,18 @@ class SpaceSwitcher {
 
         let goRight = hitIndex == Space.nextSpaceIndex
 
-        if isAtEdge(spaces: spaces, goingRight: goRight) {
+        if isAtEdge(
+            spaces: context.spaces, goingRight: goRight) {
             return .unreachable
         }
 
-        if mode != .smooth {
-            return .gestureRelative(goRight: goRight, mode: mode)
+        if context.mode != .smooth {
+            return .gestureRelative(
+                goRight: goRight, mode: context.mode)
         }
 
-        // Smooth mode: need arrow shortcuts
-        let hasShortcut = goRight
-            ? hasArrowShortcuts
-            : hasArrowShortcuts
-        if !hasShortcut {
-            return entryPoint == .click
+        if !context.hasArrowShortcuts {
+            return context.entryPoint == .click
                 ? .showBalloon(.navigation)
                 : .unreachable
         }
@@ -238,19 +236,20 @@ class SpaceSwitcher {
             return
         }
 
-        let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
-        let enabledMap = shortcutSwitcher.buildEnabledSwitchMap(
-            for: spaces)
+        let ctx = SwitchContext(
+            entryPoint: .click,
+            mode: SwitchingMode(rawValue: switchingMode) ?? .smooth,
+            spaces: spaces,
+            enabledSwitchMap: shortcutSwitcher
+                .buildEnabledSwitchMap(for: spaces),
+            hasArrowShortcuts: shortcutSwitcher.hasArrowShortcuts)
 
         // Navigation buttons (prev/next/Mission Control)
         if hitIndex == Space.missionControlIndex
             || hitIndex == Space.previousSpaceIndex
             || hitIndex == Space.nextSpaceIndex {
             let outcome = Self.resolveNavigationOutcome(
-                hitIndex: hitIndex, mode: mode,
-                spaces: spaces,
-                hasArrowShortcuts: shortcutSwitcher.hasArrowShortcuts,
-                entryPoint: .click)
+                hitIndex: hitIndex, context: ctx)
             executeOutcome(
                 outcome, spaces: spaces,
                 onError: onError, onShowBalloon: onShowBalloon)
@@ -258,16 +257,15 @@ class SpaceSwitcher {
         }
 
         // Regular space
+        let switchMap = Space.buildSwitchIndexMap(for: spaces)
+        let spaceID = spaces.first(
+            where: { $0.spaceNumber == hitSpaceNumber }
+        )?.spaceID ?? ""
         let tag = Space.switchTag(
-            switchMapEntry: Space.buildSwitchIndexMap(
-                for: spaces)[spaces.first(
-                    where: { $0.spaceNumber == hitSpaceNumber }
-                )?.spaceID ?? ""],
+            switchMapEntry: switchMap[spaceID],
             spaceNumber: hitSpaceNumber)
         let outcome = Self.resolveOutcome(
-            switchTag: tag, entryPoint: .click, mode: mode,
-            spaces: spaces, enabledSwitchMap: enabledMap,
-            hasArrowShortcuts: shortcutSwitcher.hasArrowShortcuts)
+            switchTag: tag, context: ctx)
         executeOutcome(
             outcome, spaces: spaces,
             onError: onError, onShowBalloon: onShowBalloon)
