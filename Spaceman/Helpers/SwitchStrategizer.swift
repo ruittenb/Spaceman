@@ -1,30 +1,22 @@
 //
-//  SpaceSwitcher.swift
+//  SwitchStrategizer.swift
 //  Spaceman
 //
-//  Created by René Uittenbogaard on 2024-08-28.
+//  Created by René Uittenbogaard on 2026-05-11.
+//  Co-author: Claude Code
 //
+//  Pure decision logic: given a target space and context, returns
+//  a SwitchStrategy describing what action to take. No side effects,
+//  no UI, no AppleScript — fully unit-testable.
 
 import Foundation
-import SwiftUI
 
 enum MissingShortcutKind {
     case navigation  // Mission Control, Move left/right
     case desktop     // Switch to Desktop N
 }
 
-/// Orchestrator: connects the strategizer to the executors.
-/// The strategizer (resolveStrategy/resolveNavigationStrategy) is static
-/// and pure — it takes data in, returns a SwitchStrategy, and has no
-/// side effects. This makes the full behavior matrix unit-testable.
-/// The executor (executeStrategy) maps each strategy to the matching
-/// ShortcutSwitcher or GestureSwitcher call.
-class SpaceSwitcher {
-    let shortcutSwitcher = ShortcutSwitcher()
-    private let gestureSwitcher = GestureSwitcher()
-    @AppStorage("switchingMode") private var switchingMode = SwitchingMode.smooth.rawValue
-
-    // MARK: - Strategizer (static, pure)
+enum SwitchStrategizer {
 
     /// Determine the switch strategy for a space target.
     static func resolveStrategy(
@@ -82,13 +74,13 @@ class SpaceSwitcher {
         }
 
         // Try chaining
-        let strategy = calculateChainingStrategy(
+        let chaining = calculateChainingStrategy(
             targetSpaceNumber: targetSpaceNumber,
             spaces: context.spaces,
             switchMap: context.enabledSwitchMap,
             hasArrowShortcuts: context.hasArrowShortcuts)
 
-        switch strategy {
+        switch chaining {
         case .chainFromCurrent(let steps, let goRight):
             return .shortcutChain(steps: steps, goRight: goRight)
         case .jumpThenChain(
@@ -137,6 +129,8 @@ class SpaceSwitcher {
         return .shortcutRelative(goRight: goRight)
     }
 
+    // MARK: - Building blocks
+
     /// Returns true when the current space is already at the
     /// first (goingRight=false) or last (goingRight=true)
     /// position on its display.
@@ -160,132 +154,6 @@ class SpaceSwitcher {
         }
     }
 
-    // MARK: - Executor (instance)
-
-    /// Execute a resolved switch strategy.
-    /// Each shortcut* case maps to shortcutSwitcher, each gesture*
-    /// case maps to gestureSwitcher — the naming is intentionally
-    /// symmetrical so the mapping is obvious.
-    func executeStrategy(
-        _ strategy: SwitchStrategy,
-        spaces: [Space],
-        onError: @escaping () -> Void,
-        onShowBalloon: ((MissingShortcutKind) -> Void)? = nil
-    ) {
-        switch strategy {
-        case .shortcutDirect(let switchIndex):
-            shortcutSwitcher.switchToSpace(
-                switchIndex, onError: onError)
-
-        case .shortcutRelative(let goRight):
-            shortcutSwitcher.switchRelative(goRight: goRight)
-
-        case .shortcutChain(let steps, let goRight):
-            shortcutSwitcher.chain(
-                steps: steps, goRight: goRight, onError: onError)
-
-        case .shortcutJumpThenChain(
-            let anchorIndex, let steps, let goRight
-        ):
-            shortcutSwitcher.jumpThenChain(
-                anchor: anchorIndex, steps: steps,
-                goRight: goRight, onError: onError)
-
-        case .gestureDirect(let target, let current, let mode):
-            _ = gestureSwitcher.switchToSpace(
-                target: target, current: current,
-                spaces: spaces, mode: mode)
-
-        case .gestureRelative(let goRight, let mode):
-            gestureSwitcher.switchRelative(
-                goRight: goRight, mode: mode)
-
-        case .missionControl:
-            shortcutSwitcher.triggerMissionControl()
-
-        case .showBalloon(let kind):
-            if let onShowBalloon {
-                onShowBalloon(kind)
-            } else {
-                onError()
-            }
-
-        case .unreachable:
-            onError()
-        }
-    }
-
-    // MARK: - Entry point (click on icon)
-
-    public func switchUsingLocation(
-        iconWidths: [IconWidth], point: CGPoint,
-        spaces: [Space],
-        onError: @escaping () -> Void,
-        onShowBalloon: ((MissingShortcutKind) -> Void)? = nil
-    ) {
-        shortcutSwitcher.reloadShortcuts()
-        shortcutSwitcher.cancelChain()
-
-        // Hit-test
-        var hitIndex: Int?
-        var hitSpaceNumber: Int = 0
-        for i in 0 ..< iconWidths.count {
-            let hitX = point.x >= iconWidths[i].left
-                && point.x < iconWidths[i].right
-            let hasY = iconWidths[i].top != 0
-                || iconWidths[i].bottom != 0
-            let hitY = hasY
-                ? (point.y >= iconWidths[i].top
-                    && point.y < iconWidths[i].bottom)
-                : true
-            if hitX && hitY {
-                hitIndex = iconWidths[i].index
-                hitSpaceNumber = iconWidths[i].spaceNumber
-                break
-            }
-        }
-        guard let hitIndex else {
-            onError()
-            return
-        }
-
-        let ctx = SwitchContext(
-            entryPoint: .click,
-            mode: SwitchingMode(rawValue: switchingMode) ?? .smooth,
-            spaces: spaces,
-            enabledSwitchMap: shortcutSwitcher
-                .buildEnabledSwitchMap(for: spaces),
-            hasArrowShortcuts: shortcutSwitcher.hasArrowShortcuts)
-
-        // Navigation buttons (prev/next/Mission Control)
-        if hitIndex == Space.missionControlIndex
-            || hitIndex == Space.previousSpaceIndex
-            || hitIndex == Space.nextSpaceIndex {
-            let strategy = Self.resolveNavigationStrategy(
-                hitIndex: hitIndex, context: ctx)
-            executeStrategy(
-                strategy, spaces: spaces,
-                onError: onError, onShowBalloon: onShowBalloon)
-            return
-        }
-
-        // Regular space
-        let switchMap = Space.buildSwitchIndexMap(for: spaces)
-        let spaceID = spaces.first(
-            where: { $0.spaceNumber == hitSpaceNumber }
-        )?.spaceID ?? ""
-        let tag = Space.switchTag(
-            switchMapEntry: switchMap[spaceID],
-            spaceNumber: hitSpaceNumber)
-        let strategy = Self.resolveStrategy(
-            switchTag: tag, context: ctx)
-        executeStrategy(
-            strategy, spaces: spaces,
-            onError: onError, onShowBalloon: onShowBalloon)
-    }
-
-    // MARK: - Chaining strategy (static building blocks)
-
     /// Find the nearest desktop with an enabled shortcut on the same
     /// display as the target space. When two anchors are equally close
     /// to the target, prefer the one between current and target
@@ -301,7 +169,8 @@ class SpaceSwitcher {
             $0.displayID == targetSpace.displayID
         }
         let switchable = targetDisplaySpaces.filter {
-            guard let idx = switchMap[$0.spaceID] else { return false }
+            guard let idx = switchMap[$0.spaceID]
+            else { return false }
             return idx >= 1 && idx <= Space.maxSwitchableDesktop
         }
         let goingRight = targetSpaceNumber > currentSpaceNumber
@@ -309,7 +178,9 @@ class SpaceSwitcher {
             let d0 = abs($0.spaceNumber - targetSpaceNumber)
             let d1 = abs($1.spaceNumber - targetSpaceNumber)
             if d0 != d1 { return d0 < d1 }
-            if goingRight { return $0.spaceNumber < $1.spaceNumber }
+            if goingRight {
+                return $0.spaceNumber < $1.spaceNumber
+            }
             return $0.spaceNumber > $1.spaceNumber
         })
     }

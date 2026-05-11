@@ -80,7 +80,7 @@ struct Space: Equatable {
             spaces: spaces,
             enabledSwitchMap: enabledSwitchMap ?? [:],
             hasArrowShortcuts: hasArrowShortcuts)
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: tag, context: ctx)
         return strategy != .unreachable
     }

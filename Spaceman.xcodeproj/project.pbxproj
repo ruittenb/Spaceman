@@ -41,9 +41,10 @@
 		E763711C2FB21D7500D05885 /* SwitchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763711B2FB21D7500D05885 /* SwitchStrategy.swift */; };
 		E763711E2FB21D9200D05885 /* ShortcutSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763711D2FB21D9200D05885 /* ShortcutSwitcher.swift */; };
 		E76371202FB21DAC00D05885 /* SwitchStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763711F2FB21DAC00D05885 /* SwitchStrategyTests.swift */; };
+		E76371222FB273BC00D05885 /* SwitchStrategizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76371212FB273BC00D05885 /* SwitchStrategizer.swift */; };
 		E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */; };
 		E79FCED32E9D1EE60000DA6E /* HorizontalDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */; };
-		E7A066232C7F65F1002DFC52 /* SpaceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */; };
+		E7A066232C7F65F1002DFC52 /* SwitchOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A066222C7F65F1002DFC52 /* SwitchOrchestrator.swift */; };
 		E7B7E2DF2F7A8CC000FEDEFE /* IconShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7E2DE2F7A8CC000FEDEFE /* IconShape.swift */; };
 		E7B7E2E12F7AA96F00FEDEFE /* IconFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7E2E02F7AA96F00FEDEFE /* IconFill.swift */; };
 		E7B7E2E32F7C753900FEDEFE /* FontDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7E2E22F7C753900FEDEFE /* FontDesign.swift */; };
@@ -124,9 +125,10 @@
 		E763711B2FB21D7500D05885 /* SwitchStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchStrategy.swift; sourceTree = "<group>"; };
 		E763711D2FB21D9200D05885 /* ShortcutSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutSwitcher.swift; sourceTree = "<group>"; };
 		E763711F2FB21DAC00D05885 /* SwitchStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwitchStrategyTests.swift; path = SpacemanTests/SwitchStrategyTests.swift; sourceTree = "<group>"; };
+		E76371212FB273BC00D05885 /* SwitchStrategizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchStrategizer.swift; sourceTree = "<group>"; };
 		E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDisplayMode.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
-		E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSwitcher.swift; sourceTree = "<group>"; };
+		E7A066222C7F65F1002DFC52 /* SwitchOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchOrchestrator.swift; sourceTree = "<group>"; };
 		E7B7AC962F77E77B002B37E2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		E7B7E2DE2F7A8CC000FEDEFE /* IconShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconShape.swift; sourceTree = "<group>"; };
 		E7B7E2E02F7AA96F00FEDEFE /* IconFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconFill.swift; sourceTree = "<group>"; };
@@ -284,8 +286,9 @@
 				E70587F22C80A5DA00D9B729 /* ShortcutHelper.swift */,
 				E763711D2FB21D9200D05885 /* ShortcutSwitcher.swift */,
 				E8733506256B57400012586E /* SpaceObserver.swift */,
-				E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */,
 				8DCE20A6B4C0E9E494935DB8 /* SpaceFilter.swift */,
+				E7A066222C7F65F1002DFC52 /* SwitchOrchestrator.swift */,
+				E76371212FB273BC00D05885 /* SwitchStrategizer.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -505,7 +508,7 @@
 				E8E2AEF8257CB4D700319BBC /* PreferencesViewModel.swift in Sources */,
 				E79FCED32E9D1EE60000DA6E /* HorizontalDirection.swift in Sources */,
 				E7B7E2E32F7C753900FEDEFE /* FontDesign.swift in Sources */,
-				E7A066232C7F65F1002DFC52 /* SpaceSwitcher.swift in Sources */,
+				E7A066232C7F65F1002DFC52 /* SwitchOrchestrator.swift in Sources */,
 				E722A6E12E95BF8D00D5FA4F /* VerticalDirection.swift in Sources */,
 				E8733503256B532D0012586E /* StatusBar.swift in Sources */,
 				E87334EB256B51CF0012586E /* PreferencesView.swift in Sources */,
@@ -527,6 +530,7 @@
 				E87334E9256B51CF0012586E /* AppDelegate.swift in Sources */,
 				E8E2AF03257CB5CE00319BBC /* SpaceNameInfo.swift in Sources */,
 				E763711C2FB21D7500D05885 /* SwitchStrategy.swift in Sources */,
+				E76371222FB273BC00D05885 /* SwitchStrategizer.swift in Sources */,
 				E7DA73A62CA6E74D00212836 /* IconSize.swift in Sources */,
 				E8EBF091257739ED001BA74F /* PreferencesWindow.swift in Sources */,
 				E8E2AEFF257CB5AF00319BBC /* IconText.swift in Sources */,

@@ -7,13 +7,15 @@ Test how fullscreen-cross-display works or fails with instant switching
 Examine: displaying grids when there is more than one display
 
 
-Consider: A user clicks on a space, expecting to go there. Instead they get a balloon telling them to go configure something.
-That's friction, not help — especially if they just want to get to that space right now.
-Recommendation: do both. Attempt the switch via chaining AND show the balloon. The user gets where they wanted to go, and they
-learn there's a better way.
+Consider: if the user could switch to a space using chaining; but instead they could have switched with a direct shortcut if one had been defined;
+they get a balloon telling them to go configure something.  Recommendation: Attempt the switch via chaining AND show the balloon.
+The user gets where they wanted to go, and they learn there's a better way.
 
 
-consider gesture for quick instant switch to anchor. then chaining through shortcuts.
+Consider: for keeping the switching speed more or less equal to what the user asked, implement anchor-then-chain as using a
+gesture for instantly switching to anchor then using shortcuts for chaining.
+
+
 
 
 

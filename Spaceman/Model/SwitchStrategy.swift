@@ -10,10 +10,10 @@
 //
 //   Strategizer → Strategy → Executor
 //
-// The strategizer (SpaceSwitcher.resolveStrategy) is a pure static
+// The strategizer (SwitchStrategizer.resolveStrategy) is a pure static
 // function that decides *what* to do. It returns a SwitchStrategy.
-// The executor (SpaceSwitcher.executeStrategy) maps each strategy to
-// the corresponding ShortcutSwitcher or GestureSwitcher call.
+// The orchestrator (SwitchOrchestrator.executeStrategy) maps each
+// strategy to the corresponding ShortcutSwitcher or GestureSwitcher call.
 //
 // This separation means:
 // - The decision logic is testable without AppleScript or CGEvents.

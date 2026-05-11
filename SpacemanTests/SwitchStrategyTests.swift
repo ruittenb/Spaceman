@@ -55,7 +55,7 @@ final class SwitchStrategyTests: XCTestCase {
 
     func testDesktopWithShortcut_sameDisplay_smooth() {
         let (spaces, enabledMap) = standardSpaces()
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 3,
             context: ctx(
                 spaces: spaces, enabledSwitchMap: enabledMap))
@@ -64,7 +64,7 @@ final class SwitchStrategyTests: XCTestCase {
 
     func testDesktopWithShortcut_sameDisplay_gesture() {
         let (spaces, enabledMap) = standardSpaces()
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 3,
             context: ctx(
                 mode: .fast, spaces: spaces,
@@ -78,7 +78,7 @@ final class SwitchStrategyTests: XCTestCase {
 
     func testDesktopWithShortcut_sameDisplay_menu() {
         let (spaces, enabledMap) = standardSpaces()
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 3,
             context: ctx(
                 entryPoint: .menu, spaces: spaces,
@@ -88,7 +88,7 @@ final class SwitchStrategyTests: XCTestCase {
 
     func testDesktopWithShortcut_sameDisplay_menuGesture() {
         let (spaces, enabledMap) = standardSpaces()
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 3,
             context: ctx(
                 entryPoint: .menu, mode: .instant,
@@ -108,7 +108,7 @@ final class SwitchStrategyTests: XCTestCase {
                       current: true),
             makeSpace(id: "s2", number: 2, displayID: "d2"),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 2,
             context: ctx(
                 spaces: spaces,
@@ -122,7 +122,7 @@ final class SwitchStrategyTests: XCTestCase {
                       current: true),
             makeSpace(id: "s2", number: 2, displayID: "d2"),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 2,
             context: ctx(
                 mode: .fast, spaces: spaces,
@@ -138,7 +138,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s2", number: 2),
             makeSpace(id: "s3", number: 3),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 3,
             context: ctx(
                 spaces: spaces,
@@ -152,7 +152,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s2", number: 2),
             makeSpace(id: "s3", number: 3),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 3,
             context: ctx(
                 mode: .fast, spaces: spaces,
@@ -170,7 +170,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s2", number: 2),
             makeSpace(id: "s3", number: 3),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 3,
             context: ctx(
                 entryPoint: .menu, spaces: spaces,
@@ -186,7 +186,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s2", number: 2),
             makeSpace(id: "s3", number: 3),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 3,
             context: ctx(
                 entryPoint: .menu, spaces: spaces,
@@ -204,7 +204,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s2", number: 2, displayID: "d2"),
             makeSpace(id: "s3", number: 3, displayID: "d2"),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 3,
             context: ctx(
                 spaces: spaces,
@@ -219,7 +219,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s2", number: 2, displayID: "d2"),
             makeSpace(id: "s3", number: 3, displayID: "d2"),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 3,
             context: ctx(
                 entryPoint: .menu, spaces: spaces,
@@ -237,7 +237,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "f1", number: 2, displayID: "d2",
                       fullScreen: true),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: -2,
             context: ctx(
                 entryPoint: .menu, spaces: spaces,
@@ -253,7 +253,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s2", number: 2),
             makeSpace(id: "f1", number: 3, fullScreen: true),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: -3,
             context: ctx(
                 spaces: spaces,
@@ -268,7 +268,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s1", number: 1, current: true),
             makeSpace(id: "f1", number: 2, fullScreen: true),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: -2,
             context: ctx(
                 mode: .instant, spaces: spaces,
@@ -285,7 +285,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s1", number: 1, current: true),
             makeSpace(id: "f1", number: 2, fullScreen: true),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: -2,
             context: ctx(
                 spaces: spaces,
@@ -299,7 +299,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s1", number: 1, current: true),
             makeSpace(id: "f1", number: 2, fullScreen: true),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: -2,
             context: ctx(
                 entryPoint: .menu, spaces: spaces,
@@ -318,7 +318,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "f1", number: 3, displayID: "d2",
                       fullScreen: true),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: -3,
             context: ctx(
                 spaces: spaces,
@@ -336,7 +336,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "f1", number: 2, displayID: "d2",
                       fullScreen: true),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: -2,
             context: ctx(
                 spaces: spaces,
@@ -351,7 +351,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "f1", number: 2, displayID: "d2",
                       fullScreen: true),
         ]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: -2,
             context: ctx(
                 mode: .fast, spaces: spaces,
@@ -363,7 +363,7 @@ final class SwitchStrategyTests: XCTestCase {
 
     func testNavigation_missionControl() {
         let (spaces, enabledMap) = standardSpaces()
-        let strategy = SpaceSwitcher.resolveNavigationStrategy(
+        let strategy = SwitchStrategizer.resolveNavigationStrategy(
             hitIndex: Space.missionControlIndex,
             context: ctx(
                 spaces: spaces, enabledSwitchMap: enabledMap))
@@ -372,7 +372,7 @@ final class SwitchStrategyTests: XCTestCase {
 
     func testNavigation_next_smooth() {
         let (spaces, enabledMap) = standardSpaces()
-        let strategy = SpaceSwitcher.resolveNavigationStrategy(
+        let strategy = SwitchStrategizer.resolveNavigationStrategy(
             hitIndex: Space.nextSpaceIndex,
             context: ctx(
                 spaces: spaces, enabledSwitchMap: enabledMap))
@@ -387,7 +387,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s2", number: 2),
             makeSpace(id: "s3", number: 3, current: true),
         ]
-        let strategy = SpaceSwitcher.resolveNavigationStrategy(
+        let strategy = SwitchStrategizer.resolveNavigationStrategy(
             hitIndex: Space.previousSpaceIndex,
             context: ctx(
                 mode: .fast, spaces: spaces,
@@ -402,7 +402,7 @@ final class SwitchStrategyTests: XCTestCase {
             makeSpace(id: "s1", number: 1),
             makeSpace(id: "s5", number: 5, current: true),
         ]
-        let strategy = SpaceSwitcher.resolveNavigationStrategy(
+        let strategy = SwitchStrategizer.resolveNavigationStrategy(
             hitIndex: Space.nextSpaceIndex,
             context: ctx(
                 spaces: spaces, enabledSwitchMap: [:]))
@@ -411,7 +411,7 @@ final class SwitchStrategyTests: XCTestCase {
 
     func testNavigation_noArrows_click_showsBalloon() {
         let (spaces, enabledMap) = standardSpaces()
-        let strategy = SpaceSwitcher.resolveNavigationStrategy(
+        let strategy = SwitchStrategizer.resolveNavigationStrategy(
             hitIndex: Space.nextSpaceIndex,
             context: ctx(
                 spaces: spaces, enabledSwitchMap: enabledMap,
@@ -421,7 +421,7 @@ final class SwitchStrategyTests: XCTestCase {
 
     func testNavigation_noArrows_menu_unreachable() {
         let (spaces, enabledMap) = standardSpaces()
-        let strategy = SpaceSwitcher.resolveNavigationStrategy(
+        let strategy = SwitchStrategizer.resolveNavigationStrategy(
             hitIndex: Space.nextSpaceIndex,
             context: ctx(
                 entryPoint: .menu, spaces: spaces,
@@ -434,7 +434,7 @@ final class SwitchStrategyTests: XCTestCase {
 
     func testNoCurrentSpace_unreachable() {
         let spaces = [makeSpace(id: "s1", number: 1)]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: 1,
             context: ctx(
                 spaces: spaces,
@@ -445,7 +445,7 @@ final class SwitchStrategyTests: XCTestCase {
     func testNoTargetSpace_unreachable() {
         let spaces = [
             makeSpace(id: "s1", number: 1, current: true)]
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: -99,
             context: ctx(
                 spaces: spaces,

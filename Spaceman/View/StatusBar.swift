@@ -52,7 +52,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var tabChangeObserver: NSObjectProtocol?
     private var scrollAccumulator: CGFloat = 0
     private var lastScrollTime: Date = .distantPast
-    private var spaceSwitcher: SpaceSwitcher!
+    private var spaceSwitcher: SwitchOrchestrator!
     private var currentSpaces: [Space] = []
     private var updaterController: SPUStandardUpdaterController!
     private var aboutView: NSHostingView<AboutView>!
@@ -64,7 +64,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     override init() {
         super.init()
 
-        spaceSwitcher = SpaceSwitcher()
+        spaceSwitcher = SwitchOrchestrator()
         updaterController = SPUStandardUpdaterController(
             startingUpdater: true, updaterDelegate: self, userDriverDelegate: self)
 
@@ -912,7 +912,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 .buildEnabledSwitchMap(for: currentSpaces),
             hasArrowShortcuts: spaceSwitcher.shortcutSwitcher
                 .hasArrowShortcuts)
-        let strategy = SpaceSwitcher.resolveStrategy(
+        let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: tag, context: ctx)
         spaceSwitcher.executeStrategy(
             strategy, spaces: currentSpaces,
