@@ -16,38 +16,36 @@ Consider: for keeping the switching speed more or less equal to what the user as
 gesture for instantly switching to anchor then using shortcuts for chaining.
 
 
-
-
-
-┌──────────────────────────────────────┬─────────────────────────────────────────────────────────────────┬─────────────────────────────────────────────────────────────────┐
-│ Scenario                             │ Click in icon                                                   │ Menu option                                                     │
-│                                      ├─────────────────────────────────────────────┬───────────────────┼────────────────────────────────────────────┬────────────────────┤
-│                                      │ Smooth (shortcuts)                          │ Fast / Instant    │ Smooth (shortcuts)                         │ Fast / Instant     │
-│                                      │                                             │ (gestures)        │                                            │ (gestures)         │
-┝━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┿━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┿━━━━━━━━━━━━━━━━━━━┿━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┿━━━━━━━━━━━━━━━━━━━━┥
-│ Desktop (has shortcut) same display  │ direct shortcut                             │ gesture           │ direct shortcut                            │ gesture            │
-├──────────────────────────────────────┼─────────────────────────────────────────────┼───────────────────┼────────────────────────────────────────────┼────────────────────┤
-│ Desktop (has shortcut) cross-display │ direct shortcut                             │ fallback to       │ direct shortcut                            │ fallback to        │
-│                                      │                                             │ click icon/smooth │                                            │ menu option/smooth │
-├──────────────────────────────────────┼─────────────────────────────────────────────┼───────────────────┼────────────────────────────────────────────┼────────────────────┤
-│ Desktop (no shortcut) same display   │ show "configure space shortcuts"            │ gesture           │ chain from current                         │ gesture            │
-│                                      │                                             │                   │ (or if shorter) jump to anchor, then chain │                    │
-│                                      │                                             │                   │ (or if no arrow shortcuts)                 │                    │
-│                                      │                                             │                   │                  unavailable/greyed out    │                    │
-├──────────────────────────────────────┼─────────────────────────────────────────────┼───────────────────┼────────────────────────────────────────────┼────────────────────┤
-│ Desktop (no shortcut) cross-display  │ show "configure space shortcuts"            │ fallback to       │ jump to anchor, then chain                 │ fallback to        │
-│                                      │                                             │ click icon/smooth │ (or if no anchor or no arrow shortcuts)    │ menu option/smooth │
-│                                      │                                             │                   │                  unavailable/greyed out    │                    │
-├──────────────────────────────────────┼─────────────────────────────────────────────┼───────────────────┼────────────────────────────────────────────┼────────────────────┤
-│ Fullscreen, same display             │ chain from current                          │ gesture           │ chain from current                         │ gesture            │
-│                                      │ (or if shorter) jump to anchor, then chain  │                   │ (or if shorter) jump to anchor, then chain │                    │
-│                                      │ (or if no arrow shortcuts)                  │                   │ (or if no arrow shortcuts)                 │                    │
-│                                      │            show "configure arrow shortcuts" │                   │                  unavailable/greyed out    │                    │
-├──────────────────────────────────────┼─────────────────────────────────────────────┼───────────────────┼────────────────────────────────────────────┼────────────────────┤
-│ Fullscreen, cross-display            │ jump to anchor, then chain                  │ fallback to       │ jump to anchor, then chain                 │ fallback to        │
-│                                      │ (or if no anchor or no arrow shortcuts)     │ click icon/smooth │ (or if no anchor or no arrow shortcuts)    │ menu option/smooth │
-│                                      │            show "configure arrow shortcuts" │                   │                  unavailable/greyed out    │                    │
-└──────────────────────────────────────┴─────────────────────────────────────────────┴───────────────────┴────────────────────────────────────────────┴────────────────────┘
+┌────────────────────────┬─────────────────────────────────────────────────────────────────┬─────────────────────────────────────────────────────────────────┐
+│ Scenario               │ Click in icon                                                   │ Menu option                                                     │
+│                        ├─────────────────────────────────────────────┬───────────────────┼────────────────────────────────────────────┬────────────────────┤
+│                        │ Smooth (shortcuts)                          │ Fast / Instant    │ Smooth (shortcuts)                         │ Fast / Instant     │
+│                        │                                             │ (gestures)        │                                            │ (gestures)         │
+┝━━━━━━━━━━━━━━━━━━━━━━━━┿━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┿━━━━━━━━━━━━━━━━━━━┿━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┿━━━━━━━━━━━━━━━━━━━━┥
+│ Desktop (has shortcut) │ direct shortcut                             │ gesture           │ direct shortcut                            │ gesture            │
+│ same display           │                                             │                   │                                            │                    │
+├────────────────────────┼─────────────────────────────────────────────┼───────────────────┼────────────────────────────────────────────┼────────────────────┤
+│ Desktop (has shortcut) │ direct shortcut                             │ fallback to       │ direct shortcut                            │ fallback to        │
+│ cross-display          │                                             │ click icon/smooth │                                            │ menu option/smooth │
+├────────────────────────┼─────────────────────────────────────────────┼───────────────────┼────────────────────────────────────────────┼────────────────────┤
+│ Desktop (no shortcut)  │ show "configure space shortcuts"            │ gesture           │ chain from current                         │ gesture            │
+│ same display           │                                             │                   │ (or if shorter) jump to anchor, then chain │                    │
+│                        │                                             │                   │ (or if no arrow shortcuts)                 │                    │
+│                        │                                             │                   │                  unavailable/greyed out    │                    │
+├────────────────────────┼─────────────────────────────────────────────┼───────────────────┼────────────────────────────────────────────┼────────────────────┤
+│ Desktop (no shortcut)  │ show "configure space shortcuts"            │ fallback to       │ jump to anchor, then chain                 │ fallback to        │
+│ cross-display          │                                             │ click icon/smooth │ (or if no anchor or no arrow shortcuts)    │ menu option/smooth │
+│                        │                                             │                   │                  unavailable/greyed out    │                    │
+├────────────────────────┼─────────────────────────────────────────────┼───────────────────┼────────────────────────────────────────────┼────────────────────┤
+│ Fullscreen,            │ chain from current                          │ gesture           │ chain from current                         │ gesture            │
+│ same display           │ (or if shorter) jump to anchor, then chain  │                   │ (or if shorter) jump to anchor, then chain │                    │
+│                        │ (or if no arrow shortcuts)                  │                   │ (or if no arrow shortcuts)                 │                    │
+│                        │            show "configure arrow shortcuts" │                   │                  unavailable/greyed out    │                    │
+├────────────────────────┼─────────────────────────────────────────────┼───────────────────┼────────────────────────────────────────────┼────────────────────┤
+│ Fullscreen,            │ jump to anchor, then chain                  │ fallback to       │ jump to anchor, then chain                 │ fallback to        │
+│ cross-display          │ (or if no anchor or no arrow shortcuts)     │ click icon/smooth │ (or if no anchor or no arrow shortcuts)    │ menu option/smooth │
+│                        │            show "configure arrow shortcuts" │                   │                  unavailable/greyed out    │                    │
+└────────────────────────┴─────────────────────────────────────────────┴───────────────────┴────────────────────────────────────────────┴────────────────────┘
 
 * anchor = nearest desktop with a configured shortcut on the target display
 

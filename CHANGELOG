@@ -1,3 +1,4 @@
+1.21.0: Refactored responsabilities
 1.20.5: Refactored all scenarios and switching strategies
 1.20.4: Added option to switch between spaces instantly, or with a smooth or fast animation; refactor for improving code quality; quicker startup of MC
 1.20.3: Fix icon padding on 13" screens; make default name for new spaces static
