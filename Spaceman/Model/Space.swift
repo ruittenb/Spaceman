@@ -38,43 +38,46 @@ struct Space: Equatable {
     /// Build a mapping from spaceID to Mission Control switch index.
     /// Regular desktops get 1, 2, ... up to `maxSwitchableDesktop` (matching
     /// keyboard shortcuts read from macOS user defaults). Beyond that, omitted.
-    ///
-    /// The first fullscreen space (F1) is mapped to -1 so it can be
-    /// distinguished for the hidden minus-key shortcut (used by Apptivate etc.).
-    /// Additional fullscreen spaces are omitted and get `unswitchableIndex`.
+    /// Fullscreen spaces are not in the map (no macOS shortcut exists for them).
     static func buildSwitchIndexMap(for spaces: [Space]) -> [String: Int] {
         var map: [String: Int] = [:]
         var desktopIndex = 1
-        var fullscreenIndex = 1
-        for s in spaces {
-            if s.isFullScreen {
-                if fullscreenIndex == 1 {
-                    map[s.spaceID] = -1
-                }
-                fullscreenIndex += 1
-            } else {
-                if desktopIndex <= maxSwitchableDesktop {
-                    map[s.spaceID] = desktopIndex
-                }
-                desktopIndex += 1
+        for s in spaces where !s.isFullScreen {
+            if desktopIndex <= maxSwitchableDesktop {
+                map[s.spaceID] = desktopIndex
             }
+            desktopIndex += 1
         }
         return map
     }
 
-    /// Whether a space can be switched to, given its switch map tag and chaining setting.
+    /// Whether a space can be switched to, given its switch map tag.
     /// Used by both grid and list views to determine if a space is clickable.
     static func canSwitch(
-        space: Space, switchTag: Int?, allowChaining: Bool,
-        switchingMode: SwitchingMode = .smooth
+        space: Space, switchTag: Int?,
+        switchingMode: SwitchingMode = .smooth,
+        spaces: [Space] = [],
+        enabledSwitchMap: [String: Int]? = nil,
+        hasArrowShortcuts: Bool = true
     ) -> Bool {
         guard !space.isCurrentSpace else { return false }
-        if switchingMode != .smooth { return true }
-        // Has a direct shortcut (desktop 1-16 or F1)
+        if switchingMode != .smooth {
+            // Gesture modes: same-display always works. Cross-display
+            // falls back to shortcut-based switching, so check reachability.
+            guard let current = spaces.first(where: { $0.isCurrentSpace }),
+                  space.displayID != current.displayID else {
+                return true
+            }
+            // Cross-display: fall through to smooth-mode reachability check.
+        }
+        // Has an enabled shortcut
         if switchTag != nil { return true }
-        // F2+ fullscreen: only reachable via chaining
-        if space.isFullScreen && allowChaining { return true }
-        return false
+        // No direct shortcut: reachable only if chaining can reach it
+        let strategy = SpaceSwitcher.calculateChainingStrategy(
+            targetSpaceNumber: space.spaceNumber, spaces: spaces,
+            switchMap: enabledSwitchMap,
+            hasArrowShortcuts: hasArrowShortcuts)
+        return strategy != .unreachable
     }
 
     /// The tag to pass to the switch handler for this space.

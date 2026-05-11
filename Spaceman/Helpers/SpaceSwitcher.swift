@@ -34,9 +34,10 @@ class SpaceSwitcher {
         shortcutHelper.shortcut(forDesktop: desktop)
     }
 
-    /// The synthesized F1 fullscreen shortcut (minus key).
-    var fullscreenShortcut: SpaceShortcut? {
-        shortcutHelper.fullscreenShortcut
+    /// Whether Move Left/Right shortcuts are configured in Mission Control.
+    var hasArrowShortcuts: Bool {
+        shortcutHelper.moveLeftShortcut != nil
+            && shortcutHelper.moveRightShortcut != nil
     }
 
     /// Switch to a space using gesture. Returns false if cross-display.
@@ -110,10 +111,6 @@ class SpaceSwitcher {
         sendKeyCode(sc?.keyCode ?? 124, modifiers: sc?.modifiers ?? "control down")
     }
 
-    func sendFullscreenShortcut(_ shortcut: SpaceShortcut) {
-        sendKeyCode(shortcut.keyCode, modifiers: shortcut.modifiers)
-    }
-
     private func sendKeyCode(_ keyCode: Int, modifiers: String) {
         let appleScript = "tell application \"System Events\" to key code \(keyCode) using {\(modifiers)}"
         DispatchQueue.global(qos: .background).async {
@@ -126,7 +123,7 @@ class SpaceSwitcher {
 
     public func switchUsingLocation(
         iconWidths: [IconWidth], point: CGPoint,
-        spaces: [Space], allowChaining: Bool,
+        spaces: [Space],
         onError: @escaping () -> Void,
         onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
@@ -156,11 +153,12 @@ class SpaceSwitcher {
         if mode != .smooth {
             switchUsingGesture(
                 hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
-                spaces: spaces, mode: mode, onError: onError)
+                spaces: spaces, mode: mode, onError: onError,
+                onMissingShortcut: onMissingShortcut)
         } else {
             switchUsingShortcut(
                 hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
-                spaces: spaces, allowChaining: allowChaining,
+                spaces: spaces,
                 onError: onError, onMissingShortcut: onMissingShortcut)
         }
     }
@@ -168,7 +166,8 @@ class SpaceSwitcher {
     private func switchUsingGesture(
         hitIndex: Int, hitSpaceNumber: Int,
         spaces: [Space], mode: SwitchingMode,
-        onError: @escaping () -> Void
+        onError: @escaping () -> Void,
+        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
         // Prev/next arrows: gesture-based
         if hitIndex == Space.previousSpaceIndex {
@@ -198,18 +197,18 @@ class SpaceSwitcher {
         if !gestureSwitcher.switchToSpace(
             target: target, current: current, spaces: spaces, mode: mode
         ) {
-            // Cross-display: fall back to AppleScript
-            if hitIndex >= 1 && hitIndex <= Space.maxSwitchableDesktop {
-                switchToSpace(spaceNumber: hitIndex, onError: onError)
-            } else {
-                onError()
-            }
+            // Cross-display: gestures can't cross displays, fall back to
+            // the same logic as the smooth (shortcut) click handler.
+            switchUsingShortcut(
+                hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
+                spaces: spaces,
+                onError: onError, onMissingShortcut: onMissingShortcut)
         }
     }
 
     private func switchUsingShortcut(
         hitIndex: Int, hitSpaceNumber: Int,
-        spaces: [Space], allowChaining: Bool,
+        spaces: [Space],
         onError: @escaping () -> Void,
         onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
@@ -231,33 +230,68 @@ class SpaceSwitcher {
                 switchToNextSpace()
             }
             return
-        } else if (hitIndex == Space.unswitchableIndex || hitIndex < 0) && allowChaining {
-            navigateByChaining(
-                targetSpaceNumber: hitSpaceNumber, spaces: spaces, onError: onError)
-        } else if hitIndex == -1 {
-            // F1 fullscreen with chaining disabled: send minus key (for Apptivate etc.)
-            if let sc = shortcutHelper.fullscreenShortcut {
-                sendKeyCode(sc.keyCode, modifiers: sc.modifiers)
-            } else {
-                onError()
-            }
-        } else if hitIndex < 0 {
-            // F2+ fullscreen with chaining disabled: no shortcut available, just blink
-            onError()
-        } else if hitIndex == Space.unswitchableIndex {
-            if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
+        } else if hitIndex == Space.unswitchableIndex || hitIndex < 0 {
+            // Fullscreen spaces have no macOS shortcut, so always use chaining.
+            navigateByShortcut(
+                targetSpaceNumber: hitSpaceNumber, spaces: spaces,
+                onError: onError, onMissingShortcut: onMissingShortcut)
         } else if shortcutHelper.getKeyCode(spaceNumber: hitIndex) < 0 {
+            // Regular desktop whose shortcut is not configured in Mission Control.
+            // Unlike fullscreen (which chains), desktops prompt the user to enable
+            // the shortcut — because once enabled, direct switching is the better UX.
             if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
         } else {
             switchToSpace(spaceNumber: hitIndex, onError: onError)
         }
     }
 
+    /// Switch map filtered to only include desktops with enabled shortcuts.
+    func buildEnabledSwitchMap(for spaces: [Space]) -> [String: Int] {
+        Space.buildSwitchIndexMap(for: spaces).filter {
+            shortcutHelper.getKeyCode(spaceNumber: $0.value) >= 0
+        }
+    }
+
     // MARK: - Chained navigation
 
+    /// Find the nearest desktop with an enabled shortcut on the same
+    /// display as the target space.
+    /// Find the nearest desktop with an enabled shortcut on the same
+    /// display as the target space. When two anchors are equally close
+    /// to the target, prefer the one between current and target
+    /// (i.e. "along the way").
+    static func findNearestAnchor(
+        targetSpaceNumber: Int, currentSpaceNumber: Int,
+        spaces: [Space], switchMap: [String: Int]
+    ) -> Space? {
+        guard let targetSpace = spaces.first(
+            where: { $0.spaceNumber == targetSpaceNumber })
+        else { return nil }
+        let targetDisplaySpaces = spaces.filter {
+            $0.displayID == targetSpace.displayID
+        }
+        let switchable = targetDisplaySpaces.filter {
+            guard let idx = switchMap[$0.spaceID] else { return false }
+            return idx >= 1 && idx <= Space.maxSwitchableDesktop
+        }
+        let goingRight = targetSpaceNumber > currentSpaceNumber
+        return switchable.min(by: {
+            let d0 = abs($0.spaceNumber - targetSpaceNumber)
+            let d1 = abs($1.spaceNumber - targetSpaceNumber)
+            if d0 != d1 { return d0 < d1 }
+            // Tie-break: prefer the anchor along the way
+            if goingRight { return $0.spaceNumber < $1.spaceNumber }
+            return $0.spaceNumber > $1.spaceNumber
+        })
+    }
+
     /// Calculate the optimal chaining strategy without executing it.
+    /// When `hasArrowShortcuts` is false, strategies that require chaining
+    /// (arrow keypresses) are excluded — only `directSwitch` survives.
     static func calculateChainingStrategy(
-        targetSpaceNumber: Int, spaces: [Space]
+        targetSpaceNumber: Int, spaces: [Space],
+        switchMap: [String: Int]? = nil,
+        hasArrowShortcuts: Bool = true
     ) -> ChainingStrategy {
         guard let targetSpace = spaces.first(
             where: { $0.spaceNumber == targetSpaceNumber }),
@@ -267,28 +301,27 @@ class SpaceSwitcher {
             return .unreachable
         }
 
-        let switchMap = Space.buildSwitchIndexMap(for: spaces)
-        let targetDisplaySpaces = spaces.filter {
-            $0.displayID == targetSpace.displayID
-        }
-        let switchable = targetDisplaySpaces.filter {
-            guard let idx = switchMap[$0.spaceID] else { return false }
-            return idx >= 1 && idx <= Space.maxSwitchableDesktop
-        }
-        let anchor = switchable.min(by: {
-            abs($0.spaceNumber - targetSpaceNumber)
-                < abs($1.spaceNumber - targetSpaceNumber)
-        })
+        let switchMap = switchMap ?? Space.buildSwitchIndexMap(for: spaces)
+        let anchor = findNearestAnchor(
+            targetSpaceNumber: targetSpaceNumber,
+            currentSpaceNumber: currentSpace.spaceNumber,
+            spaces: spaces, switchMap: switchMap)
 
+        // No single display can have more than ~100 spaces (16 desktops +
+        // fullscreen apps). Anything beyond this cap is treated as unreachable,
+        // which also avoids an Int.max + 1 overflow when no anchor exists.
+        let maxArrows = 100
         let arrowsFromAnchor = anchor.map {
             abs(targetSpaceNumber - $0.spaceNumber)
-        } ?? Int.max
+        } ?? maxArrows + 1
         let sameDisplay = targetSpace.displayID == currentSpace.displayID
         let arrowsFromCurrent = sameDisplay
             ? abs(targetSpaceNumber - currentSpace.spaceNumber)
-            : Int.max
+            : maxArrows + 1
 
-        if arrowsFromCurrent <= arrowsFromAnchor + 1 {
+        if hasArrowShortcuts
+            && arrowsFromCurrent <= maxArrows
+            && arrowsFromCurrent <= arrowsFromAnchor + 1 {
             guard arrowsFromCurrent > 0 else { return .unreachable }
             let goRight = targetSpaceNumber > currentSpace.spaceNumber
             return .chainFromCurrent(
@@ -299,6 +332,7 @@ class SpaceSwitcher {
             if delta == 0 {
                 return .directSwitch(switchIndex: switchIndex)
             }
+            guard hasArrowShortcuts else { return .unreachable }
             return .jumpThenChain(
                 anchorSwitchIndex: switchIndex,
                 steps: abs(delta), goRight: delta > 0)
@@ -309,12 +343,16 @@ class SpaceSwitcher {
 
     /// Navigate to a space that has no direct keyboard shortcut by
     /// chaining arrow keypresses.
-    func navigateByChaining(
+    func navigateByShortcut(
         targetSpaceNumber: Int, spaces: [Space],
-        onError: @escaping () -> Void
+        onError: @escaping () -> Void,
+        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
     ) {
+        let filteredMap = buildEnabledSwitchMap(for: spaces)
         let strategy = Self.calculateChainingStrategy(
-            targetSpaceNumber: targetSpaceNumber, spaces: spaces)
+            targetSpaceNumber: targetSpaceNumber, spaces: spaces,
+            switchMap: filteredMap,
+            hasArrowShortcuts: hasArrowShortcuts)
 
         switch strategy {
         case .chainFromCurrent(let steps, let goRight):
@@ -333,7 +371,11 @@ class SpaceSwitcher {
         case .directSwitch(let switchIndex):
             switchToSpace(spaceNumber: switchIndex, onError: onError)
         case .unreachable:
-            onError()
+            if let onMissingShortcut {
+                let isFullscreen = spaces.first(
+                    where: { $0.spaceNumber == targetSpaceNumber })?.isFullScreen ?? false
+                onMissingShortcut(isFullscreen ? .navigation : .desktop)
+            } else { onError() }
         }
     }
 

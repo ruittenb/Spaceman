@@ -34,9 +34,6 @@ class ShortcutHelper {
     private(set) var moveLeftShortcut: SpaceShortcut?
     private(set) var moveRightShortcut: SpaceShortcut?
 
-    /// Synthesized shortcut for the first fullscreen space (minus key + Desktop 1's modifiers).
-    private(set) var fullscreenShortcut: SpaceShortcut?
-
     init() {
         reload()
     }
@@ -62,13 +59,6 @@ class ShortcutHelper {
         // Navigation shortcuts
         moveLeftShortcut = parseHotkey(id: ShortcutHelper.moveLeftID, from: hotkeys)
         moveRightShortcut = parseHotkey(id: ShortcutHelper.moveRightID, from: hotkeys)
-        // Hardcoded F1 fullscreen shortcut: ⌃⌘- (marginally supported, for Apptivate etc.)
-        fullscreenShortcut = SpaceShortcut(
-            keyCode: 27,  // VK_ANSI_Minus
-            modifiers: "control down,command down",
-            modifierFlags: [.control, .command],
-            keyEquivalent: "-"
-        )
     }
 
     /// Returns the shortcut for a given desktop number (1-15), or nil if not configured/enabled.
