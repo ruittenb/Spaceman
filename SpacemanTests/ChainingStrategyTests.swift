@@ -216,6 +216,67 @@ final class ChainingStrategyTests: XCTestCase {
         XCTAssertEqual(strategy, .unreachable)
     }
 
+    func testCrossDisplay_noAnchorOnTargetDisplay_unreachable() {
+        // d1 has desktops 1-3 (current=1), d2 has only fullscreen.
+        // No anchor on d2 → unreachable.
+        let spaces = [
+            Space(
+                displayID: "d1", spaceID: "s1", spaceName: "",
+                spaceNumber: 1, spaceByDesktopID: "1",
+                isCurrentSpace: true, isFullScreen: false),
+            Space(
+                displayID: "d2", spaceID: "f1", spaceName: "",
+                spaceNumber: 2, spaceByDesktopID: "F1",
+                isCurrentSpace: false, isFullScreen: true),
+        ]
+        let strategy = SpaceSwitcher.calculateChainingStrategy(
+            targetSpaceNumber: 2, spaces: spaces)
+
+        XCTAssertEqual(strategy, .unreachable)
+    }
+
+    func testCrossDisplay_hasAnchor_noArrows_unreachable() {
+        // d1 has desktop 1 (current), d2 has desktops 2-4.
+        // Anchor on d2 = desktop 2 (only one with enabled shortcut).
+        // Target = 4, delta = 2. Without arrows, can't chain → unreachable.
+        var spaces: [Space] = []
+        spaces.append(Space(
+            displayID: "d1", spaceID: "s1", spaceName: "",
+            spaceNumber: 1, spaceByDesktopID: "1",
+            isCurrentSpace: true, isFullScreen: false))
+        for i in 2...4 {
+            spaces.append(Space(
+                displayID: "d2", spaceID: "s\(i)", spaceName: "",
+                spaceNumber: i, spaceByDesktopID: "\(i - 1)",
+                isCurrentSpace: false, isFullScreen: false))
+        }
+        // Only desktop 2 has an enabled shortcut
+        let switchMap = ["s2": 2]
+        let strategy = SpaceSwitcher.calculateChainingStrategy(
+            targetSpaceNumber: 4, spaces: spaces,
+            switchMap: switchMap,
+            hasArrowShortcuts: false)
+
+        XCTAssertEqual(strategy, .unreachable)
+    }
+
+    func testFullscreen_jumpThenChain() {
+        // 9 desktops + 2 fullscreen (F1=10, F2=11).
+        // Current=1, target=11 (F2).
+        // From current: 10 steps.
+        // From anchor (desktop 9): 2 steps right.
+        // arrowsFromCurrent (10) > arrowsFromAnchor (2) + 1
+        let spaces = makeSpaces(
+            desktops: 9, fullscreen: 2, currentNumber: 1)
+        let strategy = SpaceSwitcher.calculateChainingStrategy(
+            targetSpaceNumber: 11, spaces: spaces)
+
+        XCTAssertEqual(
+            strategy,
+            .jumpThenChain(
+                anchorSwitchIndex: 9, steps: 2, goRight: true))
+    }
+
     func testUnreachable_noCurrentSpace() {
         let spaces = [
             Space(
