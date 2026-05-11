@@ -14,127 +14,219 @@ enum MissingShortcutKind {
 }
 
 class SpaceSwitcher {
-    private let shortcutHelper = ShortcutHelper()
+    let shortcutSwitcher = ShortcutSwitcher()
     private let gestureSwitcher = GestureSwitcher()
     @AppStorage("switchingMode") private var switchingMode = SwitchingMode.smooth.rawValue
-    private var chainObserver: NSObjectProtocol?
-    private var chainTimeout: DispatchWorkItem?
 
-    init() {
-        // Check if the process has Accessibility permission, and make sure it has been added to the list
-        AXIsProcessTrusted()
+    // MARK: - Strategizer (static, pure)
+
+    /// Determine the switch outcome for a space target.
+    static func resolveOutcome(
+        switchTag: Int,
+        entryPoint: SwitchEntryPoint,
+        mode: SwitchingMode,
+        spaces: [Space],
+        enabledSwitchMap: [String: Int],
+        hasArrowShortcuts: Bool
+    ) -> SwitchOutcome {
+        // Resolve target and current space
+        let targetSpaceNumber: Int
+        let target: Space?
+        if switchTag > 0 {
+            // Positive tag = switch index → find space by switch map
+            let switchMap = Space.buildSwitchIndexMap(for: spaces)
+            target = spaces.first { switchMap[$0.spaceID] == switchTag }
+            targetSpaceNumber = target?.spaceNumber ?? 0
+        } else {
+            // Negative tag = -(spaceNumber)
+            targetSpaceNumber = -switchTag
+            target = spaces.first { $0.spaceNumber == targetSpaceNumber }
+        }
+        guard let target,
+              let current = spaces.first(where: { $0.isCurrentSpace })
+        else {
+            return .unreachable
+        }
+
+        let sameDisplay = target.displayID == current.displayID
+
+        // Gesture mode, same display → gesture
+        if mode != .smooth && sameDisplay {
+            return .gestureDirect(
+                target: target, current: current, mode: mode)
+        }
+        // Gesture mode, cross display → fall through to shortcut logic
+
+        // Does the target have an enabled direct shortcut?
+        let enabledIndex = enabledSwitchMap.first(
+            where: { $0.key == target.spaceID })?.value
+        if let enabledIndex,
+           enabledIndex >= 1, enabledIndex <= Space.maxSwitchableDesktop {
+            return .shortcutDirect(switchIndex: enabledIndex)
+        }
+
+        // Desktop without shortcut + click → show balloon
+        if !target.isFullScreen && switchTag > 0
+            && entryPoint == .click {
+            return .showBalloon(.desktop)
+        }
+
+        // Try chaining
+        let strategy = calculateChainingStrategy(
+            targetSpaceNumber: targetSpaceNumber, spaces: spaces,
+            switchMap: enabledSwitchMap,
+            hasArrowShortcuts: hasArrowShortcuts)
+
+        switch strategy {
+        case .chainFromCurrent(let steps, let goRight):
+            return .shortcutChain(steps: steps, goRight: goRight)
+        case .jumpThenChain(let anchorIndex, let steps, let goRight):
+            return .shortcutJumpThenChain(
+                anchorSwitchIndex: anchorIndex,
+                steps: steps, goRight: goRight)
+        case .directSwitch(let switchIndex):
+            return .shortcutDirect(switchIndex: switchIndex)
+        case .unreachable:
+            if entryPoint == .click {
+                return .showBalloon(
+                    target.isFullScreen ? .navigation : .desktop)
+            }
+            return .unreachable
+        }
     }
 
-    func reloadShortcuts() {
-        shortcutHelper.reload()
+    /// Determine the outcome for navigation buttons (prev/next, Mission Control).
+    static func resolveNavigationOutcome(
+        hitIndex: Int,
+        mode: SwitchingMode,
+        spaces: [Space],
+        hasArrowShortcuts: Bool,
+        entryPoint: SwitchEntryPoint
+    ) -> SwitchOutcome {
+        if hitIndex == Space.missionControlIndex {
+            return .missionControl
+        }
+
+        let goRight = hitIndex == Space.nextSpaceIndex
+
+        if isAtEdge(spaces: spaces, goingRight: goRight) {
+            return .unreachable
+        }
+
+        if mode != .smooth {
+            return .gestureRelative(goRight: goRight, mode: mode)
+        }
+
+        // Smooth mode: need arrow shortcuts
+        let hasShortcut = goRight
+            ? hasArrowShortcuts
+            : hasArrowShortcuts
+        if !hasShortcut {
+            return entryPoint == .click
+                ? .showBalloon(.navigation)
+                : .unreachable
+        }
+        return .shortcutRelative(goRight: goRight)
     }
 
-    /// Shortcut for a desktop number, for menu key equivalent display.
-    func shortcut(forDesktop desktop: Int) -> SpaceShortcut? {
-        shortcutHelper.shortcut(forDesktop: desktop)
-    }
-
-    /// Whether Move Left/Right shortcuts are configured in Mission Control.
-    var hasArrowShortcuts: Bool {
-        shortcutHelper.moveLeftShortcut != nil
-            && shortcutHelper.moveRightShortcut != nil
-    }
-
-    /// Switch to a space using gesture. Returns false if cross-display.
-    func switchToSpaceByGesture(
-        target: Space, current: Space, spaces: [Space],
-        mode: SwitchingMode
+    /// Returns true when the current space is already at the
+    /// first (goingRight=false) or last (goingRight=true)
+    /// position on its display.
+    static func isAtEdge(
+        spaces: [Space], goingRight: Bool
     ) -> Bool {
-        gestureSwitcher.switchToSpace(
-            target: target, current: current, spaces: spaces, mode: mode)
+        guard let current = spaces.first(
+            where: { $0.isCurrentSpace })
+        else {
+            return false
+        }
+        let displaySpaces = spaces
+            .filter { $0.displayID == current.displayID }
+            .sorted { $0.spaceNumber < $1.spaceNumber }
+        if goingRight {
+            return current.spaceNumber
+                == displaySpaces.last?.spaceNumber
+        } else {
+            return current.spaceNumber
+                == displaySpaces.first?.spaceNumber
+        }
     }
 
-    public func switchToSpace(spaceNumber: Int, onError: () -> Void) {
-        let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
-        if keyCode < 0 {
-            return onError()
-        }
-        let modifiers = shortcutHelper.getModifiers(spaceNumber: spaceNumber)
-        let appleScript = makeAppleScript(keyCode: keyCode, modifiers: modifiers)
-        var error: NSDictionary?
-        DispatchQueue.global(qos: .background).async {
-            if let scriptObject = NSAppleScript(source: appleScript) {
-                scriptObject.executeAndReturnError(&error)
-                if error != nil {
-                    guard let errorNumber = error?[NSAppleScript.errorNumber] as? Int else { return }
-                    guard let errorBriefMessage = error?[NSAppleScript.errorBriefMessage] as? String else { return }
-                    let settingsName = systemSettingsName()
-                    let permissionType: String
-                    switch abs(errorNumber) {
-                    case 1002:
-                        // -1002: Error: Spaceman is not allowed to send keystrokes.
-                        // (needs Accessibility permission)
-                        permissionType = "Accessibility"
-                    case 1743:
-                        // -1743: Error: Not authorized to send Apple events to System Events.
-                        // (needs Automation permission)
-                        permissionType = "Automation"
-                    default:
-                        permissionType = "Automation"
-                    }
-                    let msg = String(localized: """
-                        Error: \(errorBriefMessage)
+    // MARK: - Executor (instance)
 
-                        Please grant \(permissionType) permissions \
-                        to Spaceman in \(settingsName) → Privacy and Security.
-                        """)
-                    self.alert(
-                        msg: msg,
-                        permissionTypeName: permissionType)
-                }
+    /// Execute a resolved switch outcome.
+    func executeOutcome(
+        _ outcome: SwitchOutcome,
+        spaces: [Space],
+        onError: @escaping () -> Void,
+        onShowBalloon: ((MissingShortcutKind) -> Void)? = nil
+    ) {
+        switch outcome {
+        case .shortcutDirect(let switchIndex):
+            shortcutSwitcher.switchToSpace(
+                switchIndex, onError: onError)
+
+        case .shortcutRelative(let goRight):
+            shortcutSwitcher.switchRelative(goRight: goRight)
+
+        case .shortcutChain(let steps, let goRight):
+            shortcutSwitcher.chain(
+                steps: steps, goRight: goRight, onError: onError)
+
+        case .shortcutJumpThenChain(
+            let anchorIndex, let steps, let goRight
+        ):
+            shortcutSwitcher.jumpThenChain(
+                anchor: anchorIndex, steps: steps,
+                goRight: goRight, onError: onError)
+
+        case .gestureDirect(let target, let current, let mode):
+            _ = gestureSwitcher.switchToSpace(
+                target: target, current: current,
+                spaces: spaces, mode: mode)
+
+        case .gestureRelative(let goRight, let mode):
+            gestureSwitcher.switchRelative(
+                goRight: goRight, mode: mode)
+
+        case .missionControl:
+            shortcutSwitcher.triggerMissionControl()
+
+        case .showBalloon(let kind):
+            if let onShowBalloon {
+                onShowBalloon(kind)
+            } else {
+                onError()
             }
+
+        case .unreachable:
+            onError()
         }
     }
 
-    public func triggerMissionControl() {
-        let appleScript = "tell application \"Mission Control\" to launch"
-        DispatchQueue.global(qos: .background).async {
-            if let scriptObject = NSAppleScript(source: appleScript) {
-                var error: NSDictionary?
-                scriptObject.executeAndReturnError(&error)
-            }
-        }
-    }
-
-    public func switchToPreviousSpace() {
-        let sc = shortcutHelper.moveLeftShortcut
-        sendKeyCode(sc?.keyCode ?? 123, modifiers: sc?.modifiers ?? "control down")
-    }
-
-    public func switchToNextSpace() {
-        let sc = shortcutHelper.moveRightShortcut
-        sendKeyCode(sc?.keyCode ?? 124, modifiers: sc?.modifiers ?? "control down")
-    }
-
-    private func sendKeyCode(_ keyCode: Int, modifiers: String) {
-        let appleScript = "tell application \"System Events\" to key code \(keyCode) using {\(modifiers)}"
-        DispatchQueue.global(qos: .background).async {
-            if let scriptObject = NSAppleScript(source: appleScript) {
-                var error: NSDictionary?
-                scriptObject.executeAndReturnError(&error)
-            }
-        }
-    }
+    // MARK: - Entry point (click on icon)
 
     public func switchUsingLocation(
         iconWidths: [IconWidth], point: CGPoint,
         spaces: [Space],
         onError: @escaping () -> Void,
-        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
+        onShowBalloon: ((MissingShortcutKind) -> Void)? = nil
     ) {
-        shortcutHelper.reload()
-        cancelChain()
+        shortcutSwitcher.reloadShortcuts()
+        shortcutSwitcher.cancelChain()
+
+        // Hit-test
         var hitIndex: Int?
         var hitSpaceNumber: Int = 0
         for i in 0 ..< iconWidths.count {
-            let hitX = point.x >= iconWidths[i].left && point.x < iconWidths[i].right
-            let hasY = iconWidths[i].top != 0 || iconWidths[i].bottom != 0
-            let hitY = hasY ? (point.y >= iconWidths[i].top && point.y < iconWidths[i].bottom) : true
+            let hitX = point.x >= iconWidths[i].left
+                && point.x < iconWidths[i].right
+            let hasY = iconWidths[i].top != 0
+                || iconWidths[i].bottom != 0
+            let hitY = hasY
+                ? (point.y >= iconWidths[i].top
+                    && point.y < iconWidths[i].bottom)
+                : true
             if hitX && hitY {
                 hitIndex = iconWidths[i].index
                 hitSpaceNumber = iconWidths[i].spaceNumber
@@ -145,117 +237,44 @@ class SpaceSwitcher {
             onError()
             return
         }
-        if hitIndex == Space.missionControlIndex {
-            triggerMissionControl()
-            return
-        }
+
         let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
-        if mode != .smooth {
-            switchUsingGesture(
-                hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
-                spaces: spaces, mode: mode, onError: onError,
-                onMissingShortcut: onMissingShortcut)
-        } else {
-            switchUsingShortcut(
-                hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
+        let enabledMap = shortcutSwitcher.buildEnabledSwitchMap(
+            for: spaces)
+
+        // Navigation buttons (prev/next/Mission Control)
+        if hitIndex == Space.missionControlIndex
+            || hitIndex == Space.previousSpaceIndex
+            || hitIndex == Space.nextSpaceIndex {
+            let outcome = Self.resolveNavigationOutcome(
+                hitIndex: hitIndex, mode: mode,
                 spaces: spaces,
-                onError: onError, onMissingShortcut: onMissingShortcut)
+                hasArrowShortcuts: shortcutSwitcher.hasArrowShortcuts,
+                entryPoint: .click)
+            executeOutcome(
+                outcome, spaces: spaces,
+                onError: onError, onShowBalloon: onShowBalloon)
+            return
         }
+
+        // Regular space
+        let tag = Space.switchTag(
+            switchMapEntry: Space.buildSwitchIndexMap(
+                for: spaces)[spaces.first(
+                    where: { $0.spaceNumber == hitSpaceNumber }
+                )?.spaceID ?? ""],
+            spaceNumber: hitSpaceNumber)
+        let outcome = Self.resolveOutcome(
+            switchTag: tag, entryPoint: .click, mode: mode,
+            spaces: spaces, enabledSwitchMap: enabledMap,
+            hasArrowShortcuts: shortcutSwitcher.hasArrowShortcuts)
+        executeOutcome(
+            outcome, spaces: spaces,
+            onError: onError, onShowBalloon: onShowBalloon)
     }
 
-    private func switchUsingGesture(
-        hitIndex: Int, hitSpaceNumber: Int,
-        spaces: [Space], mode: SwitchingMode,
-        onError: @escaping () -> Void,
-        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
-    ) {
-        // Prev/next arrows: gesture-based
-        if hitIndex == Space.previousSpaceIndex {
-            if isAtEdge(spaces: spaces, goingRight: false) {
-                onError()
-            } else {
-                gestureSwitcher.switchRelative(goRight: false, mode: mode)
-            }
-            return
-        } else if hitIndex == Space.nextSpaceIndex {
-            if isAtEdge(spaces: spaces, goingRight: true) {
-                onError()
-            } else {
-                gestureSwitcher.switchRelative(goRight: true, mode: mode)
-            }
-            return
-        }
-        // Any other space: switch via gesture
-        guard let target = spaces.first(
-            where: { $0.spaceNumber == hitSpaceNumber }),
-              let current = spaces.first(
-                where: { $0.isCurrentSpace })
-        else {
-            onError()
-            return
-        }
-        if !gestureSwitcher.switchToSpace(
-            target: target, current: current, spaces: spaces, mode: mode
-        ) {
-            // Cross-display: gestures can't cross displays, fall back to
-            // the same logic as the smooth (shortcut) click handler.
-            switchUsingShortcut(
-                hitIndex: hitIndex, hitSpaceNumber: hitSpaceNumber,
-                spaces: spaces,
-                onError: onError, onMissingShortcut: onMissingShortcut)
-        }
-    }
+    // MARK: - Chaining strategy (static building blocks)
 
-    private func switchUsingShortcut(
-        hitIndex: Int, hitSpaceNumber: Int,
-        spaces: [Space],
-        onError: @escaping () -> Void,
-        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
-    ) {
-        if hitIndex == Space.previousSpaceIndex {
-            if shortcutHelper.moveLeftShortcut == nil {
-                if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
-            } else if isAtEdge(spaces: spaces, goingRight: false) {
-                onError()
-            } else {
-                switchToPreviousSpace()
-            }
-            return
-        } else if hitIndex == Space.nextSpaceIndex {
-            if shortcutHelper.moveRightShortcut == nil {
-                if let onMissingShortcut { onMissingShortcut(.navigation) } else { onError() }
-            } else if isAtEdge(spaces: spaces, goingRight: true) {
-                onError()
-            } else {
-                switchToNextSpace()
-            }
-            return
-        } else if hitIndex == Space.unswitchableIndex || hitIndex < 0 {
-            // Fullscreen spaces have no macOS shortcut, so always use chaining.
-            navigateByShortcut(
-                targetSpaceNumber: hitSpaceNumber, spaces: spaces,
-                onError: onError, onMissingShortcut: onMissingShortcut)
-        } else if shortcutHelper.getKeyCode(spaceNumber: hitIndex) < 0 {
-            // Regular desktop whose shortcut is not configured in Mission Control.
-            // Unlike fullscreen (which chains), desktops prompt the user to enable
-            // the shortcut — because once enabled, direct switching is the better UX.
-            if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
-        } else {
-            switchToSpace(spaceNumber: hitIndex, onError: onError)
-        }
-    }
-
-    /// Switch map filtered to only include desktops with enabled shortcuts.
-    func buildEnabledSwitchMap(for spaces: [Space]) -> [String: Int] {
-        Space.buildSwitchIndexMap(for: spaces).filter {
-            shortcutHelper.getKeyCode(spaceNumber: $0.value) >= 0
-        }
-    }
-
-    // MARK: - Chained navigation
-
-    /// Find the nearest desktop with an enabled shortcut on the same
-    /// display as the target space.
     /// Find the nearest desktop with an enabled shortcut on the same
     /// display as the target space. When two anchors are equally close
     /// to the target, prefer the one between current and target
@@ -279,15 +298,15 @@ class SpaceSwitcher {
             let d0 = abs($0.spaceNumber - targetSpaceNumber)
             let d1 = abs($1.spaceNumber - targetSpaceNumber)
             if d0 != d1 { return d0 < d1 }
-            // Tie-break: prefer the anchor along the way
             if goingRight { return $0.spaceNumber < $1.spaceNumber }
             return $0.spaceNumber > $1.spaceNumber
         })
     }
 
     /// Calculate the optimal chaining strategy without executing it.
-    /// When `hasArrowShortcuts` is false, strategies that require chaining
-    /// (arrow keypresses) are excluded — only `directSwitch` survives.
+    /// When `hasArrowShortcuts` is false, strategies that require
+    /// chaining (arrow keypresses) are excluded — only `directSwitch`
+    /// survives.
     static func calculateChainingStrategy(
         targetSpaceNumber: Int, spaces: [Space],
         switchMap: [String: Int]? = nil,
@@ -301,20 +320,19 @@ class SpaceSwitcher {
             return .unreachable
         }
 
-        let switchMap = switchMap ?? Space.buildSwitchIndexMap(for: spaces)
+        let switchMap = switchMap
+            ?? Space.buildSwitchIndexMap(for: spaces)
         let anchor = findNearestAnchor(
             targetSpaceNumber: targetSpaceNumber,
             currentSpaceNumber: currentSpace.spaceNumber,
             spaces: spaces, switchMap: switchMap)
 
-        // No single display can have more than ~100 spaces (16 desktops +
-        // fullscreen apps). Anything beyond this cap is treated as unreachable,
-        // which also avoids an Int.max + 1 overflow when no anchor exists.
         let maxArrows = 100
         let arrowsFromAnchor = anchor.map {
             abs(targetSpaceNumber - $0.spaceNumber)
         } ?? maxArrows + 1
-        let sameDisplay = targetSpace.displayID == currentSpace.displayID
+        let sameDisplay =
+            targetSpace.displayID == currentSpace.displayID
         let arrowsFromCurrent = sameDisplay
             ? abs(targetSpaceNumber - currentSpace.spaceNumber)
             : maxArrows + 1
@@ -322,8 +340,11 @@ class SpaceSwitcher {
         if hasArrowShortcuts
             && arrowsFromCurrent <= maxArrows
             && arrowsFromCurrent <= arrowsFromAnchor + 1 {
-            guard arrowsFromCurrent > 0 else { return .unreachable }
-            let goRight = targetSpaceNumber > currentSpace.spaceNumber
+            guard arrowsFromCurrent > 0 else {
+                return .unreachable
+            }
+            let goRight =
+                targetSpaceNumber > currentSpace.spaceNumber
             return .chainFromCurrent(
                 steps: arrowsFromCurrent, goRight: goRight)
         } else if let anchor = anchor,
@@ -339,140 +360,5 @@ class SpaceSwitcher {
         } else {
             return .unreachable
         }
-    }
-
-    /// Navigate to a space that has no direct keyboard shortcut by
-    /// chaining arrow keypresses.
-    func navigateByShortcut(
-        targetSpaceNumber: Int, spaces: [Space],
-        onError: @escaping () -> Void,
-        onMissingShortcut: ((MissingShortcutKind) -> Void)? = nil
-    ) {
-        let filteredMap = buildEnabledSwitchMap(for: spaces)
-        let strategy = Self.calculateChainingStrategy(
-            targetSpaceNumber: targetSpaceNumber, spaces: spaces,
-            switchMap: filteredMap,
-            hasArrowShortcuts: hasArrowShortcuts)
-
-        switch strategy {
-        case .chainFromCurrent(let steps, let goRight):
-            executeChain(
-                stepsRemaining: steps, goRight: goRight,
-                onError: onError)
-        case .jumpThenChain(let anchorIndex, let steps, let goRight):
-            switchToSpace(spaceNumber: anchorIndex, onError: onError)
-            waitForSpaceChange {
-                self.executeChain(
-                    stepsRemaining: steps, goRight: goRight,
-                    onError: onError)
-            } onTimeout: {
-                onError()
-            }
-        case .directSwitch(let switchIndex):
-            switchToSpace(spaceNumber: switchIndex, onError: onError)
-        case .unreachable:
-            if let onMissingShortcut {
-                let isFullscreen = spaces.first(
-                    where: { $0.spaceNumber == targetSpaceNumber })?.isFullScreen ?? false
-                onMissingShortcut(isFullscreen ? .navigation : .desktop)
-            } else { onError() }
-        }
-    }
-
-    /// Execute a chain of arrow keypresses, waiting for each space change notification.
-    private func executeChain(stepsRemaining: Int, goRight: Bool, onError: @escaping () -> Void) {
-        guard stepsRemaining > 0 else { return }
-        if goRight {
-            switchToNextSpace()
-        } else {
-            switchToPreviousSpace()
-        }
-        if stepsRemaining == 1 { return }
-        waitForSpaceChange {
-            self.executeChain(stepsRemaining: stepsRemaining - 1, goRight: goRight, onError: onError)
-        } onTimeout: {
-            onError()
-        }
-    }
-
-    /// Wait for `activeSpaceDidChangeNotification`, then call `onComplete`.
-    /// If no notification arrives within 2 seconds, calls `onTimeout`.
-    private func waitForSpaceChange(onComplete: @escaping () -> Void, onTimeout: @escaping () -> Void) {
-        let timeout = DispatchWorkItem { [weak self] in
-            self?.cancelChain()
-            DispatchQueue.main.async { onTimeout() }
-        }
-        chainTimeout = timeout
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: timeout)
-
-        chainObserver = NSWorkspace.shared.notificationCenter.addObserver(
-            forName: NSWorkspace.activeSpaceDidChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            timeout.cancel()
-            self?.removeChainObserver()
-            onComplete()
-        }
-    }
-
-    public func cancelChain() {
-        chainTimeout?.cancel()
-        chainTimeout = nil
-        removeChainObserver()
-    }
-
-    /// Returns true when the current space is already at the
-    /// first (goingRight=false) or last (goingRight=true)
-    /// position on its display.
-    private func isAtEdge(spaces: [Space], goingRight: Bool) -> Bool {
-        guard let current = spaces.first(where: { $0.isCurrentSpace }) else {
-            return false
-        }
-        let displaySpaces = spaces
-            .filter { $0.displayID == current.displayID }
-            .sorted { $0.spaceNumber < $1.spaceNumber }
-        if goingRight {
-            return current.spaceNumber == displaySpaces.last?.spaceNumber
-        } else {
-            return current.spaceNumber == displaySpaces.first?.spaceNumber
-        }
-    }
-
-    private func removeChainObserver() {
-        if let observer = chainObserver {
-            NSWorkspace.shared.notificationCenter.removeObserver(observer)
-            chainObserver = nil
-        }
-    }
-
-    private func alert(msg: String, permissionTypeName: String) {
-        DispatchQueue.main.async {
-            let alert = NSAlert.init()
-            alert.messageText = "Spaceman"
-            alert.informativeText = "\(msg)"
-            alert.addButton(withTitle: String(localized: "Dismiss"))
-            if permissionTypeName != "" {
-                // Not in xcstrings: systemSettingsName() is already localized
-                let settingsName = systemSettingsName()
-                alert.addButton(withTitle: "\(settingsName)…")
-            }
-            let response = alert.runModal()
-            if response == .alertSecondButtonReturn {
-                let task = Process()
-                task.launchPath = "/usr/bin/open"
-                let url = "x-apple.systempreferences:"
-                    + "com.apple.preference.security?Privacy_\(permissionTypeName)"
-                task.arguments = [url]
-                try? task.run()
-            }
-        }
-    }
-
-    private func makeAppleScript(keyCode: Int, modifiers: String) -> String {
-        if modifiers.isEmpty {
-            return "tell application \"System Events\" to key code \(keyCode)"
-        }
-        return "tell application \"System Events\" to key code \(keyCode) using {\(modifiers)}"
     }
 }

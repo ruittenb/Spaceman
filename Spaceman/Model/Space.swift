@@ -61,23 +61,14 @@ struct Space: Equatable {
         hasArrowShortcuts: Bool = true
     ) -> Bool {
         guard !space.isCurrentSpace else { return false }
-        if switchingMode != .smooth {
-            // Gesture modes: same-display always works. Cross-display
-            // falls back to shortcut-based switching, so check reachability.
-            guard let current = spaces.first(where: { $0.isCurrentSpace }),
-                  space.displayID != current.displayID else {
-                return true
-            }
-            // Cross-display: fall through to smooth-mode reachability check.
-        }
-        // Has an enabled shortcut
-        if switchTag != nil { return true }
-        // No direct shortcut: reachable only if chaining can reach it
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
-            targetSpaceNumber: space.spaceNumber, spaces: spaces,
-            switchMap: enabledSwitchMap,
+        let tag = Self.switchTag(
+            switchMapEntry: switchTag, spaceNumber: space.spaceNumber)
+        let outcome = SpaceSwitcher.resolveOutcome(
+            switchTag: tag, entryPoint: .menu,
+            mode: switchingMode, spaces: spaces,
+            enabledSwitchMap: enabledSwitchMap ?? [:],
             hasArrowShortcuts: hasArrowShortcuts)
-        return strategy != .unreachable
+        return outcome != .unreachable
     }
 
     /// The tag to pass to the switch handler for this space.
