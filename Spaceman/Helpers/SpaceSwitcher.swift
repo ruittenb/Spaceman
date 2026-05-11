@@ -371,7 +371,11 @@ class SpaceSwitcher {
         case .directSwitch(let switchIndex):
             switchToSpace(spaceNumber: switchIndex, onError: onError)
         case .unreachable:
-            if let onMissingShortcut { onMissingShortcut(.desktop) } else { onError() }
+            if let onMissingShortcut {
+                let isFullscreen = spaces.first(
+                    where: { $0.spaceNumber == targetSpaceNumber })?.isFullScreen ?? false
+                onMissingShortcut(isFullscreen ? .navigation : .desktop)
+            } else { onError() }
         }
     }
 
