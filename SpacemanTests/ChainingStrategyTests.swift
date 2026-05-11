@@ -46,7 +46,7 @@ final class ChainingStrategyTests: XCTestCase {
         // Actually let's use a target beyond max switchable.
         // 18 desktops, current=16, target=18 (no shortcut for 17, 18)
         let spaces = makeSpaces(desktops: 18, currentNumber: 16)
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 18, spaces: spaces)
 
         // From current (16): 2 steps right
@@ -60,7 +60,7 @@ final class ChainingStrategyTests: XCTestCase {
     func testChainFromCurrent_goLeft() {
         // 18 desktops, current=18, target=17
         let spaces = makeSpaces(desktops: 18, currentNumber: 18)
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 17, spaces: spaces)
 
         XCTAssertEqual(
@@ -75,7 +75,7 @@ final class ChainingStrategyTests: XCTestCase {
         // From current: 17 steps
         // From anchor (desktop 16): 2 steps + 1 jump = 3 waits
         let spaces = makeSpaces(desktops: 20, currentNumber: 1)
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 18, spaces: spaces)
 
         XCTAssertEqual(
@@ -90,7 +90,7 @@ final class ChainingStrategyTests: XCTestCase {
         // From anchor (desktop 16): 1 step left + 1 jump = 2 waits
         // arrowsFromCurrent (3) > arrowsFromAnchor (1) + 1
         let spaces = makeSpaces(desktops: 20, currentNumber: 20)
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 17, spaces: spaces)
 
         // Anchor is desktop 16 (switch index 16), needs 1 right
@@ -114,7 +114,7 @@ final class ChainingStrategyTests: XCTestCase {
 
         // Make target = desktop 16 (switch index 16), current on d2=1
         let spaces = makeSpaces(desktops: 20, currentNumber: 20)
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 16, spaces: spaces)
 
         // From current (20): 4 steps
@@ -131,7 +131,7 @@ final class ChainingStrategyTests: XCTestCase {
         // Current = 9, target = 10 (F1)
         let spaces = makeSpaces(
             desktops: 9, fullscreen: 1, currentNumber: 9)
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 10, spaces: spaces)
 
         // From current: 1 step right
@@ -160,7 +160,7 @@ final class ChainingStrategyTests: XCTestCase {
                 spaceNumber: i, spaceByDesktopID: "\(i - 5)",
                 isCurrentSpace: false, isFullScreen: false))
         }
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 8, spaces: spaces)
 
         // Current is on d1, target on d2 → arrowsFromCurrent = max
@@ -173,7 +173,7 @@ final class ChainingStrategyTests: XCTestCase {
 
     func testUnreachable_noSpacesMatchTarget() {
         let spaces = makeSpaces(desktops: 3, currentNumber: 1)
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 99, spaces: spaces)
 
         XCTAssertEqual(strategy, .unreachable)
@@ -187,7 +187,7 @@ final class ChainingStrategyTests: XCTestCase {
         // Without arrows, no chaining path → but desktop 16 is an anchor,
         // delta=2, needs chain → unreachable.
         let spaces = makeSpaces(desktops: 18, currentNumber: 16)
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 18, spaces: spaces,
             hasArrowShortcuts: false)
 
@@ -198,7 +198,7 @@ final class ChainingStrategyTests: XCTestCase {
         // 20 desktops, current=20, target=16. Desktop 16 has a shortcut.
         // Without arrows, only directSwitch survives.
         let spaces = makeSpaces(desktops: 20, currentNumber: 20)
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 16, spaces: spaces,
             hasArrowShortcuts: false)
 
@@ -209,7 +209,7 @@ final class ChainingStrategyTests: XCTestCase {
         // 20 desktops, current=1, target=18.
         // Normally jumpThenChain from anchor 16. Without arrows, chain fails.
         let spaces = makeSpaces(desktops: 20, currentNumber: 1)
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 18, spaces: spaces,
             hasArrowShortcuts: false)
 
@@ -229,7 +229,7 @@ final class ChainingStrategyTests: XCTestCase {
                 spaceNumber: 2, spaceByDesktopID: "F1",
                 isCurrentSpace: false, isFullScreen: true),
         ]
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 2, spaces: spaces)
 
         XCTAssertEqual(strategy, .unreachable)
@@ -252,7 +252,7 @@ final class ChainingStrategyTests: XCTestCase {
         }
         // Only desktop 2 has an enabled shortcut
         let switchMap = ["s2": 2]
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 4, spaces: spaces,
             switchMap: switchMap,
             hasArrowShortcuts: false)
@@ -268,7 +268,7 @@ final class ChainingStrategyTests: XCTestCase {
         // arrowsFromCurrent (10) > arrowsFromAnchor (2) + 1
         let spaces = makeSpaces(
             desktops: 9, fullscreen: 2, currentNumber: 1)
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 11, spaces: spaces)
 
         XCTAssertEqual(
@@ -284,7 +284,7 @@ final class ChainingStrategyTests: XCTestCase {
                 spaceNumber: 1, spaceByDesktopID: "1",
                 isCurrentSpace: false, isFullScreen: false)
         ]
-        let strategy = SpaceSwitcher.calculateChainingStrategy(
+        let strategy = SwitchStrategizer.calculateChainingStrategy(
             targetSpaceNumber: 1, spaces: spaces)
 
         XCTAssertEqual(strategy, .unreachable)

@@ -52,7 +52,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var tabChangeObserver: NSObjectProtocol?
     private var scrollAccumulator: CGFloat = 0
     private var lastScrollTime: Date = .distantPast
-    private var spaceSwitcher: SpaceSwitcher!
+    private var spaceSwitcher: SwitchOrchestrator!
     private var currentSpaces: [Space] = []
     private var updaterController: SPUStandardUpdaterController!
     private var aboutView: NSHostingView<AboutView>!
@@ -64,7 +64,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     override init() {
         super.init()
 
-        spaceSwitcher = SpaceSwitcher()
+        spaceSwitcher = SwitchOrchestrator()
         updaterController = SPUStandardUpdaterController(
             startingUpdater: true, updaterDelegate: self, userDriverDelegate: self)
 
@@ -308,7 +308,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     point: adjPoint,
                     spaces: self.currentSpaces,
                     onError: self.flashStatusBar,
-                    onMissingShortcut: { [weak self] kind in
+                    onShowBalloon: { [weak self] kind in
                         self?.showMissingShortcutBalloon(kind: kind)
                     })
             }
@@ -464,7 +464,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     func reloadShortcuts() {
-        spaceSwitcher.reloadShortcuts()
+        spaceSwitcher.shortcutSwitcher.reloadShortcuts()
     }
 
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
@@ -482,7 +482,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         var itemsToInsert: [NSMenuItem] = []
         var lastDisplayID: String?
         let switchMap = Space.buildSwitchIndexMap(for: spaces)
-        let enabledMap = spaceSwitcher.buildEnabledSwitchMap(for: spaces)
+        let enabledMap = spaceSwitcher.shortcutSwitcher.buildEnabledSwitchMap(for: spaces)
         for space in spaces {
             if let last = lastDisplayID, last != space.displayID {
                 itemsToInsert.append(NSMenuItem.separator())
@@ -513,7 +513,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private func replaceDynamicItemsWithGrid() {
         removeDynamicMenuItems()
         let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
-        let enabledMap = spaceSwitcher.buildEnabledSwitchMap(for: currentSpaces)
+        let enabledMap = spaceSwitcher.shortcutSwitcher.buildEnabledSwitchMap(for: currentSpaces)
         let gridItem = NSMenuItem()
         let gridView = NSHostingView(rootView: SpaceGridMenuView(
             spaces: currentSpaces,
@@ -523,7 +523,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             },
             switchMap: switchMap,
             enabledSwitchMap: enabledMap,
-            hasArrowShortcuts: spaceSwitcher.hasArrowShortcuts,
+            hasArrowShortcuts: spaceSwitcher.shortcutSwitcher.hasArrowShortcuts,
             menuWidth: Constants.minMenuWidth
         ))
         gridView.frame.size = gridView.fittingSize
@@ -538,7 +538,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         var itemsToInsert: [NSMenuItem] = []
         var lastDisplayID: String?
         let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
-        let enabledMap = spaceSwitcher.buildEnabledSwitchMap(for: currentSpaces)
+        let enabledMap = spaceSwitcher.shortcutSwitcher.buildEnabledSwitchMap(for: currentSpaces)
         for space in currentSpaces {
             if let last = lastDisplayID, last != space.displayID {
                 itemsToInsert.append(NSMenuItem.separator())
@@ -868,7 +868,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
         var shortcutKey = ""
         var mask = NSEvent.ModifierFlags()
-        if let n = desktopNumber, let sc = spaceSwitcher.shortcut(forDesktop: n) {
+        if let n = desktopNumber,
+           let sc = spaceSwitcher.shortcutSwitcher.shortcut(forDesktop: n) {
             shortcutKey = sc.keyEquivalent
             mask = sc.modifierFlags
         }
@@ -888,7 +889,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             space: space, switchTag: enabledTag,
             switchingMode: mode, spaces: spaces,
             enabledSwitchMap: enabledSwitchMap,
-            hasArrowShortcuts: spaceSwitcher.hasArrowShortcuts)
+            hasArrowShortcuts: spaceSwitcher.shortcutSwitcher.hasArrowShortcuts)
         if !canSwitch {
             item.isEnabled = false
             if space.isCurrentSpace {
@@ -903,76 +904,19 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     private func handleSwitchTag(_ tag: Int) {
-        if switchingMode != SwitchingMode.smooth.rawValue {
-            handleSwitchTagGesture(tag)
-        } else {
-            handleSwitchTagShortcut(tag)
-        }
-    }
-
-    private func handleSwitchTagGesture(_ tag: Int) {
-        // Resolve target space: positive tag = switch index, negative = -(spaceNumber)
-        let target: Space?
-        if tag > 0 {
-            let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
-            target = currentSpaces.first(where: {
-                switchMap[$0.spaceID] == tag
-            })
-        } else {
-            target = currentSpaces.first(where: {
-                $0.spaceNumber == -tag
-            })
-        }
-        guard let target,
-              let current = currentSpaces.first(
-                where: { $0.isCurrentSpace })
-        else {
-            flashStatusBar()
-            return
-        }
-        let mode = SwitchingMode(rawValue: switchingMode) ?? .smooth
-        if !spaceSwitcher.switchToSpaceByGesture(
-            target: target, current: current, spaces: currentSpaces,
-            mode: mode
-        ) {
-            // Cross-display: gestures can't cross displays, fall back to
-            // shortcut-based switching with full chaining support.
-            spaceSwitcher.navigateByShortcut(
-                targetSpaceNumber: target.spaceNumber,
-                spaces: currentSpaces,
-                onError: flashStatusBar)
-        }
-    }
-
-    private func handleSwitchTagShortcut(_ tag: Int) {
-        // Desktop with a switch index: use direct shortcut if enabled.
-        if tag >= 1 && tag <= Space.maxSwitchableDesktop {
-            if spaceSwitcher.shortcut(forDesktop: tag) != nil {
-                spaceSwitcher.switchToSpace(
-                    spaceNumber: tag, onError: flashStatusBar)
-                return
-            }
-            // Shortcut not enabled — resolve space and try chaining.
-            let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
-            guard let space = currentSpaces.first(
-                where: { switchMap[$0.spaceID] == tag })
-            else {
-                flashStatusBar()
-                return
-            }
-            spaceSwitcher.navigateByShortcut(
-                targetSpaceNumber: space.spaceNumber,
-                spaces: currentSpaces,
-                onError: flashStatusBar)
-        } else if tag < 0 {
-            // Fullscreen / unswitchable: always chain.
-            spaceSwitcher.navigateByShortcut(
-                targetSpaceNumber: -tag,
-                spaces: currentSpaces,
-                onError: flashStatusBar)
-        } else {
-            flashStatusBar()
-        }
+        let ctx = SwitchContext(
+            entryPoint: .menu,
+            mode: SwitchingMode(rawValue: switchingMode) ?? .smooth,
+            spaces: currentSpaces,
+            enabledSwitchMap: spaceSwitcher.shortcutSwitcher
+                .buildEnabledSwitchMap(for: currentSpaces),
+            hasArrowShortcuts: spaceSwitcher.shortcutSwitcher
+                .hasArrowShortcuts)
+        let strategy = SwitchStrategizer.resolveStrategy(
+            switchTag: tag, context: ctx)
+        spaceSwitcher.executeStrategy(
+            strategy, spaces: currentSpaces,
+            onError: flashStatusBar)
     }
 
     // MARK: - SPUStandardUserDriverDelegate

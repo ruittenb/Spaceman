@@ -66,7 +66,7 @@ class ShortcutHelper {
         return desktopShortcuts[desktop]
     }
 
-    // MARK: - SpaceSwitcher support
+    // MARK: - ShortcutSwitcher support
 
     /// Returns the keycode for a desktop number, or -1 if unavailable.
     func getKeyCode(spaceNumber: Int) -> Int {
