@@ -38,9 +38,9 @@
 		E732CEA02FAC000000B2C067 /* ChainingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE9F2FAC000000B2C067 /* ChainingStrategy.swift */; };
 		E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73504B32CAD14BE007F62B5 /* IconWidth.swift */; };
 		E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E754B2C82D7F03E100F31468 /* Sparkle */; };
-		E763711C2FB21D7500D05885 /* SwitchOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763711B2FB21D7500D05885 /* SwitchOutcome.swift */; };
+		E763711C2FB21D7500D05885 /* SwitchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763711B2FB21D7500D05885 /* SwitchStrategy.swift */; };
 		E763711E2FB21D9200D05885 /* ShortcutSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763711D2FB21D9200D05885 /* ShortcutSwitcher.swift */; };
-		E76371202FB21DAC00D05885 /* SwitchOutcomeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763711F2FB21DAC00D05885 /* SwitchOutcomeTests.swift */; };
+		E76371202FB21DAC00D05885 /* SwitchStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763711F2FB21DAC00D05885 /* SwitchStrategyTests.swift */; };
 		E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */; };
 		E79FCED32E9D1EE60000DA6E /* HorizontalDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */; };
 		E7A066232C7F65F1002DFC52 /* SpaceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */; };
@@ -121,9 +121,9 @@
 		E732CE9B2FAB095E00B2C067 /* ChainingStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChainingStrategyTests.swift; path = SpacemanTests/ChainingStrategyTests.swift; sourceTree = "<group>"; };
 		E732CE9F2FAC000000B2C067 /* ChainingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainingStrategy.swift; sourceTree = "<group>"; };
 		E73504B32CAD14BE007F62B5 /* IconWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWidth.swift; sourceTree = "<group>"; };
-		E763711B2FB21D7500D05885 /* SwitchOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchOutcome.swift; sourceTree = "<group>"; };
+		E763711B2FB21D7500D05885 /* SwitchStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchStrategy.swift; sourceTree = "<group>"; };
 		E763711D2FB21D9200D05885 /* ShortcutSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutSwitcher.swift; sourceTree = "<group>"; };
-		E763711F2FB21DAC00D05885 /* SwitchOutcomeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwitchOutcomeTests.swift; path = SpacemanTests/SwitchOutcomeTests.swift; sourceTree = "<group>"; };
+		E763711F2FB21DAC00D05885 /* SwitchStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwitchStrategyTests.swift; path = SpacemanTests/SwitchStrategyTests.swift; sourceTree = "<group>"; };
 		E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDisplayMode.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
 		E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSwitcher.swift; sourceTree = "<group>"; };
@@ -200,7 +200,7 @@
 				D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */,
 				D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */,
 				C0F9A49EF2025B97049F7053 /* SpaceTests.swift */,
-				E763711F2FB21DAC00D05885 /* SwitchOutcomeTests.swift */,
+				E763711F2FB21DAC00D05885 /* SwitchStrategyTests.swift */,
 			);
 			name = SpacemanTests;
 			sourceTree = "<group>";
@@ -332,7 +332,7 @@
 				E8E2AF02257CB5CE00319BBC /* SpaceNameInfo.swift */,
 				E732CE8D2F996B6D00B2C067 /* SpaceUpdateTrigger.swift */,
 				E732CE972FAA157200B2C067 /* SwitchingMode.swift */,
-				E763711B2FB21D7500D05885 /* SwitchOutcome.swift */,
+				E763711B2FB21D7500D05885 /* SwitchStrategy.swift */,
 				E722A6E02E95BF8D00D5FA4F /* VerticalDirection.swift */,
 				8F4A6E10892D4C67AD5F9BE3 /* VisibleSpacesMode.swift */,
 			);
@@ -478,7 +478,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				709A151B3432769701825254 /* SpaceTests.swift in Sources */,
-				E76371202FB21DAC00D05885 /* SwitchOutcomeTests.swift in Sources */,
+				E76371202FB21DAC00D05885 /* SwitchStrategyTests.swift in Sources */,
 				F67105E91D29DA62516E5958 /* SpaceNameInfoTests.swift in Sources */,
 				E732CE9A2FAB094800B2C067 /* GestureSwitcherTests.swift in Sources */,
 				0A988E67F965C0C2AE24E78D /* SpaceFilterTests.swift in Sources */,
@@ -526,7 +526,7 @@
 				E7B7E2E12F7AA96F00FEDEFE /* IconFill.swift in Sources */,
 				E87334E9256B51CF0012586E /* AppDelegate.swift in Sources */,
 				E8E2AF03257CB5CE00319BBC /* SpaceNameInfo.swift in Sources */,
-				E763711C2FB21D7500D05885 /* SwitchOutcome.swift in Sources */,
+				E763711C2FB21D7500D05885 /* SwitchStrategy.swift in Sources */,
 				E7DA73A62CA6E74D00212836 /* IconSize.swift in Sources */,
 				E8EBF091257739ED001BA74F /* PreferencesWindow.swift in Sources */,
 				E8E2AEFF257CB5AF00319BBC /* IconText.swift in Sources */,

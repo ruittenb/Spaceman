@@ -13,6 +13,12 @@ enum MissingShortcutKind {
     case desktop     // Switch to Desktop N
 }
 
+/// Orchestrator: connects the strategizer to the executors.
+/// The strategizer (resolveStrategy/resolveNavigationStrategy) is static
+/// and pure — it takes data in, returns a SwitchStrategy, and has no
+/// side effects. This makes the full behavior matrix unit-testable.
+/// The executor (executeStrategy) maps each strategy to the matching
+/// ShortcutSwitcher or GestureSwitcher call.
 class SpaceSwitcher {
     let shortcutSwitcher = ShortcutSwitcher()
     private let gestureSwitcher = GestureSwitcher()
@@ -20,10 +26,10 @@ class SpaceSwitcher {
 
     // MARK: - Strategizer (static, pure)
 
-    /// Determine the switch outcome for a space target.
-    static func resolveOutcome(
+    /// Determine the switch strategy for a space target.
+    static func resolveStrategy(
         switchTag: Int, context: SwitchContext
-    ) -> SwitchOutcome {
+    ) -> SwitchStrategy {
         // Resolve target and current space
         let targetSpaceNumber: Int
         let target: Space?
@@ -65,7 +71,11 @@ class SpaceSwitcher {
             return .shortcutDirect(switchIndex: enabledIndex)
         }
 
-        // Desktop without shortcut + click → show balloon
+        // Desktop without shortcut + click → show balloon.
+        // Desktops *could* have a shortcut (unlike fullscreen), so we
+        // nudge the user to enable it rather than silently chaining.
+        // Menu items skip this and try chaining instead (greyed out
+        // if unreachable) — the balloon would be disruptive in a menu.
         if !target.isFullScreen && switchTag > 0
             && context.entryPoint == .click {
             return .showBalloon(.desktop)
@@ -98,11 +108,11 @@ class SpaceSwitcher {
         }
     }
 
-    /// Determine the outcome for navigation buttons
+    /// Determine the strategy for navigation buttons
     /// (prev/next, Mission Control).
-    static func resolveNavigationOutcome(
+    static func resolveNavigationStrategy(
         hitIndex: Int, context: SwitchContext
-    ) -> SwitchOutcome {
+    ) -> SwitchStrategy {
         if hitIndex == Space.missionControlIndex {
             return .missionControl
         }
@@ -152,14 +162,17 @@ class SpaceSwitcher {
 
     // MARK: - Executor (instance)
 
-    /// Execute a resolved switch outcome.
-    func executeOutcome(
-        _ outcome: SwitchOutcome,
+    /// Execute a resolved switch strategy.
+    /// Each shortcut* case maps to shortcutSwitcher, each gesture*
+    /// case maps to gestureSwitcher — the naming is intentionally
+    /// symmetrical so the mapping is obvious.
+    func executeStrategy(
+        _ strategy: SwitchStrategy,
         spaces: [Space],
         onError: @escaping () -> Void,
         onShowBalloon: ((MissingShortcutKind) -> Void)? = nil
     ) {
-        switch outcome {
+        switch strategy {
         case .shortcutDirect(let switchIndex):
             shortcutSwitcher.switchToSpace(
                 switchIndex, onError: onError)
@@ -248,10 +261,10 @@ class SpaceSwitcher {
         if hitIndex == Space.missionControlIndex
             || hitIndex == Space.previousSpaceIndex
             || hitIndex == Space.nextSpaceIndex {
-            let outcome = Self.resolveNavigationOutcome(
+            let strategy = Self.resolveNavigationStrategy(
                 hitIndex: hitIndex, context: ctx)
-            executeOutcome(
-                outcome, spaces: spaces,
+            executeStrategy(
+                strategy, spaces: spaces,
                 onError: onError, onShowBalloon: onShowBalloon)
             return
         }
@@ -264,10 +277,10 @@ class SpaceSwitcher {
         let tag = Space.switchTag(
             switchMapEntry: switchMap[spaceID],
             spaceNumber: hitSpaceNumber)
-        let outcome = Self.resolveOutcome(
+        let strategy = Self.resolveStrategy(
             switchTag: tag, context: ctx)
-        executeOutcome(
-            outcome, spaces: spaces,
+        executeStrategy(
+            strategy, spaces: spaces,
             onError: onError, onShowBalloon: onShowBalloon)
     }
 

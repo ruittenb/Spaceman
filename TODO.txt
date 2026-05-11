@@ -13,6 +13,8 @@ Recommendation: do both. Attempt the switch via chaining AND show the balloon. T
 learn there's a better way.
 
 
+consider gesture for quick instant switch to anchor. then chaining through shortcuts.
+
 
 
 ┌──────────────────────────────────────┬─────────────────────────────────────────────────────────────────┬─────────────────────────────────────────────────────────────────┐

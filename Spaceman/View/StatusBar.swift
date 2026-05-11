@@ -912,10 +912,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 .buildEnabledSwitchMap(for: currentSpaces),
             hasArrowShortcuts: spaceSwitcher.shortcutSwitcher
                 .hasArrowShortcuts)
-        let outcome = SpaceSwitcher.resolveOutcome(
+        let strategy = SpaceSwitcher.resolveStrategy(
             switchTag: tag, context: ctx)
-        spaceSwitcher.executeOutcome(
-            outcome, spaces: currentSpaces,
+        spaceSwitcher.executeStrategy(
+            strategy, spaces: currentSpaces,
             onError: flashStatusBar)
     }
 
