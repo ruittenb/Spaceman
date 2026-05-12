@@ -86,6 +86,15 @@ enum SwitchStrategizer {
         case .jumpThenChain(
             let anchorIndex, let steps, let goRight
         ):
+            if sameDisplay,
+               let anchor = context.spaces.first(where: {
+                   context.enabledSwitchMap[$0.spaceID]
+                       == anchorIndex
+               }) {
+                return .gestureJumpThenChain(
+                    anchor: anchor, current: current,
+                    steps: steps, goRight: goRight)
+            }
             return .shortcutJumpThenChain(
                 anchorSwitchIndex: anchorIndex,
                 steps: steps, goRight: goRight)

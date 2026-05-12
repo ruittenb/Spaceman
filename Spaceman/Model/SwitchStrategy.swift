@@ -65,6 +65,11 @@ enum SwitchStrategy: Equatable {
     case gestureDirect(
         target: Space, current: Space, mode: SwitchingMode)
 
+    /// Gesture jump to anchor (instant), then chain arrows via shortcuts.
+    case gestureJumpThenChain(
+        anchor: Space, current: Space,
+        steps: Int, goRight: Bool)
+
     /// Gesture one step left/right.
     case gestureRelative(goRight: Bool, mode: SwitchingMode)
 

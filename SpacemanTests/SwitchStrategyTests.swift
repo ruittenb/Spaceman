@@ -308,6 +308,99 @@ final class SwitchStrategyTests: XCTestCase {
         XCTAssertEqual(strategy, .unreachable)
     }
 
+    // Fullscreen same display, jump-then-chain scenarios:
+    // anchor is closer to target than current position.
+
+    func testFullscreen_sameDisplay_click_gestureJumpThenChain() {
+        // 9 desktops + 2 fullscreen. Current=1, target=F2 (pos 11).
+        // From current: 10 steps. From anchor (desktop 9): 2 steps.
+        // Same display → gestureJumpThenChain.
+        let spaces = [
+            makeSpace(id: "s1", number: 1, current: true),
+            makeSpace(id: "s2", number: 2),
+            makeSpace(id: "s3", number: 3),
+            makeSpace(id: "s4", number: 4),
+            makeSpace(id: "s5", number: 5),
+            makeSpace(id: "s6", number: 6),
+            makeSpace(id: "s7", number: 7),
+            makeSpace(id: "s8", number: 8),
+            makeSpace(id: "s9", number: 9),
+            makeSpace(
+                id: "f1", number: 10, fullScreen: true),
+            makeSpace(
+                id: "f2", number: 11, fullScreen: true),
+        ]
+        let enabledMap = Dictionary(
+            uniqueKeysWithValues: (1...9).map {
+                ("s\($0)", $0)
+            })
+        let strategy = SwitchStrategizer.resolveStrategy(
+            switchTag: -11,
+            context: ctx(
+                spaces: spaces,
+                enabledSwitchMap: enabledMap))
+        XCTAssertEqual(
+            strategy,
+            .gestureJumpThenChain(
+                anchor: spaces[8], current: spaces[0],
+                steps: 2, goRight: true))
+    }
+
+    func testFullscreen_sameDisplay_menu_gestureJumpThenChain() {
+        let spaces = [
+            makeSpace(id: "s1", number: 1, current: true),
+            makeSpace(id: "s2", number: 2),
+            makeSpace(id: "s3", number: 3),
+            makeSpace(id: "s4", number: 4),
+            makeSpace(id: "s5", number: 5),
+            makeSpace(id: "s6", number: 6),
+            makeSpace(id: "s7", number: 7),
+            makeSpace(id: "s8", number: 8),
+            makeSpace(id: "s9", number: 9),
+            makeSpace(
+                id: "f1", number: 10, fullScreen: true),
+            makeSpace(
+                id: "f2", number: 11, fullScreen: true),
+        ]
+        let enabledMap = Dictionary(
+            uniqueKeysWithValues: (1...9).map {
+                ("s\($0)", $0)
+            })
+        let strategy = SwitchStrategizer.resolveStrategy(
+            switchTag: -11,
+            context: ctx(
+                entryPoint: .menu, spaces: spaces,
+                enabledSwitchMap: enabledMap))
+        XCTAssertEqual(
+            strategy,
+            .gestureJumpThenChain(
+                anchor: spaces[8], current: spaces[0],
+                steps: 2, goRight: true))
+    }
+
+    func testDesktopNoShortcut_sameDisplay_menu_gestureJumpThenChain() {
+        // 5 desktops, only s1 and s3 have shortcuts. Current=1, target=5.
+        // From current: 4 steps. From anchor (s3): 2 steps.
+        // Same display → gestureJumpThenChain.
+        let spaces = [
+            makeSpace(id: "s1", number: 1, current: true),
+            makeSpace(id: "s2", number: 2),
+            makeSpace(id: "s3", number: 3),
+            makeSpace(id: "s4", number: 4),
+            makeSpace(id: "s5", number: 5),
+        ]
+        let strategy = SwitchStrategizer.resolveStrategy(
+            switchTag: 5,
+            context: ctx(
+                entryPoint: .menu, spaces: spaces,
+                enabledSwitchMap: ["s1": 1, "s3": 3]))
+        XCTAssertEqual(
+            strategy,
+            .gestureJumpThenChain(
+                anchor: spaces[2], current: spaces[0],
+                steps: 2, goRight: true))
+    }
+
     // MARK: - Fullscreen, cross-display
 
     func testFullscreen_crossDisplay_smooth_withAnchor() {
