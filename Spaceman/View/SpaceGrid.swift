@@ -73,6 +73,9 @@ struct SpaceGridMenuView: View {
 struct SpaceCellView: View {
     let space: Space
     var enabled: Bool = true
+    var fontScale: CGFloat = 1.0
+    var showText: Bool = true
+    var colorless: Bool = false
 
     private var hasName: Bool {
         !space.spaceName.isEmpty
@@ -96,6 +99,13 @@ struct SpaceCellView: View {
         space.isCurrentSpace ? 1.0 : Constants.inactiveAlpha
     }
 
+    private var colorlessCellColor: Color {
+        if colorless {
+            return space.isCurrentSpace ? Color.accentColor : Color.gray.opacity(0.5)
+        }
+        return cellColor.opacity(cellAlpha)
+    }
+
     private var textColor: Color {
         guard let nsColor = cellNSColor else { return .primary }
         return Color(nsColor.contrastingTextColor(withAlpha: cellAlpha, over: .windowBackgroundColor))
@@ -103,24 +113,27 @@ struct SpaceCellView: View {
 
     var body: some View {
         VStack(spacing: 1) {
-            Text(space.spaceLabel)
-                .font(.system(size: 9,
-                              weight: space.isCurrentSpace ? .bold : .regular))
-            Text(hasName ? space.spaceName : "\u{00A0}")
-                .font(.system(size: 11, weight: space.isCurrentSpace ? .bold : .regular))
-                .lineLimit(1)
-                .truncationMode(.tail)
+            if showText {
+                Text(space.spaceLabel)
+                    .font(.system(size: 9 * fontScale,
+                                  weight: space.isCurrentSpace ? .bold : .regular))
+                Text(hasName ? space.spaceName : "\u{00A0}")
+                    .font(.system(size: 11 * fontScale, weight: space.isCurrentSpace ? .bold : .regular))
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+            }
         }
         .padding(.horizontal, 6)
         .padding(.vertical, 4)
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 4)
-                .fill(cellColor.opacity(cellAlpha))
+                .fill(colorlessCellColor)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 4)
-                .stroke(Color.accentColor, lineWidth: space.isCurrentSpace ? 2.5 : 0)
+                .stroke(colorless ? .clear : Color.accentColor,
+                        lineWidth: space.isCurrentSpace ? 2.5 : 0)
         )
         .foregroundColor(textColor)
     }

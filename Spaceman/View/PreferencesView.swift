@@ -24,6 +24,7 @@ struct PreferencesView: View {
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
+    @AppStorage("showHUD") private var showHUD = false
 
     @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
@@ -367,6 +368,7 @@ struct PreferencesView: View {
             Toggle("Show fullscreen spaces", isOn: $showFullscreenSpaces)
             Toggle("Show Mission Control button", isOn: $showMissionControl)
             Toggle("Show navigation arrows", isOn: $showNavArrows)
+            Toggle("Show HUD when switching spaces", isOn: $showHUD)
             HStack {
                 Toggle("Auto-shrink when there is shortage of space", isOn: $autoShrink)
                 Button {

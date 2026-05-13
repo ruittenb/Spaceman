@@ -76,6 +76,7 @@
 		E8E8D41C2585A80B00671AE9 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = E8E8D41B2585A80B00671AE9 /* KeyboardShortcuts */; };
 		E8EBF08C2575F8E4001BA74F /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = E8EBF08B2575F8E4001BA74F /* LaunchAtLogin */; };
 		E8EBF091257739ED001BA74F /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EBF090257739ED001BA74F /* PreferencesWindow.swift */; };
+		E7E1F2A3B4C5D6E7F8A9B0C1 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E1F2A3B4C5D6E7F8A9B0C2 /* HUD.swift */; };
 		F605F4B85B7ADD5424BDDFAE /* SpaceNameResolutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */; };
 		F67105E91D29DA62516E5958 /* SpaceNameInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */; };
 		cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */; };
@@ -146,6 +147,7 @@
 		E7D1E2F3A4B5C6D7E8F9A0B2 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		E7D1E2F3A4B5C6D7E8F9A0B4 /* StringDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringDrawing.swift; sourceTree = "<group>"; };
 		E7D1E2F3A4B5C6D7E8F9A0B6 /* ColorWellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorWellView.swift; sourceTree = "<group>"; };
+		E7E1F2A3B4C5D6E7F8A9B0C2 /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		E7D1E2F3A4B5C6D7E8F9A0C2 /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
 		E7DA73A52CA6E74D00212836 /* IconSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSize.swift; sourceTree = "<group>"; };
 		E7DA73A72CA6E7A700212836 /* GuiSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiSize.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 				E8EBF090257739ED001BA74F /* PreferencesWindow.swift */,
 				E732CE892F90F6BA00B2C067 /* QuickRenameView.swift */,
 				E87334EA256B51CF0012586F /* SpaceGrid.swift */,
+				E7E1F2A3B4C5D6E7F8A9B0C2 /* HUD.swift */,
 				E8733502256B532D0012586E /* StatusBar.swift */,
 			);
 			path = View;
@@ -545,6 +548,7 @@
 				E8733503256B532D0012586E /* StatusBar.swift in Sources */,
 				E87334EB256B51CF0012586E /* PreferencesView.swift in Sources */,
 				E87334EB256B51CF0012586F /* SpaceGrid.swift in Sources */,
+				E7E1F2A3B4C5D6E7F8A9B0C1 /* HUD.swift in Sources */,
 				E732CE8E2F996B6D00B2C067 /* ShrinkLevel.swift in Sources */,
 				E732CE8F2F996B6D00B2C067 /* SpaceUpdateTrigger.swift in Sources */,
 				E732CE902F996B6D00B2C067 /* ShrinkOverrides.swift in Sources */,

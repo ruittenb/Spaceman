@@ -11,10 +11,12 @@ import KeyboardShortcuts
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @AppStorage("autoShrink") private var autoShrink = true
+    @AppStorage("showHUD") private var showHUD = false
 
     private var iconCreator: IconCreator!
     private var statusBar: StatusBar!
     private var spaceObserver: SpaceObserver!
+    private var hudPanel = HUDPanel()
     private var currentSpaces: [Space] = []
 
     // Auto-shrink state
@@ -419,6 +421,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 extension AppDelegate: SpaceObserverDelegate {
     func didUpdateSpaces(spaces: [Space], trigger: SpaceUpdateTrigger) {
         currentSpaces = spaces
+
+        if showHUD && trigger == .spaceSwitch {
+            let current = spaces.first { $0.isCurrentSpace && !$0.isFullScreen }
+            if let current = current,
+               let screen = HUDPanel.screen(forDisplayID: current.displayID) {
+                hudPanel.show(spaces: spaces, on: screen)
+            }
+        }
+
         statusBar.reloadShortcuts()
         lastSpaces = spaces
 

@@ -3824,6 +3824,9 @@
         }
       }
     },
+    "Show HUD when switching spaces" : {
+
+    },
     "Show Mission Control button" : {
       "localizations" : {
         "de" : {
