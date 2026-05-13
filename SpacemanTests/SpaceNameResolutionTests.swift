@@ -21,7 +21,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Work",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             )
@@ -44,7 +44,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Work",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             )
@@ -68,14 +68,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Work",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             ),
             "101": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "Home",
-                spaceByDesktopID: "2",
+                spaceLabel: "2",
                 displayUUID: "D1",
                 positionOnDisplay: 2
             )
@@ -109,14 +109,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Work",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             ),
             "101": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "Home",
-                spaceByDesktopID: "2",
+                spaceLabel: "2",
                 displayUUID: "D1",
                 positionOnDisplay: 2
             )
@@ -140,14 +140,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Work",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             ),
             "101": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "Home",
-                spaceByDesktopID: "2",
+                spaceLabel: "2",
                 displayUUID: "D1",
                 positionOnDisplay: 2
             )
@@ -178,7 +178,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Work",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             )
@@ -203,14 +203,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Laptop",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "BUILT-IN",
                 positionOnDisplay: 1
             ),
             "200": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "External",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "EXT",
                 positionOnDisplay: 1
             )
@@ -239,7 +239,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Laptop",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "BUILT-IN",
                 positionOnDisplay: 1
             )
@@ -267,14 +267,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "First",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             ),
             "101": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "Second",
-                spaceByDesktopID: "2",
+                spaceLabel: "2",
                 displayUUID: "D1",
                 positionOnDisplay: 2
             )
@@ -294,7 +294,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "First",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             )
@@ -314,7 +314,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "OldDisplay",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "OLD-UUID",
                 positionOnDisplay: 1
             )
@@ -337,7 +337,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Laptop",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "BUILT-IN",
                 positionOnDisplay: 1
             )
@@ -347,14 +347,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "50": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Laptop-Old",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "BUILT-IN",
                 positionOnDisplay: 1
             ),
             "200": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "External",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "EXT",
                 positionOnDisplay: 1
             )
@@ -379,7 +379,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Updated",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             )
@@ -389,7 +389,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Old",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             )
@@ -414,14 +414,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Laptop",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "LAPTOP",
                 positionOnDisplay: 1
             ),
             "300": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "EXTERNAL",
                 positionOnDisplay: 1
             )
@@ -431,7 +431,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "200": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "2ND",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "EXTERNAL",
                 positionOnDisplay: 10,  // corrupted transient position
                 colorHex: "FF5733"
@@ -459,7 +459,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "300": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "2ND",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "EXTERNAL",
                 positionOnDisplay: 1
             )
@@ -469,7 +469,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "200": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "2ND",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "EXTERNAL",
                 positionOnDisplay: 1  // same position as "300" in updatedNames
             )
@@ -494,7 +494,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "300": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             )
@@ -504,7 +504,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "200": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 2  // different position, but no user data
             )
@@ -527,21 +527,21 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Display1-Space1",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             ),
             "101": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "Display1-Space2",
-                spaceByDesktopID: "2",
+                spaceLabel: "2",
                 displayUUID: "D1",
                 positionOnDisplay: 2
             ),
             "200": SpaceNameInfo(
                 spaceNum: 3,
                 spaceName: "Display2-Space1",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D2",
                 positionOnDisplay: 1
             )
@@ -575,7 +575,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Work",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             )
@@ -619,7 +619,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Work",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1,
                 currentDisplayIndex: 1,
@@ -645,7 +645,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Work",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1,
                 currentDisplayIndex: 1,
@@ -673,7 +673,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Work",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             )
@@ -700,14 +700,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "CAL",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "LAPTOP",
                 positionOnDisplay: 1
             ),
             "200": SpaceNameInfo(
                 spaceNum: 10,
                 spaceName: "2ND",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "EXTERNAL",
                 positionOnDisplay: 1
             )
@@ -743,7 +743,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Work",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "MIRROR",
                 positionOnDisplay: 1
             )
@@ -771,14 +771,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "Laptop1",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "D1",
                 positionOnDisplay: 1
             ),
             "101": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "Laptop2",
-                spaceByDesktopID: "2",
+                spaceLabel: "2",
                 displayUUID: "D1",
                 positionOnDisplay: 2
             )
@@ -817,7 +817,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "200": SpaceNameInfo(
                 spaceNum: 10,
                 spaceName: "2ND",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "EXTERNAL",
                 positionOnDisplay: 1  // preserved, NOT updated to transient pos 10
             )
@@ -846,7 +846,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "200": SpaceNameInfo(
                 spaceNum: 10,
                 spaceName: "2ND",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "EXTERNAL",
                 positionOnDisplay: 10  // NOT preserved — updated to transient position
             )
@@ -868,18 +868,18 @@ final class SpaceNameResolutionTests: XCTestCase {
     // MARK: - hasUserData
 
     func testHasUserData_WithName() {
-        let info = SpaceNameInfo(spaceNum: 1, spaceName: "Work", spaceByDesktopID: "1")
+        let info = SpaceNameInfo(spaceNum: 1, spaceName: "Work", spaceLabel: "1")
         XCTAssertTrue(info.hasUserData)
     }
 
     func testHasUserData_WithColor() {
-        var info = SpaceNameInfo(spaceNum: 1, spaceName: "", spaceByDesktopID: "1")
+        var info = SpaceNameInfo(spaceNum: 1, spaceName: "", spaceLabel: "1")
         info.colorHex = "FF5733"
         XCTAssertTrue(info.hasUserData)
     }
 
     func testHasUserData_Empty() {
-        let info = SpaceNameInfo(spaceNum: 1, spaceName: "", spaceByDesktopID: "1")
+        let info = SpaceNameInfo(spaceNum: 1, spaceName: "", spaceLabel: "1")
         XCTAssertFalse(info.hasUserData)
     }
 
@@ -896,7 +896,7 @@ final class SpaceNameResolutionTests: XCTestCase {
             "200": SpaceNameInfo(
                 spaceNum: 10,
                 spaceName: "2ND",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "EXTERNAL",
                 positionOnDisplay: 1,
                 colorHex: "FF5733"
@@ -932,14 +932,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "CAL",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "LAPTOP",
                 positionOnDisplay: 1
             ),
             "200": SpaceNameInfo(
                 spaceNum: 10,
                 spaceName: "2ND",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "EXTERNAL",
                 positionOnDisplay: 1
             )
@@ -972,14 +972,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "100": SpaceNameInfo(
                 spaceNum: 1,
                 spaceName: "MAIN",
-                spaceByDesktopID: "1",
+                spaceLabel: "1",
                 displayUUID: "LAPTOP",
                 positionOnDisplay: 1
             ),
             "101": SpaceNameInfo(
                 spaceNum: 2,
                 spaceName: "DEV",
-                spaceByDesktopID: "2",
+                spaceLabel: "2",
                 displayUUID: "LAPTOP",
                 positionOnDisplay: 2
             )

@@ -45,9 +45,12 @@
 		E772157E2F8934E2000744C9 /* SpaceDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */; };
 		E79FCED32E9D1EE60000DA6E /* HorizontalDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */; };
 		E7A066232C7F65F1002DFC52 /* SwitchOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A066222C7F65F1002DFC52 /* SwitchOrchestrator.swift */; };
+		E7A1B2C3D4E5F6A7B8C9D0E1 /* SpaceObserverIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A1B2C3D4E5F6A7B8C9D0E2 /* SpaceObserverIntegrationTests.swift */; };
+		E7B1C2D3E4F5A6B7C8D9E0F1 /* SpaceNameStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1C2D3E4F5A6B7C8D9E0F2 /* SpaceNameStoreTests.swift */; };
 		E7B7E2DF2F7A8CC000FEDEFE /* IconShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7E2DE2F7A8CC000FEDEFE /* IconShape.swift */; };
 		E7B7E2E12F7AA96F00FEDEFE /* IconFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7E2E02F7AA96F00FEDEFE /* IconFill.swift */; };
 		E7B7E2E32F7C753900FEDEFE /* FontDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7E2E22F7C753900FEDEFE /* FontDesign.swift */; };
+		E7C1D2E3F4A5B6C7D8E9F0A1 /* PreferencesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C1D2E3F4A5B6C7D8E9F0A2 /* PreferencesViewModelTests.swift */; };
 		E7DA73A62CA6E74D00212836 /* IconSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DA73A52CA6E74D00212836 /* IconSize.swift */; };
 		E7DA73A82CA6E7A700212836 /* GuiSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DA73A72CA6E7A700212836 /* GuiSize.swift */; };
 		E828E6582737D2E4007075E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6572737D2E4007075E8 /* Constants.swift */; };
@@ -61,7 +64,7 @@
 		E8733507256B57400012586E /* SpaceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8733506256B57400012586E /* SpaceObserver.swift */; };
 		E873350E256B5F0F0012586E /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = E873350D256B5F0F0012586E /* Space.swift */; };
 		E8733511256B779B0012586E /* IconCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8733510256B779B0012586E /* IconCreator.swift */; };
-		E8733517256C6F3A0012586E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8733516256C6F3A0012586E /* Extensions.swift */; };
+		E8733517256C6F3A0012586E /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8733516256C6F3A0012586E /* AppConstants.swift */; };
 		E8C5AFF52580848100614F50 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C5AFF42580848100614F50 /* AboutView.swift */; };
 		E8E2AEF8257CB4D700319BBC /* PreferencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E2AEF7257CB4D700319BBC /* PreferencesViewModel.swift */; };
 		E8E2AEFF257CB5AF00319BBC /* IconText.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E2AEFE257CB5AF00319BBC /* IconText.swift */; };
@@ -69,6 +72,10 @@
 		E8E8D41C2585A80B00671AE9 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = E8E8D41B2585A80B00671AE9 /* KeyboardShortcuts */; };
 		E8EBF08C2575F8E4001BA74F /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = E8EBF08B2575F8E4001BA74F /* LaunchAtLogin */; };
 		E8EBF091257739ED001BA74F /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EBF090257739ED001BA74F /* PreferencesWindow.swift */; };
+		E7D1E2F3A4B5C6D7E8F9A0B1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D1E2F3A4B5C6D7E8F9A0B2 /* Color.swift */; };
+		E7D1E2F3A4B5C6D7E8F9A0B3 /* StringDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D1E2F3A4B5C6D7E8F9A0B4 /* StringDrawing.swift */; };
+		E7D1E2F3A4B5C6D7E8F9A0B5 /* ColorWellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D1E2F3A4B5C6D7E8F9A0B6 /* ColorWellView.swift */; };
+		E7D1E2F3A4B5C6D7E8F9A0C1 /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D1E2F3A4B5C6D7E8F9A0C2 /* Shortcuts.swift */; };
 		F605F4B85B7ADD5424BDDFAE /* SpaceNameResolutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */; };
 		F67105E91D29DA62516E5958 /* SpaceNameInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */; };
 		cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */; };
@@ -100,6 +107,10 @@
 		C0F9A49EF2025B97049F7053 /* SpaceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceTests.swift; path = SpacemanTests/SpaceTests.swift; sourceTree = "<group>"; };
 		D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameResolutionTests.swift; path = SpacemanTests/SpaceNameResolutionTests.swift; sourceTree = "<group>"; };
 		D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameInfoTests.swift; path = SpacemanTests/SpaceNameInfoTests.swift; sourceTree = "<group>"; };
+		E7D1E2F3A4B5C6D7E8F9A0B2 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		E7D1E2F3A4B5C6D7E8F9A0B4 /* StringDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringDrawing.swift; sourceTree = "<group>"; };
+		E7D1E2F3A4B5C6D7E8F9A0B6 /* ColorWellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorWellView.swift; sourceTree = "<group>"; };
+		E7D1E2F3A4B5C6D7E8F9A0C2 /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
 		E70044AB2E7F6584001C7295 /* RowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowLayout.swift; sourceTree = "<group>"; };
 		E70044AD2E80380B001C7295 /* OpenPreferencesCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPreferencesCommand.swift; sourceTree = "<group>"; };
 		E70044AF2E80380B001C7296 /* RestorePreferencesCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestorePreferencesCommand.swift; sourceTree = "<group>"; };
@@ -129,10 +140,13 @@
 		E772157D2F8934E2000744C9 /* SpaceDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDisplayMode.swift; sourceTree = "<group>"; };
 		E79FCED22E9D1EE60000DA6E /* HorizontalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDirection.swift; sourceTree = "<group>"; };
 		E7A066222C7F65F1002DFC52 /* SwitchOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchOrchestrator.swift; sourceTree = "<group>"; };
+		E7A1B2C3D4E5F6A7B8C9D0E2 /* SpaceObserverIntegrationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceObserverIntegrationTests.swift; path = SpacemanTests/SpaceObserverIntegrationTests.swift; sourceTree = "<group>"; };
+		E7B1C2D3E4F5A6B7C8D9E0F2 /* SpaceNameStoreTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameStoreTests.swift; path = SpacemanTests/SpaceNameStoreTests.swift; sourceTree = "<group>"; };
 		E7B7AC962F77E77B002B37E2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		E7B7E2DE2F7A8CC000FEDEFE /* IconShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconShape.swift; sourceTree = "<group>"; };
 		E7B7E2E02F7AA96F00FEDEFE /* IconFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconFill.swift; sourceTree = "<group>"; };
 		E7B7E2E22F7C753900FEDEFE /* FontDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontDesign.swift; sourceTree = "<group>"; };
+		E7C1D2E3F4A5B6C7D8E9F0A2 /* PreferencesViewModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesViewModelTests.swift; path = SpacemanTests/PreferencesViewModelTests.swift; sourceTree = "<group>"; };
 		E7DA73A52CA6E74D00212836 /* IconSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSize.swift; sourceTree = "<group>"; };
 		E7DA73A72CA6E7A700212836 /* GuiSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiSize.swift; sourceTree = "<group>"; };
 		E828E6572737D2E4007075E8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -150,7 +164,7 @@
 		E8733506256B57400012586E /* SpaceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceObserver.swift; sourceTree = "<group>"; };
 		E873350D256B5F0F0012586E /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
 		E8733510256B779B0012586E /* IconCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCreator.swift; sourceTree = "<group>"; };
-		E8733516256C6F3A0012586E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		E8733516256C6F3A0012586E /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		E8C5AFF42580848100614F50 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		E8E2AEF7257CB4D700319BBC /* PreferencesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewModel.swift; sourceTree = "<group>"; };
 		E8E2AEFE257CB5AF00319BBC /* IconText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconText.swift; sourceTree = "<group>"; };
@@ -198,9 +212,12 @@
 				B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */,
 				B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */,
 				E732CE992FAB094800B2C067 /* GestureSwitcherTests.swift */,
+				E7C1D2E3F4A5B6C7D8E9F0A2 /* PreferencesViewModelTests.swift */,
 				0F604F4F3D323E1E17C5AB87 /* SpaceFilterTests.swift */,
 				D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */,
 				D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */,
+				E7B1C2D3E4F5A6B7C8D9E0F2 /* SpaceNameStoreTests.swift */,
+				E7A1B2C3D4E5F6A7B8C9D0E2 /* SpaceObserverIntegrationTests.swift */,
 				C0F9A49EF2025B97049F7053 /* SpaceTests.swift */,
 				E763711F2FB21DAC00D05885 /* SwitchStrategyTests.swift */,
 			);
@@ -213,6 +230,16 @@
 				1A04899C99031419DE465C99 /* OS X */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E7D1E2F3A4B5C6D7E8F9A0B7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E7D1E2F3A4B5C6D7E8F9A0B2 /* Color.swift */,
+				E7D1E2F3A4B5C6D7E8F9A0C2 /* Shortcuts.swift */,
+				E7D1E2F3A4B5C6D7E8F9A0B4 /* StringDrawing.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		E828E6562737D2CF007075E8 /* Utilities */ = {
@@ -247,7 +274,8 @@
 			isa = PBXGroup;
 			children = (
 				E87334E8256B51CF0012586E /* AppDelegate.swift */,
-				E8733516256C6F3A0012586E /* Extensions.swift */,
+				E8733516256C6F3A0012586E /* AppConstants.swift */,
+				E7D1E2F3A4B5C6D7E8F9A0B7 /* Extensions */,
 				E8E2AEF5257CB4A500319BBC /* View */,
 				E8E2AEF6257CB4AC00319BBC /* ViewModel */,
 				E8E2AEFC257CB51C00319BBC /* Model */,
@@ -285,8 +313,8 @@
 				E70044AF2E80380B001C7296 /* RestorePreferencesCommand.swift */,
 				E70587F22C80A5DA00D9B729 /* ShortcutHelper.swift */,
 				E763711D2FB21D9200D05885 /* ShortcutSwitcher.swift */,
-				E8733506256B57400012586E /* SpaceObserver.swift */,
 				8DCE20A6B4C0E9E494935DB8 /* SpaceFilter.swift */,
+				E8733506256B57400012586E /* SpaceObserver.swift */,
 				E7A066222C7F65F1002DFC52 /* SwitchOrchestrator.swift */,
 				E76371212FB273BC00D05885 /* SwitchStrategizer.swift */,
 			);
@@ -297,6 +325,7 @@
 			isa = PBXGroup;
 			children = (
 				E8C5AFF42580848100614F50 /* AboutView.swift */,
+				E7D1E2F3A4B5C6D7E8F9A0B6 /* ColorWellView.swift */,
 				E87334EA256B51CF0012586E /* PreferencesView.swift */,
 				E8EBF090257739ED001BA74F /* PreferencesWindow.swift */,
 				E732CE892F90F6BA00B2C067 /* QuickRenameView.swift */,
@@ -491,6 +520,9 @@
 				A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */,
 				E732CE9C2FAB095E00B2C067 /* ChainingStrategyTests.swift in Sources */,
 				A2B3C4D5E6F7A8B9C0D1E2F4 /* EnumBehaviorTests.swift in Sources */,
+				E7A1B2C3D4E5F6A7B8C9D0E1 /* SpaceObserverIntegrationTests.swift in Sources */,
+				E7B1C2D3E4F5A6B7C8D9E0F1 /* SpaceNameStoreTests.swift in Sources */,
+				E7C1D2E3F4A5B6C7D8E9F0A1 /* PreferencesViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,7 +572,11 @@
 				E7DA73A82CA6E7A700212836 /* GuiSize.swift in Sources */,
 				E732CE8A2F90F6BA00B2C067 /* QuickRenameView.swift in Sources */,
 				E732CE962FAA021900B2C067 /* GestureSwitcher.swift in Sources */,
-				E8733517256C6F3A0012586E /* Extensions.swift in Sources */,
+				E8733517256C6F3A0012586E /* AppConstants.swift in Sources */,
+				E7D1E2F3A4B5C6D7E8F9A0B1 /* Color.swift in Sources */,
+				E7D1E2F3A4B5C6D7E8F9A0B3 /* StringDrawing.swift in Sources */,
+				E7D1E2F3A4B5C6D7E8F9A0B5 /* ColorWellView.swift in Sources */,
+				E7D1E2F3A4B5C6D7E8F9A0C1 /* Shortcuts.swift in Sources */,
 				9A6DE94BB0D75559B9039ABA /* SpaceFilter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -744,7 +780,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = "1.21.0-alpha";
+				CURRENT_PROJECT_VERSION = "1.21.1-alpha";
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = B83F4KWQ2G;
@@ -761,7 +797,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = "1.21.0-alpha";
+				MARKETING_VERSION = "1.21.1-alpha";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -781,7 +817,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = "1.21.0-alpha";
+				CURRENT_PROJECT_VERSION = "1.21.1-alpha";
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = B83F4KWQ2G;
@@ -798,7 +834,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = "1.21.0-alpha";
+				MARKETING_VERSION = "1.21.1-alpha";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

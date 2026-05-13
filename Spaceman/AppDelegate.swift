@@ -191,7 +191,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             // Override size, text style, and visibility — but not row layout,
             // which stays at the user's preference (two-row is more compact).
             let overrides = ShrinkOverrides(
-                iconSize: .compact, displayStyle: .numbers,
+                iconSize: .compact, iconText: .numbers,
                 showFullscreenSpaces: false, showNavArrows: false, showMissionControl: false)
             let icon = iconCreator.getIcon(for: spaces, appearance: buttonAppearance,
                                             shrinkOverrides: overrides)
@@ -263,7 +263,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let keys = [
             "visibleSpacesMode", "restartNumberingByDisplay", "horizontalDirection",
             "useVariableWidth", "decorationActive", "decorationInactive",
-            "iconSize", "rowLayout", "showFullscreenSpaces",
+            "iconSize", "iconText", "rowLayout", "showFullscreenSpaces",
             "switchingMode"
         ]
         for key in keys {
@@ -274,6 +274,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     static func performLegacyMigrations() {
         // Remove obsolete UserDefaults keys
         UserDefaults.standard.removeObject(forKey: "spaceNameCache")
+
+        // Migrate spaceByDesktopID → spaceLabel inside the encoded spaceNames plist
+        if let data = UserDefaults.standard.data(forKey: "spaceNames"),
+           var outer = try? PropertyListSerialization.propertyList(
+               from: data, format: nil) as? [String: [String: Any]] {
+            var changed = false
+            for (key, var inner) in outer {
+                if let value = inner.removeValue(forKey: "spaceByDesktopID") {
+                    inner["spaceLabel"] = value
+                    outer[key] = inner
+                    changed = true
+                }
+            }
+            if changed,
+               let newData = try? PropertyListSerialization.data(
+                   fromPropertyList: outer, format: .binary, options: 0) {
+                UserDefaults.standard.set(newData, forKey: "spaceNames")
+            }
+        }
 
         // Migrate legacy hideInactiveSpaces to visibleSpacesMode
         if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil {
@@ -318,7 +337,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 // Old "bare numbers" (raw value 1) → bare text decoration + numbers display style
                 UserDefaults.standard.set(IconStyle.noDecoration.rawValue, forKey: "decorationActive")
                 UserDefaults.standard.set(IconStyle.noDecoration.rawValue, forKey: "decorationInactive")
-                UserDefaults.standard.set(IconText.numbers.rawValue, forKey: "displayStyle")
+                UserDefaults.standard.set(IconText.numbers.rawValue, forKey: "iconText")
             } else {
                 UserDefaults.standard.set(IconStyle.filledRounded.rawValue, forKey: "decorationActive")
                 if oldInactiveStyle == 0 { // bordered
@@ -328,6 +347,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
             UserDefaults.standard.removeObject(forKey: "inactiveStyle")
+        }
+
+        // Migrate displayStyle → iconText
+        if UserDefaults.standard.object(forKey: "iconText") == nil,
+           let oldValue = UserDefaults.standard.object(forKey: "displayStyle") as? Int {
+            UserDefaults.standard.set(oldValue, forKey: "iconText")
+            UserDefaults.standard.removeObject(forKey: "displayStyle")
         }
 
         // Migrate layoutMode=0 (old .dualRows) to rowLayout + compact size

@@ -103,7 +103,7 @@ struct SpaceCellView: View {
 
     var body: some View {
         VStack(spacing: 1) {
-            Text(space.spaceByDesktopID)
+            Text(space.spaceLabel)
                 .font(.system(size: 9,
                               weight: space.isCurrentSpace ? .bold : .regular))
             Text(hasName ? space.spaceName : "\u{00A0}")

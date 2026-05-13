@@ -127,6 +127,22 @@ class ShortcutSwitcher {
         }
     }
 
+    /// Wait for a space change notification, then chain arrows.
+    /// Used when the initial jump was performed by another mechanism
+    /// (e.g. gesture) and only the chain part needs shortcut arrows.
+    func waitThenChain(
+        steps: Int, goRight: Bool,
+        onError: @escaping () -> Void
+    ) {
+        waitForSpaceChange {
+            self.executeChain(
+                stepsRemaining: steps, goRight: goRight,
+                onError: onError)
+        } onTimeout: {
+            onError()
+        }
+    }
+
     func cancelChain() {
         chainTimeout?.cancel()
         chainTimeout = nil

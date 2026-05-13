@@ -1,59 +1,12 @@
 //
-//  Extensions.swift
+//  Color.swift
 //  Spaceman
 //
-//  Created by Sasindu Jayasinghe on 24/11/20.
+//  Created by René Uittenbogaard on 2026-05-13.
+//  Co-author: Claude Code
 //
 
 import Cocoa
-import Foundation
-import KeyboardShortcuts
-import SwiftUI
-
-extension NSString {
-    func drawVerticallyCentered(in rect: CGRect, withAttributes attributes: [NSAttributedString.Key: Any]? = nil) {
-        let size = self.size(withAttributes: attributes)
-        let centeredRect = CGRect(
-            x: rect.origin.x,
-            y: rect.origin.y + (rect.size.height - size.height) / 2.0,
-            width: rect.size.width,
-            height: size.height)
-        self.draw(in: centeredRect, withAttributes: attributes)
-    }
-}
-
-extension KeyboardShortcuts.Name {
-    static let refresh = Self(
-        "refresh",
-        default: .init(.r, modifiers: [.control, .option, .command]))
-    static let preferences = Self(
-        "preferences",
-        default: .init(.p, modifiers: [.control, .option, .command]))
-    static let quickRename = Self(
-        "quickRename",
-        default: .init(.n, modifiers: [.control, .option, .command]))
-}
-
-func systemSettingsName() -> String {
-    if #available(macOS 13.0, *) {
-        return String(localized: "System Settings")
-    } else {
-        return String(localized: "System Preferences")
-    }
-}
-
-/// Notification posted when the user changes a setting that requires a redraw.
-let SettingsChangedName = NSNotification.Name("SettingsChanged")
-
-/// Notification posted by the auto-refresh timer.
-let AutoRefreshTriggeredName = NSNotification.Name("AutoRefreshTriggered")
-
-/// Notify the app that a setting changed and spaces should be redrawn.
-func postSettingsChanged() {
-    NotificationCenter.default.post(name: SettingsChangedName, object: nil)
-}
-
-// MARK: - NSColor Extensions
 
 extension NSColor {
     /// Convert NSColor to hex string with alpha (e.g., "FF5733FF")
@@ -124,50 +77,5 @@ extension NSColor {
         }
 
         return NSColor(red: red, green: green, blue: blue, alpha: alpha)
-    }
-}
-
-// MARK: - ColorWellView
-
-struct ColorWellView: NSViewRepresentable {
-    @Binding var selectedColor: NSColor?
-    var onColorChange: ((NSColor?) -> Void)?
-
-    func makeNSView(context: Context) -> NSColorWell {
-        let colorWell = NSColorWell()
-        colorWell.isBordered = true
-        colorWell.isContinuous = true
-        colorWell.color = selectedColor ?? NSColor.systemGray
-        colorWell.target = context.coordinator
-        colorWell.action = #selector(Coordinator.colorDidChange(_:))
-        return colorWell
-    }
-
-    func updateNSView(_ nsView: NSColorWell, context: Context) {
-        context.coordinator.onColorChange = onColorChange
-
-        // Don't update color if the panel is active - let user interaction control it
-        if !nsView.isActive {
-            let newColor = selectedColor ?? NSColor.systemGray
-            if nsView.color != newColor {
-                nsView.color = newColor
-            }
-        }
-    }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(onColorChange: onColorChange)
-    }
-
-    class Coordinator: NSObject {
-        var onColorChange: ((NSColor?) -> Void)?
-
-        init(onColorChange: ((NSColor?) -> Void)?) {
-            self.onColorChange = onColorChange
-        }
-
-        @objc func colorDidChange(_ sender: NSColorWell) {
-            onColorChange?(sender.color)
-        }
     }
 }

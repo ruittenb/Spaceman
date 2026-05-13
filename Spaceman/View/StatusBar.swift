@@ -10,16 +10,16 @@ import Sparkle
 import SwiftUI
 
 class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
-    @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
-    @AppStorage("displayStyle") private var displayStyle = IconText.numbers
+    @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
+    @AppStorage("iconText") private var iconText = IconText.numbers
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
-    @AppStorage("lastActiveShape") private var lastActiveShapeRaw: Int = IconShape.rounded.rawValue
-    @AppStorage("lastActiveFill") private var lastActiveFillRaw: Int = IconFill.filled.rawValue
-    @AppStorage("lastInactiveShape") private var lastInactiveShapeRaw: Int = IconShape.rounded.rawValue
-    @AppStorage("lastInactiveFill") private var lastInactiveFillRaw: Int = IconFill.bordered.rawValue
+    @AppStorage("lastActiveShape") private var lastActiveShape = IconShape.rounded
+    @AppStorage("lastActiveFill") private var lastActiveFill = IconFill.filled
+    @AppStorage("lastInactiveShape") private var lastInactiveShape = IconShape.rounded
+    @AppStorage("lastInactiveFill") private var lastInactiveFill = IconFill.bordered
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
@@ -31,11 +31,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     /// When true, the status bar shows a static app icon (auto-shrink fallback).
     /// Left-clicks are ignored because there are no individual space targets.
     var isAppIconMode = false
-
-    private var visibleSpacesMode: VisibleSpacesMode {
-        get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
-        set { visibleSpacesModeRaw = newValue.rawValue }
-    }
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
     private var updatesItem: NSMenuItem!
@@ -86,7 +81,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             action: #selector(updaterController.checkForUpdates(_:)),
             keyEquivalent: "")
         updatesItem.target = updaterController
-        updatesItem.image = NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: nil)
+        updatesItem.image = NSImage(systemSymbolName: "arrow.clockwise.icloud", accessibilityDescription: nil)
 
         // Set up update badge - start with no badge, show only when update available
         if #available(macOS 14.0, *) {
@@ -97,6 +92,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             title: String(localized: "Refresh"),
             action: #selector(refreshSpaces(_:)),
             keyEquivalent: "")
+        refreshItem.image = NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: nil)
         refreshItem.target = self
         Task { @MainActor in
             refreshItem.setShortcut(for: .refresh)
@@ -106,6 +102,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             title: String(localized: "Rename Current Space…"),
             action: #selector(quickRenameCurrentSpace(_:)),
             keyEquivalent: "")
+        quickRenameItem.image = NSImage(systemSymbolName: "tag", accessibilityDescription: nil)
         quickRenameItem.target = self
         Task { @MainActor in
             quickRenameItem.setShortcut(for: .quickRename)
@@ -115,6 +112,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             title: String(localized: "Preferences…"),
             action: #selector(showPreferencesWindow(_:)),
             keyEquivalent: "")
+        prefItem.image = NSImage(systemSymbolName: "gearshape", accessibilityDescription: nil)
         prefItem.target = self
         Task { @MainActor in
             prefItem.setShortcut(for: .preferences)
@@ -135,10 +133,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             rowLayoutSubmenu.addItem(item)
         }
         rowLayoutMenuItem = NSMenuItem(title: String(localized: "Row Layout"), action: nil, keyEquivalent: "")
+        rowLayoutMenuItem.image = NSImage(systemSymbolName: "rectangle.grid.1x2", accessibilityDescription: nil)
         rowLayoutMenuItem.submenu = rowLayoutSubmenu
 
         // Icon size submenu is rebuilt dynamically in menuWillOpen
         layoutMenuItem = NSMenuItem(title: String(localized: "Icon Size"), action: nil, keyEquivalent: "")
+        layoutMenuItem.image = NSImage(systemSymbolName: "aspectratio", accessibilityDescription: nil)
         layoutMenuItem.submenu = NSMenu()
 
         let iconStyleSubmenu = NSMenu()
@@ -156,6 +156,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             iconStyleSubmenu.addItem(item)
         }
         iconStyleMenuItem = NSMenuItem(title: String(localized: "Icon Text"), action: nil, keyEquivalent: "")
+        iconStyleMenuItem.image = NSImage(systemSymbolName: "textformat.abc", accessibilityDescription: nil)
         iconStyleMenuItem.submenu = iconStyleSubmenu
 
         let iconShapeSubmenu = NSMenu()
@@ -180,6 +181,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             iconShapeSubmenu.addItem(item)
         }
         iconShapeMenuItem = NSMenuItem(title: String(localized: "Icon Style"), action: nil, keyEquivalent: "")
+        iconShapeMenuItem.image = NSImage(systemSymbolName: "star", accessibilityDescription: nil)
         iconShapeMenuItem.submenu = iconShapeSubmenu
 
         let spacesShownSubmenu = NSMenu()
@@ -211,6 +213,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         spacesShownSubmenu.addItem(showArrowsItem)
 
         spacesShownMenuItem = NSMenuItem(title: String(localized: "Buttons Shown"), action: nil, keyEquivalent: "")
+        spacesShownMenuItem.image = NSImage(systemSymbolName: "square.split.2x2.fill", accessibilityDescription: nil)
         spacesShownMenuItem.submenu = spacesShownSubmenu
 
         statusBarMenu.addItem(about)
@@ -275,7 +278,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     }
                     let menuOrigin = CGPoint(
                         x: buttonFrame.minX,
-                        y: buttonFrame.minY - CGFloat(self.iconCreator.sizes.FONT_SIZE) / 2)
+                        y: buttonFrame.minY - CGFloat(self.iconCreator.sizes.fontSize) / 2)
                     sbMenu.minimumWidth = Constants.minMenuWidth
                     sbMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
                     sbButton.isHighlighted = false
@@ -598,7 +601,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             backing: .buffered,
             defer: false)
         panel.title = String(
-            localized: "Rename Space \(currentSpace.spaceByDesktopID)")
+            localized: "Rename Space \(currentSpace.spaceLabel)")
         panel.isFloatingPanel = true
         panel.level = .floating
         panel.titlebarAppearsTransparent = true
@@ -663,7 +666,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let ud = UserDefaults.standard
         let currentRowLayout = RowLayout(rawValue: ud.integer(forKey: "rowLayout")) ?? .singleRow
         let currentIconSize = IconSize(rawValue: ud.integer(forKey: "iconSize")) ?? .medium
-        let currentDisplayStyle = IconText(rawValue: ud.integer(forKey: "displayStyle")) ?? .numbers
+        let currentDisplayStyle = IconText(rawValue: ud.integer(forKey: "iconText")) ?? .numbers
         let currentFontDesign = FontDesign(rawValue: ud.integer(forKey: "fontDesign")) ?? .monospaced
         let currentUseVariableWidth = ud.bool(forKey: "useVariableWidth")
         let currentDecorationActive = IconStyle(rawValue: ud.integer(forKey: "decorationActive")) ?? .filledRounded
@@ -768,7 +771,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func selectIconStyle(_ sender: NSMenuItem) {
         guard let style = IconText(rawValue: sender.tag) else { return }
-        displayStyle = style
+        iconText = style
         postSettingsChanged()
     }
 
@@ -780,10 +783,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             decorationInactive = .noDecoration
         } else {
             let activeFill = decorationActive.isNoDecoration
-                ? (IconFill(rawValue: lastActiveFillRaw) ?? .bordered)
+                ? lastActiveFill
                 : decorationActive.fill
             let inactiveFill = decorationInactive.isNoDecoration
-                ? (IconFill(rawValue: lastInactiveFillRaw) ?? .bordered)
+                ? lastInactiveFill
                 : decorationInactive.fill
             decorationActive = decorationActive.withShape(shape).withFill(activeFill)
             decorationInactive = decorationInactive.withShape(shape).withFill(inactiveFill)
@@ -795,10 +798,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @objc func selectIconFill(_ sender: NSMenuItem) {
         guard let fill = IconFill(rawValue: sender.tag) else { return }
         let activeShape = decorationActive.isNoDecoration
-            ? (IconShape(rawValue: lastActiveShapeRaw) ?? .rectangular)
+            ? lastActiveShape
             : decorationActive.shape
         let inactiveShape = decorationInactive.isNoDecoration
-            ? (IconShape(rawValue: lastInactiveShapeRaw) ?? .rectangular)
+            ? lastInactiveShape
             : decorationInactive.shape
         decorationActive = decorationActive.withFill(fill).withShape(activeShape)
         decorationInactive = decorationInactive.withFill(fill).withShape(inactiveShape)
@@ -808,17 +811,18 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     private func saveLastDecoration() {
         if !decorationActive.isNoDecoration {
-            lastActiveShapeRaw = decorationActive.shape.rawValue
-            lastActiveFillRaw = decorationActive.fill.rawValue
+            lastActiveShape = decorationActive.shape
+            lastActiveFill = decorationActive.fill
         }
         if !decorationInactive.isNoDecoration {
-            lastInactiveShapeRaw = decorationInactive.shape.rawValue
-            lastInactiveFillRaw = decorationInactive.fill.rawValue
+            lastInactiveShape = decorationInactive.shape
+            lastInactiveFill = decorationInactive.fill
         }
     }
 
     @objc func selectSpacesShown(_ sender: NSMenuItem) {
-        visibleSpacesModeRaw = sender.tag
+        guard let mode = VisibleSpacesMode(rawValue: sender.tag) else { return }
+        visibleSpacesMode = mode
         postSettingsChanged()
     }
 

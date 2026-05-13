@@ -10,7 +10,7 @@ import SwiftUI
 
 class PreferencesViewModel: ObservableObject {
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
-    private let nameStore = SpaceNameStore.shared
+    let nameStore: SpaceNameStore
     @Published var spaceNamesDict: [String: SpaceNameInfo] = [:]
     @Published var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element] = []
     @Published var backupStatusMessage: String?
@@ -25,7 +25,8 @@ class PreferencesViewModel: ObservableObject {
     private static let settingsFile = settingsDirectory.appendingPathComponent("app-defaults.xml")
     private static let bundleIdentifier = Bundle.main.bundleIdentifier ?? "dev.ruittenb.Spaceman"
 
-    init() {
+    init(nameStore: SpaceNameStore = .shared) {
+        self.nameStore = nameStore
         timer = Timer()
         if autoRefreshSpaces { startTimer() }
         refreshBackupDate()
@@ -34,21 +35,7 @@ class PreferencesViewModel: ObservableObject {
     func loadData() {
         let allSpaceNames = nameStore.loadAll()
         let filtered = allSpaceNames.filter { AppDelegate.activeSpaceIDs.contains($0.key) }
-
-        // Preserve any local changes (like colors) that might not be in the loaded data yet
-        var merged = filtered
-        for (key, existingInfo) in spaceNamesDict {
-            if let loadedInfo = filtered[key] {
-                // Prefer loaded data but keep local color if it's newer
-                if existingInfo.colorHex != nil && loadedInfo.colorHex == nil {
-                    var updated = loadedInfo
-                    updated.colorHex = existingInfo.colorHex
-                    merged[key] = updated
-                }
-            }
-        }
-
-        spaceNamesDict = merged
+        spaceNamesDict = filtered
         rebuildSortedSpaceNames()
     }
 
@@ -127,7 +114,7 @@ class PreferencesViewModel: ObservableObject {
         if sortedSpaceNamesDict.isEmpty {
             sortedSpaceNamesDict.append((
                 key: "0",
-                value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")))
+                value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceLabel: "1")))
         }
     }
 

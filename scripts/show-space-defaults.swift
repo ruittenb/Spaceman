@@ -8,7 +8,7 @@ defaults.addSuite(named: "dev.ruittenb.Spaceman")
 struct SpaceNameInfo: Codable {
     let spaceNum: Int
     let spaceName: String
-    let spaceByDesktopID: String
+    let spaceLabel: String
     var displayUUID: String?
     var positionOnDisplay: Int?
     var currentDisplayIndex: Int?

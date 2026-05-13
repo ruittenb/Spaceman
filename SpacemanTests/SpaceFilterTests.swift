@@ -27,22 +27,22 @@ final class SpaceFilterTests: XCTestCase {
     func createTestSpaces() -> [Space] {
         return [
             // Display 1
-            Space(displayID: "display-1", spaceID: "space-1", spaceName: "Dev", spaceNumber: 1, spaceByDesktopID: "1", isCurrentSpace: false, isFullScreen: false),
-            Space(displayID: "display-1", spaceID: "space-2", spaceName: "Mail", spaceNumber: 2, spaceByDesktopID: "2", isCurrentSpace: false, isFullScreen: false),
-            Space(displayID: "display-1", spaceID: "space-3", spaceName: "Work", spaceNumber: 3, spaceByDesktopID: "3", isCurrentSpace: true, isFullScreen: false),
-            Space(displayID: "display-1", spaceID: "space-4", spaceName: "Browse", spaceNumber: 4, spaceByDesktopID: "4", isCurrentSpace: false, isFullScreen: false),
-            Space(displayID: "display-1", spaceID: "space-5", spaceName: "Music", spaceNumber: 5, spaceByDesktopID: "5", isCurrentSpace: false, isFullScreen: false),
+            Space(displayID: "display-1", spaceID: "space-1", spaceName: "Dev", spaceNumber: 1, spaceLabel: "1", isCurrentSpace: false, isFullScreen: false),
+            Space(displayID: "display-1", spaceID: "space-2", spaceName: "Mail", spaceNumber: 2, spaceLabel: "2", isCurrentSpace: false, isFullScreen: false),
+            Space(displayID: "display-1", spaceID: "space-3", spaceName: "Work", spaceNumber: 3, spaceLabel: "3", isCurrentSpace: true, isFullScreen: false),
+            Space(displayID: "display-1", spaceID: "space-4", spaceName: "Browse", spaceNumber: 4, spaceLabel: "4", isCurrentSpace: false, isFullScreen: false),
+            Space(displayID: "display-1", spaceID: "space-5", spaceName: "Music", spaceNumber: 5, spaceLabel: "5", isCurrentSpace: false, isFullScreen: false),
             // Display 2
-            Space(displayID: "display-2", spaceID: "space-6", spaceName: "Extra", spaceNumber: 6, spaceByDesktopID: "1", isCurrentSpace: false, isFullScreen: false),
-            Space(displayID: "display-2", spaceID: "space-7", spaceName: "Monitor", spaceNumber: 7, spaceByDesktopID: "2", isCurrentSpace: false, isFullScreen: false),
+            Space(displayID: "display-2", spaceID: "space-6", spaceName: "Extra", spaceNumber: 6, spaceLabel: "1", isCurrentSpace: false, isFullScreen: false),
+            Space(displayID: "display-2", spaceID: "space-7", spaceName: "Monitor", spaceNumber: 7, spaceLabel: "2", isCurrentSpace: false, isFullScreen: false),
         ]
     }
 
     func createTestSpacesWithFullscreen() -> [Space] {
         return [
-            Space(displayID: "display-1", spaceID: "space-1", spaceName: "Dev", spaceNumber: 1, spaceByDesktopID: "1", isCurrentSpace: false, isFullScreen: false),
-            Space(displayID: "display-1", spaceID: "space-2", spaceName: "Full", spaceNumber: 2, spaceByDesktopID: "2", isCurrentSpace: true, isFullScreen: true),
-            Space(displayID: "display-1", spaceID: "space-3", spaceName: "Work", spaceNumber: 3, spaceByDesktopID: "3", isCurrentSpace: false, isFullScreen: false),
+            Space(displayID: "display-1", spaceID: "space-1", spaceName: "Dev", spaceNumber: 1, spaceLabel: "1", isCurrentSpace: false, isFullScreen: false),
+            Space(displayID: "display-1", spaceID: "space-2", spaceName: "Full", spaceNumber: 2, spaceLabel: "2", isCurrentSpace: true, isFullScreen: true),
+            Space(displayID: "display-1", spaceID: "space-3", spaceName: "Work", spaceNumber: 3, spaceLabel: "3", isCurrentSpace: false, isFullScreen: false),
         ]
     }
 

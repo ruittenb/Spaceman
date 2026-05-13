@@ -1,5 +1,5 @@
 //
-//  ScriptableCommand.swift
+//  RefreshCommand.swift
 //  Spaceman
 //
 //  Created by Michael Lehenauer on 30.05.24.

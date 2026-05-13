@@ -21,7 +21,7 @@ final class ChainingStrategyTests: XCTestCase {
         for i in 1...desktops {
             spaces.append(Space(
                 displayID: "d1", spaceID: "s\(i)", spaceName: "",
-                spaceNumber: i, spaceByDesktopID: "\(i)",
+                spaceNumber: i, spaceLabel: "\(i)",
                 isCurrentSpace: i == currentNumber,
                 isFullScreen: false))
         }
@@ -30,7 +30,7 @@ final class ChainingStrategyTests: XCTestCase {
             let num = desktops + i
             spaces.append(Space(
                 displayID: "d1", spaceID: "f\(i)", spaceName: "",
-                spaceNumber: num, spaceByDesktopID: "F\(i)",
+                spaceNumber: num, spaceLabel: "F\(i)",
                 isCurrentSpace: num == currentNumber,
                 isFullScreen: true))
         }
@@ -151,13 +151,13 @@ final class ChainingStrategyTests: XCTestCase {
         for i in 1...5 {
             spaces.append(Space(
                 displayID: "d1", spaceID: "s\(i)", spaceName: "",
-                spaceNumber: i, spaceByDesktopID: "\(i)",
+                spaceNumber: i, spaceLabel: "\(i)",
                 isCurrentSpace: i == 1, isFullScreen: false))
         }
         for i in 6...10 {
             spaces.append(Space(
                 displayID: "d2", spaceID: "s\(i)", spaceName: "",
-                spaceNumber: i, spaceByDesktopID: "\(i - 5)",
+                spaceNumber: i, spaceLabel: "\(i - 5)",
                 isCurrentSpace: false, isFullScreen: false))
         }
         let strategy = SwitchStrategizer.calculateChainingStrategy(
@@ -222,11 +222,11 @@ final class ChainingStrategyTests: XCTestCase {
         let spaces = [
             Space(
                 displayID: "d1", spaceID: "s1", spaceName: "",
-                spaceNumber: 1, spaceByDesktopID: "1",
+                spaceNumber: 1, spaceLabel: "1",
                 isCurrentSpace: true, isFullScreen: false),
             Space(
                 displayID: "d2", spaceID: "f1", spaceName: "",
-                spaceNumber: 2, spaceByDesktopID: "F1",
+                spaceNumber: 2, spaceLabel: "F1",
                 isCurrentSpace: false, isFullScreen: true),
         ]
         let strategy = SwitchStrategizer.calculateChainingStrategy(
@@ -242,12 +242,12 @@ final class ChainingStrategyTests: XCTestCase {
         var spaces: [Space] = []
         spaces.append(Space(
             displayID: "d1", spaceID: "s1", spaceName: "",
-            spaceNumber: 1, spaceByDesktopID: "1",
+            spaceNumber: 1, spaceLabel: "1",
             isCurrentSpace: true, isFullScreen: false))
         for i in 2...4 {
             spaces.append(Space(
                 displayID: "d2", spaceID: "s\(i)", spaceName: "",
-                spaceNumber: i, spaceByDesktopID: "\(i - 1)",
+                spaceNumber: i, spaceLabel: "\(i - 1)",
                 isCurrentSpace: false, isFullScreen: false))
         }
         // Only desktop 2 has an enabled shortcut
@@ -281,7 +281,7 @@ final class ChainingStrategyTests: XCTestCase {
         let spaces = [
             Space(
                 displayID: "d1", spaceID: "s1", spaceName: "",
-                spaceNumber: 1, spaceByDesktopID: "1",
+                spaceNumber: 1, spaceLabel: "1",
                 isCurrentSpace: false, isFullScreen: false)
         ]
         let strategy = SwitchStrategizer.calculateChainingStrategy(

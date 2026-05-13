@@ -9,6 +9,7 @@ import Foundation
 
 enum IconText: Int, CaseIterable {
     case noText = 0
+    // Raw value 1 was "bare numbers" (removed); gap kept for UserDefaults compatibility.
     case numbers = 2
     case names = 3
     case numbersAndNames = 4

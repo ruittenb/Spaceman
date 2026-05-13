@@ -13,7 +13,7 @@ import SwiftUI
 struct PreferencesView: View {
     private let subItemIndent: CGFloat = 20
 
-    @AppStorage("displayStyle") private var displayStyle = IconText.numbers
+    @AppStorage("iconText") private var iconText = IconText.numbers
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("useVariableWidth") private var useVariableWidth = false
@@ -25,17 +25,12 @@ struct PreferencesView: View {
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
 
-    @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
+    @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
-
-    private var visibleSpacesMode: VisibleSpacesMode {
-        get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
-        set { visibleSpacesModeRaw = newValue.rawValue }
-    }
 
     @StateObject private var prefsVM = PreferencesViewModel()
     @State private var selectedTab = 0
@@ -352,7 +347,7 @@ struct PreferencesView: View {
             fontDesignPicker
             activeIconStylePicker
             inactiveIconStylePicker
-            if displayStyle == .noText && decorationActive.isNoDecoration && decorationInactive.isNoDecoration {
+            if iconText == .noText && decorationActive.isNoDecoration && decorationInactive.isNoDecoration {
                 HStack(spacing: 4) {
                     Image(systemName: "exclamationmark.triangle.fill")
                     Text("Icons will be invisible with these settings.")
@@ -398,7 +393,7 @@ struct PreferencesView: View {
         .onChange(of: autoShrink) { _ in
             postSettingsChanged()
         }
-        .onChange(of: visibleSpacesModeRaw) { _ in
+        .onChange(of: visibleSpacesMode) { _ in
             postSettingsChanged()
         }
         .onChange(of: showFullscreenSpaces) { _ in
@@ -587,7 +582,7 @@ struct PreferencesView: View {
         HStack(spacing: 12) {
             Text("Icon text")
             Spacer()
-            Picker("", selection: $displayStyle) {
+            Picker("", selection: $iconText) {
                 Text("No text").tag(IconText.noText)
                 Text("Numbers").tag(IconText.numbers)
                 Text("Names").tag(IconText.names)
@@ -595,7 +590,7 @@ struct PreferencesView: View {
             }
             .fixedSize()
         }
-        .onChange(of: displayStyle) { _ in
+        .onChange(of: iconText) { _ in
             postSettingsChanged()
         }
     }
@@ -604,7 +599,7 @@ struct PreferencesView: View {
         HStack(spacing: 12) {
             Text("Font")
                 .fixedSize()
-                .foregroundColor(displayStyle != .noText ? .primary : .secondary)
+                .foregroundColor(iconText != .noText ? .primary : .secondary)
                 .padding(.leading, subItemIndent)
             Spacer(minLength: 8)
             Picker("", selection: $fontDesign) {
@@ -614,7 +609,7 @@ struct PreferencesView: View {
             }
             .fixedSize()
         }
-        .disabled(displayStyle == .noText)
+        .disabled(iconText == .noText)
         .onChange(of: fontDesign) { _ in
             postSettingsChanged()
         }
@@ -681,7 +676,7 @@ struct PreferencesView: View {
                 // Show a text field per space entry (keyed to avoid index issues during updates)
                 ForEach(prefsVM.sortedSpaceNamesDict, id: \.key) { entry in
                     let info = entry.value
-                    let sbd = info.spaceByDesktopID
+                    let sbd = info.spaceLabel
                     let displayIndex = info.currentDisplayIndex ?? 1
                     let spacePart: String = sbd.hasPrefix("F")
                         ? "Full Screen " + String(Int(sbd.dropFirst()) ?? 0)
@@ -775,7 +770,7 @@ struct PreferencesView: View {
                     ForEach(VisibleSpacesMode.allCases, id: \.self) { mode in
                         let isSelected = visibleSpacesMode == mode
                         Button(mode.pickerLabel) {
-                            visibleSpacesModeRaw = mode.rawValue
+                            visibleSpacesMode = mode
                         }
                         .buttonStyle(.plain)
                         .padding(.horizontal, 8)

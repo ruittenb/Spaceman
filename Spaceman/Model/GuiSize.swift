@@ -8,11 +8,11 @@
 import Foundation
 
 struct GuiSize {
-    var GAP_WIDTH_SPACES: Int
-    var GAP_WIDTH_DISPLAYS: Int
-    var GAP_HEIGHT_ROWS: CGFloat
-    var HORIZONTAL_PADDING: CGFloat
-    var VERTICAL_PADDING: CGFloat
-    var BORDER_WIDTH: CGFloat
-    var FONT_SIZE: Int
+    var gapWidthSpaces: Int
+    var gapWidthDisplays: Int
+    var gapHeightRows: CGFloat
+    var horizontalPadding: CGFloat
+    var verticalPadding: CGFloat
+    var borderWidth: CGFloat
+    var fontSize: Int
 }

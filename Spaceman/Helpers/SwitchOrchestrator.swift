@@ -46,6 +46,16 @@ class SwitchOrchestrator {
                 anchor: anchorIndex, steps: steps,
                 goRight: goRight, onError: onError)
 
+        case .gestureJumpThenChain(
+            let anchor, let current, let steps, let goRight
+        ):
+            _ = gestureSwitcher.switchToSpace(
+                target: anchor, current: current,
+                spaces: spaces, mode: .instant)
+            shortcutSwitcher.waitThenChain(
+                steps: steps, goRight: goRight,
+                onError: onError)
+
         case .gestureDirect(let target, let current, let mode):
             _ = gestureSwitcher.switchToSpace(
                 target: target, current: current,

@@ -28,8 +28,12 @@ class SpaceObserver {
     private let workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
     private let defaults = UserDefaults.standard
-    private let nameStore = SpaceNameStore.shared
+    let nameStore: SpaceNameStore
     private let workerQueue = DispatchQueue(label: "dev.ruittenb.Spaceman.SpaceObserver")
+
+    /// Test injection point. When non-nil, `fetchDisplaySpaces()` returns this
+    /// instead of calling the private CG API.
+    var displaySpacesProvider: (() -> [NSDictionary]?)?
 
     /// When true, the next update uses position-based matching to handle ID reassignment after reboot/wake.
     /// Starts true so the first update after app launch uses position matching.
@@ -46,7 +50,8 @@ class SpaceObserver {
 
     weak var delegate: SpaceObserverDelegate?
 
-    init() {
+    init(nameStore: SpaceNameStore = .shared) {
+        self.nameStore = nameStore
         workspace.notificationCenter.addObserver(
             self,
             selector: #selector(handleSpaceSwitch),
@@ -290,13 +295,13 @@ class SpaceObserver {
 
                 positionOnThisDisplay += 1
 
-                let spaceByDesktopID: String
+                let spaceLabel: String
                 if isFullScreen {
                     lastFullScreenNumber += 1
-                    spaceByDesktopID = "F\(lastFullScreenNumber)"
+                    spaceLabel = "F\(lastFullScreenNumber)"
                 } else {
                     lastSpaceByDesktopNumber += 1
-                    spaceByDesktopID = String(lastSpaceByDesktopNumber)
+                    spaceLabel = String(lastSpaceByDesktopNumber)
                 }
 
                 let savedInfo = SpaceObserver.resolveSpaceNameInfo(
@@ -309,7 +314,7 @@ class SpaceObserver {
                 let savedName = savedInfo?.spaceName
                 let resolvedName = resolveSpaceName(
                     from: savedName,
-                    spaceByDesktopID: spaceByDesktopID,
+                    spaceLabel: spaceLabel,
                     isFullScreen: isFullScreen,
                     spaceDict: spaceDict)
 
@@ -318,7 +323,7 @@ class SpaceObserver {
                     spaceID: managedSpaceID,
                     spaceName: resolvedName,
                     spaceNumber: spaceNumber,
-                    spaceByDesktopID: spaceByDesktopID,
+                    spaceLabel: spaceLabel,
                     isCurrentSpace: isCurrentSpace,
                     isFullScreen: isFullScreen,
                     colorHex: savedInfo?.colorHex)
@@ -334,7 +339,7 @@ class SpaceObserver {
                 var nameInfo = SpaceNameInfo(
                     spaceNum: spaceNumber,
                     spaceName: resolvedName,
-                    spaceByDesktopID: spaceByDesktopID)
+                    spaceLabel: spaceLabel)
 
                 // During topology changes, if we found the entry by ID matching,
                 // preserve its stored display/position. The current position is
@@ -375,6 +380,9 @@ class SpaceObserver {
     }
 
     private func fetchDisplaySpaces() -> [NSDictionary]? {
+        if let provider = displaySpacesProvider {
+            return provider()
+        }
         guard let rawDisplays = CGSCopyManagedDisplaySpaces(conn)?.takeRetainedValue() as? [NSDictionary] else {
             return nil
         }
@@ -487,7 +495,7 @@ class SpaceObserver {
 
     private func resolveSpaceName(
         from savedName: String?,
-        spaceByDesktopID: String,
+        spaceLabel: String,
         isFullScreen: Bool,
         spaceDict: [String: Any]
     ) -> String {
