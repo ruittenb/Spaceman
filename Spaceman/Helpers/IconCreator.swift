@@ -23,7 +23,7 @@ class IconCreator {
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("iconText") private var iconText = IconText.numbers
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
-    @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
+    @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
@@ -32,11 +32,6 @@ class IconCreator {
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
-
-    private var visibleSpacesMode: VisibleSpacesMode {
-        get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
-        set { visibleSpacesModeRaw = newValue.rawValue }
-    }
     private var displayCount = 1
     private var cellSize = NSSize(width: 0, height: 0)
     private var gapWidth = CGFloat.zero

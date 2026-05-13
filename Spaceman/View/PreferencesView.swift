@@ -25,17 +25,12 @@ struct PreferencesView: View {
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
 
-    @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
+    @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
-
-    private var visibleSpacesMode: VisibleSpacesMode {
-        get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
-        set { visibleSpacesModeRaw = newValue.rawValue }
-    }
 
     @StateObject private var prefsVM = PreferencesViewModel()
     @State private var selectedTab = 0
@@ -398,7 +393,7 @@ struct PreferencesView: View {
         .onChange(of: autoShrink) { _ in
             postSettingsChanged()
         }
-        .onChange(of: visibleSpacesModeRaw) { _ in
+        .onChange(of: visibleSpacesMode) { _ in
             postSettingsChanged()
         }
         .onChange(of: showFullscreenSpaces) { _ in
@@ -775,7 +770,7 @@ struct PreferencesView: View {
                     ForEach(VisibleSpacesMode.allCases, id: \.self) { mode in
                         let isSelected = visibleSpacesMode == mode
                         Button(mode.pickerLabel) {
-                            visibleSpacesModeRaw = mode.rawValue
+                            visibleSpacesMode = mode
                         }
                         .buttonStyle(.plain)
                         .padding(.horizontal, 8)
