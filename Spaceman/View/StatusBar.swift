@@ -283,7 +283,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     }
                     let menuOrigin = CGPoint(
                         x: buttonFrame.minX,
-                        y: buttonFrame.minY - CGFloat(self.iconCreator.sizes.FONT_SIZE) / 2)
+                        y: buttonFrame.minY - CGFloat(self.iconCreator.sizes.fontSize) / 2)
                     sbMenu.minimumWidth = Constants.minMenuWidth
                     sbMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
                     sbButton.isHighlighted = false

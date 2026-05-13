@@ -78,22 +78,22 @@ class IconCreator {
         // available, e.g. 25pt on a 13" and 31pt on a 16" MacBook Pro).
         if rowLayout.isTwoRows, let screen = NSScreen.main {
             let available = screen.frame.maxY - screen.visibleFrame.maxY
-            let fontSize = CGFloat(sizes.FONT_SIZE)
-            let totalHeight = 2 * (fontSize + 2 * sizes.VERTICAL_PADDING)
-                + sizes.GAP_HEIGHT_ROWS
+            let fontSize = CGFloat(sizes.fontSize)
+            let totalHeight = 2 * (fontSize + 2 * sizes.verticalPadding)
+                + sizes.gapHeightRows
             if totalHeight > available {
                 let excess = totalHeight - available
-                sizes.VERTICAL_PADDING = max(0, sizes.VERTICAL_PADDING - excess / 4)
+                sizes.verticalPadding = max(0, sizes.verticalPadding - excess / 4)
             }
         }
 
         let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
-        let actualFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
-        gapWidth = allNoDecoration ? 0 : CGFloat(sizes.GAP_WIDTH_SPACES)
-        displayGapWidth = allNoDecoration ? 0 : CGFloat(sizes.GAP_WIDTH_DISPLAYS)
+        let actualFontSize = CGFloat(sizes.fontSize) + (allNoDecoration ? 2 : 0)
+        gapWidth = allNoDecoration ? 0 : CGFloat(sizes.gapWidthSpaces)
+        displayGapWidth = allNoDecoration ? 0 : CGFloat(sizes.gapWidthDisplays)
         cellSize = NSSize(
             width: 0,
-            height: actualFontSize + sizes.VERTICAL_PADDING * 2)
+            height: actualFontSize + sizes.verticalPadding * 2)
 
         let switchIndexBySpaceID = Space.buildSwitchIndexMap(for: spaces)
 
@@ -117,7 +117,7 @@ class IconCreator {
         let equalizeNumbers = rowLayout.isTwoRows && effectiveDisplayStyle == .numbers
         if !useVariableWidth && (showsNames || equalizeNumbers) {
             let measureAttrs = getStringAttributes(alpha: 1, color: .black)
-            let padding = sizes.HORIZONTAL_PADDING * 2
+            let padding = sizes.horizontalPadding * 2
             minIconWidth = filteredSpaces.filter { !$0.isFullScreen }.reduce(CGFloat.zero) { widest, space in
                 // Build the same text string that createSpaceIcon() will render,
                 // so the width measurement matches the actual content.
@@ -211,7 +211,7 @@ class IconCreator {
         // 4. Calculate icon size (dynamic width based on text)
         let measureAttrs = getStringAttributes(alpha: 1, color: .black)
         let monoCharWidth = ("0" as NSString).size(withAttributes: measureAttrs).width
-        let padding = sizes.HORIZONTAL_PADDING * 2
+        let padding = sizes.horizontalPadding * 2
 
         let contentWidth = text.length > 0
             ? text.size(withAttributes: measureAttrs).width
@@ -231,7 +231,7 @@ class IconCreator {
         return renderIcon(
             text: text, size: size, decoration: decoration,
             boxColor: boxColor, useTemplate: useTemplate,
-            alpha: alpha, borderWidth: sizes.BORDER_WIDTH,
+            alpha: alpha, borderWidth: sizes.borderWidth,
             fontWeight: fontWeight)
     }
 
@@ -239,8 +239,8 @@ class IconCreator {
     /// Always uses medium layout sizing but mirrors the active icon style.
     public func createMenuItemIcon(space: Space, fraction: CGFloat = 0.6) -> NSImage {
         guard let menuSizes = Constants.sizes[.medium] else { return NSImage() }
-        let menuFontSize = CGFloat(menuSizes.FONT_SIZE)
-        let menuHeight = menuFontSize + menuSizes.VERTICAL_PADDING * 2
+        let menuFontSize = CGFloat(menuSizes.fontSize)
+        let menuHeight = menuFontSize + menuSizes.verticalPadding * 2
 
         let decoration = space.isFullScreen ? decorationActive.fullscreenVariant : decorationActive
 
@@ -256,13 +256,13 @@ class IconCreator {
 
         let text = NSString(string: space.spaceLabel)
         let measureAttrs = getStringAttributes(alpha: 1, fontSize: menuFontSize, color: .black)
-        let dynamicWidth = text.size(withAttributes: measureAttrs).width + menuSizes.HORIZONTAL_PADDING * 2
+        let dynamicWidth = text.size(withAttributes: measureAttrs).width + menuSizes.horizontalPadding * 2
         let size = NSSize(width: dynamicWidth, height: menuHeight)
 
         return renderIcon(
             text: text, size: size, decoration: decoration,
             boxColor: boxColor, useTemplate: useTemplate,
-            alpha: fraction, borderWidth: menuSizes.BORDER_WIDTH,
+            alpha: fraction, borderWidth: menuSizes.borderWidth,
             fontSize: menuFontSize)
     }
 
@@ -772,7 +772,7 @@ class IconCreator {
         let navColWidth = max(topNavWidth, bottomNavWidth)
         let navTotal = navIcons.isEmpty ? 0 : navColWidth + displayGapWidth
         let totalWidth = navTotal + columns.reduce(CGFloat(0)) { $0 + $1.width + $1.gapAfter }
-        let gap = sizes.GAP_HEIGHT_ROWS
+        let gap = sizes.gapHeightRows
         let imageHeight = cellSize.height * 2 + gap
         let image = NSImage(size: NSSize(width: totalWidth, height: imageHeight))
 
@@ -875,7 +875,7 @@ class IconCreator {
     ) -> [NSAttributedString.Key: Any] {
         let design = design ?? fontDesign.systemDesign
         let allNoDecoration = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
-        let baseFontSize = CGFloat(sizes.FONT_SIZE) + (allNoDecoration ? 2 : 0)
+        let baseFontSize = CGFloat(sizes.fontSize) + (allNoDecoration ? 2 : 0)
         let actualFontSize = fontSize == .zero ? baseFontSize : fontSize
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center

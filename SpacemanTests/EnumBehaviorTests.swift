@@ -156,26 +156,26 @@ final class EnumBehaviorTests: XCTestCase {
         // narrow and compact both map to compact
         let narrowSize = Constants.nearestTwoRowSize(for: .narrow)
         let compactSize = Constants.nearestTwoRowSize(for: .compact)
-        XCTAssertEqual(narrowSize.GAP_WIDTH_SPACES, compactSize.GAP_WIDTH_SPACES)
+        XCTAssertEqual(narrowSize.gapWidthSpaces, compactSize.gapWidthSpaces)
 
         // medium maps to medium (different from compact)
         let mediumSize = Constants.nearestTwoRowSize(for: .medium)
-        XCTAssertNotEqual(mediumSize.GAP_WIDTH_SPACES, compactSize.GAP_WIDTH_SPACES)
+        XCTAssertNotEqual(mediumSize.gapWidthSpaces, compactSize.gapWidthSpaces)
 
         // large, extraLarge, enormous all map to large
         let largeSize = Constants.nearestTwoRowSize(for: .large)
         let xlSize = Constants.nearestTwoRowSize(for: .extraLarge)
         let enormousSize = Constants.nearestTwoRowSize(for: .enormous)
-        XCTAssertEqual(largeSize.GAP_WIDTH_SPACES, xlSize.GAP_WIDTH_SPACES)
-        XCTAssertEqual(largeSize.GAP_WIDTH_SPACES, enormousSize.GAP_WIDTH_SPACES)
+        XCTAssertEqual(largeSize.gapWidthSpaces, xlSize.gapWidthSpaces)
+        XCTAssertEqual(largeSize.gapWidthSpaces, enormousSize.gapWidthSpaces)
     }
 
     func testNearestTwoRowSizeHasRowGap() {
-        // All two-row sizes should have a non-zero GAP_HEIGHT_ROWS
+        // All two-row sizes should have a non-zero gapHeightRows
         for size in IconSize.allCases {
             let guiSize = Constants.nearestTwoRowSize(for: size)
-            XCTAssertGreaterThan(guiSize.GAP_HEIGHT_ROWS, 0,
-                                 "Two-row size for \(size) should have non-zero GAP_HEIGHT_ROWS")
+            XCTAssertGreaterThan(guiSize.gapHeightRows, 0,
+                                 "Two-row size for \(size) should have non-zero gapHeightRows")
         }
     }
 
@@ -190,8 +190,8 @@ final class EnumBehaviorTests: XCTestCase {
     func testSingleRowSizesHaveZeroRowGap() {
         for size in IconSize.allCases {
             let guiSize = Constants.sizes[size]!
-            XCTAssertEqual(guiSize.GAP_HEIGHT_ROWS, 0,
-                           "Single-row size for \(size) should have zero GAP_HEIGHT_ROWS")
+            XCTAssertEqual(guiSize.gapHeightRows, 0,
+                           "Single-row size for \(size) should have zero gapHeightRows")
         }
     }
 
