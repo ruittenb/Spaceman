@@ -73,7 +73,7 @@ The icon font can be changed:
 
 You can use emoji to identify spaces!
 
-<img src="images/Button-8-Emoji.png" width="auto" height="40px">
+<img src="images/Button-8-Emoji-2.png" width="auto" height="40px">
 
 For ultra-compact mode, choose the Two Rows layout:
 
@@ -220,9 +220,9 @@ For space switching to work, you need to configure two things:
 
 Some appearance settings are also available directly from this menu.
 
-<img src="images/Menu-5.png" width="auto" height="auto">
+<img src="images/Menu-6.png" width="auto" height="auto">
 
-<img src="images/Menu-Grid-2.png" width="auto" height="auto">
+<img src="images/Menu-Grid-3.png" width="auto" height="auto">
 
 **Quick Rename Current Space**
 - Rename the current space on the fly via the right-click menu ("Rename Current Space…") or a configurable keyboard shortcut
