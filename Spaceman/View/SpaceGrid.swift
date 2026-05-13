@@ -73,7 +73,6 @@ struct SpaceGridMenuView: View {
 struct SpaceCellView: View {
     let space: Space
     var enabled: Bool = true
-    var fontScale: CGFloat = 1.0
     var showText: Bool = true
     var colorless: Bool = false
 
@@ -115,10 +114,10 @@ struct SpaceCellView: View {
         VStack(spacing: 1) {
             if showText {
                 Text(space.spaceLabel)
-                    .font(.system(size: 9 * fontScale,
+                    .font(.system(size: 9,
                                   weight: space.isCurrentSpace ? .bold : .regular))
                 Text(hasName ? space.spaceName : "\u{00A0}")
-                    .font(.system(size: 11 * fontScale, weight: space.isCurrentSpace ? .bold : .regular))
+                    .font(.system(size: 11, weight: space.isCurrentSpace ? .bold : .regular))
                     .lineLimit(1)
                     .truncationMode(.tail)
             }
