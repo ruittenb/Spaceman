@@ -1,4 +1,6 @@
 
+============================================================================
+
 osascript -e 'tell application "Spaceman" to switch to space number 3' # on display x ?
 
 Test how instant switching holds up with multiple desktops
@@ -6,6 +8,14 @@ Test how fullscreen-cross-display works or fails with instant switching
 
 Examine: displaying grids when there is more than one display
 
+============================================================================
+
+  Good, I've now read through the entire codebase. Here's my assessment.
+
+  StatusBar is large (~1000 lines) and handles menu construction, click handling, scroll handling, tooltips, quick rename panels, Sparkle updates, shortcut display, and grid vs
+  list switching. It's doing a lot.  Split or extract from StatusBar (quick rename, menu construction, scroll handling could be separate).
+
+============================================================================
 
 ┌────────────────────────┬────────────────────────────────────────────────────────────────┬─────────────────────────────────────────────────────────────────┐
 │ Scenario               │ Click in icon                                                  │ Menu option                                                     │

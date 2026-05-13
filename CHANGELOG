@@ -1,3 +1,4 @@
+1.21.1: Fixed color merge bug. Added menu icons. Refactored and code cleanup. More unit tests.
 1.21.0: Refactored responsabilities
 1.20.5: Refactored all scenarios and switching strategies
 1.20.4: Added option to switch between spaces instantly, or with a smooth or fast animation; refactor for improving code quality; quicker startup of MC
