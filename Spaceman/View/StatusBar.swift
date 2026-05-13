@@ -86,7 +86,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             action: #selector(updaterController.checkForUpdates(_:)),
             keyEquivalent: "")
         updatesItem.target = updaterController
-        updatesItem.image = NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: nil)
+        updatesItem.image = NSImage(systemSymbolName: "arrow.clockwise.icloud", accessibilityDescription: nil)
 
         // Set up update badge - start with no badge, show only when update available
         if #available(macOS 14.0, *) {
@@ -97,6 +97,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             title: String(localized: "Refresh"),
             action: #selector(refreshSpaces(_:)),
             keyEquivalent: "")
+        refreshItem.image = NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: nil)
         refreshItem.target = self
         Task { @MainActor in
             refreshItem.setShortcut(for: .refresh)
@@ -106,6 +107,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             title: String(localized: "Rename Current Space…"),
             action: #selector(quickRenameCurrentSpace(_:)),
             keyEquivalent: "")
+        quickRenameItem.image = NSImage(systemSymbolName: "tag", accessibilityDescription: nil)
         quickRenameItem.target = self
         Task { @MainActor in
             quickRenameItem.setShortcut(for: .quickRename)
@@ -115,6 +117,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             title: String(localized: "Preferences…"),
             action: #selector(showPreferencesWindow(_:)),
             keyEquivalent: "")
+        prefItem.image = NSImage(systemSymbolName: "gearshape", accessibilityDescription: nil)
         prefItem.target = self
         Task { @MainActor in
             prefItem.setShortcut(for: .preferences)
@@ -135,10 +138,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             rowLayoutSubmenu.addItem(item)
         }
         rowLayoutMenuItem = NSMenuItem(title: String(localized: "Row Layout"), action: nil, keyEquivalent: "")
+        rowLayoutMenuItem.image = NSImage(systemSymbolName: "rectangle.grid.1x2", accessibilityDescription: nil)
         rowLayoutMenuItem.submenu = rowLayoutSubmenu
 
         // Icon size submenu is rebuilt dynamically in menuWillOpen
         layoutMenuItem = NSMenuItem(title: String(localized: "Icon Size"), action: nil, keyEquivalent: "")
+        layoutMenuItem.image = NSImage(systemSymbolName: "aspectratio", accessibilityDescription: nil)
         layoutMenuItem.submenu = NSMenu()
 
         let iconStyleSubmenu = NSMenu()
@@ -156,6 +161,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             iconStyleSubmenu.addItem(item)
         }
         iconStyleMenuItem = NSMenuItem(title: String(localized: "Icon Text"), action: nil, keyEquivalent: "")
+        iconStyleMenuItem.image = NSImage(systemSymbolName: "textformat.abc", accessibilityDescription: nil)
         iconStyleMenuItem.submenu = iconStyleSubmenu
 
         let iconShapeSubmenu = NSMenu()
@@ -180,6 +186,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             iconShapeSubmenu.addItem(item)
         }
         iconShapeMenuItem = NSMenuItem(title: String(localized: "Icon Style"), action: nil, keyEquivalent: "")
+        iconShapeMenuItem.image = NSImage(systemSymbolName: "star", accessibilityDescription: nil)
         iconShapeMenuItem.submenu = iconShapeSubmenu
 
         let spacesShownSubmenu = NSMenu()
@@ -211,6 +218,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         spacesShownSubmenu.addItem(showArrowsItem)
 
         spacesShownMenuItem = NSMenuItem(title: String(localized: "Buttons Shown"), action: nil, keyEquivalent: "")
+        spacesShownMenuItem.image = NSImage(systemSymbolName: "square.split.2x2.fill", accessibilityDescription: nil)
         spacesShownMenuItem.submenu = spacesShownSubmenu
 
         statusBarMenu.addItem(about)
