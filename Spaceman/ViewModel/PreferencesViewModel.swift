@@ -34,21 +34,7 @@ class PreferencesViewModel: ObservableObject {
     func loadData() {
         let allSpaceNames = nameStore.loadAll()
         let filtered = allSpaceNames.filter { AppDelegate.activeSpaceIDs.contains($0.key) }
-
-        // Preserve any local changes (like colors) that might not be in the loaded data yet
-        var merged = filtered
-        for (key, existingInfo) in spaceNamesDict {
-            if let loadedInfo = filtered[key] {
-                // Prefer loaded data but keep local color if it's newer
-                if existingInfo.colorHex != nil && loadedInfo.colorHex == nil {
-                    var updated = loadedInfo
-                    updated.colorHex = existingInfo.colorHex
-                    merged[key] = updated
-                }
-            }
-        }
-
-        spaceNamesDict = merged
+        spaceNamesDict = filtered
         rebuildSortedSpaceNames()
     }
 
