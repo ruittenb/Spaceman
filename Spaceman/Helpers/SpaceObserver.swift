@@ -28,8 +28,12 @@ class SpaceObserver {
     private let workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
     private let defaults = UserDefaults.standard
-    private let nameStore = SpaceNameStore.shared
+    let nameStore: SpaceNameStore
     private let workerQueue = DispatchQueue(label: "dev.ruittenb.Spaceman.SpaceObserver")
+
+    /// Test injection point. When non-nil, `fetchDisplaySpaces()` returns this
+    /// instead of calling the private CG API.
+    var displaySpacesProvider: (() -> [NSDictionary]?)?
 
     /// When true, the next update uses position-based matching to handle ID reassignment after reboot/wake.
     /// Starts true so the first update after app launch uses position matching.
@@ -46,7 +50,8 @@ class SpaceObserver {
 
     weak var delegate: SpaceObserverDelegate?
 
-    init() {
+    init(nameStore: SpaceNameStore = .shared) {
+        self.nameStore = nameStore
         workspace.notificationCenter.addObserver(
             self,
             selector: #selector(handleSpaceSwitch),
@@ -375,6 +380,9 @@ class SpaceObserver {
     }
 
     private func fetchDisplaySpaces() -> [NSDictionary]? {
+        if let provider = displaySpacesProvider {
+            return provider()
+        }
         guard let rawDisplays = CGSCopyManagedDisplaySpaces(conn)?.takeRetainedValue() as? [NSDictionary] else {
             return nil
         }

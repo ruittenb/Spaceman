@@ -72,6 +72,7 @@
 		F605F4B85B7ADD5424BDDFAE /* SpaceNameResolutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */; };
 		F67105E91D29DA62516E5958 /* SpaceNameInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */; };
 		cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */; };
+		E7A1B2C3D4E5F6A7B8C9D0E1 /* SpaceObserverIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A1B2C3D4E5F6A7B8C9D0E2 /* SpaceObserverIntegrationTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumBehaviorTests.swift; path = SpacemanTests/EnumBehaviorTests.swift; sourceTree = "<group>"; };
 		C0F9A49EF2025B97049F7053 /* SpaceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceTests.swift; path = SpacemanTests/SpaceTests.swift; sourceTree = "<group>"; };
 		D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameResolutionTests.swift; path = SpacemanTests/SpaceNameResolutionTests.swift; sourceTree = "<group>"; };
+		E7A1B2C3D4E5F6A7B8C9D0E2 /* SpaceObserverIntegrationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceObserverIntegrationTests.swift; path = SpacemanTests/SpaceObserverIntegrationTests.swift; sourceTree = "<group>"; };
 		D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameInfoTests.swift; path = SpacemanTests/SpaceNameInfoTests.swift; sourceTree = "<group>"; };
 		E70044AB2E7F6584001C7295 /* RowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowLayout.swift; sourceTree = "<group>"; };
 		E70044AD2E80380B001C7295 /* OpenPreferencesCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPreferencesCommand.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				0F604F4F3D323E1E17C5AB87 /* SpaceFilterTests.swift */,
 				D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */,
 				D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */,
+				E7A1B2C3D4E5F6A7B8C9D0E2 /* SpaceObserverIntegrationTests.swift */,
 				C0F9A49EF2025B97049F7053 /* SpaceTests.swift */,
 				E763711F2FB21DAC00D05885 /* SwitchStrategyTests.swift */,
 			);
@@ -491,6 +494,7 @@
 				A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */,
 				E732CE9C2FAB095E00B2C067 /* ChainingStrategyTests.swift in Sources */,
 				A2B3C4D5E6F7A8B9C0D1E2F4 /* EnumBehaviorTests.swift in Sources */,
+				E7A1B2C3D4E5F6A7B8C9D0E1 /* SpaceObserverIntegrationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
