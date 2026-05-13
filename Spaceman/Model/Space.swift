@@ -12,7 +12,7 @@ struct Space: Equatable {
     var spaceID: String          // OS space ID
     var spaceName: String        // space name, user assigned
     var spaceNumber: Int         // space number, sequential, not restarted
-    var spaceByDesktopID: String // space number as shown (possibly restarted)
+    var spaceLabel: String // space number as shown (possibly restarted)
     var isCurrentSpace: Bool
     var isFullScreen: Bool
     var colorHex: String?        // Custom color tint (hex string)

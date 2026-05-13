@@ -681,7 +681,7 @@ struct PreferencesView: View {
                 // Show a text field per space entry (keyed to avoid index issues during updates)
                 ForEach(prefsVM.sortedSpaceNamesDict, id: \.key) { entry in
                     let info = entry.value
-                    let sbd = info.spaceByDesktopID
+                    let sbd = info.spaceLabel
                     let displayIndex = info.currentDisplayIndex ?? 1
                     let spacePart: String = sbd.hasPrefix("F")
                         ? "Full Screen " + String(Int(sbd.dropFirst()) ?? 0)

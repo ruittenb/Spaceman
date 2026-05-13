@@ -11,9 +11,9 @@ import XCTest
 final class SpaceNameInfoTests: XCTestCase {
 
     func testSpaceNameInfoHashable() {
-        let info1 = SpaceNameInfo(spaceNum: 1, spaceName: "Test", spaceByDesktopID: "1")
-        let info2 = SpaceNameInfo(spaceNum: 1, spaceName: "Test", spaceByDesktopID: "1")
-        let info3 = SpaceNameInfo(spaceNum: 2, spaceName: "Test", spaceByDesktopID: "2")
+        let info1 = SpaceNameInfo(spaceNum: 1, spaceName: "Test", spaceLabel: "1")
+        let info2 = SpaceNameInfo(spaceNum: 1, spaceName: "Test", spaceLabel: "1")
+        let info3 = SpaceNameInfo(spaceNum: 2, spaceName: "Test", spaceLabel: "2")
 
         XCTAssertEqual(info1, info2)
         XCTAssertNotEqual(info1, info3)
@@ -30,7 +30,7 @@ final class SpaceNameInfoTests: XCTestCase {
         let original = SpaceNameInfo(
             spaceNum: 3,
             spaceName: "Coding Test",
-            spaceByDesktopID: "3",
+            spaceLabel: "3",
             displayUUID: "test-uuid",
             positionOnDisplay: 2,
             currentDisplayIndex: 1,

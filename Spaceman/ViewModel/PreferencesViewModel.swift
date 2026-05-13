@@ -114,7 +114,7 @@ class PreferencesViewModel: ObservableObject {
         if sortedSpaceNamesDict.isEmpty {
             sortedSpaceNamesDict.append((
                 key: "0",
-                value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")))
+                value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceLabel: "1")))
         }
     }
 

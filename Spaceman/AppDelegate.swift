@@ -275,6 +275,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Remove obsolete UserDefaults keys
         UserDefaults.standard.removeObject(forKey: "spaceNameCache")
 
+        // Migrate spaceByDesktopID → spaceLabel inside the encoded spaceNames plist
+        if let data = UserDefaults.standard.data(forKey: "spaceNames"),
+           var outer = try? PropertyListSerialization.propertyList(
+               from: data, format: nil) as? [String: [String: Any]] {
+            var changed = false
+            for (key, var inner) in outer {
+                if let value = inner.removeValue(forKey: "spaceByDesktopID") {
+                    inner["spaceLabel"] = value
+                    outer[key] = inner
+                    changed = true
+                }
+            }
+            if changed,
+               let newData = try? PropertyListSerialization.data(
+                   fromPropertyList: outer, format: .binary, options: 0) {
+                UserDefaults.standard.set(newData, forKey: "spaceNames")
+            }
+        }
+
         // Migrate legacy hideInactiveSpaces to visibleSpacesMode
         if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil {
             let hideInactiveSpaces = UserDefaults.standard.bool(forKey: "hideInactiveSpaces")

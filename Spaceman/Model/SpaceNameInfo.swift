@@ -10,7 +10,7 @@ import Foundation
 struct SpaceNameInfo: Hashable, Codable {
     var spaceNum: Int
     var spaceName: String
-    var spaceByDesktopID: String
+    var spaceLabel: String
 
     // For resilience against ManagedSpaceID changes:
     var displayUUID: String?      // Physical display identifier

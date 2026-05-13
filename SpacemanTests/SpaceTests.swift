@@ -14,7 +14,7 @@ final class SpaceTests: XCTestCase {
 
     private func makeSpace(id: String, fullScreen: Bool = false) -> Space {
         Space(displayID: "d", spaceID: id, spaceName: "", spaceNumber: 0,
-              spaceByDesktopID: "0", isCurrentSpace: false, isFullScreen: fullScreen)
+              spaceLabel: "0", isCurrentSpace: false, isFullScreen: fullScreen)
     }
 
     func testBuildSwitchIndexMap_NoFullscreen() {
@@ -112,7 +112,7 @@ final class SpaceTests: XCTestCase {
         id: String, number: Int, fullScreen: Bool = false, current: Bool = false
     ) -> Space {
         Space(displayID: "d", spaceID: id, spaceName: "", spaceNumber: number,
-              spaceByDesktopID: "\(number)", isCurrentSpace: current, isFullScreen: fullScreen)
+              spaceLabel: "\(number)", isCurrentSpace: current, isFullScreen: fullScreen)
     }
 
     func testCanSwitch_regularDesktop() {
@@ -192,15 +192,15 @@ final class SpaceTests: XCTestCase {
         // Anchor on target display + arrows → reachable.
         let current = Space(
             displayID: "d1", spaceID: "s1", spaceName: "",
-            spaceNumber: 1, spaceByDesktopID: "1",
+            spaceNumber: 1, spaceLabel: "1",
             isCurrentSpace: true, isFullScreen: false)
         let anchor = Space(
             displayID: "d2", spaceID: "s2", spaceName: "",
-            spaceNumber: 2, spaceByDesktopID: "1",
+            spaceNumber: 2, spaceLabel: "1",
             isCurrentSpace: false, isFullScreen: false)
         let target = Space(
             displayID: "d2", spaceID: "s3", spaceName: "",
-            spaceNumber: 3, spaceByDesktopID: "2",
+            spaceNumber: 3, spaceLabel: "2",
             isCurrentSpace: false, isFullScreen: false)
         let spaces = [current, anchor, target]
         // Only anchor (s2) has an enabled shortcut, target (s3) does not
@@ -215,11 +215,11 @@ final class SpaceTests: XCTestCase {
         // Falls through to smooth check → shortcut exists → reachable.
         let current = Space(
             displayID: "d1", spaceID: "s1", spaceName: "",
-            spaceNumber: 1, spaceByDesktopID: "1",
+            spaceNumber: 1, spaceLabel: "1",
             isCurrentSpace: true, isFullScreen: false)
         let target = Space(
             displayID: "d2", spaceID: "s2", spaceName: "",
-            spaceNumber: 2, spaceByDesktopID: "1",
+            spaceNumber: 2, spaceLabel: "1",
             isCurrentSpace: false, isFullScreen: false)
         let spaces = [current, target]
         for mode: SwitchingMode in [.fast, .instant] {
@@ -233,11 +233,11 @@ final class SpaceTests: XCTestCase {
         // Current on d1, target fullscreen on d2 with no anchor on d2.
         let current = Space(
             displayID: "d1", spaceID: "s1", spaceName: "",
-            spaceNumber: 1, spaceByDesktopID: "1",
+            spaceNumber: 1, spaceLabel: "1",
             isCurrentSpace: true, isFullScreen: false)
         let target = Space(
             displayID: "d2", spaceID: "f1", spaceName: "",
-            spaceNumber: 2, spaceByDesktopID: "F1",
+            spaceNumber: 2, spaceLabel: "F1",
             isCurrentSpace: false, isFullScreen: true)
         let spaces = [current, target]
         for mode: SwitchingMode in [.fast, .instant] {

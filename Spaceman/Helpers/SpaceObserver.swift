@@ -295,13 +295,13 @@ class SpaceObserver {
 
                 positionOnThisDisplay += 1
 
-                let spaceByDesktopID: String
+                let spaceLabel: String
                 if isFullScreen {
                     lastFullScreenNumber += 1
-                    spaceByDesktopID = "F\(lastFullScreenNumber)"
+                    spaceLabel = "F\(lastFullScreenNumber)"
                 } else {
                     lastSpaceByDesktopNumber += 1
-                    spaceByDesktopID = String(lastSpaceByDesktopNumber)
+                    spaceLabel = String(lastSpaceByDesktopNumber)
                 }
 
                 let savedInfo = SpaceObserver.resolveSpaceNameInfo(
@@ -314,7 +314,7 @@ class SpaceObserver {
                 let savedName = savedInfo?.spaceName
                 let resolvedName = resolveSpaceName(
                     from: savedName,
-                    spaceByDesktopID: spaceByDesktopID,
+                    spaceLabel: spaceLabel,
                     isFullScreen: isFullScreen,
                     spaceDict: spaceDict)
 
@@ -323,7 +323,7 @@ class SpaceObserver {
                     spaceID: managedSpaceID,
                     spaceName: resolvedName,
                     spaceNumber: spaceNumber,
-                    spaceByDesktopID: spaceByDesktopID,
+                    spaceLabel: spaceLabel,
                     isCurrentSpace: isCurrentSpace,
                     isFullScreen: isFullScreen,
                     colorHex: savedInfo?.colorHex)
@@ -339,7 +339,7 @@ class SpaceObserver {
                 var nameInfo = SpaceNameInfo(
                     spaceNum: spaceNumber,
                     spaceName: resolvedName,
-                    spaceByDesktopID: spaceByDesktopID)
+                    spaceLabel: spaceLabel)
 
                 // During topology changes, if we found the entry by ID matching,
                 // preserve its stored display/position. The current position is
@@ -495,7 +495,7 @@ class SpaceObserver {
 
     private func resolveSpaceName(
         from savedName: String?,
-        spaceByDesktopID: String,
+        spaceLabel: String,
         isFullScreen: Bool,
         spaceDict: [String: Any]
     ) -> String {

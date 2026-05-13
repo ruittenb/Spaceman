@@ -123,10 +123,10 @@ class IconCreator {
                 // so the width measurement matches the actual content.
                 let text: NSString
                 if equalizeNumbers {
-                    text = NSString(string: space.spaceByDesktopID)
+                    text = NSString(string: space.spaceLabel)
                 } else if effectiveDisplayStyle == .numbersAndNames {
                     let cappedName = String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength)))
-                    text = NSString(string: "\(space.spaceByDesktopID):\(cappedName)")
+                    text = NSString(string: "\(space.spaceLabel):\(cappedName)")
                 } else {
                     text = NSString(
                         string: String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength)))
@@ -179,12 +179,12 @@ class IconCreator {
         case .noText:
             text = ""
         case .numbers:
-            text = NSString(string: space.spaceByDesktopID)
+            text = NSString(string: space.spaceLabel)
         case .names:
             text = NSString(string: String(space.spaceName.prefix(Constants.maxSpaceNameLength)))
         case .numbersAndNames:
             let name = String(space.spaceName.prefix(Constants.maxSpaceNameLength))
-            text = NSString(string: "\(space.spaceByDesktopID):\(name)")
+            text = NSString(string: "\(space.spaceLabel):\(name)")
         }
 
         // 2. Determine box color and template mode
@@ -254,7 +254,7 @@ class IconCreator {
             useTemplate = true
         }
 
-        let text = NSString(string: space.spaceByDesktopID)
+        let text = NSString(string: space.spaceLabel)
         let measureAttrs = getStringAttributes(alpha: 1, fontSize: menuFontSize, color: .black)
         let dynamicWidth = text.size(withAttributes: measureAttrs).width + menuSizes.HORIZONTAL_PADDING * 2
         let size = NSSize(width: dynamicWidth, height: menuHeight)
@@ -366,7 +366,7 @@ class IconCreator {
 
     private func makeNavSpace(label: String) -> Space {
         Space(displayID: "", spaceID: "nav-\(label)", spaceName: label,
-              spaceNumber: 0, spaceByDesktopID: label,
+              spaceNumber: 0, spaceLabel: label,
               isCurrentSpace: false, isFullScreen: false)
     }
 

@@ -35,9 +35,9 @@ final class PreferencesViewModelTests: XCTestCase {
 
     func testLoadData_filtersToActiveSpaces() {
         nameStore.save([
-            "1": SpaceNameInfo(spaceNum: 1, spaceName: "A", spaceByDesktopID: "1"),
-            "2": SpaceNameInfo(spaceNum: 2, spaceName: "B", spaceByDesktopID: "2"),
-            "3": SpaceNameInfo(spaceNum: 3, spaceName: "C", spaceByDesktopID: "3")
+            "1": SpaceNameInfo(spaceNum: 1, spaceName: "A", spaceLabel: "1"),
+            "2": SpaceNameInfo(spaceNum: 2, spaceName: "B", spaceLabel: "2"),
+            "3": SpaceNameInfo(spaceNum: 3, spaceName: "C", spaceLabel: "3")
         ])
         AppDelegate.activeSpaceIDs = ["1", "3"]
 
@@ -64,15 +64,15 @@ final class PreferencesViewModelTests: XCTestCase {
     func testSortedSpaceNames_sortsByDisplayThenPosition() {
         nameStore.save([
             "A": SpaceNameInfo(
-                spaceNum: 1, spaceName: "d2p1", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "d2p1", spaceLabel: "1",
                 displayUUID: "disp-2", positionOnDisplay: 1,
                 currentDisplayIndex: 2, currentSpaceNumber: 3),
             "B": SpaceNameInfo(
-                spaceNum: 2, spaceName: "d1p2", spaceByDesktopID: "2",
+                spaceNum: 2, spaceName: "d1p2", spaceLabel: "2",
                 displayUUID: "disp-1", positionOnDisplay: 2,
                 currentDisplayIndex: 1, currentSpaceNumber: 2),
             "C": SpaceNameInfo(
-                spaceNum: 3, spaceName: "d1p1", spaceByDesktopID: "1",
+                spaceNum: 3, spaceName: "d1p1", spaceLabel: "1",
                 displayUUID: "disp-1", positionOnDisplay: 1,
                 currentDisplayIndex: 1, currentSpaceNumber: 1)
         ])
@@ -88,7 +88,7 @@ final class PreferencesViewModelTests: XCTestCase {
 
     func testUpdateSpaceColor_persistsToStore() {
         nameStore.save([
-            "101": SpaceNameInfo(spaceNum: 1, spaceName: "TEST", spaceByDesktopID: "1")
+            "101": SpaceNameInfo(spaceNum: 1, spaceName: "TEST", spaceLabel: "1")
         ])
         AppDelegate.activeSpaceIDs = ["101"]
         vm.loadData()
@@ -102,10 +102,10 @@ final class PreferencesViewModelTests: XCTestCase {
     func testUpdateSpaceColor_preservesDisconnectedEntries() {
         nameStore.save([
             "101": SpaceNameInfo(
-                spaceNum: 1, spaceName: "ACTIVE", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "ACTIVE", spaceLabel: "1",
                 displayUUID: "display-A", positionOnDisplay: 1),
             "201": SpaceNameInfo(
-                spaceNum: 2, spaceName: "DISCONNECTED", spaceByDesktopID: "1",
+                spaceNum: 2, spaceName: "DISCONNECTED", spaceLabel: "1",
                 displayUUID: "display-B", positionOnDisplay: 1)
         ])
         AppDelegate.activeSpaceIDs = ["101"]  // Only 101 is active
@@ -123,12 +123,12 @@ final class PreferencesViewModelTests: XCTestCase {
     func testRemoveAllColors_clearsFromStoreAndMemory() {
         nameStore.save([
             "101": SpaceNameInfo(
-                spaceNum: 1, spaceName: "A", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "A", spaceLabel: "1",
                 displayUUID: nil, positionOnDisplay: nil,
                 currentDisplayIndex: nil, currentSpaceNumber: nil,
                 colorHex: "FF0000"),
             "102": SpaceNameInfo(
-                spaceNum: 2, spaceName: "B", spaceByDesktopID: "2",
+                spaceNum: 2, spaceName: "B", spaceLabel: "2",
                 displayUUID: nil, positionOnDisplay: nil,
                 currentDisplayIndex: nil, currentSpaceNumber: nil,
                 colorHex: "00FF00")
@@ -153,10 +153,10 @@ final class PreferencesViewModelTests: XCTestCase {
     func testPersistChanges_usesUpdateNotSave() {
         nameStore.save([
             "101": SpaceNameInfo(
-                spaceNum: 1, spaceName: "ACTIVE", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "ACTIVE", spaceLabel: "1",
                 displayUUID: "display-A", positionOnDisplay: 1),
             "201": SpaceNameInfo(
-                spaceNum: 2, spaceName: "DISCONNECTED", spaceByDesktopID: "1",
+                spaceNum: 2, spaceName: "DISCONNECTED", spaceLabel: "1",
                 displayUUID: "display-B", positionOnDisplay: 1)
         ])
         AppDelegate.activeSpaceIDs = ["101"]

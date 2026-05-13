@@ -606,7 +606,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             backing: .buffered,
             defer: false)
         panel.title = String(
-            localized: "Rename Space \(currentSpace.spaceByDesktopID)")
+            localized: "Rename Space \(currentSpace.spaceLabel)")
         panel.isFloatingPanel = true
         panel.level = .floating
         panel.titlebarAppearsTransparent = true

@@ -19,7 +19,7 @@ final class SwitchStrategyTests: XCTestCase {
     ) -> Space {
         Space(
             displayID: displayID, spaceID: id, spaceName: "",
-            spaceNumber: number, spaceByDesktopID: "\(number)",
+            spaceNumber: number, spaceLabel: "\(number)",
             isCurrentSpace: current, isFullScreen: fullScreen)
     }
 

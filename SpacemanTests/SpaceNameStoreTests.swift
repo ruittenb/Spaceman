@@ -33,7 +33,7 @@ final class SpaceNameStoreTests: XCTestCase {
 
     func testSaveAndLoad_roundTrip() {
         let entry = SpaceNameInfo(
-            spaceNum: 1, spaceName: "HOME", spaceByDesktopID: "1",
+            spaceNum: 1, spaceName: "HOME", spaceLabel: "1",
             displayUUID: "display-A", positionOnDisplay: 1,
             currentDisplayIndex: 1, currentSpaceNumber: 1,
             colorHex: "FF0000")
@@ -47,8 +47,8 @@ final class SpaceNameStoreTests: XCTestCase {
 
     func testUpdate_mergesIntoExisting() {
         store.save([
-            "101": SpaceNameInfo(spaceNum: 1, spaceName: "ONE", spaceByDesktopID: "1"),
-            "102": SpaceNameInfo(spaceNum: 2, spaceName: "TWO", spaceByDesktopID: "2")
+            "101": SpaceNameInfo(spaceNum: 1, spaceName: "ONE", spaceLabel: "1"),
+            "102": SpaceNameInfo(spaceNum: 2, spaceName: "TWO", spaceLabel: "2")
         ])
 
         store.update { names in
@@ -65,10 +65,10 @@ final class SpaceNameStoreTests: XCTestCase {
         // Simulate disconnected display entry
         store.save([
             "101": SpaceNameInfo(
-                spaceNum: 1, spaceName: "LAPTOP", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "LAPTOP", spaceLabel: "1",
                 displayUUID: "display-A", positionOnDisplay: 1),
             "201": SpaceNameInfo(
-                spaceNum: 2, spaceName: "MONITOR", spaceByDesktopID: "1",
+                spaceNum: 2, spaceName: "MONITOR", spaceLabel: "1",
                 displayUUID: "display-B", positionOnDisplay: 1)
         ])
 
@@ -84,7 +84,7 @@ final class SpaceNameStoreTests: XCTestCase {
     }
 
     func testConcurrentReadsAndWrites_noCorruption() {
-        store.save(["101": SpaceNameInfo(spaceNum: 1, spaceName: "INIT", spaceByDesktopID: "1")])
+        store.save(["101": SpaceNameInfo(spaceNum: 1, spaceName: "INIT", spaceLabel: "1")])
 
         let group = DispatchGroup()
         let iterations = 100

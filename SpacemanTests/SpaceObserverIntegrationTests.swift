@@ -141,7 +141,7 @@ final class SpaceObserverIntegrationTests: XCTestCase {
     func testFirstUpdate_usesIdWithPositionFallback_matchesByPosition() {
         // Pre-store a name at position 1 on display-A, under a DIFFERENT space ID
         nameStore.save(["999": SpaceNameInfo(
-            spaceNum: 1, spaceName: "HOME", spaceByDesktopID: "1",
+            spaceNum: 1, spaceName: "HOME", spaceLabel: "1",
             displayUUID: "display-A", positionOnDisplay: 1)])
 
         observer.displaySpacesProvider = {
@@ -175,7 +175,7 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // Store a name under ID "101"
         nameStore.update { stored in
             stored["101"] = SpaceNameInfo(
-                spaceNum: 1, spaceName: "WORK", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "WORK", spaceLabel: "1",
                 displayUUID: "display-A", positionOnDisplay: 1)
         }
 
@@ -200,10 +200,10 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // Store names under their IDs
         nameStore.update { stored in
             stored["101"] = SpaceNameInfo(
-                spaceNum: 1, spaceName: "FIRST", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "FIRST", spaceLabel: "1",
                 displayUUID: "display-A", positionOnDisplay: 1)
             stored["102"] = SpaceNameInfo(
-                spaceNum: 2, spaceName: "SECOND", spaceByDesktopID: "2",
+                spaceNum: 2, spaceName: "SECOND", spaceLabel: "2",
                 displayUUID: "display-A", positionOnDisplay: 2)
         }
 
@@ -240,10 +240,10 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // Store names at known positions
         nameStore.update { stored in
             stored["101"] = SpaceNameInfo(
-                spaceNum: 1, spaceName: "POS1", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "POS1", spaceLabel: "1",
                 displayUUID: "display-A", positionOnDisplay: 1)
             stored["102"] = SpaceNameInfo(
-                spaceNum: 2, spaceName: "POS2", spaceByDesktopID: "2",
+                spaceNum: 2, spaceName: "POS2", spaceLabel: "2",
                 displayUUID: "display-A", positionOnDisplay: 2)
         }
 
@@ -282,10 +282,10 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // Store names
         nameStore.update { stored in
             stored["101"] = SpaceNameInfo(
-                spaceNum: 1, spaceName: "ALPHA", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "ALPHA", spaceLabel: "1",
                 displayUUID: "display-A", positionOnDisplay: 1)
             stored["102"] = SpaceNameInfo(
-                spaceNum: 2, spaceName: "BETA", spaceByDesktopID: "2",
+                spaceNum: 2, spaceName: "BETA", spaceLabel: "2",
                 displayUUID: "display-A", positionOnDisplay: 2)
         }
 
@@ -334,10 +334,10 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // Store names under their IDs
         nameStore.update { stored in
             stored["101"] = SpaceNameInfo(
-                spaceNum: 1, spaceName: "LAPTOP", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "LAPTOP", spaceLabel: "1",
                 displayUUID: "display-A", positionOnDisplay: 1)
             stored["201"] = SpaceNameInfo(
-                spaceNum: 2, spaceName: "EXTERN", spaceByDesktopID: "2",
+                spaceNum: 2, spaceName: "EXTERN", spaceLabel: "2",
                 displayUUID: "display-B", positionOnDisplay: 1)
         }
 
@@ -390,10 +390,10 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // Store names under IDs (these should survive topology-aware matching)
         nameStore.update { stored in
             stored["101"] = SpaceNameInfo(
-                spaceNum: 1, spaceName: "ONE", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "ONE", spaceLabel: "1",
                 displayUUID: "display-A", positionOnDisplay: 1)
             stored["102"] = SpaceNameInfo(
-                spaceNum: 2, spaceName: "TWO", spaceByDesktopID: "2",
+                spaceNum: 2, spaceName: "TWO", spaceLabel: "2",
                 displayUUID: "display-A", positionOnDisplay: 2)
         }
 
@@ -436,7 +436,7 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // Now store a name under the correct display-B
         nameStore.update { stored in
             stored["101"] = SpaceNameInfo(
-                spaceNum: 1, spaceName: "SETTLED", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "SETTLED", spaceLabel: "1",
                 displayUUID: "display-B", positionOnDisplay: 1)
         }
 
@@ -469,7 +469,7 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // Store name for external display space
         nameStore.update { stored in
             stored["201"] = SpaceNameInfo(
-                spaceNum: 3, spaceName: "EXT", spaceByDesktopID: "1",
+                spaceNum: 3, spaceName: "EXT", spaceLabel: "1",
                 displayUUID: "display-B", positionOnDisplay: 1)
         }
 
@@ -511,7 +511,7 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // Store "EXT" on display-B, pos 1
         nameStore.update { stored in
             stored["201"] = SpaceNameInfo(
-                spaceNum: 2, spaceName: "EXT", spaceByDesktopID: "1",
+                spaceNum: 2, spaceName: "EXT", spaceLabel: "1",
                 displayUUID: "display-B", positionOnDisplay: 1)
         }
 
@@ -573,10 +573,10 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // Store names for both displays
         nameStore.update { stored in
             stored["101"] = SpaceNameInfo(
-                spaceNum: 1, spaceName: "LAPTOP", spaceByDesktopID: "1",
+                spaceNum: 1, spaceName: "LAPTOP", spaceLabel: "1",
                 displayUUID: "display-A", positionOnDisplay: 1)
             stored["201"] = SpaceNameInfo(
-                spaceNum: 2, spaceName: "MONITOR", spaceByDesktopID: "1",
+                spaceNum: 2, spaceName: "MONITOR", spaceLabel: "1",
                 displayUUID: "display-B", positionOnDisplay: 1)
         }
 
@@ -666,7 +666,7 @@ final class SpaceObserverIntegrationTests: XCTestCase {
 
     func testColorHex_isPassedToSpace() {
         nameStore.save(["101": SpaceNameInfo(
-            spaceNum: 1, spaceName: "RED", spaceByDesktopID: "1",
+            spaceNum: 1, spaceName: "RED", spaceLabel: "1",
             displayUUID: "display-A", positionOnDisplay: 1,
             currentDisplayIndex: nil, currentSpaceNumber: nil,
             colorHex: "FF0000")])
@@ -703,9 +703,9 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         runUpdate()
 
         // With restart numbering, each display starts from "1"
-        XCTAssertEqual(delegate.receivedSpaces[0].spaceByDesktopID, "1")
-        XCTAssertEqual(delegate.receivedSpaces[1].spaceByDesktopID, "2")
-        XCTAssertEqual(delegate.receivedSpaces[2].spaceByDesktopID, "1",
+        XCTAssertEqual(delegate.receivedSpaces[0].spaceLabel, "1")
+        XCTAssertEqual(delegate.receivedSpaces[1].spaceLabel, "2")
+        XCTAssertEqual(delegate.receivedSpaces[2].spaceLabel, "1",
                        "Second display should restart numbering at 1")
     }
 
@@ -722,9 +722,9 @@ final class SpaceObserverIntegrationTests: XCTestCase {
 
         runUpdate()
 
-        XCTAssertEqual(delegate.receivedSpaces[0].spaceByDesktopID, "1")
-        XCTAssertEqual(delegate.receivedSpaces[1].spaceByDesktopID, "F1")
-        XCTAssertEqual(delegate.receivedSpaces[2].spaceByDesktopID, "F2")
+        XCTAssertEqual(delegate.receivedSpaces[0].spaceLabel, "1")
+        XCTAssertEqual(delegate.receivedSpaces[1].spaceLabel, "F1")
+        XCTAssertEqual(delegate.receivedSpaces[2].spaceLabel, "F2")
     }
 
     // MARK: - Resolve Space Name Fallbacks
