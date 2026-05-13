@@ -42,8 +42,10 @@ struct SpaceGridMenuView: View {
                 if groupIdx > 0 {
                     Divider().padding(.vertical, 2)
                 }
+                let colCount = max(1, min(gridColumns, group.count))
                 let columns = Array(repeating: GridItem(.flexible(), spacing: 4),
-                                    count: max(1, min(gridColumns, group.count)))
+                                    count: colCount)
+                let cellHeight: CGFloat = 50
                 LazyVGrid(columns: columns, spacing: 4) {
                     ForEach(Array(group.enumerated()), id: \.element.spaceID) { _, space in
                         let enabledTag = enabledSwitchMap[space.spaceID]
@@ -54,6 +56,7 @@ struct SpaceGridMenuView: View {
                             enabledSwitchMap: enabledSwitchMap,
                             hasArrowShortcuts: hasArrowShortcuts)
                         SpaceCellView(space: space, enabled: enabled)
+                            .frame(height: cellHeight)
                             .onTapGesture {
                                 guard enabled else { return }
                                 onSwitch(Space.switchTag(
