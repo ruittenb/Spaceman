@@ -11,7 +11,7 @@ import Foundation
 /// Each field replaces the corresponding user preference for one render pass.
 struct ShrinkOverrides {
     let iconSize: IconSize
-    let displayStyle: IconText
+    let iconText: IconText
     let showFullscreenSpaces: Bool
     let showNavArrows: Bool
     let showMissionControl: Bool

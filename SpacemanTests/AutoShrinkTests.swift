@@ -39,13 +39,13 @@ final class AutoShrinkTests: XCTestCase {
     func testShrinkOverridesFields() {
         let overrides = ShrinkOverrides(
             iconSize: .compact,
-            displayStyle: .numbers,
+            iconText: .numbers,
             showFullscreenSpaces: false,
             showNavArrows: false,
             showMissionControl: false)
 
         XCTAssertEqual(overrides.iconSize, .compact)
-        XCTAssertEqual(overrides.displayStyle, .numbers)
+        XCTAssertEqual(overrides.iconText, .numbers)
         XCTAssertFalse(overrides.showFullscreenSpaces)
         XCTAssertFalse(overrides.showNavArrows)
         XCTAssertFalse(overrides.showMissionControl)
@@ -57,7 +57,7 @@ final class AutoShrinkTests: XCTestCase {
         // is more horizontally compact than single-row.
         let mirror = Mirror(reflecting: ShrinkOverrides(
             iconSize: .compact,
-            displayStyle: .numbers,
+            iconText: .numbers,
             showFullscreenSpaces: false,
             showNavArrows: false,
             showMissionControl: false))

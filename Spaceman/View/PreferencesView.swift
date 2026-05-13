@@ -13,7 +13,7 @@ import SwiftUI
 struct PreferencesView: View {
     private let subItemIndent: CGFloat = 20
 
-    @AppStorage("displayStyle") private var displayStyle = IconText.numbers
+    @AppStorage("iconText") private var iconText = IconText.numbers
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
     @AppStorage("decorationInactive") private var decorationInactive = IconStyle.borderedRounded
     @AppStorage("useVariableWidth") private var useVariableWidth = false
@@ -352,7 +352,7 @@ struct PreferencesView: View {
             fontDesignPicker
             activeIconStylePicker
             inactiveIconStylePicker
-            if displayStyle == .noText && decorationActive.isNoDecoration && decorationInactive.isNoDecoration {
+            if iconText == .noText && decorationActive.isNoDecoration && decorationInactive.isNoDecoration {
                 HStack(spacing: 4) {
                     Image(systemName: "exclamationmark.triangle.fill")
                     Text("Icons will be invisible with these settings.")
@@ -587,7 +587,7 @@ struct PreferencesView: View {
         HStack(spacing: 12) {
             Text("Icon text")
             Spacer()
-            Picker("", selection: $displayStyle) {
+            Picker("", selection: $iconText) {
                 Text("No text").tag(IconText.noText)
                 Text("Numbers").tag(IconText.numbers)
                 Text("Names").tag(IconText.names)
@@ -595,7 +595,7 @@ struct PreferencesView: View {
             }
             .fixedSize()
         }
-        .onChange(of: displayStyle) { _ in
+        .onChange(of: iconText) { _ in
             postSettingsChanged()
         }
     }
@@ -604,7 +604,7 @@ struct PreferencesView: View {
         HStack(spacing: 12) {
             Text("Font")
                 .fixedSize()
-                .foregroundColor(displayStyle != .noText ? .primary : .secondary)
+                .foregroundColor(iconText != .noText ? .primary : .secondary)
                 .padding(.leading, subItemIndent)
             Spacer(minLength: 8)
             Picker("", selection: $fontDesign) {
@@ -614,7 +614,7 @@ struct PreferencesView: View {
             }
             .fixedSize()
         }
-        .disabled(displayStyle == .noText)
+        .disabled(iconText == .noText)
         .onChange(of: fontDesign) { _ in
             postSettingsChanged()
         }

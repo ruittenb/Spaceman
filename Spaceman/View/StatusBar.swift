@@ -11,7 +11,7 @@ import SwiftUI
 
 class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
-    @AppStorage("displayStyle") private var displayStyle = IconText.numbers
+    @AppStorage("iconText") private var iconText = IconText.numbers
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
@@ -671,7 +671,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let ud = UserDefaults.standard
         let currentRowLayout = RowLayout(rawValue: ud.integer(forKey: "rowLayout")) ?? .singleRow
         let currentIconSize = IconSize(rawValue: ud.integer(forKey: "iconSize")) ?? .medium
-        let currentDisplayStyle = IconText(rawValue: ud.integer(forKey: "displayStyle")) ?? .numbers
+        let currentDisplayStyle = IconText(rawValue: ud.integer(forKey: "iconText")) ?? .numbers
         let currentFontDesign = FontDesign(rawValue: ud.integer(forKey: "fontDesign")) ?? .monospaced
         let currentUseVariableWidth = ud.bool(forKey: "useVariableWidth")
         let currentDecorationActive = IconStyle(rawValue: ud.integer(forKey: "decorationActive")) ?? .filledRounded
@@ -776,7 +776,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func selectIconStyle(_ sender: NSMenuItem) {
         guard let style = IconText(rawValue: sender.tag) else { return }
-        displayStyle = style
+        iconText = style
         postSettingsChanged()
     }
 

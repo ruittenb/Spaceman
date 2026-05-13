@@ -21,7 +21,7 @@ struct SpaceIconInfo {
 
 class IconCreator {
     @AppStorage("iconSize") private var iconSize = IconSize.medium
-    @AppStorage("displayStyle") private var displayStyle = IconText.numbers
+    @AppStorage("iconText") private var iconText = IconText.numbers
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
     @AppStorage("neighborRadius") private var neighborRadius = 1
@@ -58,7 +58,7 @@ class IconCreator {
     private var activeShrinkOverrides: ShrinkOverrides?
 
     private var effectiveIconSize: IconSize { activeShrinkOverrides?.iconSize ?? iconSize }
-    private var effectiveDisplayStyle: IconText { activeShrinkOverrides?.displayStyle ?? displayStyle }
+    private var effectiveDisplayStyle: IconText { activeShrinkOverrides?.iconText ?? iconText }
     private var effectiveShowFullscreen: Bool { activeShrinkOverrides?.showFullscreenSpaces ?? showFullscreenSpaces }
     private var effectiveShowNavArrows: Bool { activeShrinkOverrides?.showNavArrows ?? showNavArrows }
     private var effectiveShowMissionControl: Bool { activeShrinkOverrides?.showMissionControl ?? showMissionControl }
