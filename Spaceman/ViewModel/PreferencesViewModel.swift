@@ -10,7 +10,7 @@ import SwiftUI
 
 class PreferencesViewModel: ObservableObject {
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
-    private let nameStore = SpaceNameStore.shared
+    let nameStore: SpaceNameStore
     @Published var spaceNamesDict: [String: SpaceNameInfo] = [:]
     @Published var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element] = []
     @Published var backupStatusMessage: String?
@@ -25,7 +25,8 @@ class PreferencesViewModel: ObservableObject {
     private static let settingsFile = settingsDirectory.appendingPathComponent("app-defaults.xml")
     private static let bundleIdentifier = Bundle.main.bundleIdentifier ?? "dev.ruittenb.Spaceman"
 
-    init() {
+    init(nameStore: SpaceNameStore = .shared) {
+        self.nameStore = nameStore
         timer = Timer()
         if autoRefreshSpaces { startTimer() }
         refreshBackupDate()

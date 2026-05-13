@@ -681,4 +681,101 @@ final class SpaceObserverIntegrationTests: XCTestCase {
 
         XCTAssertEqual(delegate.receivedSpaces[0].colorHex, "FF0000")
     }
+
+    // MARK: - Restart Numbering By Display
+
+    func testRestartNumberingByDisplay() {
+        UserDefaults.standard.set(true, forKey: "restartNumberingByDisplay")
+        defer { UserDefaults.standard.removeObject(forKey: "restartNumberingByDisplay") }
+
+        observer.displaySpacesProvider = {
+            [
+                makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
+                    (id: 101, isFullScreen: false),
+                    (id: 102, isFullScreen: false)
+                ]),
+                makeDisplay(id: "display-B", currentSpaceID: 201, spaces: [
+                    (id: 201, isFullScreen: false)
+                ])
+            ]
+        }
+
+        runUpdate()
+
+        // With restart numbering, each display starts from "1"
+        XCTAssertEqual(delegate.receivedSpaces[0].spaceByDesktopID, "1")
+        XCTAssertEqual(delegate.receivedSpaces[1].spaceByDesktopID, "2")
+        XCTAssertEqual(delegate.receivedSpaces[2].spaceByDesktopID, "1",
+                       "Second display should restart numbering at 1")
+    }
+
+    // MARK: - Fullscreen Space Labeling
+
+    func testFullScreenSpace_getsF_prefix() {
+        observer.displaySpacesProvider = {
+            [makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
+                (id: 101, isFullScreen: false),
+                (id: 102, isFullScreen: true),
+                (id: 103, isFullScreen: true)
+            ])]
+        }
+
+        runUpdate()
+
+        XCTAssertEqual(delegate.receivedSpaces[0].spaceByDesktopID, "1")
+        XCTAssertEqual(delegate.receivedSpaces[1].spaceByDesktopID, "F1")
+        XCTAssertEqual(delegate.receivedSpaces[2].spaceByDesktopID, "F2")
+    }
+
+    // MARK: - Resolve Space Name Fallbacks
+
+    func testResolveSpaceName_noStoredName_showsDashes() {
+        observer.displaySpacesProvider = {
+            [makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
+                (id: 101, isFullScreen: false)
+            ])]
+        }
+
+        // No pre-stored name → should show "---"
+        runUpdate()
+
+        XCTAssertEqual(delegate.receivedSpaces[0].spaceName, "---")
+    }
+
+    func testResolveSpaceName_fullscreen_noStoredName_showsFULL() {
+        observer.displaySpacesProvider = {
+            [makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
+                (id: 101, isFullScreen: false),
+                (id: 102, isFullScreen: true)
+            ])]
+        }
+
+        // No stored name and no PID in the space dict → should show "FULL"
+        runUpdate()
+
+        XCTAssertEqual(delegate.receivedSpaces[1].spaceName, "FULL")
+    }
+
+    // MARK: - Current Display Index
+
+    func testCurrentDisplayIndex_assignedPerDisplay() {
+        observer.displaySpacesProvider = {
+            [
+                makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
+                    (id: 101, isFullScreen: false),
+                    (id: 102, isFullScreen: false)
+                ]),
+                makeDisplay(id: "display-B", currentSpaceID: 201, spaces: [
+                    (id: 201, isFullScreen: false)
+                ])
+            ]
+        }
+
+        runUpdate()
+
+        let stored = nameStore.loadAll()
+        XCTAssertEqual(stored["101"]?.currentDisplayIndex, 1)
+        XCTAssertEqual(stored["102"]?.currentDisplayIndex, 1)
+        XCTAssertEqual(stored["201"]?.currentDisplayIndex, 2)
+    }
 }
