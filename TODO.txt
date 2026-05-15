@@ -1,5 +1,4 @@
 
-
 ============================================================================
 TESTING
 ============================================================================
@@ -16,14 +15,6 @@ AUTOMATION: SWITCH DISPLAYS
 osascript -e 'tell application "Spaceman" to switch to space number 3 [ on display x ]'
 
 ============================================================================
-TRANSPARENT SCREEN OVERLAY
-============================================================================
-
-When switching spaces, it would be nice to display the spaces grid in a transparent overlay.
-This'll help in refreshing the user's memory of the spaces layout.
-Something like Totalspaces2 ?
-
-============================================================================
 REFACTORING
 ============================================================================
 
@@ -31,7 +22,6 @@ StatusBar is large (~1000 lines) and handles menu construction, click handling,
 scroll handling, tooltips, quick rename panels, Sparkle updates, shortcut display,
 and grid vs list switching. It's doing a lot.  Split or extract from StatusBar
 (quick rename, menu construction, scroll handling could be separate).
-
 
 ============================================================================
 SLANTED ICON SHAPES: triangles and trapezoids

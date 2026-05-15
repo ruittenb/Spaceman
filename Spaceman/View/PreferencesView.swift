@@ -24,6 +24,7 @@ struct PreferencesView: View {
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
+    @AppStorage("showHUD") private var showHUD = false
 
     @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
@@ -494,6 +495,7 @@ struct PreferencesView: View {
                     .frame(width: 240)
                 }
             }
+            Toggle("Show HUD when switching spaces", isOn: $showHUD)
         }
     }
 
