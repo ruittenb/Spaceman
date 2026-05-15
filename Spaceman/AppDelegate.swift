@@ -422,12 +422,10 @@ extension AppDelegate: SpaceObserverDelegate {
     func didUpdateSpaces(spaces: [Space], trigger: SpaceUpdateTrigger) {
         currentSpaces = spaces
 
-        if showHUD && trigger == .spaceSwitch {
-            let current = spaces.first { $0.isCurrentSpace && !$0.isFullScreen }
-            if let current = current,
-               let screen = HUDPanel.screen(forDisplayID: current.displayID) {
-                hudPanel.show(spaces: spaces, on: screen)
-            }
+        if let displayID = HUDPanel.targetDisplayID(
+            spaces: spaces, trigger: trigger, showHUD: showHUD),
+           let screen = HUDPanel.screen(forDisplayID: displayID) {
+            hudPanel.show(spaces: spaces, on: screen)
         }
 
         statusBar.reloadShortcuts()

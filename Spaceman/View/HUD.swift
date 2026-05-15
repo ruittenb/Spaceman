@@ -82,6 +82,32 @@ class HUDPanel {
         })
     }
 
+    /// Determine the display ID for the HUD, if it should be shown.
+    /// Returns nil if the HUD should not appear (wrong trigger, fullscreen only, etc.).
+    static func targetDisplayID(
+        spaces: [Space], trigger: SpaceUpdateTrigger, showHUD: Bool
+    ) -> String? {
+        guard showHUD && trigger == .spaceSwitch else { return nil }
+        return spaces.first { $0.isCurrentSpace && !$0.isFullScreen }?.displayID
+    }
+
+    /// Group spaces by display, preserving order.
+    static func spacesByDisplay(_ spaces: [Space]) -> [[Space]] {
+        var groups: [[Space]] = []
+        var currentGroup: [Space] = []
+        var lastDisplayID: String?
+        for space in spaces {
+            if let last = lastDisplayID, last != space.displayID {
+                groups.append(currentGroup)
+                currentGroup = []
+            }
+            currentGroup.append(space)
+            lastDisplayID = space.displayID
+        }
+        if !currentGroup.isEmpty { groups.append(currentGroup) }
+        return groups
+    }
+
     /// Find the NSScreen corresponding to a display UUID string from CGSCopyManagedDisplaySpaces.
     static func screen(forDisplayID displayID: String) -> NSScreen? {
         let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, displayID as CFString)
@@ -103,19 +129,7 @@ struct HUDView: View {
     @AppStorage("gridColumns") private var gridColumns: Int = 3
 
     private var spacesByDisplay: [[Space]] {
-        var groups: [[Space]] = []
-        var currentGroup: [Space] = []
-        var lastDisplayID: String?
-        for space in spaces {
-            if let last = lastDisplayID, last != space.displayID {
-                groups.append(currentGroup)
-                currentGroup = []
-            }
-            currentGroup.append(space)
-            lastDisplayID = space.displayID
-        }
-        if !currentGroup.isEmpty { groups.append(currentGroup) }
-        return groups
+        HUDPanel.spacesByDisplay(spaces)
     }
 
     private static let cellWidth: CGFloat = 100
