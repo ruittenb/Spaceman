@@ -49,7 +49,7 @@ class HUDPanel {
             p.isOpaque = false
             p.hasShadow = false
             p.ignoresMouseEvents = true
-            p.collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle]
+            p.collectionBehavior = [.canJoinAllSpaces, .ignoresCycle]
             p.contentView = hosting
 
             let screenFrame = screen.visibleFrame
