@@ -103,7 +103,7 @@ struct SpaceCellView: View {
 
     private var colorlessCellColor: Color {
         if colorless {
-            return space.isCurrentSpace ? Color.accentColor : Color.gray.opacity(0.5)
+            return space.isCurrentSpace ? Color.accentColor : Color(white: 0.25).opacity(0.5)
         }
         return cellColor.opacity(cellAlpha)
     }

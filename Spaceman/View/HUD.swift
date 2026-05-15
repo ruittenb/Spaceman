@@ -47,7 +47,7 @@ class HUDPanel {
             p.level = .floating
             p.backgroundColor = .clear
             p.isOpaque = false
-            p.hasShadow = false
+            p.hasShadow = true
             p.ignoresMouseEvents = true
             p.collectionBehavior = [.canJoinAllSpaces, .ignoresCycle]
             p.contentView = hosting
@@ -151,8 +151,23 @@ struct HUDView: View {
             }
         }
         .padding(Self.padding)
-        .background(.ultraThinMaterial.opacity(0.8))
+        .background(HUDBackground())
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(white: 0.25).opacity(0.5), lineWidth: 0.5))
         .frame(width: gridWidth)
     }
+}
+
+/// NSVisualEffectView with .hudWindow material.
+/// Automatically falls back to a solid color when Reduce Transparency is on.
+struct HUDBackground: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let view = NSVisualEffectView()
+        view.material = .hudWindow
+        view.state = .active
+        view.blendingMode = .behindWindow
+        return view
+    }
+
+    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {}
 }
