@@ -82,13 +82,30 @@ class HUDPanel {
         })
     }
 
-    /// Determine the display ID for the HUD, if it should be shown.
-    /// Returns nil if the HUD should not appear (wrong trigger, fullscreen only, etc.).
+    /// Determine the display ID where a space switch occurred.
+    /// Compares previous and current spaces to find which display's active space changed.
+    /// Returns nil if the HUD should not appear (wrong trigger, fullscreen, no change detected).
     static func targetDisplayID(
-        spaces: [Space], trigger: SpaceUpdateTrigger, showHUD: Bool
+        spaces: [Space], previousSpaces: [Space],
+        trigger: SpaceUpdateTrigger, showHUD: Bool
     ) -> String? {
         guard showHUD && trigger == .spaceSwitch else { return nil }
-        return spaces.first { $0.isCurrentSpace && !$0.isFullScreen }?.displayID
+
+        // Build a map of displayID → current spaceID for old and new state
+        let oldCurrent = Dictionary(
+            previousSpaces.filter(\.isCurrentSpace).map { ($0.displayID, $0.spaceID) },
+            uniquingKeysWith: { first, _ in first })
+        let newCurrent = Dictionary(
+            spaces.filter(\.isCurrentSpace).map { ($0.displayID, $0.spaceID) },
+            uniquingKeysWith: { first, _ in first })
+
+        // Find the display where the active space changed
+        for (displayID, newSpaceID) in newCurrent where oldCurrent[displayID] != newSpaceID {
+            // Skip if the new current space on this display is fullscreen
+            let isFull = spaces.first { $0.spaceID == newSpaceID }?.isFullScreen ?? false
+            if !isFull { return displayID }
+        }
+        return nil
     }
 
     /// Group spaces by display, preserving order.
