@@ -3824,6 +3824,40 @@
         }
       }
     },
+    "Show HUD when switching spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HUD beim Space-Wechsel anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar HUD al cambiar de escritorio"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar HUD al cambiar de escritorio"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le HUD lors du changement d'espace"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HUD tonen bij wisselen van space"
+          }
+        }
+      }
+    },
     "Show Mission Control button" : {
       "localizations" : {
         "de" : {
