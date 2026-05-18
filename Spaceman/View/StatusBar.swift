@@ -915,7 +915,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             enabledSwitchMap: spaceSwitcher.shortcutSwitcher
                 .buildEnabledSwitchMap(for: currentSpaces),
             hasArrowShortcuts: spaceSwitcher.shortcutSwitcher
-                .hasArrowShortcuts)
+                .hasArrowShortcuts,
+            focusedDisplayID: SwitchOrchestrator
+                .focusedDisplayID(from: currentSpaces))
         let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: tag, context: ctx)
         spaceSwitcher.executeStrategy(

@@ -63,8 +63,11 @@ struct Space: Equatable {
         guard !space.isCurrentSpace else { return false }
         // Gesture mode, same display: always reachable
         if switchingMode != .smooth {
-            guard let current = spaces.first(
-                where: { $0.isCurrentSpace }),
+            let current = spaces.first(where: {
+                $0.isCurrentSpace
+                    && $0.displayID == space.displayID
+            }) ?? spaces.first(where: { $0.isCurrentSpace })
+            guard let current,
                   space.displayID != current.displayID else {
                 return true
             }

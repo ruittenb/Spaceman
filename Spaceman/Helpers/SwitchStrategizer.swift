@@ -39,13 +39,29 @@ enum SwitchStrategizer {
             }
         }
         guard let target,
-              let current = context.spaces.first(
-                where: { $0.isCurrentSpace })
+              let current = findCurrentSpace(
+                in: context.spaces,
+                preferringDisplayOf: target)
         else {
             return .unreachable
         }
 
-        let sameDisplay = target.displayID == current.displayID
+        // Gestures only affect the focused display. Use
+        // focusedDisplayID (from NSScreen.main) when available;
+        // fall back to the first current space in the array
+        // (typically the primary display from CGS).
+        // findCurrentSpace(preferringDisplayOf:) can't be used
+        // here — it always returns a space on the target's
+        // display, making sameDisplay unconditionally true.
+        let sameDisplay: Bool
+        if let focusedID = context.focusedDisplayID {
+            sameDisplay = target.displayID == focusedID
+        } else {
+            let focused = context.spaces.first(
+                where: { $0.isCurrentSpace })
+            sameDisplay = target.displayID
+                == focused?.displayID
+        }
 
         // Gesture mode, same display → gesture
         if context.mode != .smooth && sameDisplay {
@@ -78,7 +94,8 @@ enum SwitchStrategizer {
             targetSpaceNumber: targetSpaceNumber,
             spaces: context.spaces,
             switchMap: context.enabledSwitchMap,
-            hasArrowShortcuts: context.hasArrowShortcuts)
+            hasArrowShortcuts: context.hasArrowShortcuts,
+            focusedDisplayID: context.focusedDisplayID)
 
         switch chaining {
         case .chainFromCurrent(let steps, let goRight):
@@ -139,6 +156,18 @@ enum SwitchStrategizer {
     }
 
     // MARK: - Building blocks
+
+    /// Find the current space, preferring the one on the same
+    /// display as `target`. In a multi-display setup each display
+    /// has its own current space; picking the wrong one makes a
+    /// same-display switch look cross-display.
+    private static func findCurrentSpace(
+        in spaces: [Space], preferringDisplayOf target: Space
+    ) -> Space? {
+        spaces.first(where: {
+            $0.isCurrentSpace && $0.displayID == target.displayID
+        }) ?? spaces.first(where: { $0.isCurrentSpace })
+    }
 
     /// Returns true when the current space is already at the
     /// first (goingRight=false) or last (goingRight=true)
@@ -201,12 +230,14 @@ enum SwitchStrategizer {
     static func calculateChainingStrategy(
         targetSpaceNumber: Int, spaces: [Space],
         switchMap: [String: Int]? = nil,
-        hasArrowShortcuts: Bool = true
+        hasArrowShortcuts: Bool = true,
+        focusedDisplayID: String? = nil
     ) -> ChainingStrategy {
         guard let targetSpace = spaces.first(
             where: { $0.spaceNumber == targetSpaceNumber }),
-              let currentSpace = spaces.first(
-                where: { $0.isCurrentSpace })
+              let currentSpace = findCurrentSpace(
+                in: spaces,
+                preferringDisplayOf: targetSpace)
         else {
             return .unreachable
         }
@@ -222,8 +253,16 @@ enum SwitchStrategizer {
         let arrowsFromAnchor = anchor.map {
             abs(targetSpaceNumber - $0.spaceNumber)
         } ?? maxArrows + 1
-        let sameDisplay =
-            targetSpace.displayID == currentSpace.displayID
+        // Arrow keys operate on the focused display.
+        // Chain-from-current is only valid if the target is
+        // on the same display the user currently has focus on.
+        let sameDisplay: Bool
+        if let focusedID = focusedDisplayID {
+            sameDisplay = targetSpace.displayID == focusedID
+        } else {
+            sameDisplay = targetSpace.displayID
+                == currentSpace.displayID
+        }
         let arrowsFromCurrent = sameDisplay
             ? abs(targetSpaceNumber - currentSpace.spaceNumber)
             : maxArrows + 1
