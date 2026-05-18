@@ -155,8 +155,7 @@ struct HUDView: View {
     private static let padding: CGFloat = 12
 
     private var columnCount: Int {
-        let maxGroupSize = spacesByDisplay.map(\.count).max() ?? 1
-        return max(1, min(gridColumns, maxGroupSize))
+        max(1, gridColumns)
     }
 
     private var gridWidth: CGFloat {
@@ -172,7 +171,7 @@ struct HUDView: View {
                 }
                 let cols = Array(
                     repeating: GridItem(.flexible(), spacing: Self.cellSpacing),
-                    count: max(1, min(gridColumns, group.count)))
+                    count: max(1, gridColumns))
                 LazyVGrid(columns: cols, spacing: Self.cellSpacing) {
                     ForEach(Array(group.enumerated()), id: \.element.spaceID) { _, space in
                         SpaceCellView(space: space, showText: false, colorless: true)
