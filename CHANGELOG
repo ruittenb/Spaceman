@@ -1,4 +1,4 @@
-1.21.4: Fixes to HUD on multiple displays
+1.21.4: Fixes: only show HUD on active display; hide fullscreen spaces from HUD
 1.21.3: Fixed auto-refresh in background
 1.21.2: Added HUD
 1.21.1: Fixed color merge bug. Added menu icons. Refactored and code cleanup. More unit tests.

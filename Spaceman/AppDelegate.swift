@@ -457,7 +457,7 @@ extension AppDelegate: SpaceObserverDelegate {
             spaces: spaces, previousSpaces: lastSpaces,
             trigger: trigger, showHUD: showHUD),
            let screen = HUDPanel.screen(forDisplayID: displayID) {
-            let displaySpaces = spaces.filter { $0.displayID == displayID }
+            let displaySpaces = spaces.filter { $0.displayID == displayID && !$0.isFullScreen }
             hudPanel.show(spaces: displaySpaces, on: screen)
         }
 
