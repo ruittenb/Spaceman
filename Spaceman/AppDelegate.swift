@@ -12,11 +12,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @AppStorage("autoShrink") private var autoShrink = true
     @AppStorage("showHUD") private var showHUD = false
+    @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
 
     private var iconCreator: IconCreator!
     private var statusBar: StatusBar!
     private var spaceObserver: SpaceObserver!
     private var hudPanel = HUDPanel()
+    private var autoRefreshTimer: Timer?
     private var currentSpaces: [Space] = []
 
     // Auto-shrink state
@@ -67,6 +69,35 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         // Auto-shrink resets happen in didUpdateSpaces(trigger:) —
         // SettingsChanged triggers .userRefresh, which resets shrinkLevel there.
+
+        // Auto-refresh timer — lives here so it survives the preferences window closing.
+        if autoRefreshSpaces { startAutoRefreshTimer() }
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(autoRefreshSettingChanged),
+            name: UserDefaults.didChangeNotification,
+            object: nil)
+    }
+
+    private func startAutoRefreshTimer() {
+        autoRefreshTimer?.invalidate()
+        autoRefreshTimer = Timer.scheduledTimer(
+            withTimeInterval: 5, repeats: true) { _ in
+            NotificationCenter.default.post(name: AutoRefreshTriggeredName, object: nil)
+        }
+    }
+
+    private func stopAutoRefreshTimer() {
+        autoRefreshTimer?.invalidate()
+        autoRefreshTimer = nil
+    }
+
+    @objc private func autoRefreshSettingChanged() {
+        if autoRefreshSpaces && autoRefreshTimer == nil {
+            startAutoRefreshTimer()
+        } else if !autoRefreshSpaces && autoRefreshTimer != nil {
+            stopAutoRefreshTimer()
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
