@@ -173,13 +173,6 @@ struct PreferencesView: View {
             preferencesShortcutRecorder
         }
         .padding()
-        .onChange(of: autoRefreshSpaces) { enabled in
-            if enabled {
-                prefsVM.startTimer()
-            } else {
-                prefsVM.pauseTimer()
-            }
-        }
     }
 
     // MARK: - Displays pane

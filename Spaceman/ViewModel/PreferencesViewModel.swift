@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 class PreferencesViewModel: ObservableObject {
-    @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     let nameStore: SpaceNameStore
     @Published var spaceNamesDict: [String: SpaceNameInfo] = [:]
     @Published var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element] = []
@@ -18,7 +17,6 @@ class PreferencesViewModel: ObservableObject {
     @Published var restoreStatusMessage: String?
     @Published var restoreStatusIsError: Bool = false
     @Published var lastBackupDate: Date?
-    var timer: Timer!
 
     private static let settingsDirectory = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent(".spaceman")
@@ -27,8 +25,6 @@ class PreferencesViewModel: ObservableObject {
 
     init(nameStore: SpaceNameStore = .shared) {
         self.nameStore = nameStore
-        timer = Timer()
-        if autoRefreshSpaces { startTimer() }
         refreshBackupDate()
     }
 
@@ -80,20 +76,6 @@ class PreferencesViewModel: ObservableObject {
             }
         }
         rebuildSortedSpaceNames()
-    }
-
-    func startTimer() {
-        timer = Timer.scheduledTimer(
-            timeInterval: 5, target: self,
-            selector: #selector(refreshSpaces), userInfo: nil, repeats: true)
-    }
-
-    func pauseTimer() {
-        timer.invalidate()
-    }
-
-    @objc func refreshSpaces() {
-        NotificationCenter.default.post(name: AutoRefreshTriggeredName, object: nil)
     }
 
     private func rebuildSortedSpaceNames() {
