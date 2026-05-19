@@ -527,6 +527,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             switchMap: switchMap,
             enabledSwitchMap: enabledMap,
             hasArrowShortcuts: spaceSwitcher.shortcutSwitcher.hasArrowShortcuts,
+            focusedDisplayID: SwitchOrchestrator.focusedDisplayID(from: currentSpaces),
             menuWidth: Constants.minMenuWidth
         ))
         gridView.frame.size = gridView.fittingSize
@@ -893,7 +894,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             space: space, switchTag: enabledTag,
             switchingMode: mode, spaces: spaces,
             enabledSwitchMap: enabledSwitchMap,
-            hasArrowShortcuts: spaceSwitcher.shortcutSwitcher.hasArrowShortcuts)
+            hasArrowShortcuts: spaceSwitcher.shortcutSwitcher.hasArrowShortcuts,
+            focusedDisplayID: SwitchOrchestrator.focusedDisplayID(from: spaces))
         if !canSwitch {
             item.isEnabled = false
             if space.isCurrentSpace {

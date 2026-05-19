@@ -210,40 +210,71 @@ final class SpaceTests: XCTestCase {
             hasArrowShortcuts: true))
     }
 
-    func testCanSwitch_gestureMode_crossDisplay_withShortcut() {
-        // E4: gesture mode, cross-display, desktop with shortcut.
-        // Falls through to smooth check → shortcut exists → reachable.
+    func testCanSwitch_gestureMode_sameDisplay() {
+        // Gesture mode, target on focused display → reachable.
         let current = Space(
             displayID: "d1", spaceID: "s1", spaceName: "",
             spaceNumber: 1, spaceLabel: "1",
             isCurrentSpace: true, isFullScreen: false)
         let target = Space(
-            displayID: "d2", spaceID: "s2", spaceName: "",
-            spaceNumber: 2, spaceLabel: "1",
+            displayID: "d1", spaceID: "s2", spaceName: "",
+            spaceNumber: 2, spaceLabel: "2",
             isCurrentSpace: false, isFullScreen: false)
         let spaces = [current, target]
         for mode: SwitchingMode in [.fast, .instant] {
             XCTAssertTrue(Space.canSwitch(
-                space: target, switchTag: 2, switchingMode: mode,
-                spaces: spaces, enabledSwitchMap: ["s1": 1, "s2": 2]))
+                space: target, switchTag: nil, switchingMode: mode,
+                spaces: spaces, focusedDisplayID: "d1"))
+        }
+    }
+
+    func testCanSwitch_gestureMode_crossDisplay_withShortcut() {
+        // Gesture mode, cross-display, desktop with shortcut.
+        // Falls through to smooth check → shortcut exists → reachable.
+        let currentD1 = Space(
+            displayID: "d1", spaceID: "s1", spaceName: "",
+            spaceNumber: 1, spaceLabel: "1",
+            isCurrentSpace: true, isFullScreen: false)
+        let currentD2 = Space(
+            displayID: "d2", spaceID: "s2", spaceName: "",
+            spaceNumber: 2, spaceLabel: "1",
+            isCurrentSpace: true, isFullScreen: false)
+        let target = Space(
+            displayID: "d2", spaceID: "s3", spaceName: "",
+            spaceNumber: 3, spaceLabel: "2",
+            isCurrentSpace: false, isFullScreen: false)
+        let spaces = [currentD1, currentD2, target]
+        for mode: SwitchingMode in [.fast, .instant] {
+            XCTAssertTrue(Space.canSwitch(
+                space: target, switchTag: 3, switchingMode: mode,
+                spaces: spaces,
+                enabledSwitchMap: ["s1": 1, "s2": 2, "s3": 3],
+                focusedDisplayID: "d1"))
         }
     }
 
     func testCanSwitch_gestureMode_crossDisplay_noAnchor() {
         // Current on d1, target fullscreen on d2 with no anchor on d2.
-        let current = Space(
+        // Both displays have a current space (realistic multi-display).
+        // s2 has no enabled shortcut, so there's no anchor to jump to.
+        let currentD1 = Space(
             displayID: "d1", spaceID: "s1", spaceName: "",
             spaceNumber: 1, spaceLabel: "1",
             isCurrentSpace: true, isFullScreen: false)
+        let currentD2 = Space(
+            displayID: "d2", spaceID: "s2", spaceName: "",
+            spaceNumber: 2, spaceLabel: "1",
+            isCurrentSpace: true, isFullScreen: false)
         let target = Space(
             displayID: "d2", spaceID: "f1", spaceName: "",
-            spaceNumber: 2, spaceLabel: "F1",
+            spaceNumber: 3, spaceLabel: "F1",
             isCurrentSpace: false, isFullScreen: true)
-        let spaces = [current, target]
+        let spaces = [currentD1, currentD2, target]
         for mode: SwitchingMode in [.fast, .instant] {
             XCTAssertFalse(Space.canSwitch(
                 space: target, switchTag: nil, switchingMode: mode,
-                spaces: spaces, enabledSwitchMap: ["s1": 1]))
+                spaces: spaces, enabledSwitchMap: ["s1": 1],
+                focusedDisplayID: "d1"))
         }
     }
 

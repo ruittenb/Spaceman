@@ -58,17 +58,18 @@ struct Space: Equatable {
         switchingMode: SwitchingMode = .smooth,
         spaces: [Space] = [],
         enabledSwitchMap: [String: Int]? = nil,
-        hasArrowShortcuts: Bool = true
+        hasArrowShortcuts: Bool = true,
+        focusedDisplayID: String? = nil
     ) -> Bool {
         guard !space.isCurrentSpace else { return false }
         // Gesture mode, same display: always reachable
         if switchingMode != .smooth {
-            let current = spaces.first(where: {
-                $0.isCurrentSpace
-                    && $0.displayID == space.displayID
-            }) ?? spaces.first(where: { $0.isCurrentSpace })
-            guard let current,
-                  space.displayID != current.displayID else {
+            if let focusedID = focusedDisplayID {
+                if space.displayID == focusedID {
+                    return true
+                }
+            } else {
+                // No focusedDisplayID — can't determine display
                 return true
             }
         }
@@ -82,7 +83,8 @@ struct Space: Equatable {
             entryPoint: .menu, mode: switchingMode,
             spaces: spaces,
             enabledSwitchMap: enabledSwitchMap ?? [:],
-            hasArrowShortcuts: hasArrowShortcuts)
+            hasArrowShortcuts: hasArrowShortcuts,
+            focusedDisplayID: focusedDisplayID)
         let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: tag, context: ctx)
         return strategy != .unreachable
