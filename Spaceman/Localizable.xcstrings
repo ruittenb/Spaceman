@@ -72,146 +72,6 @@
         }
       }
     },
-    "⌘1" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘1"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘1"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘1"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘1"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘1"
-          }
-        }
-      }
-    },
-    "⌘2" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘2"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘2"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘2"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘2"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘2"
-          }
-        }
-      }
-    },
-    "⌘3" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘3"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘3"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘3"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘3"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘3"
-          }
-        }
-      }
-    },
-    "⌘4" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘4"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘4"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘4"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘4"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘4"
-          }
-        }
-      }
-    },
     "Active style" : {
       "localizations" : {
         "de" : {
@@ -4066,6 +3926,40 @@
         }
       }
     },
+    "Spaceman Preferences" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman-Einstellungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferencias de Spaceman"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferencias de Spaceman"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Préférences de Spaceman"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman - voorkeuren"
+          }
+        }
+      }
+    },
     "Spaceman reads the Mission Control keyboard shortcuts directly from your system settings. To change them, use this button." : {
       "localizations" : {
         "de" : {
@@ -4480,70 +4374,70 @@
         }
       }
     },
-    "Use fast animations" : {
+    "Use fast animations (same display only)" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schnelle Animationen"
+            "value" : "Schnelle Animationen (nur selbes Display)"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Animaciones rápidas"
+            "value" : "Animaciones rápidas (solo misma pantalla)"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Animaciones rápidas"
+            "value" : "Animaciones rápidas (solo misma pantalla)"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Animations rapides"
+            "value" : "Animations rapides (même écran uniquement)"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Snelle animatie"
+            "value" : "Snelle animatie (alleen hetzelfde beeldscherm)"
           }
         }
       }
     },
-    "Use instant switching" : {
+    "Use instant switching (same display only)" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sofort wechseln"
+            "value" : "Sofort wechseln (nur selbes Display)"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cambio instantáneo"
+            "value" : "Cambio instantáneo (solo misma pantalla)"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cambio instantáneo"
+            "value" : "Cambio instantáneo (solo misma pantalla)"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Changements instantanés"
+            "value" : "Changements instantanés (même écran uniquement)"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Direct wisselen"
+            "value" : "Direct wisselen (alleen hetzelfde beeldscherm)"
           }
         }
       }

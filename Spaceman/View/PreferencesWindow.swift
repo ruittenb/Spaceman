@@ -56,7 +56,8 @@ class PreferencesWindow: NSWindow, NSToolbarDelegate {
             backing: .buffered,
             defer: false
         )
-        self.title = "Spaceman"
+        self.title = String(
+            localized: "Spaceman Preferences")
         self.isMovableByWindowBackground = true
         self.isReleasedWhenClosed = false
         self.collectionBehavior = [.moveToActiveSpace]
@@ -128,6 +129,7 @@ class PreferencesWindow: NSWindow, NSToolbarDelegate {
         let item = NSToolbarItem(
             itemIdentifier: itemIdentifier)
         item.label = tab.title
+        item.toolTip = "⌘\(index + 1)"
         item.image = NSImage(
             systemSymbolName: tab.icon,
             accessibilityDescription: tab.title)

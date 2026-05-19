@@ -213,8 +213,8 @@ struct PreferencesView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             VStack(spacing: 0) {
-                Text(verbatim: "Sasindu Jayasinghe")
-                Text(verbatim: "René Uittenbogaard")
+                Text(verbatim: "© 2020-2023 Sasindu Jayasinghe")
+                Text(verbatim: "© 2024-2026 René Uittenbogaard")
             }
             .font(.subheadline)
             .foregroundColor(.secondary)
@@ -459,9 +459,9 @@ struct PreferencesView: View {
             Picker("", selection: $switchingMode) {
                 Text("Use smooth transitions")
                     .tag(SwitchingMode.smooth.rawValue)
-                Text("Use fast animations")
+                Text("Use fast animations (same display only)")
                     .tag(SwitchingMode.fast.rawValue)
-                Text("Use instant switching")
+                Text("Use instant switching (same display only)")
                     .tag(SwitchingMode.instant.rawValue)
             }
             .pickerStyle(.radioGroup)
