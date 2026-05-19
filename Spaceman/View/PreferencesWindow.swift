@@ -17,20 +17,28 @@ struct PreferencesTab {
     let icon: String
 
     static let general = PreferencesTab(
-        id: "general", title: "General", icon: "gear")
+        id: "general",
+        title: String(localized: "Tab:General"),
+        icon: "gear")
     static let appearance = PreferencesTab(
-        id: "appearance", title: "Appearance",
+        id: "appearance",
+        title: String(localized: "Tab:Appearance"),
         icon: "paintbrush")
     static let spaces = PreferencesTab(
-        id: "spaces", title: "Spaces",
+        id: "spaces",
+        title: String(localized: "Tab:Spaces"),
         icon: "square.grid.2x2")
     static let switching = PreferencesTab(
-        id: "switching", title: "Switching",
+        id: "switching",
+        title: String(localized: "Tab:Switching"),
         icon: "arrow.right.arrow.left")
     static let displays = PreferencesTab(
-        id: "displays", title: "Displays", icon: "display")
+        id: "displays",
+        title: String(localized: "Tab:Displays"),
+        icon: "display")
     static let about = PreferencesTab(
-        id: "about", title: "About",
+        id: "about",
+        title: String(localized: "Tab:About"),
         icon: "info.circle")
 
     static let all = [
