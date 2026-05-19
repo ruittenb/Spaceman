@@ -843,7 +843,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func showPreferencesWindow(_ sender: AnyObject) {
-        let hostedPrefsView = NSHostingView(rootView: PreferencesView())
+        let hostedPrefsView = NSHostingView(
+            rootView: PreferencesView(
+                tabState: prefsWindow.tabState))
         hostedPrefsView.sizingOptions = [.intrinsicContentSize]
         prefsWindow.contentView = hostedPrefsView
 

@@ -73,6 +73,7 @@
       }
     },
     "⌘1" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -107,6 +108,7 @@
       }
     },
     "⌘2" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -141,6 +143,7 @@
       }
     },
     "⌘3" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -175,6 +178,7 @@
       }
     },
     "⌘4" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
