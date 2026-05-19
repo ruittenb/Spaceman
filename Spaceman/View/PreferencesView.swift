@@ -13,6 +13,7 @@ import SwiftUI
 struct PreferencesView: View {
     private let subItemIndent: CGFloat = 20
     @ObservedObject var tabState: PreferencesTabState
+    var onCheckForUpdates: (() -> Void)?
 
     @AppStorage("iconText") private var iconText = IconText.numbers
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
@@ -201,58 +202,67 @@ struct PreferencesView: View {
 
     // MARK: - About pane
     private var aboutPane: some View {
-        VStack(spacing: 16) {
+        HStack(alignment: .top, spacing: 16) {
             Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
                 .resizable()
                 .scaledToFit()
                 .frame(width: 96, height: 96)
-            Text("Spaceman")
-                .font(.title)
-                .fontWeight(.bold)
-            Text("Version \(Constants.AppInfo.appVersion ?? "?")")
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Spaceman")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                Text("Version \(Constants.AppInfo.appVersion ?? "?")")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(verbatim: "© 2020-2023 Sasindu Jayasinghe")
+                    Text(verbatim: "© 2024-2026 René Uittenbogaard")
+                }
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-            VStack(spacing: 0) {
-                Text(verbatim: "© 2020-2023 Sasindu Jayasinghe")
-                Text(verbatim: "© 2024-2026 René Uittenbogaard")
-            }
-            .font(.subheadline)
-            .foregroundColor(.secondary)
-            HStack(spacing: 4) {
                 Button {
-                    NSWorkspace.shared.open(
-                        Constants.AppInfo.repo)
+                    onCheckForUpdates?()
                 } label: {
-                    Text("Documentation").font(.callout)
+                    Text("Check for Updates…")
                 }
-                .buttonStyle(LinkButtonStyle())
-                .onHover { hovering in
-                    if hovering {
-                        NSCursor.pointingHand.push()
-                    } else {
-                        NSCursor.pop()
+                .padding(.top, 4)
+                HStack(spacing: 4) {
+                    Button {
+                        NSWorkspace.shared.open(
+                            Constants.AppInfo.repo)
+                    } label: {
+                        Text("Documentation")
+                            .font(.callout)
+                    }
+                    .buttonStyle(LinkButtonStyle())
+                    .onHover { hovering in
+                        if hovering {
+                            NSCursor.pointingHand.push()
+                        } else {
+                            NSCursor.pop()
+                        }
+                    }
+                    Text("·").font(.callout)
+                        .foregroundColor(.secondary)
+                    Button {
+                        NSWorkspace.shared.open(
+                            Constants.AppInfo.website)
+                    } label: {
+                        Text("Website").font(.callout)
+                    }
+                    .buttonStyle(LinkButtonStyle())
+                    .onHover { hovering in
+                        if hovering {
+                            NSCursor.pointingHand.push()
+                        } else {
+                            NSCursor.pop()
+                        }
                     }
                 }
-                Text("·").font(.callout)
-                    .foregroundColor(.secondary)
-                Button {
-                    NSWorkspace.shared.open(
-                        Constants.AppInfo.website)
-                } label: {
-                    Text("Website").font(.callout)
-                }
-                .buttonStyle(LinkButtonStyle())
-                .onHover { hovering in
-                    if hovering {
-                        NSCursor.pointingHand.push()
-                    } else {
-                        NSCursor.pop()
-                    }
-                }
+                .padding(.top, 4)
             }
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 30)
+        .padding(30)
         .padding(.horizontal)
     }
 
