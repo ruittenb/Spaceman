@@ -155,7 +155,7 @@ final class SpaceTests: XCTestCase {
 
     // MARK: - canSwitch (gesture modes)
 
-    func testCanSwitch_gestureMode_anySpaceSwitchable() {
+    func testCanSwitch_gestureMode_noFocusedDisplay_returnsTrue() {
         let desktop = makeSpaceWithNumber(id: "d17", number: 17)
         let fullscreen = makeSpaceWithNumber(id: "f2", number: 11, fullScreen: true)
         for mode: SwitchingMode in [.fast, .instant] {

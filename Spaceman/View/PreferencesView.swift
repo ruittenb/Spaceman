@@ -454,7 +454,7 @@ struct PreferencesView: View {
         .padding()
     }
 
-    // MARK: - Switching options (shown at the bottom of Spaces tab)
+    // MARK: - Switching pane
     @AppStorage("switchingMode") private var switchingMode = SwitchingMode.smooth.rawValue
 
     private var isGestureMode: Bool {
