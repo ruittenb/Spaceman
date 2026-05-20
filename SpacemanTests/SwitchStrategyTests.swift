@@ -28,12 +28,14 @@ final class SwitchStrategyTests: XCTestCase {
         mode: SwitchingMode = .smooth,
         spaces: [Space],
         enabledSwitchMap: [String: Int],
-        hasArrowShortcuts: Bool = true
+        hasArrowShortcuts: Bool = true,
+        focusedDisplayID: String? = nil
     ) -> SwitchContext {
         SwitchContext(
             entryPoint: entryPoint, mode: mode,
             spaces: spaces, enabledSwitchMap: enabledSwitchMap,
-            hasArrowShortcuts: hasArrowShortcuts)
+            hasArrowShortcuts: hasArrowShortcuts,
+            focusedDisplayID: focusedDisplayID)
     }
 
     /// 5 desktops on d1, current=1. All have enabled shortcuts.
@@ -126,8 +128,24 @@ final class SwitchStrategyTests: XCTestCase {
             switchTag: 2,
             context: ctx(
                 mode: .fast, spaces: spaces,
-                enabledSwitchMap: ["s1": 1, "s2": 2]))
+                enabledSwitchMap: ["s1": 1, "s2": 2],
+                focusedDisplayID: "d1"))
         XCTAssertEqual(strategy, .shortcutDirect(switchIndex: 2))
+    }
+
+    func testDesktopWithShortcut_sameDisplay_gesture_withFocusedID() {
+        let (spaces, enabledMap) = standardSpaces()
+        let strategy = SwitchStrategizer.resolveStrategy(
+            switchTag: 3,
+            context: ctx(
+                mode: .fast, spaces: spaces,
+                enabledSwitchMap: enabledMap,
+                focusedDisplayID: "d1"))
+        XCTAssertEqual(
+            strategy,
+            .gestureDirect(
+                target: spaces[2], current: spaces[0],
+                mode: .fast))
     }
 
     // MARK: - Desktop without shortcut, same display
@@ -156,7 +174,8 @@ final class SwitchStrategyTests: XCTestCase {
             switchTag: 3,
             context: ctx(
                 mode: .fast, spaces: spaces,
-                enabledSwitchMap: ["s1": 1, "s2": 2]))
+                enabledSwitchMap: ["s1": 1, "s2": 2],
+                focusedDisplayID: "d1"))
         XCTAssertEqual(
             strategy,
             .gestureDirect(
@@ -448,7 +467,8 @@ final class SwitchStrategyTests: XCTestCase {
             switchTag: -2,
             context: ctx(
                 mode: .fast, spaces: spaces,
-                enabledSwitchMap: ["s1": 1]))
+                enabledSwitchMap: ["s1": 1],
+                focusedDisplayID: "d1"))
         XCTAssertEqual(strategy, .showBalloon(.navigation))
     }
 

@@ -14,6 +14,7 @@ struct SpaceGridMenuView: View {
     let switchMap: [String: Int]
     var enabledSwitchMap: [String: Int]
     var hasArrowShortcuts: Bool = true
+    var focusedDisplayID: String?
     var menuWidth: CGFloat
 
     @AppStorage("gridColumns") private var gridColumns: Int = 3
@@ -53,7 +54,8 @@ struct SpaceGridMenuView: View {
                             switchingMode: SwitchingMode(rawValue: switchingMode) ?? .smooth,
                             spaces: spaces,
                             enabledSwitchMap: enabledSwitchMap,
-                            hasArrowShortcuts: hasArrowShortcuts)
+                            hasArrowShortcuts: hasArrowShortcuts,
+                            focusedDisplayID: focusedDisplayID)
                         SpaceCellView(space: space, enabled: enabled)
                             .frame(height: cellHeight)
                             .onTapGesture {

@@ -111,7 +111,7 @@ publish-force: ## Publish the main branch appcast on Github Pages (force push)
 brew-update: ## Update the spaceman.rb file with the correct version
 	@cd $(BREWDIR)/Casks &&                                                 \
 	awk -v version=$(VERSION) -v shaout="$(shell shasum -a 256 $(IMAGE))" ' \
-	/version "[0-9.]*"/ {                                                   \
+	/version "[0-9.alph]*"/ {                                                   \
 		print "  version \"" version "\""; next                             \
 	}                                                                       \
 	/sha256/ {                                                              \

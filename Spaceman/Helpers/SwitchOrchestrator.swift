@@ -80,6 +80,35 @@ class SwitchOrchestrator {
         }
     }
 
+    // MARK: - Focused display
+
+    /// The display UUID matching NSScreen.main. Gestures only
+    /// affect this display, so the strategizer needs it to
+    /// decide between gesture and shortcut paths.
+    static func focusedDisplayID(
+        from spaces: [Space]
+    ) -> String? {
+        guard let mainScreen = NSScreen.main,
+              let screenNumber = mainScreen.deviceDescription[
+                  NSDeviceDescriptionKey("NSScreenNumber")
+              ] as? NSNumber
+        else { return nil }
+        let mainCGID = CGDirectDisplayID(
+            screenNumber.uint32Value)
+        let displayIDs = Set(spaces.map { $0.displayID })
+        for displayID in displayIDs {
+            guard let uuid = CFUUIDCreateFromString(
+                kCFAllocatorDefault,
+                displayID as CFString)
+            else { continue }
+            if CGDisplayGetDisplayIDFromUUID(uuid)
+                == mainCGID {
+                return displayID
+            }
+        }
+        return nil
+    }
+
     // MARK: - Entry point (click on icon)
 
     public func switchUsingLocation(
@@ -122,7 +151,9 @@ class SwitchOrchestrator {
             enabledSwitchMap: shortcutSwitcher
                 .buildEnabledSwitchMap(for: spaces),
             hasArrowShortcuts:
-                shortcutSwitcher.hasArrowShortcuts)
+                shortcutSwitcher.hasArrowShortcuts,
+            focusedDisplayID:
+                Self.focusedDisplayID(from: spaces))
 
         // Navigation buttons (prev/next/Mission Control)
         if hitIndex == Space.missionControlIndex

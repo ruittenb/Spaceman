@@ -37,6 +37,27 @@ struct SwitchContext {
     let spaces: [Space]
     let enabledSwitchMap: [String: Int]
     let hasArrowShortcuts: Bool
+
+    /// The display UUID where the user has focus (from
+    /// NSScreen.main). Gestures only affect this display.
+    /// When nil, the strategizer falls back to array order.
+    let focusedDisplayID: String?
+
+    init(
+        entryPoint: SwitchEntryPoint,
+        mode: SwitchingMode,
+        spaces: [Space],
+        enabledSwitchMap: [String: Int],
+        hasArrowShortcuts: Bool,
+        focusedDisplayID: String? = nil
+    ) {
+        self.entryPoint = entryPoint
+        self.mode = mode
+        self.spaces = spaces
+        self.enabledSwitchMap = enabledSwitchMap
+        self.hasArrowShortcuts = hasArrowShortcuts
+        self.focusedDisplayID = focusedDisplayID
+    }
 }
 
 /// The resolved action for switching to a space.
