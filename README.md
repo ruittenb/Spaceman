@@ -105,7 +105,6 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 - **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
 - **Shortcut to rename current space**: Defines a shortcut key to quickly rename the current space without opening Preferences
 - **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
-- **Show HUD when switching spaces**: When you switch between spaces, briefly display a heads-up overlay showing all spaces in a grid
 
 - **Display spaces in menu as**: Choose between a list or a grid layout for the right-click menu
 - **Nr. of columns in grid**: When using grid layout, this sets the number of columns
@@ -158,6 +157,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
   - **Use instant switching**: Uses simulated trackpad gestures to switch spaces with no animation at all. Does not require shortcuts to be configured. Only works for spaces on the same display.
   - When using fast or instant switching and the target space is on a different display, Spaceman falls back to keyboard shortcuts automatically.
 - **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to manage them.
+- **Show HUD when switching spaces**: When you switch between spaces, briefly display a heads-up overlay showing all spaces in a grid
 
 ### Displays Tab
 
