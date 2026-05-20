@@ -98,13 +98,14 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### General Tab
 
-<img src="images/Preferences-General-5.png" width="66%" height="auto">
+<img src="images/Preferences-General-6.png" width="66%" height="auto">
 
 - **Launch Spaceman at login**: Automatically start Spaceman when you log in to macOS
 - **Refresh spaces in background**: If enabled, Spaceman will update the view when your space configuration changes
 - **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
 - **Shortcut to rename current space**: Defines a shortcut key to quickly rename the current space without opening Preferences
 - **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
+- **Show HUD when switching spaces**: When you switch between spaces, briefly display a heads-up overlay showing all spaces in a grid
 
 - **Display spaces in menu as**: Choose between a list or a grid layout for the right-click menu
 - **Nr. of columns in grid**: When using grid layout, this sets the number of columns
@@ -115,7 +116,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Appearance Tab
 
-<img src="images/Preferences-Appearance-5.png" width="66%" height="auto">
+<img src="images/Preferences-Appearance-6.png" width="66%" height="auto">
 
 - **Icon size**: Adjusts the size of the space icons in the menu bar
 - **Icon width**: Switches between:
@@ -140,12 +141,17 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Spaces Tab
 
-<img src="images/Preferences-Spaces-4.png" width="66%" height="auto">
+<img src="images/Preferences-Spaces-5.png" width="66%" height="auto">
 
 - **Space names**: Assigns custom names of any length to individual spaces
   - The menu displays full names regardless of length
   - Menu bar icons truncate names to 10 characters for compactness
   - Optionally, for each Space icon, a color can be selected.
+
+### Switching Tab
+
+<img src="images/Preferences-Switching-1.png" width="66%" height="auto">
+
 - **Switching Spaces**: Controls how Spaceman switches between spaces when you click a space icon:
   - **Use smooth transitions**: Sends keyboard shortcuts to macOS, which switches spaces with the standard sliding animation. Requires Mission Control shortcuts to be configured in System Settings.
   - **Use fast animations**: Uses simulated trackpad gestures to switch spaces with a faster animation. Does not require shortcuts to be configured. Only works for spaces on the same display.
@@ -155,12 +161,18 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Displays Tab
 
-<img src="images/Preferences-Displays-1.png" width="66%" height="auto">
+<img src="images/Preferences-Displays-2.png" width="66%" height="auto">
 
 - **Restart space numbering by display**: For each display, Space numbering starts at 1, instead of using continuous numbering
 - **When displays are side by side**: Use macOS display order or reverse it
 - **When displays are stacked**: macOS standard is to sort displays by the X coordinate of their center. This option enables sorting by Y coordinate
 - **Open System Settings → Displays**: Opens the System Settings panel for Displays. Click [Arrange] to adjust the arrangement of the displays
+
+### About tab
+
+<img src="images/Preferences-About-1.png" width="66%" height="auto">
+
+- **Check for Updates**: Check if a newer version of Spaceman has been made available.
 
 ## 🔹 Switching Spaces
 

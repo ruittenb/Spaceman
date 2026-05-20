@@ -72,142 +72,6 @@
         }
       }
     },
-    "⌘1" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘1"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘1"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘1"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘1"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘1"
-          }
-        }
-      }
-    },
-    "⌘2" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘2"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘2"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘2"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘2"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘2"
-          }
-        }
-      }
-    },
-    "⌘3" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘3"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘3"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘3"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘3"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘3"
-          }
-        }
-      }
-    },
-    "⌘4" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘4"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘4"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘4"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘4"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘4"
-          }
-        }
-      }
-    },
     "Active style" : {
       "localizations" : {
         "de" : {
@@ -287,13 +151,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todos los escritorios"
+            "value" : "Todos los espacios"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todos los escritorios"
+            "value" : "Todos los espacios"
           }
         },
         "fr" : {
@@ -315,7 +179,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erscheinungsbild"
+            "value" : "Darstellung"
           }
         },
         "es" : {
@@ -684,7 +548,7 @@
         }
       }
     },
-    "Check for updates…" : {
+    "Check for Updates…" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -899,13 +763,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo el escritorio actual"
+            "value" : "Solo el espacio actual"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo el escritorio actual"
+            "value" : "Solo el espacio actual"
           }
         },
         "fr" : {
@@ -967,13 +831,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar escritorios en el menú como"
+            "value" : "Mostrar espacios en el menú como"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar escritorios en el menú como"
+            "value" : "Mostrar espacios en el menú como"
           }
         },
         "fr" : {
@@ -1415,13 +1279,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escritorios en pantalla completa"
+            "value" : "Espacios en pantalla completa"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escritorios en pantalla completa"
+            "value" : "Espacios en pantalla completa"
           }
         },
         "fr" : {
@@ -2271,13 +2135,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rango de escritorios cercanos: ±%lld"
+            "value" : "Rango de espacios cercanos: ±%lld"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rango de escritorios cercanos: ±%lld"
+            "value" : "Rango de espacios cercanos: ±%lld"
           }
         },
         "fr" : {
@@ -2339,13 +2203,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escritorios cercanos"
+            "value" : "Espacios cercanos"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escritorios cercanos"
+            "value" : "Espacios cercanos"
           }
         },
         "fr" : {
@@ -2577,13 +2441,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aún no se detectaron escritorios."
+            "value" : "Aún no se detectaron espacios."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aún no se detectaron escritorios."
+            "value" : "Aún no se detectaron espacios."
           }
         },
         "fr" : {
@@ -3189,13 +3053,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizar escritorios en segundo plano"
+            "value" : "Actualizar espacios en segundo plano"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizar escritorios en segundo plano"
+            "value" : "Actualizar espacios en segundo plano"
           }
         },
         "fr" : {
@@ -3257,13 +3121,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renombrar escritorio actual…"
+            "value" : "Renombrar espacio actual…"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renombrar escritorio actual…"
+            "value" : "Renombrar espacio actual…"
           }
         },
         "fr" : {
@@ -3291,13 +3155,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renombrar escritorio %@"
+            "value" : "Renombrar espacio %@"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renombrar escritorio %@"
+            "value" : "Renombrar espacio %@"
           }
         },
         "fr" : {
@@ -3325,13 +3189,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reiniciar la numeración de los escritorios por pantalla"
+            "value" : "Reiniciar la numeración de los espacios por pantalla"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reiniciar la numeración de los escritorios por pantalla"
+            "value" : "Reiniciar la numeración de los espacios por pantalla"
           }
         },
         "fr" : {
@@ -3733,13 +3597,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo para renombrar el escritorio actual"
+            "value" : "Atajo para renombrar el espacio actual"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo para renombrar el escritorio actual"
+            "value" : "Atajo para renombrar el espacio actual"
           }
         },
         "fr" : {
@@ -3801,13 +3665,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar escritorios en pantalla completa"
+            "value" : "Mostrar espacios en pantalla completa"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar escritorios en pantalla completa"
+            "value" : "Mostrar espacios en pantalla completa"
           }
         },
         "fr" : {
@@ -3835,19 +3699,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar HUD al cambiar de escritorio"
+            "value" : "Mostrar HUD al cambiar de espacio"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar HUD al cambiar de escritorio"
+            "value" : "Mostrar HUD al cambiar de espacio"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher le HUD lors du changement d'espace"
+            "value" : "Afficher le HUD au changement d'espace"
           }
         },
         "nl" : {
@@ -4005,13 +3869,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nombre del escritorio"
+            "value" : "Nombre del espacio"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nombre del escritorio"
+            "value" : "Nombre del espacio"
           }
         },
         "fr" : {
@@ -4062,6 +3926,40 @@
         }
       }
     },
+    "Spaceman Preferences" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman-Einstellungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes de Spaceman"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración de Spaceman"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages de Spaceman"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman - Instellingen"
+          }
+        }
+      }
+    },
     "Spaceman reads the Mission Control keyboard shortcuts directly from your system settings. To change them, use this button." : {
       "localizations" : {
         "de" : {
@@ -4107,19 +4005,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spaceman intentará restaurar el tamaño del icono de la barra de menús al cambiar de escritorios o activar una actualización manual."
+            "value" : "Spaceman intentará restaurar el tamaño del icono de la barra de menús al cambiar de espacios o activar una actualización manual."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spaceman intentará restaurar el tamaño del ícono de la barra de menús al cambiar de escritorios o activar una actualización manual."
+            "value" : "Spaceman intentará restaurar el tamaño del ícono de la barra de menús al cambiar de espacios o activar una actualización manual."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spaceman tentera de restaurer la taille de l'icône de la barre des menus lorsque vous changez d'espaces ou déclenchez un rafraîchissement manuel."
+            "value" : "Spaceman essaiera de restaurer la taille de l’icône dans la barre des menus après un changement d’espace ou une actualisation manuelle."
           }
         },
         "nl" : {
@@ -4141,13 +4039,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escritorios"
+            "value" : "Espacios"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escritorios"
+            "value" : "Espacios"
           }
         },
         "fr" : {
@@ -4181,13 +4079,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escritorios mostrados"
+            "value" : "Espacios mostrados"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escritorios mostrados"
+            "value" : "Espacios mostrados"
           }
         },
         "fr" : {
@@ -4215,19 +4113,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cambiar de escritorio"
+            "value" : "Cambiar de espacio"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cambiar de escritorio"
+            "value" : "Cambiar de espacio"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Changer d'espace"
+            "value" : "Basculer entre les espaces"
           }
         },
         "nl" : {
@@ -4302,6 +4200,246 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Systeeminstellingen"
+          }
+        }
+      }
+    },
+    "Tab:About" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Über"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acerca"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acerca"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À propos"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over"
+          }
+        }
+      }
+    },
+    "Tab:Appearance" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Darstellung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apariencia"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apariencia"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apparence"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weergave"
+          }
+        }
+      }
+    },
+    "Tab:Displays" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirme"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Displays"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantallas"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantallas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écrans"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schermen"
+          }
+        }
+      }
+    },
+    "Tab:General" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allgemein"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Général"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algemeen"
+          }
+        }
+      }
+    },
+    "Tab:Spaces" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacios"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaces"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces"
+          }
+        }
+      }
+    },
+    "Tab:Switching" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wechseln"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Switching"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basculer"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wisselen"
           }
         }
       }
@@ -4476,70 +4614,70 @@
         }
       }
     },
-    "Use fast animations" : {
+    "Use fast animations (same display only)" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schnelle Animationen"
+            "value" : "Schnelle Animationen (nur selbes Display)"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Animaciones rápidas"
+            "value" : "Animaciones rápidas (solo misma pantalla)"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Animaciones rápidas"
+            "value" : "Animaciones rápidas (solo misma pantalla)"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Animations rapides"
+            "value" : "Animations rapides (même écran uniquement)"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Snelle animatie"
+            "value" : "Snelle animatie (alleen hetzelfde beeldscherm)"
           }
         }
       }
     },
-    "Use instant switching" : {
+    "Use instant switching (same display only)" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sofort wechseln"
+            "value" : "Sofort wechseln (nur selbes Display)"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cambio instantáneo"
+            "value" : "Cambio instantáneo (solo misma pantalla)"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cambio instantáneo"
+            "value" : "Cambio instantáneo (solo misma pantalla)"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Changements instantanés"
+            "value" : "Changements instantanés (même écran uniquement)"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Direct wisselen"
+            "value" : "Direct wisselen (alleen hetzelfde beeldscherm)"
           }
         }
       }
@@ -4827,13 +4965,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al cambiar de escritorios, el icono puede parpadear brevemente."
+            "value" : "Al cambiar de espacios, el icono puede parpadear brevemente."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al cambiar de escritorios, el ícono puede parpadear brevemente."
+            "value" : "Al cambiar de espacios, el ícono puede parpadear brevemente."
           }
         },
         "fr" : {

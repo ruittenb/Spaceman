@@ -513,7 +513,8 @@ struct SpacemanApp: App {
 }
 
 struct SettingsView: View {
+    @StateObject private var tabState = PreferencesTabState()
     var body: some View {
-        PreferencesView()
+        PreferencesView(tabState: tabState)
     }
 }
