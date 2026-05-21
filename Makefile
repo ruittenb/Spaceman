@@ -44,6 +44,10 @@ $(ARCHIVE): $(PBXPROJ)
 		xcodebuild -project $(PROJECT).xcodeproj -scheme $(PROJECT) -configuration Release clean archive -archivePath $(ARCHIVE) | \
 		xcbeautify
 
+.PHONY: run
+run: ## Start the most recently compiled application bundle
+	open ~/Library/Developer/Xcode/DerivedData/$(PROJECT)-*/Build/Products/Debug/$(PROJECT).app
+
 .PHONY: export
 export: $(APPFILE) ## Make the app file
 
