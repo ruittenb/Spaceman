@@ -27,6 +27,7 @@ struct PreferencesView: View {
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
     @AppStorage("showHUD") private var showHUD = false
+    @AppStorage("hudAlwaysTransparent") private var hudAlwaysTransparent = false
 
     @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
@@ -501,6 +502,9 @@ struct PreferencesView: View {
                 }
             }
             Toggle("Show HUD when switching spaces", isOn: $showHUD)
+            Toggle("Always transparent", isOn: $hudAlwaysTransparent)
+                .padding(.leading, subItemIndent)
+                .disabled(!showHUD)
         }
         .padding()
     }
