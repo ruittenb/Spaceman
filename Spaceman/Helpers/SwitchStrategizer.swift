@@ -63,6 +63,11 @@ enum SwitchStrategizer {
                 == focused?.displayID
         }
 
+        // Fullscreen + cross-display → blink
+        if target.isFullScreen && !sameDisplay {
+            return .unreachable
+        }
+
         // Gesture mode, same display → gesture
         if context.mode != .smooth && sameDisplay {
             return .gestureDirect(
@@ -82,11 +87,17 @@ enum SwitchStrategizer {
         // Desktop without shortcut + click → show balloon.
         // Desktops *could* have a shortcut (unlike fullscreen), so we
         // nudge the user to enable it rather than silently chaining.
-        // Menu items skip this and try chaining instead (greyed out
-        // if unreachable) — the balloon would be disruptive in a menu.
         if !target.isFullScreen && switchTag > 0
             && context.entryPoint == .click {
             return .showBalloon(.desktop)
+        }
+
+        // Desktop without shortcut + cross-display + menu → greyed out.
+        // Chaining requires an anchor on the target display, which is
+        // unreliable. Same-display desktops can still chain.
+        if !target.isFullScreen && !sameDisplay
+            && context.entryPoint == .menu {
+            return .unreachable
         }
 
         // Try chaining
