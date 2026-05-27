@@ -35,6 +35,7 @@ struct PreferencesView: View {
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
+    @AppStorage("mainDisplayOnly") private var mainDisplayOnly = false
 
     @StateObject private var prefsVM = PreferencesViewModel()
     @State private var showDisplaysHelp = false
@@ -135,6 +136,8 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
 
+            Toggle("Show main display only", isOn: $mainDisplayOnly)
+                .disabled(!hasMultipleDisplays)
             Toggle("Restart space numbering by display", isOn: $restartNumberingByDisplay)
                 .disabled(!hasMultipleDisplays)
             HStack(alignment: .top) {
@@ -190,6 +193,9 @@ struct PreferencesView: View {
             .padding(.top)
         }
         .padding()
+        .onChange(of: mainDisplayOnly) { _ in
+            postSettingsChanged()
+        }
         .onChange(of: restartNumberingByDisplay) { _ in
             postSettingsChanged()
         }

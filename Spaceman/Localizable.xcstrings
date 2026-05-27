@@ -1886,6 +1886,40 @@
         }
       }
     },
+    "Main Display Only" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Hauptbildschirm"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo pantalla principal"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo pantalla principal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écran principal uniquement"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen hoofdbeeldscherm"
+          }
+        }
+      }
+    },
     "Medium" : {
       "localizations" : {
         "de" : {
@@ -3752,6 +3786,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "HUD tonen bij wisselen van space"
+          }
+        }
+      }
+    },
+    "Show main display only" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Hauptbildschirm anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar solo la pantalla principal"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar solo la pantalla principal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher uniquement l'écran principal"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen hoofdbeeldscherm tonen"
           }
         }
       }

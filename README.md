@@ -94,7 +94,7 @@ You can choose to display all spaces or just a few neighboring ones; and to hide
 
 ## 🔹 Preferences
 
-Spaceman's preferences are organized into four tabs: **General**, **Appearance**, **Spaces**, and **Displays**.
+Spaceman's preferences are organized into six tabs: **General**, **Appearance**, **Spaces**, **Switching**, **Displays**, and **About**.
 
 ### General Tab
 
@@ -149,7 +149,7 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
 
 ### Switching Tab
 
-<img src="images/Preferences-Switching-1.png" width="66%" height="auto">
+<img src="images/Preferences-Switching-2.png" width="66%" height="auto">
 
 - **Switching Spaces**: Controls how Spaceman switches between spaces when you click a space icon:
   - **Use smooth transitions**: Sends keyboard shortcuts to macOS, which switches spaces with the standard sliding animation. Requires Mission Control shortcuts to be configured in System Settings.
@@ -158,11 +158,15 @@ Spaceman's preferences are organized into four tabs: **General**, **Appearance**
   - When using fast or instant switching and the target space is on a different display, Spaceman falls back to keyboard shortcuts automatically.
 - **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to manage them.
 - **Show HUD when switching spaces**: When you switch between spaces, briefly display a heads-up overlay showing all spaces in a grid
+  - **Always transparent**: When enabled, the HUD is always rendered with a transparent background, even when Reduce Transparency is on
+
+<img src="images/HUD-3.png" width="50%" height="auto">
 
 ### Displays Tab
 
 <img src="images/Preferences-Displays-2.png" width="66%" height="auto">
 
+- **Show main display only**: When using multiple displays, only show spaces from the main display in the menu bar
 - **Restart space numbering by display**: For each display, Space numbering starts at 1, instead of using continuous numbering
 - **When displays are side by side**: Use macOS display order or reverse it
 - **When displays are stacked**: macOS standard is to sort displays by the X coordinate of their center. This option enables sorting by Y coordinate
