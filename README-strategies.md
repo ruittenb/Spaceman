@@ -6,8 +6,8 @@
 | ----          | ----                  | ----                      | ----                  | ----                       |
 | Desktop (has shortcut), same display | direct shortcut | gesture | direct shortcut | gesture |
 | Desktop (has shortcut), cross-display | direct shortcut | ← fallback | direct shortcut | ← fallback |
-| Desktop (no shortcut), same display | show configure balloon | gesture | chain from current; (or if shorter) gesture-jump to anchor, then chain; (or if no arrow shortcuts) unavailable/greyed out | gesture |
-| Desktop (no shortcut), cross-display | show configure balloon | ← fallback | unavailable/greyed out | ← fallback |
+| Desktop (no shortcut), same display | show "configure space shortcuts" | gesture | chain from current; (or if shorter) gesture-jump to anchor, then chain; (or if no arrow shortcuts) unavailable/greyed out | gesture |
+| Desktop (no shortcut), cross-display | show "configure space shortcuts" | ← fallback | unavailable/greyed out | ← fallback |
 | Fullscreen, same display | chain from current; (or if shorter) gesture-jump to anchor, then chain; (or if no arrow shortcuts) show "configure arrow shortcuts" | gesture | chain from current; (or if shorter) gesture-jump to anchor, then chain; (or if no arrow shortcuts) unavailable/greyed out | gesture |
 | Fullscreen, cross-display | blink | ← fallback | unavailable/greyed out | ← fallback |
 
