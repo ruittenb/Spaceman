@@ -12,6 +12,8 @@ import SwiftUI
 
 struct PreferencesView: View {
     private let subItemIndent: CGFloat = 20
+    @ObservedObject var tabState: PreferencesTabState
+    var onCheckForUpdates: (() -> Void)?
 
     @AppStorage("iconText") private var iconText = IconText.numbers
     @AppStorage("decorationActive") private var decorationActive = IconStyle.filledRounded
@@ -25,6 +27,7 @@ struct PreferencesView: View {
     @AppStorage("showMissionControl") private var showMissionControl = false
     @AppStorage("showNavArrows") private var showNavArrows = false
     @AppStorage("showHUD") private var showHUD = false
+    @AppStorage("hudAlwaysTransparent") private var hudAlwaysTransparent = false
 
     @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
@@ -34,106 +37,27 @@ struct PreferencesView: View {
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
 
     @StateObject private var prefsVM = PreferencesViewModel()
-    @State private var selectedTab = 0
-    @FocusState private var tabPickerFocused: Bool
     @State private var showDisplaysHelp = false
     @State private var showSwitchingHelp = false
     @State private var showAutoShrinkHelp = false
 
     // MARK: - Main Body
     var body: some View {
-        VStack(spacing: 0) {
-            appInfo
-            Divider()
-            preferencePanes
-        }
-        .onAppear(perform: prefsVM.loadData)
-        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ActiveSpacesChanged"))) { _ in
-            prefsVM.loadData()
-        }
-    }
-
-    // MARK: - App Info
-    private var appInfo: some View {
-        HStack(spacing: 8) {
-            Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
-                .resizable()
-                .scaledToFit()
-                .frame(width: 52, height: 52)
-            Text("Version \(Constants.AppInfo.appVersion ?? "?")")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-
-            Spacer()
-
-            HStack(spacing: 4) {
-                Button {
-                    NSWorkspace.shared.open(Constants.AppInfo.repo)
-                } label: {
-                    Text("Documentation").font(.callout)
-                }
-                .buttonStyle(LinkButtonStyle())
-                .onHover { hovering in
-                    if hovering { NSCursor.pointingHand.push() } else { NSCursor.pop() }
-                }
-                Text("·").font(.callout).foregroundColor(.secondary)
-                Button {
-                    NSWorkspace.shared.open(Constants.AppInfo.website)
-                } label: {
-                    Text("Website").font(.callout)
-                }
-                .buttonStyle(LinkButtonStyle())
-                .onHover { hovering in
-                    if hovering { NSCursor.pointingHand.push() } else { NSCursor.pop() }
-                }
+        preferencePanes
+            .onAppear(perform: prefsVM.loadData)
+            .onReceive(NotificationCenter.default.publisher(
+                for: NSNotification.Name("ActiveSpacesChanged"))
+            ) { _ in
+                prefsVM.loadData()
             }
-        }
-        .padding(.leading, 16)
-        .padding(.trailing, 18)
-        .padding(.vertical, 2)
     }
 
     // MARK: - Preference Panes
     private var preferencePanes: some View {
         VStack(spacing: 0) {
-            // Tab selector
-            Picker("", selection: $selectedTab) {
-                Text("General").help("⌘1").tag(0)
-                Text("Appearance").help("⌘2").tag(1)
-                Text("Spaces").help("⌘3").tag(2)
-                Text("Displays").help("⌘4").tag(3)
-            }
-            .labelsHidden()
-            .pickerStyle(.segmented)
-            .focused($tabPickerFocused)
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    tabPickerFocused = true
-                }
-            }
-            .padding(10)
-            .background(
-                Group {
-                    Button("") { selectedTab = 0 }
-                        .keyboardShortcut("1", modifiers: .command)
-                        .hidden()
-                    Button("") { selectedTab = 1 }
-                        .keyboardShortcut("2", modifiers: .command)
-                        .hidden()
-                    Button("") { selectedTab = 2 }
-                        .keyboardShortcut("3", modifiers: .command)
-                        .hidden()
-                    Button("") { selectedTab = 3 }
-                        .keyboardShortcut("4", modifiers: .command)
-                        .hidden()
-                }
-            )
-
-            Divider()
-
             // Tab content
             Group {
-                if selectedTab == 0 {
+                if tabState.selectedTab == 0 {
                     VStack(alignment: .leading, spacing: 0) {
                         generalPane
                         Divider()
@@ -141,19 +65,47 @@ struct PreferencesView: View {
                         Divider()
                         backupRestorePane
                     }
-                } else if selectedTab == 1 {
+                } else if tabState.selectedTab == 1 {
                     appearancePane
-                } else if selectedTab == 2 {
+                } else if tabState.selectedTab == 2 {
                     spacesPane
-                } else {
+                } else if tabState.selectedTab == 3 {
+                    switchingPane
+                } else if tabState.selectedTab == 4 {
                     displaysPane
+                } else {
+                    aboutPane
                 }
             }
         }
+        .frame(minWidth: 420)
         .padding(.bottom, 20)
-        .onChange(of: selectedTab) { _ in
+        .background(
+            Group {
+                Button("") { tabState.selectedTab = 0 }
+                    .keyboardShortcut("1", modifiers: .command)
+                    .hidden()
+                Button("") { tabState.selectedTab = 1 }
+                    .keyboardShortcut("2", modifiers: .command)
+                    .hidden()
+                Button("") { tabState.selectedTab = 2 }
+                    .keyboardShortcut("3", modifiers: .command)
+                    .hidden()
+                Button("") { tabState.selectedTab = 3 }
+                    .keyboardShortcut("4", modifiers: .command)
+                    .hidden()
+                Button("") { tabState.selectedTab = 4 }
+                    .keyboardShortcut("5", modifiers: .command)
+                    .hidden()
+                Button("") { tabState.selectedTab = 5 }
+                    .keyboardShortcut("6", modifiers: .command)
+                    .hidden()
+            }
+        )
+        .onChange(of: tabState.selectedTab) { _ in
             NotificationCenter.default.post(
-                name: NSNotification.Name("PreferencesTabChanged"), object: nil)
+                name: NSNotification.Name("PreferencesTabChanged"),
+                object: nil)
         }
     }
 
@@ -249,6 +201,72 @@ struct PreferencesView: View {
         }
     }
 
+    // MARK: - About pane
+    private var aboutPane: some View {
+        HStack(alignment: .top, spacing: 16) {
+            Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
+                .resizable()
+                .scaledToFit()
+                .frame(width: 96, height: 96)
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Spaceman")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                Text("Version \(Constants.AppInfo.appVersion ?? "?")")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(verbatim: "© 2020-2023 Sasindu Jayasinghe")
+                    Text(verbatim: "© 2024-2026 René Uittenbogaard")
+                }
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                Button {
+                    onCheckForUpdates?()
+                } label: {
+                    Text("Check for Updates…")
+                }
+                .padding(.top, 4)
+                HStack(spacing: 4) {
+                    Button {
+                        NSWorkspace.shared.open(
+                            Constants.AppInfo.repo)
+                    } label: {
+                        Text("Documentation")
+                            .font(.callout)
+                    }
+                    .buttonStyle(LinkButtonStyle())
+                    .onHover { hovering in
+                        if hovering {
+                            NSCursor.pointingHand.push()
+                        } else {
+                            NSCursor.pop()
+                        }
+                    }
+                    Text("·").font(.callout)
+                        .foregroundColor(.secondary)
+                    Button {
+                        NSWorkspace.shared.open(
+                            Constants.AppInfo.website)
+                    } label: {
+                        Text("Website").font(.callout)
+                    }
+                    .buttonStyle(LinkButtonStyle())
+                    .onHover { hovering in
+                        if hovering {
+                            NSCursor.pointingHand.push()
+                        } else {
+                            NSCursor.pop()
+                        }
+                    }
+                }
+                .padding(.top, 4)
+            }
+        }
+        .padding(30)
+        .padding(.horizontal)
+    }
+
     // MARK: - Backup / Restore pane
     private var backupRestorePane: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -320,11 +338,6 @@ struct PreferencesView: View {
             // The Space names are always shown in the menu, therefore:
             // allow editing even if icon style does not include names
             spaceNameListEditor
-
-            Spacer()
-                .frame(height: 12)
-
-            switchingOptions
         }
         .padding()
     }
@@ -442,14 +455,14 @@ struct PreferencesView: View {
         .padding()
     }
 
-    // MARK: - Switching options (shown at the bottom of Spaces tab)
+    // MARK: - Switching pane
     @AppStorage("switchingMode") private var switchingMode = SwitchingMode.smooth.rawValue
 
     private var isGestureMode: Bool {
         switchingMode != SwitchingMode.smooth.rawValue
     }
 
-    private var switchingOptions: some View {
+    private var switchingPane: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Switching Spaces")
                 .font(.title2)
@@ -457,9 +470,9 @@ struct PreferencesView: View {
             Picker("", selection: $switchingMode) {
                 Text("Use smooth transitions")
                     .tag(SwitchingMode.smooth.rawValue)
-                Text("Use fast animations")
+                Text("Use fast animations (same display only)")
                     .tag(SwitchingMode.fast.rawValue)
-                Text("Use instant switching")
+                Text("Use instant switching (same display only)")
                     .tag(SwitchingMode.instant.rawValue)
             }
             .pickerStyle(.radioGroup)
@@ -489,7 +502,11 @@ struct PreferencesView: View {
                 }
             }
             Toggle("Show HUD when switching spaces", isOn: $showHUD)
+            Toggle("Always transparent", isOn: $hudAlwaysTransparent)
+                .padding(.leading, subItemIndent)
+                .disabled(!showHUD)
         }
+        .padding()
     }
 
     // MARK: - Refresh Shortcut Recorder
@@ -838,6 +855,6 @@ func openSettings(candidates: [String]) {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        PreferencesView()
+        PreferencesView(tabState: PreferencesTabState())
     }
 }

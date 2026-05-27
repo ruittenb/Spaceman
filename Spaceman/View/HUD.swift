@@ -144,6 +144,7 @@ struct HUDView: View {
     let spaces: [Space]
 
     @AppStorage("gridColumns") private var gridColumns: Int = 3
+    @AppStorage("hudAlwaysTransparent") private var hudAlwaysTransparent = false
 
     private var spacesByDisplay: [[Space]] {
         HUDPanel.spacesByDisplay(spaces)
@@ -181,7 +182,7 @@ struct HUDView: View {
             }
         }
         .padding(Self.padding)
-        .background(HUDBackground())
+        .background(HUDBackground(forceTransparent: hudAlwaysTransparent))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(white: 0.25).opacity(0.5), lineWidth: 0.5))
         .frame(width: gridWidth)
@@ -189,15 +190,28 @@ struct HUDView: View {
 }
 
 /// NSVisualEffectView with .hudWindow material.
-/// Automatically falls back to a solid color when Reduce Transparency is on.
+/// Automatically falls back to a solid color when Reduce Transparency is on,
+/// unless `forceTransparent` is true — then the view's alpha is reduced
+/// so the opaque fallback becomes see-through.
 struct HUDBackground: NSViewRepresentable {
+    var forceTransparent: Bool = false
+
     func makeNSView(context: Context) -> NSVisualEffectView {
         let view = NSVisualEffectView()
         view.material = .hudWindow
         view.state = .active
         view.blendingMode = .behindWindow
+        applyAlpha(to: view)
         return view
     }
 
-    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {}
+    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
+        applyAlpha(to: nsView)
+    }
+
+    private func applyAlpha(to view: NSVisualEffectView) {
+        let shouldReduce = NSWorkspace.shared
+            .accessibilityDisplayShouldReduceTransparency
+        view.alphaValue = (forceTransparent && shouldReduce) ? 0.7 : 1.0
+    }
 }

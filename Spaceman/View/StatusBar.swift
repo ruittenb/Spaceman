@@ -77,7 +77,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         about.view = aboutView
 
         updatesItem = NSMenuItem(
-            title: String(localized: "Check for updates…"),
+            title: String(localized: "Check for Updates…"),
             action: #selector(updaterController.checkForUpdates(_:)),
             keyEquivalent: "")
         updatesItem.target = updaterController
@@ -843,7 +843,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     }
 
     @objc func showPreferencesWindow(_ sender: AnyObject) {
-        let hostedPrefsView = NSHostingView(rootView: PreferencesView())
+        let hostedPrefsView = NSHostingView(
+            rootView: PreferencesView(
+                tabState: prefsWindow.tabState,
+                onCheckForUpdates: { [weak self] in
+                    self?.updaterController.checkForUpdates(nil)
+                }))
         hostedPrefsView.sizingOptions = [.intrinsicContentSize]
         prefsWindow.contentView = hostedPrefsView
 
@@ -949,7 +954,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func hideBadge() {
         // Hide the 'available' badge in the menu
         DispatchQueue.main.async {
-            self.updatesItem.title = String(localized: "Check for updates…")
+            self.updatesItem.title = String(localized: "Check for Updates…")
             if #available(macOS 14.0, *) {
                 self.updatesItem.badge = nil
             }
