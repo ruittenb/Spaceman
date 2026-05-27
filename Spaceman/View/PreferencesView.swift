@@ -131,14 +131,15 @@ struct PreferencesView: View {
     // MARK: - Displays pane
     private var displaysPane: some View {
         let hasMultipleDisplays = NSScreen.screens.count > 1
-        return VStack(alignment: .leading, spacing: 12) {
+        return VStack(alignment: .leading, spacing: 10) {
             Text("Displays")
                 .font(.title2)
                 .fontWeight(.semibold)
+                .padding(.bottom, 4)
 
-            Toggle("Show main display only", isOn: $mainDisplayOnly)
-                .disabled(!hasMultipleDisplays)
             Toggle("Restart space numbering by display", isOn: $restartNumberingByDisplay)
+                .disabled(!hasMultipleDisplays)
+            Toggle("Show main display only", isOn: $mainDisplayOnly)
                 .disabled(!hasMultipleDisplays)
             HStack(alignment: .top) {
                 Text("When displays are side by side")
@@ -378,8 +379,11 @@ struct PreferencesView: View {
             rowLayoutPicker
             spacesShownPicker
             Toggle("Show fullscreen spaces", isOn: $showFullscreenSpaces)
+                .padding(.bottom, 2)
             Toggle("Show Mission Control button", isOn: $showMissionControl)
+                .padding(.bottom, 2)
             Toggle("Show navigation arrows", isOn: $showNavArrows)
+                .padding(.bottom, 2)
             HStack {
                 Toggle("Auto-shrink when there is shortage of space", isOn: $autoShrink)
                 Button {
@@ -490,7 +494,6 @@ struct PreferencesView: View {
                 } label: {
                     Text("Open \(systemSettingsName()) → Mission Control Shortcuts…")
                 }
-                .disabled(isGestureMode)
                 Button {
                     showSwitchingHelp.toggle()
                 } label: {
@@ -507,6 +510,7 @@ struct PreferencesView: View {
                     .frame(width: 240)
                 }
             }
+            .padding(.bottom, 2)
             Toggle("Show HUD when switching spaces", isOn: $showHUD)
             Toggle("Always transparent", isOn: $hudAlwaysTransparent)
                 .padding(.leading, subItemIndent)
