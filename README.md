@@ -164,10 +164,10 @@ Spaceman's preferences are organized into six tabs: **General**, **Appearance**,
 
 ### Displays Tab
 
-<img src="images/Preferences-Displays-2.png" width="66%" height="auto">
+<img src="images/Preferences-Displays-3.png" width="66%" height="auto">
 
-- **Show main display only**: When using multiple displays, only show spaces from the main display in the menu bar
 - **Restart space numbering by display**: For each display, Space numbering starts at 1, instead of using continuous numbering
+- **Show main display only**: When using multiple displays, only show spaces from the main display in the menu bar
 - **When displays are side by side**: Use macOS display order or reverse it
 - **When displays are stacked**: macOS standard is to sort displays by the X coordinate of their center. This option enables sorting by Y coordinate
 - **Open System Settings → Displays**: Opens the System Settings panel for Displays. Click [Arrange] to adjust the arrangement of the displays
@@ -238,7 +238,7 @@ Some appearance settings are also available directly from this menu.
 
 <img src="images/Menu-6.png" width="auto" height="auto">
 
-<img src="images/Menu-Grid-3.png" width="auto" height="auto">
+<img src="images/Menu-Grid-4.png" width="auto" height="auto">
 
 **Quick Rename Current Space**
 - Rename the current space on the fly via the right-click menu ("Rename Current Space…") or a configurable keyboard shortcut
