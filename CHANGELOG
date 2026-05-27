@@ -1,3 +1,5 @@
+1.22.1: Fix switching strategies: no switching to cross-display fullscreen spaces
+1.22.0: New layout for settings window; allow HUD to always be transparent
 1.21.5: Fix: fast/instant switching to spaces on other displays than first
 1.21.4: Fixes: only show HUD on active display; hide fullscreen spaces from HUD; fix cell spanning in grid
 1.21.3: Fixed auto-refresh in background

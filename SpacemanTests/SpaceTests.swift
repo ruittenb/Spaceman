@@ -188,8 +188,7 @@ final class SpaceTests: XCTestCase {
     }
 
     func testCanSwitch_desktopNoShortcut_crossDisplay() {
-        // D6: desktop without shortcut, cross-display, smooth mode.
-        // Anchor on target display + arrows → reachable.
+        // Desktop without shortcut, cross-display → unreachable.
         let current = Space(
             displayID: "d1", spaceID: "s1", spaceName: "",
             spaceNumber: 1, spaceLabel: "1",
@@ -203,8 +202,7 @@ final class SpaceTests: XCTestCase {
             spaceNumber: 3, spaceLabel: "2",
             isCurrentSpace: false, isFullScreen: false)
         let spaces = [current, anchor, target]
-        // Only anchor (s2) has an enabled shortcut, target (s3) does not
-        XCTAssertTrue(Space.canSwitch(
+        XCTAssertFalse(Space.canSwitch(
             space: target, switchTag: nil,
             spaces: spaces, enabledSwitchMap: ["s1": 1, "s2": 2],
             hasArrowShortcuts: true))
