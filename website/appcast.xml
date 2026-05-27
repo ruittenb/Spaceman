@@ -3,25 +3,25 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.20.3: Fix icon padding on 13" screens</title>
+            <title>v1.22.2: New Preferences Window layout</title>
             <description>
                 <![CDATA[
-                    <p>v1.20.3</p>
                     <ul>
-                        <li>- Fix icon padding on 13" screens</li>
-                        <li>- Make default name for new spaces static</li>
+                        <li> - Fix switching strategies: no switching to cross-display fullscreen spaces</li>
+                        <li> - New layout for settings window</li>
+                        <li> - Option to make HUD always transparent</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Mon, 04 May 2026 09:39:14 +0200</pubDate>
+            <pubDate>Wed, 27 May 2026 15:25:24 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.20.3/Spaceman-1.20.3.dmg"
-                sparkle:version="1.20.3"
-                sparkle:shortVersionString="1.20.3"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.22.2/Spaceman-1.22.2.dmg"
+                sparkle:version="1.22.2"
+                sparkle:shortVersionString="1.22.2"
                 type="application/octet-stream"
-                length="3409345"
-sparkle:edSignature="BINUEZcsyBdexOYurqjkXlkUEBOCkp6xSpNpil/RnS+QAuNL8IeXaBvwYEbnWzBrniT5L54bCJHBjmN9jczOAg=="
+                length="3478054"
+sparkle:edSignature="5iUeBUi5C+cF+U9HtHS9iwdj0saMtFwQDppLwEkNDK/9Uw+37vnhfdxS7adPh+38d0U6GSPaWB5BtQvQKrk9Aw=="
             />
         </item>
     </channel>
