@@ -454,11 +454,11 @@ struct PreferencesView: View {
                     set: { gridColumns = max(1, Int($0)) }
                 ), in: 1...Double(max(2, prefsVM.spaceNamesDict.count)), step: 1)
                     .disabled(spaceDisplayMode != .grid)
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, 5)
                 Text("\(gridColumns)")
                     .monospacedDigit()
                     .foregroundColor(spaceDisplayMode == .grid ? .primary : .secondary)
-                    .frame(width: 10, alignment: .trailing)
+                    .frame(width: 18, alignment: .trailing)
             }
             .padding(.leading, subItemIndent)
         }
