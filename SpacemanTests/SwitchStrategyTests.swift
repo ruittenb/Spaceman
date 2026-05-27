@@ -243,10 +243,7 @@ final class SwitchStrategyTests: XCTestCase {
             context: ctx(
                 entryPoint: .menu, spaces: spaces,
                 enabledSwitchMap: ["s1": 1, "s2": 2]))
-        XCTAssertEqual(
-            strategy,
-            .shortcutJumpThenChain(
-                anchorSwitchIndex: 2, steps: 1, goRight: true))
+        XCTAssertEqual(strategy, .unreachable)
     }
 
     func testDesktopNoShortcut_crossDisplay_menu_noAnchor() {
@@ -422,7 +419,7 @@ final class SwitchStrategyTests: XCTestCase {
 
     // MARK: - Fullscreen, cross-display
 
-    func testFullscreen_crossDisplay_smooth_withAnchor() {
+    func testFullscreen_crossDisplay_click_withAnchor() {
         let spaces = [
             makeSpace(id: "s1", number: 1, displayID: "d1",
                       current: true),
@@ -435,10 +432,23 @@ final class SwitchStrategyTests: XCTestCase {
             context: ctx(
                 spaces: spaces,
                 enabledSwitchMap: ["s1": 1, "s2": 2]))
-        XCTAssertEqual(
-            strategy,
-            .shortcutJumpThenChain(
-                anchorSwitchIndex: 2, steps: 1, goRight: true))
+        XCTAssertEqual(strategy, .unreachable)
+    }
+
+    func testFullscreen_crossDisplay_menu_withAnchor() {
+        let spaces = [
+            makeSpace(id: "s1", number: 1, displayID: "d1",
+                      current: true),
+            makeSpace(id: "s2", number: 2, displayID: "d2"),
+            makeSpace(id: "f1", number: 3, displayID: "d2",
+                      fullScreen: true),
+        ]
+        let strategy = SwitchStrategizer.resolveStrategy(
+            switchTag: -3,
+            context: ctx(
+                entryPoint: .menu, spaces: spaces,
+                enabledSwitchMap: ["s1": 1, "s2": 2]))
+        XCTAssertEqual(strategy, .unreachable)
     }
 
     func testFullscreen_crossDisplay_click_noAnchor() {
@@ -453,7 +463,7 @@ final class SwitchStrategyTests: XCTestCase {
             context: ctx(
                 spaces: spaces,
                 enabledSwitchMap: ["s1": 1]))
-        XCTAssertEqual(strategy, .showBalloon(.navigation))
+        XCTAssertEqual(strategy, .unreachable)
     }
 
     func testFullscreen_crossDisplay_gesture_noAnchor() {
@@ -469,7 +479,7 @@ final class SwitchStrategyTests: XCTestCase {
                 mode: .fast, spaces: spaces,
                 enabledSwitchMap: ["s1": 1],
                 focusedDisplayID: "d1"))
-        XCTAssertEqual(strategy, .showBalloon(.navigation))
+        XCTAssertEqual(strategy, .unreachable)
     }
 
     // MARK: - Navigation strategies
