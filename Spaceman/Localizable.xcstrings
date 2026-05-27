@@ -1886,6 +1886,9 @@
         }
       }
     },
+    "Main Display Only" : {
+
+    },
     "Medium" : {
       "localizations" : {
         "de" : {
@@ -3755,6 +3758,9 @@
           }
         }
       }
+    },
+    "Show main display only" : {
+
     },
     "Show Mission Control button" : {
       "localizations" : {

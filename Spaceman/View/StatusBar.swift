@@ -21,6 +21,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("lastInactiveShape") private var lastInactiveShape = IconShape.rounded
     @AppStorage("lastInactiveFill") private var lastInactiveFill = IconFill.bordered
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
+    @AppStorage("mainDisplayOnly") private var mainDisplayOnly = false
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("showMissionControl") private var showMissionControl = false
@@ -198,6 +199,12 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         )
         showFullscreenItem.target = self
         spacesShownSubmenu.addItem(showFullscreenItem)
+        let mainDisplayItem = NSMenuItem(
+            title: String(localized: "Main Display Only"),
+            action: #selector(toggleMainDisplayOnly), keyEquivalent: ""
+        )
+        mainDisplayItem.target = self
+        spacesShownSubmenu.addItem(mainDisplayItem)
         spacesShownSubmenu.addItem(NSMenuItem.separator())
         let showMCItem = NSMenuItem(
             title: String(localized: "Mission Control Button"),
@@ -674,6 +681,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let currentDecorationInactive =
                 IconStyle(rawValue: ud.integer(forKey: "decorationInactive")) ?? .borderedRounded
         let currentShowFullscreenSpaces = ud.object(forKey: "showFullscreenSpaces") as? Bool ?? true
+        let currentMainDisplayOnly = ud.bool(forKey: "mainDisplayOnly")
         let currentShowMissionControl = ud.bool(forKey: "showMissionControl")
         let currentShowNavArrows = ud.bool(forKey: "showNavArrows")
         let currentVisibleSpacesModeRaw = ud.integer(forKey: "visibleSpacesMode")
@@ -730,6 +738,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         for item in spacesShownMenuItem.submenu?.items ?? [] {
             if item.action == #selector(toggleShowFullscreenSpaces) {
                 item.state = currentShowFullscreenSpaces ? .on : .off
+            } else if item.action == #selector(toggleMainDisplayOnly) {
+                item.state = currentMainDisplayOnly ? .on : .off
             } else if item.action == #selector(toggleShowMissionControl) {
                 item.state = currentShowMissionControl ? .on : .off
             } else if item.action == #selector(toggleShowNavArrows) {
@@ -829,6 +839,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func toggleShowFullscreenSpaces() {
         showFullscreenSpaces.toggle()
+        postSettingsChanged()
+    }
+
+    @objc func toggleMainDisplayOnly() {
+        mainDisplayOnly.toggle()
         postSettingsChanged()
     }
 
