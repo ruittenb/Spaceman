@@ -3,14 +3,6 @@
 SETTINGS / PREFERENCES
 ============================================================================
 
-Line distances in preferences
-
-width of preferences window
-
-============================================================================
-SETTINGS / PREFERENCES
-============================================================================
-
 Cmd-, displays a settings window that is different from the Preferences
 
 ============================================================================

@@ -78,7 +78,7 @@ struct PreferencesView: View {
                 }
             }
         }
-        .frame(minWidth: 420)
+        .frame(minWidth: 425)
         .padding(.bottom, 20)
         .background(
             Group {
@@ -130,7 +130,7 @@ struct PreferencesView: View {
     // MARK: - Displays pane
     private var displaysPane: some View {
         let hasMultipleDisplays = NSScreen.screens.count > 1
-        return VStack(alignment: .leading, spacing: 8) {
+        return VStack(alignment: .leading, spacing: 12) {
             Text("Displays")
                 .font(.title2)
                 .fontWeight(.semibold)
@@ -696,7 +696,7 @@ struct PreferencesView: View {
                     let hasMultipleDisplays = NSScreen.screens.count > 1
                     let label = hasMultipleDisplays ? "Display \(displayIndex)  \(spacePart)" : spacePart
                     let leftMargin = 40
-                    let labelWidth = hasMultipleDisplays ? 140 : 80
+                    let labelWidth = hasMultipleDisplays ? 150 : 80
 
                     HStack(spacing: 8) {
                         Text(label)
