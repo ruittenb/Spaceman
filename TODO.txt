@@ -6,13 +6,6 @@ SETTINGS / PREFERENCES
 Cmd-, displays a settings window that is different from the Preferences
 
 ============================================================================
-TESTING
-============================================================================
-
-Test how instant switching holds up with multiple desktops
-Test how fullscreen-cross-display works or fails with instant switching
-
-============================================================================
 AUTOMATION: SWITCH DISPLAYS
 ============================================================================
 

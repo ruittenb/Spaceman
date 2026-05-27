@@ -138,6 +138,6 @@ struct SpaceCellView: View {
                 .stroke(colorless ? .clear : Color.accentColor,
                         lineWidth: space.isCurrentSpace ? 2.5 : 0)
         )
-        .foregroundColor(textColor)
+        .foregroundColor(enabled || space.isCurrentSpace ? textColor : .gray)
     }
 }

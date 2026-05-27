@@ -13,6 +13,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @AppStorage("autoShrink") private var autoShrink = true
     @AppStorage("showHUD") private var showHUD = false
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
+    @AppStorage("mainDisplayOnly") private var mainDisplayOnly = false
 
     private var iconCreator: IconCreator!
     private var statusBar: StatusBar!
@@ -213,22 +214,31 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let fallbackDelay: TimeInterval = suppressDuration + 0.1
         suppressOcclusionUntil = Date().addingTimeInterval(suppressDuration)
 
+        // Filter to main display when enabled
+        let displaySpaces: [Space]
+        if mainDisplayOnly,
+           let mainID = Self.mainDisplayID(from: spaces) {
+            displaySpaces = spaces.filter { $0.displayID == mainID }
+        } else {
+            displaySpaces = spaces
+        }
+
         let buttonAppearance = statusBar.getButtonAppearance()
         statusBar.isAppIconMode = (shrinkLevel == .icon)
 
         switch shrinkLevel {
         case .none:
-            let icon = iconCreator.getIcon(for: spaces, appearance: buttonAppearance)
-            statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
+            let icon = iconCreator.getIcon(for: displaySpaces, appearance: buttonAppearance)
+            statusBar.updateStatusBar(withIcon: icon, withSpaces: displaySpaces)
         case .shrunken:
             // Override size, text style, and visibility — but not row layout,
             // which stays at the user's preference (two-row is more compact).
             let overrides = ShrinkOverrides(
                 iconSize: .compact, iconText: .numbers,
                 showFullscreenSpaces: false, showNavArrows: false, showMissionControl: false)
-            let icon = iconCreator.getIcon(for: spaces, appearance: buttonAppearance,
+            let icon = iconCreator.getIcon(for: displaySpaces, appearance: buttonAppearance,
                                             shrinkOverrides: overrides)
-            statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
+            statusBar.updateStatusBar(withIcon: icon, withSpaces: displaySpaces)
         case .icon:
             if let appIcon = NSApp.applicationIconImage {
                 let menuBarHeight = NSStatusBar.system.thickness
@@ -236,7 +246,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 scaled.lockFocus()
                 appIcon.draw(in: NSRect(x: 0, y: 0, width: menuBarHeight, height: menuBarHeight))
                 scaled.unlockFocus()
-                statusBar.updateStatusBar(withIcon: scaled, withSpaces: spaces)
+                statusBar.updateStatusBar(withIcon: scaled, withSpaces: displaySpaces)
             }
         }
 
@@ -446,6 +456,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             UserDefaults.standard.set(mode.rawValue, forKey: "switchingMode")
             UserDefaults.standard.removeObject(forKey: "useGestureSwitching")
         }
+    }
+
+    /// The display UUID of the main display (menu bar).
+    private static func mainDisplayID(
+        from spaces: [Space]
+    ) -> String? {
+        let mainCGID = CGMainDisplayID()
+        let displayIDs = Set(spaces.map { $0.displayID })
+        for displayID in displayIDs {
+            guard let uuid = CFUUIDCreateFromString(
+                kCFAllocatorDefault,
+                displayID as CFString)
+            else { continue }
+            if CGDisplayGetDisplayIDFromUUID(uuid)
+                == mainCGID {
+                return displayID
+            }
+        }
+        return nil
     }
 }
 
