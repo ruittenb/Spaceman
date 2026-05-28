@@ -164,7 +164,7 @@ Spaceman's preferences are organized into six tabs: **General**, **Appearance**,
 
 ### Displays Tab
 
-<img src="images/Preferences-Displays-3.png" width="66%" height="auto">
+<img src="images/Preferences-Displays-4.png" width="66%" height="auto">
 
 - **Restart space numbering by display**: For each display, Space numbering starts at 1, instead of using continuous numbering
 - **Show main display only**: When using multiple displays, only show spaces from the main display in the menu bar

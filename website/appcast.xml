@@ -3,25 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.22.2: New Preferences Window layout</title>
+            <title>v1.23.1 - Cosmetic fixes</title>
             <description>
                 <![CDATA[
+                    <p>v1.23.1</p>
                     <ul>
-                        <li> - Fix switching strategies: no switching to cross-display fullscreen spaces</li>
-                        <li> - New layout for settings window</li>
-                        <li> - Option to make HUD always transparent</li>
+                        <li> - Cosmetic fixes</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 27 May 2026 15:25:24 +0200</pubDate>
+            <pubDate>Thu, 28 May 2026 09:25:30 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.22.2/Spaceman-1.22.2.dmg"
-                sparkle:version="1.22.2"
-                sparkle:shortVersionString="1.22.2"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.23.1/Spaceman-1.23.1.dmg"
+                sparkle:version="1.23.1"
+                sparkle:shortVersionString="1.23.1"
                 type="application/octet-stream"
-                length="3478054"
-sparkle:edSignature="5iUeBUi5C+cF+U9HtHS9iwdj0saMtFwQDppLwEkNDK/9Uw+37vnhfdxS7adPh+38d0U6GSPaWB5BtQvQKrk9Aw=="
+                length="3481089"
+sparkle:edSignature="SjLKhJsXCuxUgUJO/3QgjI0OhNh+b4Qadep/nvH4d1odSA/zbQLHiQkt3rxMXLPZtaXCQ87LniNCTlkUyJ+fCA=="
             />
         </item>
     </channel>
