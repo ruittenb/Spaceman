@@ -186,6 +186,13 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         iconShapeMenuItem.submenu = iconShapeSubmenu
 
         let spacesShownSubmenu = NSMenu()
+        let mainDisplayItem = NSMenuItem(
+            title: String(localized: "Main Display Only"),
+            action: #selector(toggleMainDisplayOnly), keyEquivalent: ""
+        )
+        mainDisplayItem.target = self
+        spacesShownSubmenu.addItem(mainDisplayItem)
+        spacesShownSubmenu.addItem(NSMenuItem.separator())
         for mode in VisibleSpacesMode.allCases {
             let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectSpacesShown(_:)), keyEquivalent: "")
             item.tag = mode.rawValue
@@ -199,12 +206,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         )
         showFullscreenItem.target = self
         spacesShownSubmenu.addItem(showFullscreenItem)
-        let mainDisplayItem = NSMenuItem(
-            title: String(localized: "Main Display Only"),
-            action: #selector(toggleMainDisplayOnly), keyEquivalent: ""
-        )
-        mainDisplayItem.target = self
-        spacesShownSubmenu.addItem(mainDisplayItem)
         spacesShownSubmenu.addItem(NSMenuItem.separator())
         let showMCItem = NSMenuItem(
             title: String(localized: "Mission Control Button"),
