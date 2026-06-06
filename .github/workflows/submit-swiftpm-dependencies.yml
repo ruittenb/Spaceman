@@ -1,0 +1,97 @@
+name: Submit SwiftPM dependencies
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "Spaceman.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
+      - ".github/workflows/submit-swiftpm-dependencies.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  submit:
+    # This workflow only parses Package.resolved and submits JSON to GitHub.
+    # Ubuntu is enough for that and lighter than a macOS runner.
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Submit Package.resolved to dependency graph
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+          import urllib.parse
+          from pathlib import Path
+          from datetime import datetime, timezone
+
+          path = Path("Spaceman.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved")
+          data = json.loads(path.read_text())
+
+          resolved = {}
+
+          for pin in data["pins"]:
+              name = pin["identity"]
+              version = pin["state"].get("version") or pin["state"]["revision"]
+              location = pin["location"]
+
+              parsed = urllib.parse.urlparse(location)
+              host = parsed.netloc
+              parts = parsed.path.strip("/").removesuffix(".git").split("/")
+              namespace = parts[-2] if len(parts) >= 2 else ""
+              package = parts[-1]
+
+              segments = [host, namespace, package] if namespace else [host, package]
+              purl_name = "/".join(segments)
+              purl = f"pkg:swift/{purl_name}@{version}"
+
+              resolved[name] = {
+                  "package_url": purl,
+                  "relationship": "direct",
+                  "scope": "runtime"
+              }
+
+          snapshot = {
+              "version": 0,
+              "sha": os.environ["GITHUB_SHA"],
+              "ref": os.environ["GITHUB_REF"],
+              "job": {
+                  "correlator": f'{os.environ["GITHUB_WORKFLOW"]}-{os.environ["GITHUB_JOB"]}',
+                  "id": os.environ["GITHUB_RUN_ID"]
+              },
+              "detector": {
+                  "name": "manual-swiftpm-package-resolved",
+                  "version": "1.0.0",
+                  "url": "https://github.com/ruittenb/Spaceman"
+              },
+              "scanned": datetime.now(timezone.utc).isoformat(),
+              "manifests": {
+                  str(path): {
+                      "name": "Package.resolved",
+                      "file": {
+                          "source_location": str(path)
+                      },
+                      "resolved": resolved
+                  }
+              }
+          }
+
+          Path("dependency-snapshot.json").write_text(json.dumps(snapshot, indent=2))
+          PY
+
+          cat dependency-snapshot.json
+          curl -fL -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -H "Content-Type: application/json" \
+            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/dependency-graph/snapshots" \
+            --data-binary @dependency-snapshot.json
