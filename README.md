@@ -1,5 +1,9 @@
 
-![Spaceman Example](images/Header.png)
+![Spaceman Logo](images/Header.png)
+
+[![Lint](https://github.com/ruittenb/Spaceman/actions/workflows/lint.yml/badge.svg)](https://github.com/ruittenb/Spaceman/actions/workflows/lint.yml)
+[![CodeQL](https://github.com/ruittenb/Spaceman/actions/workflows/codeql.yml/badge.svg)](https://github.com/ruittenb/Spaceman/actions/workflows/codeql.yml)
+[![Tests](https://github.com/ruittenb/Spaceman/actions/workflows/tests.yml/badge.svg)](https://github.com/ruittenb/Spaceman/actions/workflows/tests.yml)
 
 ## 🔹 About
 

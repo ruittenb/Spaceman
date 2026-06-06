@@ -24,7 +24,7 @@ help: ## Print help for each target
 
 .PHONY: translations
 translations: ## Update and complete all translations
-	claude -p "Bring the .xcstrings file up to date, if necessary. Use the file .claude/skills/translations.md"
+	claude -p "Bring the .xcstrings file up to date, if necessary. Use the skill file .claude/skills/translations.md"
 
 .PHONY: test
 test: ## Run unit tests
@@ -34,7 +34,7 @@ test: ## Run unit tests
 
 .PHONY: lint
 lint: ## Check source code style
-	swiftlint Spaceman
+	swiftlint lint Spaceman --no-cache
 
 .PHONY: build
 build: $(ARCHIVE) ## Make the archive file
@@ -133,11 +133,27 @@ brew-publish: ## Publish the new spaceman.rb so that homebrew can find it
 	git commit Casks -m "Version $(VERSION)" && \
 	git push
 
+
+##@ Continuous Integration:
+
+.PHONY: test-ci
+test-ci: ## Run unit tests (on GitHub)
+	set -o pipefail && \
+		xcodebuild test -project $(PROJECT).xcodeproj -scheme $(PROJECT) -destination platform=macOS \
+			CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" | \
+		xcbeautify --quiet
+
+.PHONY: lint-ci
+lint-ci: ## Check source code style (on GitHub)
+	swiftlint lint Spaceman --reporter github-actions-logging --no-cache
+
+
 ##@ Documentation:
 
 .PHONY: setup-pillow
 setup-pillow: ## Install Pillow, requirement for scripts/add-background.py
 	pip3 install Pillow
+
 
 ##@ Defaults:
 
