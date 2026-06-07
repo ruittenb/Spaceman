@@ -27,7 +27,7 @@ function_body_length:
   error: 200
 
 cyclomatic_complexity:
-  warning: 20
+  warning: 18
   error: 24
 
 identifier_name:
