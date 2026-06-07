@@ -77,8 +77,8 @@ enum IconStyle: Int, CaseIterable {
     /// Returns a new style with the given fill, preserving the shape.
     /// If the current style is `noDecoration`, defaults to rectangular.
     func withFill(_ fill: IconFill) -> IconStyle {
-        let s = isNoDecoration ? IconShape.rectangular : shape
-        switch (fill, s) {
+        let resolvedShape = isNoDecoration ? IconShape.rectangular : shape
+        switch (fill, resolvedShape) {
         case (_, .noDecoration):        return .noDecoration
         case (.bordered, .rectangular): return .borderedRectangular
         case (.bordered, .rounded):     return .borderedRounded

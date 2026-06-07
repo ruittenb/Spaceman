@@ -60,12 +60,12 @@ class SpaceObserver {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleUserRefresh),
-            name: SettingsChangedName,
+            name: settingsChangedName,
             object: nil)
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleAutoRefresh),
-            name: AutoRefreshTriggeredName,
+            name: autoRefreshTriggeredName,
             object: nil)
         workspace.notificationCenter.addObserver(
             self,
@@ -115,17 +115,18 @@ class SpaceObserver {
 
     // Compare two displays according to user preferences
     func compareDisplays(
-        d1: NSDictionary, d2: NSDictionary,
+        display1: NSDictionary, display2: NSDictionary,
         verticalDirection: VerticalDirection,
         horizontalDirection: HorizontalDirection
     ) -> Bool {
-        let c1 = DisplayGeometryUtilities.getDisplayCenter(display: d1)
-        let c2 = DisplayGeometryUtilities.getDisplayCenter(display: d2)
-        let isVerticallyArranged = DisplayGeometryUtilities.getIsVerticallyArranged(d1: d1, d2: d2)
+        let center1 = DisplayGeometryUtilities.getDisplayCenter(display: display1)
+        let center2 = DisplayGeometryUtilities.getDisplayCenter(display: display2)
+        let isVerticallyArranged = DisplayGeometryUtilities.getIsVerticallyArranged(
+            display1: display1, display2: display2)
 
         return SpaceObserver.compareDisplayCenters(
-            c1: c1,
-            c2: c2,
+            center1: center1,
+            center2: center2,
             isVerticallyArranged: isVerticallyArranged,
             verticalDirection: verticalDirection,
             horizontalDirection: horizontalDirection
@@ -134,8 +135,8 @@ class SpaceObserver {
 
     // Compare two display centers according to user preferences (testable static method)
     static func compareDisplayCenters(
-        c1: CGPoint,
-        c2: CGPoint,
+        center1: CGPoint,
+        center2: CGPoint,
         isVerticallyArranged: Bool,
         verticalDirection: VerticalDirection,
         horizontalDirection: HorizontalDirection
@@ -147,23 +148,23 @@ class SpaceObserver {
             switch verticalDirection {
             case .defaultOrder:
                 // macOS default: left-to-right by X coordinate
-                return c1.x < c2.x
+                return center1.x < center2.x
             case .topGoesFirst:
                 // Top to bottom: higher Y goes first
-                return c1.y > c2.y
+                return center1.y > center2.y
             case .bottomGoesFirst:
                 // Bottom to top: lower Y goes first
-                return c1.y < c2.y
+                return center1.y < center2.y
             }
         } else {
             // Side-by-side displays: use horizontalDirection setting
             switch horizontalDirection {
             case .defaultOrder:
                 // Left to right
-                return c1.x < c2.x
+                return center1.x < center2.x
             case .reverseOrder:
                 // Right to left
-                return c1.x > c2.x
+                return center1.x > center2.x
             }
         }
     }
@@ -202,15 +203,15 @@ class SpaceObserver {
         // Sort displays based on user preference (incorporating display ordering feature)
         displays.sort { a, b in
             compareDisplays(
-                d1: a, d2: b,
+                display1: a, display2: b,
                 verticalDirection: verticalDirection,
                 horizontalDirection: horizontalDirection)
         }
 
         // Map sorted display to index (1..D)
         var currentDisplayIndexByID: [String: Int] = [:]
-        for (idx, d) in displays.enumerated() {
-            if let displayID = d["Display Identifier"] as? String {
+        for (idx, display) in displays.enumerated() {
+            if let displayID = display["Display Identifier"] as? String {
                 currentDisplayIndexByID[displayID] = idx + 1
             }
         }
@@ -250,10 +251,10 @@ class SpaceObserver {
         var lastFullScreenNumber = 0
         var collectedSpaces: [Space] = []
 
-        for d in displays {
-            guard let currentSpaces = d["Current Space"] as? [String: Any],
-                  let spaces = d["Spaces"] as? [[String: Any]],
-                  let displayID = d["Display Identifier"] as? String
+        for display in displays {
+            guard let currentSpaces = display["Current Space"] as? [String: Any],
+                  let spaces = display["Spaces"] as? [[String: Any]],
+                  let displayID = display["Display Identifier"] as? String
             else {
                 continue
             }

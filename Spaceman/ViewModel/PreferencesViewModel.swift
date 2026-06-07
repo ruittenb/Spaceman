@@ -103,9 +103,9 @@ class PreferencesViewModel: ObservableObject {
     // MARK: - Backup / Restore
 
     func backupPreferences() {
-        let fm = FileManager.default
+        let fileManager = FileManager.default
         do {
-            try fm.createDirectory(at: Self.settingsDirectory, withIntermediateDirectories: true)
+            try fileManager.createDirectory(at: Self.settingsDirectory, withIntermediateDirectories: true)
             guard let domain = UserDefaults.standard.persistentDomain(forName: Self.bundleIdentifier) else {
                 showBackupStatus(String(localized: "No preferences to backup"), isError: true)
                 return

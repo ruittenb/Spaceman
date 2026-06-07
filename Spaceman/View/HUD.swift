@@ -38,29 +38,29 @@ class HUDPanel {
             hosting.layoutSubtreeIfNeeded()
             let size = hosting.fittingSize
 
-            let p = NSPanel(
+            let panel = NSPanel(
                 contentRect: NSRect(origin: .zero, size: size),
                 styleMask: [.nonactivatingPanel],
                 backing: .buffered,
                 defer: false)
-            p.isFloatingPanel = true
-            p.level = .floating
-            p.backgroundColor = .clear
-            p.isOpaque = false
-            p.hasShadow = true
-            p.ignoresMouseEvents = true
-            p.collectionBehavior = [.canJoinAllSpaces, .ignoresCycle]
-            p.contentView = hosting
+            panel.isFloatingPanel = true
+            panel.level = .floating
+            panel.backgroundColor = .clear
+            panel.isOpaque = false
+            panel.hasShadow = true
+            panel.ignoresMouseEvents = true
+            panel.collectionBehavior = [.canJoinAllSpaces, .ignoresCycle]
+            panel.contentView = hosting
 
             let screenFrame = screen.visibleFrame
             let origin = NSPoint(
                 x: screenFrame.midX - size.width / 2,
                 y: screenFrame.maxY - screenFrame.height * 0.8)
-            p.setFrameOrigin(origin)
-            p.alphaValue = 1
-            p.orderFront(nil)
+            panel.setFrameOrigin(origin)
+            panel.alphaValue = 1
+            panel.orderFront(nil)
 
-            self.panel = p
+            self.panel = panel
             self.hostingView = hosting
         }
 

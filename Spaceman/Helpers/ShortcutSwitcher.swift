@@ -90,15 +90,15 @@ class ShortcutSwitcher {
     /// Switch one space left or right via arrow shortcut.
     func switchRelative(goRight: Bool) {
         if goRight {
-            let sc = shortcutHelper.moveRightShortcut
+            let rightShortcut = shortcutHelper.moveRightShortcut
             sendKeyCode(
-                sc?.keyCode ?? 124,
-                modifiers: sc?.modifiers ?? "control down")
+                rightShortcut?.keyCode ?? 124,
+                modifiers: rightShortcut?.modifiers ?? "control down")
         } else {
-            let sc = shortcutHelper.moveLeftShortcut
+            let leftShortcut = shortcutHelper.moveLeftShortcut
             sendKeyCode(
-                sc?.keyCode ?? 123,
-                modifiers: sc?.modifiers ?? "control down")
+                leftShortcut?.keyCode ?? 123,
+                modifiers: leftShortcut?.modifiers ?? "control down")
         }
     }
 

@@ -1,10 +1,11 @@
 included:
   - Spaceman
 
+excluded:
+  - build
+  - DerivedData
+
 disabled_rules:
-  - identifier_name
-  - cyclomatic_complexity
-  - function_body_length
   - type_body_length
   - large_tuple
   - file_length
@@ -13,7 +14,30 @@ opt_in_rules:
   - force_cast
   - force_try
   - force_unwrapping
+  - empty_count
+  - first_where
+  - private_over_fileprivate
 
 line_length:
   warning: 120
   error: 200
+
+function_body_length:
+  warning: 140
+  error: 200
+
+cyclomatic_complexity:
+  warning: 20
+  error: 24
+
+identifier_name:
+  excluded:
+    - a  # sort closure parameter
+    - b  # sort closure parameter
+    - i  # loop index
+    - id # identifier
+    - r  # color component (red)
+    - g  # color component (green)
+    - b  # color component (blue)
+    - x  # coordinate
+    - y  # coordinate

@@ -84,7 +84,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         autoRefreshTimer?.invalidate()
         autoRefreshTimer = Timer.scheduledTimer(
             withTimeInterval: 5, repeats: true) { _ in
-            NotificationCenter.default.post(name: AutoRefreshTriggeredName, object: nil)
+            NotificationCenter.default.post(name: autoRefreshTriggeredName, object: nil)
         }
     }
 

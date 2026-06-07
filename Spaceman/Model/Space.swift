@@ -42,9 +42,9 @@ struct Space: Equatable {
     static func buildSwitchIndexMap(for spaces: [Space]) -> [String: Int] {
         var map: [String: Int] = [:]
         var desktopIndex = 1
-        for s in spaces where !s.isFullScreen {
+        for space in spaces where !space.isFullScreen {
             if desktopIndex <= maxSwitchableDesktop {
-                map[s.spaceID] = desktopIndex
+                map[space.spaceID] = desktopIndex
             }
             desktopIndex += 1
         }

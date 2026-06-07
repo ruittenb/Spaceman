@@ -36,7 +36,7 @@ struct SpaceFilter {
             var currentDisplayID = spaces.first?.displayID ?? ""
 
             func flushGroup() {
-                guard group.count > 0 else { return }
+                guard !group.isEmpty else { return }
                 if let activeIndex = group.firstIndex(where: { $0.isCurrentSpace }) {
                     let radius = max(0, neighborRadius)
                     let start = max(0, activeIndex - radius)
@@ -46,12 +46,12 @@ struct SpaceFilter {
                 group.removeAll(keepingCapacity: true)
             }
 
-            for s in spaces {
-                if s.displayID != currentDisplayID {
+            for space in spaces {
+                if space.displayID != currentDisplayID {
                     flushGroup()
-                    currentDisplayID = s.displayID
+                    currentDisplayID = space.displayID
                 }
-                group.append(s)
+                group.append(space)
             }
             flushGroup()
 
