@@ -37,6 +37,7 @@
 		E732CE9C2FAB095E00B2C067 /* ChainingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE9B2FAB095E00B2C067 /* ChainingStrategyTests.swift */; };
 		E732CEA02FAC000000B2C067 /* ChainingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE9F2FAC000000B2C067 /* ChainingStrategy.swift */; };
 		E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73504B32CAD14BE007F62B5 /* IconWidth.swift */; };
+		E74906062FD601300026B8D5 /* LegacyMigrations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74906052FD601300026B8D5 /* LegacyMigrations.swift */; };
 		E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E754B2C82D7F03E100F31468 /* Sparkle */; };
 		E763711C2FB21D7500D05885 /* SwitchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763711B2FB21D7500D05885 /* SwitchStrategy.swift */; };
 		E763711E2FB21D9200D05885 /* ShortcutSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763711D2FB21D9200D05885 /* ShortcutSwitcher.swift */; };
@@ -131,6 +132,7 @@
 		E732CE9B2FAB095E00B2C067 /* ChainingStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChainingStrategyTests.swift; path = SpacemanTests/ChainingStrategyTests.swift; sourceTree = "<group>"; };
 		E732CE9F2FAC000000B2C067 /* ChainingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainingStrategy.swift; sourceTree = "<group>"; };
 		E73504B32CAD14BE007F62B5 /* IconWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWidth.swift; sourceTree = "<group>"; };
+		E74906052FD601300026B8D5 /* LegacyMigrations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyMigrations.swift; sourceTree = "<group>"; };
 		E763711B2FB21D7500D05885 /* SwitchStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchStrategy.swift; sourceTree = "<group>"; };
 		E763711D2FB21D9200D05885 /* ShortcutSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutSwitcher.swift; sourceTree = "<group>"; };
 		E763711F2FB21DAC00D05885 /* SwitchStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwitchStrategyTests.swift; path = SpacemanTests/SwitchStrategyTests.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				E828E6572737D2E4007075E8 /* Constants.swift */,
+				E74906052FD601300026B8D5 /* LegacyMigrations.swift */,
 				A4EB8773F2764BC7A1C695B7 /* SpaceNameStore.swift */,
 			);
 			path = Utilities;
@@ -540,6 +543,7 @@
 				E873350E256B5F0F0012586E /* Space.swift in Sources */,
 				223A505FE3CA436D973D9FD9 /* VisibleSpacesMode.swift in Sources */,
 				4C02BD6F2C0894F500F07491 /* RefreshCommand.swift in Sources */,
+				E74906062FD601300026B8D5 /* LegacyMigrations.swift in Sources */,
 				E70044AC2E7F6584001C7295 /* RowLayout.swift in Sources */,
 				E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */,
 				1A2B3C4D5E6F7A8B9C0D1E2F /* IconStyle.swift in Sources */,
