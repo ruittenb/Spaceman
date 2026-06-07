@@ -118,29 +118,16 @@ class ShortcutHelper {
     }
 
     /// Map a virtual keycode to a display character for NSMenuItem.keyEquivalent.
+    private static let keyCodeToChar: [Int: String] = [
+        // top row
+        18: "1", 19: "2", 20: "3", 21: "4", 23: "5",
+        22: "6", 26: "7", 28: "8", 25: "9", 29: "0",
+        // numpad
+        83: "1", 84: "2", 85: "3", 86: "4", 87: "5",
+        88: "6", 89: "7", 91: "8", 92: "9", 82: "0"
+    ]
+
     private func keyCodeToCharacter(_ keyCode: Int) -> String {
-        switch keyCode {
-        case 18: return "1"
-        case 19: return "2"
-        case 20: return "3"
-        case 21: return "4"
-        case 23: return "5"
-        case 22: return "6"
-        case 26: return "7"
-        case 28: return "8"
-        case 25: return "9"
-        case 29: return "0"
-        case 83: return "1"  // Keypad
-        case 84: return "2"
-        case 85: return "3"
-        case 86: return "4"
-        case 87: return "5"
-        case 88: return "6"
-        case 89: return "7"
-        case 91: return "8"
-        case 92: return "9"
-        case 82: return "0"
-        default: return ""
-        }
+        Self.keyCodeToChar[keyCode] ?? ""
     }
 }
