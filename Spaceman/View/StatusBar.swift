@@ -185,44 +185,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         iconShapeMenuItem.image = NSImage(systemSymbolName: "star", accessibilityDescription: nil)
         iconShapeMenuItem.submenu = iconShapeSubmenu
 
-        let spacesShownSubmenu = NSMenu()
-        let mainDisplayItem = NSMenuItem(
-            title: String(localized: "Main Display Only"),
-            action: #selector(toggleMainDisplayOnly), keyEquivalent: ""
-        )
-        mainDisplayItem.target = self
-        spacesShownSubmenu.addItem(mainDisplayItem)
-        spacesShownSubmenu.addItem(NSMenuItem.separator())
-        for mode in VisibleSpacesMode.allCases {
-            let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectSpacesShown(_:)), keyEquivalent: "")
-            item.tag = mode.rawValue
-            item.target = self
-            spacesShownSubmenu.addItem(item)
-        }
-        spacesShownSubmenu.addItem(NSMenuItem.separator())
-        let showFullscreenItem = NSMenuItem(
-            title: String(localized: "Fullscreen Spaces"),
-            action: #selector(toggleShowFullscreenSpaces), keyEquivalent: ""
-        )
-        showFullscreenItem.target = self
-        spacesShownSubmenu.addItem(showFullscreenItem)
-        spacesShownSubmenu.addItem(NSMenuItem.separator())
-        let showMCItem = NSMenuItem(
-            title: String(localized: "Mission Control Button"),
-            action: #selector(toggleShowMissionControl), keyEquivalent: ""
-        )
-        showMCItem.target = self
-        spacesShownSubmenu.addItem(showMCItem)
-        let showArrowsItem = NSMenuItem(
-            title: String(localized: "Navigation Arrows"),
-            action: #selector(toggleShowNavArrows), keyEquivalent: ""
-        )
-        showArrowsItem.target = self
-        spacesShownSubmenu.addItem(showArrowsItem)
-
-        spacesShownMenuItem = NSMenuItem(title: String(localized: "Buttons Shown"), action: nil, keyEquivalent: "")
-        spacesShownMenuItem.image = NSImage(systemSymbolName: "square.split.2x2.fill", accessibilityDescription: nil)
-        spacesShownMenuItem.submenu = spacesShownSubmenu
+        spacesShownMenuItem = buildSpacesShownMenuItem()
 
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
@@ -265,6 +228,48 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             )
             button.addTrackingArea(area)
         }
+    }
+
+    private func buildSpacesShownMenuItem() -> NSMenuItem {
+        let submenu = NSMenu()
+        let mainDisplayItem = NSMenuItem(
+            title: String(localized: "Main Display Only"),
+            action: #selector(toggleMainDisplayOnly), keyEquivalent: ""
+        )
+        mainDisplayItem.target = self
+        submenu.addItem(mainDisplayItem)
+        submenu.addItem(NSMenuItem.separator())
+        for mode in VisibleSpacesMode.allCases {
+            let item = NSMenuItem(title: mode.menuLabel, action: #selector(selectSpacesShown(_:)), keyEquivalent: "")
+            item.tag = mode.rawValue
+            item.target = self
+            submenu.addItem(item)
+        }
+        submenu.addItem(NSMenuItem.separator())
+        let showFullscreenItem = NSMenuItem(
+            title: String(localized: "Fullscreen Spaces"),
+            action: #selector(toggleShowFullscreenSpaces), keyEquivalent: ""
+        )
+        showFullscreenItem.target = self
+        submenu.addItem(showFullscreenItem)
+        submenu.addItem(NSMenuItem.separator())
+        let showMCItem = NSMenuItem(
+            title: String(localized: "Mission Control Button"),
+            action: #selector(toggleShowMissionControl), keyEquivalent: ""
+        )
+        showMCItem.target = self
+        submenu.addItem(showMCItem)
+        let showArrowsItem = NSMenuItem(
+            title: String(localized: "Navigation Arrows"),
+            action: #selector(toggleShowNavArrows), keyEquivalent: ""
+        )
+        showArrowsItem.target = self
+        submenu.addItem(showArrowsItem)
+
+        let menuItem = NSMenuItem(title: String(localized: "Buttons Shown"), action: nil, keyEquivalent: "")
+        menuItem.image = NSImage(systemSymbolName: "square.split.2x2.fill", accessibilityDescription: nil)
+        menuItem.submenu = submenu
+        return menuItem
     }
 
     @objc func handleClick(_ sbButton: NSStatusBarButton) {
