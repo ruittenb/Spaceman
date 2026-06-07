@@ -40,9 +40,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var prefItem: NSMenuItem!
     private var quitItem: NSMenuItem!
     private var rowLayoutMenuItem: NSMenuItem!
-    private var layoutMenuItem: NSMenuItem!
+    private var iconSizeMenuItem: NSMenuItem!
+    private var iconTextMenuItem: NSMenuItem!
     private var iconStyleMenuItem: NSMenuItem!
-    private var iconShapeMenuItem: NSMenuItem!
     private var spacesShownMenuItem: NSMenuItem!
     private var prefsWindow: PreferencesWindow!
     private var tabChangeObserver: NSObjectProtocol?
@@ -138,52 +138,52 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         rowLayoutMenuItem.submenu = rowLayoutSubmenu
 
         // Icon size submenu is rebuilt dynamically in menuWillOpen
-        layoutMenuItem = NSMenuItem(title: String(localized: "Icon Size"), action: nil, keyEquivalent: "")
-        layoutMenuItem.image = NSImage(systemSymbolName: "aspectratio", accessibilityDescription: nil)
-        layoutMenuItem.submenu = NSMenu()
+        iconSizeMenuItem = NSMenuItem(title: String(localized: "Icon Size"), action: nil, keyEquivalent: "")
+        iconSizeMenuItem.image = NSImage(systemSymbolName: "aspectratio", accessibilityDescription: nil)
+        iconSizeMenuItem.submenu = NSMenu()
 
-        let iconStyleSubmenu = NSMenu()
+        let iconTextSubmenu = NSMenu()
         for style in IconText.allCases {
             let item = NSMenuItem(title: style.menuLabel, action: #selector(selectIconStyle(_:)), keyEquivalent: "")
             item.tag = style.rawValue
             item.target = self
-            iconStyleSubmenu.addItem(item)
+            iconTextSubmenu.addItem(item)
         }
-        iconStyleSubmenu.addItem(NSMenuItem.separator())
+        iconTextSubmenu.addItem(NSMenuItem.separator())
         for design in FontDesign.allCases {
             let item = NSMenuItem(title: design.menuLabel, action: #selector(selectFont(_:)), keyEquivalent: "")
             item.tag = design.rawValue
             item.target = self
-            iconStyleSubmenu.addItem(item)
+            iconTextSubmenu.addItem(item)
         }
-        iconStyleMenuItem = NSMenuItem(title: String(localized: "Icon Text"), action: nil, keyEquivalent: "")
-        iconStyleMenuItem.image = NSImage(systemSymbolName: "textformat.abc", accessibilityDescription: nil)
-        iconStyleMenuItem.submenu = iconStyleSubmenu
+        iconTextMenuItem = NSMenuItem(title: String(localized: "Icon Text"), action: nil, keyEquivalent: "")
+        iconTextMenuItem.image = NSImage(systemSymbolName: "textformat.abc", accessibilityDescription: nil)
+        iconTextMenuItem.submenu = iconTextSubmenu
 
-        let iconShapeSubmenu = NSMenu()
+        let iconStyleSubmenu = NSMenu()
         let noDecoItem = NSMenuItem(
             title: IconShape.noDecoration.menuLabel,
             action: #selector(selectIconShape(_:)), keyEquivalent: "")
         noDecoItem.tag = IconShape.noDecoration.rawValue
         noDecoItem.target = self
-        iconShapeSubmenu.addItem(noDecoItem)
-        iconShapeSubmenu.addItem(NSMenuItem.separator())
+        iconStyleSubmenu.addItem(noDecoItem)
+        iconStyleSubmenu.addItem(NSMenuItem.separator())
         for shape in IconShape.allCases where shape != .noDecoration {
             let item = NSMenuItem(title: shape.menuLabel, action: #selector(selectIconShape(_:)), keyEquivalent: "")
             item.tag = shape.rawValue
             item.target = self
-            iconShapeSubmenu.addItem(item)
+            iconStyleSubmenu.addItem(item)
         }
-        iconShapeSubmenu.addItem(NSMenuItem.separator())
+        iconStyleSubmenu.addItem(NSMenuItem.separator())
         for fill in IconFill.allCases {
             let item = NSMenuItem(title: fill.menuLabel, action: #selector(selectIconFill(_:)), keyEquivalent: "")
             item.tag = fill.rawValue
             item.target = self
-            iconShapeSubmenu.addItem(item)
+            iconStyleSubmenu.addItem(item)
         }
-        iconShapeMenuItem = NSMenuItem(title: String(localized: "Icon Style"), action: nil, keyEquivalent: "")
-        iconShapeMenuItem.image = NSImage(systemSymbolName: "star", accessibilityDescription: nil)
-        iconShapeMenuItem.submenu = iconShapeSubmenu
+        iconStyleMenuItem = NSMenuItem(title: String(localized: "Icon Style"), action: nil, keyEquivalent: "")
+        iconStyleMenuItem.image = NSImage(systemSymbolName: "star", accessibilityDescription: nil)
+        iconStyleMenuItem.submenu = iconStyleSubmenu
 
         spacesShownMenuItem = buildSpacesShownMenuItem()
 
@@ -191,9 +191,9 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         statusBarMenu.addItem(NSMenuItem.separator())
         // Dynamic space items will be inserted starting at index 2
         statusBarMenu.addItem(NSMenuItem.separator())
-        statusBarMenu.addItem(layoutMenuItem)
+        statusBarMenu.addItem(iconSizeMenuItem)
+        statusBarMenu.addItem(iconTextMenuItem)
         statusBarMenu.addItem(iconStyleMenuItem)
-        statusBarMenu.addItem(iconShapeMenuItem)
         statusBarMenu.addItem(rowLayoutMenuItem)
         statusBarMenu.addItem(spacesShownMenuItem)
         statusBarMenu.addItem(NSMenuItem.separator())
@@ -518,7 +518,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     /// Remove all dynamic items between the about header (index 2) and the settings submenus.
     private func removeDynamicMenuItems() {
-        let boundaryIdx = statusBarMenu.index(of: layoutMenuItem)
+        let boundaryIdx = statusBarMenu.index(of: iconSizeMenuItem)
         let separatorIdx = boundaryIdx - 1
         if separatorIdx > 2 {
             for _ in 2..<separatorIdx { statusBarMenu.removeItem(at: 2) }
@@ -716,8 +716,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         variableWidthItem.target = self
         variableWidthItem.state = currentUseVariableWidth ? .on : .off
         layoutSubmenu.addItem(variableWidthItem)
-        layoutMenuItem.submenu = layoutSubmenu
-        for item in iconStyleMenuItem.submenu?.items ?? [] {
+        iconSizeMenuItem.submenu = layoutSubmenu
+        for item in iconTextMenuItem.submenu?.items ?? [] {
             if item.action == #selector(selectIconStyle(_:)) {
                 item.state = item.tag == currentDisplayStyle.rawValue ? .on : .off
             } else if item.action == #selector(selectFont(_:)) {
@@ -731,7 +731,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let fillsMatch = !bothNoDecoration
             && !currentDecorationActive.isNoDecoration && !currentDecorationInactive.isNoDecoration
             && currentDecorationActive.fill == currentDecorationInactive.fill
-        for item in iconShapeMenuItem.submenu?.items ?? [] {
+        for item in iconStyleMenuItem.submenu?.items ?? [] {
             if item.action == #selector(selectIconShape(_:)) {
                 if item.tag == IconShape.noDecoration.rawValue {
                     item.state = bothNoDecoration ? .on : .off
