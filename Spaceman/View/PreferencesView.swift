@@ -172,7 +172,7 @@ struct PreferencesView: View {
                 Button {
                     openDisplaysSettings()
                 } label: {
-                    Text("Open \(systemSettingsName()) → Displays…")
+                    Text("Open System Settings → Displays…")
                 }
                 Button {
                     showDisplaysHelp.toggle()
@@ -185,7 +185,7 @@ struct PreferencesView: View {
                     Text("""
                         If the display order seems erratic, please pay close \
                         attention to the horizontal alignment in \
-                        \(systemSettingsName()) → Displays → Arrange.
+                        System Settings → Displays → Arrange.
                         """)
                     .padding()
                     .frame(width: 240)
@@ -492,7 +492,7 @@ struct PreferencesView: View {
                 Button {
                     openMissionControlShortcuts()
                 } label: {
-                    Text("Open \(systemSettingsName()) → Mission Control Shortcuts…")
+                    Text("Open System Settings → Mission Control Shortcuts…")
                 }
                 Button {
                     showSwitchingHelp.toggle()

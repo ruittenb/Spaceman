@@ -63,7 +63,6 @@ class ShortcutSwitcher {
                     else { return }
                     guard let errorBriefMessage = error?[NSAppleScript.errorBriefMessage] as? String
                     else { return }
-                    let settingsName = systemSettingsName()
                     let permissionType: String
                     switch abs(errorNumber) {
                     case 1002:
@@ -77,7 +76,7 @@ class ShortcutSwitcher {
                         Error: \(errorBriefMessage)
 
                         Please grant \(permissionType) permissions \
-                        to Spaceman in \(settingsName) → Privacy and Security.
+                        to Spaceman in System Settings → Privacy and Security.
                         """)
                     self.alert(
                         msg: msg,
@@ -233,8 +232,7 @@ class ShortcutSwitcher {
             alert.informativeText = "\(msg)"
             alert.addButton(withTitle: String(localized: "Dismiss"))
             if permissionTypeName != "" {
-                let settingsName = systemSettingsName()
-                alert.addButton(withTitle: "\(settingsName)…")
+                alert.addButton(withTitle: String(localized: "System Settings…"))
             }
             let response = alert.runModal()
             if response == .alertSecondButtonReturn {

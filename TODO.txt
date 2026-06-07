@@ -1,11 +1,5 @@
 
 ============================================================================
-VERSION CHECKS
-============================================================================
-
-Get rid of logic testing <= macOS 13
-
-============================================================================
 AUTOMATION: SWITCH DISPLAYS
 ============================================================================
 
@@ -19,8 +13,6 @@ StatusBar is large (~1000 lines) and handles menu construction, click handling,
 scroll handling, tooltips, quick rename panels, Sparkle updates, shortcut display,
 and grid vs list switching. It's doing a lot.  Split or extract from StatusBar
 (quick rename, menu construction, scroll handling could be separate).
-
-initialization function is also quite large with 180 lines.
 
 ============================================================================
 SLANTED ICON SHAPES: triangles and trapezoids
