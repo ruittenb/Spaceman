@@ -142,48 +142,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         iconSizeMenuItem.image = NSImage(systemSymbolName: "aspectratio", accessibilityDescription: nil)
         iconSizeMenuItem.submenu = NSMenu()
 
-        let iconTextSubmenu = NSMenu()
-        for style in IconText.allCases {
-            let item = NSMenuItem(title: style.menuLabel, action: #selector(selectIconStyle(_:)), keyEquivalent: "")
-            item.tag = style.rawValue
-            item.target = self
-            iconTextSubmenu.addItem(item)
-        }
-        iconTextSubmenu.addItem(NSMenuItem.separator())
-        for design in FontDesign.allCases {
-            let item = NSMenuItem(title: design.menuLabel, action: #selector(selectFont(_:)), keyEquivalent: "")
-            item.tag = design.rawValue
-            item.target = self
-            iconTextSubmenu.addItem(item)
-        }
-        iconTextMenuItem = NSMenuItem(title: String(localized: "Icon Text"), action: nil, keyEquivalent: "")
-        iconTextMenuItem.image = NSImage(systemSymbolName: "textformat.abc", accessibilityDescription: nil)
-        iconTextMenuItem.submenu = iconTextSubmenu
-
-        let iconStyleSubmenu = NSMenu()
-        let noDecoItem = NSMenuItem(
-            title: IconShape.noDecoration.menuLabel,
-            action: #selector(selectIconShape(_:)), keyEquivalent: "")
-        noDecoItem.tag = IconShape.noDecoration.rawValue
-        noDecoItem.target = self
-        iconStyleSubmenu.addItem(noDecoItem)
-        iconStyleSubmenu.addItem(NSMenuItem.separator())
-        for shape in IconShape.allCases where shape != .noDecoration {
-            let item = NSMenuItem(title: shape.menuLabel, action: #selector(selectIconShape(_:)), keyEquivalent: "")
-            item.tag = shape.rawValue
-            item.target = self
-            iconStyleSubmenu.addItem(item)
-        }
-        iconStyleSubmenu.addItem(NSMenuItem.separator())
-        for fill in IconFill.allCases {
-            let item = NSMenuItem(title: fill.menuLabel, action: #selector(selectIconFill(_:)), keyEquivalent: "")
-            item.tag = fill.rawValue
-            item.target = self
-            iconStyleSubmenu.addItem(item)
-        }
-        iconStyleMenuItem = NSMenuItem(title: String(localized: "Icon Style"), action: nil, keyEquivalent: "")
-        iconStyleMenuItem.image = NSImage(systemSymbolName: "star", accessibilityDescription: nil)
-        iconStyleMenuItem.submenu = iconStyleSubmenu
+        iconTextMenuItem = buildIconTextMenuItem()
+        iconStyleMenuItem = buildIconStyleMenuItem()
 
         spacesShownMenuItem = buildSpacesShownMenuItem()
 
@@ -228,6 +188,55 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             )
             button.addTrackingArea(area)
         }
+    }
+
+    private func buildIconTextMenuItem() -> NSMenuItem {
+        let submenu = NSMenu()
+        for style in IconText.allCases {
+            let item = NSMenuItem(title: style.menuLabel, action: #selector(selectIconStyle(_:)), keyEquivalent: "")
+            item.tag = style.rawValue
+            item.target = self
+            submenu.addItem(item)
+        }
+        submenu.addItem(NSMenuItem.separator())
+        for design in FontDesign.allCases {
+            let item = NSMenuItem(title: design.menuLabel, action: #selector(selectFont(_:)), keyEquivalent: "")
+            item.tag = design.rawValue
+            item.target = self
+            submenu.addItem(item)
+        }
+        let menuItem = NSMenuItem(title: String(localized: "Icon Text"), action: nil, keyEquivalent: "")
+        menuItem.image = NSImage(systemSymbolName: "textformat.abc", accessibilityDescription: nil)
+        menuItem.submenu = submenu
+        return menuItem
+    }
+
+    private func buildIconStyleMenuItem() -> NSMenuItem {
+        let submenu = NSMenu()
+        let noDecoItem = NSMenuItem(
+            title: IconShape.noDecoration.menuLabel,
+            action: #selector(selectIconShape(_:)), keyEquivalent: "")
+        noDecoItem.tag = IconShape.noDecoration.rawValue
+        noDecoItem.target = self
+        submenu.addItem(noDecoItem)
+        submenu.addItem(NSMenuItem.separator())
+        for shape in IconShape.allCases where shape != .noDecoration {
+            let item = NSMenuItem(title: shape.menuLabel, action: #selector(selectIconShape(_:)), keyEquivalent: "")
+            item.tag = shape.rawValue
+            item.target = self
+            submenu.addItem(item)
+        }
+        submenu.addItem(NSMenuItem.separator())
+        for fill in IconFill.allCases {
+            let item = NSMenuItem(title: fill.menuLabel, action: #selector(selectIconFill(_:)), keyEquivalent: "")
+            item.tag = fill.rawValue
+            item.target = self
+            submenu.addItem(item)
+        }
+        let menuItem = NSMenuItem(title: String(localized: "Icon Style"), action: nil, keyEquivalent: "")
+        menuItem.image = NSImage(systemSymbolName: "star", accessibilityDescription: nil)
+        menuItem.submenu = submenu
+        return menuItem
     }
 
     private func buildSpacesShownMenuItem() -> NSMenuItem {
