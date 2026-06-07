@@ -1,3 +1,4 @@
+1.23.3: Added GitHub Actions with README badges; code quality: stricter SwiftLint rules; code cleanup
 1.23.2: Upgraded vulnerable version of Sparkle
 1.23.1: Fixes to preferences layout and menu option order
 1.23.0: Added filter option for only displaying spaces on main display
