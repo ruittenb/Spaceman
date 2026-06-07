@@ -224,9 +224,9 @@ enum SwitchStrategizer {
         }
         let goingRight = targetSpaceNumber > currentSpaceNumber
         return switchable.min(by: {
-            let d0 = abs($0.spaceNumber - targetSpaceNumber)
-            let d1 = abs($1.spaceNumber - targetSpaceNumber)
-            if d0 != d1 { return d0 < d1 }
+            let dist0 = abs($0.spaceNumber - targetSpaceNumber)
+            let dist1 = abs($1.spaceNumber - targetSpaceNumber)
+            if dist0 != dist1 { return dist0 < dist1 }
             if goingRight {
                 return $0.spaceNumber < $1.spaceNumber
             }

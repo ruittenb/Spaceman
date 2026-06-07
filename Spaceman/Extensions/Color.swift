@@ -37,16 +37,16 @@ extension NSColor {
     }
 
     /// Return black or white for contrast, accounting for alpha blending over a background.
-    func contrastingTextColor(withAlpha alpha: CGFloat, over background: NSColor) -> NSColor {
-        guard let fg = self.usingColorSpace(.sRGB),
-              let bg = background.usingColorSpace(.sRGB) else {
+    func contrastingTextColor(withAlpha rawAlpha: CGFloat, over background: NSColor) -> NSColor {
+        guard let fgColor = self.usingColorSpace(.sRGB),
+              let bgColor = background.usingColorSpace(.sRGB) else {
             return contrastingTextColor
         }
-        let a = min(max(alpha, 0), 1)
+        let alpha = min(max(rawAlpha, 0), 1)
         let blended = NSColor(
-            srgbRed: a * fg.redComponent + (1 - a) * bg.redComponent,
-            green: a * fg.greenComponent + (1 - a) * bg.greenComponent,
-            blue: a * fg.blueComponent + (1 - a) * bg.blueComponent,
+            srgbRed: alpha * fgColor.redComponent + (1 - alpha) * bgColor.redComponent,
+            green: alpha * fgColor.greenComponent + (1 - alpha) * bgColor.greenComponent,
+            blue: alpha * fgColor.blueComponent + (1 - alpha) * bgColor.blueComponent,
             alpha: 1.0)
         return blended.relativeLuminance > 0.3 ? .black : .white
     }

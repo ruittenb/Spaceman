@@ -331,7 +331,7 @@ struct PreferencesView: View {
                             prefsVM.removeAllColors()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                 NotificationCenter.default.post(
-                                    name: SettingsChangedName,
+                                    name: settingsChangedName,
                                     object: nil)
                             }
                         } label: {
@@ -691,7 +691,7 @@ struct PreferencesView: View {
     // MARK: - Space Name List Editor
     private var spaceNameListEditor: some View {
         VStack(alignment: .leading, spacing: 6) {
-            if prefsVM.sortedSpaceNamesDict.count == 0 {
+            if prefsVM.sortedSpaceNamesDict.isEmpty {
                 Text("No spaces detected yet.")
                     .foregroundColor(.secondary)
             } else {
@@ -722,7 +722,7 @@ struct PreferencesView: View {
                                     prefsVM.updateSpace(for: entry.key, to: trimmed)
                                     prefsVM.persistChanges(for: entry.key)
                                     NotificationCenter.default.post(
-                                        name: SettingsChangedName,
+                                        name: settingsChangedName,
                                         object: nil)
                                 }
                             )
@@ -747,7 +747,7 @@ struct PreferencesView: View {
                                 prefsVM.updateSpaceColor(for: entry.key, to: newColor)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                     NotificationCenter.default.post(
-                                        name: SettingsChangedName,
+                                        name: settingsChangedName,
                                         object: nil)
                                 }
                             }
@@ -760,7 +760,7 @@ struct PreferencesView: View {
                                 prefsVM.updateSpaceColor(for: entry.key, to: nil)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                     NotificationCenter.default.post(
-                                        name: SettingsChangedName,
+                                        name: settingsChangedName,
                                         object: nil)
                                 }
                             } label: {

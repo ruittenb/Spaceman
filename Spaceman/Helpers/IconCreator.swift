@@ -368,17 +368,17 @@ class IconCreator {
     /// Mission Control icon: square box with two small rects left, one tall rect right.
     /// Reuses createSpaceIcon for the decoration box, then composites the symbol on top.
     private func createMissionControlIcon(defaultColor: NSColor?, minWidth: CGFloat = 0) -> NSImage {
-        let h = cellSize.height
-        let boxWidth = max(h, minWidth)
+        let height = cellSize.height
+        let boxWidth = max(height, minWidth)
         let box = createSpaceIcon(space: makeNavSpace(label: " "), defaultColor: defaultColor, minWidth: boxWidth)
         let size = box.size
-        let inset = h * 0.25
+        let inset = height * 0.25
         let gap: CGFloat = 1.25
-        let innerW = h - inset * 2
+        let innerW = height - inset * 2
         let rightW = (innerW - gap) / 2
         let leftW = (innerW - gap) / 1.8
         let squareOriginX = (size.width - 2 * inset - leftW - rightW) / 2  // center the staggered symbol horizontally
-        let inner = NSRect(x: squareOriginX + inset, y: inset, width: innerW, height: h - inset * 2)
+        let inner = NSRect(x: squareOriginX + inset, y: inset, width: innerW, height: height - inset * 2)
         let smallH = (inner.height - gap) / 2
 
         let shouldDim = decorationActive == decorationInactive
@@ -435,8 +435,9 @@ class IconCreator {
         symbol.unlockFocus()
 
         box.lockFocus()
-        let op: NSCompositingOperation = (decorationInactive.isFilled && box.isTemplate) ? .destinationOut : .sourceOver
-        symbol.draw(in: NSRect(origin: .zero, size: size), from: .zero, operation: op, fraction: 1.0)
+        let compositing: NSCompositingOperation =
+            (decorationInactive.isFilled && box.isTemplate) ? .destinationOut : .sourceOver
+        symbol.draw(in: NSRect(origin: .zero, size: size), from: .zero, operation: compositing, fraction: 1.0)
         box.unlockFocus()
         return box
     }
@@ -452,11 +453,11 @@ class IconCreator {
         }
         if effectiveShowMissionControl {
             let mcMinWidth: CGFloat
-            if rowLayout.isTwoRows, let aw = arrowIcon?.size.width {
+            if rowLayout.isTwoRows, let arrowWidth = arrowIcon?.size.width {
                 // In two-row mode: MC spans the full width of both arrows + gap
-                mcMinWidth = aw * 2 + gapWidth
-            } else if !useVariableWidth, let aw = arrowIcon?.size.width {
-                mcMinWidth = aw
+                mcMinWidth = arrowWidth * 2 + gapWidth
+            } else if !useVariableWidth, let arrowWidth = arrowIcon?.size.width {
+                mcMinWidth = arrowWidth
             } else {
                 mcMinWidth = 0
             }
@@ -507,7 +508,7 @@ class IconCreator {
         spaces: [Space]
     ) -> [SpaceIconInfo] {
         var iconsWithDisplayProperties = [SpaceIconInfo]()
-        guard spaces.count > 0 else { return iconsWithDisplayProperties }
+        guard !spaces.isEmpty else { return iconsWithDisplayProperties }
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
 

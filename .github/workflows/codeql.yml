@@ -1,0 +1,51 @@
+name: CodeQL
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "Spaceman/**"
+      - "Spaceman.xcodeproj/**"
+      - "SpacemanTests/**"
+      - ".github/workflows/codeql.yml"
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: "31 3 * * 1"
+  workflow_dispatch:
+
+jobs:
+  analyze-swift:
+    name: Analyze Swift
+    runs-on: macos-latest
+
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: swift
+          build-mode: manual
+
+      - name: Build Spaceman
+        run: |
+          xcodebuild \
+            -project Spaceman.xcodeproj \
+            -scheme Spaceman \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3

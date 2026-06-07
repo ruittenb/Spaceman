@@ -485,7 +485,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             statusBarButton.image = icon
         }
         // update menu
-        guard spaces.count > 0 else {
+        guard !spaces.isEmpty else {
             return
         }
         removeDynamicMenuItems()
@@ -672,20 +672,21 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     func menuWillOpen(_ menu: NSMenu) {
         // Read fresh from UserDefaults — @AppStorage on NSObject caches the
         // initial value and does not observe external writes (e.g. from Preferences).
-        let ud = UserDefaults.standard
-        let currentRowLayout = RowLayout(rawValue: ud.integer(forKey: "rowLayout")) ?? .singleRow
-        let currentIconSize = IconSize(rawValue: ud.integer(forKey: "iconSize")) ?? .medium
-        let currentDisplayStyle = IconText(rawValue: ud.integer(forKey: "iconText")) ?? .numbers
-        let currentFontDesign = FontDesign(rawValue: ud.integer(forKey: "fontDesign")) ?? .monospaced
-        let currentUseVariableWidth = ud.bool(forKey: "useVariableWidth")
-        let currentDecorationActive = IconStyle(rawValue: ud.integer(forKey: "decorationActive")) ?? .filledRounded
+        let defaults = UserDefaults.standard
+        let currentRowLayout = RowLayout(rawValue: defaults.integer(forKey: "rowLayout")) ?? .singleRow
+        let currentIconSize = IconSize(rawValue: defaults.integer(forKey: "iconSize")) ?? .medium
+        let currentDisplayStyle = IconText(rawValue: defaults.integer(forKey: "iconText")) ?? .numbers
+        let currentFontDesign = FontDesign(rawValue: defaults.integer(forKey: "fontDesign")) ?? .monospaced
+        let currentUseVariableWidth = defaults.bool(forKey: "useVariableWidth")
+        let currentDecorationActive =
+                IconStyle(rawValue: defaults.integer(forKey: "decorationActive")) ?? .filledRounded
         let currentDecorationInactive =
-                IconStyle(rawValue: ud.integer(forKey: "decorationInactive")) ?? .borderedRounded
-        let currentShowFullscreenSpaces = ud.object(forKey: "showFullscreenSpaces") as? Bool ?? true
-        let currentMainDisplayOnly = ud.bool(forKey: "mainDisplayOnly")
-        let currentShowMissionControl = ud.bool(forKey: "showMissionControl")
-        let currentShowNavArrows = ud.bool(forKey: "showNavArrows")
-        let currentVisibleSpacesModeRaw = ud.integer(forKey: "visibleSpacesMode")
+                IconStyle(rawValue: defaults.integer(forKey: "decorationInactive")) ?? .borderedRounded
+        let currentShowFullscreenSpaces = defaults.object(forKey: "showFullscreenSpaces") as? Bool ?? true
+        let currentMainDisplayOnly = defaults.bool(forKey: "mainDisplayOnly")
+        let currentShowMissionControl = defaults.bool(forKey: "showMissionControl")
+        let currentShowNavArrows = defaults.bool(forKey: "showNavArrows")
+        let currentVisibleSpacesModeRaw = defaults.integer(forKey: "visibleSpacesMode")
 
         // Update row layout checkmarks
         for item in rowLayoutMenuItem.submenu?.items ?? [] {
@@ -894,10 +895,10 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
         var shortcutKey = ""
         var mask = NSEvent.ModifierFlags()
-        if let n = desktopNumber,
-           let sc = spaceSwitcher.shortcutSwitcher.shortcut(forDesktop: n) {
-            shortcutKey = sc.keyEquivalent
-            mask = sc.modifierFlags
+        if let desktopNumber,
+           let shortcut = spaceSwitcher.shortcutSwitcher.shortcut(forDesktop: desktopNumber) {
+            shortcutKey = shortcut.keyEquivalent
+            mask = shortcut.modifierFlags
         }
 
         let enabledTag = enabledSwitchMap?[space.spaceID]

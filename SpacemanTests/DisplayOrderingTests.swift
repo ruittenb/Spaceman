@@ -18,8 +18,8 @@ final class DisplayOrderingTests: XCTestCase {
         let rightCenter = CGPoint(x: 100, y: 50)
 
         let result = SpaceObserver.compareDisplayCenters(
-            c1: leftCenter,
-            c2: rightCenter,
+            center1: leftCenter,
+            center2: rightCenter,
             isVerticallyArranged: false,
             verticalDirection: .bottomGoesFirst,
             horizontalDirection: .defaultOrder
@@ -34,8 +34,8 @@ final class DisplayOrderingTests: XCTestCase {
         let rightCenter = CGPoint(x: 100, y: 50)
 
         let result = SpaceObserver.compareDisplayCenters(
-            c1: leftCenter,
-            c2: rightCenter,
+            center1: leftCenter,
+            center2: rightCenter,
             isVerticallyArranged: false,
             verticalDirection: .bottomGoesFirst,
             horizontalDirection: .reverseOrder
@@ -51,24 +51,24 @@ final class DisplayOrderingTests: XCTestCase {
 
         // All vertical directions should give same result for horizontal displays
         let resultDefault = SpaceObserver.compareDisplayCenters(
-            c1: leftCenter,
-            c2: rightCenter,
+            center1: leftCenter,
+            center2: rightCenter,
             isVerticallyArranged: false,
             verticalDirection: .defaultOrder,
             horizontalDirection: .defaultOrder
         )
 
         let resultTopFirst = SpaceObserver.compareDisplayCenters(
-            c1: leftCenter,
-            c2: rightCenter,
+            center1: leftCenter,
+            center2: rightCenter,
             isVerticallyArranged: false,
             verticalDirection: .topGoesFirst,
             horizontalDirection: .defaultOrder
         )
 
         let resultBottomFirst = SpaceObserver.compareDisplayCenters(
-            c1: leftCenter,
-            c2: rightCenter,
+            center1: leftCenter,
+            center2: rightCenter,
             isVerticallyArranged: false,
             verticalDirection: .bottomGoesFirst,
             horizontalDirection: .defaultOrder
@@ -87,8 +87,8 @@ final class DisplayOrderingTests: XCTestCase {
         let rightCenter = CGPoint(x: 100, y: 0)
 
         let result = SpaceObserver.compareDisplayCenters(
-            c1: leftCenter,
-            c2: rightCenter,
+            center1: leftCenter,
+            center2: rightCenter,
             isVerticallyArranged: true,
             verticalDirection: .defaultOrder,
             horizontalDirection: .defaultOrder
@@ -104,8 +104,8 @@ final class DisplayOrderingTests: XCTestCase {
         let topCenter = CGPoint(x: 50, y: 100)
 
         let result = SpaceObserver.compareDisplayCenters(
-            c1: bottomCenter,
-            c2: topCenter,
+            center1: bottomCenter,
+            center2: topCenter,
             isVerticallyArranged: true,
             verticalDirection: .topGoesFirst,
             horizontalDirection: .defaultOrder
@@ -120,8 +120,8 @@ final class DisplayOrderingTests: XCTestCase {
         let topCenter = CGPoint(x: 50, y: 100)
 
         let result = SpaceObserver.compareDisplayCenters(
-            c1: bottomCenter,
-            c2: topCenter,
+            center1: bottomCenter,
+            center2: topCenter,
             isVerticallyArranged: true,
             verticalDirection: .bottomGoesFirst,
             horizontalDirection: .defaultOrder
@@ -137,16 +137,16 @@ final class DisplayOrderingTests: XCTestCase {
         let rightCenter = CGPoint(x: 100, y: 0)
 
         let resultDefaultHorizontal = SpaceObserver.compareDisplayCenters(
-            c1: leftCenter,
-            c2: rightCenter,
+            center1: leftCenter,
+            center2: rightCenter,
             isVerticallyArranged: true,
             verticalDirection: .defaultOrder,
             horizontalDirection: .defaultOrder
         )
 
         let resultReverseHorizontal = SpaceObserver.compareDisplayCenters(
-            c1: leftCenter,
-            c2: rightCenter,
+            center1: leftCenter,
+            center2: rightCenter,
             isVerticallyArranged: true,
             verticalDirection: .defaultOrder,
             horizontalDirection: .reverseOrder
@@ -164,16 +164,16 @@ final class DisplayOrderingTests: XCTestCase {
         let topCenter = CGPoint(x: 50, y: 100)
 
         let resultDefaultHorizontal = SpaceObserver.compareDisplayCenters(
-            c1: bottomCenter,
-            c2: topCenter,
+            center1: bottomCenter,
+            center2: topCenter,
             isVerticallyArranged: true,
             verticalDirection: .topGoesFirst,
             horizontalDirection: .defaultOrder
         )
 
         let resultReverseHorizontal = SpaceObserver.compareDisplayCenters(
-            c1: bottomCenter,
-            c2: topCenter,
+            center1: bottomCenter,
+            center2: topCenter,
             isVerticallyArranged: true,
             verticalDirection: .topGoesFirst,
             horizontalDirection: .reverseOrder
@@ -191,16 +191,16 @@ final class DisplayOrderingTests: XCTestCase {
         let topCenter = CGPoint(x: 50, y: 100)
 
         let resultDefaultHorizontal = SpaceObserver.compareDisplayCenters(
-            c1: bottomCenter,
-            c2: topCenter,
+            center1: bottomCenter,
+            center2: topCenter,
             isVerticallyArranged: true,
             verticalDirection: .bottomGoesFirst,
             horizontalDirection: .defaultOrder
         )
 
         let resultReverseHorizontal = SpaceObserver.compareDisplayCenters(
-            c1: bottomCenter,
-            c2: topCenter,
+            center1: bottomCenter,
+            center2: topCenter,
             isVerticallyArranged: true,
             verticalDirection: .bottomGoesFirst,
             horizontalDirection: .reverseOrder
@@ -218,16 +218,16 @@ final class DisplayOrderingTests: XCTestCase {
         let center = CGPoint(x: 50, y: 50)
 
         let resultHorizontal = SpaceObserver.compareDisplayCenters(
-            c1: center,
-            c2: center,
+            center1: center,
+            center2: center,
             isVerticallyArranged: false,
             verticalDirection: .defaultOrder,
             horizontalDirection: .defaultOrder
         )
 
         let resultVertical = SpaceObserver.compareDisplayCenters(
-            c1: center,
-            c2: center,
+            center1: center,
+            center2: center,
             isVerticallyArranged: true,
             verticalDirection: .topGoesFirst,
             horizontalDirection: .defaultOrder
