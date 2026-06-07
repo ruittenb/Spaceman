@@ -62,8 +62,10 @@ struct PreferencesView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         generalPane
                         Divider()
+                            .padding(.horizontal)
                         menuPane
                         Divider()
+                            .padding(.horizontal)
                         backupRestorePane
                     }
                 } else if tabState.selectedTab == 1 {
@@ -378,6 +380,8 @@ struct PreferencesView: View {
                 .padding(.vertical, 2)
             rowLayoutPicker
             spacesShownPicker
+            Divider()
+                .padding(.vertical, 2)
             Toggle("Show fullscreen spaces", isOn: $showFullscreenSpaces)
                 .padding(.bottom, 2)
             Toggle("Show Mission Control button", isOn: $showMissionControl)
