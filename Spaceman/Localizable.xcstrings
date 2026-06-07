@@ -1024,42 +1024,42 @@
         }
       }
     },
-    "Error: %@\n\nPlease grant %@ permissions to Spaceman in %@ → Privacy and Security." : {
+    "Error: %@\n\nPlease grant %@ permissions to Spaceman in System Settings → Privacy and Security." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fehler: %1$@\n\nBitte gewähren Sie Spaceman %2$@-Berechtigungen in %3$@ → Datenschutz & Sicherheit."
+            "value" : "Fehler: %1$@\n\nBitte gewähren Sie Spaceman %2$@-Berechtigungen in Systemeinstellungen → Datenschutz & Sicherheit."
           }
         },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Error: %1$@\n\nPlease grant %2$@ permissions to Spaceman in %3$@ → Privacy and Security."
+            "state" : "new",
+            "value" : "Error: %1$@\n\nPlease grant %2$@ permissions to Spaceman in System Settings → Privacy and Security."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error: %1$@\n\nPor favor, otorga permisos de %2$@ a Spaceman en %3$@ → Privacidad y seguridad."
+            "value" : "Error: %1$@\n\nPor favor, otorga permisos de %2$@ a Spaceman en Ajustes del Sistema → Privacidad y seguridad."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error: %1$@\n\nPor favor, otorga permisos de %2$@ a Spaceman en %3$@ → Privacidad y seguridad."
+            "value" : "Error: %1$@\n\nPor favor, otorga permisos de %2$@ a Spaceman en Configuración del Sistema → Privacidad y seguridad."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erreur : %1$@\n\nVeuillez accorder les autorisations %2$@ à Spaceman dans %3$@ → Confidentialité et sécurité."
+            "value" : "Erreur : %1$@\n\nVeuillez accorder les autorisations %2$@ à Spaceman dans Réglages système → Confidentialité et sécurité."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fout: %1$@\n\nGeef Spaceman a.u.b. %2$@-machtigingen in %3$@ → Privacy en beveiliging."
+            "value" : "Fout: %1$@\n\nGeef Spaceman a.u.b. %2$@-machtigingen in Systeeminstellingen → Privacy en beveiliging."
           }
         }
       }
@@ -1642,36 +1642,36 @@
         }
       }
     },
-    "If the display order seems erratic, please pay close attention to the horizontal alignment in %@ → Displays → Arrange." : {
+    "If the display order seems erratic, please pay close attention to the horizontal alignment in System Settings → Displays → Arrange." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wenn die Bildschirmreihenfolge nicht stimmt, achten Sie bitte auf die horizontale Ausrichtung in %@ → Displays → Anordnen."
+            "value" : "Wenn die Bildschirmreihenfolge nicht stimmt, achten Sie bitte auf die horizontale Ausrichtung in Systemeinstellungen → Displays → Anordnen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si el orden de las pantallas parece incorrecto, presta atención a la alineación horizontal en %@ → Pantallas → Organizar."
+            "value" : "Si el orden de las pantallas parece incorrecto, presta atención a la alineación horizontal en Ajustes del Sistema → Pantallas → Organizar."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si el orden de las pantallas parece incorrecto, presta atención a la alineación horizontal en %@ → Pantallas → Organizar."
+            "value" : "Si el orden de las pantallas parece incorrecto, presta atención a la alineación horizontal en Configuración del Sistema → Pantallas → Organizar."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si l'ordre des écrans ne semble pas correct, vérifiez l'alignement horizontal dans %@ → Écrans → Disposition."
+            "value" : "Si l'ordre des écrans ne semble pas correct, vérifiez l'alignement horizontal dans Réglages système → Écrans → Disposition."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als de beeldschermvolgorde niet correct is, let dan goed op de horizontale rangschikking in %@ → Beeldschermen → Ordenen."
+            "value" : "Als de beeldschermvolgorde niet correct is, let dan goed op de horizontale rangschikking in Systeeminstellingen → Beeldschermen → Ordenen."
           }
         }
       }
@@ -2770,70 +2770,70 @@
         }
       }
     },
-    "Open %@ → Displays…" : {
+    "Open System Settings → Displays…" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ → Displays öffnen…"
+            "value" : "Systemeinstellungen → Displays öffnen…"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir %@ → Pantallas…"
+            "value" : "Abrir Ajustes del Sistema → Pantallas…"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir %@ → Pantallas…"
+            "value" : "Abrir Configuración del Sistema → Pantallas…"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvrir %@ → Écrans…"
+            "value" : "Ouvrir Réglages système → Écrans…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open %@ → Beeldschermen…"
+            "value" : "Open Systeeminstellingen → Beeldschermen…"
           }
         }
       }
     },
-    "Open %@ → Mission Control Shortcuts…" : {
+    "Open System Settings → Mission Control Shortcuts…" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ → Mission Control: Kurzbefehle öffnen…"
+            "value" : "Systemeinstellungen → Mission Control: Kurzbefehle öffnen…"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir %@ → Atajos de Mission Control…"
+            "value" : "Abrir Ajustes del Sistema → Atajos de Mission Control…"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir %@ → Atajos de Mission Control…"
+            "value" : "Abrir Configuración del Sistema → Atajos de Mission Control…"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvrir %@ → Raccourcis Mission Control…"
+            "value" : "Ouvrir Réglages système → Raccourcis Mission Control…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open %@ → Mission Control sneltoetsen…"
+            "value" : "Open Systeeminstellingen → Mission Control sneltoetsen…"
           }
         }
       }
@@ -4238,70 +4238,36 @@
         }
       }
     },
-    "System Preferences" : {
+    "System Settings…" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systemeinstellungen"
+            "value" : "Systemeinstellungen…"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preferencias del Sistema"
+            "value" : "Ajustes del Sistema…"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preferencias del Sistema"
+            "value" : "Configuración del Sistema…"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Préférences système"
+            "value" : "Réglages système…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systeemvoorkeuren"
-          }
-        }
-      }
-    },
-    "System Settings" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systemeinstellungen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajustes del Sistema"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configuración del Sistema"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Réglages système"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systeeminstellingen"
+            "value" : "Systeeminstellingen…"
           }
         }
       }

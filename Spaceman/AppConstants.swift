@@ -7,14 +7,6 @@
 
 import Foundation
 
-func systemSettingsName() -> String {
-    if #available(macOS 13.0, *) {
-        return String(localized: "System Settings")
-    } else {
-        return String(localized: "System Preferences")
-    }
-}
-
 /// Notification posted when the user changes a setting that requires a redraw.
 let settingsChangedName = NSNotification.Name("SettingsChanged")
 
