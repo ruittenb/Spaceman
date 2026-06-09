@@ -135,7 +135,7 @@ struct SpaceCellView: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: 4)
-                .stroke(colorless ? .clear : Color.accentColor,
+                .stroke(colorless ? .clear : Color.primary.opacity(0.6),
                         lineWidth: space.isCurrentSpace ? 2.5 : 0)
         )
         .foregroundColor(enabled || space.isCurrentSpace ? textColor : .gray)
