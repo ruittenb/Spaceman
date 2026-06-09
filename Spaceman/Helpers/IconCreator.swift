@@ -369,7 +369,8 @@ class IconCreator {
     /// Reuses createSpaceIcon for the decoration box, then composites the symbol on top.
     private func createMissionControlIcon(defaultColor: NSColor?, minWidth: CGFloat = 0) -> NSImage {
         let height = cellSize.height
-        let boxWidth = max(height, minWidth)
+        let padding = rowLayout.isTwoRows ? sizes.horizontalPadding * 1.5 : 0
+        let boxWidth = max(height + padding, minWidth)
         let box = createSpaceIcon(space: makeNavSpace(label: " "), defaultColor: defaultColor, minWidth: boxWidth)
         let size = box.size
         let inset = height * 0.25
