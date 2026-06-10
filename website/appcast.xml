@@ -3,23 +3,25 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.23.2: upgraded vulnerable version of Sparkle</title>
+            <title>v1.23.4: minor cosmetic changes</title>
             <description>
                 <![CDATA[
+                    <p>v1.23.4</p>
                     <ul>
-                        <li>- upgraded to Sparkle v2.9.2 because of vulnerability in <= 2.9.1</li>
+                        <li> - updated some margins and separators in preferences dialog</li>
+                        <li> - updated menu grid highlight for better contrast</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 03 Jun 2026 14:13:05 +0200</pubDate>
+            <pubDate>Wed, 10 Jun 2026 07:41:13 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.23.2/Spaceman-1.23.2.dmg"
-                sparkle:version="1.23.2"
-                sparkle:shortVersionString="1.23.2"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.23.4/Spaceman-1.23.4.dmg"
+                sparkle:version="1.23.4"
+                sparkle:shortVersionString="1.23.4"
                 type="application/octet-stream"
-                length="3552033"
-sparkle:edSignature="mBH+7mKmBMO3nYwRCSAazDDzk7vpB69M7JoIYFmRiBxuSxMgENoxqdRBlT4cNiKkficSc3bxAdqJC+fz7U9eAg=="
+                length="3551140"
+sparkle:edSignature="smM5wZZNPES7np6Gqjfssn3OQ38Zg1q1k6ioTVoaMW42xs66WBqMLABgVwisPjtc/vEW0CEARHeMW5aqo+xWAQ=="
             />
         </item>
     </channel>
