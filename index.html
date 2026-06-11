@@ -480,7 +480,7 @@
 
             function initDownloadsCounter() {
                 // Start immediate optimistic counting
-                const interim = startInterimCounter({ start: 0, step: 10, intervalMs: 100 });
+                const interim = startInterimCounter({ start: 0, step: 10, intervalMs: 50 });
 
                 // Kick off your existing data fetches
                 Promise.allSettled([
