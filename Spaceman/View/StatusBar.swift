@@ -285,14 +285,17 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         guard let event = NSApp.currentEvent else {
             return
         }
-        // Capture the mouse position here, instead of using event.locationInWindow,
-        // which may be invalid for clicks in the 1-2px gap above/below the button.
-        // Also capture the button frame now, before the asyncAfter delay, so that
-        // it is from the same moment as the mouse location.
+        // Capture values synchronously before the asyncAfter delay:
+        // - eventType: On macOS 27+, the event object may be invalidated or reused
+        //   by the time the closure runs, so we must not access event.type later.
+        // - mouseLocation: Use NSEvent.mouseLocation instead of event.locationInWindow,
+        //   which may be invalid for clicks in the 1-2px gap above/below the button.
+        // - buttonFrame: Must be from the same moment as the mouse location.
+        let eventType = event.type
         let mouseLocation = NSEvent.mouseLocation
         let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-            if event.type == .rightMouseDown {
+            if eventType == .rightMouseDown {
                 if let sbMenu = self.statusBarMenu {
                     let useGrid = self.spaceDisplayMode == .grid
                     if useGrid {
@@ -308,7 +311,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                         self.restoreDynamicItemsAsList()
                     }
                 }
-            } else if event.type == .leftMouseDown {
+            } else if eventType == .leftMouseDown {
                 // No space targets to click when showing the static app icon;
                 // trigger a full re-render so the user can briefly see their spaces.
                 guard !self.isAppIconMode else {
