@@ -3,25 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.23.4: minor cosmetic changes</title>
+            <title>v1.23.5: fix for opening menu on macOS 27</title>
             <description>
                 <![CDATA[
-                    <p>v1.23.4</p>
+                    <p>v1.23.5</p>
                     <ul>
-                        <li> - updated some margins and separators in preferences dialog</li>
-                        <li> - updated menu grid highlight for better contrast</li>
+                        <li>Fix: capture event early to fix RMB click in menu bar icon on macOS 27</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 10 Jun 2026 07:41:13 +0200</pubDate>
+            <pubDate>Fri, 03 Jul 2026 22:25:02 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.23.4/Spaceman-1.23.4.dmg"
-                sparkle:version="1.23.4"
-                sparkle:shortVersionString="1.23.4"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.23.5/Spaceman-1.23.5.dmg"
+                sparkle:version="1.23.5"
+                sparkle:shortVersionString="1.23.5"
                 type="application/octet-stream"
-                length="3551140"
-sparkle:edSignature="smM5wZZNPES7np6Gqjfssn3OQ38Zg1q1k6ioTVoaMW42xs66WBqMLABgVwisPjtc/vEW0CEARHeMW5aqo+xWAQ=="
+                length="3551383"
+sparkle:edSignature="CxZqFD0xV8vkGDnUMzC2/foCStDDfK8rtgO9wYmOGd2xtOVg+65likMIsoBmGca+SYvAR38gyb0IUFRlYrFQDQ=="
             />
         </item>
     </channel>
