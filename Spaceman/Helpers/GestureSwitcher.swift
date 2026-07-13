@@ -107,7 +107,7 @@ class GestureSwitcher {
     private static let phaseEnded: Int64 = 4
 
     static let speedFast: Double = 10.0
-    static let speedInstant: Double = 800000.0
+    static let speedInstant: Double = 2000.0
 
     // MARK: - Pure computation (testable)
 
