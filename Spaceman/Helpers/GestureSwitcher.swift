@@ -107,7 +107,8 @@ class GestureSwitcher {
     private static let phaseEnded: Int64 = 4
 
     static let speedFast: Double = 10.0
-    static let speedInstant: Double = 800000.0
+    // Max ~32000 to avoid Int32 overflow in 16.16 fixed-point conversion for IOHID payload
+    static let speedInstant: Double = 2000.0
 
     // MARK: - Pure computation (testable)
 
@@ -347,7 +348,8 @@ struct SystemEventPoster: EventPosting {
             swipeMask: 0,
             gestureMotion: 1,  // horizontal
             gestureFlavor: Self.kIOHIDGestureFlavorDockPrimary,
-            swipeProgress: toFixedPoint(progress)
+            // IOHID convention: negative progress = going right (opposite of CGEvent)
+            swipeProgress: toFixedPoint(-progress)
         )
         withUnsafeBytes(of: &gesture) { data.append(contentsOf: $0) }
 
@@ -360,7 +362,8 @@ struct SystemEventPoster: EventPosting {
                 depth: 1,  // child of gesture event
                 reserved: (0, 0, 0)
             ),
-            velocityX: toFixedPoint(velocity),
+            // IOHID convention: negative velocity = going right (opposite of CGEvent)
+            velocityX: toFixedPoint(-velocity),
             velocityY: 0,
             velocityZ: 0
         )
@@ -371,8 +374,18 @@ struct SystemEventPoster: EventPosting {
 
     /// Converts a Double to 16.16 fixed-point format.
     /// The integer part occupies the upper 16 bits, fractional part the lower 16.
+    /// Clamps to Int32 range to prevent overflow crashes with large velocity values.
+    /// Note: speedInstant must stay below ~32000 to avoid overflow (32000 * 65536 ≈ Int32.max).
     private func toFixedPoint(_ value: Double) -> Int32 {
-        let fixed = Int32(value * 65536.0)
+        let scaled = value * 65536.0
+        // Clamp to Int32 range to prevent overflow
+        if scaled >= Double(Int32.max) {
+            return Int32.max
+        }
+        if scaled <= Double(Int32.min) {
+            return Int32.min
+        }
+        let fixed = Int32(scaled)
         // Prevent truncation to zero for very small non-zero values
         if fixed == 0 && value != 0.0 {
             return value > 0 ? 1 : -1
