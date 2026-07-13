@@ -308,7 +308,11 @@ Spaceman is not compatible with the setting **System Settings → Desktop & Dock
 
 - This project was forked from [Sasindu Jayasinghe](https://github.com/Jaysce/Spaceman)
 - This project is based on [WhichSpace](https://github.com/gechr/WhichSpace)
-- This project takes inspiration from [InstantSpaceSwitcher](https://github.com/jurplel/InstantSpaceSwitcher)
+- This project takes inspiration from jurplel's [InstantSpaceSwitcher](https://github.com/jurplel/InstantSpaceSwitcher)
+- This project uses code from joshuarli's [iss](https://github.com/joshuarli/iss) for the macOS 27 instant switching fix 
+- This project uses code from [FasterSwiper](https://github.com/mgbowen/FasterSwiper)
+  who discovered the CGEvent serialization workaround and
+  [documented the IOHID payload format](https://gist.github.com/mgbowen/5548f18ada2e37b23c9e86a8d80b71dc)
 - This project uses [Sparkle](https://sparkle-project.org) for update delivery
 - This project makes use of [LaunchAtLogin](https://github.com/sindresorhus/LaunchAtLogin)
 - This project makes use of [KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts)
