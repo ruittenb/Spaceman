@@ -3,24 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.23.5: fix for opening menu on macOS 27</title>
+            <title>v1.23.6: Fix for Fast Switching in macOS 27</title>
             <description>
                 <![CDATA[
-                    <p>v1.23.5</p>
+                    <p>v1.23.6</p>
                     <ul>
-                        <li>Fix: capture event early to fix RMB click in menu bar icon on macOS 27</li>
+                        <li>- fix for Fast Switching in macOS 27</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 03 Jul 2026 22:25:02 +0200</pubDate>
+            <pubDate>Tue, 14 Jul 2026 08:34:34 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.23.5/Spaceman-1.23.5.dmg"
-                sparkle:version="1.23.5"
-                sparkle:shortVersionString="1.23.5"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.23.6/Spaceman-1.23.6.dmg"
+                sparkle:version="1.23.6"
+                sparkle:shortVersionString="1.23.6"
                 type="application/octet-stream"
-                length="3551383"
-sparkle:edSignature="CxZqFD0xV8vkGDnUMzC2/foCStDDfK8rtgO9wYmOGd2xtOVg+65likMIsoBmGca+SYvAR38gyb0IUFRlYrFQDQ=="
+                length="3559654"
+sparkle:edSignature="CfUoi1E5ZQE64P6OSKzndgcALjNjlR5UyYFuhVceKhXuAgADaIoWEz9emFZ/Dnn7zse2DdwvzXf2MHlX8Zj5BA=="
             />
         </item>
     </channel>
