@@ -1,3 +1,4 @@
+1.23.6: Fix Fast Switching bug on macOS 27
 1.23.5: Fix RMB menu bug on macOS 27
 1.23.4: Minor cosmetic changes
 1.23.3: Added GitHub Actions with README badges; code quality: stricter SwiftLint rules; code cleanup
