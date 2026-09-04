@@ -89,7 +89,7 @@ For ultra-compact mode, choose the Two Rows layout:
 
 Full Unicode support:
 
-<img src="images/Button-9-Unicode.png" width="auto" height="40px">
+<img src="images/Button-9a-Unicode.png" width="auto" height="40px">
 
 Optional navigation buttons let you switch to the previous/next space or
 open Mission Control directly from the menu bar:
