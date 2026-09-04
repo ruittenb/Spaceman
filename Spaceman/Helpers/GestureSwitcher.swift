@@ -158,6 +158,16 @@ class GestureSwitcher {
 
     // MARK: - Public API
 
+    /// Ensure macOS allows this app to post synthetic events
+    /// (System Settings → Privacy & Security → Accessibility).
+    /// If permission is missing, triggers the system prompt.
+    @discardableResult
+    static func ensurePostEventAccess() -> Bool {
+        if CGPreflightPostEventAccess() { return true }
+        CGRequestPostEventAccess()
+        return false
+    }
+
     /// Switch from the current space to the target space on the same display.
     /// Returns `false` if the spaces are on different displays (caller should
     /// fall back to AppleScript).
@@ -165,6 +175,7 @@ class GestureSwitcher {
         target: Space, current: Space, spaces: [Space],
         mode: SwitchingMode
     ) -> Bool {
+        Self.ensurePostEventAccess()
         guard target.displayID == current.displayID else { return false }
         guard !target.isCurrentSpace else { return true }
 
@@ -184,6 +195,7 @@ class GestureSwitcher {
 
     /// Switch one space left or right (for prev/next arrow buttons).
     func switchRelative(goRight: Bool, mode: SwitchingMode) {
+        Self.ensurePostEventAccess()
         let speed = mode == .instant ? Self.speedInstant : Self.speedFast
         performSwitchGesture(goRight: goRight, velocity: speed)
     }
