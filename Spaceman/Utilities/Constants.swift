@@ -8,7 +8,7 @@
 import Foundation
 
 struct Constants {
-    static let maxSpaceNameLength = 10
+    static let maxSpaceNameLength = 16
     static let minMenuWidth: CGFloat = 350
     static let inactiveAlpha: CGFloat = 0.4
 
