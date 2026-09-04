@@ -8,6 +8,7 @@
 
 import CoreGraphics
 import Foundation
+import os.log
 
 // MARK: - macOS 27 IOHID Payload Structures
 //
@@ -186,6 +187,12 @@ class GestureSwitcher {
             return true
         }
 
+        Logger(subsystem: "dev.ruittenb.Spaceman", category: "gesture").log("""
+            posting steps=\(calc.steps, privacy: .public) \
+            right=\(calc.goRight, privacy: .public) \
+            velocity=\(Int(calc.velocity), privacy: .public) \
+            preflight=\(CGPreflightPostEventAccess(), privacy: .public)
+            """)
         for _ in 0..<calc.steps {
             performSwitchGesture(
                 goRight: calc.goRight, velocity: calc.velocity)

@@ -321,6 +321,7 @@ Spaceman is not compatible with the setting **System Settings → Desktop & Dock
   - [René Uittenbogaard](https://github.com/ruittenb/Spaceman)
 - Contributions by:
   - [Waylon Wang](https://github.com/waylonwang/Spaceman)
+  - [Conner Stobie](https://github.com/connerstobie/Spaceman)
   - [ultravioletcatastrophe](https://github.com/ultravioletcatastrophe/Spaceman)
   - [Nicomalacho](https://github.com/Nicomalacho/Spaceman)
   - [DonBox](https://github.com/donbox/Spaceman)
