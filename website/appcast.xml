@@ -3,24 +3,26 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.23.6: Fix for Fast Switching in macOS 27</title>
+            <title>v1.24.3: Merged contributions by Conner Stobie</title>
             <description>
                 <![CDATA[
-                    <p>v1.23.6</p>
+                    <p>v1.24.3</p>
                     <ul>
-                        <li>- fix for Fast Switching in macOS 27</li>
+                        <li>- Raised space name display limit from 10 to 16 characters (based on contribution by Conner Stobie)</li>
+                        <li>- Fix: ask macOS for event-posting permission when gesture switching is used (contribution by Conner Stobie)</li>
+                        <li>- Added diagnostic logging for the click-to-switch path (hit test, strategy, gesture posting) (contribution by Conner Stobie)</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Tue, 14 Jul 2026 08:34:34 +0200</pubDate>
+            <pubDate>Fri, 04 Sep 2026 12:03:24 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.23.6/Spaceman-1.23.6.dmg"
-                sparkle:version="1.23.6"
-                sparkle:shortVersionString="1.23.6"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.24.3/Spaceman-1.24.3.dmg"
+                sparkle:version="1.24.3"
+                sparkle:shortVersionString="1.24.3"
                 type="application/octet-stream"
-                length="3559654"
-sparkle:edSignature="CfUoi1E5ZQE64P6OSKzndgcALjNjlR5UyYFuhVceKhXuAgADaIoWEz9emFZ/Dnn7zse2DdwvzXf2MHlX8Zj5BA=="
+                length="3568004"
+sparkle:edSignature="DKHPMqh59ihdj+dmPIbFvrA83qfDOGiGxOtASv5xIeStH1tvNlK84/fqhVZYGTCrFinbxKT+q2B1nR6aD7avBg=="
             />
         </item>
     </channel>
