@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import os.log
 import SwiftUI
 
 /// Connects the strategizer to the executors.
@@ -138,6 +139,12 @@ class SwitchOrchestrator {
                 break
             }
         }
+        let clickLog = Logger(subsystem: "dev.ruittenb.Spaceman", category: "click")
+        clickLog.log("""
+            hitTest point=(\(Int(point.x), privacy: .public),\(Int(point.y), privacy: .public)) \
+            hit=\(hitIndex.map(String.init) ?? "MISS", privacy: .public) \
+            spaceNumber=\(hitSpaceNumber, privacy: .public)
+            """)
         guard let hitIndex else {
             onError()
             return
@@ -178,6 +185,11 @@ class SwitchOrchestrator {
             spaceNumber: hitSpaceNumber)
         let strategy = SwitchStrategizer.resolveStrategy(
             switchTag: tag, context: ctx)
+        clickLog.log("""
+            tag=\(tag, privacy: .public) \
+            mode=\(ctx.mode.rawValue, privacy: .public) \
+            strategy=\(String(describing: strategy), privacy: .public)
+            """)
         executeStrategy(
             strategy, spaces: spaces,
             onError: onError, onShowBalloon: onShowBalloon)

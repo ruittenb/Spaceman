@@ -1,3 +1,7 @@
+1.24.3: Bumped version for avoiding conflicts with forks
+1.24.2: Added diagnostic logging for the click-to-switch path (hit test, strategy, gesture posting) (contribution Conner Stobie)
+1.24.1: Fix: ask macOS for event-posting permission when gesture switching is used (contribution Conner Stobie)
+1.24.0: Raised space name display limit from 10 to 16 characters (based on contribution by Conner Stobie)
 1.23.6: Fix Fast Switching bug on macOS 27
 1.23.5: Fix RMB menu bug on macOS 27
 1.23.4: Minor cosmetic changes

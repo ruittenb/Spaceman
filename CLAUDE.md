@@ -8,7 +8,7 @@ Spaceman is a macOS menu bar application that displays Spaces/Virtual Desktops. 
 
 ## Build Commands
 
-**NEVER build.** Do not run `make`, `xcodebuild`, or any other build commands. The user will build manually. Tell them to.
+**Never build the app locally.** Do not run `make`, `xcodebuild`, or any other build commands. The user will build manually. Tell them to.
 
 ## Build Artifacts
 

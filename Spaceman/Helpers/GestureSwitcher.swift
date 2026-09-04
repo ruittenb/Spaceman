@@ -8,6 +8,7 @@
 
 import CoreGraphics
 import Foundation
+import os.log
 
 // MARK: - macOS 27 IOHID Payload Structures
 //
@@ -158,6 +159,16 @@ class GestureSwitcher {
 
     // MARK: - Public API
 
+    /// Ensure macOS allows this app to post synthetic events
+    /// (System Settings → Privacy & Security → Accessibility).
+    /// If permission is missing, triggers the system prompt.
+    @discardableResult
+    static func ensurePostEventAccess() -> Bool {
+        if CGPreflightPostEventAccess() { return true }
+        CGRequestPostEventAccess()
+        return false
+    }
+
     /// Switch from the current space to the target space on the same display.
     /// Returns `false` if the spaces are on different displays (caller should
     /// fall back to AppleScript).
@@ -165,6 +176,7 @@ class GestureSwitcher {
         target: Space, current: Space, spaces: [Space],
         mode: SwitchingMode
     ) -> Bool {
+        Self.ensurePostEventAccess()
         guard target.displayID == current.displayID else { return false }
         guard !target.isCurrentSpace else { return true }
 
@@ -175,6 +187,12 @@ class GestureSwitcher {
             return true
         }
 
+        Logger(subsystem: "dev.ruittenb.Spaceman", category: "gesture").log("""
+            posting steps=\(calc.steps, privacy: .public) \
+            right=\(calc.goRight, privacy: .public) \
+            velocity=\(Int(calc.velocity), privacy: .public) \
+            preflight=\(CGPreflightPostEventAccess(), privacy: .public)
+            """)
         for _ in 0..<calc.steps {
             performSwitchGesture(
                 goRight: calc.goRight, velocity: calc.velocity)
@@ -184,6 +202,7 @@ class GestureSwitcher {
 
     /// Switch one space left or right (for prev/next arrow buttons).
     func switchRelative(goRight: Bool, mode: SwitchingMode) {
+        Self.ensurePostEventAccess()
         let speed = mode == .instant ? Self.speedInstant : Self.speedFast
         performSwitchGesture(goRight: goRight, velocity: speed)
     }

@@ -150,7 +150,7 @@ Spaceman's preferences are organized into six tabs: **General**, **Appearance**,
 
 - **Space names**: Assigns custom names of any length to individual spaces
   - The menu displays full names regardless of length
-  - Menu bar icons truncate names to 10 characters for compactness
+  - Menu bar icons truncate names to 16 characters for compactness
   - Optionally, for each Space icon, a color can be selected.
 
 ### Switching Tab
@@ -321,6 +321,7 @@ Spaceman is not compatible with the setting **System Settings → Desktop & Dock
   - [René Uittenbogaard](https://github.com/ruittenb/Spaceman)
 - Contributions by:
   - [Waylon Wang](https://github.com/waylonwang/Spaceman)
+  - [Conner Stobie](https://github.com/connerstobie/Spaceman)
   - [ultravioletcatastrophe](https://github.com/ultravioletcatastrophe/Spaceman)
   - [Nicomalacho](https://github.com/Nicomalacho/Spaceman)
   - [DonBox](https://github.com/donbox/Spaceman)
