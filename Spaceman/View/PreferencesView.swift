@@ -21,7 +21,6 @@ struct PreferencesView: View {
     @AppStorage("useVariableWidth") private var useVariableWidth = false
     @AppStorage("fontDesign") private var fontDesign = FontDesign.monospaced
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
-    @AppStorage("autoShrink") private var autoShrink = true
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("showMissionControl") private var showMissionControl = false
@@ -40,7 +39,6 @@ struct PreferencesView: View {
     @StateObject private var prefsVM = PreferencesViewModel()
     @State private var showDisplaysHelp = false
     @State private var showSwitchingHelp = false
-    @State private var showAutoShrinkHelp = false
 
     // MARK: - Main Body
     var body: some View {
@@ -388,32 +386,8 @@ struct PreferencesView: View {
                 .padding(.bottom, 2)
             Toggle("Show navigation arrows", isOn: $showNavArrows)
                 .padding(.bottom, 2)
-            HStack {
-                Toggle("Auto-shrink when there is shortage of space", isOn: $autoShrink)
-                Button {
-                    showAutoShrinkHelp.toggle()
-                } label: {
-                    Image(systemName: "info.circle")
-                        .foregroundColor(.secondary)
-                }
-                .buttonStyle(.plain)
-                .popover(isPresented: $showAutoShrinkHelp, arrowEdge: .trailing) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("""
-                            Spaceman will attempt to unshrink the menu bar icon \
-                            when you switch spaces, or trigger a manual refresh.
-                            """)
-                        Text("When switching spaces, the icon may blink briefly.")
-                    }
-                    .padding()
-                    .frame(width: 300)
-                }
-            }
         }
         .padding()
-        .onChange(of: autoShrink) { _ in
-            postSettingsChanged()
-        }
         .onChange(of: visibleSpacesMode) { _ in
             postSettingsChanged()
         }
