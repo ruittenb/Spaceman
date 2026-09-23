@@ -110,19 +110,45 @@ struct Constants {
             verticalPadding: 1.5,
             borderWidth: 1,
             fontSize: 10
+        ),
+        // The two sizes below only fit the taller menu bar of notched
+        // MacBooks (34pt on a 16" at the default scaled resolution).
+        // On a 22pt bar the vertical-padding reduction in
+        // IconCreator.getIcon() shrinks them until they fit.
+        .extraLarge: GuiSize(
+            gapWidthSpaces: 3,
+            gapWidthDisplays: 10,
+            gapHeightRows: 2,
+            horizontalPadding: 3.5,
+            verticalPadding: 2,
+            borderWidth: 1,
+            fontSize: 12
+        ),
+        .enormous: GuiSize(
+            gapWidthSpaces: 4,
+            gapWidthDisplays: 12,
+            gapHeightRows: 2,
+            horizontalPadding: 4,
+            verticalPadding: 1.5,
+            borderWidth: 1,
+            fontSize: 13
         )
     ]
+
+    /// Returns the nearest IconSize that has a two-row entry.
+    static func nearestTwoRowIconSize(for size: IconSize) -> IconSize {
+        if sizesTwoRows[size] != nil { return size }
+        switch size {
+        case .narrow, .compact:              return .compact
+        case .medium:                        return .medium
+        case .large, .extraLarge, .enormous: return .large
+        }
+    }
 
     /// Returns the two-row GuiSize for the given size, mapping to the
     /// nearest available size if the size has no two-row entry.
     static func nearestTwoRowSize(for size: IconSize) -> GuiSize {
-        let key: IconSize
-        switch size {
-        case .narrow, .compact:              key = .compact
-        case .medium:                        key = .medium
-        case .large, .extraLarge, .enormous: key = .large
-        }
         // swiftlint:disable:next force_unwrapping
-        return sizesTwoRows[key]!
+        return sizesTwoRows[nearestTwoRowIconSize(for: size)]!
     }
 }

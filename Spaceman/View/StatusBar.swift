@@ -794,12 +794,8 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @objc func selectRowLayout(_ sender: NSMenuItem) {
         guard let layout = RowLayout(rawValue: sender.tag) else { return }
         rowLayout = layout
-        if layout.isTwoRows && Constants.sizesTwoRows[iconSize] == nil {
-            switch iconSize {
-            case .narrow, .compact:              iconSize = .compact
-            case .medium:                        iconSize = .medium
-            case .large, .extraLarge, .enormous:  iconSize = .large
-            }
+        if layout.isTwoRows {
+            iconSize = Constants.nearestTwoRowIconSize(for: iconSize)
         }
         postSettingsChanged()
     }
