@@ -592,12 +592,8 @@ struct PreferencesView: View {
             .clipShape(RoundedRectangle(cornerRadius: 6))
         }
         .onChange(of: rowLayout) { newValue in
-            if newValue.isTwoRows && Constants.sizesTwoRows[iconSize] == nil {
-                switch iconSize {
-                case .narrow, .compact:              iconSize = .compact
-                case .medium:                        iconSize = .medium
-                case .large, .extraLarge, .enormous: iconSize = .large
-                }
+            if newValue.isTwoRows {
+                iconSize = Constants.nearestTwoRowIconSize(for: iconSize)
             }
             postSettingsChanged()
         }

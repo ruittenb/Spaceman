@@ -162,12 +162,34 @@ final class EnumBehaviorTests: XCTestCase {
         let mediumSize = Constants.nearestTwoRowSize(for: .medium)
         XCTAssertNotEqual(mediumSize.gapWidthSpaces, compactSize.gapWidthSpaces)
 
-        // large, extraLarge, enormous all map to large
+        // large, extraLarge and enormous each have their own two-row entry
+        // with a strictly larger font than the previous size
         let largeSize = Constants.nearestTwoRowSize(for: .large)
         let xlSize = Constants.nearestTwoRowSize(for: .extraLarge)
         let enormousSize = Constants.nearestTwoRowSize(for: .enormous)
-        XCTAssertEqual(largeSize.gapWidthSpaces, xlSize.gapWidthSpaces)
-        XCTAssertEqual(largeSize.gapWidthSpaces, enormousSize.gapWidthSpaces)
+        XCTAssertGreaterThan(largeSize.fontSize, mediumSize.fontSize)
+        XCTAssertGreaterThan(xlSize.fontSize, largeSize.fontSize)
+        XCTAssertGreaterThan(enormousSize.fontSize, xlSize.fontSize)
+    }
+
+    func testNearestTwoRowIconSizeAlwaysHasEntry() {
+        for size in IconSize.allCases {
+            let mapped = Constants.nearestTwoRowIconSize(for: size)
+            XCTAssertNotNil(Constants.sizesTwoRows[mapped], "\(size) maps to \(mapped) which has no two-row entry")
+            if Constants.sizesTwoRows[size] != nil {
+                XCTAssertEqual(mapped, size, "\(size) has its own two-row entry and must map to itself")
+            }
+        }
+        XCTAssertEqual(Constants.nearestTwoRowIconSize(for: .narrow), .compact)
+    }
+
+    func testTwoRowSizesFitNotchedMenuBar() {
+        // 34pt is the menu bar height of a 16" MacBook Pro at the default
+        // scaled resolution; the largest two-row sizes are designed for it.
+        for (size, gui) in Constants.sizesTwoRows {
+            let height = 2 * (CGFloat(gui.fontSize) + 2 * gui.verticalPadding) + gui.gapHeightRows
+            XCTAssertLessThanOrEqual(height, 34, "Two-row size \(size) is \(height)pt tall, exceeds 34pt")
+        }
     }
 
     func testNearestTwoRowSizeHasRowGap() {
