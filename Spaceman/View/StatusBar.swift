@@ -829,19 +829,36 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func selectIconShape(_ sender: NSMenuItem) {
         guard let shape = IconShape(rawValue: sender.tag) else { return }
+
+        // Read fresh from UserDefaults — @AppStorage on NSObject caches the
+        // initial value and does not observe external writes (e.g. from Preferences).
+        let defaults = UserDefaults.standard
+        let currentActive = IconStyle(rawValue: defaults.integer(forKey: "decorationActive")) ?? .filledRounded
+        let currentInactive = IconStyle(rawValue: defaults.integer(forKey: "decorationInactive")) ?? .borderedRounded
+        let currentLastActiveFill = IconFill(rawValue: defaults.integer(forKey: "lastActiveFill")) ?? .filled
+        let currentLastInactiveFill = IconFill(rawValue: defaults.integer(forKey: "lastInactiveFill")) ?? .bordered
+
         if shape == .noDecoration {
-            saveLastDecoration()
+            // Save current decoration before switching to noDecoration (using fresh values)
+            if !currentActive.isNoDecoration {
+                lastActiveShape = currentActive.shape
+                lastActiveFill = currentActive.fill
+            }
+            if !currentInactive.isNoDecoration {
+                lastInactiveShape = currentInactive.shape
+                lastInactiveFill = currentInactive.fill
+            }
             decorationActive = .noDecoration
             decorationInactive = .noDecoration
         } else {
-            let activeFill = decorationActive.isNoDecoration
-                ? lastActiveFill
-                : decorationActive.fill
-            let inactiveFill = decorationInactive.isNoDecoration
-                ? lastInactiveFill
-                : decorationInactive.fill
-            decorationActive = decorationActive.withShape(shape).withFill(activeFill)
-            decorationInactive = decorationInactive.withShape(shape).withFill(inactiveFill)
+            let activeFill = currentActive.isNoDecoration
+                ? currentLastActiveFill
+                : currentActive.fill
+            let inactiveFill = currentInactive.isNoDecoration
+                ? currentLastInactiveFill
+                : currentInactive.fill
+            decorationActive = currentActive.withShape(shape).withFill(activeFill)
+            decorationInactive = currentInactive.withShape(shape).withFill(inactiveFill)
             saveLastDecoration()
         }
         postSettingsChanged()
@@ -849,14 +866,23 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
 
     @objc func selectIconFill(_ sender: NSMenuItem) {
         guard let fill = IconFill(rawValue: sender.tag) else { return }
-        let activeShape = decorationActive.isNoDecoration
-            ? lastActiveShape
-            : decorationActive.shape
-        let inactiveShape = decorationInactive.isNoDecoration
-            ? lastInactiveShape
-            : decorationInactive.shape
-        decorationActive = decorationActive.withFill(fill).withShape(activeShape)
-        decorationInactive = decorationInactive.withFill(fill).withShape(inactiveShape)
+
+        // Read fresh from UserDefaults — @AppStorage on NSObject caches the
+        // initial value and does not observe external writes (e.g. from Preferences).
+        let defaults = UserDefaults.standard
+        let currentActive = IconStyle(rawValue: defaults.integer(forKey: "decorationActive")) ?? .filledRounded
+        let currentInactive = IconStyle(rawValue: defaults.integer(forKey: "decorationInactive")) ?? .borderedRounded
+        let currentLastActiveShape = IconShape(rawValue: defaults.integer(forKey: "lastActiveShape")) ?? .rounded
+        let currentLastInactiveShape = IconShape(rawValue: defaults.integer(forKey: "lastInactiveShape")) ?? .rounded
+
+        let activeShape = currentActive.isNoDecoration
+            ? currentLastActiveShape
+            : currentActive.shape
+        let inactiveShape = currentInactive.isNoDecoration
+            ? currentLastInactiveShape
+            : currentInactive.shape
+        decorationActive = currentActive.withFill(fill).withShape(activeShape)
+        decorationInactive = currentInactive.withFill(fill).withShape(inactiveShape)
         saveLastDecoration()
         postSettingsChanged()
     }
