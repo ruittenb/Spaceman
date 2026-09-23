@@ -13,6 +13,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @AppStorage("showHUD") private var showHUD = false
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
+    @AppStorage("autoShrink") private var autoShrink = true
     @AppStorage("mainDisplayOnly") private var mainDisplayOnly = false
 
     private var iconCreator: IconCreator!
@@ -246,26 +247,39 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if let measured = measureBudget() { budget = measured }
 
         let buttonAppearance = statusBar.getButtonAppearance()
-        // With a measured budget, start from the user's size every time so the
-        // icon grows back when room frees up. Without one, keep the size the
-        // occlusion backstop settled on.
-        var size = budget == nil ? (fittedSize ?? userIconSize) : userIconSize
-        var icon = iconCreator.getIcon(for: displaySpaces, appearance: buttonAppearance,
-                                        sizeOverride: size)
 
-        if let budget = budget {
-            while icon.size.width > budget,
-                  let smaller = size.nextSmaller(twoRows: isTwoRowLayout) {
-                size = smaller
-                icon = iconCreator.getIcon(for: displaySpaces, appearance: buttonAppearance,
-                                            sizeOverride: size)
+        let size: IconSize
+        let icon: NSImage
+        if autoShrink {
+            // With a measured budget, start from the user's size every time so
+            // the icon grows back when room frees up. Without one, keep the
+            // size the occlusion backstop settled on.
+            var currentSize = budget == nil ? (fittedSize ?? userIconSize) : userIconSize
+            var currentIcon = iconCreator.getIcon(for: displaySpaces, appearance: buttonAppearance,
+                                                   sizeOverride: currentSize)
+
+            if let budget = budget {
+                while currentIcon.size.width > budget,
+                      let smaller = currentSize.nextSmaller(twoRows: isTwoRowLayout) {
+                    currentSize = smaller
+                    currentIcon = iconCreator.getIcon(for: displaySpaces, appearance: buttonAppearance,
+                                                       sizeOverride: currentSize)
+                }
+                Self.fitLog.log("""
+                    fit: budget=\(Int(budget)) width=\(Int(currentIcon.size.width)) \
+                    size=\(currentSize.rawValue) user=\(self.userIconSize.rawValue)
+                    """)
             }
-            Self.fitLog.log("""
-                fit: budget=\(Int(budget)) width=\(Int(icon.size.width)) \
-                size=\(size.rawValue) user=\(self.userIconSize.rawValue)
-                """)
+            fittedSize = currentSize == userIconSize ? nil : currentSize
+            size = currentSize
+            icon = currentIcon
+        } else {
+            // Auto-shrink disabled: always use the user's chosen size
+            size = userIconSize
+            icon = iconCreator.getIcon(for: displaySpaces, appearance: buttonAppearance,
+                                        sizeOverride: size)
+            fittedSize = nil
         }
-        fittedSize = size == userIconSize ? nil : size
         lastIconWidth = icon.size.width
 
         statusBar.updateStatusBar(withIcon: icon, withSpaces: displaySpaces)
@@ -300,8 +314,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// Tighten the budget below that width and re-render, which picks the
     /// largest size that fits underneath it. Never changes the text.
     private func shrinkIfEvicted() {
-        guard !statusBar.isIconVisible(),
+        guard autoShrink,
+              !statusBar.isIconVisible(),
               Date() >= suppressOcclusionUntil else { return }
+
         let ceiling = lastIconWidth - 1
         if let current = budget, current <= ceiling {
             // Already budgeted below this width and still hidden: step the

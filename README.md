@@ -139,9 +139,9 @@ Spaceman's preferences are organized into six tabs: **General**, **Appearance**,
 - **Show fullscreen spaces**: Shows or hides fullscreen app spaces from the menu bar
 - **Show Mission Control button**: Adds a button to open Mission Control to the menu bar
 - **Show navigation arrows**: Adds buttons to the menu bar for switching to previous/next space
-- **Fit to width** (always on): Spaceman measures the free space in the menu bar and renders the largest
-  icon size that fits it. Names are always shown in full; it never falls back to numbers or the app icon,
-  and it grows back to your chosen size as soon as there is room again.
+- **Auto-shrink**: Spaceman measures the free space in the menu bar and renders the largest
+  icon size that fits it.  It grows back to your chosen size as soon as there is room again.
+  Enabled by default.
 
 ### Spaces Tab
 
@@ -322,7 +322,7 @@ Spaceman is not compatible with the setting **System Settings → Desktop & Dock
   - [Waylon Wang](https://github.com/waylonwang/Spaceman)
   - [Conner Stobie](https://github.com/connerstobie/Spaceman)
   - [ultravioletcatastrophe](https://github.com/ultravioletcatastrophe/Spaceman)
-  - [Nicomalacho](https://github.com/Nicomalacho/Spaceman)
+  - [Nicolas Gaviria](https://github.com/Nicomalacho/Spaceman)
   - [DonBox](https://github.com/donbox/Spaceman)
   - [Dmitry Poznyak](https://github.com/triangular-sneaky/Spaceman)
   - [Grzegorz Milka](https://github.com/gregorias/Spaceman)
