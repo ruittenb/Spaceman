@@ -3,31 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.26.1: Smarter auto-shrink; reduced horizontal padding</title>
+            <title>v1.26.2: added tooltips for spaces</title>
             <description>
                 <![CDATA[
-                    v1.26.0:
+                    <p>v1.26.2</p>
                     <ul>
-                        <li>replaced auto-shrink with measured fit-to-width (contribution Conner Stobie)</li>
-                        <li>names always shown in full (contribution Conner Stobie)</li>
-                        <li>removed horizontal padding when icon has no decoration (contribution Conner Stobie)</li>
-                    </ul>
-                    v1.26.1:
-                    <ul>
-                        <li>make auto-shrink configurable again</li>
-                        <li>reduce horizontal padding only when not any icon has decoration</li>
+                        <li>Show tooltip with space name when hovering</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 24 Sep 2026 12:19:52 +0200</pubDate>
+            <pubDate>Thu, 24 Sep 2026 18:38:48 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.26.1/Spaceman-1.26.1.dmg"
-                sparkle:version="1.26.1"
-                sparkle:shortVersionString="1.26.1"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.26.2/Spaceman-1.26.2.dmg"
+                sparkle:version="1.26.2"
+                sparkle:shortVersionString="1.26.2"
                 type="application/octet-stream"
-                length="3570671"
-sparkle:edSignature="Ifm55qbORQ5hsz3YrUXhLQ3zun69dmBo8M+w5nVYtv2cyp0gdym4eXt4vV9teXUuxlIgcmUyMYA4RzeE24gjAA=="
+                length="3570701"
+sparkle:edSignature="eXH106o8nNZ+drafWJI/XicpRzVBKvhIStANYyX0ywDrf6Cypspd3j8J2F3eG35xwwY0AsdJ0nwCOfW2ocfXCQ=="
             />
         </item>
     </channel>
