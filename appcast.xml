@@ -3,26 +3,29 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.24.3: Merged contributions by Conner Stobie</title>
+            <title>v1.26.1: Smarter auto-shrink; reduced horizontal padding</title>
             <description>
                 <![CDATA[
-                    <p>v1.24.3</p>
                     <ul>
-                        <li>- Raised space name display limit from 10 to 16 characters (based on contribution by Conner Stobie)</li>
-                        <li>- Fix: ask macOS for event-posting permission when gesture switching is used (contribution by Conner Stobie)</li>
-                        <li>- Added diagnostic logging for the click-to-switch path (hit test, strategy, gesture posting) (contribution by Conner Stobie)</li>
+                        <li>1.26.0</li>
+                        <li> - replaced auto-shrink with measured fit-to-width (contribution Conner Stobie)</li>
+                        <li> - names always shown in full (contribution Conner Stobie)</li>
+                        <li> - removed horizontal padding when icon has no decoration (contribution Conner Stobie)</li>
+                        <li>1.26.1</li>
+                        <li> - make auto-shrink configurable again</li>
+                        <li> - reduce horizontal padding only when not any icon has decoration</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 04 Sep 2026 12:03:24 +0200</pubDate>
+            <pubDate>Thu, 24 Sep 2026 12:19:52 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.24.3/Spaceman-1.24.3.dmg"
-                sparkle:version="1.24.3"
-                sparkle:shortVersionString="1.24.3"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.26.1/Spaceman-1.26.1.dmg"
+                sparkle:version="1.26.1"
+                sparkle:shortVersionString="1.26.1"
                 type="application/octet-stream"
-                length="3568004"
-sparkle:edSignature="DKHPMqh59ihdj+dmPIbFvrA83qfDOGiGxOtASv5xIeStH1tvNlK84/fqhVZYGTCrFinbxKT+q2B1nR6aD7avBg=="
+                length="3570671"
+sparkle:edSignature="Ifm55qbORQ5hsz3YrUXhLQ3zun69dmBo8M+w5nVYtv2cyp0gdym4eXt4vV9teXUuxlIgcmUyMYA4RzeE24gjAA=="
             />
         </item>
     </channel>
