@@ -6,14 +6,16 @@
             <title>v1.26.1: Smarter auto-shrink; reduced horizontal padding</title>
             <description>
                 <![CDATA[
+                    v1.26.0:
                     <ul>
-                        <li>1.26.0</li>
-                        <li> - replaced auto-shrink with measured fit-to-width (contribution Conner Stobie)</li>
-                        <li> - names always shown in full (contribution Conner Stobie)</li>
-                        <li> - removed horizontal padding when icon has no decoration (contribution Conner Stobie)</li>
-                        <li>1.26.1</li>
-                        <li> - make auto-shrink configurable again</li>
-                        <li> - reduce horizontal padding only when not any icon has decoration</li>
+                        <li>replaced auto-shrink with measured fit-to-width (contribution Conner Stobie)</li>
+                        <li>names always shown in full (contribution Conner Stobie)</li>
+                        <li>removed horizontal padding when icon has no decoration (contribution Conner Stobie)</li>
+                    </ul>
+                    v1.26.1:
+                    <ul>
+                        <li>make auto-shrink configurable again</li>
+                        <li>reduce horizontal padding only when not any icon has decoration</li>
                     </ul>
                 ]]>
             </description>
