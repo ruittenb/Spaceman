@@ -461,7 +461,11 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                 case Space.previousSpaceIndex:     tooltip = String(localized: "Previous")
                 case Space.missionControlIndex:    tooltip = String(localized: "Mission Control")
                 case Space.nextSpaceIndex:         tooltip = String(localized: "Next")
-                default: break
+                default:
+                    if let space = currentSpaces.first(where: { $0.spaceNumber == iconWidth.spaceNumber }),
+                       !space.spaceName.isEmpty {
+                        tooltip = space.spaceName
+                    }
                 }
                 break
             }
