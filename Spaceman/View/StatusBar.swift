@@ -30,9 +30,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     @AppStorage("switchingMode") private var switchingMode = SwitchingMode.smooth.rawValue
     @AppStorage("spaceDisplayMode") private var spaceDisplayMode = SpaceDisplayMode.list
 
-    /// When true, the status bar shows a static app icon (auto-shrink fallback).
-    /// Left-clicks are ignored because there are no individual space targets.
-    var isAppIconMode = false
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
     private var updatesItem: NSMenuItem!
@@ -315,12 +312,6 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
                     }
                 }
             } else if eventType == .leftMouseDown {
-                // No space targets to click when showing the static app icon;
-                // trigger a full re-render so the user can briefly see their spaces.
-                guard !self.isAppIconMode else {
-                    postSettingsChanged()
-                    return
-                }
                 // Switch desktops on left click, unless one single space shown
                 guard self.visibleSpacesMode != .currentOnly else {
                     return

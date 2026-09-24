@@ -42,26 +42,18 @@ class IconCreator {
     public var sizes: GuiSize!
     public var iconWidths: [IconWidth] = []
 
-    /// Active shrink overrides for the current render pass. Set at the start
-    /// of getIcon() and cleared via defer. When non-nil, the `effective*`
-    /// computed properties below return overridden values instead of the
-    /// @AppStorage user preferences, so all downstream methods automatically
-    /// use the shrink settings without parameter threading.
-    /// Properties not in ShrinkOverrides (e.g., rowLayout) always use the
-    /// user preference — row layout is intentionally never overridden because
-    /// two-row mode is more horizontally compact than single-row.
-    private var activeShrinkOverrides: ShrinkOverrides?
+    /// Icon size override for the current render pass (fit-to-width). Set at
+    /// the start of getIcon() and cleared via defer. Only the size is ever
+    /// overridden: names, text style and row layout always follow the user's
+    /// preferences.
+    private var sizeOverride: IconSize?
 
-    private var effectiveIconSize: IconSize { activeShrinkOverrides?.iconSize ?? iconSize }
-    private var effectiveDisplayStyle: IconText { activeShrinkOverrides?.iconText ?? iconText }
-    private var effectiveShowFullscreen: Bool { activeShrinkOverrides?.showFullscreenSpaces ?? showFullscreenSpaces }
-    private var effectiveShowNavArrows: Bool { activeShrinkOverrides?.showNavArrows ?? showNavArrows }
-    private var effectiveShowMissionControl: Bool { activeShrinkOverrides?.showMissionControl ?? showMissionControl }
+    private var effectiveIconSize: IconSize { sizeOverride ?? iconSize }
 
     public func getIcon(for spaces: [Space], appearance: NSAppearance? = nil,
-                        shrinkOverrides: ShrinkOverrides? = nil) -> NSImage {
-        activeShrinkOverrides = shrinkOverrides
-        defer { activeShrinkOverrides = nil }
+                        sizeOverride: IconSize? = nil) -> NSImage {
+        self.sizeOverride = sizeOverride
+        defer { self.sizeOverride = nil }
         sizes = rowLayout.isTwoRows
             ? Constants.nearestTwoRowSize(for: effectiveIconSize)
             : Constants.sizes[effectiveIconSize]
@@ -107,9 +99,9 @@ class IconCreator {
         // In single-row mode, this only applies to name-based styles (names, numbers+names).
         // In two-row mode, numbers-only also gets equalized — without it, "1" and "10" would have
         // visibly different widths, making the two-row grid look uneven.
-        let showsNames = effectiveDisplayStyle == .names || effectiveDisplayStyle == .numbersAndNames
+        let showsNames = iconText == .names || iconText == .numbersAndNames
         let maxNameChars = rowLayout.isTwoRows ? 8 : 4
-        let equalizeNumbers = rowLayout.isTwoRows && effectiveDisplayStyle == .numbers
+        let equalizeNumbers = rowLayout.isTwoRows && iconText == .numbers
         if !useVariableWidth && (showsNames || equalizeNumbers) {
             let measureAttrs = getStringAttributes(alpha: 1, color: .black)
             let padding = sizes.horizontalPadding * 2
@@ -119,7 +111,7 @@ class IconCreator {
                 let text: NSString
                 if equalizeNumbers {
                     text = NSString(string: space.spaceLabel)
-                } else if effectiveDisplayStyle == .numbersAndNames {
+                } else if iconText == .numbersAndNames {
                     let cappedName = String(space.spaceName.prefix(min(maxNameChars, Constants.maxSpaceNameLength)))
                     text = NSString(string: "\(space.spaceLabel):\(cappedName)")
                 } else {
@@ -159,7 +151,7 @@ class IconCreator {
 
     private func filterSpaces(_ spaces: [Space]) -> [Space] {
         var result = spaceFilter.filter(spaces, mode: visibleSpacesMode, neighborRadius: neighborRadius)
-        if !effectiveShowFullscreen {
+        if !showFullscreenSpaces {
             result = result.filter { !$0.isFullScreen }
         }
         return result
@@ -170,7 +162,7 @@ class IconCreator {
     private func createSpaceIcon(space: Space, defaultColor: NSColor?, minWidth: CGFloat = 0) -> NSImage {
         // 1. Determine text content based on display style
         let text: NSString
-        switch effectiveDisplayStyle {
+        switch iconText {
         case .noText:
             text = ""
         case .numbers:
@@ -206,7 +198,10 @@ class IconCreator {
         // 4. Calculate icon size (dynamic width based on text)
         let measureAttrs = getStringAttributes(alpha: 1, color: .black)
         let monoCharWidth = ("0" as NSString).size(withAttributes: measureAttrs).width
-        let padding = sizes.horizontalPadding * 2
+        // Reduce padding when all icons are undecorated (no borders or fills).
+        // This must apply globally to avoid horizontal shifting between icons.
+        let allUndecorated = decorationActive.isNoDecoration && decorationInactive.isNoDecoration
+        let padding = sizes.horizontalPadding * (allUndecorated ? 1.5 : 2)
 
         let contentWidth = text.length > 0
             ? text.size(withAttributes: measureAttrs).width
@@ -447,12 +442,12 @@ class IconCreator {
     private func createNavigationIcons(defaultColor: NSColor?) -> [(image: NSImage, index: Int)] {
         var result: [(image: NSImage, index: Int)] = []
         var arrowIcon: NSImage?
-        if effectiveShowNavArrows {
+        if showNavArrows {
             let left = createSpaceIcon(space: makeNavSpace(label: "◀"), defaultColor: defaultColor)
             arrowIcon = left
             result.append((left, Space.previousSpaceIndex))
         }
-        if effectiveShowMissionControl {
+        if showMissionControl {
             let mcMinWidth: CGFloat
             if rowLayout.isTwoRows, let arrowWidth = arrowIcon?.size.width {
                 // In two-row mode: MC spans the full width of both arrows + gap
@@ -465,7 +460,7 @@ class IconCreator {
             result.append((createMissionControlIcon(defaultColor: defaultColor, minWidth: mcMinWidth),
                 Space.missionControlIndex))
         }
-        if effectiveShowNavArrows {
+        if showNavArrows {
             result.append((createSpaceIcon(
                 space: makeNavSpace(label: "▶"), defaultColor: defaultColor),
                 Space.nextSpaceIndex))

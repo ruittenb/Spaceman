@@ -2,9 +2,8 @@
 //  AutoShrinkTests.swift
 //  SpacemanTests
 //
-//  Created by Claude Code on 27/04/2026.
-//
-//  Tests for the auto-shrink state machine and ShrinkOverrides.
+//  Tests for fit-to-width: which triggers retry the user's size, and how the
+//  icon size steps down when the menu bar has no room.
 //
 
 import XCTest
@@ -14,55 +13,50 @@ final class AutoShrinkTests: XCTestCase {
 
     // MARK: - SpaceUpdateTrigger reset behavior
 
-    func testSpaceSwitchResetsShrinkLevel() {
-        XCTAssertTrue(SpaceUpdateTrigger.spaceSwitch.resetsAutoShrink)
+    func testSpaceSwitchKeepsFittedSize() {
+        XCTAssertFalse(SpaceUpdateTrigger.spaceSwitch.resetsFittedSize)
     }
 
-    func testTopologyChangeResetsShrinkLevel() {
-        XCTAssertTrue(SpaceUpdateTrigger.topologyChange.resetsAutoShrink)
+    func testTopologyChangeResetsFittedSize() {
+        XCTAssertTrue(SpaceUpdateTrigger.topologyChange.resetsFittedSize)
     }
 
-    func testUserRefreshResetsShrinkLevel() {
-        XCTAssertTrue(SpaceUpdateTrigger.userRefresh.resetsAutoShrink)
+    func testUserRefreshResetsFittedSize() {
+        XCTAssertTrue(SpaceUpdateTrigger.userRefresh.resetsFittedSize)
     }
 
-    func testSessionActiveResetsShrinkLevel() {
-        XCTAssertTrue(SpaceUpdateTrigger.sessionActive.resetsAutoShrink)
+    func testSessionActiveResetsFittedSize() {
+        XCTAssertTrue(SpaceUpdateTrigger.sessionActive.resetsFittedSize)
     }
 
-    func testAutoRefreshPreservesShrinkLevel() {
-        XCTAssertFalse(SpaceUpdateTrigger.autoRefresh.resetsAutoShrink)
+    func testAutoRefreshKeepsFittedSize() {
+        XCTAssertFalse(SpaceUpdateTrigger.autoRefresh.resetsFittedSize)
     }
 
-    // MARK: - ShrinkOverrides
+    // MARK: - IconSize.nextSmaller
 
-    func testShrinkOverridesFields() {
-        let overrides = ShrinkOverrides(
-            iconSize: .compact,
-            iconText: .numbers,
-            showFullscreenSpaces: false,
-            showNavArrows: false,
-            showMissionControl: false)
-
-        XCTAssertEqual(overrides.iconSize, .compact)
-        XCTAssertEqual(overrides.iconText, .numbers)
-        XCTAssertFalse(overrides.showFullscreenSpaces)
-        XCTAssertFalse(overrides.showNavArrows)
-        XCTAssertFalse(overrides.showMissionControl)
+    func testNextSmallerSingleRowWalksEverySize() {
+        XCTAssertEqual(IconSize.enormous.nextSmaller(twoRows: false), .extraLarge)
+        XCTAssertEqual(IconSize.extraLarge.nextSmaller(twoRows: false), .large)
+        XCTAssertEqual(IconSize.large.nextSmaller(twoRows: false), .medium)
+        XCTAssertEqual(IconSize.medium.nextSmaller(twoRows: false), .compact)
+        XCTAssertEqual(IconSize.compact.nextSmaller(twoRows: false), .narrow)
+        XCTAssertNil(IconSize.narrow.nextSmaller(twoRows: false))
     }
 
-    func testShrinkOverridesDoesNotIncludeRowLayout() {
-        // ShrinkOverrides intentionally omits rowLayout —
-        // row layout is never overridden because two-row mode
-        // is more horizontally compact than single-row.
-        let mirror = Mirror(reflecting: ShrinkOverrides(
-            iconSize: .compact,
-            iconText: .numbers,
-            showFullscreenSpaces: false,
-            showNavArrows: false,
-            showMissionControl: false))
-        let propertyNames = mirror.children.map { $0.label }
-        XCTAssertFalse(propertyNames.contains("rowLayout"))
-        XCTAssertEqual(propertyNames.count, 5)
+    func testNextSmallerTwoRowsSkipsSizesWithoutEntry() {
+        // narrow has no two-row entry, so compact is the floor
+        XCTAssertNil(IconSize.compact.nextSmaller(twoRows: true))
+        XCTAssertEqual(IconSize.medium.nextSmaller(twoRows: true), .compact)
+        XCTAssertEqual(IconSize.large.nextSmaller(twoRows: true), .medium)
+    }
+
+    func testNextSmallerTwoRowsAlwaysReturnsSizeWithEntry() {
+        for size in IconSize.allCases {
+            if let next = size.nextSmaller(twoRows: true) {
+                XCTAssertNotNil(Constants.sizesTwoRows[next], "\(size) stepped down to \(next), which has no entry")
+                XCTAssertLessThan(next.rawValue, size.rawValue)
+            }
+        }
     }
 }

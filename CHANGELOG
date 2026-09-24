@@ -1,4 +1,6 @@
+1.26.0: Replaced auto-shrink with measured fit-to-width — icon size steps down to fit the menu bar, names always shown in full (contribution Conner Stobie)
 1.25.0: Two-row layout gains Extra Large and Enormous sizes for the taller menu bar of notched MacBooks (contribution Conner Stobie)
+1.24.4: Fix: changing only icon shape or decoration from menu now does not touch other style aspect
 1.24.3: Bumped version for avoiding conflicts with forks
 1.24.2: Added diagnostic logging for the click-to-switch path (hit test, strategy, gesture posting) (contribution Conner Stobie)
 1.24.1: Fix: ask macOS for event-posting permission when gesture switching is used (contribution Conner Stobie)

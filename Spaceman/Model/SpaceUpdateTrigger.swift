@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// Identifies what caused a space information update, so the delegate
-/// can decide whether to reset auto-shrink state.
+/// What caused a space information update. The app delegate uses this to
+/// decide whether to retry the user's chosen icon size (fit-to-width).
 enum SpaceUpdateTrigger {
     case spaceSwitch     // User switched spaces (activeSpaceDidChangeNotification)
     case topologyChange  // Display connected/disconnected/mirrored (didChangeScreenParametersNotification)
@@ -16,12 +16,14 @@ enum SpaceUpdateTrigger {
     case autoRefresh     // Periodic auto-refresh timer (AutoRefreshTriggered)
     case sessionActive   // Screen unlock or user session resumed (sessionDidBecomeActiveNotification)
 
-    /// Whether this trigger should reset the auto-shrink level back to `.none`.
-    var resetsAutoShrink: Bool {
+    /// Whether this trigger should discard the fitted icon size and retry the
+    /// user's chosen size. Space switches deliberately keep the fitted size so
+    /// the icon does not blink on every switch.
+    var resetsFittedSize: Bool {
         switch self {
-        case .spaceSwitch, .topologyChange, .userRefresh, .sessionActive:
+        case .topologyChange, .userRefresh, .sessionActive:
             return true
-        case .autoRefresh:
+        case .spaceSwitch, .autoRefresh:
             return false
         }
     }

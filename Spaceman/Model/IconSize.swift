@@ -25,6 +25,17 @@ enum IconSize: Int, CaseIterable {
         IconSize(rawValue: rawValue - 1)
     }
 
+    /// The next smaller size that actually changes the rendered icon. In
+    /// two-row mode, sizes without their own two-row entry are skipped.
+    func nextSmaller(twoRows: Bool) -> IconSize? {
+        var candidate = smaller
+        while let size = candidate {
+            if !twoRows || Constants.sizesTwoRows[size] != nil { return size }
+            candidate = size.smaller
+        }
+        return nil
+    }
+
     var menuLabel: String {
         switch self {
         case .narrow:     return String(localized: "Narrow")
