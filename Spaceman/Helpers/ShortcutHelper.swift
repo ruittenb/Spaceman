@@ -106,8 +106,8 @@ class ShortcutHelper {
         if modRaw & (1 << 19) != 0 { flags.insert(.option) }
         if modRaw & (1 << 20) != 0 { flags.insert(.command) }
 
-        // Key equivalent character for menu display
-        let keyEquivalent = keyCodeToCharacter(keyCode)
+        // Key equivalent character for menu display (params[0] is the Unicode code point)
+        let keyEquivalent = UnicodeScalar(params[0]).map { String($0) } ?? ""
 
         return SpaceShortcut(
             keyCode: keyCode,
@@ -117,17 +117,4 @@ class ShortcutHelper {
         )
     }
 
-    /// Map a virtual keycode to a display character for NSMenuItem.keyEquivalent.
-    private static let keyCodeToChar: [Int: String] = [
-        // top row
-        18: "1", 19: "2", 20: "3", 21: "4", 23: "5",
-        22: "6", 26: "7", 28: "8", 25: "9", 29: "0",
-        // numpad
-        83: "1", 84: "2", 85: "3", 86: "4", 87: "5",
-        88: "6", 89: "7", 91: "8", 92: "9", 82: "0"
-    ]
-
-    private func keyCodeToCharacter(_ keyCode: Int) -> String {
-        Self.keyCodeToChar[keyCode] ?? ""
-    }
 }
