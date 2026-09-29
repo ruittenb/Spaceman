@@ -41,7 +41,13 @@ class PreferencesViewModel: ObservableObject {
 
     private func updateSpaceName(for key: String, to newName: String) {
         guard let info = spaceNamesDict[key] else { return }
-        spaceNamesDict[key] = info.withName(newName)
+        let updated = info.withName(newName)
+        spaceNamesDict[key] = updated
+        // Persist immediately so SpaceObserver sees the new name before its next
+        // update cycle.
+        nameStore.update { stored in
+            stored[key] = updated
+        }
     }
 
     func updateSpaceColor(for key: String, to color: NSColor?) {
