@@ -3,24 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.26.2: added tooltips for spaces</title>
+            <title>v1.27.0: automatic abbreviation of fullscreen names</title>
             <description>
                 <![CDATA[
-                    <p>v1.26.2</p>
+                    <p>v1.27.0</p>
                     <ul>
-                        <li>Show tooltip with space name when hovering</li>
+                        <li>Automatic abbreviation of app names when full screen (based on contribution by KobeTools)</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 24 Sep 2026 18:38:48 +0200</pubDate>
+            <pubDate>Thu, 01 Oct 2026 09:42:38 +0200</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.26.2/Spaceman-1.26.2.dmg"
-                sparkle:version="1.26.2"
-                sparkle:shortVersionString="1.26.2"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.27.0/Spaceman-1.27.0.dmg"
+                sparkle:version="1.27.0"
+                sparkle:shortVersionString="1.27.0"
                 type="application/octet-stream"
-                length="3570701"
-sparkle:edSignature="eXH106o8nNZ+drafWJI/XicpRzVBKvhIStANYyX0ywDrf6Cypspd3j8J2F3eG35xwwY0AsdJ0nwCOfW2ocfXCQ=="
+                length="3581725"
+sparkle:edSignature="sG4fV8EeJqRmT4sh6b7xDl+bLkwdOK2dp1lQHKaOuGAQ0YZTiNuwLbPJ4GkWIGEpcCwp+xoyguZ7t7ANqrorAQ=="
             />
         </item>
     </channel>
