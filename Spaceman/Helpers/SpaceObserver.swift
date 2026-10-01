@@ -312,9 +312,9 @@ class SpaceObserver {
                     storedNames: storedNames,
                     strategy: strategy,
                     connectedDisplayIDs: strategy != .idOnly ? connectedDisplayIDs : nil)
-                let savedName = savedInfo?.spaceName
-                let resolvedName = resolveSpaceName(
-                    from: savedName,
+
+                let (resolvedName, nameToStore) = resolveFullscreenOrRegularName(
+                    savedInfo: savedInfo,
                     spaceLabel: spaceLabel,
                     isFullScreen: isFullScreen,
                     spaceDict: spaceDict)
@@ -339,7 +339,7 @@ class SpaceObserver {
 
                 var nameInfo = SpaceNameInfo(
                     spaceNum: spaceNumber,
-                    spaceName: resolvedName,
+                    spaceName: nameToStore,
                     spaceLabel: spaceLabel)
 
                 // During topology changes, if we found the entry by ID matching,
@@ -500,22 +500,137 @@ class SpaceObserver {
         isFullScreen: Bool,
         spaceDict: [String: Any]
     ) -> String {
+        // Non-empty saved name — always use it (user renamed or legacy auto-save)
         if let savedName, !savedName.isEmpty {
             return savedName
         }
+        // Fullscreen with empty/nil saved name — generate according to preference
         if isFullScreen {
             if let pid = spaceDict["pid"] as? pid_t,
                let app = NSRunningApplication(processIdentifier: pid),
                let name = app.localizedName {
-                return name.capitalized
+                let displayName = FullscreenNaming.current.displayName(forApp: name)
+                // If naming preference returns empty, show the space label (number)
+                return displayName.isEmpty ? spaceLabel : displayName
             }
             return "FULL"
         }
-        if savedName == nil {
-            return "---"
-        }
-        return ""
+        // Regular space with no saved name
+        return savedName == nil ? "---" : ""
     }
+
+    private func fullscreenAppName(_ spaceDict: [String: Any]) -> String? {
+        guard let pid = spaceDict["pid"] as? pid_t else { return nil }
+        return NSRunningApplication(processIdentifier: pid)?.localizedName
+    }
+
+    /// Resolve display name and storage name for a space.
+    /// For auto-generated fullscreen names, nameToStore is empty so the preference can update them.
+    private func resolveFullscreenOrRegularName(
+        savedInfo: SpaceNameInfo?,
+        spaceLabel: String,
+        isFullScreen: Bool,
+        spaceDict: [String: Any]
+    ) -> (resolvedName: String, nameToStore: String) {
+        let savedName = savedInfo?.spaceName
+        let fullscreenApp = isFullScreen ? fullscreenAppName(spaceDict) : nil
+        let isAutoFullscreen = isFullScreen && FullscreenNaming.isAutoName(savedName, appName: fullscreenApp)
+
+        if isAutoFullscreen {
+            let displayName = FullscreenNaming.current.displayName(forApp: fullscreenApp)
+            let resolvedName = displayName.isEmpty ? spaceLabel : displayName
+            return (resolvedName, "")
+        } else {
+            let resolvedName = resolveSpaceName(
+                from: savedName,
+                spaceLabel: spaceLabel,
+                isFullScreen: isFullScreen,
+                spaceDict: spaceDict)
+            return (resolvedName, resolvedName)
+        }
+    }
+}
+
+// MARK: - Fullscreen space naming preference
+
+/// How fullscreen spaces are labeled when the user hasn't renamed them.
+enum FullscreenNaming: Int, CaseIterable {
+    case complete = 0
+    case short = 1
+    case none = 2
+
+    static var current: FullscreenNaming {
+        FullscreenNaming(rawValue: UserDefaults.standard.integer(forKey: "fullscreenNaming")) ?? .complete
+    }
+
+    var pickerLabel: String {
+        switch self {
+        case .complete: return String(localized: "Complete")
+        case .short:    return String(localized: "Short")
+        case .none:     return String(localized: "None")
+        }
+    }
+
+    func displayName(forApp appName: String?) -> String {
+        switch self {
+        case .complete: return appName?.capitalized ?? "FULL"
+        case .short:    return appName.map(Self.shortName) ?? "FULL"
+        case .none:     return ""
+        }
+    }
+
+    private static let vendors: Set<String> = [
+        "microsoft", "google", "apple", "mozilla", "adobe", "jetbrains"
+    ]
+    private static let channels: Set<String> = [
+        "beta", "dev", "canary", "nightly", "preview", "insiders",
+        "alpha", "rc", "experimental", "unstable"
+    ]
+
+    /// Strip vendor prefix and release channel suffix from app name.
+    /// "Microsoft Edge Beta" → "Edge", "Google Chrome" → "Chrome"
+    static func shortName(_ appName: String) -> String {
+        var words = appName.split(separator: " ").map(String.init)
+        if words.count > 1, vendors.contains(words[0].lowercased()) {
+            words.removeFirst()
+        }
+        while words.count > 1, let last = words.last, channels.contains(last.lowercased()) {
+            words.removeLast()
+        }
+        let joined = words.joined(separator: " ")
+        return joined.count <= 10 ? joined : (words.first ?? joined)
+    }
+
+    /// Check if a saved name is auto-generated (not user-renamed).
+    /// Empty, matches current app name, or is a known installed app name.
+    static func isAutoName(_ saved: String?, appName: String?) -> Bool {
+        guard let saved, !saved.isEmpty else { return true }
+        let key = saved.lowercased()
+        if let appName, key == appName.lowercased() || key == shortName(appName).lowercased() {
+            return true
+        }
+        return installedAppNames.contains(key)
+    }
+
+    /// Cached set of installed app names (lowercase), scanned once at first access.
+    private static let installedAppNames: Set<String> = {
+        let home = FileManager.default.homeDirectoryForCurrentUser.path
+        let dirs = [
+            "/Applications",
+            "/Applications/Utilities",
+            "/System/Applications",
+            "/System/Applications/Utilities",
+            home + "/Applications"
+        ]
+        var names = Set<String>()
+        for dir in dirs {
+            for entry in (try? FileManager.default.contentsOfDirectory(atPath: dir)) ?? []
+            where entry.hasSuffix(".app") {
+                names.insert(String(entry.dropLast(4)).lowercased())
+            }
+        }
+        return names
+    }()
 }
 
 protocol SpaceObserverDelegate: AnyObject {

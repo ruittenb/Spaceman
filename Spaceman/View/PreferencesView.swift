@@ -32,6 +32,7 @@ struct PreferencesView: View {
     @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
     @AppStorage("showFullscreenSpaces") private var showFullscreenSpaces = true
+    @AppStorage("fullscreenNaming") private var fullscreenNaming = FullscreenNaming.complete.rawValue
     @AppStorage("restartNumberingByDisplay") private var restartNumberingByDisplay = false
     @AppStorage("horizontalDirection") private var horizontalDirection = HorizontalDirection.defaultOrder
     @AppStorage("verticalDirection") private var verticalDirection = VerticalDirection.bottomGoesFirst
@@ -383,7 +384,8 @@ struct PreferencesView: View {
             Divider()
                 .padding(.vertical, 2)
             Toggle("Show fullscreen spaces", isOn: $showFullscreenSpaces)
-                .padding(.bottom, 2)
+            fullscreenNamingPicker
+                .disabled(!showFullscreenSpaces)
             Toggle("Show Mission Control button", isOn: $showMissionControl)
                 .padding(.bottom, 2)
             Toggle("Show navigation arrows", isOn: $showNavArrows)
@@ -418,6 +420,9 @@ struct PreferencesView: View {
             postSettingsChanged()
         }
         .onChange(of: showFullscreenSpaces) { _ in
+            postSettingsChanged()
+        }
+        .onChange(of: fullscreenNaming) { _ in
             postSettingsChanged()
         }
         .onChange(of: showMissionControl) { _ in
@@ -778,6 +783,34 @@ struct PreferencesView: View {
                 }
             }
         }
+    }
+
+    // MARK: - Fullscreen naming picker
+    private var fullscreenNamingPicker: some View {
+        HStack(spacing: 12) {
+            Text("Use App Name")
+                .fixedSize()
+                .layoutPriority(1)
+                .foregroundColor(showFullscreenSpaces ? .primary : .secondary)
+            Spacer()
+            HStack(spacing: 1) {
+                ForEach(FullscreenNaming.allCases, id: \.self) { mode in
+                    let isSelected = fullscreenNaming == mode.rawValue
+                    Button(mode.pickerLabel) {
+                        fullscreenNaming = mode.rawValue
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(isSelected ? Color.accentColor : Color.gray.opacity(0.2))
+                    .foregroundColor(isSelected ? .white : .primary)
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 6))
+            .opacity(showFullscreenSpaces ? 1.0 : 0.5)
+        }
+        .padding(.leading, subItemIndent)
+        .padding(.bottom, 2)
     }
 
     // MARK: - Spaces shown picker
