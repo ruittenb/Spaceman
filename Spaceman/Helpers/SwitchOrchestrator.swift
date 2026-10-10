@@ -139,7 +139,7 @@ class SwitchOrchestrator {
                 break
             }
         }
-        let clickLog = Logger(subsystem: "dev.ruittenb.Spaceman", category: "click")
+        let clickLog = Logger(subsystem: Constants.AppInfo.bundleId, category: "click")
         clickLog.log("""
             hitTest point=(\(Int(point.x), privacy: .public),\(Int(point.y), privacy: .public)) \
             hit=\(hitIndex.map(String.init) ?? "MISS", privacy: .public) \

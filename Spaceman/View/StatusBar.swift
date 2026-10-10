@@ -53,7 +53,7 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
     private var missingShortcutBalloon: NSPopover?
     private var quickRenamePanel: NSPanel?
     private static let clickLog = Logger(
-        subsystem: "dev.ruittenb.Spaceman", category: "click")
+        subsystem: Constants.AppInfo.bundleId, category: "click")
 
     public var iconCreator: IconCreator!
 

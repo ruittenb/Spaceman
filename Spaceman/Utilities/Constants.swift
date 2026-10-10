@@ -14,6 +14,7 @@ struct Constants {
 
     enum AppInfo {
         static let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        static let bundleId = Bundle.main.bundleIdentifier ?? ""
         static let repo = URL(string: "https://github.com/ruittenb/Spaceman")!
         // swiftlint:disable:next force_unwrapping
         static let website = URL(string: "https://ruittenb.github.io/Spaceman/?" + compilationDate())!
