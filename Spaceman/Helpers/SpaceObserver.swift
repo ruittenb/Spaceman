@@ -29,7 +29,7 @@ class SpaceObserver {
     private let conn = _CGSDefaultConnection()
     private let defaults = UserDefaults.standard
     let nameStore: SpaceNameStore
-    private let workerQueue = DispatchQueue(label: "dev.ruittenb.Spaceman.SpaceObserver")
+    private let workerQueue = DispatchQueue(label: "\(Constants.AppInfo.bundleId).SpaceObserver")
 
     /// Test injection point. When non-nil, `fetchDisplaySpaces()` returns this
     /// instead of calling the private CG API.

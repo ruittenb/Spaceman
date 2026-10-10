@@ -200,7 +200,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // status item window exists and a measurement is possible.
 
     private static let fitLog = Logger(
-        subsystem: "dev.ruittenb.Spaceman", category: "fit")
+        subsystem: Constants.AppInfo.bundleId, category: "fit")
 
     /// The user's chosen icon size, read fresh from UserDefaults because
     /// @AppStorage on an NSObject does not observe writes from Preferences.

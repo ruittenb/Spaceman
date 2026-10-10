@@ -187,7 +187,7 @@ class GestureSwitcher {
             return true
         }
 
-        Logger(subsystem: "dev.ruittenb.Spaceman", category: "gesture").log("""
+        Logger(subsystem: Constants.AppInfo.bundleId, category: "gesture").log("""
             posting steps=\(calc.steps, privacy: .public) \
             right=\(calc.goRight, privacy: .public) \
             velocity=\(Int(calc.velocity), privacy: .public) \
