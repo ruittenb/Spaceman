@@ -21,7 +21,7 @@ class PreferencesViewModel: ObservableObject {
     private static let settingsDirectory = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent(".spaceman")
     private static let settingsFile = settingsDirectory.appendingPathComponent("app-defaults.xml")
-    private static let bundleIdentifier = Bundle.main.bundleIdentifier ?? "dev.ruittenb.Spaceman"
+    private static let bundleIdentifier = Constants.AppInfo.bundleId
 
     init(nameStore: SpaceNameStore = .shared) {
         self.nameStore = nameStore
