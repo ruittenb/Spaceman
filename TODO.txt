@@ -1,5 +1,12 @@
 
 ============================================================================
+MOVING UP AND DOWN
+============================================================================
+
+If the Spaces are conceptualized as a grid, it would be nice to have shortcut
+keys (and menu bar buttons) to navigate to a space below or above the current one.
+
+============================================================================
 REFACTORING
 ============================================================================
 
