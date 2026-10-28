@@ -28,6 +28,8 @@ struct PreferencesView: View {
     @AppStorage("showNavArrows") private var showNavArrows = false
     @AppStorage("showHUD") private var showHUD = false
     @AppStorage("hudAlwaysTransparent") private var hudAlwaysTransparent = false
+    @AppStorage("hudShowNumber") private var hudShowNumber = true
+    @AppStorage("hudShowName") private var hudShowName = false
 
     @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
@@ -522,6 +524,9 @@ struct PreferencesView: View {
             .padding(.bottom, 2)
             Toggle("Show HUD when switching spaces", isOn: $showHUD)
             Toggle("Always transparent", isOn: $hudAlwaysTransparent)
+                .padding(.leading, subItemIndent)
+                .disabled(!showHUD)
+            Toggle("Show space numbers", isOn: $hudShowNumber)
                 .padding(.leading, subItemIndent)
                 .disabled(!showHUD)
         }
