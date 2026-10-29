@@ -244,16 +244,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             displaySpaces = spaces
         }
 
-        if let measured = measureBudget() { budget = measured }
+        // swiftlint:disable:next force_unwrapping
+        if let measured = measureBudget(), budget == nil || measured < budget! { budget = measured }
 
         let buttonAppearance = statusBar.getButtonAppearance()
 
         let size: IconSize
         let icon: NSImage
         if autoShrink {
-            // With a measured budget, start from the user's size every time so
-            // the icon grows back when room frees up. Without one, keep the
-            // size the occlusion backstop settled on.
+            // With a budget, start from the user's size and shrink to fit.
+            // Once macOS evicts the icon, the budget stays tight until a
+            // resetsFittedSize trigger clears it: display topology change,
+            // Preferences change, manual refresh, or session unlock.
             var currentSize = budget == nil ? (fittedSize ?? userIconSize) : userIconSize
             var currentIcon = iconCreator.getIcon(for: displaySpaces, appearance: buttonAppearance,
                                                    sizeOverride: currentSize)
@@ -325,7 +327,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             guard let smaller = (fittedSize ?? userIconSize).nextSmaller(twoRows: isTwoRowLayout)
             else { return }
             fittedSize = smaller
-            budget = nil
             Self.fitLog.log("evicted: stepping down to size=\(smaller.rawValue)")
         } else {
             budget = ceiling
