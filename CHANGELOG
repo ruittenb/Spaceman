@@ -1,3 +1,4 @@
+1.28.0: Added toggle to show space numbers in the HUD (as suggested by Matt Margulies)
 1.27.0: Automatic abbreviation of app names when full screen (based on contribution KobeTools)
 1.26.3: Fix: display shortcut keys in menu for all possible ASCII characters
 1.26.2: Display space name in tooltip when hovering above icon

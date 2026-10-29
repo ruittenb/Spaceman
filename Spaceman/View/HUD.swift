@@ -145,6 +145,9 @@ struct HUDView: View {
 
     @AppStorage("gridColumns") private var gridColumns: Int = 3
     @AppStorage("hudAlwaysTransparent") private var hudAlwaysTransparent = false
+    @AppStorage("hudShowNumber") private var hudShowNumber = true
+    // Hidden setting, not exposed in Preferences UI. Set via: defaults write [...].Spaceman hudShowName -bool true
+    @AppStorage("hudShowName") private var hudShowName = false
 
     private var spacesByDisplay: [[Space]] {
         HUDPanel.spacesByDisplay(spaces)
@@ -175,8 +178,14 @@ struct HUDView: View {
                     count: max(1, gridColumns))
                 LazyVGrid(columns: cols, spacing: Self.cellSpacing) {
                     ForEach(Array(group.enumerated()), id: \.element.spaceID) { _, space in
-                        SpaceCellView(space: space, showText: false, colorless: true)
-                            .frame(height: Self.cellHeight)
+                        SpaceCellView(
+                            space: space,
+                            showNumber: hudShowNumber,
+                            showName: hudShowName,
+                            colorless: true,
+                            highlightTextColor: .white
+                        )
+                        .frame(height: Self.cellHeight)
                     }
                 }
             }

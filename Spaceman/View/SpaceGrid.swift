@@ -56,7 +56,7 @@ struct SpaceGridMenuView: View {
                             enabledSwitchMap: enabledSwitchMap,
                             hasArrowShortcuts: hasArrowShortcuts,
                             focusedDisplayID: focusedDisplayID)
-                        SpaceCellView(space: space, enabled: enabled)
+                        SpaceCellView(space: space, enabled: enabled, showNumber: true, showName: true)
                             .frame(height: cellHeight)
                             .onTapGesture {
                                 guard enabled else { return }
@@ -77,8 +77,10 @@ struct SpaceGridMenuView: View {
 struct SpaceCellView: View {
     let space: Space
     var enabled: Bool = true
-    var showText: Bool = true
+    var showNumber: Bool
+    var showName: Bool
     var colorless: Bool = false
+    var highlightTextColor: Color?
 
     private var hasName: Bool {
         !space.spaceName.isEmpty
@@ -114,12 +116,18 @@ struct SpaceCellView: View {
         return Color(nsColor.contrastingTextColor(withAlpha: cellAlpha, over: .windowBackgroundColor))
     }
 
+    private var numberOnly: Bool {
+        showNumber && !showName
+    }
+
     var body: some View {
         VStack(spacing: 1) {
-            if showText {
+            if showNumber {
                 Text(space.spaceLabel)
-                    .font(.system(size: 9,
+                    .font(.system(size: numberOnly ? 25 : 9,
                                   weight: space.isCurrentSpace ? .bold : .regular))
+            }
+            if showName {
                 Text(hasName ? space.spaceName : "\u{00A0}")
                     .font(.system(size: 11, weight: space.isCurrentSpace ? .bold : .regular))
                     .lineLimit(1)
@@ -138,6 +146,10 @@ struct SpaceCellView: View {
                 .stroke(colorless ? .clear : Color.primary.opacity(0.6),
                         lineWidth: space.isCurrentSpace ? 2.5 : 0)
         )
-        .foregroundColor(enabled || space.isCurrentSpace ? textColor : .gray)
+        .foregroundColor(
+            space.isCurrentSpace
+                ? (highlightTextColor ?? textColor)
+                : (enabled ? textColor : .gray)
+        )
     }
 }
