@@ -3,24 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>Show space numbers in HUD</title>
+            <title>v1.28.1: Fix for displaying shortcut keys in menu</title>
             <description>
                 <![CDATA[
-                    <p>v1.28.0</p>
+                    <p>v1.28.1</p>
                     <ul>
-                        <li>Feature: toggle show space numbers in HUD</li>
+                        <li>Fix for displaying shortcut keys in menu</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 29 Oct 2026 09:07:07 +0100</pubDate>
+            <pubDate>Mon, 02 Nov 2026 22:12:12 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.28.0/Spaceman-1.28.0.dmg"
-                sparkle:version="1.28.0"
-                sparkle:shortVersionString="1.28.0"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.28.1/Spaceman-1.28.1.dmg"
+                sparkle:version="1.28.1"
+                sparkle:shortVersionString="1.28.1"
                 type="application/octet-stream"
-                length="3586547"
-sparkle:edSignature="4znhd4AaL3dYslhW3X2sXXuZ4Ra1hID6TD63pXa2mwIs/nE05nnTpLXn4+/HvR4OsHvynmj90Hq9uAhyfrpRDA=="
+                length="3588205"
+sparkle:edSignature="YYsWJGCHkNy2l/EcQgokuhHiwLH2JDpVin2UaEuewVKmekmr+yXWR9H1Gg7tsr8tmWrCR17SzTgLNnlUirjuAg=="
             />
         </item>
     </channel>
