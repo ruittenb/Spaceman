@@ -25,6 +25,7 @@ struct PreferencesView: View {
     @AppStorage("iconSize") private var iconSize = IconSize.medium
     @AppStorage("rowLayout") private var rowLayout = RowLayout.singleRow
     @AppStorage("showMissionControl") private var showMissionControl = false
+    @AppStorage("showMissionControlLabels") private var showMissionControlLabels = false
     @AppStorage("showNavArrows") private var showNavArrows = false
     @AppStorage("showHUD") private var showHUD = false
     @AppStorage("hudAlwaysTransparent") private var hudAlwaysTransparent = false
@@ -430,6 +431,9 @@ struct PreferencesView: View {
         .onChange(of: showMissionControl) { _ in
             postSettingsChanged()
         }
+        .onChange(of: showMissionControlLabels) { _ in
+            postSettingsChanged()
+        }
         .onChange(of: showNavArrows) { _ in
             postSettingsChanged()
         }
@@ -529,6 +533,9 @@ struct PreferencesView: View {
             Toggle("Show space numbers", isOn: $hudShowNumber)
                 .padding(.leading, subItemIndent)
                 .disabled(!showHUD)
+            Divider()
+                .padding(.vertical, 4)
+            Toggle("Show space names in Mission Control", isOn: $showMissionControlLabels)
         }
         .padding([.top, .bottom, .trailing])
         .padding(.leading, -8)

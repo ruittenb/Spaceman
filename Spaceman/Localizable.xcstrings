@@ -4097,6 +4097,9 @@
         }
       }
     },
+    "Show space names in Mission Control" : {
+
+    },
     "Show space numbers" : {
       "localizations" : {
         "de" : {

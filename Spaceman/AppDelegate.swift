@@ -20,6 +20,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusBar: StatusBar!
     private var spaceObserver: SpaceObserver!
     private var hudPanel = HUDPanel()
+    private var labelController = SpaceLabelController()
     private var autoRefreshTimer: Timer?
     private var currentSpaces: [Space] = []
 
@@ -380,6 +381,8 @@ extension AppDelegate: SpaceObserverDelegate {
 
         AppDelegate.activeSpaceIDs = Set(spaces.map { $0.spaceID })
         NotificationCenter.default.post(name: NSNotification.Name("ActiveSpacesChanged"), object: nil)
+
+        labelController.update(spaces: spaces)
     }
 }
 

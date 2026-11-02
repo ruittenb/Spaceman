@@ -16,6 +16,11 @@ int _CGSDefaultConnection();
 CFArrayRef CGSCopyManagedDisplaySpaces(int conn);
 id CGSCopyActiveMenuBarDisplayIdentifier(int conn);
 
+// Window-to-space binding APIs (for Mission Control labels)
+void CGSAddWindowsToSpaces(int cid, CFArrayRef windows, CFArrayRef spaces);
+void CGSRemoveWindowsFromSpaces(int cid, CFArrayRef windows, CFArrayRef spaces);
+CFArrayRef CGSCopySpacesForWindows(int cid, int mask, CFArrayRef windows);
+
 static inline NSString *compilationDate(void) {
     struct tm t = {0};
     strptime(__DATE__, "%b %d %Y", &t);
