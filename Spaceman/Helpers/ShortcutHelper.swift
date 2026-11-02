@@ -112,8 +112,7 @@ class ShortcutHelper {
         if params[0] != 65535,
            let scalar = UnicodeScalar(params[0]),
            !scalar.properties.isNoncharacterCodePoint,
-           scalar.properties.generalCategory != .control
-        {
+           scalar.properties.generalCategory != .control {
             keyEquivalent = String(scalar)
         } else {
             keyEquivalent = Self.keyCodeToChar[keyCode] ?? ""
