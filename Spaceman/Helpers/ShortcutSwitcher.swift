@@ -66,11 +66,13 @@ class ShortcutSwitcher {
                     let permissionType: String
                     switch abs(errorNumber) {
                     case 1002:
-                        permissionType = "Accessibility"
+                        permissionType = ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 27
+                            ? String(localized: "Device Control and Data Access")
+                            : String(localized: "Accessibility")
                     case 1743:
-                        permissionType = "Automation"
+                        permissionType = String(localized: "Automation")
                     default:
-                        permissionType = "Automation"
+                        permissionType = String(localized: "Automation")
                     }
                     let msg = String(localized: """
                         Error: \(errorBriefMessage)
