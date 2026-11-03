@@ -31,6 +31,7 @@ struct PreferencesView: View {
     @AppStorage("hudShowNumber") private var hudShowNumber = true
     @AppStorage("hudShowName") private var hudShowName = false
     @AppStorage("showMissionControlLabels") private var showMissionControlLabels = false
+    @AppStorage("areMissionControlLabelsColored") private var areMissionControlLabelsColored = true
 
     @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
@@ -523,7 +524,6 @@ struct PreferencesView: View {
                 }
             }
             .padding(.bottom, 2)
-            Toggle("Show space names in Mission Control", isOn: $showMissionControlLabels)
             Toggle("Show HUD when switching spaces", isOn: $showHUD)
             Toggle("Always transparent", isOn: $hudAlwaysTransparent)
                 .padding(.leading, subItemIndent)
@@ -531,6 +531,10 @@ struct PreferencesView: View {
             Toggle("Show space numbers", isOn: $hudShowNumber)
                 .padding(.leading, subItemIndent)
                 .disabled(!showHUD)
+            Toggle("Show space names in Mission Control", isOn: $showMissionControlLabels)
+            Toggle("Use color", isOn: $areMissionControlLabelsColored)
+                .padding(.leading, subItemIndent)
+                .disabled(!showMissionControlLabels)
         }
         .padding([.top, .bottom, .trailing])
         .padding(.leading, -8)
@@ -855,7 +859,6 @@ struct PreferencesView: View {
             }
         }
     }
-
 }
 
 // MARK: - Open Displays Settings
