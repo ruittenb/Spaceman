@@ -368,10 +368,6 @@ final class MissionControlLabels {
 
     // MARK: - Label windows
 
-    private var useColor: Bool {
-        UserDefaults.standard.bool(forKey: "areMissionControlLabelsColored")
-    }
-
     private func show(_ captions: [Caption]) {
         while windows.count < captions.count { windows.append(LabelWindow()) }
         for (index, window) in windows.enumerated() {
@@ -382,7 +378,7 @@ final class MissionControlLabels {
                     covering: caption.covers,
                     centredOn: appKitPoint(fromAX: caption.centre),
                     maxWidth: caption.maxWidth,
-                    colorHex: useColor ? caption.colorHex : nil)
+                    colorHex: caption.colorHex)
             } else if window.isVisible {
                 window.orderOut(nil)
             }
@@ -483,7 +479,6 @@ private final class LabelWindow: NSWindow {
         let backing = NSView()
         backing.wantsLayer = true
         backing.layer?.backgroundColor = NSColor.black.cgColor
-        backing.layer?.cornerRadius = 4
         contentView = backing
 
         field.font = Self.font
@@ -502,14 +497,21 @@ private final class LabelWindow: NSWindow {
     ) {
         field.stringValue = name
 
+        // Read visual preferences
+        let useColor = UserDefaults.standard.bool(forKey: "areMissionControlLabelsColored")
+        let iconStyleRaw = UserDefaults.standard.integer(forKey: "decorationActive")
+        let iconStyle = IconStyle(rawValue: iconStyleRaw) ?? .filledRounded
+
         // Apply color if configured
-        if let hex = colorHex, let color = NSColor.fromHex(hex) {
+        if useColor, let hex = colorHex, let color = NSColor.fromHex(hex) {
             contentView?.layer?.backgroundColor = color.cgColor
             field.textColor = color.contrastingTextColor
         } else {
             contentView?.layer?.backgroundColor = NSColor.black.cgColor
             field.textColor = .white
         }
+        contentView?.layer?.cornerRadius = iconStyle.cornerRadius(
+            for: NSRect(x: 0, y: 0, width: 0, height: Self.height))
 
         let attrs: [NSAttributedString.Key: Any] = [.font: Self.font]
         let nameWidth = field.intrinsicContentSize.width
