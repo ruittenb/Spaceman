@@ -123,6 +123,7 @@ final class MissionControlLabels {
         let maxWidth: CGFloat
         let covers: String
         let name: String
+        let colorHex: String?
     }
 
     private func poll() {
@@ -298,7 +299,8 @@ final class MissionControlLabels {
                 centre: centres[index],
                 maxWidth: width,
                 covers: found[index].title,
-                name: nameInfo.spaceName)
+                name: nameInfo.spaceName,
+                colorHex: nameInfo.colorHex)
         }
     }
 
@@ -366,6 +368,10 @@ final class MissionControlLabels {
 
     // MARK: - Label windows
 
+    private var useColor: Bool {
+        UserDefaults.standard.bool(forKey: "areMissionControlLabelsColored")
+    }
+
     private func show(_ captions: [Caption]) {
         while windows.count < captions.count { windows.append(LabelWindow()) }
         for (index, window) in windows.enumerated() {
@@ -375,7 +381,8 @@ final class MissionControlLabels {
                     name: caption.name,
                     covering: caption.covers,
                     centredOn: appKitPoint(fromAX: caption.centre),
-                    maxWidth: caption.maxWidth)
+                    maxWidth: caption.maxWidth,
+                    colorHex: useColor ? caption.colorHex : nil)
             } else if window.isVisible {
                 window.orderOut(nil)
             }
@@ -486,8 +493,24 @@ private final class LabelWindow: NSWindow {
         backing.addSubview(field)
     }
 
-    func place(name: String, covering covers: String, centredOn centre: CGPoint, maxWidth: CGFloat) {
+    func place(
+        name: String,
+        covering covers: String,
+        centredOn centre: CGPoint,
+        maxWidth: CGFloat,
+        colorHex: String?
+    ) {
         field.stringValue = name
+
+        // Apply color if configured
+        if let hex = colorHex, let color = NSColor.fromHex(hex) {
+            contentView?.layer?.backgroundColor = color.cgColor
+            field.textColor = color.contrastingTextColor
+        } else {
+            contentView?.layer?.backgroundColor = NSColor.black.cgColor
+            field.textColor = .white
+        }
+
         let attrs: [NSAttributedString.Key: Any] = [.font: Self.font]
         let nameWidth = field.intrinsicContentSize.width
         let fieldPadding = nameWidth - (name as NSString).size(withAttributes: attrs).width
