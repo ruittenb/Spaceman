@@ -24,6 +24,7 @@
 		E70044B02E80380B001C7296 /* RestorePreferencesCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70044AF2E80380B001C7296 /* RestorePreferencesCommand.swift */; };
 		E70587F32C80A5DA00D9B729 /* ShortcutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70587F22C80A5DA00D9B729 /* ShortcutHelper.swift */; };
 		E70587F52C827E5600D9B729 /* exportOptions.plist in Resources */ = {isa = PBXBuildFile; fileRef = E70587F42C827E5600D9B729 /* exportOptions.plist */; };
+		E70AA6C03098C3A600195354 /* MissionControlLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70AA6BF3098C3A600195354 /* MissionControlLabels.swift */; };
 		E71750BB2F74431C00E240FD /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E71750BA2F74431C00E240FD /* Localizable.xcstrings */; };
 		E722A6E12E95BF8D00D5FA4F /* VerticalDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E722A6E02E95BF8D00D5FA4F /* VerticalDirection.swift */; };
 		E732CE8A2F90F6BA00B2C067 /* QuickRenameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E732CE892F90F6BA00B2C067 /* QuickRenameView.swift */; };
@@ -113,6 +114,7 @@
 		E70044AF2E80380B001C7296 /* RestorePreferencesCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestorePreferencesCommand.swift; sourceTree = "<group>"; };
 		E70587F22C80A5DA00D9B729 /* ShortcutHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortcutHelper.swift; sourceTree = "<group>"; };
 		E70587F42C827E5600D9B729 /* exportOptions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = exportOptions.plist; sourceTree = "<group>"; };
+		E70AA6BF3098C3A600195354 /* MissionControlLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionControlLabels.swift; sourceTree = "<group>"; };
 		E71750B92F74406300E240FD /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
 		E71750BA2F74431C00E240FD /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		E71750BC2F746A0F00E240FD /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Main.strings"; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */,
 				E732CE952FAA021900B2C067 /* GestureSwitcher.swift */,
 				E8733510256B779B0012586E /* IconCreator.swift */,
+				E70AA6BF3098C3A600195354 /* MissionControlLabels.swift */,
 				E70044AD2E80380B001C7295 /* OpenPreferencesCommand.swift */,
 				4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */,
 				E70044AF2E80380B001C7296 /* RestorePreferencesCommand.swift */,
@@ -574,6 +577,7 @@
 				E7B7E2DF2F7A8CC000FEDEFE /* IconShape.swift in Sources */,
 				53A56E17092ACF887E1B46F5 /* SpaceNameStore.swift in Sources */,
 				E7DA73A82CA6E7A700212836 /* GuiSize.swift in Sources */,
+				E70AA6C03098C3A600195354 /* MissionControlLabels.swift in Sources */,
 				E732CE8A2F90F6BA00B2C067 /* QuickRenameView.swift in Sources */,
 				E732CE962FAA021900B2C067 /* GestureSwitcher.swift in Sources */,
 				E8733517256C6F3A0012586E /* AppConstants.swift in Sources */,
@@ -784,7 +788,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.28.2;
+				CURRENT_PROJECT_VERSION = 1.29.1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = B83F4KWQ2G;
@@ -801,7 +805,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.28.2;
+				MARKETING_VERSION = 1.29.1;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -821,7 +825,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.28.2;
+				CURRENT_PROJECT_VERSION = 1.29.1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = B83F4KWQ2G;
@@ -838,7 +842,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.28.2;
+				MARKETING_VERSION = 1.29.1;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -154,7 +154,7 @@ Spaceman's preferences are organized into six tabs: **General**, **Appearance**,
 
 ### Switching Tab
 
-<img src="images/Preferences-Switching-3.png" width="66%" height="auto">
+<img src="images/Preferences-Switching-4.png" width="66%" height="auto">
 
 - **Switching Spaces**: Controls how Spaceman switches between spaces when you click a space icon:
   - **Use smooth transitions**: Sends keyboard shortcuts to macOS, which switches spaces with the standard sliding animation. Requires Mission Control shortcuts to be configured in System Settings.
@@ -165,8 +165,18 @@ Spaceman's preferences are organized into six tabs: **General**, **Appearance**,
 - **Show HUD when switching spaces**: When you switch between spaces, briefly display a heads-up overlay showing all spaces in a grid
   - **Always transparent**: When enabled, the HUD is always rendered with a transparent background, even when Reduce Transparency is on
   - **Show space number**: Display the space number in each cell of the HUD
+- **Show space names in Mission Control**: When Mission Control is open, overlay your custom space names on top of the default "Desktop 1", "Desktop 2" etc. captions
+  - **Use color**: Display the labels in the colors you configured for each space.
+
+**The HUD:**
 
 <img src="images/HUD-4.png" width="50%" height="auto">
+
+**Colored, overlaid labels in Mission Control:**
+
+<img src="images/Mission-Control-1.png" width="100%" height="auto">
+
+<img src="images/Mission-Control-2.png" width="100%" height="auto">
 
 ### Displays Tab
 
@@ -305,12 +315,23 @@ Spaceman is not compatible with the setting **System Settings → Desktop & Dock
 
 <img src="images/Automatic-Rearrange.png" width="66%" height="auto">
 
+- If clicking a space does nothing in **Smooth transitions** mode (the menu bar icon blinks), while **Instant switching** works:
+There is a known bug in early releases of macOS 27, where the keyboard shortcuts may stop working after the Mac wakes from sleep.
+
+Updating to macOS 27.2 or later resolves it (see [issue #50](https://github.com/ruittenb/Spaceman/issues/50)).
+Until then, you can restore the shortcuts temporarily by restarting the Dock, or use **Fast animations** or **Instant switching** instead:
+
+```sh
+$ killall Dock
+```
+
 
 ## 🔹 Attributions
 
 - This project was forked from [Sasindu Jayasinghe](https://github.com/Jaysce/Spaceman)
 - This project is based on [WhichSpace](https://github.com/gechr/WhichSpace)
 - This project takes inspiration from jurplel's [InstantSpaceSwitcher](https://github.com/jurplel/InstantSpaceSwitcher)
+- This project takes inspiration from PerpetualBeta's [ActiveSpace](https://github.com/PerpetualBeta/ActiveSpace)
 - This project uses code from joshuarli's [iss](https://github.com/joshuarli/iss) for the macOS 27 instant switching fix 
 - This project uses code from [FasterSwiper](https://github.com/mgbowen/FasterSwiper)
   who discovered the CGEvent serialization workaround and

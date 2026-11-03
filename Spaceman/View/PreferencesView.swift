@@ -30,6 +30,8 @@ struct PreferencesView: View {
     @AppStorage("hudAlwaysTransparent") private var hudAlwaysTransparent = false
     @AppStorage("hudShowNumber") private var hudShowNumber = true
     @AppStorage("hudShowName") private var hudShowName = false
+    @AppStorage("showMissionControlLabels") private var showMissionControlLabels = false
+    @AppStorage("areMissionControlLabelsColored") private var areMissionControlLabelsColored = true
 
     @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
@@ -522,6 +524,9 @@ struct PreferencesView: View {
                 }
             }
             .padding(.bottom, 2)
+            Divider()
+                .padding(.vertical, 2)
+                .padding(.horizontal, 2)
             Toggle("Show HUD when switching spaces", isOn: $showHUD)
             Toggle("Always transparent", isOn: $hudAlwaysTransparent)
                 .padding(.leading, subItemIndent)
@@ -529,9 +534,20 @@ struct PreferencesView: View {
             Toggle("Show space numbers", isOn: $hudShowNumber)
                 .padding(.leading, subItemIndent)
                 .disabled(!showHUD)
+            Divider()
+                .padding(.vertical, 2)
+                .padding(.horizontal, 2)
+            Text("Mission Control")
+                .font(.title2)
+                .fontWeight(.semibold)
+                .padding(.top, 4)
+            Toggle("Show space names in Mission Control", isOn: $showMissionControlLabels)
+            Toggle("Use color", isOn: $areMissionControlLabelsColored)
+                .padding(.leading, subItemIndent)
+                .disabled(!showMissionControlLabels)
         }
         .padding([.top, .bottom, .trailing])
-        .padding(.leading, -8)
+        .padding(.leading, 16)
     }
 
     // MARK: - Refresh Shortcut Recorder
@@ -853,7 +869,6 @@ struct PreferencesView: View {
             }
         }
     }
-
 }
 
 // MARK: - Open Displays Settings
