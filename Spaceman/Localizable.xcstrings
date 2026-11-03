@@ -4097,6 +4097,40 @@
         }
       }
     },
+    "Show space names in Mission Control" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Space-Namen in Mission Control anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar nombres de espacios en Mission Control"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar nombres de espacios en Mission Control"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les noms des espaces dans Mission Control"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Space-namen tonen in Mission Control"
+          }
+        }
+      }
+    },
     "Show space numbers" : {
       "localizations" : {
         "de" : {

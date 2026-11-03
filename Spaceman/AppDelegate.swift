@@ -20,6 +20,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusBar: StatusBar!
     private var spaceObserver: SpaceObserver!
     private var hudPanel = HUDPanel()
+    private var missionControlLabels: MissionControlLabels!
     private var autoRefreshTimer: Timer?
     private var currentSpaces: [Space] = []
 
@@ -45,6 +46,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         spaceObserver = SpaceObserver()
         spaceObserver.delegate = self
         spaceObserver.updateSpaceInformation()
+
+        missionControlLabels = MissionControlLabels()
 
         NSApp.activate(ignoringOtherApps: true)
         KeyboardShortcuts.onKeyUp(for: .refresh) { [] in

@@ -30,6 +30,7 @@ struct PreferencesView: View {
     @AppStorage("hudAlwaysTransparent") private var hudAlwaysTransparent = false
     @AppStorage("hudShowNumber") private var hudShowNumber = true
     @AppStorage("hudShowName") private var hudShowName = false
+    @AppStorage("showMissionControlLabels") private var showMissionControlLabels = false
 
     @AppStorage("visibleSpacesMode") private var visibleSpacesMode = VisibleSpacesMode.all
     @AppStorage("neighborRadius") private var neighborRadius = 1
@@ -522,6 +523,7 @@ struct PreferencesView: View {
                 }
             }
             .padding(.bottom, 2)
+            Toggle("Show space names in Mission Control", isOn: $showMissionControlLabels)
             Toggle("Show HUD when switching spaces", isOn: $showHUD)
             Toggle("Always transparent", isOn: $hudAlwaysTransparent)
                 .padding(.leading, subItemIndent)
