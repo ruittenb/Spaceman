@@ -530,7 +530,8 @@ struct PreferencesView: View {
                 .padding(.leading, subItemIndent)
                 .disabled(!showHUD)
         }
-        .padding()
+        .padding([.top, .bottom, .trailing])
+        .padding(.leading, -8)
     }
 
     // MARK: - Refresh Shortcut Recorder
