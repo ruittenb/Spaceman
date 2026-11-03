@@ -524,6 +524,9 @@ struct PreferencesView: View {
                 }
             }
             .padding(.bottom, 2)
+            Divider()
+                .padding(.vertical, 2)
+                .padding(.horizontal, 2)
             Toggle("Show HUD when switching spaces", isOn: $showHUD)
             Toggle("Always transparent", isOn: $hudAlwaysTransparent)
                 .padding(.leading, subItemIndent)
@@ -531,13 +534,20 @@ struct PreferencesView: View {
             Toggle("Show space numbers", isOn: $hudShowNumber)
                 .padding(.leading, subItemIndent)
                 .disabled(!showHUD)
+            Divider()
+                .padding(.vertical, 2)
+                .padding(.horizontal, 2)
+            Text("Mission Control")
+                .font(.title2)
+                .fontWeight(.semibold)
+                .padding(.top, 4)
             Toggle("Show space names in Mission Control", isOn: $showMissionControlLabels)
             Toggle("Use color", isOn: $areMissionControlLabelsColored)
                 .padding(.leading, subItemIndent)
                 .disabled(!showMissionControlLabels)
         }
         .padding([.top, .bottom, .trailing])
-        .padding(.leading, -8)
+        .padding(.leading, 16)
     }
 
     // MARK: - Refresh Shortcut Recorder
