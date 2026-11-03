@@ -162,6 +162,8 @@ Spaceman's preferences are organized into six tabs: **General**, **Appearance**,
   - **Use instant switching**: Uses simulated trackpad gestures to switch spaces with no animation at all. Does not require shortcuts to be configured. Only works for spaces on the same display.
   - When using fast or instant switching and the target space is on a different display, Spaceman falls back to keyboard shortcuts automatically.
 - **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to manage them.
+- **Show space names in Mission Control**: When Mission Control is open, overlay your custom space names on top of the default "Desktop 1", "Desktop 2" captions
+  - **Use color**: Display the labels in the colors you configured for each space (uses the "Filled, Rounded" style)
 - **Show HUD when switching spaces**: When you switch between spaces, briefly display a heads-up overlay showing all spaces in a grid
   - **Always transparent**: When enabled, the HUD is always rendered with a transparent background, even when Reduce Transparency is on
   - **Show space number**: Display the space number in each cell of the HUD
