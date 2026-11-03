@@ -76,10 +76,10 @@ final class MissionControlLabels {
             self?.apps = self?.apps.filter { $0.value.pid != app.processIdentifier } ?? [:]
         }
 
-        // Listen for preference changes
+        // Listen for preference changes (only .standard, not other suites)
         NotificationCenter.default.addObserver(
             forName: UserDefaults.didChangeNotification,
-            object: nil,
+            object: UserDefaults.standard,
             queue: .main
         ) { [weak self] _ in
             self?.handlePreferenceChange()
