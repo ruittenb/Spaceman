@@ -3,24 +3,26 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.28.1: Fix for displaying shortcut keys in menu</title>
+            <title>v1.29.1: Show desktop names in Mission Control</title>
             <description>
                 <![CDATA[
-                    <p>v1.28.1</p>
-                    <ul>
-                        <li>Fix for displaying shortcut keys in menu</li>
-                    </ul>
+                    <dl>
+                        <dt>v1.29.0</dt>
+                        <dd> - Display space labels in Mission Control, optionally with color</dd>
+                        <dt>v1.29.1</dt>
+                        <dd> - Apply shape styling to space labels in Mission Control</dd>
+                    </dl>
                 ]]>
             </description>
-            <pubDate>Mon, 02 Nov 2026 22:12:12 +0100</pubDate>
+            <pubDate>Tue, 03 Nov 2026 23:47:13 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.28.1/Spaceman-1.28.1.dmg"
-                sparkle:version="1.28.1"
-                sparkle:shortVersionString="1.28.1"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.29.1/Spaceman-1.29.1.dmg"
+                sparkle:version="1.29.1"
+                sparkle:shortVersionString="1.29.1"
                 type="application/octet-stream"
-                length="3588205"
-sparkle:edSignature="YYsWJGCHkNy2l/EcQgokuhHiwLH2JDpVin2UaEuewVKmekmr+yXWR9H1Gg7tsr8tmWrCR17SzTgLNnlUirjuAg=="
+                length="3630679"
+sparkle:edSignature="ehD1QxX28T+IkTufFMaItjawdEpqvm8D5vgRhqcE/c9xuVpZ05T710jK9VDhHUzaEHQEehtzPvt0+duLwgZaDQ=="
             />
         </item>
     </channel>
