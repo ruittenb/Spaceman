@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import KeyboardShortcuts
 import SwiftUI
 
 class PreferencesViewModel: ObservableObject {
@@ -142,10 +143,12 @@ class PreferencesViewModel: ObservableObject {
             throw NSError(domain: "Spaceman", code: 1,
                           userInfo: [NSLocalizedDescriptionKey: "Invalid backup file"])
         }
+        KeyboardShortcuts.removeAllHandlers()
         LegacyMigrations.resetMigratedKeys()
         UserDefaults.standard.setPersistentDomain(dict, forName: bundleIdentifier)
         LegacyMigrations.perform()
         postSettingsChanged()
+        postPreferencesRestored()
     }
 
     func restorePreferences() {
