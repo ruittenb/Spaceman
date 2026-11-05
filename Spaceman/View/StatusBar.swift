@@ -1005,6 +1005,40 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
             onError: flashStatusBar)
     }
 
+    /// Switch to a space vertically by the configured grid column count.
+    /// - Parameter direction: negative for up, positive for down
+    func switchVertical(direction: Int) {
+        let gridColumns = UserDefaults.standard.integer(forKey: "gridColumns")
+        guard gridColumns > 0 else { return }
+
+        // Find current space on the focused display
+        let focusedDisplayID = SwitchOrchestrator.focusedDisplayID(from: currentSpaces)
+        let activeSpaces = currentSpaces.filter { $0.isCurrentSpace }
+        guard let currentSpace = activeSpaces.first(where: { $0.displayID == focusedDisplayID })
+            ?? activeSpaces.first else { return }
+
+        // Filter to non-fullscreen spaces for grid navigation
+        let navigableSpaces = currentSpaces.filter { !$0.isFullScreen }
+        guard let currentIndex = navigableSpaces.firstIndex(where: {
+            $0.spaceNumber == currentSpace.spaceNumber
+        }) else { return }
+
+        // Calculate target index
+        let offset = direction < 0 ? -gridColumns : gridColumns
+        let targetIndex = currentIndex + offset
+        guard targetIndex >= 0 && targetIndex < navigableSpaces.count else {
+            flashStatusBar()
+            return
+        }
+
+        let targetSpace = navigableSpaces[targetIndex]
+        let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
+        let tag = Space.switchTag(
+            switchMapEntry: switchMap[targetSpace.spaceID],
+            spaceNumber: targetSpace.spaceNumber)
+        handleSwitchTag(tag)
+    }
+
     // MARK: - SPUStandardUserDriverDelegate
 
     var supportsGentleScheduledUpdateReminders: Bool {

@@ -131,6 +131,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         KeyboardShortcuts.onKeyUp(for: .quickRename) { [weak self] in
             self?.statusBar.showQuickRenamePanel()
         }
+        KeyboardShortcuts.onKeyUp(for: .switchUp) { [weak self] in
+            self?.statusBar.switchVertical(direction: -1)
+        }
+        KeyboardShortcuts.onKeyUp(for: .switchDown) { [weak self] in
+            self?.statusBar.switchVertical(direction: 1)
+        }
     }
 
     // MARK: - AppleScript Properties

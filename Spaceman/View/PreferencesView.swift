@@ -501,6 +501,11 @@ struct PreferencesView: View {
             .pickerStyle(.radioGroup)
             .labelsHidden()
             .padding(.bottom, 6)
+            VStack(alignment: .leading, spacing: 2) {
+                switchUpShortcutRecorder
+                switchDownShortcutRecorder
+            }
+            .padding(.bottom, 6)
             HStack(spacing: 8) {
                 Button {
                     openMissionControlShortcuts()
@@ -574,6 +579,24 @@ struct PreferencesView: View {
             Text("Shortcut to rename current space")
             Spacer()
             KeyboardShortcuts.Recorder(for: .quickRename)
+        }
+    }
+
+    // MARK: - Switch Up Shortcut Recorder
+    private var switchUpShortcutRecorder: some View {
+        HStack {
+            Text("Shortcut to switch to space above")
+            Spacer()
+            KeyboardShortcuts.Recorder(for: .switchUp)
+        }
+    }
+
+    // MARK: - Switch Down Shortcut Recorder
+    private var switchDownShortcutRecorder: some View {
+        HStack {
+            Text("Shortcut to switch to space below")
+            Spacer()
+            KeyboardShortcuts.Recorder(for: .switchDown)
         }
     }
 
