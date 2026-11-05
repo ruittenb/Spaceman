@@ -3893,6 +3893,12 @@
         }
       }
     },
+    "Shortcut to switch to space above" : {
+
+    },
+    "Shortcut to switch to space below" : {
+
+    },
     "Show bottom display first" : {
       "localizations" : {
         "de" : {

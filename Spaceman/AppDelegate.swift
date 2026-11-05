@@ -50,21 +50,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         missionControlLabels = MissionControlLabels()
 
         NSApp.activate(ignoringOtherApps: true)
-        KeyboardShortcuts.onKeyUp(for: .refresh) { [] in
-            postSettingsChanged()
-        }
-        KeyboardShortcuts.onKeyUp(for: .preferences) { [] in
-            self.statusBar.showPreferencesWindow(self)
-        }
-        KeyboardShortcuts.onKeyUp(for: .quickRename) { [] in
-            self.statusBar.showQuickRenamePanel()
-        }
+        registerKeyboardShortcuts()
 
         // Listen for AppleScript "open preferences" notification
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(openPreferencesFromScript),
             name: NSNotification.Name("OpenPreferences"),
+            object: nil)
+
+        // Re-register shortcuts after preferences are restored from backup
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handlePreferencesRestored),
+            name: preferencesRestoredName,
             object: nil)
 
         // Fit-to-width: set up occlusion observer after a short delay
@@ -115,6 +114,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func openPreferencesFromScript() {
         statusBar.showPreferencesWindow(self)
+    }
+
+    @objc private func handlePreferencesRestored() {
+        registerKeyboardShortcuts()
+    }
+
+    private func registerKeyboardShortcuts() {
+        KeyboardShortcuts.onKeyUp(for: .refresh) {
+            postSettingsChanged()
+        }
+        KeyboardShortcuts.onKeyUp(for: .preferences) { [weak self] in
+            guard let self = self else { return }
+            self.statusBar.showPreferencesWindow(self)
+        }
+        KeyboardShortcuts.onKeyUp(for: .quickRename) { [weak self] in
+            self?.statusBar.showQuickRenamePanel()
+        }
+        KeyboardShortcuts.onKeyUp(for: .switchUp) { [weak self] in
+            self?.statusBar.switchVertical(direction: -1)
+        }
+        KeyboardShortcuts.onKeyUp(for: .switchDown) { [weak self] in
+            self?.statusBar.switchVertical(direction: 1)
+        }
     }
 
     // MARK: - AppleScript Properties
