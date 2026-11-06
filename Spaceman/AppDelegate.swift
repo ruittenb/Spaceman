@@ -23,6 +23,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var missionControlLabels: MissionControlLabels!
     private var autoRefreshTimer: Timer?
     private var currentSpaces: [Space] = []
+    private var previousSpaceID: String?
 
     // Fit-to-width state
     private var fittedSize: IconSize?   // nil = the user's chosen size
@@ -137,6 +138,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         KeyboardShortcuts.onKeyUp(for: .switchDown) { [weak self] in
             self?.statusBar.switchVertical(direction: 1)
         }
+        KeyboardShortcuts.onKeyUp(for: .switchBack) { [weak self] in
+            self?.switchToPreviousSpace()
+        }
+    }
+
+    private func switchToPreviousSpace() {
+        guard let targetSpaceID = previousSpaceID,
+              let targetSpace = currentSpaces.first(where: { $0.spaceID == targetSpaceID }),
+              !targetSpace.isCurrentSpace else {
+            return
+        }
+        statusBar.switchToSpaceByID(targetSpaceID)
     }
 
     // MARK: - AppleScript Properties
@@ -381,6 +394,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate: SpaceObserverDelegate {
     func didUpdateSpaces(spaces: [Space], trigger: SpaceUpdateTrigger) {
+        // Track the previous active space - only when the space actually changes
+        let oldCurrent = currentSpaces.first(where: { $0.isCurrentSpace })
+        let newCurrent = spaces.first(where: { $0.isCurrentSpace })
+        if let oldSpace = oldCurrent, let newSpace = newCurrent, oldSpace.spaceID != newSpace.spaceID {
+            previousSpaceID = oldSpace.spaceID
+        }
+
         currentSpaces = spaces
 
         if let displayID = HUDPanel.targetDisplayID(

@@ -18,6 +18,13 @@ extension KeyboardShortcuts.Name {
     static let quickRename = Self(
         "quickRename",
         default: .init(.n, modifiers: [.control, .option, .command]))
-    static let switchUp = Self("switchUp")
-    static let switchDown = Self("switchDown")
+    static let switchUp = Self(
+        "switchUp",
+        default: .init(.upArrow, modifiers: [.control, .command]))
+    static let switchDown = Self(
+        "switchDown",
+        default: .init(.downArrow, modifiers: [.control, .command]))
+    static let switchBack = Self(
+        "switchBack",
+        default: .init(.delete, modifiers: [.control, .command]))
 }

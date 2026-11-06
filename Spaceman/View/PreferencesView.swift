@@ -504,6 +504,7 @@ struct PreferencesView: View {
             VStack(alignment: .leading, spacing: 2) {
                 switchUpShortcutRecorder
                 switchDownShortcutRecorder
+                switchBackShortcutRecorder
             }
             .padding(.bottom, 6)
             HStack(spacing: 8) {
@@ -597,6 +598,15 @@ struct PreferencesView: View {
             Text("Shortcut to switch to space below")
             Spacer()
             KeyboardShortcuts.Recorder(for: .switchDown)
+        }
+    }
+
+    // MARK: - Switch Back Shortcut Recorder
+    private var switchBackShortcutRecorder: some View {
+        HStack {
+            Text("Shortcut to switch to previous space")
+            Spacer()
+            KeyboardShortcuts.Recorder(for: .switchBack)
         }
     }
 
