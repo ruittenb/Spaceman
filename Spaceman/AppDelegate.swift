@@ -23,6 +23,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var missionControlLabels: MissionControlLabels!
     private var autoRefreshTimer: Timer?
     private var currentSpaces: [Space] = []
+    private var previousSpaceID: String?
 
     // Fit-to-width state
     private var fittedSize: IconSize?   // nil = the user's chosen size
@@ -50,21 +51,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         missionControlLabels = MissionControlLabels()
 
         NSApp.activate(ignoringOtherApps: true)
-        KeyboardShortcuts.onKeyUp(for: .refresh) { [] in
-            postSettingsChanged()
-        }
-        KeyboardShortcuts.onKeyUp(for: .preferences) { [] in
-            self.statusBar.showPreferencesWindow(self)
-        }
-        KeyboardShortcuts.onKeyUp(for: .quickRename) { [] in
-            self.statusBar.showQuickRenamePanel()
-        }
+        registerKeyboardShortcuts()
 
         // Listen for AppleScript "open preferences" notification
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(openPreferencesFromScript),
             name: NSNotification.Name("OpenPreferences"),
+            object: nil)
+
+        // Re-register shortcuts after preferences are restored from backup
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handlePreferencesRestored),
+            name: preferencesRestoredName,
             object: nil)
 
         // Fit-to-width: set up occlusion observer after a short delay
@@ -115,6 +115,41 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func openPreferencesFromScript() {
         statusBar.showPreferencesWindow(self)
+    }
+
+    @objc private func handlePreferencesRestored() {
+        registerKeyboardShortcuts()
+    }
+
+    private func registerKeyboardShortcuts() {
+        KeyboardShortcuts.onKeyUp(for: .refresh) {
+            postSettingsChanged()
+        }
+        KeyboardShortcuts.onKeyUp(for: .preferences) { [weak self] in
+            guard let self = self else { return }
+            self.statusBar.showPreferencesWindow(self)
+        }
+        KeyboardShortcuts.onKeyUp(for: .quickRename) { [weak self] in
+            self?.statusBar.showQuickRenamePanel()
+        }
+        KeyboardShortcuts.onKeyUp(for: .switchUp) { [weak self] in
+            self?.statusBar.switchVertical(direction: -1)
+        }
+        KeyboardShortcuts.onKeyUp(for: .switchDown) { [weak self] in
+            self?.statusBar.switchVertical(direction: 1)
+        }
+        KeyboardShortcuts.onKeyUp(for: .switchBack) { [weak self] in
+            self?.switchToPreviousSpace()
+        }
+    }
+
+    private func switchToPreviousSpace() {
+        guard let targetSpaceID = previousSpaceID,
+              let targetSpace = currentSpaces.first(where: { $0.spaceID == targetSpaceID }),
+              !targetSpace.isCurrentSpace else {
+            return
+        }
+        statusBar.switchToSpaceByID(targetSpaceID)
     }
 
     // MARK: - AppleScript Properties
@@ -359,6 +394,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate: SpaceObserverDelegate {
     func didUpdateSpaces(spaces: [Space], trigger: SpaceUpdateTrigger) {
+        // Track the previous active space - only when the space actually changes
+        let oldCurrent = currentSpaces.first(where: { $0.isCurrentSpace })
+        let newCurrent = spaces.first(where: { $0.isCurrentSpace })
+        if let oldSpace = oldCurrent, let newSpace = newCurrent, oldSpace.spaceID != newSpace.spaceID {
+            previousSpaceID = oldSpace.spaceID
+        }
+
         currentSpaces = spaces
 
         if let displayID = HUDPanel.targetDisplayID(
