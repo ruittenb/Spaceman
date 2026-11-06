@@ -3,26 +3,26 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.29.1: Show desktop names in Mission Control</title>
+            <title>v1.29.3: Space up, space down, space back</title>
             <description>
                 <![CDATA[
                     <dl>
-                        <dt>v1.29.0</dt>
-                        <dd> - Display space labels in Mission Control, optionally with color</dd>
-                        <dt>v1.29.1</dt>
-                        <dd> - Apply shape styling to space labels in Mission Control</dd>
+                        <dt>v1.29.2:</dt>
+                        <dd>Added shortcut keys to switch to space above/below when conceptualized as grid</dd>
+                        <dt>v1.29.3:</dt>
+                        <dd>Added shortcut key to switch back to previous desktop location</dd>
                     </dl>
                 ]]>
             </description>
-            <pubDate>Tue, 03 Nov 2026 23:47:13 +0100</pubDate>
+            <pubDate>Fri, 06 Nov 2026 23:54:33 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.29.1/Spaceman-1.29.1.dmg"
-                sparkle:version="1.29.1"
-                sparkle:shortVersionString="1.29.1"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.29.3/Spaceman-1.29.3.dmg"
+                sparkle:version="1.29.3"
+                sparkle:shortVersionString="1.29.3"
                 type="application/octet-stream"
-                length="3630679"
-sparkle:edSignature="ehD1QxX28T+IkTufFMaItjawdEpqvm8D5vgRhqcE/c9xuVpZ05T710jK9VDhHUzaEHQEehtzPvt0+duLwgZaDQ=="
+                length="3640224"
+sparkle:edSignature="QeSPc7Ve4ZC251vA+us1rV4amHMR5PMwfpX/5qIKkHaBLSWp/bfLqhDtRIHdahsbk9xj+I7oQx1IpeoOnR+KAw=="
             />
         </item>
     </channel>
