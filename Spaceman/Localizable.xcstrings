@@ -3916,13 +3916,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Raccourci pour passer à l'espace supérieur"
+            "value" : "Raccourci pour basculer vers l'espace supérieur"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sneltoets om naar een space hoger te schakelen"
+            "value" : "Sneltoets om naar een space hoger te wisselen"
           }
         }
       }
@@ -3950,13 +3950,47 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Raccourci pour passer à l'espace inférieur"
+            "value" : "Raccourci pour basculer vers l'espace inférieur"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sneltoets om naar een space lager te schakelen"
+            "value" : "Sneltoets om naar een space lager te wisselen"
+          }
+        }
+      }
+    },
+    "Shortcut to switch to previous space" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehl zum Wechseln zur vorherigen Space"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para cambiar al espacio anterior"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para cambiar al espacio anterior"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci pour basculer vers l'espace précédent"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets om naar de vorige space te wisselen"
           }
         }
       }

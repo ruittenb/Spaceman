@@ -1039,6 +1039,18 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         handleSwitchTag(tag)
     }
 
+    /// Switch to a space by its ID. Called by AppDelegate for "switch back" functionality.
+    func switchToSpaceByID(_ spaceID: String) {
+        guard let targetSpace = currentSpaces.first(where: { $0.spaceID == spaceID }) else {
+            return
+        }
+        let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
+        let tag = Space.switchTag(
+            switchMapEntry: switchMap[targetSpace.spaceID],
+            spaceNumber: targetSpace.spaceNumber)
+        handleSwitchTag(tag)
+    }
+
     // MARK: - SPUStandardUserDriverDelegate
 
     var supportsGentleScheduledUpdateReminders: Bool {

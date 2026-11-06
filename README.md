@@ -154,7 +154,7 @@ Spaceman's preferences are organized into six tabs: **General**, **Appearance**,
 
 ### Switching Tab
 
-<img src="images/Preferences-Switching-5.png" width="66%" height="auto">
+<img src="images/Preferences-Switching-6.png" width="66%" height="auto">
 
 - **Switching Spaces**: Controls how Spaceman switches between spaces when you click a space icon:
   - **Use smooth transitions**: Sends keyboard shortcuts to macOS, which switches spaces with the standard sliding animation. Requires Mission Control shortcuts to be configured in System Settings.
@@ -163,6 +163,7 @@ Spaceman's preferences are organized into six tabs: **General**, **Appearance**,
   - When using fast or instant switching and the target space is on a different display, Spaceman falls back to keyboard shortcuts automatically.
 - **Shortcut to switch to space above**: Defines a shortcut key to switch to the space one row up in the grid (jumps by the number of columns configured in the General tab)
 - **Shortcut to switch to space below**: Defines a shortcut key to switch to the space one row down in the grid
+- **Shortcut to switch to previous space**: Defines a shortcut key to switch to the space that was current before this one
 - **Open System Settings → Mission Control Shortcuts**: Opens the System Settings panel for the Keyboard. Click [Shortcuts] and [Mission Control] to manage them.
 - **Show HUD when switching spaces**: When you switch between spaces, briefly display a heads-up overlay showing all spaces in a grid
   - **Always transparent**: When enabled, the HUD is always rendered with a transparent background, even when Reduce Transparency is on
