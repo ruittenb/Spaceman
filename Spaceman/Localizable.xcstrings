@@ -854,6 +854,40 @@
         }
       }
     },
+    "Couldn’t Move Window" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fenster konnte nicht verschoben werden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo mover la ventana"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo mover la ventana"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de déplacer la fenêtre"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan venster niet verplaatsen"
+          }
+        }
+      }
+    },
     "Current only" : {
       "localizations" : {
         "de" : {
@@ -1089,6 +1123,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Documentatie"
+          }
+        }
+      }
+    },
+    "Enable the ‘%@’ shortcut in Mission Control settings." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivieren Sie den Kurzbefehl „%@“ in den Mission Control-Einstellungen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activa el atajo “%@” en los ajustes de Mission Control."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activa el atajo “%@” en la configuración de Mission Control."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activez le raccourci « %@ » dans les réglages de Mission Control."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets ‘%@’ inschakelen in de Mission Control-instellingen."
           }
         }
       }
@@ -1503,6 +1571,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Algemeen"
+          }
+        }
+      }
+    },
+    "Grant Accessibility access to Spaceman to move windows between spaces." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erteilen Sie Spaceman Zugriff auf die Bedienungshilfen, um Fenster zwischen Spaces zu verschieben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otorga a Spaceman acceso de Accesibilidad para mover ventanas entre escritorios."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otorga a Spaceman acceso de Accesibilidad para mover ventanas entre escritorios."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorisez Spaceman dans Accessibilité pour déplacer des fenêtres entre les espaces."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geef Spaceman toegang tot Toegankelijkheid om vensters tussen spaces te verplaatsen."
           }
         }
       }
@@ -2563,6 +2665,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geen versiering"
+          }
+        }
+      }
+    },
+    "No movable focused window was found." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wurde kein verschiebbares aktives Fenster gefunden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontró ninguna ventana activa que se pueda mover."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontró ninguna ventana activa que se pueda mover."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune fenêtre active déplaçable n’a été trouvée."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er is geen verplaatsbaar actief venster gevonden."
           }
         }
       }
@@ -3825,6 +3961,74 @@
         }
       }
     },
+    "Shortcut to move window to next space" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehl zum Verschieben des Fensters in den nächsten Space"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para mover la ventana al escritorio siguiente"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para mover la ventana al escritorio siguiente"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci pour déplacer la fenêtre vers l’espace suivant"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets om venster naar de volgende space te verplaatsen"
+          }
+        }
+      }
+    },
+    "Shortcut to move window to previous space" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehl zum Verschieben des Fensters in den vorherigen Space"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para mover la ventana al escritorio anterior"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para mover la ventana al escritorio anterior"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci pour déplacer la fenêtre vers l’espace précédent"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets om venster naar de vorige space te verplaatsen"
+          }
+        }
+      }
+    },
     "Shortcut to open preferences window" : {
       "localizations" : {
         "de" : {
@@ -3893,6 +4097,40 @@
         }
       }
     },
+    "Shortcut to switch to previous space" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehl zum Wechseln zum vorherigen Space"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para cambiar al escritorio anterior"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para cambiar al escritorio anterior"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci pour basculer vers l’espace précédent"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets om naar de vorige space te wisselen"
+          }
+        }
+      }
+    },
     "Shortcut to switch to space above" : {
       "localizations" : {
         "de" : {
@@ -3957,40 +4195,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sneltoets om naar een space lager te wisselen"
-          }
-        }
-      }
-    },
-    "Shortcut to switch to previous space" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kurzbefehl zum Wechseln zum vorherigen Space"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Atajo para cambiar al escritorio anterior"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Atajo para cambiar al escritorio anterior"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Raccourci pour basculer vers l’espace précédent"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sneltoets om naar de vorige space te wisselen"
           }
         }
       }
@@ -4399,6 +4603,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spaceman"
+          }
+        }
+      }
+    },
+    "Spaceman could not create the input events needed to move the window." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman konnte die zum Verschieben des Fensters nötigen Eingabeereignisse nicht erzeugen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman no pudo crear los eventos de entrada necesarios para mover la ventana."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman no pudo crear los eventos de entrada necesarios para mover la ventana."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman n’a pas pu créer les événements d’entrée nécessaires pour déplacer la fenêtre."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman kon de invoergebeurtenissen voor het verplaatsen van het venster niet aanmaken."
           }
         }
       }
@@ -4883,6 +5121,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wisselen"
+          }
+        }
+      }
+    },
+    "The adjacent space could not be reached." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der benachbarte Space konnte nicht erreicht werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo llegar al escritorio contiguo."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo llegar al escritorio contiguo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’atteindre l’espace adjacent."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De aangrenzende space kon niet worden bereikt."
           }
         }
       }

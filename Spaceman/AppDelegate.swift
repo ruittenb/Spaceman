@@ -19,6 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var iconCreator: IconCreator!
     private var statusBar: StatusBar!
     private var spaceObserver: SpaceObserver!
+    private var windowMover: WindowMover!
     private var hudPanel = HUDPanel()
     private var missionControlLabels: MissionControlLabels!
     private var autoRefreshTimer: Timer?
@@ -47,6 +48,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         spaceObserver = SpaceObserver()
         spaceObserver.delegate = self
         spaceObserver.updateSpaceInformation()
+        windowMover = WindowMover()
 
         missionControlLabels = MissionControlLabels()
 
@@ -105,7 +107,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+        windowMover?.cancelMove()
     }
 
     // MARK: - Public Methods for Scripts/Shortcuts
@@ -141,6 +143,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         KeyboardShortcuts.onKeyUp(for: .switchBack) { [weak self] in
             self?.switchToPreviousSpace()
         }
+        KeyboardShortcuts.onKeyUp(for: .moveWindowToPreviousSpace) { [weak self] in
+            self?.moveFocusedWindow(.previous)
+        }
+        KeyboardShortcuts.onKeyUp(for: .moveWindowToNextSpace) { [weak self] in
+            self?.moveFocusedWindow(.next)
+        }
     }
 
     private func switchToPreviousSpace() {
@@ -150,6 +158,35 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         statusBar.switchToSpaceByID(targetSpaceID)
+    }
+
+    private func moveFocusedWindow(_ direction: WindowMoveDirection) {
+        guard let currentSpace = currentSpaceOnFrontmostDisplay(),
+              WindowMover.hasAdjacentSpace(
+                  direction,
+                  from: currentSpace,
+                  in: currentSpaces)
+        else { return }
+
+        windowMover.move(direction) { [weak self] error in
+            self?.showWindowMoveError(error)
+        }
+    }
+
+    private func showWindowMoveError(_ error: WindowMoveError) {
+        let alert = NSAlert()
+        alert.messageText = String(localized: "Couldn’t Move Window")
+        alert.informativeText = error.localizedDescription
+        alert.addButton(withTitle: String(localized: "Dismiss"))
+        if error.canOpenRelevantSettings {
+            alert.addButton(withTitle: String(localized: "System Settings…"))
+        }
+
+        let response = alert.runModal()
+        if response == .alertSecondButtonReturn,
+           let url = error.settingsURL {
+            NSWorkspace.shared.open(url)
+        }
     }
 
     // MARK: - AppleScript Properties
