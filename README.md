@@ -111,6 +111,7 @@ Spaceman's preferences are organized into six tabs: **General**, **Appearance**,
 - **Shortcut for manual refresh**: Defines a shortcut key to tell Spaceman to update the space information
 - **Shortcut to rename current space**: Defines a shortcut key to quickly rename the current space without opening Preferences
 - **Shortcut to open preferences window**: Defines a shortcut key to open the preferences window. The preferences window can be closed with ⌘W
+- **Shortcut to move window to previous/next space**: Moves the focused window one space and follows it. Both shortcuts are customizable
 
 - **Display spaces in menu as**: Choose between a list or a grid layout for the right-click menu
 - **Nr. of columns in grid**: When using grid layout, this sets the number of columns
@@ -267,6 +268,13 @@ Some appearance settings are also available directly from this menu.
 
 <img src="images/Quick-Rename-3.png" width="auto" height="auto">
 
+**Move the Focused Window**
+- Use the configurable previous/next shortcuts in Preferences → General to move the focused window one space
+- Spaceman follows the moved window to the destination space
+- Accessibility access must be enabled
+- Full-screen spaces are skipped; the window moves to the nearest regular space on the same display
+- Full-screen windows and windows shown on all spaces cannot be moved
+
 **Resizing the Icon**
 - Hold **⌥ Option** and scroll on the menu bar icon to quickly change the icon size
 
@@ -278,6 +286,9 @@ Some appearance settings are also available directly from this menu.
 ### Limitations
 
 - Space switching will fail without proper Accessibility permissions
+- Moving a window between spaces uses a private macOS API. It is confirmed to work on macOS 26.4 and later, but
+  may not work on every macOS version or machine. Spaceman checks whether the window actually moved and shows an
+  error if it didn't
 
 ## 🔹 Remote Control
 
@@ -349,6 +360,7 @@ $ killall Dock
   - [Waylon Wang](https://github.com/waylonwang/Spaceman)
   - [Conner Stobie](https://github.com/connerstobie/Spaceman)
   - [ultravioletcatastrophe](https://github.com/ultravioletcatastrophe/Spaceman)
+  - [Paulo Evangelista](https://github.com/paulo-evangelista/Spaceman)
   - [Nicolas Gaviria](https://github.com/Nicomalacho/Spaceman)
   - [Don Box](https://github.com/donbox/Spaceman)
   - [Taha Elghabi](https://github.com/KobeTools/Spaceman.git)
@@ -367,5 +379,4 @@ $ killall Dock
 
 - [SpaceId](https://github.com/dshnkao/SpaceId/)
   - [SpaceId fork](https://github.com/davidpurnell/SpaceId)
-
 

@@ -11,10 +11,13 @@
 #pragma clang diagnostic ignored "-Wpch-date-time"
 
 #import <Foundation/Foundation.h>
+#import <ApplicationServices/ApplicationServices.h>
 
 int _CGSDefaultConnection();
 CFArrayRef CGSCopyManagedDisplaySpaces(int conn);
 id CGSCopyActiveMenuBarDisplayIdentifier(int conn);
+CFArrayRef CGSCopySpacesForWindows(int conn, int selector, CFArrayRef windowIDs);
+AXError _AXUIElementGetWindow(AXUIElementRef element, CGWindowID *windowID);
 
 static inline NSString *compilationDate(void) {
     struct tm t = {0};

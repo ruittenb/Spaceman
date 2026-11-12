@@ -27,4 +27,10 @@ extension KeyboardShortcuts.Name {
     static let switchBack = Self(
         "switchBack",
         default: .init(.delete, modifiers: [.control, .command]))
+    static let moveWindowToPreviousSpace = Self(
+        "moveWindowToPreviousSpace",
+        default: .init(.leftArrow, modifiers: [.control, .option, .command]))
+    static let moveWindowToNextSpace = Self(
+        "moveWindowToNextSpace",
+        default: .init(.rightArrow, modifiers: [.control, .option, .command]))
 }
