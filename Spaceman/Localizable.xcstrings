@@ -854,6 +854,9 @@
         }
       }
     },
+    "Couldn’t Move Window" : {
+
+    },
     "Current only" : {
       "localizations" : {
         "de" : {
@@ -1092,6 +1095,9 @@
           }
         }
       }
+    },
+    "Enable the ‘%@’ shortcut in Mission Control settings." : {
+
     },
     "Enable under Keyboard → Shortcuts → Mission Control:" : {
       "localizations" : {
@@ -1506,6 +1512,9 @@
           }
         }
       }
+    },
+    "Grant Accessibility access to Spaceman to move windows between spaces." : {
+
     },
     "Grid" : {
       "localizations" : {
@@ -2566,6 +2575,9 @@
           }
         }
       }
+    },
+    "No movable focused window was found." : {
+
     },
     "No preferences to backup" : {
       "localizations" : {
@@ -3825,6 +3837,12 @@
         }
       }
     },
+    "Shortcut to move window to next space" : {
+
+    },
+    "Shortcut to move window to previous space" : {
+
+    },
     "Shortcut to open preferences window" : {
       "localizations" : {
         "de" : {
@@ -3893,6 +3911,40 @@
         }
       }
     },
+    "Shortcut to switch to previous space" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehl zum Wechseln zur vorherigen Space"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para cambiar al espacio anterior"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para cambiar al espacio anterior"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci pour basculer vers l'espace précédent"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets om naar de vorige space te wisselen"
+          }
+        }
+      }
+    },
     "Shortcut to switch to space above" : {
       "localizations" : {
         "de" : {
@@ -3957,40 +4009,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sneltoets om naar een space lager te wisselen"
-          }
-        }
-      }
-    },
-    "Shortcut to switch to previous space" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kurzbefehl zum Wechseln zur vorherigen Space"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Atajo para cambiar al espacio anterior"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Atajo para cambiar al espacio anterior"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Raccourci pour basculer vers l'espace précédent"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sneltoets om naar de vorige space te wisselen"
           }
         }
       }
@@ -4402,6 +4420,9 @@
           }
         }
       }
+    },
+    "Spaceman could not create the input events needed to move the window." : {
+
     },
     "Spaceman Preferences" : {
       "localizations" : {
@@ -4886,6 +4907,9 @@
           }
         }
       }
+    },
+    "The adjacent space could not be reached." : {
+
     },
     "Two Rows, by Columns" : {
       "localizations" : {
