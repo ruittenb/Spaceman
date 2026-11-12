@@ -19,6 +19,8 @@
 		9A6DE94BB0D75559B9039ABA /* SpaceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCE20A6B4C0E9E494935DB8 /* SpaceFilter.swift */; };
 		A2B3C4D5E6F7A8B9C0D1E2F3 /* EnumRawValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */; };
 		A2B3C4D5E6F7A8B9C0D1E2F4 /* EnumBehaviorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */; };
+		AA1100013A1100013A110001 /* WindowMover.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1100023A1100023A110002 /* WindowMover.swift */; };
+		AA1100033A1100033A110003 /* WindowMoverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1100043A1100043A110004 /* WindowMoverTests.swift */; };
 		E70044AC2E7F6584001C7295 /* RowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70044AB2E7F6584001C7295 /* RowLayout.swift */; };
 		E70044AE2E80380B001C7295 /* OpenPreferencesCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70044AD2E80380B001C7295 /* OpenPreferencesCommand.swift */; };
 		E70044B02E80380B001C7296 /* RestorePreferencesCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70044AF2E80380B001C7296 /* RestorePreferencesCommand.swift */; };
@@ -104,6 +106,8 @@
 		8F4A6E10892D4C67AD5F9BE3 /* VisibleSpacesMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibleSpacesMode.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6A7B8C9D0E1F2 /* IconStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconStyle.swift; sourceTree = "<group>"; };
 		A4EB8773F2764BC7A1C695B7 /* SpaceNameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNameStore.swift; sourceTree = "<group>"; };
+		AA1100023A1100023A110002 /* WindowMover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowMover.swift; sourceTree = "<group>"; };
+		AA1100043A1100043A110004 /* WindowMoverTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WindowMoverTests.swift; path = SpacemanTests/WindowMoverTests.swift; sourceTree = "<group>"; };
 		B3C4D5E6F7A8B9C0D1E2F3A4 /* EnumRawValueTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumRawValueTests.swift; path = SpacemanTests/EnumRawValueTests.swift; sourceTree = "<group>"; };
 		B3C4D5E6F7A8B9C0D1E2F3A5 /* EnumBehaviorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumBehaviorTests.swift; path = SpacemanTests/EnumBehaviorTests.swift; sourceTree = "<group>"; };
 		C0F9A49EF2025B97049F7053 /* SpaceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceTests.swift; path = SpacemanTests/SpaceTests.swift; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 				E7A1B2C3D4E5F6A7B8C9D0E2 /* SpaceObserverIntegrationTests.swift */,
 				C0F9A49EF2025B97049F7053 /* SpaceTests.swift */,
 				E763711F2FB21DAC00D05885 /* SwitchStrategyTests.swift */,
+				AA1100043A1100043A110004 /* WindowMoverTests.swift */,
 			);
 			name = SpacemanTests;
 			sourceTree = "<group>";
@@ -324,6 +329,7 @@
 				E8733506256B57400012586E /* SpaceObserver.swift */,
 				E7A066222C7F65F1002DFC52 /* SwitchOrchestrator.swift */,
 				E76371212FB273BC00D05885 /* SwitchStrategizer.swift */,
+				AA1100023A1100023A110002 /* WindowMover.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -530,6 +536,7 @@
 				E7B1C2D3E4F5A6B7C8D9E0F1 /* SpaceNameStoreTests.swift in Sources */,
 				E7C1D2E3F4A5B6C7D8E9F0A1 /* PreferencesViewModelTests.swift in Sources */,
 				E7F1A2B3C4D5E6F7A8B9C0D1 /* HUDTests.swift in Sources */,
+				AA1100033A1100033A110003 /* WindowMoverTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,6 +593,7 @@
 				E7D1E2F3A4B5C6D7E8F9A0B5 /* ColorWellView.swift in Sources */,
 				E7D1E2F3A4B5C6D7E8F9A0C1 /* Shortcuts.swift in Sources */,
 				9A6DE94BB0D75559B9039ABA /* SpaceFilter.swift in Sources */,
+				AA1100013A1100013A110001 /* WindowMover.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
