@@ -22,8 +22,12 @@
 
 import AppKit
 import ApplicationServices
+import os
 
 final class MissionControlLabels {
+
+    private static let log = Logger(
+        subsystem: Constants.AppInfo.bundleId, category: "missionControlLabels")
 
     private var timer: Timer?
     private var windows: [LabelWindow] = []
@@ -34,6 +38,7 @@ final class MissionControlLabels {
         ProcessInfo.processInfo.operatingSystemVersion.majorVersion < 27
     private var wasOpen = false
     private var lastMismatch: String?
+    private var lastOutcome: String?
 
     private var isEnabled: Bool {
         UserDefaults.standard.bool(forKey: "showMissionControlLabels")
@@ -85,6 +90,26 @@ final class MissionControlLabels {
             self?.handlePreferenceChange()
         }
 
+        // After sleep/wake or lock/unlock the cached AX elements and label windows can stop
+        // working while the processes are still alive. Only a fresh start recovered them, so
+        // discard them and let the next poll recreate everything.
+        let workspaceCenter = NSWorkspace.shared.notificationCenter
+        workspaceCenter.addObserver(
+            forName: NSWorkspace.didWakeNotification, object: nil, queue: .main
+        ) { [weak self] _ in
+            self?.reset(reason: "wake")
+        }
+        workspaceCenter.addObserver(
+            forName: NSWorkspace.sessionDidBecomeActiveNotification, object: nil, queue: .main
+        ) { [weak self] _ in
+            self?.reset(reason: "session active")
+        }
+        DistributedNotificationCenter.default().addObserver(
+            forName: NSNotification.Name("com.apple.screenIsUnlocked"), object: nil, queue: .main
+        ) { [weak self] _ in
+            self?.reset(reason: "screen unlocked")
+        }
+
         // Start if already enabled
         if isEnabled {
             start()
@@ -112,8 +137,26 @@ final class MissionControlLabels {
     private func stop() {
         timer?.invalidate()
         timer = nil
+        reset(reason: "disabled")
+    }
+
+    /// Drops cached AX elements and label windows, so the next poll starts as fresh as an app restart.
+    private func reset(reason: String) {
+        Self.log.log("Reset (\(reason, privacy: .public))")
         hideAll()
+        for window in windows { window.close() }
+        windows = []
+        apps = [:]
         wasOpen = false
+        lastMismatch = nil
+        lastOutcome = nil
+    }
+
+    /// Logs the poll outcome only when it changes, to avoid flooding the log at 4 polls/second.
+    private func logOutcome(_ outcome: String) {
+        guard outcome != lastOutcome else { return }
+        lastOutcome = outcome
+        Self.log.log("\(outcome, privacy: .public)")
     }
 
     // MARK: - Poll
@@ -127,7 +170,11 @@ final class MissionControlLabels {
     }
 
     private func poll() {
-        guard AXIsProcessTrusted() else { hideAll(); return }
+        guard AXIsProcessTrusted() else {
+            logOutcome("Not trusted for Accessibility")
+            hideAll()
+            return
+        }
 
         var captions: [Caption] = []
         var found = false
@@ -163,8 +210,10 @@ final class MissionControlLabels {
             lastMismatch = nil
         }
         if found {
+            logOutcome("Spaces Bar found, \(captions.count) labels shown")
             show(captions)
         } else {
+            logOutcome("Spaces Bar not found")
             hideAll()
         }
     }
@@ -281,7 +330,10 @@ final class MissionControlLabels {
             onScreenContaining: appKitRect(fromAX: CGRect(origin: first, size: .zero)))
         guard spaceIDs.count == found.count else {
             let message = "\(found.count) thumbnails but \(spaceIDs.count) spaces"
-            if message != lastMismatch { lastMismatch = message }
+            if message != lastMismatch {
+                lastMismatch = message
+                Self.log.log("Mismatch: \(message, privacy: .public)")
+            }
             return []
         }
 

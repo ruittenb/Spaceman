@@ -1,3 +1,4 @@
+1.29.4: Fix for disappearing Mission Control labels after wakeup
 1.29.3: Added shortcut for switching back to previous space
 1.29.2: Added shortcuts for switch-up and switch-down; fix restoring shortcuts from backup
 1.29.1: Style space labels in Mission Control
