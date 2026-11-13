@@ -7,7 +7,6 @@
 //  Reads Mission Control keyboard shortcuts from macOS user defaults
 //  (com.apple.symbolichotkeys) so Spaceman sends the correct keypresses.
 
-import CoreGraphics
 import Foundation
 import SwiftUI
 
@@ -16,7 +15,6 @@ struct SpaceShortcut {
     let keyCode: Int
     let modifiers: String          // AppleScript format: "control down,command down"
     let modifierFlags: NSEvent.ModifierFlags
-    let eventFlags: CGEventFlags   // Raw flags used when synthesizing the shortcut.
     let keyEquivalent: String      // For NSMenuItem display: "1", "2", etc.
 }
 
@@ -124,13 +122,8 @@ class ShortcutHelper {
             keyCode: keyCode,
             modifiers: mods.joined(separator: ","),
             modifierFlags: flags,
-            eventFlags: Self.eventFlags(fromSymbolicHotKeyModifiers: modRaw),
             keyEquivalent: keyEquivalent
         )
-    }
-
-    static func eventFlags(fromSymbolicHotKeyModifiers modifiers: Int) -> CGEventFlags {
-        CGEventFlags(rawValue: UInt64(modifiers))
     }
 
     /// Map a virtual keycode to a display character for NSMenuItem.keyEquivalent.

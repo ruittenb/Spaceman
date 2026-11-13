@@ -161,16 +161,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func moveFocusedWindow(_ direction: WindowMoveDirection) {
-        guard let currentSpace = currentSpaceOnFrontmostDisplay(),
-              WindowMover.hasAdjacentSpace(
-                  direction,
-                  from: currentSpace,
-                  in: currentSpaces)
-        else { return }
-
-        windowMover.move(direction) { [weak self] error in
-            self?.showWindowMoveError(error)
-        }
+        windowMover.move(
+            direction,
+            spaces: currentSpaces,
+            switchToSpace: { [weak self] spaceID in
+                self?.statusBar.switchToSpaceByID(spaceID)
+            },
+            onError: { [weak self] error in
+                self?.showWindowMoveError(error)
+            })
     }
 
     private func showWindowMoveError(_ error: WindowMoveError) {

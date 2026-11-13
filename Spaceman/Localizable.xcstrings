@@ -4,6 +4,142 @@
     "" : {
 
     },
+    "Full-screen windows can’t be moved to another space." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vollbildfenster können nicht in einen anderen Space verschoben werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las ventanas en pantalla completa no se pueden mover a otro espacio."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las ventanas en pantalla completa no se pueden mover a otro espacio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les fenêtres en plein écran ne peuvent pas être déplacées vers un autre espace."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vensters op volledig scherm kunnen niet naar een andere space worden verplaatst."
+          }
+        }
+      }
+    },
+    "macOS didn’t move the window to the adjacent space." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat das Fenster nicht in den benachbarten Space verschoben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no movió la ventana al espacio contiguo."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no movió la ventana al espacio contiguo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n'a pas déplacé la fenêtre vers l'espace adjacent."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft het venster niet naar de aangrenzende space verplaatst."
+          }
+        }
+      }
+    },
+    "This version of macOS doesn’t let Spaceman move windows between spaces." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese macOS-Version erlaubt Spaceman nicht, Fenster zwischen Spaces zu verschieben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta versión de macOS no permite que Spaceman mueva ventanas entre espacios."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta versión de macOS no permite que Spaceman mueva ventanas entre espacios."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette version de macOS ne permet pas à Spaceman de déplacer des fenêtres entre les espaces."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze versie van macOS staat Spaceman niet toe vensters tussen spaces te verplaatsen."
+          }
+        }
+      }
+    },
+    "This window is shown on every space and can’t be moved." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Fenster wird in allen Spaces angezeigt und kann nicht verschoben werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta ventana se muestra en todos los espacios y no se puede mover."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta ventana se muestra en todos los espacios y no se puede mover."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette fenêtre est affichée dans tous les espaces et ne peut pas être déplacée."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit venster wordt op elke space getoond en kan niet worden verplaatst."
+          }
+        }
+      }
+    },
     "·" : {
       "localizations" : {
         "de" : {
@@ -855,7 +991,38 @@
       }
     },
     "Couldn’t Move Window" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fenster konnte nicht verschoben werden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo mover la ventana"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo mover la ventana"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de déplacer la fenêtre"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan venster niet verplaatsen"
+          }
+        }
+      }
     },
     "Current only" : {
       "localizations" : {
@@ -1095,9 +1262,6 @@
           }
         }
       }
-    },
-    "Enable the ‘%@’ shortcut in Mission Control settings." : {
-
     },
     "Enable under Keyboard → Shortcuts → Mission Control:" : {
       "localizations" : {
@@ -1514,7 +1678,38 @@
       }
     },
     "Grant Accessibility access to Spaceman to move windows between spaces." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erteile Spaceman Zugriff auf die Bedienungshilfen, um Fenster zwischen Spaces zu verschieben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concede a Spaceman acceso de Accesibilidad para mover ventanas entre espacios."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otorga a Spaceman acceso de Accesibilidad para mover ventanas entre espacios."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorisez Spaceman dans Accessibilité pour déplacer des fenêtres entre les espaces."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geef Spaceman toegang tot Toegankelijkheid om vensters tussen spaces te verplaatsen."
+          }
+        }
+      }
     },
     "Grid" : {
       "localizations" : {
@@ -2577,7 +2772,38 @@
       }
     },
     "No movable focused window was found." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wurde kein verschiebbares aktives Fenster gefunden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontró ninguna ventana activa que se pueda mover."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontró ninguna ventana activa que se pueda mover."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune fenêtre active déplaçable n'a été trouvée."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er is geen verplaatsbaar actief venster gevonden."
+          }
+        }
+      }
     },
     "No preferences to backup" : {
       "localizations" : {
@@ -3838,10 +4064,72 @@
       }
     },
     "Shortcut to move window to next space" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehl zum Verschieben des Fensters in den nächsten Space"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para mover la ventana al espacio siguiente"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para mover la ventana al espacio siguiente"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci pour déplacer la fenêtre vers l'espace suivant"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets om venster naar de volgende space te verplaatsen"
+          }
+        }
+      }
     },
     "Shortcut to move window to previous space" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehl zum Verschieben des Fensters in den vorherigen Space"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para mover la ventana al espacio anterior"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo para mover la ventana al espacio anterior"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci pour déplacer la fenêtre vers l'espace précédent"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sneltoets om venster naar de vorige space te verplaatsen"
+          }
+        }
+      }
     },
     "Shortcut to open preferences window" : {
       "localizations" : {
@@ -4421,9 +4709,6 @@
         }
       }
     },
-    "Spaceman could not create the input events needed to move the window." : {
-
-    },
     "Spaceman Preferences" : {
       "localizations" : {
         "de" : {
@@ -4907,9 +5192,6 @@
           }
         }
       }
-    },
-    "The adjacent space could not be reached." : {
-
     },
     "Two Rows, by Columns" : {
       "localizations" : {

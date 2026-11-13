@@ -229,7 +229,7 @@ For space switching to work, you need to configure two things:
 - Go to **System Settings → Keyboard → Keyboard Shortcuts → Mission Control**
 - Assign and enable shortcuts for the following, if you want to use them:
   - "Switch to Desktop" for any spaces you want to be able to switch to
-  - "Move left/right a space" for navigation buttons and moving the focused window between spaces
+  - "Move left/right a space" for navigation buttons
 
 <img src="images/Shortcuts.png" width="66%" height="auto">
 
@@ -271,8 +271,9 @@ Some appearance settings are also available directly from this menu.
 **Move the Focused Window**
 - Use the configurable previous/next shortcuts in Preferences → General to move the focused window one space
 - Spaceman follows the moved window to the destination space
-- The macOS Mission Control "Move left/right a space" shortcuts and Accessibility access must be enabled
-- Full-screen windows and the edge spaces cannot be moved farther in that direction
+- Accessibility access must be enabled
+- Full-screen spaces are skipped; the window moves to the nearest regular space on the same display
+- Full-screen windows and windows shown on all spaces cannot be moved
 
 **Resizing the Icon**
 - Hold **⌥ Option** and scroll on the menu bar icon to quickly change the icon size
@@ -285,8 +286,9 @@ Some appearance settings are also available directly from this menu.
 ### Limitations
 
 - Space switching will fail without proper Accessibility permissions
-- Moving a window between spaces uses macOS’s native drag-and-switch behavior and requires the Mission Control
-  "Move left/right a space" shortcuts
+- Moving a window between spaces uses a private macOS API. It is confirmed to work on macOS 26.4 and later, but
+  may not work on every macOS version or machine. Spaceman checks whether the window actually moved and shows an
+  error if it didn't
 
 ## 🔹 Remote Control
 

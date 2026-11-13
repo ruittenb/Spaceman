@@ -2,99 +2,95 @@
 //  WindowMover.swift
 //  Spaceman
 //
-//  Moves the focused window with the native macOS interaction: begin dragging
-//  its title, invoke the Mission Control left/right shortcut, then release it.
+//  Moves the focused window to the adjacent space with SkyLight's bridged
+//  window-management operation (SLSBridgedMoveWindowsToManagedSpaceOperation),
+//  verifies that it landed, then follows it to the target space.
 //
 
 import ApplicationServices
 import AppKit
+import os
 
 enum WindowMoveDirection: Equatable {
     case previous
     case next
 }
 
-enum WindowMoveError: LocalizedError {
+enum WindowMoveError: LocalizedError, Equatable {
     case accessibilityPermissionRequired
-    case missionControlShortcutMissing(WindowMoveDirection)
     case noFocusedWindow
-    case eventCreationFailed
-    case spaceDidNotChange
+    case fullScreenWindow
+    case windowOnMultipleSpaces
+    case moveUnsupported
+    case windowDidNotMove
 
     var errorDescription: String? {
         switch self {
         case .accessibilityPermissionRequired:
             return String(localized: "Grant Accessibility access to Spaceman to move windows between spaces.")
-        case .missionControlShortcutMissing(let direction):
-            let name = direction == .previous ? "Move left a space" : "Move right a space"
-            return String(localized: "Enable the ‘\(name)’ shortcut in Mission Control settings.")
         case .noFocusedWindow:
             return String(localized: "No movable focused window was found.")
-        case .eventCreationFailed:
-            return String(localized: "Spaceman could not create the input events needed to move the window.")
-        case .spaceDidNotChange:
-            return String(localized: "The adjacent space could not be reached.")
+        case .fullScreenWindow:
+            return String(localized: "Full-screen windows can’t be moved to another space.")
+        case .windowOnMultipleSpaces:
+            return String(localized: "This window is shown on every space and can’t be moved.")
+        case .moveUnsupported:
+            return String(localized: "This version of macOS doesn’t let Spaceman move windows between spaces.")
+        case .windowDidNotMove:
+            return String(localized: "macOS didn’t move the window to the adjacent space.")
         }
     }
 
     var canOpenRelevantSettings: Bool {
-        switch self {
-        case .accessibilityPermissionRequired, .missionControlShortcutMissing:
-            return true
-        default:
-            return false
-        }
+        self == .accessibilityPermissionRequired
     }
 
     var settingsURL: URL? {
-        switch self {
-        case .accessibilityPermissionRequired:
-            return URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")
-        case .missionControlShortcutMissing:
-            return URL(string: "x-apple.systempreferences:com.apple.preference.keyboard?Shortcuts")
-        default:
-            return nil
-        }
+        guard self == .accessibilityPermissionRequired else { return nil }
+        return URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")
     }
 }
 
 final class WindowMover {
-    private enum ITermDrag {
-        static let bundleIdentifierPrefix = "com.googlecode.iterm2"
-        static let grabOffset: CGFloat = 2
-        static let distance: CGFloat = 10
-        static let stepCount = 3
-        static let startDelay = 0.05
-        static let stepInterval = 0.07
-        static let shortcutDelay = 0.05
+    enum MoveResolution: Equatable {
+        case move(source: Space, target: Space)
+        case atEdge
+        case failure(WindowMoveError)
     }
+
+    private enum Timing {
+        static let verifyInterval = 0.015
+        static let verifyTimeout = 0.5
+        static let followTimeout = 1.5
+        static let raiseDelay = 0.15
+    }
+
+    /// CGSCopySpacesForWindows selector: current, other and user spaces.
+    private static let allSpacesSelector: Int32 = 0x7
 
     private struct FocusedWindow {
         let element: AXUIElement
-        let originalPosition: CGPoint
-        let grabPoint: CGPoint
-        let needsActivationDrag: Bool
+        let windowID: CGWindowID
+        let processIdentifier: pid_t
     }
 
     private struct ActiveMove {
         let id: UUID
         let window: FocusedWindow
-        let releasePoint: CGPoint
-        let source: CGEventSource
+        let targetSpaceID: UInt64
         let onError: (WindowMoveError) -> Void
     }
 
-    private let shortcutHelper: ShortcutHelper
+    private static let log = Logger(subsystem: Constants.AppInfo.bundleId, category: "windowMove")
+
     private var activeMove: ActiveMove?
     private var spaceChangeObserver: NSObjectProtocol?
     private var timeoutWorkItem: DispatchWorkItem?
 
-    init(shortcutHelper: ShortcutHelper = ShortcutHelper()) {
-        self.shortcutHelper = shortcutHelper
-    }
-
     func move(
         _ direction: WindowMoveDirection,
+        spaces: [Space],
+        switchToSpace: @escaping (String) -> Void,
         onError: @escaping (WindowMoveError) -> Void
     ) {
         guard activeMove == nil else {
@@ -104,154 +100,226 @@ final class WindowMover {
             onError(.accessibilityPermissionRequired)
             return
         }
-
-        shortcutHelper.reload()
-        guard let shortcut = shortcut(for: direction) else {
-            onError(.missionControlShortcutMissing(direction))
-            return
-        }
         guard let window = focusedWindow() else {
             onError(.noFocusedWindow)
             return
         }
-        guard let source = CGEventSource(stateID: .combinedSessionState) else {
-            onError(.eventCreationFailed)
+
+        let resolution = Self.resolveMove(
+            direction,
+            windowSpaceIDs: Self.windowSpaceIDs(window.windowID),
+            spaces: spaces)
+        let targetSpace: Space
+        switch resolution {
+        case .atEdge:
+            return
+        case .failure(let error):
+            onError(error)
+            return
+        case .move(_, let target):
+            targetSpace = target
+        }
+        guard let targetSpaceID = UInt64(targetSpace.spaceID) else {
+            onError(.windowDidNotMove)
             return
         }
 
-        source.localEventsSuppressionInterval = 0
+        guard SkyLightBridge.move(windowID: window.windowID, toSpaceID: targetSpaceID) else {
+            Self.log.error("Bridged move operation unavailable on \(Self.osVersion, privacy: .public)")
+            onError(.moveUnsupported)
+            return
+        }
+
         let moveID = UUID()
-        let activationDragPoints = Self.activationDragPoints(
-            from: window.grabPoint,
-            enabled: window.needsActivationDrag)
-        let releasePoint = activationDragPoints.last ?? window.grabPoint
         activeMove = ActiveMove(
             id: moveID,
             window: window,
-            releasePoint: releasePoint,
-            source: source,
+            targetSpaceID: targetSpaceID,
             onError: onError)
-
-        guard postMouseEvent(.mouseMoved, at: window.grabPoint, source: source) else {
-            finishMove(error: .eventCreationFailed)
-            return
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.04) { [weak self] in
-            guard let self, self.activeMove?.id == moveID else { return }
-            guard self.postMouseEvent(.leftMouseDown, at: window.grabPoint, source: source) else {
-                self.finishMove(error: .eventCreationFailed)
-                return
-            }
-        }
-
-        for (index, point) in activationDragPoints.enumerated() {
-            let delay = ITermDrag.startDelay + Double(index) * ITermDrag.stepInterval
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
-                guard let self, self.activeMove?.id == moveID else { return }
-                guard self.postMouseEvent(.leftMouseDragged, at: point, source: source) else {
-                    self.finishMove(error: .eventCreationFailed)
-                    return
-                }
-            }
-        }
-
-        let shortcutDelay = activationDragPoints.isEmpty
-            ? 0.1
-            : ITermDrag.startDelay
-                + Double(activationDragPoints.count) * ITermDrag.stepInterval
-                + ITermDrag.shortcutDelay
-        DispatchQueue.main.asyncAfter(deadline: .now() + shortcutDelay) { [weak self] in
-            guard let self, self.activeMove?.id == moveID else { return }
-            self.observeSpaceChange()
-            self.scheduleTimeout()
-            guard self.postShortcut(shortcut, source: source) else {
-                self.finishMove(error: .eventCreationFailed)
-                return
-            }
-        }
+        verifyMove(
+            moveID: moveID,
+            targetSpace: targetSpace,
+            deadline: Date().addingTimeInterval(Timing.verifyTimeout),
+            switchToSpace: switchToSpace)
     }
 
     func cancelMove() {
         finishMove(error: nil)
     }
 
-    private static func grabPoint(
-        windowFrame: CGRect,
-        needsActivationDrag: Bool = false
-    ) -> CGPoint {
-        let verticalOffset = needsActivationDrag ? ITermDrag.grabOffset : 3
-        return CGPoint(x: windowFrame.midX, y: windowFrame.minY + verticalOffset)
-    }
-
-    static func needsActivationDrag(bundleIdentifier: String?) -> Bool {
-        bundleIdentifier?.hasPrefix(ITermDrag.bundleIdentifierPrefix) == true
-    }
+    // MARK: - Space resolution
 
     static func hasAdjacentSpace(
         _ direction: WindowMoveDirection,
         from currentSpace: Space,
         in spaces: [Space]
     ) -> Bool {
+        adjacentSpace(direction, from: currentSpace, in: spaces) != nil
+    }
+
+    /// The nearest non-full-screen space on the same display in the given direction.
+    static func adjacentSpace(
+        _ direction: WindowMoveDirection,
+        from currentSpace: Space,
+        in spaces: [Space]
+    ) -> Space? {
         let displaySpaces = spaces
             .filter { $0.displayID == currentSpace.displayID }
             .sorted { $0.spaceNumber < $1.spaceNumber }
         guard let currentIndex = displaySpaces.firstIndex(where: {
             $0.spaceID == currentSpace.spaceID
-        }) else { return false }
+        }) else { return nil }
 
+        let candidates: [Space]
         switch direction {
         case .previous:
-            return currentIndex > displaySpaces.startIndex
+            candidates = Array(displaySpaces[..<currentIndex].reversed())
         case .next:
-            return currentIndex < displaySpaces.index(before: displaySpaces.endIndex)
+            candidates = Array(displaySpaces[(currentIndex + 1)...])
+        }
+        return candidates.first { !$0.isFullScreen }
+    }
+
+    /// Decides what to do with a window, given the spaces it is on.
+    static func resolveMove(
+        _ direction: WindowMoveDirection,
+        windowSpaceIDs: [UInt64],
+        spaces: [Space]
+    ) -> MoveResolution {
+        guard let sourceSpaceID = windowSpaceIDs.first else {
+            return .failure(.noFocusedWindow)
+        }
+        guard windowSpaceIDs.count == 1 else {
+            return .failure(.windowOnMultipleSpaces)
+        }
+        guard let source = spaces.first(where: { $0.spaceID == String(sourceSpaceID) }) else {
+            return .failure(.noFocusedWindow)
+        }
+        guard !source.isFullScreen else {
+            return .failure(.fullScreenWindow)
+        }
+        guard let target = adjacentSpace(direction, from: source, in: spaces) else {
+            return .atEdge
+        }
+        return .move(source: source, target: target)
+    }
+
+    // MARK: - Moving, verifying and following
+
+    private func verifyMove(
+        moveID: UUID,
+        targetSpace: Space,
+        deadline: Date,
+        switchToSpace: @escaping (String) -> Void
+    ) {
+        guard let move = activeMove, move.id == moveID else { return }
+
+        if Self.windowSpaceIDs(move.window.windowID) == [move.targetSpaceID] {
+            follow(moveID: moveID, targetSpace: targetSpace, switchToSpace: switchToSpace)
+            return
+        }
+        guard Date() < deadline else {
+            let windowID = move.window.windowID
+            let spaceID = move.targetSpaceID
+            Self.log.error("Window \(windowID) not moved to space \(spaceID) on \(Self.osVersion, privacy: .public)")
+            finishMove(error: .windowDidNotMove)
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + Timing.verifyInterval) { [weak self] in
+            self?.verifyMove(
+                moveID: moveID,
+                targetSpace: targetSpace,
+                deadline: deadline,
+                switchToSpace: switchToSpace)
         }
     }
 
-    private static func activationDragPoints(
-        from startPoint: CGPoint,
-        enabled: Bool
-    ) -> [CGPoint] {
-        guard enabled else { return [] }
+    private func follow(
+        moveID: UUID,
+        targetSpace: Space,
+        switchToSpace: (String) -> Void
+    ) {
+        observeSpaceChange(moveID: moveID)
+        scheduleFollowTimeout(moveID: moveID)
+        switchToSpace(targetSpace.spaceID)
+    }
 
-        return (1...ITermDrag.stepCount).map { step in
-            let progress = CGFloat(step) / CGFloat(ITermDrag.stepCount)
-            return CGPoint(
-                x: startPoint.x + ITermDrag.distance * progress,
-                y: startPoint.y)
+    private func observeSpaceChange(moveID: UUID) {
+        spaceChangeObserver = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.activeSpaceDidChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.scheduleRaise(moveID: moveID)
         }
     }
 
-    private func shortcut(for direction: WindowMoveDirection) -> SpaceShortcut? {
-        switch direction {
-        case .previous:
-            return shortcutHelper.moveLeftShortcut
-        case .next:
-            return shortcutHelper.moveRightShortcut
+    /// The window has already moved; if the switch never arrives, still bring the window forward.
+    private func scheduleFollowTimeout(moveID: UUID) {
+        let timeout = DispatchWorkItem { [weak self] in
+            self?.scheduleRaise(moveID: moveID)
+        }
+        timeoutWorkItem = timeout
+        DispatchQueue.main.asyncAfter(deadline: .now() + Timing.followTimeout, execute: timeout)
+    }
+
+    private func scheduleRaise(moveID: UUID) {
+        guard activeMove?.id == moveID else { return }
+        timeoutWorkItem?.cancel()
+        timeoutWorkItem = nil
+        removeSpaceChangeObserver()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + Timing.raiseDelay) { [weak self] in
+            guard let self, let move = self.activeMove, move.id == moveID else { return }
+            self.raise(move.window)
+            self.finishMove(error: nil)
         }
     }
+
+    private func raise(_ window: FocusedWindow) {
+        let applicationElement = AXUIElementCreateApplication(window.processIdentifier)
+        AXUIElementSetAttributeValue(applicationElement, kAXFrontmostAttribute as CFString, kCFBooleanTrue)
+        NSRunningApplication(processIdentifier: window.processIdentifier)?.activate(options: [])
+        AXUIElementSetAttributeValue(window.element, kAXMainAttribute as CFString, kCFBooleanTrue)
+        AXUIElementPerformAction(window.element, kAXRaiseAction as CFString)
+    }
+
+    private func finishMove(error: WindowMoveError?) {
+        guard let move = activeMove else { return }
+        activeMove = nil
+        timeoutWorkItem?.cancel()
+        timeoutWorkItem = nil
+        removeSpaceChangeObserver()
+
+        if let error {
+            move.onError(error)
+        }
+    }
+
+    private func removeSpaceChangeObserver() {
+        if let observer = spaceChangeObserver {
+            NSWorkspace.shared.notificationCenter.removeObserver(observer)
+            spaceChangeObserver = nil
+        }
+    }
+
+    // MARK: - Window lookup
 
     private func focusedWindow() -> FocusedWindow? {
         guard let application = NSWorkspace.shared.frontmostApplication else { return nil }
         let applicationElement = AXUIElementCreateApplication(application.processIdentifier)
         guard let window = elementAttribute(
             kAXFocusedWindowAttribute as CFString,
-            from: applicationElement),
-              let position = pointAttribute(kAXPositionAttribute as CFString, from: window),
-              let size = sizeAttribute(kAXSizeAttribute as CFString, from: window)
+            from: applicationElement)
         else { return nil }
 
-        let windowFrame = CGRect(origin: position, size: size)
-        let needsActivationDrag = Self.needsActivationDrag(
-            bundleIdentifier: application.bundleIdentifier)
+        var windowID: CGWindowID = 0
+        guard _AXUIElementGetWindow(window, &windowID) == .success, windowID != 0 else { return nil }
 
         return FocusedWindow(
             element: window,
-            originalPosition: position,
-            grabPoint: Self.grabPoint(
-                windowFrame: windowFrame,
-                needsActivationDrag: needsActivationDrag),
-            needsActivationDrag: needsActivationDrag)
+            windowID: windowID,
+            processIdentifier: application.processIdentifier)
     }
 
     private func elementAttribute(
@@ -266,123 +334,59 @@ final class WindowMover {
         return unsafeBitCast(value, to: AXUIElement.self)
     }
 
-    private func pointAttribute(
-        _ attribute: CFString,
-        from element: AXUIElement
-    ) -> CGPoint? {
-        var value: CFTypeRef?
-        guard AXUIElementCopyAttributeValue(element, attribute, &value) == .success,
-              let value,
-              CFGetTypeID(value) == AXValueGetTypeID()
-        else { return nil }
-
-        var point = CGPoint.zero
-        let axValue = unsafeBitCast(value, to: AXValue.self)
-        return AXValueGetValue(axValue, .cgPoint, &point) ? point : nil
+    private static func windowSpaceIDs(_ windowID: CGWindowID) -> [UInt64] {
+        let windowList = [NSNumber(value: windowID)] as CFArray
+        guard let spaceIDs = CGSCopySpacesForWindows(
+            _CGSDefaultConnection(), allSpacesSelector, windowList)?
+            .takeRetainedValue() as? [NSNumber]
+        else { return [] }
+        return spaceIDs.map { $0.uint64Value }
     }
 
-    private func sizeAttribute(
-        _ attribute: CFString,
-        from element: AXUIElement
-    ) -> CGSize? {
-        var value: CFTypeRef?
-        guard AXUIElementCopyAttributeValue(element, attribute, &value) == .success,
-              let value,
-              CFGetTypeID(value) == AXValueGetTypeID()
-        else { return nil }
-
-        var size = CGSize.zero
-        let axValue = unsafeBitCast(value, to: AXValue.self)
-        return AXValueGetValue(axValue, .cgSize, &size) ? size : nil
+    private static var osVersion: String {
+        ProcessInfo.processInfo.operatingSystemVersionString
     }
+}
 
-    private func postMouseEvent(
-        _ type: CGEventType,
-        at point: CGPoint,
-        source: CGEventSource
-    ) -> Bool {
-        guard let event = CGEvent(
-            mouseEventSource: source,
-            mouseType: type,
-            mouseCursorPosition: point,
-            mouseButton: .left)
-        else { return false }
-        event.post(tap: .cghidEventTap)
-        return true
-    }
+// MARK: - SkyLight bridged operation
 
-    private func postShortcut(
-        _ shortcut: SpaceShortcut,
-        source: CGEventSource
-    ) -> Bool {
-        guard let keyDown = CGEvent(
-            keyboardEventSource: source,
-            virtualKey: CGKeyCode(shortcut.keyCode),
-            keyDown: true),
-              let keyUp = CGEvent(
-                keyboardEventSource: source,
-                virtualKey: CGKeyCode(shortcut.keyCode),
-                keyDown: false)
+/// Private SkyLight API, invoked through the Objective-C runtime (same approach as yabai, Loop, WhichSpace).
+/// The operation is asynchronous and its result means nothing: callers must verify the move.
+private enum SkyLightBridge {
+    private static let objcMessageSend: UnsafeMutableRawPointer? = dlsym(
+        dlopen(nil, RTLD_LAZY), "objc_msgSend")
+
+    private typealias AllocateFunction = @convention(c) (AnyClass, Selector) -> Unmanaged<AnyObject>?
+    private typealias InitializeFunction = @convention(c) (
+        AnyObject, Selector, NSArray, UInt64) -> Unmanaged<AnyObject>?
+    private typealias PerformFunction = @convention(c) (AnyObject, Selector) -> Void
+
+    /// Returns false only when the private class or one of its selectors is missing.
+    static func move(windowID: CGWindowID, toSpaceID spaceID: UInt64) -> Bool {
+        guard let objcMessageSend,
+              let operationClass = NSClassFromString(
+                "SLSBridgedMoveWindowsToManagedSpaceOperation") as? NSObject.Type
         else { return false }
 
-        keyDown.flags = shortcut.eventFlags
-        keyUp.flags = shortcut.eventFlags
-        keyDown.post(tap: .cghidEventTap)
-        keyUp.post(tap: .cghidEventTap)
+        let initializeSelector = NSSelectorFromString("initWithWindows:spaceID:")
+        let performSelector = NSSelectorFromString("performWithWMBridgeDelegate")
+        guard operationClass.instancesRespond(to: initializeSelector),
+              operationClass.instancesRespond(to: performSelector)
+        else { return false }
+
+        let allocate = unsafeBitCast(objcMessageSend, to: AllocateFunction.self)
+        let initialize = unsafeBitCast(objcMessageSend, to: InitializeFunction.self)
+        let perform = unsafeBitCast(objcMessageSend, to: PerformFunction.self)
+
+        // alloc returns +1, which init consumes; init returns +1, which we take.
+        let windowIDs = [NSNumber(value: windowID)] as NSArray
+        guard let allocated = allocate(operationClass, NSSelectorFromString("alloc")),
+              let operation = initialize(
+                allocated.takeUnretainedValue(), initializeSelector, windowIDs, spaceID)?
+                .takeRetainedValue()
+        else { return false }
+
+        perform(operation, performSelector)
         return true
-    }
-
-    private func observeSpaceChange() {
-        spaceChangeObserver = NSWorkspace.shared.notificationCenter.addObserver(
-            forName: NSWorkspace.activeSpaceDidChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            guard let self, self.activeMove != nil else { return }
-            self.timeoutWorkItem?.cancel()
-            self.removeSpaceChangeObserver()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                self.finishMove(error: nil)
-            }
-        }
-    }
-
-    private func scheduleTimeout() {
-        let timeout = DispatchWorkItem { [weak self] in
-            self?.finishMove(error: .spaceDidNotChange)
-        }
-        timeoutWorkItem = timeout
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: timeout)
-    }
-
-    private func finishMove(error: WindowMoveError?) {
-        guard let move = activeMove else { return }
-        activeMove = nil
-        timeoutWorkItem?.cancel()
-        timeoutWorkItem = nil
-        removeSpaceChangeObserver()
-
-        _ = postMouseEvent(.leftMouseUp, at: move.releasePoint, source: move.source)
-        restoreWindowPosition(move.window.originalPosition, for: move.window.element)
-
-        if let error {
-            move.onError(error)
-        }
-    }
-
-    private func restoreWindowPosition(
-        _ position: CGPoint,
-        for window: AXUIElement
-    ) {
-        var position = position
-        guard let value = AXValueCreate(.cgPoint, &position) else { return }
-        AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, value)
-    }
-
-    private func removeSpaceChangeObserver() {
-        if let observer = spaceChangeObserver {
-            NSWorkspace.shared.notificationCenter.removeObserver(observer)
-            spaceChangeObserver = nil
-        }
     }
 }
