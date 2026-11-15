@@ -185,13 +185,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todos los espacios"
+            "value" : "Todos los escritorios"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todos los espacios"
+            "value" : "Todos los escritorios"
           }
         },
         "fr" : {
@@ -299,7 +299,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Réduire automatiquement en cas de manque d'espace"
+            "value" : "Réduire automatiquement en cas de manque d’espace"
           }
         },
         "nl" : {
@@ -389,7 +389,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error en la copia de seguridad"
+            "value" : "Error al hacer la copia de seguridad"
           }
         },
         "es-419" : {
@@ -423,7 +423,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Respaldar ajustes"
+            "value" : "Copia de seguridad de los ajustes"
           }
         },
         "es-419" : {
@@ -899,13 +899,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo el espacio actual"
+            "value" : "Solo el escritorio actual"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo el espacio actual"
+            "value" : "Solo el escritorio actual"
           }
         },
         "fr" : {
@@ -1002,13 +1002,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar espacios en el menú como"
+            "value" : "Mostrar escritorios en el menú como"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar espacios en el menú como"
+            "value" : "Mostrar escritorios en el menú como"
           }
         },
         "fr" : {
@@ -1098,7 +1098,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktivieren unter Tastatur → Kurzbefehle → Mission Control"
+            "value" : "Aktivieren unter Tastatur → Kurzbefehle → Mission Control:"
           }
         },
         "es" : {
@@ -1450,13 +1450,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios en pantalla completa"
+            "value" : "Escritorios en pantalla completa"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios en pantalla completa"
+            "value" : "Escritorios en pantalla completa"
           }
         },
         "fr" : {
@@ -1762,7 +1762,7 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los iconos serán invisibles con estos ajustes."
+            "value" : "Los íconos serán invisibles con esta configuración."
           }
         },
         "fr" : {
@@ -1802,7 +1802,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si l'ordre des écrans ne semble pas correct, vérifiez l'alignement horizontal dans Réglages système → Écrans → Disposition."
+            "value" : "Si l’ordre des écrans ne semble pas correct, vérifiez l’alignement horizontal dans Réglages système → Écrans → Disposition."
           }
         },
         "nl" : {
@@ -1978,7 +1978,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lancer Spaceman à l'ouverture de session"
+            "value" : "Lancer Spaceman à l’ouverture de session"
           }
         },
         "nl" : {
@@ -2340,13 +2340,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rango de espacios cercanos: ±%lld"
+            "value" : "Rango de escritorios cercanos: ±%lld"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rango de espacios cercanos: ±%lld"
+            "value" : "Rango de escritorios cercanos: ±%lld"
           }
         },
         "fr" : {
@@ -2408,13 +2408,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios cercanos"
+            "value" : "Escritorios cercanos"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios cercanos"
+            "value" : "Escritorios cercanos"
           }
         },
         "fr" : {
@@ -2578,7 +2578,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No hay ajustes para copiar"
+            "value" : "Sin ajustes para la copia de seguridad"
           }
         },
         "es-419" : {
@@ -2646,13 +2646,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aún no se detectaron espacios."
+            "value" : "Aún no se detectaron escritorios."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aún no se detectaron espacios."
+            "value" : "Aún no se detectaron escritorios."
           }
         },
         "fr" : {
@@ -2794,7 +2794,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nombre de colonnes "
+            "value" : "Nombre de colonnes"
           }
         },
         "nl" : {
@@ -3292,13 +3292,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizar espacios en segundo plano"
+            "value" : "Actualizar escritorios en segundo plano"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizar espacios en segundo plano"
+            "value" : "Actualizar escritorios en segundo plano"
           }
         },
         "fr" : {
@@ -3360,19 +3360,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renombrar espacio actual…"
+            "value" : "Renombrar escritorio actual…"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renombrar espacio actual…"
+            "value" : "Renombrar escritorio actual…"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renommer l'espace actuel…"
+            "value" : "Renommer l’espace actuel…"
           }
         },
         "nl" : {
@@ -3394,19 +3394,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renombrar espacio %@"
+            "value" : "Renombrar escritorio %@"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renombrar espacio %@"
+            "value" : "Renombrar escritorio %@"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renommer l'espace %@"
+            "value" : "Renommer l’espace %@"
           }
         },
         "nl" : {
@@ -3428,13 +3428,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reiniciar la numeración de los espacios por pantalla"
+            "value" : "Reiniciar la numeración de los escritorios por pantalla"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reiniciar la numeración de los espacios por pantalla"
+            "value" : "Reiniciar la numeración de los escritorios por pantalla"
           }
         },
         "fr" : {
@@ -3700,13 +3700,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sin Serifa"
+            "value" : "Sin serifa"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sin Serifa"
+            "value" : "Sin serifa"
           }
         },
         "fr" : {
@@ -3836,7 +3836,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo para abrir la configuración"
+            "value" : "Atajo para abrir los ajustes"
           }
         },
         "es-419" : {
@@ -3870,19 +3870,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo para renombrar el espacio actual"
+            "value" : "Atajo para renombrar el escritorio actual"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo para renombrar el espacio actual"
+            "value" : "Atajo para renombrar el escritorio actual"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Raccourci pour renommer l'espace actuel"
+            "value" : "Raccourci pour renommer l’espace actuel"
           }
         },
         "nl" : {
@@ -3904,19 +3904,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo para cambiar al espacio de arriba"
+            "value" : "Atajo para cambiar al escritorio de arriba"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo para cambiar al espacio de arriba"
+            "value" : "Atajo para cambiar al escritorio de arriba"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Raccourci pour basculer vers l'espace supérieur"
+            "value" : "Raccourci pour basculer vers l’espace supérieur"
           }
         },
         "nl" : {
@@ -3938,19 +3938,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo para cambiar al espacio de abajo"
+            "value" : "Atajo para cambiar al escritorio de abajo"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo para cambiar al espacio de abajo"
+            "value" : "Atajo para cambiar al escritorio de abajo"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Raccourci pour basculer vers l'espace inférieur"
+            "value" : "Raccourci pour basculer vers l’espace inférieur"
           }
         },
         "nl" : {
@@ -3966,25 +3966,25 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kurzbefehl zum Wechseln zur vorherigen Space"
+            "value" : "Kurzbefehl zum Wechseln zum vorherigen Space"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo para cambiar al espacio anterior"
+            "value" : "Atajo para cambiar al escritorio anterior"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atajo para cambiar al espacio anterior"
+            "value" : "Atajo para cambiar al escritorio anterior"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Raccourci pour basculer vers l'espace précédent"
+            "value" : "Raccourci pour basculer vers l’espace précédent"
           }
         },
         "nl" : {
@@ -4018,7 +4018,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher l'écran du bas en premier"
+            "value" : "Afficher l’écran du bas en premier"
           }
         },
         "nl" : {
@@ -4040,13 +4040,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar espacios en pantalla completa"
+            "value" : "Mostrar escritorios en pantalla completa"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar espacios en pantalla completa"
+            "value" : "Mostrar escritorios en pantalla completa"
           }
         },
         "fr" : {
@@ -4074,19 +4074,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar HUD al cambiar de espacio"
+            "value" : "Mostrar HUD al cambiar de escritorio"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar HUD al cambiar de espacio"
+            "value" : "Mostrar HUD al cambiar de escritorio"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher le HUD au changement d'espace"
+            "value" : "Afficher le HUD au changement d’espace"
           }
         },
         "nl" : {
@@ -4120,7 +4120,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher uniquement l'écran principal"
+            "value" : "Afficher uniquement l’écran principal"
           }
         },
         "nl" : {
@@ -4210,13 +4210,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar nombres de espacios en Mission Control"
+            "value" : "Mostrar nombres de escritorios en Mission Control"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar nombres de espacios en Mission Control"
+            "value" : "Mostrar nombres de escritorios en Mission Control"
           }
         },
         "fr" : {
@@ -4244,19 +4244,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar números de espacio"
+            "value" : "Mostrar números de escritorio"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar números de espacio"
+            "value" : "Mostrar números de escritorio"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher les numéros d'espace"
+            "value" : "Afficher les numéros d’espace"
           }
         },
         "nl" : {
@@ -4290,7 +4290,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher l'écran du haut en premier"
+            "value" : "Afficher l’écran du haut en premier"
           }
         },
         "nl" : {
@@ -4346,19 +4346,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nombre del espacio"
+            "value" : "Nombre del escritorio"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nombre del espacio"
+            "value" : "Nombre del escritorio"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nom de l'espace"
+            "value" : "Nom de l’espace"
           }
         },
         "nl" : {
@@ -4448,7 +4448,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spaceman lee los atajos de teclado de Mission Control directamente de la configuración del sistema. Para cambiarlos, usa este botón."
+            "value" : "Spaceman lee los atajos de teclado de Mission Control directamente de los ajustes del sistema. Para cambiarlos, usa este botón."
           }
         },
         "es-419" : {
@@ -4482,13 +4482,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spaceman intentará restaurar el tamaño del icono de la barra de menús al cambiar de espacios o activar una actualización manual."
+            "value" : "Spaceman intentará restaurar el tamaño del icono de la barra de menús al cambiar de escritorio o activar una actualización manual."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spaceman intentará restaurar el tamaño del ícono de la barra de menús al cambiar de espacios o activar una actualización manual."
+            "value" : "Spaceman intentará restaurar el tamaño del ícono de la barra de menús al cambiar de escritorio o activar una actualización manual."
           }
         },
         "fr" : {
@@ -4516,13 +4516,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios"
+            "value" : "Escritorios"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios"
+            "value" : "Escritorios"
           }
         },
         "fr" : {
@@ -4556,13 +4556,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios mostrados"
+            "value" : "Escritorios mostrados"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios mostrados"
+            "value" : "Escritorios mostrados"
           }
         },
         "fr" : {
@@ -4590,13 +4590,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cambiar de espacio"
+            "value" : "Cambiar de escritorio"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cambiar de espacio"
+            "value" : "Cambiar de escritorio"
           }
         },
         "fr" : {
@@ -4664,13 +4664,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acerca"
+            "value" : "Acerca de"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acerca"
+            "value" : "Acerca de"
           }
         },
         "fr" : {
@@ -4824,13 +4824,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios"
+            "value" : "Escritorios"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacios"
+            "value" : "Escritorios"
           }
         },
         "fr" : {
@@ -5080,7 +5080,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Utiliser le nom de l'app"
+            "value" : "Utiliser le nom de l’app"
           }
         },
         "nl" : {
@@ -5216,7 +5216,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Utiliser l'ordre macOS"
+            "value" : "Utiliser l’ordre macOS"
           }
         },
         "nl" : {
@@ -5476,19 +5476,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al cambiar de espacios, el icono puede parpadear brevemente."
+            "value" : "Al cambiar de escritorio, el icono puede parpadear brevemente."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al cambiar de espacios, el ícono puede parpadear brevemente."
+            "value" : "Al cambiar de escritorio, el ícono puede parpadear brevemente."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lors du changement d'espaces, l'icône peut flasher brièvement."
+            "value" : "Lors du changement d’espaces, l’icône peut flasher brièvement."
           }
         },
         "nl" : {
@@ -5522,7 +5522,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous êtes libre de choisir n'importe quel raccourci."
+            "value" : "Vous êtes libre de choisir n’importe quel raccourci."
           }
         },
         "nl" : {
