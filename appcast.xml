@@ -3,26 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.29.3: Space up, space down, space back</title>
+            <title>v1.29.4: Fix for disappearing labels in Mission Control</title>
             <description>
                 <![CDATA[
-                    <dl>
-                        <dt>v1.29.2:</dt>
-                        <dd>Added shortcut keys to switch to space above/below when conceptualized as grid</dd>
-                        <dt>v1.29.3:</dt>
-                        <dd>Added shortcut key to switch back to previous desktop location</dd>
-                    </dl>
+                    <p>v1.29.4</p>
+                    <ul>
+                        <li>fixed disappearing labels in Mission Control after wakeup</li>
+                    </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 06 Nov 2026 23:54:33 +0100</pubDate>
+            <pubDate>Mon, 16 Nov 2026 11:09:51 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.29.3/Spaceman-1.29.3.dmg"
-                sparkle:version="1.29.3"
-                sparkle:shortVersionString="1.29.3"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.29.4/Spaceman-1.29.4.dmg"
+                sparkle:version="1.29.4"
+                sparkle:shortVersionString="1.29.4"
                 type="application/octet-stream"
-                length="3640224"
-sparkle:edSignature="QeSPc7Ve4ZC251vA+us1rV4amHMR5PMwfpX/5qIKkHaBLSWp/bfLqhDtRIHdahsbk9xj+I7oQx1IpeoOnR+KAw=="
+                length="3642875"
+sparkle:edSignature="M0GUKJjeaq63KGBY4ZfxIioixetyoeBRODcLz9X5YxvMK3GkD5VuHksVDEalkRb2epzpfYLOyHJFpQaSxIj8Aw=="
             />
         </item>
     </channel>
