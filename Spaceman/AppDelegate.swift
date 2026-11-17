@@ -22,7 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var hudPanel = HUDPanel()
     private var missionControlLabels: MissionControlLabels!
     private var autoRefreshTimer: Timer?
-    private var currentSpaces: [Space] = []
+    private(set) var currentSpaces: [Space] = []
     private var previousSpaceID: String?
 
     // Fit-to-width state
@@ -35,7 +35,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     static var activeSpaceIDs: Set<String> = []
 
+    /// The running instance, for AppleScript commands. NSApp.delegate is the
+    /// SwiftUI adaptor, so it cannot be cast to AppDelegate.
+    private(set) static weak var shared: AppDelegate?
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        AppDelegate.shared = self
+
         // Legacy settings migration - can be removed in future versions
         LegacyMigrations.perform()
 
@@ -143,13 +149,31 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    private func switchToPreviousSpace() {
+    /// Switch to the space that was current before this one.
+    /// Returns false when there is no previous space or it cannot be reached.
+    @discardableResult
+    func switchToPreviousSpace(mode: SwitchingMode? = nil) -> Bool {
         guard let targetSpaceID = previousSpaceID,
               let targetSpace = currentSpaces.first(where: { $0.spaceID == targetSpaceID }),
               !targetSpace.isCurrentSpace else {
-            return
+            return false
         }
-        statusBar.switchToSpaceByID(targetSpaceID)
+        return statusBar.switchToSpaceByID(targetSpaceID, mode: mode)
+    }
+
+    // MARK: - AppleScript Commands
+
+    /// Switch to a space resolved from the complete (unfiltered) space list.
+    func scriptSwitch(to space: Space, mode: SwitchingMode?) -> Bool {
+        statusBar.switchToSpaceByID(space.spaceID, mode: mode, spaces: currentSpaces)
+    }
+
+    func scriptSwitchRelative(goRight: Bool, mode: SwitchingMode?) -> Bool {
+        statusBar.switchRelative(goRight: goRight, mode: mode)
+    }
+
+    func scriptSwitchVertical(direction: Int, mode: SwitchingMode?) -> Bool {
+        statusBar.switchVertical(direction: direction, mode: mode)
     }
 
     // MARK: - AppleScript Properties
@@ -157,6 +181,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func application(_ sender: NSApplication, delegateHandlesKey key: String) -> Bool {
         return key == "currentSpaceNumber" || key == "currentSpaceName"
             || key == "displayCount" || key == "currentDisplayNumber"
+            || key == "spaceNames"
+    }
+
+    @objc var spaceNames: [String] {
+        return currentSpaces.map { $0.spaceName }
     }
 
     @objc var currentSpaceNumber: Int {
@@ -180,7 +209,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return 0
     }
 
-    private func orderedDisplayIDs() -> [String] {
+    func orderedDisplayIDs() -> [String] {
         var seen = Set<String>()
         var result: [String] = []
         // swiftlint:disable for_where
