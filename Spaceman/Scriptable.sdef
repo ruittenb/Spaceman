@@ -17,6 +17,72 @@
             <cocoa class="Spaceman.RestorePreferencesCommand" />
         </command>
 
+        <enumeration name="switching mode" code="SmMd">
+            <enumerator name="smooth" code="Msmo" description="Keyboard shortcuts, with the standard sliding animation"/>
+            <enumerator name="fast" code="Mfst" description="Simulated trackpad gestures, with a fast animation"/>
+            <enumerator name="instant" code="Mins" description="Simulated trackpad gestures, without animation"/>
+        </enumeration>
+
+        <command name="switch to space" code="smsuswsp"
+                 description="Switch to a space by number (as in 'current space number') or by name">
+            <cocoa class="Spaceman.SwitchToSpaceCommand" />
+            <direct-parameter description="The space number, or the space name (case-insensitive)">
+                <type type="integer"/>
+                <type type="text"/>
+            </direct-parameter>
+            <parameter name="on display" code="SmDp" type="integer" optional="yes"
+                       description="Count the space number from the first space on this display">
+                <cocoa key="display"/>
+            </parameter>
+            <parameter name="using" code="SmUs" type="switching mode" optional="yes"
+                       description="How to switch (default: the preference)">
+                <cocoa key="mode"/>
+            </parameter>
+        </command>
+
+        <command name="switch right" code="smsuswrt" description="Switch to the space on the right">
+            <cocoa class="Spaceman.SwitchRightCommand" />
+            <parameter name="using" code="SmUs" type="switching mode" optional="yes"
+                       description="How to switch (default: the preference)">
+                <cocoa key="mode"/>
+            </parameter>
+        </command>
+
+        <command name="switch left" code="smsuswlf" description="Switch to the space on the left">
+            <cocoa class="Spaceman.SwitchLeftCommand" />
+            <parameter name="using" code="SmUs" type="switching mode" optional="yes"
+                       description="How to switch (default: the preference)">
+                <cocoa key="mode"/>
+            </parameter>
+        </command>
+
+        <command name="switch up" code="smsuswup"
+                 description="Switch to the space one row up in the grid">
+            <cocoa class="Spaceman.SwitchUpCommand" />
+            <parameter name="using" code="SmUs" type="switching mode" optional="yes"
+                       description="How to switch (default: the preference)">
+                <cocoa key="mode"/>
+            </parameter>
+        </command>
+
+        <command name="switch down" code="smsuswdn"
+                 description="Switch to the space one row down in the grid">
+            <cocoa class="Spaceman.SwitchDownCommand" />
+            <parameter name="using" code="SmUs" type="switching mode" optional="yes"
+                       description="How to switch (default: the preference)">
+                <cocoa key="mode"/>
+            </parameter>
+        </command>
+
+        <command name="switch back" code="smsuswbk"
+                 description="Switch to the space that was current before this one">
+            <cocoa class="Spaceman.SwitchBackCommand" />
+            <parameter name="using" code="SmUs" type="switching mode" optional="yes"
+                       description="How to switch (default: the preference)">
+                <cocoa key="mode"/>
+            </parameter>
+        </command>
+
         <class name="application" code="capp" description="The Spaceman application">
             <cocoa class="NSApplication"/>
             <property name="current space number" code="SpNo" type="integer" access="r"
@@ -34,6 +100,11 @@
             <property name="current display number" code="DpNo" type="integer" access="r"
                       description="The 1-based index of the frontmost display">
                 <cocoa key="currentDisplayNumber"/>
+            </property>
+            <property name="space names" code="SpNs" access="r"
+                      description="The names of all spaces, in order of space number">
+                <type type="text" list="yes"/>
+                <cocoa key="spaceNames"/>
             </property>
         </class>
 

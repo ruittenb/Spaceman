@@ -41,7 +41,7 @@ bump-major: ## Bump the version major level (e.g. 1.27.0 → 2.0.0)
 	python3 scripts/bump.py --major
 
 
-##@ Translations:
+##@ Building:
 
 .PHONY: translations
 translations: ## Update and complete all translations
@@ -57,6 +57,11 @@ test: ## Run unit tests
 lint: ## Check source code style
 	swiftlint lint Spaceman --no-cache
 
+.PHONY: run
+run: ## Start the most recently compiled application bundle
+	open ~/Library/Developer/Xcode/DerivedData/$(PROJECT)-*/Build/Products/Debug/$(PROJECT).app || \
+		open /Applications/$(PROJECT).app
+
 .PHONY: build
 build: $(ARCHIVE) ## Make the archive file
 
@@ -64,11 +69,6 @@ $(ARCHIVE): $(PBXPROJ)
 	set -o pipefail && \
 		xcodebuild -project $(PROJECT).xcodeproj -scheme $(PROJECT) -configuration Release clean archive -archivePath $(ARCHIVE) | \
 		xcbeautify
-
-.PHONY: run
-run: ## Start the most recently compiled application bundle
-	open ~/Library/Developer/Xcode/DerivedData/$(PROJECT)-*/Build/Products/Debug/$(PROJECT).app || \
-		open /Applications/$(PROJECT).app
 
 .PHONY: export
 export: $(APPFILE) ## Make the app file
@@ -97,7 +97,7 @@ $(IMAGE): $(APPFILE)
 		$(IMAGEDIR) # source folder
 
 .PHONY: all
-all: image ## Make all of the above
+all: image ## Make build, export and image
 
 
 ##@ Publishing:
