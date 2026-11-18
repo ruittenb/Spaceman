@@ -987,48 +987,81 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         handleSwitchTag(sender.tag)
     }
 
-    private func handleSwitchTag(_ tag: Int) {
-        let ctx = SwitchContext(
+    /// The switch context for menu, shortcut and script switches.
+    /// - Parameter mode: overrides the switching mode preference when given
+    private func switchContext(spaces: [Space], mode: SwitchingMode?) -> SwitchContext {
+        SwitchContext(
             entryPoint: .menu,
-            mode: SwitchingMode(rawValue: switchingMode) ?? .smooth,
-            spaces: currentSpaces,
+            mode: mode ?? SwitchingMode(rawValue: switchingMode) ?? .smooth,
+            spaces: spaces,
             enabledSwitchMap: spaceSwitcher.shortcutSwitcher
-                .buildEnabledSwitchMap(for: currentSpaces),
+                .buildEnabledSwitchMap(for: spaces),
             hasArrowShortcuts: spaceSwitcher.shortcutSwitcher
                 .hasArrowShortcuts,
             focusedDisplayID: SwitchOrchestrator
-                .focusedDisplayID(from: currentSpaces))
-        let strategy = SwitchStrategizer.resolveStrategy(
-            switchTag: tag, context: ctx)
+                .focusedDisplayID(from: spaces))
+    }
+
+    /// Execute a strategy. Returns false when the target cannot be reached
+    /// (the status bar flashes in that case).
+    private func execute(_ strategy: SwitchStrategy, spaces: [Space]) -> Bool {
         spaceSwitcher.executeStrategy(
-            strategy, spaces: currentSpaces,
+            strategy, spaces: spaces,
             onError: flashStatusBar)
+        switch strategy {
+        case .unreachable, .showBalloon:
+            return false
+        default:
+            return true
+        }
+    }
+
+    /// - Parameter spaces: the spaces to switch within; defaults to the spaces shown
+    @discardableResult
+    private func handleSwitchTag(
+        _ tag: Int, mode: SwitchingMode? = nil, spaces: [Space]? = nil
+    ) -> Bool {
+        let spaces = spaces ?? currentSpaces
+        let strategy = SwitchStrategizer.resolveStrategy(
+            switchTag: tag, context: switchContext(spaces: spaces, mode: mode))
+        return execute(strategy, spaces: spaces)
+    }
+
+    /// Switch one space left or right, like the navigation arrows.
+    @discardableResult
+    func switchRelative(goRight: Bool, mode: SwitchingMode? = nil) -> Bool {
+        let strategy = SwitchStrategizer.resolveNavigationStrategy(
+            hitIndex: goRight ? Space.nextSpaceIndex : Space.previousSpaceIndex,
+            context: switchContext(spaces: currentSpaces, mode: mode))
+        return execute(strategy, spaces: currentSpaces)
     }
 
     /// Switch to a space vertically by the configured grid column count.
     /// - Parameter direction: negative for up, positive for down
-    func switchVertical(direction: Int) {
+    /// - Returns: false when there is no space in that direction or it cannot be reached
+    @discardableResult
+    func switchVertical(direction: Int, mode: SwitchingMode? = nil) -> Bool {
         let gridColumns = UserDefaults.standard.integer(forKey: "gridColumns")
-        guard gridColumns > 0 else { return }
+        guard gridColumns > 0 else { return false }
 
         // Find current space on the focused display
         let focusedDisplayID = SwitchOrchestrator.focusedDisplayID(from: currentSpaces)
         let activeSpaces = currentSpaces.filter { $0.isCurrentSpace }
         guard let currentSpace = activeSpaces.first(where: { $0.displayID == focusedDisplayID })
-            ?? activeSpaces.first else { return }
+            ?? activeSpaces.first else { return false }
 
         // Filter to non-fullscreen spaces for grid navigation
         let navigableSpaces = currentSpaces.filter { !$0.isFullScreen }
         guard let currentIndex = navigableSpaces.firstIndex(where: {
             $0.spaceNumber == currentSpace.spaceNumber
-        }) else { return }
+        }) else { return false }
 
         // Calculate target index
         let offset = direction < 0 ? -gridColumns : gridColumns
         let targetIndex = currentIndex + offset
         guard targetIndex >= 0 && targetIndex < navigableSpaces.count else {
             flashStatusBar()
-            return
+            return false
         }
 
         let targetSpace = navigableSpaces[targetIndex]
@@ -1036,19 +1069,25 @@ class StatusBar: NSObject, NSMenuDelegate, SPUUpdaterDelegate, SPUStandardUserDr
         let tag = Space.switchTag(
             switchMapEntry: switchMap[targetSpace.spaceID],
             spaceNumber: targetSpace.spaceNumber)
-        handleSwitchTag(tag)
+        return handleSwitchTag(tag, mode: mode)
     }
 
-    /// Switch to a space by its ID. Called by AppDelegate for "switch back" functionality.
-    func switchToSpaceByID(_ spaceID: String) {
-        guard let targetSpace = currentSpaces.first(where: { $0.spaceID == spaceID }) else {
-            return
+    /// Switch to a space by its ID. Called by AppDelegate for "switch back" functionality
+    /// and for AppleScript switch commands.
+    /// - Parameter spaces: the spaces to switch within; defaults to the spaces shown
+    @discardableResult
+    func switchToSpaceByID(
+        _ spaceID: String, mode: SwitchingMode? = nil, spaces: [Space]? = nil
+    ) -> Bool {
+        let spaces = spaces ?? currentSpaces
+        guard let targetSpace = spaces.first(where: { $0.spaceID == spaceID }) else {
+            return false
         }
-        let switchMap = Space.buildSwitchIndexMap(for: currentSpaces)
+        let switchMap = Space.buildSwitchIndexMap(for: spaces)
         let tag = Space.switchTag(
             switchMapEntry: switchMap[targetSpace.spaceID],
             spaceNumber: targetSpace.spaceNumber)
-        handleSwitchTag(tag)
+        return handleSwitchTag(tag, mode: mode, spaces: spaces)
     }
 
     // MARK: - SPUStandardUserDriverDelegate

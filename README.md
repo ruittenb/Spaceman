@@ -301,6 +301,30 @@ $ osascript -e 'tell application "Spaceman" to get display count'          # e.g
 With multiple displays, `current space number` and `current space name` return the current space on the frontmost display.
 For `display count`, mirrored displays count as one.
 
+```sh
+$ osascript -e 'tell application "Spaceman" to get space names'          # e.g. {"Mail", "Code", "", "Chat"}
+```
+
+Spaces can be switched from scripts too:
+
+```sh
+$ osascript -e 'tell application "Spaceman" to switch to space 3'                 # By number
+$ osascript -e 'tell application "Spaceman" to switch to space "Mail"'            # By name
+$ osascript -e 'tell application "Spaceman" to switch to space 2 on display 2'    # 2nd space on display 2
+$ osascript -e 'tell application "Spaceman" to switch to space 3 using instant'   # smooth, fast or instant
+$ osascript -e 'tell application "Spaceman" to switch right'                      # Also: switch left
+$ osascript -e 'tell application "Spaceman" to switch up'                         # Also: switch down
+$ osascript -e 'tell application "Spaceman" to switch back'                       # To the previous space
+```
+
+- Space numbers are the same as `current space number`: they count all spaces on all displays,
+  including fullscreen spaces, regardless of the numbering and filtering preferences.
+  With `on display`, the number counts from the first space on that display.
+- Names are matched case-insensitively. If several spaces have the same name, the first one is used.
+  Fullscreen spaces can be addressed by the name of their app.
+- Without `using`, the switching method from Preferences → Switching is used.
+- If the space does not exist or cannot be reached, the command returns an error.
+
 These commands and properties can be used in automation tools like Alfred, Keyboard Maestro, or custom scripts.
 For details on how to make good use of 'refresh', see [MikeJL's Comments](README-Yabai.md)
 

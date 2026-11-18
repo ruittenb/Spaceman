@@ -576,3 +576,99 @@ final class SwitchStrategyTests: XCTestCase {
         XCTAssertEqual(strategy, .unreachable)
     }
 }
+
+// MARK: - AppleScript target resolution
+
+final class ScriptSpaceResolverTests: XCTestCase {
+
+    private func makeSpace(
+        id: String, number: Int, name: String = "", displayID: String = "d1",
+        current: Bool = false, fullScreen: Bool = false
+    ) -> Space {
+        Space(
+            displayID: displayID, spaceID: id, spaceName: name,
+            spaceNumber: number, spaceLabel: "\(number)",
+            isCurrentSpace: current, isFullScreen: fullScreen)
+    }
+
+    /// d1: Mail(1), Code(2), Safari fullscreen(3); d2: Chat(4), Mail(5)
+    private func twoDisplaySpaces() -> [Space] {
+        [
+            makeSpace(id: "s1", number: 1, name: "Mail", current: true),
+            makeSpace(id: "s2", number: 2, name: "Code"),
+            makeSpace(id: "s3", number: 3, name: "Safari", fullScreen: true),
+            makeSpace(id: "s4", number: 4, name: "Chat", displayID: "d2", current: true),
+            makeSpace(id: "s5", number: 5, name: "Mail", displayID: "d2")
+        ]
+    }
+
+    private func resolve(
+        number: Int? = nil, name: String? = nil, displayNumber: Int? = nil
+    ) -> String? {
+        ScriptSpaceResolver.resolve(
+            spaces: twoDisplaySpaces(), displayIDs: ["d1", "d2"],
+            number: number, name: name, displayNumber: displayNumber)?.spaceID
+    }
+
+    func testByGlobalNumber() {
+        XCTAssertEqual(resolve(number: 2), "s2")
+        XCTAssertEqual(resolve(number: 4), "s4")
+    }
+
+    func testUnknownNumber() {
+        XCTAssertNil(resolve(number: 0))
+        XCTAssertNil(resolve(number: 6))
+    }
+
+    func testByName_caseInsensitive() {
+        XCTAssertEqual(resolve(name: "code"), "s2")
+        XCTAssertEqual(resolve(name: "CHAT"), "s4")
+    }
+
+    func testByName_firstDuplicateWins() {
+        XCTAssertEqual(resolve(name: "Mail"), "s1")
+    }
+
+    func testByName_fullscreenAppName() {
+        XCTAssertEqual(resolve(name: "safari"), "s3")
+    }
+
+    func testUnknownName() {
+        XCTAssertNil(resolve(name: "Nope"))
+        XCTAssertNil(resolve(name: ""))
+    }
+
+    func testNumberOnDisplay() {
+        XCTAssertEqual(resolve(number: 1, displayNumber: 2), "s4")
+        XCTAssertEqual(resolve(number: 2, displayNumber: 2), "s5")
+        XCTAssertEqual(resolve(number: 3, displayNumber: 1), "s3")
+        XCTAssertNil(resolve(number: 3, displayNumber: 2))
+        XCTAssertNil(resolve(number: 0, displayNumber: 1))
+    }
+
+    func testNameOnDisplay() {
+        XCTAssertEqual(resolve(name: "Mail", displayNumber: 2), "s5")
+        XCTAssertNil(resolve(name: "Code", displayNumber: 2))
+    }
+
+    func testDisplayOutOfRange() {
+        XCTAssertNil(resolve(number: 1, displayNumber: 0))
+        XCTAssertNil(resolve(number: 1, displayNumber: 3))
+    }
+
+    func testSwitchingModeCodes() {
+        XCTAssertEqual(ScriptSpaceResolver.switchingMode(
+            fromEnumCode: ScriptSpaceResolver.fourCharCode("Msmo")), .smooth)
+        XCTAssertEqual(ScriptSpaceResolver.switchingMode(
+            fromEnumCode: ScriptSpaceResolver.fourCharCode("Mfst")), .fast)
+        XCTAssertEqual(ScriptSpaceResolver.switchingMode(
+            fromEnumCode: ScriptSpaceResolver.fourCharCode("Mins")), .instant)
+        XCTAssertNil(ScriptSpaceResolver.switchingMode(
+            fromEnumCode: ScriptSpaceResolver.fourCharCode("Mxxx")))
+    }
+
+    func testFourCharCode() {
+        // 'Msmo' = 0x4D736D6F
+        XCTAssertEqual(ScriptSpaceResolver.fourCharCode("Msmo"), 0x4D73_6D6F)
+    }
+}
