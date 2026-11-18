@@ -3,24 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.29.4: Fix for disappearing labels in Mission Control</title>
+            <title>v1.30.0 Added Applescript commands for switching spaces</title>
             <description>
                 <![CDATA[
-                    <p>v1.29.4</p>
+                    <p>v1.30.0</p>
                     <ul>
-                        <li>fixed disappearing labels in Mission Control after wakeup</li>
+                        <li>added Applescript commands for switching spaces</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Mon, 16 Nov 2026 11:09:51 +0100</pubDate>
+            <pubDate>Wed, 18 Nov 2026 09:32:53 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.29.4/Spaceman-1.29.4.dmg"
-                sparkle:version="1.29.4"
-                sparkle:shortVersionString="1.29.4"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.30.0/Spaceman-1.30.0.dmg"
+                sparkle:version="1.30.0"
+                sparkle:shortVersionString="1.30.0"
                 type="application/octet-stream"
-                length="3642875"
-sparkle:edSignature="M0GUKJjeaq63KGBY4ZfxIioixetyoeBRODcLz9X5YxvMK3GkD5VuHksVDEalkRb2epzpfYLOyHJFpQaSxIj8Aw=="
+                length="3658104"
+sparkle:edSignature="TQN09mBzegvysUT6s3knY023NII8GCc24rnzQAEtTjWAZGOPg781TPfg7wGF6qt1o8YKDtn8/PUV3Yila/fVBQ=="
             />
         </item>
     </channel>
