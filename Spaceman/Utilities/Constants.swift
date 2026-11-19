@@ -10,6 +10,9 @@ import Foundation
 struct Constants {
     static let maxSpaceNameLength = 16
     static let minMenuWidth: CGFloat = 350
+    /// The Russian tab labels are longer; without extra width the toolbar moves tabs into the overflow menu.
+    static let minPreferencesWidth: CGFloat =
+        Bundle.main.preferredLocalizations.first == "ru" ? 495 : 425
     static let inactiveAlpha: CGFloat = 0.4
 
     enum AppInfo {

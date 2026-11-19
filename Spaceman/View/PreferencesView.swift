@@ -86,7 +86,7 @@ struct PreferencesView: View {
                 }
             }
         }
-        .frame(minWidth: 425)
+        .frame(minWidth: Constants.minPreferencesWidth)
         .padding(.bottom, 20)
         .background(
             Group {

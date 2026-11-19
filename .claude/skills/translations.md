@@ -21,12 +21,13 @@ The project supports these languages/locales:
 | es-419 | Spanish (Latin America) |
 | fr | French |
 | nl | Dutch |
+| ru | Russian |
 
-All five non-English languages must have translations for every string entry.
+All six non-English languages must have translations for every string entry.
 
 ## Procedure
 
-1. Read `Spaceman/Localizable.xcstrings` and identify entries that are missing translations for any of the five languages.
+1. Read `Spaceman/Localizable.xcstrings` and identify entries that are missing translations for any of the six languages.
 2. For each missing translation:
    - Scan existing translations in the file for comparable terminology. If a specific word choice has been established (e.g., a particular word for "pill", "space", "icon", or the distinction between "Borrar" and "Quitar" in Spanish), reuse it consistently.
    - Use macOS-standard terminology for UI concepts. Match Apple's own localization where applicable.
@@ -52,6 +53,17 @@ All five non-English languages must have translations for every string entry.
 ### French (fr)
 - Use "espaces" for Spaces (matching Apple's French macOS localization).
 - Use "modificateur"/"modificateurs" for modifier keys, not "touches de modification".
+
+### Russian (ru)
+- Keep "Spaces" as a loanword for the feature name (as Apple does: "Панель Spaces"), e.g. the "Spaces" tab.
+- Use "рабочий стол"/"рабочие столы" for an individual space, matching Mission Control's "Рабочий стол %@".
+- Apple terms: icon = "значок", font = "шрифт", display = "дисплей", menu bar = "строка меню",
+  keyboard shortcut = "сочетание клавиш", preferences/settings = "Настройки",
+  System Settings = "Системные настройки", Appearance = "Оформление", General = "Основные".
+- Use "е", not "ё" (Apple's Russian localization does the same, e.g. "скругленный").
+- Strings with counts need plural variants (one/few/many/other) in the xcstrings file.
+- Apple's Russian terms can be looked up in the system's `.loctable` files (binary plists keyed by language),
+  e.g. in `/System/Library/ExtensionKit/Extensions/*.appex` and `AppKit.framework/Resources`.
 
 ### All languages
 - Keep translations concise — these appear in menus and preferences UI where space is limited.
