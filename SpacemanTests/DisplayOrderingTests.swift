@@ -10,6 +10,20 @@ import XCTest
 
 final class DisplayOrderingTests: XCTestCase {
 
+    /// Shorthand for compareDisplayCenters, used for the swapped-order assertions.
+    private func compare(
+        _ center1: CGPoint, _ center2: CGPoint, isVerticallyArranged: Bool,
+        verticalDirection: VerticalDirection, horizontalDirection: HorizontalDirection
+    ) -> Bool {
+        SpaceObserver.compareDisplayCenters(
+            center1: center1,
+            center2: center2,
+            isVerticallyArranged: isVerticallyArranged,
+            verticalDirection: verticalDirection,
+            horizontalDirection: horizontalDirection
+        )
+    }
+
     // MARK: - Side-by-side displays
 
     func testSideBySideDisplays_DefaultOrder_LeftToRight() {
@@ -26,6 +40,9 @@ final class DisplayOrderingTests: XCTestCase {
         )
 
         XCTAssertTrue(result, "Left display should come before right display with default order")
+        XCTAssertFalse(compare(rightCenter, leftCenter, isVerticallyArranged: false,
+                               verticalDirection: .bottomGoesFirst, horizontalDirection: .defaultOrder),
+                       "Right display should not come before left display with default order")
     }
 
     func testSideBySideDisplays_ReverseOrder_RightToLeft() {
@@ -42,6 +59,9 @@ final class DisplayOrderingTests: XCTestCase {
         )
 
         XCTAssertFalse(result, "Right display should come before left display with reverse order")
+        XCTAssertTrue(compare(rightCenter, leftCenter, isVerticallyArranged: false,
+                              verticalDirection: .bottomGoesFirst, horizontalDirection: .reverseOrder),
+                      "Right display should come before left display with reverse order")
     }
 
     func testSideBySideDisplays_VerticalDirectionDoesNotAffect() {
@@ -77,6 +97,13 @@ final class DisplayOrderingTests: XCTestCase {
         XCTAssertTrue(resultDefault, "Default vertical direction should not affect horizontal ordering")
         XCTAssertTrue(resultTopFirst, "Top-first vertical direction should not affect horizontal ordering")
         XCTAssertTrue(resultBottomFirst, "Bottom-first vertical direction should not affect horizontal ordering")
+
+        // Swapped order: right never comes before left, whatever the vertical direction
+        for verticalDirection: VerticalDirection in [.defaultOrder, .topGoesFirst, .bottomGoesFirst] {
+            XCTAssertFalse(compare(rightCenter, leftCenter, isVerticallyArranged: false,
+                                   verticalDirection: verticalDirection, horizontalDirection: .defaultOrder),
+                           "Vertical direction \(verticalDirection) should not affect horizontal ordering")
+        }
     }
 
     // MARK: - Vertically stacked displays
@@ -95,6 +122,9 @@ final class DisplayOrderingTests: XCTestCase {
         )
 
         XCTAssertTrue(result, "Left display should come before right display with default vertical order (LTR by X)")
+        XCTAssertFalse(compare(rightCenter, leftCenter, isVerticallyArranged: true,
+                               verticalDirection: .defaultOrder, horizontalDirection: .defaultOrder),
+                       "Right display should not come before left display with default vertical order")
     }
 
     func testVerticallyStackedDisplays_TopGoesFirst() {
@@ -112,6 +142,9 @@ final class DisplayOrderingTests: XCTestCase {
         )
 
         XCTAssertFalse(result, "Top display (higher y) should come before bottom display with top-goes-first")
+        XCTAssertTrue(compare(topCenter, bottomCenter, isVerticallyArranged: true,
+                              verticalDirection: .topGoesFirst, horizontalDirection: .defaultOrder),
+                      "Top display (higher y) should come before bottom display with top-goes-first")
     }
 
     func testVerticallyStackedDisplays_BottomGoesFirst() {
@@ -128,6 +161,9 @@ final class DisplayOrderingTests: XCTestCase {
         )
 
         XCTAssertTrue(result, "Bottom display (lower y) should come before top display with bottom-goes-first")
+        XCTAssertFalse(compare(topCenter, bottomCenter, isVerticallyArranged: true,
+                               verticalDirection: .bottomGoesFirst, horizontalDirection: .defaultOrder),
+                       "Top display should not come before bottom display with bottom-goes-first")
     }
 
     func testVerticallyStackedDisplays_HorizontalDirectionDoesNotAffect_DefaultVertical() {
@@ -155,6 +191,9 @@ final class DisplayOrderingTests: XCTestCase {
         XCTAssertEqual(resultDefaultHorizontal, resultReverseHorizontal,
                       "Horizontal direction should not affect vertically stacked displays with default vertical order")
         XCTAssertTrue(resultDefaultHorizontal, "Should use LTR by X coordinate regardless of horizontal direction")
+        XCTAssertFalse(compare(rightCenter, leftCenter, isVerticallyArranged: true,
+                               verticalDirection: .defaultOrder, horizontalDirection: .reverseOrder),
+                       "Reverse horizontal direction should not reverse vertically stacked displays")
     }
 
     func testVerticallyStackedDisplays_HorizontalDirectionDoesNotAffect_TopFirst() {
@@ -182,6 +221,9 @@ final class DisplayOrderingTests: XCTestCase {
         XCTAssertEqual(resultDefaultHorizontal, resultReverseHorizontal,
                       "Horizontal direction should not affect vertically stacked displays with top-goes-first")
         XCTAssertFalse(resultDefaultHorizontal, "Top display should come first regardless of horizontal direction")
+        XCTAssertTrue(compare(topCenter, bottomCenter, isVerticallyArranged: true,
+                              verticalDirection: .topGoesFirst, horizontalDirection: .reverseOrder),
+                      "Top display should come first regardless of horizontal direction")
     }
 
     func testVerticallyStackedDisplays_HorizontalDirectionDoesNotAffect_BottomFirst() {
@@ -209,6 +251,9 @@ final class DisplayOrderingTests: XCTestCase {
         XCTAssertEqual(resultDefaultHorizontal, resultReverseHorizontal,
                       "Horizontal direction should not affect vertically stacked displays with bottom-goes-first")
         XCTAssertTrue(resultDefaultHorizontal, "Bottom display should come first regardless of horizontal direction")
+        XCTAssertFalse(compare(topCenter, bottomCenter, isVerticallyArranged: true,
+                               verticalDirection: .bottomGoesFirst, horizontalDirection: .reverseOrder),
+                       "Bottom display should come first regardless of horizontal direction")
     }
 
     // MARK: - Edge cases

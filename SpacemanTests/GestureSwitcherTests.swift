@@ -167,7 +167,40 @@ final class GestureSwitcherTests: XCTestCase {
             target: spaces[3], current: spaces[0],
             spaces: spaces, mode: .fast)
 
+        // 3 steps × 3 phases = 9 events
+        XCTAssertEqual(mock.calls.count, 9)
         XCTAssertTrue(mock.calls.allSatisfy { $0.goRight })
+    }
+
+    func testSwitchToSpace_leftward_postsLeftEvents() {
+        let mock = MockEventPoster()
+        let switcher = GestureSwitcher(eventPoster: mock)
+        var spaces = makeSpaces()
+        spaces[0] = makeSpace(id: "s1", number: 1)
+        spaces[4] = makeSpace(id: "s5", number: 5, current: true)
+
+        _ = switcher.switchToSpace(
+            target: spaces[1], current: spaces[4],
+            spaces: spaces, mode: .fast)
+
+        // 3 steps × 3 phases = 9 events, all going left
+        XCTAssertEqual(mock.calls.count, 9)
+        XCTAssertTrue(mock.calls.allSatisfy { !$0.goRight })
+    }
+
+    func testSwitchToSpace_postsScaledVelocity() {
+        let mock = MockEventPoster()
+        let switcher = GestureSwitcher(eventPoster: mock)
+        let spaces = makeSpaces()
+
+        _ = switcher.switchToSpace(
+            target: spaces[3], current: spaces[0],
+            spaces: spaces, mode: .instant)
+
+        XCTAssertEqual(mock.calls.count, 9)
+        XCTAssertTrue(mock.calls.allSatisfy {
+            $0.velocity == GestureSwitcher.speedInstant * 3
+        })
     }
 
     func testSwitchToSpace_crossDisplay_postsNothing() {

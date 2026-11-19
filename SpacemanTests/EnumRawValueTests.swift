@@ -68,19 +68,6 @@ final class EnumRawValueTests: XCTestCase {
         XCTAssertNil(IconStyle(rawValue: 99))
     }
 
-    func testIconStyleFullscreenVariant() {
-        // Bare text stays bare text
-        XCTAssertEqual(IconStyle.noDecoration.fullscreenVariant, .noDecoration)
-        // Rectangular becomes pill (and vice versa), preserving fill style
-        XCTAssertEqual(IconStyle.borderedRectangular.fullscreenVariant, .borderedPill)
-        XCTAssertEqual(IconStyle.filledRectangular.fullscreenVariant, .filledPill)
-        XCTAssertEqual(IconStyle.borderedPill.fullscreenVariant, .borderedRectangular)
-        XCTAssertEqual(IconStyle.filledPill.fullscreenVariant, .filledRectangular)
-        // Rounded becomes rectangular
-        XCTAssertEqual(IconStyle.borderedRounded.fullscreenVariant, .borderedRectangular)
-        XCTAssertEqual(IconStyle.filledRounded.fullscreenVariant, .filledRectangular)
-    }
-
     // MARK: - IconSize
 
     func testIconSizeRawValues() {
@@ -253,5 +240,39 @@ final class EnumRawValueTests: XCTestCase {
         XCTAssertEqual(FontDesign(rawValue: 2), .monospaced)
         XCTAssertEqual(FontDesign(rawValue: 3), .rounded)
         XCTAssertNil(FontDesign(rawValue: 99))
+    }
+
+    // MARK: - SwitchingMode
+
+    func testSwitchingModeRawValues() {
+        XCTAssertEqual(SwitchingMode.smooth.rawValue, 0)
+        XCTAssertEqual(SwitchingMode.fast.rawValue, 1)
+        XCTAssertEqual(SwitchingMode.instant.rawValue, 2)
+    }
+
+    func testSwitchingModeInitFromRawValue() {
+        XCTAssertEqual(SwitchingMode(rawValue: 0), .smooth)
+        XCTAssertEqual(SwitchingMode(rawValue: 1), .fast)
+        XCTAssertEqual(SwitchingMode(rawValue: 2), .instant)
+        XCTAssertNil(SwitchingMode(rawValue: 99))
+    }
+
+    // MARK: - FullscreenNaming
+
+    func testFullscreenNamingRawValues() {
+        XCTAssertEqual(FullscreenNaming.complete.rawValue, 0)
+        XCTAssertEqual(FullscreenNaming.short.rawValue, 1)
+        XCTAssertEqual(FullscreenNaming.none.rawValue, 2)
+    }
+
+    func testFullscreenNamingAllCases() {
+        XCTAssertEqual(FullscreenNaming.allCases.count, 3)
+    }
+
+    func testFullscreenNamingInitFromRawValue() {
+        XCTAssertEqual(FullscreenNaming(rawValue: 0), .complete)
+        XCTAssertEqual(FullscreenNaming(rawValue: 1), .short)
+        XCTAssertEqual(FullscreenNaming(rawValue: 2), FullscreenNaming.none)
+        XCTAssertNil(FullscreenNaming(rawValue: 99))
     }
 }

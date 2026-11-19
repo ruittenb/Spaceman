@@ -330,6 +330,35 @@ final class SpaceNameResolutionTests: XCTestCase {
         XCTAssertEqual(result?.spaceName, "OldDisplay", "Should find entry from disconnected display OLD-UUID")
     }
 
+    func testFindSpaceByPosition_PrefersExactDisplayOverDisconnectedFallback() {
+        let storedNames: [String: SpaceNameInfo] = [
+            "100": SpaceNameInfo(
+                spaceNum: 1,
+                spaceName: "OldDisplay",
+                spaceLabel: "1",
+                displayUUID: "OLD-UUID",
+                positionOnDisplay: 1
+            ),
+            "101": SpaceNameInfo(
+                spaceNum: 2,
+                spaceName: "Exact",
+                spaceLabel: "1",
+                displayUUID: "D1",
+                positionOnDisplay: 1
+            )
+        ]
+
+        let result = SpaceObserver.findSpaceByPosition(
+            in: storedNames,
+            displayID: "D1",
+            position: 1,
+            connectedDisplayIDs: ["D1"]
+        )
+
+        XCTAssertEqual(result?.spaceName, "Exact",
+                       "An exact display+position match must win over a disconnected display at the same position")
+    }
+
     // MARK: - mergeSpaceNames
 
     func testMergeSpaceNames_PreservesDisconnectedDisplayEntries() {
@@ -370,7 +399,8 @@ final class SpaceNameResolutionTests: XCTestCase {
         XCTAssertEqual(merged.count, 2)
         XCTAssertEqual(merged["100"]?.spaceName, "Laptop")
         XCTAssertEqual(merged["200"]?.spaceName, "External")
-        // Should NOT have the old BUILT-IN entry (it's from a connected display, so updated version wins)
+        // Should NOT have the old BUILT-IN entry: it has user data, but its display+position slot
+        // (BUILT-IN/pos 1) is already occupied by an updated entry, so its data has migrated
         XCTAssertNil(merged["50"])
     }
 
@@ -520,6 +550,83 @@ final class SpaceNameResolutionTests: XCTestCase {
         XCTAssertNil(merged["200"], "Entries without user data should not be preserved")
     }
 
+    func testMergeSpaceNames_PreservesDisconnectedEntryWithoutUserData() {
+        // Disconnected display entries are always preserved, even without a name or color.
+        let storedNames: [String: SpaceNameInfo] = [
+            "200": SpaceNameInfo(
+                spaceNum: 2,
+                spaceName: "",
+                spaceLabel: "1",
+                displayUUID: "EXT",
+                positionOnDisplay: 1
+            )
+        ]
+
+        let merged = SpaceObserver.mergeSpaceNames(
+            updatedNames: [:],
+            storedNames: storedNames,
+            connectedDisplayIDs: ["D1"]
+        )
+
+        XCTAssertEqual(merged["200"], storedNames["200"])
+    }
+
+    func testMergeSpaceNames_DropsStoredEntryWithoutDisplayUUID() {
+        // Entries without a displayUUID (e.g. legacy data) are not preserved, even with user data.
+        let storedNames: [String: SpaceNameInfo] = [
+            "50": SpaceNameInfo(
+                spaceNum: 1,
+                spaceName: "Legacy",
+                spaceLabel: "1"
+            )
+        ]
+
+        let merged = SpaceObserver.mergeSpaceNames(
+            updatedNames: [:],
+            storedNames: storedNames,
+            connectedDisplayIDs: ["D1"]
+        )
+
+        XCTAssertNil(merged["50"])
+    }
+
+    func testMergeSpaceNames_SameKeyWithDisconnectedStoredDisplay_UpdatedWins() {
+        // Lid close: space "200" migrated to LAPTOP, but position preservation kept its
+        // home display EXTERNAL (now disconnected) in the updated entry. The updated entry wins.
+        let updatedNames: [String: SpaceNameInfo] = [
+            "200": SpaceNameInfo(
+                spaceNum: 10,
+                spaceName: "2ND",
+                spaceLabel: "10",
+                displayUUID: "EXTERNAL",
+                positionOnDisplay: 1,
+                currentDisplayIndex: 1,
+                currentSpaceNumber: 10
+            )
+        ]
+
+        let storedNames: [String: SpaceNameInfo] = [
+            "200": SpaceNameInfo(
+                spaceNum: 2,
+                spaceName: "2ND",
+                spaceLabel: "1",
+                displayUUID: "EXTERNAL",
+                positionOnDisplay: 1,
+                currentDisplayIndex: 2,
+                currentSpaceNumber: 2
+            )
+        ]
+
+        let merged = SpaceObserver.mergeSpaceNames(
+            updatedNames: updatedNames,
+            storedNames: storedNames,
+            connectedDisplayIDs: ["LAPTOP"]
+        )
+
+        XCTAssertEqual(merged.count, 1)
+        XCTAssertEqual(merged["200"], updatedNames["200"])
+    }
+
     // MARK: - Multiple displays
 
     func testMultipleDisplays_PositionMatching_SwappedIDs() {
@@ -557,7 +664,7 @@ final class SpaceNameResolutionTests: XCTestCase {
         )
         XCTAssertEqual(resultD1P1?.spaceName, "Display1-Space1")
 
-        // D2 position 1 with unknown ID - should not match D1's spaces
+        // D2 position 1 with unknown ID - matches D2's own entry, not D1's entry at the same position
         let resultD2P1 = SpaceObserver.resolveSpaceNameInfo(
             managedSpaceID: "999",
             displayID: "D2",
@@ -566,6 +673,16 @@ final class SpaceNameResolutionTests: XCTestCase {
             strategy: .positionOnly
         )
         XCTAssertEqual(resultD2P1?.spaceName, "Display2-Space1")
+
+        // D2 position 2 - D2 has no entry there; must not match D1's entry at position 2
+        let resultD2P2 = SpaceObserver.resolveSpaceNameInfo(
+            managedSpaceID: "998",
+            displayID: "D2",
+            position: 2,
+            storedNames: storedNames,
+            strategy: .positionOnly
+        )
+        XCTAssertNil(resultD2P2)
     }
 
     // MARK: - Edge cases
@@ -804,9 +921,13 @@ final class SpaceNameResolutionTests: XCTestCase {
         XCTAssertEqual(resultNew?.spaceName, "Laptop2", "New ID should fall back to position matching")
     }
 
-    // MARK: - Position preservation during topology changes (issue #22c)
+    // MARK: - Why position preservation is needed (issue #22c)
+    //
+    // These two tests start from a hand-built store and only exercise the lookup on lid open.
+    // The preservation itself happens in performSpaceInformationUpdate() and is tested in
+    // SpaceObserverIntegrationTests (testTopologyChange_preservesStoredPosition, testLidCloseOpen_positionRecovery).
 
-    func testPositionPreservation_LidCloseOpenRoundTrip() {
+    func testIdWithPositionFallback_NewIDAfterLidOpen_RecoversByPreservedPosition() {
         // The full scenario: lid close updates position to 10, then lid open
         // assigns a new ID. If the position was preserved at 1, recovery works.
         // If it was updated to 10, the name is lost.
@@ -838,9 +959,10 @@ final class SpaceNameResolutionTests: XCTestCase {
             "Position matching finds 2ND at preserved position 1")
     }
 
-    func testPositionNotPreserved_LidCloseOpenRoundTrip_NameLost() {
-        // Same scenario, but position was updated to 10 during lid close.
-        // After lid open with new ID, position matching can't find it.
+    func testIdWithPositionFallback_NewIDAfterLidOpen_TransientPositionStored_NameLost() {
+        // Same scenario, but position was updated to 10 during lid close (the store state
+        // that position preservation prevents). After lid open with new ID, position matching
+        // can't find it.
 
         let storedAfterLidClose: [String: SpaceNameInfo] = [
             "200": SpaceNameInfo(
@@ -865,66 +987,14 @@ final class SpaceNameResolutionTests: XCTestCase {
             "Position 10 doesn't match position 1 — name is lost without preservation")
     }
 
-    // MARK: - hasUserData
-
-    func testHasUserData_WithName() {
-        let info = SpaceNameInfo(spaceNum: 1, spaceName: "Work", spaceLabel: "1")
-        XCTAssertTrue(info.hasUserData)
-    }
-
-    func testHasUserData_WithColor() {
-        var info = SpaceNameInfo(spaceNum: 1, spaceName: "", spaceLabel: "1")
-        info.colorHex = "FF5733"
-        XCTAssertTrue(info.hasUserData)
-    }
-
-    func testHasUserData_Empty() {
-        let info = SpaceNameInfo(spaceNum: 1, spaceName: "", spaceLabel: "1")
-        XCTAssertFalse(info.hasUserData)
-    }
-
-    // MARK: - Topology grace period scenario (issue #22d)
-
-    func testGracePeriod_SecondUpdatePreservesPosition() {
-        // Simulates the double-update during lid close:
-        // Update 1 uses .idWithPositionFallback (topology detected) → position preserved.
-        // Update 2 would normally use .idOnly → position corrupted.
-        // With grace period, update 2 also uses .idWithPositionFallback → position preserved.
-
-        // Store before lid close:
-        let storeBeforeLidClose: [String: SpaceNameInfo] = [
-            "200": SpaceNameInfo(
-                spaceNum: 10,
-                spaceName: "2ND",
-                spaceLabel: "1",
-                displayUUID: "EXTERNAL",
-                positionOnDisplay: 1,
-                colorHex: "FF5733"
-            )
-        ]
-
-        // Update 2 (grace period active): ID 200 is at transient pos 10 on EXTERNAL.
-        // Strategy should be .idWithPositionFallback (grace period).
-        // ID 200 found in store → position preserved from store.
-        let savedInfo = SpaceObserver.resolveSpaceNameInfo(
-            managedSpaceID: "200",
-            displayID: "EXTERNAL",
-            position: 10,
-            storedNames: storeBeforeLidClose,
-            strategy: .idWithPositionFallback,
-            connectedDisplayIDs: ["EXTERNAL"]
-        )
-
-        XCTAssertNotNil(savedInfo)
-        XCTAssertEqual(savedInfo?.spaceName, "2ND")
-        // The resolved info has the STORED position (1), not the transient position (10).
-        XCTAssertEqual(savedInfo?.positionOnDisplay, 1)
-        XCTAssertEqual(savedInfo?.displayUUID, "EXTERNAL")
-    }
-
     // MARK: - positionOnly bug documentation
+    //
+    // These tests pin the known-wrong result of .positionOnly in topology scenarios, to document
+    // why strategy selection must not use it there. The strategy selection itself is tested in
+    // SpaceObserverIntegrationTests (testTopologyChange_usesIdWithPositionFallback,
+    // testWakePlusTopologyChange_topologyWins).
 
-    func testPositionOnly_LidClose_MisassignsName() {
+    func testPositionOnly_LidClose_GivesExternalNameToLaptopSpace() {
         // Documents WHY positionOnly is wrong for topology changes:
         // position matching picks up the external display's stored entry at pos 1,
         // but the space at pos 1 is now actually the laptop's first space.
@@ -961,13 +1031,15 @@ final class SpaceNameResolutionTests: XCTestCase {
 
     // MARK: - Wake + topology change (issue: sleep→mirror→wake)
 
-    func testWakePlusTopologyChange_ShouldUseIdMatching_NotPositionOnly() {
+    func testTransientPositions_IdWithPositionFallbackCorrect_PositionOnlyWrong() {
         // Documents the wake+topology scenario: close lid, connect external
         // (mirroring), open lid. Both needsRevalidation and topologyChanged are
         // true. Using positionOnly would match against transient positions while
         // macOS is still setting up the mirror, corrupting names.
         // idWithPositionFallback is correct: IDs are more reliable than positions
         // when the display topology is changing.
+        // This only compares the two strategies; that topology wins over wake in the
+        // strategy selection is tested in SpaceObserverIntegrationTests.
         let storedNames: [String: SpaceNameInfo] = [
             "100": SpaceNameInfo(
                 spaceNum: 1,

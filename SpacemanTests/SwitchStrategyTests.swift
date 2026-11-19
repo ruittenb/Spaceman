@@ -247,18 +247,70 @@ final class SwitchStrategyTests: XCTestCase {
     }
 
     func testDesktopNoShortcut_crossDisplay_menu_noAnchor() {
+        // No desktop on d2 has an enabled shortcut
         let spaces = [
             makeSpace(id: "s1", number: 1, displayID: "d1",
                       current: true),
-            makeSpace(id: "f1", number: 2, displayID: "d2",
-                      fullScreen: true),
+            makeSpace(id: "s2", number: 2, displayID: "d2"),
+            makeSpace(id: "s3", number: 3, displayID: "d2"),
         ]
         let strategy = SwitchStrategizer.resolveStrategy(
-            switchTag: -2,
+            switchTag: 3,
             context: ctx(
                 entryPoint: .menu, spaces: spaces,
                 enabledSwitchMap: ["s1": 1]))
         XCTAssertEqual(strategy, .unreachable)
+    }
+
+    // MARK: - Desktop beyond maxSwitchableDesktop (no shortcut possible)
+
+    /// 18 desktops on d1 (current=16); desktops 17 and 18 get negative tags.
+    private func eighteenDesktops(
+    ) -> (spaces: [Space], enabledMap: [String: Int]) {
+        let spaces = (1...18).map {
+            makeSpace(id: "s\($0)", number: $0, current: $0 == 16)
+        }
+        return (spaces, Space.buildSwitchIndexMap(for: spaces))
+    }
+
+    func testDesktopBeyondMax_sameDisplay_click_chains() {
+        // No shortcut can be configured for desktop 18, so a click
+        // chains instead of showing the "configure shortcuts" balloon.
+        let (spaces, enabledMap) = eighteenDesktops()
+        let tag = Space.switchTag(
+            switchMapEntry: enabledMap["s18"], spaceNumber: 18)
+        XCTAssertEqual(tag, -18)
+        let strategy = SwitchStrategizer.resolveStrategy(
+            switchTag: tag,
+            context: ctx(
+                spaces: spaces, enabledSwitchMap: enabledMap,
+                focusedDisplayID: "d1"))
+        XCTAssertEqual(
+            strategy,
+            .shortcutChain(steps: 2, goRight: true))
+    }
+
+    func testDesktopBeyondMax_crossDisplay_click_shortcutJumpThenChain() {
+        // d1: desktop 1 (current, focused). d2: desktops 2-19.
+        // Target = desktop 19 (no shortcut). Nearest anchor on d2 = 16.
+        var spaces = [
+            makeSpace(id: "s1", number: 1, displayID: "d1",
+                      current: true)
+        ]
+        spaces += (2...19).map {
+            makeSpace(id: "s\($0)", number: $0, displayID: "d2",
+                      current: $0 == 2)
+        }
+        let enabledMap = Space.buildSwitchIndexMap(for: spaces)
+        let strategy = SwitchStrategizer.resolveStrategy(
+            switchTag: -19,
+            context: ctx(
+                spaces: spaces, enabledSwitchMap: enabledMap,
+                focusedDisplayID: "d1"))
+        XCTAssertEqual(
+            strategy,
+            .shortcutJumpThenChain(
+                anchorSwitchIndex: 16, steps: 3, goRight: true))
     }
 
     // MARK: - Fullscreen, same display
@@ -419,67 +471,95 @@ final class SwitchStrategyTests: XCTestCase {
 
     // MARK: - Fullscreen, cross-display
 
-    func testFullscreen_crossDisplay_click_withAnchor() {
+    func testFullscreen_crossDisplay_unreachable_evenWithAnchor() {
+        // Fullscreen spaces have no shortcut, and arrows and gestures only
+        // act on the focused display → blink, for every entry point and
+        // mode, even though d2 has an anchor (s2).
         let spaces = [
             makeSpace(id: "s1", number: 1, displayID: "d1",
                       current: true),
-            makeSpace(id: "s2", number: 2, displayID: "d2"),
+            makeSpace(id: "s2", number: 2, displayID: "d2",
+                      current: true),
             makeSpace(id: "f1", number: 3, displayID: "d2",
                       fullScreen: true),
         ]
-        let strategy = SwitchStrategizer.resolveStrategy(
-            switchTag: -3,
-            context: ctx(
-                spaces: spaces,
-                enabledSwitchMap: ["s1": 1, "s2": 2]))
-        XCTAssertEqual(strategy, .unreachable)
+        for entryPoint: SwitchEntryPoint in [.click, .menu] {
+            for mode: SwitchingMode in [.smooth, .fast, .instant] {
+                let strategy = SwitchStrategizer.resolveStrategy(
+                    switchTag: -3,
+                    context: ctx(
+                        entryPoint: entryPoint, mode: mode,
+                        spaces: spaces,
+                        enabledSwitchMap: ["s1": 1, "s2": 2],
+                        focusedDisplayID: "d1"))
+                XCTAssertEqual(
+                    strategy, .unreachable, "\(entryPoint) \(mode)")
+            }
+        }
     }
 
-    func testFullscreen_crossDisplay_menu_withAnchor() {
-        let spaces = [
+    // MARK: - Two displays, each with a current space
+
+    /// d1: s1 (current), s2. d2: s3 (current), s4.
+    private func twoDisplaysWithCurrents() -> [Space] {
+        [
             makeSpace(id: "s1", number: 1, displayID: "d1",
                       current: true),
-            makeSpace(id: "s2", number: 2, displayID: "d2"),
-            makeSpace(id: "f1", number: 3, displayID: "d2",
-                      fullScreen: true),
+            makeSpace(id: "s2", number: 2, displayID: "d1"),
+            makeSpace(id: "s3", number: 3, displayID: "d2",
+                      current: true),
+            makeSpace(id: "s4", number: 4, displayID: "d2"),
         ]
-        let strategy = SwitchStrategizer.resolveStrategy(
-            switchTag: -3,
-            context: ctx(
-                entryPoint: .menu, spaces: spaces,
-                enabledSwitchMap: ["s1": 1, "s2": 2]))
-        XCTAssertEqual(strategy, .unreachable)
     }
 
-    func testFullscreen_crossDisplay_click_noAnchor() {
-        let spaces = [
-            makeSpace(id: "s1", number: 1, displayID: "d1",
-                      current: true),
-            makeSpace(id: "f1", number: 2, displayID: "d2",
-                      fullScreen: true),
-        ]
-        let strategy = SwitchStrategizer.resolveStrategy(
-            switchTag: -2,
-            context: ctx(
-                spaces: spaces,
-                enabledSwitchMap: ["s1": 1]))
-        XCTAssertEqual(strategy, .unreachable)
-    }
+    func testTwoDisplays_gesture_usesCurrentOfFocusedDisplay() {
+        let spaces = twoDisplaysWithCurrents()
+        let enabledMap = ["s1": 1, "s2": 2, "s3": 3, "s4": 4]
 
-    func testFullscreen_crossDisplay_gesture_noAnchor() {
-        let spaces = [
-            makeSpace(id: "s1", number: 1, displayID: "d1",
-                      current: true),
-            makeSpace(id: "f1", number: 2, displayID: "d2",
-                      fullScreen: true),
-        ]
-        let strategy = SwitchStrategizer.resolveStrategy(
-            switchTag: -2,
+        let focusedOnTarget = SwitchStrategizer.resolveStrategy(
+            switchTag: 4,
             context: ctx(
                 mode: .fast, spaces: spaces,
-                enabledSwitchMap: ["s1": 1],
+                enabledSwitchMap: enabledMap,
+                focusedDisplayID: "d2"))
+        XCTAssertEqual(
+            focusedOnTarget,
+            .gestureDirect(
+                target: spaces[3], current: spaces[2], mode: .fast))
+
+        // Focus on the other display → gestures can't reach it
+        let focusedElsewhere = SwitchStrategizer.resolveStrategy(
+            switchTag: 4,
+            context: ctx(
+                mode: .fast, spaces: spaces,
+                enabledSwitchMap: enabledMap,
                 focusedDisplayID: "d1"))
-        XCTAssertEqual(strategy, .unreachable)
+        XCTAssertEqual(focusedElsewhere, .shortcutDirect(switchIndex: 4))
+    }
+
+    func testTwoDisplays_smooth_menu_chainsFromCurrentOfFocusedDisplay() {
+        // s4 has no shortcut. Focus on d2 → chain 1 right from s3.
+        let spaces = twoDisplaysWithCurrents()
+        let enabledMap = ["s1": 1, "s2": 2, "s3": 3]
+
+        let focusedOnTarget = SwitchStrategizer.resolveStrategy(
+            switchTag: 4,
+            context: ctx(
+                entryPoint: .menu, spaces: spaces,
+                enabledSwitchMap: enabledMap,
+                focusedDisplayID: "d2"))
+        XCTAssertEqual(
+            focusedOnTarget,
+            .shortcutChain(steps: 1, goRight: true))
+
+        // Focus on d1 → cross-display desktop without shortcut → greyed out
+        let focusedElsewhere = SwitchStrategizer.resolveStrategy(
+            switchTag: 4,
+            context: ctx(
+                entryPoint: .menu, spaces: spaces,
+                enabledSwitchMap: enabledMap,
+                focusedDisplayID: "d1"))
+        XCTAssertEqual(focusedElsewhere, .unreachable)
     }
 
     // MARK: - Navigation strategies
@@ -551,6 +631,29 @@ final class SwitchStrategyTests: XCTestCase {
                 enabledSwitchMap: enabledMap,
                 hasArrowShortcuts: false))
         XCTAssertEqual(strategy, .unreachable)
+    }
+
+    func testNavigation_prev_atFirstSpace_unreachable() {
+        let (spaces, enabledMap) = standardSpaces()
+        let strategy = SwitchStrategizer.resolveNavigationStrategy(
+            hitIndex: Space.previousSpaceIndex,
+            context: ctx(
+                spaces: spaces, enabledSwitchMap: enabledMap))
+        XCTAssertEqual(strategy, .unreachable)
+    }
+
+    func testNavigation_atEdge_gesture_unreachable() {
+        let spaces = [
+            makeSpace(id: "s1", number: 1),
+            makeSpace(id: "s2", number: 2, current: true),
+        ]
+        for mode: SwitchingMode in [.fast, .instant] {
+            let strategy = SwitchStrategizer.resolveNavigationStrategy(
+                hitIndex: Space.nextSpaceIndex,
+                context: ctx(
+                    mode: mode, spaces: spaces, enabledSwitchMap: [:]))
+            XCTAssertEqual(strategy, .unreachable, "\(mode)")
+        }
     }
 
     // MARK: - Edge cases

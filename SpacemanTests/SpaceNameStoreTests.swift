@@ -83,17 +83,17 @@ final class SpaceNameStoreTests: XCTestCase {
                        "Disconnected display entry must survive update()")
     }
 
-    func testConcurrentReadsAndWrites_noCorruption() {
-        store.save(["101": SpaceNameInfo(spaceNum: 1, spaceName: "INIT", spaceLabel: "1")])
-
+    func testConcurrentReadsAndWrites_noLostUpdates() {
         let group = DispatchGroup()
         let iterations = 100
 
+        // Each update adds its own key. If update() did not load, mutate and write atomically,
+        // concurrent updates would overwrite each other and keys would go missing.
         for i in 0..<iterations {
             group.enter()
             DispatchQueue.global().async {
                 self.store.update { names in
-                    names["101"] = names["101"]?.withName("V\(i)")
+                    names["\(i)"] = SpaceNameInfo(spaceNum: i, spaceName: "V\(i)", spaceLabel: "\(i)")
                 }
                 group.leave()
             }
@@ -108,11 +108,44 @@ final class SpaceNameStoreTests: XCTestCase {
         let result = group.wait(timeout: .now() + 10)
         XCTAssertEqual(result, .success, "Concurrent operations should complete without deadlock")
 
-        // Final state should have one of the written values
+        // Every concurrent write must have survived
         let loaded = store.loadAll()
-        XCTAssertNotNil(loaded["101"])
-        XCTAssertTrue(loaded["101"]!.spaceName.hasPrefix("V"),
-                      "Final value should be one of the concurrent writes")
+        XCTAssertEqual(loaded.count, iterations, "No update may be lost")
+        XCTAssertEqual(loaded["42"]?.spaceName, "V42")
+    }
+
+    func testSave_replacesEntireStore() {
+        store.save([
+            "101": SpaceNameInfo(spaceNum: 1, spaceName: "ONE", spaceLabel: "1"),
+            "102": SpaceNameInfo(spaceNum: 2, spaceName: "TWO", spaceLabel: "2")
+        ])
+
+        let replacement = ["103": SpaceNameInfo(spaceNum: 3, spaceName: "THREE", spaceLabel: "3")]
+        store.save(replacement)
+
+        XCTAssertEqual(store.loadAll(), replacement,
+                       "save() replaces the whole store; callers with a subset must use update()")
+    }
+
+    func testSetName_nil_removesEntry() {
+        let entry = SpaceNameInfo(spaceNum: 1, spaceName: "HOME", spaceLabel: "1")
+        store.setName(entry, for: "101")
+        store.setName(SpaceNameInfo(spaceNum: 2, spaceName: "OTHER", spaceLabel: "2"), for: "102")
+        XCTAssertEqual(store.loadAll()["101"], entry)
+
+        store.setName(nil, for: "101")
+
+        let loaded = store.loadAll()
+        XCTAssertNil(loaded["101"])
+        XCTAssertEqual(loaded["102"]?.spaceName, "OTHER", "Other entries must be untouched")
+    }
+
+    func testNameInfoForSpaceID() {
+        let entry = SpaceNameInfo(spaceNum: 1, spaceName: "HOME", spaceLabel: "1")
+        store.save(["101": entry])
+
+        XCTAssertEqual(store.nameInfo(for: "101"), entry)
+        XCTAssertNil(store.nameInfo(for: "999"))
     }
 
     func testCorruptedData_returnsEmptyDict() {

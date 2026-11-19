@@ -81,6 +81,9 @@
 		E8EBF091257739ED001BA74F /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EBF090257739ED001BA74F /* PreferencesWindow.swift */; };
 		F605F4B85B7ADD5424BDDFAE /* SpaceNameResolutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */; };
 		F67105E91D29DA62516E5958 /* SpaceNameInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */; };
+		FA393181011BC446EC44F203 /* LegacyMigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E1F7CC2A73A889E474E2B /* LegacyMigrationsTests.swift */; };
+		728F07126BDDFA3B2D3D7299 /* FullscreenNamingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE687A8741FDC9264EEE98F /* FullscreenNamingTests.swift */; };
+		A71B6734A44924B4A5C34CA0 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701834A3FB3C19D6ED220046 /* ColorTests.swift */; };
 		cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -111,6 +114,9 @@
 		C0F9A49EF2025B97049F7053 /* SpaceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceTests.swift; path = SpacemanTests/SpaceTests.swift; sourceTree = "<group>"; };
 		D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameResolutionTests.swift; path = SpacemanTests/SpaceNameResolutionTests.swift; sourceTree = "<group>"; };
 		D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameInfoTests.swift; path = SpacemanTests/SpaceNameInfoTests.swift; sourceTree = "<group>"; };
+		AD9E1F7CC2A73A889E474E2B /* LegacyMigrationsTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LegacyMigrationsTests.swift; path = SpacemanTests/LegacyMigrationsTests.swift; sourceTree = "<group>"; };
+		BCE687A8741FDC9264EEE98F /* FullscreenNamingTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FullscreenNamingTests.swift; path = SpacemanTests/FullscreenNamingTests.swift; sourceTree = "<group>"; };
+		701834A3FB3C19D6ED220046 /* ColorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorTests.swift; path = SpacemanTests/ColorTests.swift; sourceTree = "<group>"; };
 		E70044AB2E7F6584001C7295 /* RowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowLayout.swift; sourceTree = "<group>"; };
 		E70044AD2E80380B001C7295 /* OpenPreferencesCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPreferencesCommand.swift; sourceTree = "<group>"; };
 		E70044AF2E80380B001C7296 /* RestorePreferencesCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestorePreferencesCommand.swift; sourceTree = "<group>"; };
@@ -223,6 +229,9 @@
 				E7F1A2B3C4D5E6F7A8B9C0D2 /* HUDTests.swift */,
 				0F604F4F3D323E1E17C5AB87 /* SpaceFilterTests.swift */,
 				D88608BA21ADA7494CB81807 /* SpaceNameInfoTests.swift */,
+				AD9E1F7CC2A73A889E474E2B /* LegacyMigrationsTests.swift */,
+				BCE687A8741FDC9264EEE98F /* FullscreenNamingTests.swift */,
+				701834A3FB3C19D6ED220046 /* ColorTests.swift */,
 				D785231ADF191B85D480D30A /* SpaceNameResolutionTests.swift */,
 				E7B1C2D3E4F5A6B7C8D9E0F2 /* SpaceNameStoreTests.swift */,
 				E7A1B2C3D4E5F6A7B8C9D0E2 /* SpaceObserverIntegrationTests.swift */,
@@ -523,6 +532,9 @@
 				709A151B3432769701825254 /* SpaceTests.swift in Sources */,
 				E76371202FB21DAC00D05885 /* SwitchStrategyTests.swift in Sources */,
 				F67105E91D29DA62516E5958 /* SpaceNameInfoTests.swift in Sources */,
+				FA393181011BC446EC44F203 /* LegacyMigrationsTests.swift in Sources */,
+				728F07126BDDFA3B2D3D7299 /* FullscreenNamingTests.swift in Sources */,
+				A71B6734A44924B4A5C34CA0 /* ColorTests.swift in Sources */,
 				E732CE9A2FAB094800B2C067 /* GestureSwitcherTests.swift in Sources */,
 				0A988E67F965C0C2AE24E78D /* SpaceFilterTests.swift in Sources */,
 				cbb48a3378804a84b06bf8c2 /* DisplayOrderingTests.swift in Sources */,
