@@ -11,10 +11,10 @@
 		1A2B3C4D5E6F7A8B9C0D1E2F /* IconStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F2 /* IconStyle.swift */; };
 		223A505FE3CA436D973D9FD9 /* VisibleSpacesMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4A6E10892D4C67AD5F9BE3 /* VisibleSpacesMode.swift */; };
 		4C02BD6D2C0894DC00F07491 /* Scriptable.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 4C02BD6C2C0894DC00F07491 /* Scriptable.sdef */; };
-		5E8A63A01D2F4B6C8E9F0A12 /* SwitchCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8A63A01D2F4B6C8E9F0A11 /* SwitchCommands.swift */; };
 		4C02BD6F2C0894F500F07491 /* RefreshCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */; };
 		51E05D46B347497D8CA2D991 /* DisplayGeometryUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */; };
 		53A56E17092ACF887E1B46F5 /* SpaceNameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EB8773F2764BC7A1C695B7 /* SpaceNameStore.swift */; };
+		5E8A63A01D2F4B6C8E9F0A12 /* SwitchCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8A63A01D2F4B6C8E9F0A11 /* SwitchCommands.swift */; };
 		709A151B3432769701825254 /* SpaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F9A49EF2025B97049F7053 /* SpaceTests.swift */; };
 		96356224D363C59D464B5D8D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED480E85F666F5E94CCE8DB1 /* Foundation.framework */; };
 		9A6DE94BB0D75559B9039ABA /* SpaceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCE20A6B4C0E9E494935DB8 /* SpaceFilter.swift */; };
@@ -98,8 +98,8 @@
 		0F604F4F3D323E1E17C5AB87 /* SpaceFilterTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceFilterTests.swift; path = SpacemanTests/SpaceFilterTests.swift; sourceTree = "<group>"; };
 		45FBDB664EC847B1A8874E8A /* DisplayGeometryUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayGeometryUtilities.swift; sourceTree = "<group>"; };
 		4C02BD6C2C0894DC00F07491 /* Scriptable.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Scriptable.sdef; sourceTree = "<group>"; };
-		5E8A63A01D2F4B6C8E9F0A11 /* SwitchCommands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCommands.swift; sourceTree = "<group>"; };
 		4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshCommand.swift; sourceTree = "<group>"; };
+		5E8A63A01D2F4B6C8E9F0A11 /* SwitchCommands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCommands.swift; sourceTree = "<group>"; };
 		719549613DB6F90CC9C0CA21 /* SpacemanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpacemanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		83aceb7abcc84df3a6e43b0e /* DisplayOrderingTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DisplayOrderingTests.swift; path = SpacemanTests/DisplayOrderingTests.swift; sourceTree = "<group>"; };
 		8DCE20A6B4C0E9E494935DB8 /* SpaceFilter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpaceFilter.swift; sourceTree = "<group>"; };
@@ -143,6 +143,7 @@
 		E7A1B2C3D4E5F6A7B8C9D0E2 /* SpaceObserverIntegrationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceObserverIntegrationTests.swift; path = SpacemanTests/SpaceObserverIntegrationTests.swift; sourceTree = "<group>"; };
 		E7B1C2D3E4F5A6B7C8D9E0F2 /* SpaceNameStoreTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpaceNameStoreTests.swift; path = SpacemanTests/SpaceNameStoreTests.swift; sourceTree = "<group>"; };
 		E7B7AC962F77E77B002B37E2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		E7B7AC972F77E77B002B37E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		E7B7E2DE2F7A8CC000FEDEFE /* IconShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconShape.swift; sourceTree = "<group>"; };
 		E7B7E2E02F7AA96F00FEDEFE /* IconFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconFill.swift; sourceTree = "<group>"; };
 		E7B7E2E22F7C753900FEDEFE /* FontDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontDesign.swift; sourceTree = "<group>"; };
@@ -451,6 +452,7 @@
 				fr,
 				de,
 				es,
+				ru,
 			);
 			mainGroup = E87334DC256B51CF0012586E;
 			packageReferences = (
@@ -614,6 +616,7 @@
 				E71750BD2F747B0400E240FD /* fr */,
 				E71750BE2F74981F00E240FD /* de */,
 				E7B7AC962F77E77B002B37E2 /* es */,
+				E7B7AC972F77E77B002B37E2 /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
