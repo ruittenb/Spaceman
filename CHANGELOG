@@ -1,3 +1,4 @@
+1.30.2: Fixed Space switching bug on unfocused display
 1.30.1: Added Russian localization
 1.30.0: Added AppleScript commands for switching spaces, and the "space names" property
 1.29.4: Fix for disappearing Mission Control labels after wakeup

@@ -656,6 +656,54 @@ final class SwitchStrategyTests: XCTestCase {
         }
     }
 
+    /// d1: s1 (current), s2, s3. d2: s4, s5 (current).
+    /// d1's current is at its first position, d2's current at its last.
+    private func twoDisplaysForEdges() -> [Space] {
+        [
+            makeSpace(id: "s1", number: 1, displayID: "d1",
+                      current: true),
+            makeSpace(id: "s2", number: 2, displayID: "d1"),
+            makeSpace(id: "s3", number: 3, displayID: "d1"),
+            makeSpace(id: "s4", number: 4, displayID: "d2"),
+            makeSpace(id: "s5", number: 5, displayID: "d2",
+                      current: true),
+        ]
+    }
+
+    func testIsAtEdge_usesCurrentOfFocusedDisplay() {
+        let spaces = twoDisplaysForEdges()
+
+        XCTAssertTrue(SwitchStrategizer.isAtEdge(
+            spaces: spaces, goingRight: true, focusedDisplayID: "d2"))
+        XCTAssertFalse(SwitchStrategizer.isAtEdge(
+            spaces: spaces, goingRight: false, focusedDisplayID: "d2"))
+
+        // Without a focused display, the first current space (d1) is used
+        XCTAssertFalse(SwitchStrategizer.isAtEdge(
+            spaces: spaces, goingRight: true))
+        XCTAssertTrue(SwitchStrategizer.isAtEdge(
+            spaces: spaces, goingRight: false))
+    }
+
+    func testNavigation_twoDisplays_focusOnSecond() {
+        let spaces = twoDisplaysForEdges()
+
+        let next = SwitchStrategizer.resolveNavigationStrategy(
+            hitIndex: Space.nextSpaceIndex,
+            context: ctx(
+                spaces: spaces, enabledSwitchMap: [:],
+                focusedDisplayID: "d2"))
+        XCTAssertEqual(next, .unreachable)
+
+        // d1's current is at its first position, but d2 has focus
+        let previous = SwitchStrategizer.resolveNavigationStrategy(
+            hitIndex: Space.previousSpaceIndex,
+            context: ctx(
+                spaces: spaces, enabledSwitchMap: [:],
+                focusedDisplayID: "d2"))
+        XCTAssertEqual(previous, .shortcutRelative(goRight: false))
+    }
+
     // MARK: - Edge cases
 
     func testNoCurrentSpace_unreachable() {
