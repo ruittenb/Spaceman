@@ -55,10 +55,9 @@ struct SpaceFilter {
             }
             flushGroup()
 
-            if filtered.isEmpty {
-                // Fallback to current-only to avoid empty UI during transitions
-                return spaces.filter { $0.isCurrentSpace }
-            }
+            // During transitions (e.g. wake, display connect/disconnect), macOS may
+            // report no current space at all, which leaves `filtered` empty. No fallback
+            // is needed: falling back to the current spaces would be empty as well.
             return filtered
         }
     }
