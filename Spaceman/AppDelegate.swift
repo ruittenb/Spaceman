@@ -318,28 +318,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let size: IconSize
         let icon: NSImage
         if autoShrink {
-            // With a measured budget, start from the user's size every time so
-            // the icon grows back when room frees up. Without one, keep the
-            // size the occlusion backstop settled on.
-            var currentSize = budget == nil ? (fittedSize ?? userIconSize) : userIconSize
-            var currentIcon = iconCreator.getIcon(for: displaySpaces, appearance: buttonAppearance,
-                                                   sizeOverride: currentSize)
-
+            let fitted = Self.fitIcon(
+                userSize: userIconSize, fittedSize: fittedSize,
+                budget: budget, twoRows: isTwoRowLayout
+            ) { candidateSize in
+                self.iconCreator.getIcon(for: displaySpaces, appearance: buttonAppearance,
+                                         sizeOverride: candidateSize)
+            }
             if let budget = budget {
-                while currentIcon.size.width > budget,
-                      let smaller = currentSize.nextSmaller(twoRows: isTwoRowLayout) {
-                    currentSize = smaller
-                    currentIcon = iconCreator.getIcon(for: displaySpaces, appearance: buttonAppearance,
-                                                       sizeOverride: currentSize)
-                }
                 Self.fitLog.log("""
-                    fit: budget=\(Int(budget)) width=\(Int(currentIcon.size.width)) \
-                    size=\(currentSize.rawValue) user=\(self.userIconSize.rawValue)
+                    fit: budget=\(Int(budget)) width=\(Int(fitted.icon.size.width)) \
+                    size=\(fitted.size.rawValue) user=\(self.userIconSize.rawValue)
                     """)
             }
-            fittedSize = currentSize == userIconSize ? nil : currentSize
-            size = currentSize
-            icon = currentIcon
+            fittedSize = fitted.size == userIconSize ? nil : fitted.size
+            size = fitted.size
+            icon = fitted.icon
         } else {
             // Auto-shrink disabled: always use the user's chosen size
             size = userIconSize
@@ -385,20 +379,67 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
               !statusBar.isIconVisible(),
               Date() >= suppressOcclusionUntil else { return }
 
-        let ceiling = lastIconWidth - 1
-        if let current = budget, current <= ceiling {
-            // Already budgeted below this width and still hidden: step the
-            // size down directly so we keep making progress.
-            guard let smaller = (fittedSize ?? userIconSize).nextSmaller(twoRows: isTwoRowLayout)
-            else { return }
+        switch Self.evictionResponse(
+            budget: budget, lastIconWidth: lastIconWidth,
+            fittedSize: fittedSize, userSize: userIconSize, twoRows: isTwoRowLayout) {
+        case .stepDown(let smaller):
             fittedSize = smaller
             budget = nil
             Self.fitLog.log("evicted: stepping down to size=\(smaller.rawValue)")
-        } else {
+        case .tightenBudget(let ceiling):
             budget = ceiling
             Self.fitLog.log("evicted: budget tightened to \(Int(ceiling))")
+        case .giveUp:
+            return
         }
         renderIcon(for: lastSpaces)
+    }
+
+    // MARK: - Fit-to-width decisions (pure, for testability)
+
+    /// Renders the largest size that fits `budget`, stepping down from the start size.
+    /// With a measured budget, start from the user's size every time so the icon
+    /// grows back when room frees up. Without one, keep the size the occlusion
+    /// backstop settled on and don't shrink further.
+    static func fitIcon(
+        userSize: IconSize, fittedSize: IconSize?, budget: CGFloat?, twoRows: Bool,
+        render: (IconSize) -> NSImage
+    ) -> (size: IconSize, icon: NSImage) {
+        var currentSize = budget == nil ? (fittedSize ?? userSize) : userSize
+        var currentIcon = render(currentSize)
+        if let budget = budget {
+            while currentIcon.size.width > budget,
+                  let smaller = currentSize.nextSmaller(twoRows: twoRows) {
+                currentSize = smaller
+                currentIcon = render(currentSize)
+            }
+        }
+        return (currentSize, currentIcon)
+    }
+
+    enum EvictionResponse: Equatable {
+        /// Re-render under a budget just below the width that was hidden.
+        case tightenBudget(CGFloat)
+        /// Already budgeted below that width and still hidden: step the size
+        /// down directly so we keep making progress.
+        case stepDown(IconSize)
+        /// Already at the smallest size; nothing more to try.
+        case giveUp
+    }
+
+    /// Backstop decision when the item is hidden after rendering `lastIconWidth`.
+    static func evictionResponse(
+        budget: CGFloat?, lastIconWidth: CGFloat,
+        fittedSize: IconSize?, userSize: IconSize, twoRows: Bool
+    ) -> EvictionResponse {
+        let ceiling = lastIconWidth - 1
+        guard let current = budget, current <= ceiling else {
+            return .tightenBudget(ceiling)
+        }
+        guard let smaller = (fittedSize ?? userSize).nextSmaller(twoRows: twoRows) else {
+            return .giveUp
+        }
+        return .stepDown(smaller)
     }
 
     /// The display UUID of the main display (menu bar).
