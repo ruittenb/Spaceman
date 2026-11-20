@@ -59,28 +59,43 @@ final class HUDTests: XCTestCase {
         XCTAssertEqual(result, "d2")
     }
 
-    func testTargetDisplayID_crossDisplayClick() {
-        // Current display is d1 [2*], user clicks [6] on d2
-        // → d2's active space changes from [4] to [6]
+    func testTargetDisplayID_switchFromFullscreen_returnsDisplay() {
+        // Leaving a fullscreen space for a regular one → HUD shows
+        // [1] [F*] → [1*] [F]
         let prev = [
-            makeSpace(id: "s1", displayID: "d1"),
-            makeSpace(id: "s2", displayID: "d1", current: true),
+            makeSpace(id: "s1"),
+            makeSpace(id: "f1", current: true, fullScreen: true)
+        ]
+        let curr = [
+            makeSpace(id: "s1", current: true),
+            makeSpace(id: "f1", fullScreen: true)
+        ]
+        let result = HUDPanel.targetDisplayID(
+            spaces: curr, previousSpaces: prev,
+            trigger: .spaceSwitch, showHUD: true)
+        XCTAssertEqual(result, "d1")
+    }
+
+    func testTargetDisplayID_fullscreenOnOneDisplay_returnsOtherDisplay() {
+        // In the same update, d1 switches to a fullscreen space and d2 has a regular switch
+        // Display 1: [1*] [F] → [1] [F*], Display 2: [4*] [5] → [4] [5*]
+        let prev = [
+            makeSpace(id: "s1", displayID: "d1", current: true),
+            makeSpace(id: "f1", displayID: "d1", fullScreen: true),
             makeSpace(id: "s4", displayID: "d2", current: true),
-            makeSpace(id: "s5", displayID: "d2"),
-            makeSpace(id: "s6", displayID: "d2")
+            makeSpace(id: "s5", displayID: "d2")
         ]
         let curr = [
             makeSpace(id: "s1", displayID: "d1"),
-            makeSpace(id: "s2", displayID: "d1", current: true),
+            makeSpace(id: "f1", displayID: "d1", current: true, fullScreen: true),
             makeSpace(id: "s4", displayID: "d2"),
-            makeSpace(id: "s5", displayID: "d2"),
-            makeSpace(id: "s6", displayID: "d2", current: true)
+            makeSpace(id: "s5", displayID: "d2", current: true)
         ]
         let result = HUDPanel.targetDisplayID(
             spaces: curr, previousSpaces: prev,
             trigger: .spaceSwitch, showHUD: true)
         XCTAssertEqual(result, "d2",
-                       "HUD should show on the display where the switch happened")
+                       "The fullscreen display must be skipped, not end the search")
     }
 
     func testTargetDisplayID_disabled_returnsNil() {

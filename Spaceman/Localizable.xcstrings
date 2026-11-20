@@ -35,6 +35,12 @@
             "state" : "translated",
             "value" : "·"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "·"
+          }
         }
       }
     },
@@ -65,6 +71,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld"
@@ -103,6 +115,12 @@
             "state" : "translated",
             "value" : "Toegankelijkheid"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Универсальный доступ"
+          }
         }
       }
     },
@@ -136,6 +154,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Actieve stijl"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стиль активного"
           }
         }
       }
@@ -171,6 +195,12 @@
             "state" : "translated",
             "value" : "Alle"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все рабочие столы"
+          }
         }
       }
     },
@@ -204,6 +234,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alle spaces"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все рабочие столы"
           }
         }
       }
@@ -239,6 +275,12 @@
             "state" : "translated",
             "value" : "Altijd doorzichtig"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всегда прозрачный"
+          }
         }
       }
     },
@@ -272,6 +314,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Weergave"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оформление"
           }
         }
       }
@@ -307,6 +355,12 @@
             "state" : "translated",
             "value" : "Automatisch verkleinen bij ruimtegebrek"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически уменьшать при нехватке места"
+          }
         }
       }
     },
@@ -340,6 +394,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Automatisering"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматизация"
           }
         }
       }
@@ -375,6 +435,12 @@
             "state" : "translated",
             "value" : "Reservekopieën"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резервное копирование"
+          }
         }
       }
     },
@@ -408,6 +474,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reservekopie mislukt"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось создать резервную копию"
           }
         }
       }
@@ -443,6 +515,12 @@
             "state" : "translated",
             "value" : "Instellingen opslaan"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать резервную копию"
+          }
         }
       }
     },
@@ -476,6 +554,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Omlijnd"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С рамкой"
           }
         }
       }
@@ -511,6 +595,12 @@
             "state" : "translated",
             "value" : "Omlijnd, pilvormig"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С рамкой, капсула"
+          }
         }
       }
     },
@@ -544,6 +634,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Omlijnd, rechthoekig"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С рамкой, прямоугольный"
           }
         }
       }
@@ -579,6 +675,12 @@
             "state" : "translated",
             "value" : "Omlijnd, afgerond"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С рамкой, скругленный"
+          }
         }
       }
     },
@@ -612,6 +714,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Getoonde knoppen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показываемые кнопки"
           }
         }
       }
@@ -647,6 +755,12 @@
             "state" : "translated",
             "value" : "Annuleer"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отменить"
+          }
         }
       }
     },
@@ -680,6 +794,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Op updates controleren…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверить наличие обновлений…"
           }
         }
       }
@@ -715,6 +835,12 @@
             "state" : "translated",
             "value" : "Alle kleuren wissen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить все цвета"
+          }
         }
       }
     },
@@ -748,6 +874,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kleur wissen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить цвет"
           }
         }
       }
@@ -783,6 +915,12 @@
             "state" : "translated",
             "value" : "Compact"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Компактный"
+          }
         }
       }
     },
@@ -816,6 +954,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Volledig"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полный"
           }
         }
       }
@@ -851,6 +995,12 @@
             "state" : "translated",
             "value" : "Configureren"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настроить"
+          }
         }
       }
     },
@@ -885,6 +1035,12 @@
             "state" : "translated",
             "value" : "Huidige"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только текущий"
+          }
         }
       }
     },
@@ -918,6 +1074,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alleen huidige"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только текущий"
           }
         }
       }
@@ -954,6 +1116,12 @@
             "state" : "translated",
             "value" : "Apparaatbeheer en gegevenstoegang"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Управление устройством и доступ к данным"
+          }
         }
       }
     },
@@ -987,6 +1155,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sluiten"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрыть"
           }
         }
       }
@@ -1022,6 +1196,12 @@
             "state" : "translated",
             "value" : "Spaces in menu weergeven als"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать рабочие столы в меню как"
+          }
         }
       }
     },
@@ -1055,6 +1235,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beeldschermen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дисплеи"
           }
         }
       }
@@ -1090,6 +1276,12 @@
             "state" : "translated",
             "value" : "Documentatie"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Документация"
+          }
         }
       }
     },
@@ -1124,6 +1316,12 @@
             "state" : "translated",
             "value" : "Inschakelen onder Toetsenbord → Sneltoetsen → Mission Control:"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Включите в разделе Клавиатура → Сочетания клавиш → Mission Control:"
+          }
         }
       }
     },
@@ -1157,6 +1355,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enorm"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Огромный"
           }
         }
       }
@@ -1198,6 +1402,12 @@
             "state" : "translated",
             "value" : "Fout: %1$@\n\nGeef Spaceman a.u.b. %2$@-machtigingen in Systeeminstellingen → Privacy en beveiliging."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка: %1$@\n\nПредоставьте Spaceman разрешения «%2$@» в разделе Системные настройки → Конфиденциальность и безопасность."
+          }
         }
       }
     },
@@ -1231,6 +1441,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Extra groot"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очень крупный"
           }
         }
       }
@@ -1266,6 +1482,12 @@
             "state" : "translated",
             "value" : "Pilvormig"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заполненный"
+          }
         }
       }
     },
@@ -1299,6 +1521,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Opgevuld, pilvormig"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заполненный, капсула"
           }
         }
       }
@@ -1334,6 +1562,12 @@
             "state" : "translated",
             "value" : "Opgevuld, rechthoekig"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заполненный, прямоугольный"
+          }
         }
       }
     },
@@ -1367,6 +1601,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Opgevuld, afgerond"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заполненный, скругленный"
           }
         }
       }
@@ -1402,6 +1642,12 @@
             "state" : "translated",
             "value" : "Vaste breedte"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фиксированная ширина"
+          }
         }
       }
     },
@@ -1435,6 +1681,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lettertype"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шрифт"
           }
         }
       }
@@ -1470,6 +1722,12 @@
             "state" : "translated",
             "value" : "Volledig scherm-spaces"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полноэкранные рабочие столы"
+          }
         }
       }
     },
@@ -1503,6 +1761,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Algemeen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Основные"
           }
         }
       }
@@ -1538,6 +1802,12 @@
             "state" : "translated",
             "value" : "Raster"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сетка"
+          }
         }
       }
     },
@@ -1571,6 +1841,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Icoongrootte"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Размер значка"
           }
         }
       }
@@ -1606,6 +1882,12 @@
             "state" : "translated",
             "value" : "Icoongrootte"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Размер значка"
+          }
         }
       }
     },
@@ -1639,6 +1921,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Stijl van icoon"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стиль значка"
           }
         }
       }
@@ -1674,6 +1962,12 @@
             "state" : "translated",
             "value" : "Tekst in icoon"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текст значка"
+          }
         }
       }
     },
@@ -1707,6 +2001,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tekst in icoon"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текст значка"
           }
         }
       }
@@ -1742,6 +2042,12 @@
             "state" : "translated",
             "value" : "Icoonbreedte"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ширина значка"
+          }
         }
       }
     },
@@ -1775,6 +2081,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "De Iconen worden onzichtbaar met deze instellingen."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "При этих настройках значки будут невидимы."
           }
         }
       }
@@ -1810,6 +2122,12 @@
             "state" : "translated",
             "value" : "Als de beeldschermvolgorde niet correct is, let dan goed op de horizontale rangschikking in Systeeminstellingen → Beeldschermen → Ordenen."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если порядок дисплеев кажется неправильным, проверьте выравнивание по горизонтали в разделе Системные настройки → Дисплеи → Расстановка."
+          }
         }
       }
     },
@@ -1843,6 +2161,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inactieve iconen worden gedimd voor beter onderscheid."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неактивные значки затемняются, чтобы их было легче отличить."
           }
         }
       }
@@ -1878,6 +2202,12 @@
             "state" : "translated",
             "value" : "Inactieve stijl"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стиль неактивных"
+          }
         }
       }
     },
@@ -1911,6 +2241,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Groot"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Крупный"
           }
         }
       }
@@ -1952,6 +2288,12 @@
             "state" : "translated",
             "value" : "Laatste reservekopie: %1$@ %2$@"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Копия от %1$@ %2$@"
+          }
         }
       }
     },
@@ -1985,6 +2327,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spaceman starten bij inloggen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открывать Spaceman при входе в систему"
           }
         }
       }
@@ -2020,6 +2368,12 @@
             "state" : "translated",
             "value" : "Lijst"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список"
+          }
         }
       }
     },
@@ -2053,6 +2407,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alleen hoofdbeeldscherm"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только основной дисплей"
           }
         }
       }
@@ -2088,6 +2448,12 @@
             "state" : "translated",
             "value" : "Middelgroot"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Средний"
+          }
         }
       }
     },
@@ -2122,6 +2488,12 @@
             "state" : "translated",
             "value" : "Menu"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Меню"
+          }
         }
       }
     },
@@ -2152,6 +2524,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mission Control"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mission Control"
@@ -2190,6 +2568,12 @@
             "state" : "translated",
             "value" : "Mission Control-knop"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кнопка Mission Control"
+          }
         }
       }
     },
@@ -2223,6 +2607,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Naam"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название"
           }
         }
       }
@@ -2258,6 +2648,12 @@
             "state" : "translated",
             "value" : "Namen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Названия"
+          }
         }
       }
     },
@@ -2291,6 +2687,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Smal"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Узкий"
           }
         }
       }
@@ -2326,6 +2728,12 @@
             "state" : "translated",
             "value" : "Navigatiepijlen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стрелки навигации"
+          }
         }
       }
     },
@@ -2359,6 +2767,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nabij bereik: ±%lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диапазон: ±%lld"
           }
         }
       }
@@ -2394,6 +2808,12 @@
             "state" : "translated",
             "value" : "Nabije"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Соседние рабочие столы"
+          }
         }
       }
     },
@@ -2427,6 +2847,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nabije spaces"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Соседние рабочие столы"
           }
         }
       }
@@ -2462,6 +2888,12 @@
             "state" : "translated",
             "value" : "Volgende"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Следующий"
+          }
         }
       }
     },
@@ -2495,6 +2927,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geen reservekopie gevonden"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резервная копия не найдена"
           }
         }
       }
@@ -2530,6 +2968,12 @@
             "state" : "translated",
             "value" : "Geen versiering"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без оформления"
+          }
         }
       }
     },
@@ -2563,6 +3007,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geen versiering"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без оформления"
           }
         }
       }
@@ -2598,6 +3048,12 @@
             "state" : "translated",
             "value" : "Geen instellingen om te bewaren"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет настроек для сохранения"
+          }
         }
       }
     },
@@ -2631,6 +3087,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geen sneltoets bekend"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сочетание клавиш неизвестно"
           }
         }
       }
@@ -2666,6 +3128,12 @@
             "state" : "translated",
             "value" : "Nog geen spaces gevonden."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рабочие столы пока не обнаружены."
+          }
         }
       }
     },
@@ -2699,6 +3167,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geen tekst"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без текста"
           }
         }
       }
@@ -2734,6 +3208,12 @@
             "state" : "translated",
             "value" : "Geen tekst"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без текста"
+          }
         }
       }
     },
@@ -2767,6 +3247,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет"
           }
         }
       }
@@ -2802,6 +3288,12 @@
             "state" : "translated",
             "value" : "Aantal kolommen in raster"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Число столбцов в сетке"
+          }
         }
       }
     },
@@ -2835,6 +3327,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nummers"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Номера"
           }
         }
       }
@@ -2870,6 +3368,12 @@
             "state" : "translated",
             "value" : "Nummers en namen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Номера и названия"
+          }
         }
       }
     },
@@ -2903,6 +3407,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nummers en namen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Номера и названия"
           }
         }
       }
@@ -2938,6 +3448,12 @@
             "state" : "translated",
             "value" : "Eén"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Один"
+          }
         }
       }
     },
@@ -2971,6 +3487,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open Systeeminstellingen → Beeldschermen…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть Системные настройки → Дисплеи…"
           }
         }
       }
@@ -3006,6 +3528,12 @@
             "state" : "translated",
             "value" : "Open Systeeminstellingen → Mission Control sneltoetsen…"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть Системные настройки → Сочетания клавиш Mission Control…"
+          }
         }
       }
     },
@@ -3039,6 +3567,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pilvormig"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Капсула"
           }
         }
       }
@@ -3074,6 +3608,12 @@
             "state" : "translated",
             "value" : "Instellingen hersteld"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки восстановлены"
+          }
         }
       }
     },
@@ -3107,6 +3647,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instellingen opgeslagen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки сохранены"
           }
         }
       }
@@ -3142,6 +3688,12 @@
             "state" : "translated",
             "value" : "Instellingen…"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки…"
+          }
         }
       }
     },
@@ -3175,6 +3727,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vorige"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предыдущий"
           }
         }
       }
@@ -3210,6 +3768,12 @@
             "state" : "translated",
             "value" : "Spaceman afsluiten"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершить Spaceman"
+          }
         }
       }
     },
@@ -3243,6 +3807,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rechthoekig"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прямоугольный"
           }
         }
       }
@@ -3278,6 +3848,12 @@
             "state" : "translated",
             "value" : "Verversen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновить"
+          }
         }
       }
     },
@@ -3311,6 +3887,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spaces op de achtergrond verversen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновлять рабочие столы в фоновом режиме"
           }
         }
       }
@@ -3346,6 +3928,12 @@
             "state" : "translated",
             "value" : "Hernoemen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать"
+          }
         }
       }
     },
@@ -3379,6 +3967,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Huidige space hernoemen…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать текущий рабочий стол…"
           }
         }
       }
@@ -3414,6 +4008,12 @@
             "state" : "translated",
             "value" : "Space %@ hernoemen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать рабочий стол %@"
+          }
         }
       }
     },
@@ -3447,6 +4047,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Space nummering per beeldscherm herstarten"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отдельная нумерация для каждого дисплея"
           }
         }
       }
@@ -3482,6 +4088,12 @@
             "state" : "translated",
             "value" : "Herstellen mislukt"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось восстановить"
+          }
         }
       }
     },
@@ -3515,6 +4127,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instellingen herstellen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Восстановить настройки"
           }
         }
       }
@@ -3550,6 +4168,12 @@
             "state" : "translated",
             "value" : "macOS-volgorde omkeren"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обратный порядок macOS"
+          }
         }
       }
     },
@@ -3583,6 +4207,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ongeveer even breed"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Примерно одинаковая"
           }
         }
       }
@@ -3618,6 +4248,12 @@
             "state" : "translated",
             "value" : "Afgerond"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скругленный"
+          }
         }
       }
     },
@@ -3651,6 +4287,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rij-indeling"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расположение рядов"
           }
         }
       }
@@ -3686,6 +4328,12 @@
             "state" : "translated",
             "value" : "Rijen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ряды"
+          }
         }
       }
     },
@@ -3719,6 +4367,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Schreefloos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без засечек"
           }
         }
       }
@@ -3754,6 +4408,12 @@
             "state" : "translated",
             "value" : "Schreef"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С засечками"
+          }
         }
       }
     },
@@ -3787,6 +4447,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kort"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Короткий"
           }
         }
       }
@@ -3822,6 +4488,12 @@
             "state" : "translated",
             "value" : "Sneltoets voor handmatig verversen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновить вручную"
+          }
         }
       }
     },
@@ -3855,6 +4527,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sneltoets om instellingenvenster te openen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть настройки"
           }
         }
       }
@@ -3890,6 +4568,12 @@
             "state" : "translated",
             "value" : "Sneltoets om huidige space te hernoemen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать текущий рабочий стол"
+          }
         }
       }
     },
@@ -3923,6 +4607,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sneltoets om naar een space hoger te wisselen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти на рабочий стол выше"
           }
         }
       }
@@ -3958,6 +4648,12 @@
             "state" : "translated",
             "value" : "Sneltoets om naar een space lager te wisselen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти на рабочий стол ниже"
+          }
         }
       }
     },
@@ -3991,6 +4687,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sneltoets om naar de vorige space te wisselen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти на предыдущий рабочий стол"
           }
         }
       }
@@ -4026,6 +4728,12 @@
             "state" : "translated",
             "value" : "Onderste beeldscherm eerst tonen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сначала показывать нижний дисплей"
+          }
         }
       }
     },
@@ -4059,6 +4767,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Volledig scherm-spaces tonen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать полноэкранные рабочие столы"
           }
         }
       }
@@ -4094,6 +4808,12 @@
             "state" : "translated",
             "value" : "HUD tonen bij wisselen van space"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать HUD при переключении рабочих столов"
+          }
         }
       }
     },
@@ -4127,6 +4847,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alleen hoofdbeeldscherm tonen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать только основной дисплей"
           }
         }
       }
@@ -4162,6 +4888,12 @@
             "state" : "translated",
             "value" : "Mission Control-knop tonen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать кнопку Mission Control"
+          }
         }
       }
     },
@@ -4195,6 +4927,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Navigatiepijlen tonen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать стрелки навигации"
           }
         }
       }
@@ -4230,6 +4968,12 @@
             "state" : "translated",
             "value" : "Space-namen tonen in Mission Control"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать названия рабочих столов в Mission Control"
+          }
         }
       }
     },
@@ -4263,6 +5007,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Space-nummers tonen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать номера рабочих столов"
           }
         }
       }
@@ -4298,6 +5048,12 @@
             "state" : "translated",
             "value" : "Bovenste beeldscherm eerst tonen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сначала показывать верхний дисплей"
+          }
         }
       }
     },
@@ -4331,6 +5087,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Een enkele rij"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Один ряд"
           }
         }
       }
@@ -4366,6 +5128,12 @@
             "state" : "translated",
             "value" : "Space-naam"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название рабочего стола"
+          }
         }
       }
     },
@@ -4396,6 +5164,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spaceman"
@@ -4434,6 +5208,12 @@
             "state" : "translated",
             "value" : "Spaceman - Instellingen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки Spaceman"
+          }
         }
       }
     },
@@ -4467,6 +5247,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spaceman leest de Mission Control-sneltoetsen rechtstreeks uit uw systeeminstellingen. Gebruik deze knop om ze te wijzigen."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman считывает сочетания клавиш Mission Control прямо из системных настроек. Чтобы изменить их, нажмите эту кнопку."
           }
         }
       }
@@ -4502,6 +5288,12 @@
             "state" : "translated",
             "value" : "Spaceman zal proberen het menubalk-icoon weer te vergroten wanneer u wisselt tussen spaces of handmatig ververst."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman попытается восстановить размер значка в строке меню при переключении рабочих столов или обновлении вручную."
+          }
         }
       }
     },
@@ -4532,6 +5324,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spaces"
@@ -4576,6 +5374,12 @@
             "state" : "translated",
             "value" : "Zichtbare spaces"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать"
+          }
         }
       }
     },
@@ -4610,6 +5414,12 @@
             "state" : "translated",
             "value" : "Spaces wisselen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переключение рабочих столов"
+          }
         }
       }
     },
@@ -4643,6 +5453,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Systeeminstellingen…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Системные настройки…"
           }
         }
       }
@@ -4684,6 +5500,12 @@
             "state" : "translated",
             "value" : "Over"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "О программе"
+          }
         }
       }
     },
@@ -4723,6 +5545,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Weergave"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оформление"
           }
         }
       }
@@ -4764,6 +5592,12 @@
             "state" : "translated",
             "value" : "Schermen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дисплеи"
+          }
         }
       }
     },
@@ -4804,6 +5638,12 @@
             "state" : "translated",
             "value" : "Algemeen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Основные"
+          }
         }
       }
     },
@@ -4840,6 +5680,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaces"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spaces"
@@ -4884,6 +5730,12 @@
             "state" : "translated",
             "value" : "Wisselen"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переключение"
+          }
         }
       }
     },
@@ -4917,6 +5769,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twee rijen, per kolom"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Два ряда, по столбцам"
           }
         }
       }
@@ -4952,6 +5810,12 @@
             "state" : "translated",
             "value" : "Twee rijen, per rij"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Два ряда, по рядам"
+          }
         }
       }
     },
@@ -4985,6 +5849,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twee, per kolom"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Два, по столбцам"
           }
         }
       }
@@ -5020,6 +5890,12 @@
             "state" : "translated",
             "value" : "Twee, per rij"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Два, по рядам"
+          }
         }
       }
     },
@@ -5053,6 +5929,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Update beschikbaar…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступно обновление…"
           }
         }
       }
@@ -5088,6 +5970,12 @@
             "state" : "translated",
             "value" : "App-naam gebruiken"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать имя приложения"
+          }
         }
       }
     },
@@ -5121,6 +6009,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "In kleur"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать цвет"
           }
         }
       }
@@ -5156,6 +6050,12 @@
             "state" : "translated",
             "value" : "Snelle animatie (alleen hetzelfde beeldscherm)"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Быстрые анимации (только на том же дисплее)"
+          }
         }
       }
     },
@@ -5189,6 +6089,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Direct wisselen (alleen hetzelfde beeldscherm)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мгновенное переключение (только на том же дисплее)"
           }
         }
       }
@@ -5224,6 +6130,12 @@
             "state" : "translated",
             "value" : "macOS-volgorde gebruiken"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Порядок macOS"
+          }
         }
       }
     },
@@ -5257,6 +6169,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Soepele overgang"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Плавные переходы"
           }
         }
       }
@@ -5292,6 +6210,12 @@
             "state" : "translated",
             "value" : "Variabel"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переменная"
+          }
         }
       }
     },
@@ -5325,6 +6249,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Variabele breedte"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переменная ширина"
           }
         }
       }
@@ -5360,6 +6290,12 @@
             "state" : "translated",
             "value" : "Versie %@"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версия %@"
+          }
         }
       }
     },
@@ -5393,6 +6329,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Website"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сайт"
           }
         }
       }
@@ -5428,6 +6370,12 @@
             "state" : "translated",
             "value" : "Beeldschermen naast elkaar"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дисплеи рядом"
+          }
         }
       }
     },
@@ -5461,6 +6409,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beeldschermen boven elkaar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дисплеи друг над другом"
           }
         }
       }
@@ -5496,6 +6450,12 @@
             "state" : "translated",
             "value" : "Bij het wisselen tussen spaces kan het icoon even knipperen."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "При переключении рабочих столов значок может ненадолго мигнуть."
+          }
         }
       }
     },
@@ -5529,6 +6489,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "U bent vrij om elke gewenste sneltoets te kiezen."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Можно выбрать любое сочетание клавиш."
           }
         }
       }
@@ -5564,6 +6530,12 @@
             "state" : "translated",
             "value" : "Spaceman is nog niet gereed"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaceman еще не готов"
+          }
         }
       }
     },
@@ -5597,6 +6569,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spacenummer of -naam verwacht"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидается номер или название рабочего стола"
           }
         }
       }
@@ -5632,6 +6610,12 @@
             "state" : "translated",
             "value" : "Space niet gevonden: %@"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рабочий стол не найден: %@"
+          }
         }
       }
     },
@@ -5665,6 +6649,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Space niet bereikbaar: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рабочий стол недоступен: %@"
           }
         }
       }
@@ -5700,6 +6690,12 @@
             "state" : "translated",
             "value" : "Er is geen space in die richting"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этом направлении нет рабочего стола"
+          }
         }
       }
     },
@@ -5733,6 +6729,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Er is geen vorige space"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет предыдущего рабочего стола"
           }
         }
       }

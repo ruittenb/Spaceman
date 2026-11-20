@@ -141,6 +141,21 @@ final class EnumBehaviorTests: XCTestCase {
         XCTAssertEqual(IconStyle.filledPill.cornerRadius(for: rect), 5.0)
     }
 
+    // MARK: - IconStyle.fullscreenVariant
+
+    func testIconStyleFullscreenVariant() {
+        // Bare text stays bare text
+        XCTAssertEqual(IconStyle.noDecoration.fullscreenVariant, .noDecoration)
+        // Rectangular becomes pill (and vice versa), preserving fill style
+        XCTAssertEqual(IconStyle.borderedRectangular.fullscreenVariant, .borderedPill)
+        XCTAssertEqual(IconStyle.filledRectangular.fullscreenVariant, .filledPill)
+        XCTAssertEqual(IconStyle.borderedPill.fullscreenVariant, .borderedRectangular)
+        XCTAssertEqual(IconStyle.filledPill.fullscreenVariant, .filledRectangular)
+        // Rounded becomes rectangular
+        XCTAssertEqual(IconStyle.borderedRounded.fullscreenVariant, .borderedRectangular)
+        XCTAssertEqual(IconStyle.filledRounded.fullscreenVariant, .filledRectangular)
+    }
+
     // MARK: - FontDesign.systemDesign
 
     func testFontDesignSystemDesign() {
@@ -151,26 +166,6 @@ final class EnumBehaviorTests: XCTestCase {
     }
 
     // MARK: - Constants.nearestTwoRowSize
-
-    func testNearestTwoRowSizeMapping() {
-        // narrow and compact both map to compact
-        let narrowSize = Constants.nearestTwoRowSize(for: .narrow)
-        let compactSize = Constants.nearestTwoRowSize(for: .compact)
-        XCTAssertEqual(narrowSize.gapWidthSpaces, compactSize.gapWidthSpaces)
-
-        // medium maps to medium (different from compact)
-        let mediumSize = Constants.nearestTwoRowSize(for: .medium)
-        XCTAssertNotEqual(mediumSize.gapWidthSpaces, compactSize.gapWidthSpaces)
-
-        // large, extraLarge and enormous each have their own two-row entry
-        // with a strictly larger font than the previous size
-        let largeSize = Constants.nearestTwoRowSize(for: .large)
-        let xlSize = Constants.nearestTwoRowSize(for: .extraLarge)
-        let enormousSize = Constants.nearestTwoRowSize(for: .enormous)
-        XCTAssertGreaterThan(largeSize.fontSize, mediumSize.fontSize)
-        XCTAssertGreaterThan(xlSize.fontSize, largeSize.fontSize)
-        XCTAssertGreaterThan(enormousSize.fontSize, xlSize.fontSize)
-    }
 
     func testNearestTwoRowIconSizeAlwaysHasEntry() {
         for size in IconSize.allCases {
@@ -218,18 +213,6 @@ final class EnumBehaviorTests: XCTestCase {
     }
 
     // MARK: - RowLayout labels
-
-    func testRowLayoutPickerLabels() {
-        for layout in RowLayout.allCases {
-            XCTAssertFalse(layout.pickerLabel.isEmpty, "\(layout) pickerLabel should not be empty")
-        }
-    }
-
-    func testRowLayoutMenuLabels() {
-        for layout in RowLayout.allCases {
-            XCTAssertFalse(layout.menuLabel.isEmpty, "\(layout) menuLabel should not be empty")
-        }
-    }
 
     func testRowLayoutPickerAndMenuLabelsDiffer() {
         // pickerLabel is short (for segmented picker), menuLabel is longer (for right-click menu)

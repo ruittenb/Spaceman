@@ -149,7 +149,8 @@ enum SwitchStrategizer {
         let goRight = hitIndex == Space.nextSpaceIndex
 
         if isAtEdge(
-            spaces: context.spaces, goingRight: goRight) {
+            spaces: context.spaces, goingRight: goRight,
+            focusedDisplayID: context.focusedDisplayID) {
             return .unreachable
         }
 
@@ -183,10 +184,19 @@ enum SwitchStrategizer {
     /// Returns true when the current space is already at the
     /// first (goingRight=false) or last (goingRight=true)
     /// position on its display.
+    /// Prev/next act on the focused display, so use that display's
+    /// current space when `focusedDisplayID` is known; otherwise
+    /// fall back to the first current space in the array.
     static func isAtEdge(
-        spaces: [Space], goingRight: Bool
+        spaces: [Space], goingRight: Bool,
+        focusedDisplayID: String? = nil
     ) -> Bool {
-        guard let current = spaces.first(
+        let focusedCurrent = focusedDisplayID.flatMap { focusedID in
+            spaces.first(where: {
+                $0.isCurrentSpace && $0.displayID == focusedID
+            })
+        }
+        guard let current = focusedCurrent ?? spaces.first(
             where: { $0.isCurrentSpace })
         else {
             return false

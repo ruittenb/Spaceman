@@ -59,6 +59,9 @@ extension NSColor {
         }
 
         guard hex.count == 6 || hex.count == 8 else { return nil }
+        // Scanner stops at the first non-hex character and still reports success.
+        // We want to guard against Scanner's behavior.
+        guard hex.allSatisfy(\.isHexDigit) else { return nil }
 
         var value: UInt64 = 0
         guard Scanner(string: hex).scanHexInt64(&value) else { return nil }

@@ -43,13 +43,6 @@ private func makeDisplay(
     ] as NSDictionary
 }
 
-private func makeTestStore() -> SpaceNameStore {
-    let suiteName = "SpaceObserverIntegrationTests.\(UUID().uuidString)"
-    let defaults = UserDefaults(suiteName: suiteName)!
-    defaults.removePersistentDomain(forName: suiteName)
-    return SpaceNameStore(defaults: defaults)
-}
-
 // MARK: - Tests
 
 final class SpaceObserverIntegrationTests: XCTestCase {
@@ -57,28 +50,95 @@ final class SpaceObserverIntegrationTests: XCTestCase {
     private var observer: SpaceObserver!
     private var delegate: MockDelegate!
     private var nameStore: SpaceNameStore!
+    private var suiteName: String!
+    private var testDefaults: UserDefaults!
 
     override func setUp() {
         super.setUp()
-        nameStore = makeTestStore()
+        suiteName = "SpaceObserverIntegrationTests.\(UUID().uuidString)"
+        testDefaults = UserDefaults(suiteName: suiteName)!
+        testDefaults.removePersistentDomain(forName: suiteName)
+        nameStore = SpaceNameStore(defaults: testDefaults)
         observer = SpaceObserver(nameStore: nameStore)
+        // Only the test may trigger updates: detach from real system and app notifications.
+        // The wake notification stays: simulateWake() relies on it.
+        NotificationCenter.default.removeObserver(observer!)
+        DistributedNotificationCenter.default().removeObserver(observer!)
+        let workspaceCenter = NSWorkspace.shared.notificationCenter
+        workspaceCenter.removeObserver(observer!, name: NSWorkspace.activeSpaceDidChangeNotification, object: nil)
+        workspaceCenter.removeObserver(observer!, name: NSWorkspace.sessionDidBecomeActiveNotification, object: nil)
         delegate = MockDelegate()
         observer.delegate = delegate
     }
 
     override func tearDown() {
+        testDefaults.removePersistentDomain(forName: suiteName)
         observer = nil
         delegate = nil
         nameStore = nil
+        testDefaults = nil
         super.tearDown()
     }
 
     /// Helper: run an update and wait for the delegate callback.
+    /// The observer also listens to real system notifications (space switch, screen change, unlock),
+    /// so a stray update may call the delegate an extra time. Tolerate that instead of failing.
     private func runUpdate(trigger: SpaceUpdateTrigger = .userRefresh, timeout: TimeInterval = 2) {
         let exp = expectation(description: "didUpdateSpaces")
+        exp.assertForOverFulfill = false
         delegate.updateExpectation = exp
         observer.updateSpaceInformation(trigger: trigger)
         wait(for: [exp], timeout: timeout)
+        delegate.updateExpectation = nil
+    }
+
+    /// Helper: set a value in UserDefaults.standard (the host app's real preferences) while `body`
+    /// runs, then restore the previous value, or remove the key if it was not set before.
+    private func withStandardDefault(_ key: String, setTo value: Any, _ body: () -> Void) {
+        let standardDefaults = UserDefaults.standard
+        let previousValue = standardDefaults.object(forKey: key)
+        standardDefaults.set(value, forKey: key)
+        defer {
+            if let previousValue {
+                standardDefaults.set(previousValue, forKey: key)
+            } else {
+                standardDefaults.removeObject(forKey: key)
+            }
+        }
+        body()
+    }
+
+    /// Helper: laptop display-A (spaces 101, 102) and external display-B (space 201, named "EXT"
+    /// at display-B/pos 1). Then the lid closes: display-B disappears and space 201 migrates to
+    /// display-A at position 3. Returns after the topology-change update.
+    private func runLidCloseScenario() {
+        observer.displaySpacesProvider = {
+            [
+                makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
+                    (id: 101, isFullScreen: false),
+                    (id: 102, isFullScreen: false)
+                ]),
+                makeDisplay(id: "display-B", currentSpaceID: 201, spaces: [
+                    (id: 201, isFullScreen: false)
+                ])
+            ]
+        }
+        runUpdate()
+
+        nameStore.update { stored in
+            stored["201"] = SpaceNameInfo(
+                spaceNum: 3, spaceName: "EXT", spaceLabel: "1",
+                displayUUID: "display-B", positionOnDisplay: 1)
+        }
+
+        observer.displaySpacesProvider = {
+            [makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
+                (id: 101, isFullScreen: false),
+                (id: 102, isFullScreen: false),
+                (id: 201, isFullScreen: false)
+            ])]
+        }
+        runUpdate(trigger: .topologyChange)
     }
 
     /// Helper: simulate wake by posting the notification SpaceObserver listens on.
@@ -135,14 +195,19 @@ final class SpaceObserverIntegrationTests: XCTestCase {
 
     // MARK: - Strategy Selection: First Update (Position Matching)
 
-    /// On first update (_needsPositionRevalidation=true, no prior display IDs),
-    /// the strategy is .idWithPositionFallback (not positionOnly) because the display UUID
-    /// won't be in storedDisplayIDs, and the "needsRevalidation || inTopologyTransition" branch fires.
-    func testFirstUpdate_usesIdWithPositionFallback_matchesByPosition() {
-        // Pre-store a name at position 1 on display-A, under a DIFFERENT space ID
-        nameStore.save(["999": SpaceNameInfo(
-            spaceNum: 1, spaceName: "HOME", spaceLabel: "1",
-            displayUUID: "display-A", positionOnDisplay: 1)])
+    /// On first update (_needsPositionRevalidation=true, no prior display IDs), no topology change
+    /// is detected (_lastKnownDisplayIDs is still empty), so the strategy is .positionOnly.
+    func testFirstUpdate_usesPositionOnly_matchesByPosition() {
+        // Pre-store a name at position 1 on display-A under a DIFFERENT space ID, and a stale
+        // entry under the current ID at another position. ID-first matching would pick "STALE".
+        nameStore.save([
+            "999": SpaceNameInfo(
+                spaceNum: 1, spaceName: "HOME", spaceLabel: "1",
+                displayUUID: "display-A", positionOnDisplay: 1),
+            "101": SpaceNameInfo(
+                spaceNum: 2, spaceName: "STALE", spaceLabel: "2",
+                displayUUID: "display-A", positionOnDisplay: 2)
+        ])
 
         observer.displaySpacesProvider = {
             // Space ID 101 is at position 1 on display-A
@@ -153,7 +218,7 @@ final class SpaceObserverIntegrationTests: XCTestCase {
 
         runUpdate()
 
-        // Should have resolved name "HOME" via position fallback
+        // Should have resolved name "HOME" by position, ignoring the stored entry for ID 101
         XCTAssertEqual(delegate.receivedSpaces[0].spaceName, "HOME")
     }
 
@@ -172,10 +237,15 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // First update — clears revalidation flag, sets _lastKnownDisplayIDs
         runUpdate()
 
-        // Store a name under ID "101"
+        // Store names whose positions differ from the current ones:
+        // .positionOnly would give pos 1 "OTHER", and .idWithPositionFallback would keep
+        // the stored position 2 for ID 101 instead of updating it.
         nameStore.update { stored in
             stored["101"] = SpaceNameInfo(
                 spaceNum: 1, spaceName: "WORK", spaceLabel: "1",
+                displayUUID: "display-A", positionOnDisplay: 2)
+            stored["102"] = SpaceNameInfo(
+                spaceNum: 2, spaceName: "OTHER", spaceLabel: "2",
                 displayUUID: "display-A", positionOnDisplay: 1)
         }
 
@@ -183,6 +253,8 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         runUpdate(trigger: .spaceSwitch)
 
         XCTAssertEqual(delegate.receivedSpaces[0].spaceName, "WORK")
+        XCTAssertEqual(nameStore.loadAll()["101"]?.positionOnDisplay, 1,
+                       ".idOnly updates the stored position to the current one")
     }
 
     /// With .idOnly, names follow their space ID even if positions change.
@@ -279,14 +351,19 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // First update — establishes display-A as known
         runUpdate()
 
-        // Store names
+        // Store names. The stored positions of ALPHA and BETA deliberately differ from the current
+        // ones, so .positionOnly would swap them. "OLDEXT" belongs to a display that is no longer
+        // connected; only the position fallback (not .idOnly) can recover it.
         nameStore.update { stored in
             stored["101"] = SpaceNameInfo(
                 spaceNum: 1, spaceName: "ALPHA", spaceLabel: "1",
-                displayUUID: "display-A", positionOnDisplay: 1)
+                displayUUID: "display-A", positionOnDisplay: 2)
             stored["102"] = SpaceNameInfo(
                 spaceNum: 2, spaceName: "BETA", spaceLabel: "2",
-                displayUUID: "display-A", positionOnDisplay: 2)
+                displayUUID: "display-A", positionOnDisplay: 1)
+            stored["900"] = SpaceNameInfo(
+                spaceNum: 3, spaceName: "OLDEXT", spaceLabel: "1",
+                displayUUID: "display-X", positionOnDisplay: 1)
         }
 
         // Topology change: display-B appears, display-A still there
@@ -305,10 +382,38 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         runUpdate(trigger: .topologyChange)
 
         // ID matching should find "ALPHA" and "BETA" by their IDs
-        XCTAssertEqual(delegate.receivedSpaces[0].spaceName, "ALPHA")
-        XCTAssertEqual(delegate.receivedSpaces[1].spaceName, "BETA")
-        // New space 201 has no stored name
-        XCTAssertEqual(delegate.receivedSpaces[2].spaceName, "---")
+        let spacesByID = Dictionary(uniqueKeysWithValues: delegate.receivedSpaces.map { ($0.spaceID, $0) })
+        XCTAssertEqual(spacesByID["101"]?.spaceName, "ALPHA")
+        XCTAssertEqual(spacesByID["102"]?.spaceName, "BETA")
+        // New space 201 has an unknown ID → position fallback to the disconnected display-X
+        XCTAssertEqual(spacesByID["201"]?.spaceName, "OLDEXT")
+        // ID-matched entries keep their stored position during the topology change
+        XCTAssertEqual(nameStore.loadAll()["101"]?.positionOnDisplay, 2)
+    }
+
+    // MARK: - Strategy Selection: Display Without Stored Entries (ID-first)
+
+    /// Normal operation (no wake, no topology change), but the store has no entries for the
+    /// connected display UUID → .idWithPositionFallback, so the disconnected fallback can recover names.
+    func testNormalUpdate_displayWithoutStoredEntries_usesIdWithPositionFallback() {
+        observer.displaySpacesProvider = {
+            [makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
+                (id: 101, isFullScreen: false)
+            ])]
+        }
+
+        // First update — clears revalidation flag, sets _lastKnownDisplayIDs
+        runUpdate()
+
+        // Replace the store: only an entry for a display that is no longer connected
+        nameStore.save(["900": SpaceNameInfo(
+            spaceNum: 1, spaceName: "RECOVERED", spaceLabel: "1",
+            displayUUID: "display-X", positionOnDisplay: 1)])
+
+        runUpdate(trigger: .spaceSwitch)
+
+        // .idOnly would find nothing for ID 101 and show "---"
+        XCTAssertEqual(delegate.receivedSpaces[0].spaceName, "RECOVERED")
     }
 
     // MARK: - Strategy Selection: Wake + Topology Change (Topology Wins)
@@ -318,131 +423,89 @@ final class SpaceObserverIntegrationTests: XCTestCase {
     /// This is issue #29.
     func testWakePlusTopologyChange_topologyWins() {
         observer.displaySpacesProvider = {
-            [
-                makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
-                    (id: 101, isFullScreen: false)
-                ]),
-                makeDisplay(id: "display-B", currentSpaceID: 201, spaces: [
-                    (id: 201, isFullScreen: false)
-                ])
-            ]
+            [makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
+                (id: 101, isFullScreen: false),
+                (id: 102, isFullScreen: false)
+            ])]
         }
 
-        // First update — establishes topology as {display-A, display-B}
+        // First update — establishes topology as {display-A}
         runUpdate()
 
         // Store names under their IDs
         nameStore.update { stored in
             stored["101"] = SpaceNameInfo(
-                spaceNum: 1, spaceName: "LAPTOP", spaceLabel: "1",
+                spaceNum: 1, spaceName: "MAIN", spaceLabel: "1",
                 displayUUID: "display-A", positionOnDisplay: 1)
-            stored["201"] = SpaceNameInfo(
-                spaceNum: 2, spaceName: "EXTERN", spaceLabel: "2",
-                displayUUID: "display-B", positionOnDisplay: 1)
+            stored["102"] = SpaceNameInfo(
+                spaceNum: 2, spaceName: "DEV", spaceLabel: "2",
+                displayUUID: "display-A", positionOnDisplay: 2)
         }
 
         // Simulate wake
         simulateWake()
 
-        // Topology also changed: display-B is gone, display-C appeared
-        // Space 201 is now on display-C (same ID, different display)
+        // Topology also changed: display-A is replaced by mirror display-M. The IDs survived,
+        // but while macOS reconfigures, the spaces sit in a transient order: 102 first, 101 second.
         observer.displaySpacesProvider = {
-            [
-                makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
-                    (id: 101, isFullScreen: false)
-                ]),
-                makeDisplay(id: "display-C", currentSpaceID: 201, spaces: [
-                    (id: 201, isFullScreen: false)
-                ])
-            ]
+            [makeDisplay(id: "display-M", currentSpaceID: 102, spaces: [
+                (id: 102, isFullScreen: false),
+                (id: 101, isFullScreen: false)
+            ])]
         }
 
         runUpdate(trigger: .spaceSwitch)
 
-        // Topology wins → .idWithPositionFallback → ID matching finds both
-        XCTAssertEqual(delegate.receivedSpaces[0].spaceName, "LAPTOP")
-        XCTAssertEqual(delegate.receivedSpaces[1].spaceName, "EXTERN")
+        // Topology wins → .idWithPositionFallback → names follow the IDs.
+        // If wake won (.positionOnly), the disconnected-display fallback would match by position
+        // against display-A and give "MAIN" to space 102 and "DEV" to space 101.
+        XCTAssertEqual(delegate.receivedSpaces[0].spaceID, "102")
+        XCTAssertEqual(delegate.receivedSpaces[0].spaceName, "DEV")
+        XCTAssertEqual(delegate.receivedSpaces[1].spaceID, "101")
+        XCTAssertEqual(delegate.receivedSpaces[1].spaceName, "MAIN")
     }
 
     // MARK: - Grace Period
 
     /// After a topology change, the grace period keeps .idWithPositionFallback
-    /// active for several follow-up updates.
+    /// active for several follow-up updates, so the preserved position survives them (issue #22d).
     func testGracePeriod_preventsIdOnlyAfterTopologyChange() {
-        observer.displaySpacesProvider = {
-            [makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
-                (id: 101, isFullScreen: false),
-                (id: 102, isFullScreen: false)
-            ])]
+        // Lid close: space 201 ("EXT", stored at display-B/pos 1) now sits at display-A/pos 3.
+        // The topology update set the counter to 5 and decremented it to 4.
+        runLidCloseScenario()
+
+        // display-A has stored entries and there is no wake and no new topology change, so
+        // without the grace period these follow-up updates would use .idOnly and overwrite
+        // 201's preserved display-B/pos 1 with the transient display-A/pos 3.
+        // The 4 remaining grace-period updates run with counter 4 → 3 → 2 → 1 → 0.
+        for followUpNumber in 1...4 {
+            runUpdate(trigger: .spaceSwitch)
+            let stored = nameStore.loadAll()
+            XCTAssertEqual(stored["201"]?.displayUUID, "display-B", "follow-up update \(followUpNumber)")
+            XCTAssertEqual(stored["201"]?.positionOnDisplay, 1, "follow-up update \(followUpNumber)")
         }
-
-        // First update — establishes display-A
-        runUpdate()
-
-        // Topology change: display-B replaces display-A
-        observer.displaySpacesProvider = {
-            [makeDisplay(id: "display-B", currentSpaceID: 101, spaces: [
-                (id: 101, isFullScreen: false),
-                (id: 102, isFullScreen: false)
-            ])]
-        }
-
-        // Store names under IDs (these should survive topology-aware matching)
-        nameStore.update { stored in
-            stored["101"] = SpaceNameInfo(
-                spaceNum: 1, spaceName: "ONE", spaceLabel: "1",
-                displayUUID: "display-A", positionOnDisplay: 1)
-            stored["102"] = SpaceNameInfo(
-                spaceNum: 2, spaceName: "TWO", spaceLabel: "2",
-                displayUUID: "display-A", positionOnDisplay: 2)
-        }
-
-        // This update detects topology change → grace period starts
-        runUpdate(trigger: .topologyChange)
-        XCTAssertEqual(delegate.receivedSpaces[0].spaceName, "ONE")
-
-        // Immediately following updates should still use .idWithPositionFallback
-        // (grace period prevents .idOnly which would fail for the stored entries
-        //  that still reference display-A)
-        runUpdate(trigger: .spaceSwitch)
-        XCTAssertEqual(delegate.receivedSpaces[0].spaceName, "ONE")
-        XCTAssertEqual(delegate.receivedSpaces[1].spaceName, "TWO")
+        XCTAssertEqual(delegate.receivedSpaces[2].spaceName, "EXT")
     }
 
     /// Grace period counts down to zero, after which .idOnly resumes.
     func testGracePeriod_expiresAfterEnoughUpdates() {
-        observer.displaySpacesProvider = {
-            [makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
-                (id: 101, isFullScreen: false)
-            ])]
-        }
+        // Topology update sets the counter to 5 and decrements it to 4 in the same update
+        runLidCloseScenario()
 
-        // Establish topology
-        runUpdate()
-
-        // Topology change
-        observer.displaySpacesProvider = {
-            [makeDisplay(id: "display-B", currentSpaceID: 101, spaces: [
-                (id: 101, isFullScreen: false)
-            ])]
-        }
-        runUpdate(trigger: .topologyChange) // sets grace period = 5
-
-        // Run 5 more updates to exhaust grace period (5 → 4 → 3 → 2 → 1 → 0)
-        for _ in 0..<5 {
+        // Exhaust the grace period: 4 follow-up updates (4 → 3 → 2 → 1 → 0)
+        for _ in 0..<4 {
             runUpdate(trigger: .spaceSwitch)
         }
+        XCTAssertEqual(nameStore.loadAll()["201"]?.positionOnDisplay, 1,
+                       "Position is still preserved during the grace period")
 
-        // Now store a name under the correct display-B
-        nameStore.update { stored in
-            stored["101"] = SpaceNameInfo(
-                spaceNum: 1, spaceName: "SETTLED", spaceLabel: "1",
-                displayUUID: "display-B", positionOnDisplay: 1)
-        }
-
-        // This update should use .idOnly (grace period expired, no wake)
+        // This update should use .idOnly (grace period expired, no wake),
+        // which stores the current display/position of the ID-matched entry
         runUpdate(trigger: .spaceSwitch)
-        XCTAssertEqual(delegate.receivedSpaces[0].spaceName, "SETTLED")
+        let stored = nameStore.loadAll()
+        XCTAssertEqual(stored["201"]?.spaceName, "EXT")
+        XCTAssertEqual(stored["201"]?.displayUUID, "display-A")
+        XCTAssertEqual(stored["201"]?.positionOnDisplay, 3)
     }
 
     // MARK: - Position Preservation During Topology Change
@@ -598,7 +661,7 @@ final class SpaceObserverIntegrationTests: XCTestCase {
     // MARK: - Name Store: Only Saves When Changed
 
     /// If the resolved data matches what's already stored, no save occurs.
-    func testNoSave_whenDataUnchanged() {
+    func testNoSave_whenDataUnchanged() throws {
         observer.displaySpacesProvider = {
             [makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
                 (id: 101, isFullScreen: false)
@@ -608,15 +671,19 @@ final class SpaceObserverIntegrationTests: XCTestCase {
         // First update — stores initial data
         runUpdate()
 
-        let storeAfterFirst = nameStore.loadAll()
+        // Re-write the same entries as an XML plist. SpaceNameStore.save() writes binary plists,
+        // so if the second update saved, the raw bytes would change even though the entries are equal.
+        let xmlEncoder = PropertyListEncoder()
+        xmlEncoder.outputFormat = .xml
+        let xmlData = try xmlEncoder.encode(nameStore.loadAll())
+        testDefaults.set(xmlData, forKey: "spaceNames")
 
         // Second update with same data
         runUpdate(trigger: .spaceSwitch)
 
-        let storeAfterSecond = nameStore.loadAll()
-
-        // Data should be identical (store was not modified unnecessarily)
-        XCTAssertEqual(storeAfterFirst, storeAfterSecond)
+        // Raw data should be untouched (store was not modified unnecessarily)
+        XCTAssertEqual(testDefaults.data(forKey: "spaceNames"), xmlData,
+                       "Store must not be saved when the merged names equal the stored names")
     }
 
     // MARK: - Multi-Display Space Numbering
@@ -685,9 +752,6 @@ final class SpaceObserverIntegrationTests: XCTestCase {
     // MARK: - Restart Numbering By Display
 
     func testRestartNumberingByDisplay() {
-        UserDefaults.standard.set(true, forKey: "restartNumberingByDisplay")
-        defer { UserDefaults.standard.removeObject(forKey: "restartNumberingByDisplay") }
-
         observer.displaySpacesProvider = {
             [
                 makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
@@ -700,7 +764,10 @@ final class SpaceObserverIntegrationTests: XCTestCase {
             ]
         }
 
-        runUpdate()
+        // The setting is read from UserDefaults.standard when the update starts
+        withStandardDefault("restartNumberingByDisplay", setTo: true) {
+            runUpdate()
+        }
 
         // With restart numbering, each display starts from "1"
         XCTAssertEqual(delegate.receivedSpaces[0].spaceLabel, "1")
@@ -750,10 +817,34 @@ final class SpaceObserverIntegrationTests: XCTestCase {
             ])]
         }
 
-        // No stored name and no PID in the space dict → should show "FULL"
-        runUpdate()
+        // No stored name and no PID in the space dict → treated as an auto-named fullscreen space;
+        // FullscreenNaming.complete.displayName(forApp: nil) gives "FULL". The preference is read
+        // from UserDefaults.standard during the update, so pin it to .complete.
+        withStandardDefault("fullscreenNaming", setTo: FullscreenNaming.complete.rawValue) {
+            runUpdate()
+        }
 
         XCTAssertEqual(delegate.receivedSpaces[1].spaceName, "FULL")
+    }
+
+    /// A first-seen regular space is stored with the placeholder "---" as its name. That counts as
+    /// user data (current behaviour, kept deliberately). An auto-named fullscreen space is stored with
+    /// an empty name, so that a later change of the fullscreen naming preference still applies to it.
+    func testFirstSeenSpaces_storedNames() {
+        observer.displaySpacesProvider = {
+            [makeDisplay(id: "display-A", currentSpaceID: 101, spaces: [
+                (id: 101, isFullScreen: false),
+                (id: 102, isFullScreen: true)
+            ])]
+        }
+
+        runUpdate()
+
+        let stored = nameStore.loadAll()
+        XCTAssertEqual(stored["101"]?.spaceName, "---")
+        XCTAssertEqual(stored["101"]?.hasUserData, true)
+        XCTAssertEqual(stored["102"]?.spaceName, "")
+        XCTAssertEqual(stored["102"]?.hasUserData, false)
     }
 
     // MARK: - Current Display Index

@@ -93,10 +93,11 @@ final class PreferencesViewModelTests: XCTestCase {
         AppDelegate.activeSpaceIDs = ["101"]
         vm.loadData()
 
-        vm.updateSpaceColor(for: "101", to: NSColor.red)
+        // Device RGB, so toHexString() needs no color space conversion: exactly "FF0000FF" (RGBA)
+        vm.updateSpaceColor(for: "101", to: NSColor(deviceRed: 1, green: 0, blue: 0, alpha: 1))
 
         let stored = nameStore.loadAll()
-        XCTAssertNotNil(stored["101"]?.colorHex, "Color should be persisted to store")
+        XCTAssertEqual(stored["101"]?.colorHex, "FF0000FF", "Color should be persisted to store")
     }
 
     func testUpdateSpaceColor_preservesDisconnectedEntries() {
@@ -146,6 +147,32 @@ final class PreferencesViewModelTests: XCTestCase {
         let stored = nameStore.loadAll()
         XCTAssertNil(stored["101"]?.colorHex)
         XCTAssertNil(stored["102"]?.colorHex)
+    }
+
+    /// removeAllColors() clears colors in the whole store, including entries that are not
+    /// active (e.g. on a disconnected display). Names are kept.
+    func testRemoveAllColors_alsoClearsInactiveStoredEntries() {
+        nameStore.save([
+            "101": SpaceNameInfo(
+                spaceNum: 1, spaceName: "ACTIVE", spaceLabel: "1",
+                displayUUID: "display-A", positionOnDisplay: 1,
+                currentDisplayIndex: nil, currentSpaceNumber: nil,
+                colorHex: "FF0000"),
+            "201": SpaceNameInfo(
+                spaceNum: 2, spaceName: "DISCONNECTED", spaceLabel: "1",
+                displayUUID: "display-B", positionOnDisplay: 1,
+                currentDisplayIndex: nil, currentSpaceNumber: nil,
+                colorHex: "00FF00")
+        ])
+        AppDelegate.activeSpaceIDs = ["101"]  // Only 101 is active
+        vm.loadData()
+
+        vm.removeAllColors()
+
+        let stored = nameStore.loadAll()
+        XCTAssertNil(stored["101"]?.colorHex)
+        XCTAssertNil(stored["201"]?.colorHex, "Inactive entry's color must be cleared too")
+        XCTAssertEqual(stored["201"]?.spaceName, "DISCONNECTED", "Inactive entry itself must survive")
     }
 
     // MARK: - persistChanges

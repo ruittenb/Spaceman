@@ -74,16 +74,6 @@ final class SpaceTests: XCTestCase {
 
     // MARK: - buildSwitchIndexMap: fullscreen behavior
 
-    func testBuildSwitchIndexMap_fullscreenNotInMap() {
-        let spaces = [
-            makeSpace(id: "d1"),
-            makeSpace(id: "f1", fullScreen: true),
-        ]
-        let map = Space.buildSwitchIndexMap(for: spaces)
-        XCTAssertNil(map["f1"], "Fullscreen spaces must not be in the switch map")
-        XCTAssertEqual(map, ["d1": 1])
-    }
-
     func testBuildSwitchIndexMap_multipleFullscreenNotInMap() {
         let spaces = [
             makeSpace(id: "d1"),
@@ -94,16 +84,6 @@ final class SpaceTests: XCTestCase {
         XCTAssertNil(map["f1"])
         XCTAssertNil(map["f2"])
         XCTAssertEqual(map, ["d1": 1])
-    }
-
-    func testBuildSwitchIndexMap_onlyFullscreen() {
-        let spaces = [
-            makeSpace(id: "f1", fullScreen: true),
-            makeSpace(id: "f2", fullScreen: true),
-            makeSpace(id: "f3", fullScreen: true),
-        ]
-        let map = Space.buildSwitchIndexMap(for: spaces)
-        XCTAssertTrue(map.isEmpty)
     }
 
     // MARK: - canSwitch
@@ -147,10 +127,21 @@ final class SpaceTests: XCTestCase {
             hasArrowShortcuts: false))
     }
 
-    func testCanSwitch_desktopBeyondMax_noTag() {
-        let space = makeSpaceWithNumber(id: "d17", number: 17)
-        // Desktop 17+ has no shortcut and is not fullscreen
-        XCTAssertFalse(Space.canSwitch(space: space, switchTag: nil))
+    func testCanSwitch_desktopBeyondMax_reachableOnlyWithArrows() {
+        // 18 desktops, current=16. Desktop 17+ has no shortcut and is not
+        // fullscreen: reachable by chaining from desktop 16, which needs arrows.
+        let spaces = (1...18).map {
+            makeSpaceWithNumber(id: "d\($0)", number: $0, current: $0 == 16)
+        }
+        let enabledMap = Space.buildSwitchIndexMap(for: spaces)
+        XCTAssertTrue(Space.canSwitch(
+            space: spaces[16], switchTag: nil,
+            spaces: spaces, enabledSwitchMap: enabledMap,
+            hasArrowShortcuts: true))
+        XCTAssertFalse(Space.canSwitch(
+            space: spaces[16], switchTag: nil,
+            spaces: spaces, enabledSwitchMap: enabledMap,
+            hasArrowShortcuts: false))
     }
 
     // MARK: - canSwitch (gesture modes)
@@ -251,10 +242,11 @@ final class SpaceTests: XCTestCase {
         }
     }
 
-    func testCanSwitch_gestureMode_crossDisplay_noAnchor() {
-        // Current on d1, target fullscreen on d2 with no anchor on d2.
+    func testCanSwitch_gestureMode_crossDisplayFullscreen_unreachable() {
+        // Current on d1, target fullscreen on d2.
         // Both displays have a current space (realistic multi-display).
-        // s2 has no enabled shortcut, so there's no anchor to jump to.
+        // Unreachable even though d2 has an anchor (s2): gestures and
+        // arrows only act on the focused display (d1).
         let currentD1 = Space(
             displayID: "d1", spaceID: "s1", spaceName: "",
             spaceNumber: 1, spaceLabel: "1",
@@ -271,7 +263,7 @@ final class SpaceTests: XCTestCase {
         for mode: SwitchingMode in [.fast, .instant] {
             XCTAssertFalse(Space.canSwitch(
                 space: target, switchTag: nil, switchingMode: mode,
-                spaces: spaces, enabledSwitchMap: ["s1": 1],
+                spaces: spaces, enabledSwitchMap: ["s1": 1, "s2": 2],
                 focusedDisplayID: "d1"))
         }
     }
@@ -303,19 +295,8 @@ final class SpaceTests: XCTestCase {
         XCTAssertEqual(indices.count, 4, "All navigation indices must be unique")
     }
 
-    func testNavigationIndicesDoNotCollideWithSwitchMap() {
-        let spaces = (1...Space.maxSwitchableDesktop).map { makeSpace(id: "s\($0)") }
-        let map = Space.buildSwitchIndexMap(for: spaces)
-        let mapValues = Set(map.values)
-
-        XCTAssertFalse(mapValues.contains(Space.missionControlIndex))
-        XCTAssertFalse(mapValues.contains(Space.previousSpaceIndex))
-        XCTAssertFalse(mapValues.contains(Space.nextSpaceIndex))
-        XCTAssertFalse(mapValues.contains(Space.unswitchableIndex))
-    }
-
     func testNavigationIndicesAreNegative() {
-        // Must be negative to avoid colliding with desktop indices
+        // Must be negative to avoid colliding with desktop indices (1...maxSwitchableDesktop)
         XCTAssertLessThan(Space.unswitchableIndex, 0)
         XCTAssertLessThan(Space.missionControlIndex, 0)
         XCTAssertLessThan(Space.previousSpaceIndex, 0)

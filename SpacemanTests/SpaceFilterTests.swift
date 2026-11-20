@@ -158,7 +158,7 @@ final class SpaceFilterTests: XCTestCase {
         XCTAssertEqual(displayIDs.count, 2)
     }
 
-    func testFilterSpaces_NeighborsMode_EmptyFallback() {
+    func testFilterSpaces_NeighborsMode_NoCurrentSpace_ReturnsEmpty() {
         var spaces = createTestSpaces()
         // Remove all current space markers (edge case during transitions)
         for i in 0..<spaces.count {
@@ -168,17 +168,17 @@ final class SpaceFilterTests: XCTestCase {
         let mode = VisibleSpacesMode.neighbors
         let filtered = spaceFilter.filter(spaces, mode: mode, neighborRadius: 1)
 
-        // Should fallback to current-only (which returns empty when no current spaces)
         XCTAssertEqual(filtered.count, 0)
     }
 
-    func testFilterSpaces_WithFullscreenSpaces() {
+    func testFilterSpaces_NeighborsMode_FullscreenCurrent() {
         let spaces = createTestSpacesWithFullscreen()
-        let mode = VisibleSpacesMode.all
+        let mode = VisibleSpacesMode.neighbors
 
+        // Current is the fullscreen space at index 1; its neighbors are the desktops around it
         let filtered = spaceFilter.filter(spaces, mode: mode, neighborRadius: 1)
 
-        XCTAssertEqual(filtered.count, 3)
+        XCTAssertEqual(filtered, spaces)
         XCTAssertTrue(filtered[1].isFullScreen)
     }
 
