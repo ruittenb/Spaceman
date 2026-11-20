@@ -166,6 +166,14 @@ final class LegacyMigrationsTests: XCTestCase {
         XCTAssertEqual(defaults.integer(forKey: "iconText"), IconText.numbers.rawValue)
     }
 
+    /// The decoration migration already writes iconText for displayStyle 1,
+    /// so the iconText migration skips the copy but must still remove displayStyle.
+    func testDisplayStyleText_isRemoved() {
+        defaults.set(1, forKey: "displayStyle")
+        migrate()
+        XCTAssertNil(defaults.object(forKey: "displayStyle"))
+    }
+
     func testInactiveStyleBordered_becomesFilledActiveAndBorderedInactive() {
         defaults.set(0, forKey: "displayStyle")
         defaults.set(0, forKey: "inactiveStyle")

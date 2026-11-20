@@ -133,9 +133,12 @@ struct LegacyMigrations {
     }
 
     private static func migrateDisplayStyleToIconText(_ defaults: UserDefaults) {
-        if defaults.object(forKey: "iconText") == nil,
-           let oldValue = defaults.object(forKey: "displayStyle") as? Int {
-            defaults.set(oldValue, forKey: "iconText")
+        if let oldValue = defaults.object(forKey: "displayStyle") as? Int {
+            // iconText may already be set by migrateDisplayStyleToDecoration;
+            // remove the old key either way.
+            if defaults.object(forKey: "iconText") == nil {
+                defaults.set(oldValue, forKey: "iconText")
+            }
             defaults.removeObject(forKey: "displayStyle")
         }
     }
