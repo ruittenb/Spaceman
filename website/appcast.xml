@@ -3,24 +3,30 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.30.0 Added Applescript commands for switching spaces</title>
+            <title>v1.30.2: Fixed Space switching bug; added Russian language</title>
             <description>
                 <![CDATA[
-                    <p>v1.30.0</p>
+                    <p>v1.30.2</p>
                     <ul>
-                        <li>added Applescript commands for switching spaces</li>
+                        <li>Fix: prev/next edge check now uses the focused display instead of the first display</li>
+                        <li>Added and updated unit tests</li>
+                        <li>Cleaned up some code</li>
+                    </ul>
+                    <p>v1.30.1</p>
+                    <ul>
+                        <li>Added Russian language</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 18 Nov 2026 09:32:53 +0100</pubDate>
+            <pubDate>Fri, 20 Nov 2026 13:51:36 +0100</pubDate>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.30.0/Spaceman-1.30.0.dmg"
-                sparkle:version="1.30.0"
-                sparkle:shortVersionString="1.30.0"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.30.2/Spaceman-1.30.2.dmg"
+                sparkle:version="1.30.2"
+                sparkle:shortVersionString="1.30.2"
                 type="application/octet-stream"
-                length="3658104"
-sparkle:edSignature="TQN09mBzegvysUT6s3knY023NII8GCc24rnzQAEtTjWAZGOPg781TPfg7wGF6qt1o8YKDtn8/PUV3Yila/fVBQ=="
+                length="3662750"
+sparkle:edSignature="C3RiipAv5RKqG+wNNUDmcABjJ+Rfn9q732q3pE0eGEv5ZZuWwVRBVe3kQ0iX4vBYuS22JSwBbA010cqBqahpDg=="
             />
         </item>
     </channel>
