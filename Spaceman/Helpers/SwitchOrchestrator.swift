@@ -76,6 +76,9 @@ class SwitchOrchestrator {
                 onError()
             }
 
+        case .alreadyThere:
+            break
+
         case .unreachable:
             onError()
         }

@@ -562,6 +562,35 @@ final class SwitchStrategyTests: XCTestCase {
         XCTAssertEqual(focusedElsewhere, .unreachable)
     }
 
+    // MARK: - Clicking the current space
+
+    func testCurrentFullscreen_click_smooth_alreadyThere() {
+        // Zero steps to chain is not a missing shortcut: no balloon, no error.
+        let spaces = [
+            makeSpace(id: "s1", number: 1),
+            makeSpace(id: "f1", number: 2, current: true,
+                      fullScreen: true),
+        ]
+        let strategy = SwitchStrategizer.resolveStrategy(
+            switchTag: -2,
+            context: ctx(
+                spaces: spaces, enabledSwitchMap: ["s1": 1]))
+        XCTAssertEqual(strategy, .alreadyThere)
+    }
+
+    func testCurrentDesktopWithoutShortcut_click_smooth_alreadyThere() {
+        // The desktop balloon check must not fire for the current space.
+        let spaces = [
+            makeSpace(id: "s1", number: 1, current: true),
+            makeSpace(id: "s2", number: 2),
+        ]
+        let strategy = SwitchStrategizer.resolveStrategy(
+            switchTag: 1,
+            context: ctx(
+                spaces: spaces, enabledSwitchMap: ["s2": 2]))
+        XCTAssertEqual(strategy, .alreadyThere)
+    }
+
     // MARK: - Navigation strategies
 
     func testNavigation_missionControl() {

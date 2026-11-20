@@ -84,6 +84,12 @@ enum SwitchStrategizer {
             return .shortcutDirect(switchIndex: enabledIndex)
         }
 
+        // Clicking the space you're already on (zero steps) is not
+        // a missing shortcut: don't nudge the user to configure one.
+        if target.spaceID == current.spaceID {
+            return .alreadyThere
+        }
+
         // Desktop without shortcut + click → show balloon.
         // Desktops *could* have a shortcut (unlike fullscreen), so we
         // nudge the user to enable it rather than silently chaining.

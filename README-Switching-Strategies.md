@@ -10,5 +10,8 @@
 | Desktop (no shortcut), cross-display | show "configure space shortcuts" | ← fallback | unavailable/greyed out | ← fallback |
 | Fullscreen, same display | chain from current; (or if shorter) gesture-jump to anchor, then chain; (or if no arrow shortcuts) show "configure arrow shortcuts" | gesture | chain from current; (or if shorter) gesture-jump to anchor, then chain; (or if no arrow shortcuts) unavailable/greyed out | gesture |
 | Fullscreen, cross-display | blink | ← fallback | unavailable/greyed out | ← fallback |
+| Current space (no shortcut)** | nothing | gesture | nothing | gesture |
 
 \* anchor = nearest desktop with a configured shortcut on the target display
+
+\*\* a current fullscreen space on a non-focused display still follows the "Fullscreen, cross-display" row

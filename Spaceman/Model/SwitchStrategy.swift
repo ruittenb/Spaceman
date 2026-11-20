@@ -102,6 +102,9 @@ enum SwitchStrategy: Equatable {
     /// Show the "configure shortcuts" balloon.
     case showBalloon(MissingShortcutKind)
 
+    /// Target is the current space: nothing to do, and not an error.
+    case alreadyThere
+
     /// Target cannot be reached.
     case unreachable
 }
