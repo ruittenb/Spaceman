@@ -1,6 +1,6 @@
 ---
 name: translations
-description: How to add missing translations to the Localizable.xcstrings file
+description: Add missing translations to Spaceman/Localizable.xcstrings (de, es, es-419, fr, nl, ru). When new user-facing strings were added without translations, point out to the user that this skill is applicable. Only run this skill if the user explicitly requests it.
 ---
 
 # Adding missing translations

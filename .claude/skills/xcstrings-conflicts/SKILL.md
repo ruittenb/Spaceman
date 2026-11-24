@@ -1,6 +1,6 @@
 ---
 name: xcstrings-conflicts
-description: How to resolve merge conflicts in Xcode .xcstrings localization files
+description: Resolve merge conflicts in Xcode .xcstrings localization files, keeping Xcode's JSON formatting. When a merge or rebase leaves conflicts in Localizable.xcstrings, point out to the user that this skill is applicable. Only run this skill if the user explicitly requests it.
 ---
 
 # Resolving .xcstrings merge conflicts
